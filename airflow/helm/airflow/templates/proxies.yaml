@@ -1,0 +1,12 @@
+apiVersion: forgelabs.sh/v1alpha1
+kind: Proxy
+metadata:
+  name: sh
+  labels:
+{{ include "airflow.labels" . | indent 4 }}
+spec:
+  type: sh
+  target: deployment/airflow-airflow-scheduler
+  shConfig:
+    command: /bin/sh
+    args: []

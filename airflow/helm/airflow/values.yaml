@@ -1,0 +1,65 @@
+# Default values for airflow.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+airflow:
+  postgres:
+    metrics:
+      enabled: true
+  
+  flower:
+    enabled: false
+  
+  ingress:
+    enabled: true
+    web:
+      tls:
+        enabled: true
+        secretName: airflow-tls
+      annotations:
+        kubernetes.io/tls-acme: "true"
+        kubernetes.io/ingress.class: "nginx"
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/affinity: cookie
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/session-cookie-path: /socket
+
+  web:
+    replicas: 1
+
+    resources:
+      requests:
+        cpu: "500m"
+        memory: "1Gi"
+  
+  workers:
+    ## if the airflow workers StatefulSet should be deployed
+    ##
+    enabled: true
+
+    replicas: 2
+
+    ## resource requests/limits for the airflow worker Pods
+    ##
+    resources:
+      requests:
+        cpu: "1000m"
+        memory: "2Gi"
+
+    podDisruptionBudget:
+      enabled: true
+
+      maxUnavailable: "20%"
+
+    autoscaling:
+      enabled: true
+      maxReplicas: 8
+      metrics:
+      - type: Resource
+        resource:
+          name: memory
+          target:
+            type: Utilization
+            averageUtilization: 80
