@@ -1,7 +1,7 @@
 artifact: {}
 terraform: {}
 helm:
-  helm/airflow: h1:RqfbJ8U65OXlcn5q7+Fm59YquJbKLn2v3LWor4Jltb4=
+  helm/airflow: h1:207m4Ktlb2Nhxq9NTTXPaUSpSJBy3+YUrOPUIbJi+EA=
 recipe:
   forge/recipes/gcp-airflow.yaml: 4a61bee914e0e3cb3f703e054648781a437ffda570f5645b1a986fdafd1fa681
 integration: {}

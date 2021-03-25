@@ -3,6 +3,9 @@
 # Declare variables to be passed into your templates.
 
 airflow:
+  image:
+    repository: dkr.piazza.app/airflow/airflow
+    tag: 1.10.12
   postgres:
     metrics:
       enabled: true
