@@ -1,0 +1,6 @@
+REPO bootstrap
+
+RECIPE forge/recipes/*
+HELM helm/*
+TF terraform/*
+CRD forge/crds/* bootstrap
