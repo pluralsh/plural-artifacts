@@ -22,7 +22,7 @@ variable "instance_type" {
 }
 
 variable "max_capacity" {
-  type = integer
+  type = number
   default = 6
 
   description = "the maximum number of nodes in a nodegroup"

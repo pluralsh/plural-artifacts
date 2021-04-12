@@ -1,21 +1,23 @@
 artifact: {}
 terraform:
-  terraform/aws-bootstrap: h1:58wQ1zWlbutirfGnX3xsH7fjGZrNRrSTCCyIpVyvg/o=
+  terraform/aws-bootstrap: h1:Iqgrovr3ziyXDqqDrdtbQsolSiUXa4RX0Pmtbnng3jE=
   terraform/gcp-bootstrap: h1:L6lj+NlY69g/56+HYBVKkKp1nqfJ3ja8s72Irmn0+Co=
   terraform/kube: h1:2VSsMe5CpTm5NWnVWzGWwD7RT48UXmvgM1/6D+P4xPE=
 helm:
-  helm/bootstrap: h1:lgWADyDPCFBHo63m8I5rAI1MXUMO7tDbVW0LOo+OUXs=
+  helm/bootstrap: h1:wLqKMgqlCtG6wPG41mE44ZCuYjsPxk1i6OF3PxoWcjE=
 recipe:
   forge/recipes/aws-k8s.yaml: 1a4c39839f3fc1214a32e8bd3614aac83da86ae510038211a48ba1e9e2df0523
   forge/recipes/gcp-kubernetes.yaml: 4bd0bc92539465271770551498626b162646055ddf007e78342f35fe11a96399
 integration: {}
-shell: {}
-database: {}
 crd:
   forge/crds/application.yaml: c40bde3ad70c0d5aa3970a366ff742ba4a31ae40e0d256baf093d164c292abcf
   forge/crds/cert-manager.yaml: 480e2d25505769d0586897de792a5acdc2e37db3fd56ae497a846b98201b95aa
   forge/crds/dashboard.yaml: 73b6455275cc4e58c969e310f6216eea119a55f3a284aeaf47169aa833580418
   forge/crds/logfilter.yaml: 9c70f4fc15bfec87865e698c4031cf62c2e8899ea90ae43024b7c4d1495a0c05
+  forge/crds/platform.plural.sh_dashboards.yaml: 0843cf3f126a20953a312e6c477c0e752a2837ff5dc4cc9c78cfdd2f92da6f25
+  forge/crds/platform.plural.sh_logfilters.yaml: 9f2d19387d619c4152b750df7b2d44c38042a9a1d95375b08583efec08d1aa38
+  forge/crds/platform.plural.sh_proxies.yaml: ffa25a968e3ad9f71222bd69b58eb7506da00a4a647500c58a1f0b011aab323c
+  forge/crds/platform.plural.sh_slashcommands.yaml: 52e82b7d67526be8b09b1548422f26f48c7b526ef2544442f91e8e1c007eb4f4
   forge/crds/proxy.yaml: fa59c594b4049a3974a972b860d155a263298c45215ef95b083973b195e50110
   forge/crds/slashcommand.yaml: 3620ad77e3a1f06cac2bed01a7340673a85fd13bbdc0a4e3f8cde95b7772e2e3
 ird: {}

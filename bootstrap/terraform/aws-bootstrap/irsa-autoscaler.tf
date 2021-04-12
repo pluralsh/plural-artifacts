@@ -1,6 +1,6 @@
 module "asummable_role_autoscaler" {
   source                        = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
-  version                       = "2.14.0"
+  version                       = "3.14.0"
   create_role                   = true
   role_name                     = "cluster-autoscaler"
   provider_url                  = replace(module.cluster.cluster_oidc_issuer_url, "https://", "")

@@ -1,2 +1,2 @@
-vpc_name = {{ .Values.vpc_name }}
-dns_domain = {{ .Values.dns_domain }}
+vpc_name = {{ .Values.vpc_name | quote }}
+dns_domain = {{ .Values.dns_domain | quote }}

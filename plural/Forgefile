@@ -1,0 +1,5 @@
+REPO plural
+
+HELM helm/plural
+RECIPE plural/recipes/*
+TF terraform/*
