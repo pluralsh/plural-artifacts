@@ -12,7 +12,7 @@ spec:
       containers:
       - name: migrator
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        command: ["/opt/app/bin/forge",  "migrate"]
+        command: ["/opt/app/bin/plural",  "migrate"]
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         envFrom:
         - secretRef:
