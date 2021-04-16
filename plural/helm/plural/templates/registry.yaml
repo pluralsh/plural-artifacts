@@ -68,6 +68,8 @@ spec:
           resources:
 {{ toYaml .Values.registry.resources | indent 12 }}
           env:
+          - name: AWS_SDK_LOAD_CONFIG
+            value: "1"
           - name: REGISTRY_HTTP_SECRET
             valueFrom:
               secretKeyRef:
@@ -80,6 +82,8 @@ spec:
           volumeMounts:
           - name: plural-registry-config
             mountPath: "/etc/docker/registry"
+          - name: plural-registry-aws-config
+            mountPath: "/root/.aws"
 {{- if .Values.registry.nodeSelector }}
       nodeSelector:
 {{ toYaml .Values.registry.nodeSelector | indent 8 }}
@@ -92,3 +96,6 @@ spec:
       - name: plural-registry-config
         configMap:
           name: plural-registry-config
+      - name: plural-registry-aws-config
+        configMap:
+          name: plural-registry-aws-config

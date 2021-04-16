@@ -1,4 +1,4 @@
-apiVersion: forgelabs.sh/v1alpha1
+apiVersion: platform.plural.sh/v1alpha1
 kind: Dashboard
 metadata:
   name: {{ template "plural.fullname" $ }}-beam
@@ -40,7 +40,7 @@ spec:
     format: none
     name: runtime performance
 ---
-apiVersion: forgelabs.sh/v1alpha1
+apiVersion: platform.plural.sh/v1alpha1
 kind: Dashboard
 metadata:
   name: {{ template "plural.fullname" $ }}-postgres
@@ -100,7 +100,7 @@ spec:
       legend: hit rate
     name: Cache hit rate
 ---
-apiVersion: forgelabs.sh/v1alpha1
+apiVersion: platform.plural.sh/v1alpha1
 kind: Dashboard
 metadata:
   name: {{ template "plural.fullname" $ }}-rabbit
@@ -116,7 +116,6 @@ spec:
     query:
       query: rabbitmq_consumers{app_kubernetes_io_instance="{{ .Release.Name }}"}
       label: kubernetes_pod_name
-    format: none
   graphs:
   - queries:
     - query: sum(rabbitmq_connections{app_kubernetes_io_instance="{{ .Release.Name }}"})

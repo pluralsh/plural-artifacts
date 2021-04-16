@@ -9,7 +9,17 @@ data:
 {{ toYaml .Values.registry.configData | indent 4 }}
   cert.pem: {{ .Values.secrets.jwt_cert | quote }}
 ---
-
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: plural-registry-aws-config
+  labels:
+{{ include "plural.labels" . | indent 4 }}
+data:
+  config: >-
+    [default]
+    region={{ .Values.region }}
+---
 apiVersion: v1
 kind: Secret
 metadata:

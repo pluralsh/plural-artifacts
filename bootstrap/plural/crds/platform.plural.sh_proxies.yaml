@@ -39,7 +39,21 @@ spec:
               credentials:
                 description: credentials to use when authenticating against a proxied
                   resource
-                type: string
+                properties:
+                  key:
+                    description: key in the secret to use
+                    type: string
+                  secret:
+                    description: secret storing auth info
+                    type: string
+                  user:
+                    description: username to auth with
+                    type: string
+                required:
+                - key
+                - secret
+                - user
+                type: object
               dbConfig:
                 description: db-specific configuration for this proxy
                 properties:
@@ -63,9 +77,6 @@ spec:
                 type: object
               description:
                 description: Description for this proxy spec
-                type: string
-              name:
-                description: Name for this proxy
                 type: string
               shConfig:
                 description: sh-specific configuration for this proxy
@@ -92,7 +103,6 @@ spec:
                 - web
                 type: string
             required:
-            - name
             - target
             - type
             type: object

@@ -1,5 +1,5 @@
 external-dns:
-  provider: {{ .Values.provider }}
+  provider: {{ .Provider }}
   txtOwnerId: {{ .Values.txt_owner }}
   rbac:
     create: true
@@ -16,7 +16,7 @@ external-dns:
 
 regcreds:
   auths:
-    dkr.piazza.app:
+    dkr.plural.sh:
       username: {{ .Config.Email }}
       password: {{ .Config.Token }}
       auth: {{ list .Config.Email .Config.Token | join ":" | b64enc | quote }}

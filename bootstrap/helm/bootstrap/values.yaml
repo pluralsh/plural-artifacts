@@ -3,12 +3,12 @@ external-dns:
     name: external-dns
     create: false
   image:
-    registry: dkr.piazza.app
+    registry: dkr.plural.sh
     repository: bootstrap/external-dns
-    tag: v0.7.3
+    tag: v0.7.6
     pullPolicy: Always
     pullSecrets:
-    - forge-creds
+    - plural-creds
   sources:
   - service
   - ingress
@@ -26,10 +26,10 @@ external-dns:
 ownerEmail: mguarino46@gmail.com
 
 imagePullSecrets:
-- name: forge-creds
+- name: plural-creds
 
 application:
-  registry: dkr.piazza.app/bootstrap
+  registry: dkr.plural.sh/bootstrap
   tag: v0.8.3
 
 autoscaling:

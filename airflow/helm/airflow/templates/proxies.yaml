@@ -1,4 +1,4 @@
-apiVersion: forgelabs.sh/v1alpha1
+apiVersion: platform.plural.sh/v1alpha1
 kind: Proxy
 metadata:
   name: sh

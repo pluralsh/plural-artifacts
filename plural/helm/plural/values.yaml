@@ -4,29 +4,29 @@ rbac:
   serviceAccountAnnotations: {}
 
 image:
-  repository: dkr.piazza.app/forge/forge
+  repository: dkr.plural.sh/plural/plural
   tag: '0.1.1'
   pullPolicy: Always
 
 rtc:
-  repository: dkr.piazza.app/forge/rtc
+  repository: dkr.plural.sh/plural/rtc
   tag: '0.1.1'
 
 worker:
-  repository: dkr.piazza.app/forge/worker
+  repository: dkr.plural.sh/plural/worker
   tag: '0.1.1'
 
 www:
-  image: dkr.piazza.app/forge/forge-www
+  image: dkr.plural.sh/plural/plural-www
   tag: '0.1.1'
   port: 80
 
 cron:
-  image: dkr.piazza.app/forge/cron
+  image: dkr.plural.sh/forge/cron
   tag: '0.1.1'
 
 imagePullSecrets:
-- name: forge-creds
+- name: plural-creds
 
 provider: aws
 region: us-east-1
@@ -97,9 +97,9 @@ registry:
       enabled: true
     auth:
       token:
-        realm: forge.piazza.app/dkr
-        service: forge.piazza.app/dkr
-        issuer: forge.piazza.app
+        realm: plural.piazza.app/dkr
+        service: plural.piazza.app/dkr
+        issuer: plural.piazza.app
         rootcertbundle: /etc/docker/registry/cert.pem
     http:
       addr: :5000
@@ -116,8 +116,8 @@ postgresql:
     enabled: true
   postgresqlExtendedConf:
     max_connections: 100
-  postgresqlUsername: forge
-  postgresqlDatabase: forge
+  postgresqlUsername: plural
+  postgresqlDatabase: plural
 
 rabbitmq:
   metrics:
@@ -130,11 +130,11 @@ influxdb:
       cpu: 0.2
   env:
   - name: INFLUXDB_DB
-    value: forge
+    value: plural
   setDefaultUser:
     enabled: true
     user:
-      username: forge
+      username: plural
       password: null
 
 nameOverride: ""
@@ -146,8 +146,8 @@ service:
 
 ingress:
   enabled: true
-  dns: forge.piazza.app
-  dkr_dns: dkr.piazza.app
+  dns: app.plural.sh
+  dkr_dns: dkr.plural.sh
   annotations:
     kubernetes.io/tls-acme: "true"
     kubernetes.io/ingress.class: "nginx"

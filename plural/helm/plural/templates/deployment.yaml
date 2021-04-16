@@ -297,6 +297,8 @@ spec:
           value: ""
         - name: STORAGE_AMAZON_REGION
           value: {{ .Values.region }}
+        - name: AWS_SDK_LOAD_CONFIG
+          value: "1"  
         ports:
         - name: http
           containerPort: 8080

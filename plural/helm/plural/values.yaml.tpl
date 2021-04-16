@@ -29,7 +29,8 @@ registry:
         bucket: {{ .Values.images_bucket }}
       {{ end }}
       {{ if eq .Provider "aws" }}
-      aws:
+      s3:
+        region: {{ .Region }}
         bucket: {{ .Values.images_bucket }}
       {{ end }}
     auth:

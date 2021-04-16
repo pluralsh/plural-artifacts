@@ -1,4 +1,4 @@
-apiVersion: forgelabs.sh/v1alpha1
+apiVersion: platform.plural.sh/v1alpha1
 kind: Proxy
 metadata:
   name: db
@@ -16,7 +16,7 @@ spec:
     engine: postgres
     port: 5432
 ---
-apiVersion: forgelabs.sh/v1alpha1
+apiVersion: platform.plural.sh/v1alpha1
 kind: Proxy
 metadata:
   name: sh
@@ -26,10 +26,10 @@ spec:
   type: sh
   target: deployment/plural-api
   shConfig:
-    command: /opt/app/bin/forge
+    command: /opt/app/bin/plural
     args: [remote_console]
 ---
-apiVersion: forgelabs.sh/v1alpha1
+apiVersion: platform.plural.sh/v1alpha1
 kind: Proxy
 metadata:
   name: rtcsh

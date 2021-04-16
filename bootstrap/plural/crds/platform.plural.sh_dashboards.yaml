@@ -73,8 +73,6 @@ spec:
                             description: the query to use
                             type: string
                         required:
-                        - legend
-                        - legendFormat
                         - query
                         type: object
                       type: array
