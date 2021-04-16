@@ -1,5 +1,5 @@
 name: plural-aws
-description: Installs plural on a EKS cluster
+description: Installs plural on an EKS cluster
 provider: AWS
 dependencies:
 - repo: bootstrap

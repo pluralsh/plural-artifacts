@@ -6,13 +6,13 @@ help:
 all: upload-airflow upload-bootstrap upload-plural
 
 upload-airflow: # uploads airflow artifacts 
-	plural apply -f airflow/Forgefile
+	plural apply -f airflow/Pluralfile
 
 upload-bootstrap: # uploads k8s bootstrapping artifacts
-	plural apply -f bootstrap/Forgefile
+	plural apply -f bootstrap/Pluralfile
 
 upload-plural: # uploads plural platform artifacts
-	plural apply -f plural/Forgefile
+	plural apply -f plural/Pluralfile
 
 import-operator:
 	cp ../plural-operator/config/crd/bases/* bootstrap/plural/crds
