@@ -18,7 +18,7 @@ metadata:
 data:
   config: >-
     [default]
-    region={{ .Values.region }}
+    region=us-east-2
 ---
 apiVersion: v1
 kind: Secret

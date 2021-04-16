@@ -47,8 +47,8 @@ crons:
 chartmuseum:
   rbac:
     serviceAccountAnnotations: {}
-  repository: chartmuseum/chartmuseum
-  tag: latest
+  repository: dkr.plural.sh/plural/chartmuseum
+  tag: v0.13.2
   bucket: plural-charts
   pullPolicy: Always
 
@@ -72,11 +72,12 @@ registry:
     runAsUser: 1000
     fsGroup: 1000
 
-  image:
-    repository: registry
-    tag: 2.7.1
   secrets:
     haSharedSecret: ""
+
+  image: 
+    repository: gcr.io/piazzaapp/registry
+    tag: 2.7.2
 
   configData:
     version: 0.1
