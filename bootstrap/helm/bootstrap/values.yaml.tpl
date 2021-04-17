@@ -5,7 +5,7 @@ external-dns:
     create: true
     serviceAccountName: {{ default "external-dns" .Values.externaldns_service_account }}
     serviceAccountAnnotations:
-      eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/externaldns"
+      eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-externaldns"
   domainFilters:
   - {{ .Values.dns_domain }}
   google:
@@ -39,7 +39,7 @@ cluster-autoscaler:
       name: cluster-autoscaler
       annotations:
         # This value should match the ARN of the role created by module.iam_assumable_role_admin in irsa.tf
-        eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/cluster-autoscaler"
+        eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-cluster-autoscaler"
 
   autoDiscovery:
     clusterName: {{ .Cluster }}

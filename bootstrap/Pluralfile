@@ -1,6 +1,6 @@
 REPO bootstrap
 
-HELM helm/*
 TF terraform/*
+HELM helm/*
 CRD plural/crds/* bootstrap
 RECIPE plural/recipes/*

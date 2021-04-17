@@ -15,13 +15,14 @@ influxdb:
 provider: {{ .Provider }}
 region: {{ .Region }}
 
-serviceAccountAnnotations:
-  eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/plural"
+rbac:
+  serviceAccountAnnotations:
+    eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-plural"
 
 registry:
   rbac:
     serviceAccountAnnotations:
-      eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/plural"
+      eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-plural"
   configData:
     storage:
       {{ if eq .Provider "google" }}
@@ -69,6 +70,6 @@ chartmuseum:
   bucket: {{ .Values.chartmuseum_bucket }}
   rbac:
     serviceAccountAnnotations:
-      eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/plural"
+      eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-plural"
 
 license: {{ .License | quote }}

@@ -17,34 +17,47 @@ module "vpc" {
   single_nat_gateway = true
 
   public_subnet_tags = {
+    "kubernetes.io/cluster/${var.cluster_name}" = "shared"
     "kubernetes.io/role/elb" = "1"
+  }
+
+  private_subnet_tags = {
+    "kubernetes.io/cluster/${var.cluster_name}" = "shared"
+    "kubernetes.io/role/internal-elb" = "1"
   }
 }
 
 module "cluster" {
-  source          = "terraform-aws-modules/eks/aws"
-  version         = "14.0.0"
+  source          = "github.com/pluralsh/terraform-aws-eks"
   cluster_name    = var.cluster_name
   cluster_version = "1.17"
   subnets         = concat(module.vpc.public_subnets, module.vpc.private_subnets)
   vpc_id          = module.vpc.vpc_id
   enable_irsa     = true
+  write_kubeconfig = false
 
-  node_group_defaults = {
+  node_groups_defaults = {
     desired_capacity = 2
     min_capacity = 2
     max_capacity = var.max_capacity
 
     instance_type = var.instance_type
     disk_size = 50
-    subnets = vpc.private_subnets
+    subnets = module.vpc.private_subnets
   }
 
   node_groups = var.node_groups
+
+  map_users = var.map_users
+  map_roles = concat(var.map_roles, var.manual_roles)
 }
 
 resource "kubernetes_namespace" "bootstrap" {
   metadata {
     name = "bootstrap"
   }
+
+  depends_on = [
+    module.cluster.cluster_id
+  ]
 }

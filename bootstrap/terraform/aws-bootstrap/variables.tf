@@ -9,7 +9,7 @@ EOF
 
 variable "cluster_name" {
   type = string
-  default = "forge"
+  default = "plural"
 
   description = "name for the cluster"
 }
@@ -53,4 +53,37 @@ variable "node_groups" {
     }
   }
   description = "Node groups for your cluster"
+}
+
+variable "map_roles" {
+  description = "Additional IAM roles to add to the aws-auth configmap."
+  type = list(object({
+    rolearn  = string
+    username = string
+    groups   = list(string)
+  }))
+
+  default = []
+}
+
+variable "map_users" {
+  description = "Additional IAM users to add to the aws-auth configmap."
+  type = list(object({
+    userarn  = string
+    username = string
+    groups   = list(string)
+  }))
+
+  default = []
+}
+
+variable "manual_roles" {
+  description = "Additional IAM roles to add to the aws-auth configmap beyond the watchman user"
+  type = list(object({
+    rolearn  = string
+    username = string
+    groups   = list(string)
+  }))
+
+  default = []
 }

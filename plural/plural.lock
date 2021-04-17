@@ -1,9 +1,9 @@
 artifact: {}
 terraform:
-  terraform/aws: h1:FJlsVrvzvC25NsA2T4R4MdBsWjsTVc9TsVoy3JFvCmY=
+  terraform/aws: h1:73bbgZIkeQkpchRACiMqBIXGr14VRKfUr8IrL2Cw5+A=
   terraform/gcp: h1:kgBKAg1D/kLEqjxz2H8xBy3ZrH6zCM7HKR2tTbfLj/0=
 helm:
-  helm/plural: h1:lLg3q3AjwUo4621PY2BFh4V+GBITlvBdFfTgHltpkls=
+  helm/plural: h1:vIILUBblCgW7593Ljf1kML39gaApbSvtYnhqBY6/6/A=
 recipe:
   plural/recipes/aws.yaml: aaf9d0d3cf5b1e3425b97fa2a016b758824a8992e37cac964959b70e6b5a98e4
   plural/recipes/gcp.yaml: 5cd701c8030722ff8eb9fad90992a54c0f186b9f18838622c8ca955ddfb6fd48

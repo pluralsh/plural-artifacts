@@ -6,8 +6,8 @@ module "asummable_role_autoscaler" {
   source                        = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
   version                       = "3.14.0"
   create_role                   = true
-  role_name                     = "plural"
-  provider_url                  = replace(aws_eks_cluster.cluster.identity[0].oidc[0].issuer, "https://", "")
+  role_name                     = "${var.cluster_name}-plural"
+  provider_url                  = replace(data.aws_eks_cluster.cluster.identity[0].oidc[0].issuer, "https://", "")
   role_policy_arns              = [aws_iam_policy.s3_admin.arn]
   oidc_fully_qualified_subjects = ["system:serviceaccount:${var.plural_namespace}:${var.plural_serviceaccount}"]
 }
@@ -26,10 +26,10 @@ data "aws_iam_policy_document" "s3_admin" {
     actions = ["s3:*"]
 
     resources = [
-      "arn:aws:s3:::${var.plural_bucket}",
+      "arn:aws:s3:::${var.chart_bucket}",
       "arn:aws:s3:::${var.plural_images_bucket}",
       "arn:aws:s3:::${var.plural_assets_bucket}",
-      "arn:aws:s3:::${var.plural_bucket}/*",
+      "arn:aws:s3:::${var.chart_bucket}/*",
       "arn:aws:s3:::${var.plural_images_bucket}/*",
       "arn:aws:s3:::${var.plural_assets_bucket}/*"
     ]
@@ -49,7 +49,7 @@ resource "aws_s3_bucket" "chart_bucket" {
 
 resource "aws_s3_bucket" "plural_assets_bucket" {
   bucket = var.plural_assets_bucket
-  acl    = "private"
+  acl    = "public-read"
 }
 
 resource "aws_s3_bucket" "plural_images_bucket" {
