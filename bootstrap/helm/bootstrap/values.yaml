@@ -48,17 +48,23 @@ loki-stack:
     imageRenderer:
       enabled: false
 
+aws-load-balancer-controller:
+  enabled: false
+
 ingress-nginx:
   controller:
     service:
       annotations:
         service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
         service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: 'true'
-        service.beta.kubernetes.io/aws-load-balancer-type: nlb
+        service.beta.kubernetes.io/aws-load-balancer-type: nlb-ip
+        service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
+        service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: '3600'
     config:
       worker-shutdown-timeout: 240s
       proxy-body-size: '0'
-
+      proxy-read-timeout: '3600'
+      proxy-send-timeout: '3600'
 grafana:
   grafana.ini:
     security:

@@ -40,6 +40,12 @@ variable "externaldns_serviceaccount" {
   description = "name of externaldns' service account"
 }
 
+variable "alb_serviceaccount" {
+  type = string
+  default = "alb-operator"
+  description = "name of the nlb operator's service account"
+}
+
 variable "dns_domain" {
   type = string
   description = "domain to use for traffic"

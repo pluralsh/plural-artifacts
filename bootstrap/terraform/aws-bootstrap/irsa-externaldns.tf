@@ -35,6 +35,6 @@ data "aws_iam_policy_document" "externaldns" {
       "route53:ListResourceRecordSets"
     ]
 
-    resources = ["arn:aws:route53:::hostedzone/*"]
+    resources = ["*"]
   }
 }

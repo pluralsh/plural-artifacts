@@ -1,10 +1,10 @@
 artifact: {}
 terraform:
-  terraform/aws-bootstrap: h1:VpuLNbzNBBBaG9IjSTMjBVycjuXGR1YAapxTJ81U4jk=
+  terraform/aws-bootstrap: h1:zSYmP/Ndsi783vrhHntHkqyZq2inGBjybuJkQDoxN4s=
   terraform/gcp-bootstrap: h1:L6lj+NlY69g/56+HYBVKkKp1nqfJ3ja8s72Irmn0+Co=
   terraform/kube: h1:2VSsMe5CpTm5NWnVWzGWwD7RT48UXmvgM1/6D+P4xPE=
 helm:
-  helm/bootstrap: h1:BMlxxOvUawkeRhD6U4BK5vj0eaxO7jJAtj4gqq2WRjI=
+  helm/bootstrap: h1:K5rflSH+uVRG4BvPpq5nHTjVsDWW6ftOA8US0w0bWKw=
 recipe:
   forge/recipes/aws-k8s.yaml: 1a4c39839f3fc1214a32e8bd3614aac83da86ae510038211a48ba1e9e2df0523
   forge/recipes/gcp-kubernetes.yaml: 4bd0bc92539465271770551498626b162646055ddf007e78342f35fe11a96399
@@ -32,4 +32,5 @@ crd:
   plural/crds/platform.plural.sh_slashcommands.yaml: 52e82b7d67526be8b09b1548422f26f48c7b526ef2544442f91e8e1c007eb4f4
   plural/crds/proxy.yaml: a7b36f839400e0493917dc1886433a1da1c3425ea57dab6821a345bca5936e9f
   plural/crds/slashcommand.yaml: 7efe2165f21f54a72b08dd75cdb3d8dc94374cfef828dd29bdb812571a3120df
+  plural/crds/targetgroupbinding.yaml: 59ee819aa43cd9b2fc714869b88ab01801e29f394cda26264a0bdf496482797b
 ird: {}

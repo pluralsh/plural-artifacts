@@ -23,5 +23,8 @@ dependencies:
 - name: kubed
   repository: https://charts.appscode.com/stable
   version: v0.13.0-beta.0
-digest: sha256:980aa035c99ad65b61b3e290e82a68cfdd990589007e734a52fe22374b7173ad
-generated: "2020-11-26T20:47:33.081632-05:00"
+- name: aws-load-balancer-controller
+  repository: https://aws.github.io/eks-charts
+  version: 1.1.6
+digest: sha256:fbf5400896f4b82f29c18d62db331ef2f86b3cf174328331cc855e40d66aa8ce
+generated: "2021-04-19T12:30:27.831026-04:00"
