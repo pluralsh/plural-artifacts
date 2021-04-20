@@ -4,7 +4,7 @@ terraform:
   terraform/gcp-bootstrap: h1:L6lj+NlY69g/56+HYBVKkKp1nqfJ3ja8s72Irmn0+Co=
   terraform/kube: h1:2VSsMe5CpTm5NWnVWzGWwD7RT48UXmvgM1/6D+P4xPE=
 helm:
-  helm/bootstrap: h1:K5rflSH+uVRG4BvPpq5nHTjVsDWW6ftOA8US0w0bWKw=
+  helm/bootstrap: h1:07c97CrZNV+sBzx6E6VN40lwO/CqfUD8/HgaG26i26M=
 recipe:
   forge/recipes/aws-k8s.yaml: 1a4c39839f3fc1214a32e8bd3614aac83da86ae510038211a48ba1e9e2df0523
   forge/recipes/gcp-kubernetes.yaml: 4bd0bc92539465271770551498626b162646055ddf007e78342f35fe11a96399

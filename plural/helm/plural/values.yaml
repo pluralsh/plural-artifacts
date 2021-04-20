@@ -22,7 +22,7 @@ www:
   port: 80
 
 cron:
-  image: dkr.plural.sh/forge/cron
+  image: dkr.plural.sh/plural/cron
   tag: '0.1.1'
 
 imagePullSecrets:

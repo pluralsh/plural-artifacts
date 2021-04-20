@@ -1,7 +1,7 @@
 external-dns:
   serviceAccount:
     name: external-dns
-    create: false
+    create: true
   image:
     registry: dkr.plural.sh
     repository: bootstrap/external-dns
