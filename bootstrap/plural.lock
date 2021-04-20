@@ -6,31 +6,15 @@ terraform:
 helm:
   helm/bootstrap: h1:07c97CrZNV+sBzx6E6VN40lwO/CqfUD8/HgaG26i26M=
 recipe:
-  forge/recipes/aws-k8s.yaml: 1a4c39839f3fc1214a32e8bd3614aac83da86ae510038211a48ba1e9e2df0523
-  forge/recipes/gcp-kubernetes.yaml: 4bd0bc92539465271770551498626b162646055ddf007e78342f35fe11a96399
   plural/recipes/aws-k8s.yaml: 309d76cd5b35ff5dea9d5b398dc82dee40bcb9e76da5133885441a19afdfa69b
   plural/recipes/gcp-kubernetes.yaml: 4bd0bc92539465271770551498626b162646055ddf007e78342f35fe11a96399
 integration: {}
 crd:
-  forge/crds/application.yaml: c40bde3ad70c0d5aa3970a366ff742ba4a31ae40e0d256baf093d164c292abcf
-  forge/crds/cert-manager.yaml: 480e2d25505769d0586897de792a5acdc2e37db3fd56ae497a846b98201b95aa
-  forge/crds/dashboard.yaml: 73b6455275cc4e58c969e310f6216eea119a55f3a284aeaf47169aa833580418
-  forge/crds/logfilter.yaml: 9c70f4fc15bfec87865e698c4031cf62c2e8899ea90ae43024b7c4d1495a0c05
-  forge/crds/platform.plural.sh_dashboards.yaml: 0843cf3f126a20953a312e6c477c0e752a2837ff5dc4cc9c78cfdd2f92da6f25
-  forge/crds/platform.plural.sh_logfilters.yaml: 9f2d19387d619c4152b750df7b2d44c38042a9a1d95375b08583efec08d1aa38
-  forge/crds/platform.plural.sh_proxies.yaml: ffa25a968e3ad9f71222bd69b58eb7506da00a4a647500c58a1f0b011aab323c
-  forge/crds/platform.plural.sh_slashcommands.yaml: 52e82b7d67526be8b09b1548422f26f48c7b526ef2544442f91e8e1c007eb4f4
-  forge/crds/proxy.yaml: fa59c594b4049a3974a972b860d155a263298c45215ef95b083973b195e50110
-  forge/crds/slashcommand.yaml: 3620ad77e3a1f06cac2bed01a7340673a85fd13bbdc0a4e3f8cde95b7772e2e3
   plural/crds/application.yaml: c40bde3ad70c0d5aa3970a366ff742ba4a31ae40e0d256baf093d164c292abcf
   plural/crds/cert-manager.yaml: 480e2d25505769d0586897de792a5acdc2e37db3fd56ae497a846b98201b95aa
-  plural/crds/dashboard.yaml: 4065e7af78f036169ce2d8c68aabfc86567c08861f8d6dc936c9b165b395441b
-  plural/crds/logfilter.yaml: ea722039307e446b890990f1fda398d9f4edd1313fbaafae6e24c58c1eac3352
   plural/crds/platform.plural.sh_dashboards.yaml: 60d8eb498781a9eaed10516e37ede2ffd2eceaad9a8499992af5589ac1966dec
   plural/crds/platform.plural.sh_logfilters.yaml: 9f2d19387d619c4152b750df7b2d44c38042a9a1d95375b08583efec08d1aa38
   plural/crds/platform.plural.sh_proxies.yaml: 5563b8297ed7a78c978afadfe007c34c1c949408535425b12576d14a33344830
   plural/crds/platform.plural.sh_slashcommands.yaml: 52e82b7d67526be8b09b1548422f26f48c7b526ef2544442f91e8e1c007eb4f4
-  plural/crds/proxy.yaml: a7b36f839400e0493917dc1886433a1da1c3425ea57dab6821a345bca5936e9f
-  plural/crds/slashcommand.yaml: 7efe2165f21f54a72b08dd75cdb3d8dc94374cfef828dd29bdb812571a3120df
   plural/crds/targetgroupbinding.yaml: 59ee819aa43cd9b2fc714869b88ab01801e29f394cda26264a0bdf496482797b
 ird: {}
