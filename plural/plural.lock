@@ -3,7 +3,7 @@ terraform:
   terraform/aws: h1:73bbgZIkeQkpchRACiMqBIXGr14VRKfUr8IrL2Cw5+A=
   terraform/gcp: h1:kgBKAg1D/kLEqjxz2H8xBy3ZrH6zCM7HKR2tTbfLj/0=
 helm:
-  helm/plural: h1:3+U1wtm8aT0pi2E3UOxXO965K+8Tptv7Aro/mrShHcM=
+  helm/plural: h1:YCRUIYah2Ct7iWFWPm62wAX7Mn/SjoKp19G2aAEXTSg=
 recipe:
   plural/recipes/aws.yaml: aaf9d0d3cf5b1e3425b97fa2a016b758824a8992e37cac964959b70e6b5a98e4
   plural/recipes/gcp.yaml: 5cd701c8030722ff8eb9fad90992a54c0f186b9f18838622c8ca955ddfb6fd48

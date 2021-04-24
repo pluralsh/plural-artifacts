@@ -1,0 +1,43 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Proxy
+metadata:
+  name: db
+  labels:
+{{ include "console.labels" . | indent 4 }}
+spec:
+  type: db
+  target: statefulset/console-postgresql
+  credentials:
+    secret: console-postgresql
+    key: postgresql-password
+    user: console
+  dbConfig:
+    name: console
+    engine: postgres
+    port: 5432
+---
+apiVersion: platform.plural.sh/v1alpha1
+kind: Proxy
+metadata:
+  name: appsh
+  labels:
+{{ include "console.labels" . | indent 4 }}
+spec:
+  type: sh
+  target: statefulset/console
+  shConfig:
+    command: /opt/app/bin/console
+    args: [remote_console]
+---
+apiVersion: platform.plural.sh/v1alpha1
+kind: Proxy
+metadata:
+  name: sh
+  labels:
+{{ include "console.labels" . | indent 4 }}
+spec:
+  type: sh
+  target: statefulset/console
+  shConfig:
+    command: ""
+    args: []

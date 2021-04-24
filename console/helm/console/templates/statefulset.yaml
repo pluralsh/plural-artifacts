@@ -1,0 +1,107 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: console
+  labels:
+{{ include "console.labels" . | indent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  serviceName: console-headless
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: console
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: console
+        app.kubernetes.io/instance: {{ .Release.Name }}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/metrics"
+        prometheus.io/port: {{ .Values.service.port | quote }}
+        checksum/config: {{ include (print $.Template.BasePath "/secrets.yaml") . | sha256sum }}
+    spec:
+      serviceAccountName: console
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      terminationGracePeriodSeconds: {{ .Values.shutdownDelay }}
+      containers:
+      - name: console
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        envFrom:
+        - secretRef:
+            name: console-env
+        env:
+        - name: HOST
+          value: {{ .Values.ingress.console_dns }}
+        - name: DEPLOYED_AT
+          value: {{ now | unixEpoch | quote }}
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        - name: REPLICAS
+          value: {{ .Values.replicaCount | quote }}
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: GRAFANA_DNS
+          value: {{ .Values.grafana_dns }}
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.dbPasswordSecret }}
+              key: postgresql-password
+        - name: GOOGLE_CREDENTIALS
+          value: /root/.creds/gcp.json
+        volumeMounts:
+        - name: console-ssh
+          mountPath: "/root/.ssh"
+        - name: console-conf
+          mountPath: "/root/.plural"
+        ports:
+        - name: http
+          containerPort: {{ .Values.service.port }}
+          protocol: TCP
+        - name: epmd
+          containerPort: 4369
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: http
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      volumes:
+      - name: console-ssh
+        secret:
+          defaultMode: 384
+          secretName: console-ssh
+      - name: console-conf
+        secret:
+          secretName: console-conf

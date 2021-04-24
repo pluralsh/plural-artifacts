@@ -1,0 +1,5 @@
+REPO console
+
+TF terraform/*
+HELM helm/*
+RECIPE plural/recipe/*

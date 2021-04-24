@@ -1,0 +1,33 @@
+name: console-aws
+description: Deploys console on an EKS cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+sections:
+- name: console
+  items:
+  - type: TERRAFORM
+    name: aws
+    configuration: []
+  - type: HELM
+    name: console
+    configuration:
+    - name: console_dns
+      documentation: FQDN for the console dashboard
+      type: STRING
+    - name: dns_domain
+      documentation: domain to put console under
+      type: STRING
+    - name: git_user
+      documentation: user for console to use in git operations
+      type: STRING
+    - name: git_email
+      documentation: email for git operations by console
+      type: STRING
+    - name: admin_email
+      documentation: email for the initial admin user
+      type: STRING
+    - name: admin_name
+      documentation: name for the initial admin user
+      type: STRING

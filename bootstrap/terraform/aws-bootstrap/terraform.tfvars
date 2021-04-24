@@ -7,5 +7,10 @@ map_roles = [
     rolearn = "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-watchman"
     username = "watchman"
     groups = ["system:masters"]
+  },
+  {
+    rolearn = "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-console"
+    username = "console"
+    groups = ["system:masters"]
   }
 ]

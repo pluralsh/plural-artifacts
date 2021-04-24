@@ -1,0 +1,9 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: SlashCommand
+metadata:
+  name: deploy
+  labels:
+{{ include "console.labels" . | indent 4 }}
+spec:
+  type: deploy
+  help: "Deploys this slash command"

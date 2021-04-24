@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: console
+  labels:
+    app: console
+{{ include "console.labels" . | indent 4 }}
+spec:
+  type: NodePort
+  ports:
+  - port: 4369
+    targetPort: epmd
+    protocol: TCP
+    name: epmd
+  - port: {{ .Values.service.port }}
+    targetPort: http
+    protocol: TCP
+    name: http
+  selector:
+    app.kubernetes.io/name: console
+    app.kubernetes.io/instance: {{ .Release.Name }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: console-headless
+  labels:
+    app: console-headless
+{{ include "console.labels" . | indent 4 }}
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+  - port: 4369
+    targetPort: epmd
+    protocol: TCP
+    name: epmd
+  - port: {{ .Values.service.port }}
+    targetPort: http
+    protocol: TCP
+    name: http
+  selector:
+    app.kubernetes.io/name: console
+    app.kubernetes.io/instance: {{ .Release.Name }}
