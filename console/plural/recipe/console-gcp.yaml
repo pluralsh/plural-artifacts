@@ -9,10 +9,7 @@ sections:
   items:
   - type: TERRAFORM
     name: gcp
-    configuration:
-    - name: gcp_project_id
-      documentation: project where the gke cluster lives
-      type: STRING
+    configuration: []
   - type: HELM
     name: console
     configuration:

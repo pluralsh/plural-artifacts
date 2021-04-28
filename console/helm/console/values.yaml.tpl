@@ -7,6 +7,9 @@ ingress:
 provider: {{ .Provider }}
 
 serviceAccount:
+{{ if eq .Provider "google" }}
+  create: false
+{{ end }}
   annotations:
     eks.amazonaws.com/role-arn: arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-console
 

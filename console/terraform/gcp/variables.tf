@@ -1,13 +1,16 @@
 variable "cluster_name" {
   type = string
-  default = "piazza"
+  default = "plural"
 }
 
 variable "namespace" {
   type = string
-  default = "watchman"
+  default = "console"
 }
 
+variable "project_id" {
+  type = string
+}
 
 variable "node_pool" {
   type = string
@@ -27,7 +30,7 @@ EOF
 }
 
 
-variable "gcp_project_id" {
+variable "project_id" {
   type = string
   description = <<EOF
 The ID of the project in which the resources belong.

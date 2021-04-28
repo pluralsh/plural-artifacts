@@ -1,13 +1,3 @@
-locals {
-  gcp_location_parts = split("-", var.gcp_location)
-  gcp_region         = "${local.gcp_location_parts[0]}-${local.gcp_location_parts[1]}"
-}
-
-provider "google" {
-  project = var.gcp_project_id
-  region  = local.gcp_region
-}
-
 resource "google_compute_network" "vpc_network" {
   name                    = var.vpc_network_name
   auto_create_subnetworks = "false"
@@ -192,4 +182,33 @@ output "cluster_name" {
 
 output "node_pool" {
   value = google_container_node_pool.node_pool.0.name
+}
+
+
+resource "kubernetes_namespace" "bootstrap" {
+  metadata {
+    name = var.namespace
+  }
+
+  depends_on = [
+    google_container_cluster.cluster.name
+  ]
+}
+
+module "externaldns-workload-identity" {
+  source     = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
+  name       = "${var.cluster_name}-externaldns"
+  namespace  = var.namespace
+  project_id = var.gcp_project_id
+  roles = ["roles/dns.admin"]
+}
+
+resource "kubernetes_service_account" "console" {
+  metadata {
+    name      = "external-dns"
+    namespace = var.namespace
+    annotations = {
+      "iam.gke.io/gcp-service-account" = module.externaldns-workload-identity.gcp_service_account_email
+    }
+  }
 }

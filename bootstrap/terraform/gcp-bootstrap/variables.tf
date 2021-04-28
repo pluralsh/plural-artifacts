@@ -8,7 +8,7 @@ EOF
 
 variable "cluster_name" {
   type = string
-  default = "piazza"
+  default = "plural"
 
   description = <<EOF
 The name of the cluster, unique within the project and zone.
@@ -157,6 +157,11 @@ other ranges in use within the cluster's network.
 EOF
 }
 
+variable "externaldns_sa_name" {
+  type = string
+  default = "externaldns"
+}
+
 variable "access_private_images" {
   type    = string
   default = "false"
@@ -197,4 +202,10 @@ variable "dns_zone_name" {
   type = string
   description = "The name for your dns zone"
   default = "piazza"
+}
+
+variable "namespace" {
+  type = string
+  description = "the namespace for the bootstrap app to live in"
+  default = "bootstrap"
 }

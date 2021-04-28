@@ -7,15 +7,6 @@ sections:
   items:
   - type: TERRAFORM
     name: gcp-bootstrap
-    configuration:
-    - name: gcp_project_id
-      documentation: gcp project to use
-      type: STRING
-    - name: dns_zone_name
-      documentation: managed zone name (must be globally unique)
-      type: STRING
-  - type: TERRAFORM
-    name: kube
     configuration: []
   - type: HELM
     name: bootstrap
@@ -27,7 +18,7 @@ sections:
     - name: txt_owner
       documentation: arbitrary name for externaldns to use to track ownership of dns records
       type: STRING
-      default: forge
+      default: plural
     - name: dns_domain
       documentation: top level domain to use
       type: STRING

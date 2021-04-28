@@ -4,6 +4,9 @@ external-dns:
   rbac:
     create: true
   serviceAccount:
+  {{ if eq .Provider "google"}}
+    create: false
+  {{ end }}
     name: {{ default "external-dns" .Values.externaldns_service_account }}
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-externaldns"

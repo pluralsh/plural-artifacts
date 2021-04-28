@@ -10,6 +10,7 @@ image:
   pullPolicy: Always
 
 serviceAccount:
+  create: true
   annotations: {}
 
 imagePullSecrets:

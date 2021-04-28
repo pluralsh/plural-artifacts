@@ -3,21 +3,6 @@ locals {
   gcp_region         = "${local.gcp_location_parts[0]}-${local.gcp_location_parts[1]}"
 }
 
-data "google_client_config" "current" {}
-
-data "google_container_cluster" "cluster" {
-  name = var.cluster_name
-  location = var.gcp_location
-}
-
-provider "kubernetes" {
-  load_config_file = false
-  host = data.google_container_cluster.cluster.endpoint
-  cluster_ca_certificate = base64decode(data.google_container_cluster.cluster.master_auth.0.cluster_ca_certificate)
-  token = data.google_client_config.current.access_token
-}
-
-
 resource "google_service_account" "forge" {
   account_id = "forge-account"
   display_name = "Service account for forge"
