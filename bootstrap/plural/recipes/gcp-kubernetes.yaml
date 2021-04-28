@@ -7,7 +7,10 @@ sections:
   items:
   - type: TERRAFORM
     name: gcp-bootstrap
-    configuration: []
+    configuration:
+    - name: vpc_name
+      type: STRING
+      documentation: Name for the vcp to place your cluster in
   - type: HELM
     name: bootstrap
     configuration:

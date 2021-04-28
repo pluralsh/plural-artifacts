@@ -193,17 +193,6 @@ variable "master_authorized_networks_cidr_display" {
   default = "default"
 }
 
-variable "dns_domain" {
-  type = string
-  description = "The domain name you'll register piazza under"
-}
-
-variable "dns_zone_name" {
-  type = string
-  description = "The name for your dns zone"
-  default = "piazza"
-}
-
 variable "namespace" {
   type = string
   description = "the namespace for the bootstrap app to live in"

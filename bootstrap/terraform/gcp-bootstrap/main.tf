@@ -27,12 +27,6 @@ resource "google_compute_subnetwork" "vpc_subnetwork" {
   ]
 }
 
-resource "google_dns_managed_zone" "piazza_zone" {
-  name = var.dns_zone_name
-  dns_name = var.dns_domain
-  description = "DNS zone for piazza deployment"
-}
-
 resource "google_container_cluster" "cluster" {
   location = var.gcp_location
 
@@ -74,10 +68,6 @@ resource "google_container_cluster" "cluster" {
   }
 
   addons_config {
-    kubernetes_dashboard {
-      disabled = true
-    }
-
     http_load_balancing {
       disabled = var.http_load_balancing_disabled
     }
@@ -95,8 +85,6 @@ resource "google_container_cluster" "cluster" {
   }
 
   ip_allocation_policy {
-    use_ip_aliases = true
-
     cluster_secondary_range_name  = var.cluster_secondary_range_name
     services_secondary_range_name = var.services_secondary_range_name
   }
@@ -152,7 +140,7 @@ resource "google_container_node_pool" "node_pool" {
 
     preemptible = lookup(var.node_pools[count.index], "node_config_preemptible", false)
 
-    workload_metadata_config = {
+    workload_metadata_config {
       node_metadata = "GKE_METADATA_SERVER"
     }
 
@@ -176,22 +164,13 @@ resource "google_container_node_pool" "node_pool" {
   }
 }
 
-output "cluster_name" {
-  value = google_container_cluster.cluster.name
-}
-
-output "node_pool" {
-  value = google_container_node_pool.node_pool.0.name
-}
-
-
 resource "kubernetes_namespace" "bootstrap" {
   metadata {
     name = var.namespace
   }
 
   depends_on = [
-    google_container_cluster.cluster.name
+    google_container_cluster.cluster
   ]
 }
 

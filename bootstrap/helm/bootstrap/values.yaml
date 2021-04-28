@@ -20,8 +20,6 @@ external-dns:
     serviceAccountName: external-dns
   domainFilters:
   - piazzaapp.com
-  google:
-    serviceAccountSecret: externaldns
 
 ownerEmail: mguarino46@gmail.com
 

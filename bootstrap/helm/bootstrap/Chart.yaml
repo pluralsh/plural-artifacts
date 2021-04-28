@@ -8,7 +8,7 @@ sources:
 maintainers:
 - name: michaeljguarino
   email: mguarino46@gmail.com
-version: 0.5.34
+version: 0.5.35
 
 dependencies:
 - name: external-dns
