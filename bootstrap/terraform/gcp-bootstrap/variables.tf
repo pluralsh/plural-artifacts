@@ -47,50 +47,28 @@ variable "node_pools" {
   type = list
   default = [
     {
-      name                       = "default"
-      initial_node_count         = 2
-      autoscaling_min_node_count = 2
-      autoscaling_max_node_count = 5
-      management_auto_upgrade    = true
-      management_auto_repair     = true
-      node_config_machine_type   = "n1-standard-2"
-      node_config_disk_type      = "pd-standard"
-      node_config_disk_size_gb   = 100
-      node_config_preemptible    = false
+      name               = "default-node-pool"
+      machine_type       = "n1-standard-2"
+      min_count          = 2
+      max_count          = 5
+      disk_size_gb       = 100
+      disk_type          = "pd-standard"
+      image_type         = "COS"
+      auto_repair        = true
+      auto_upgrade       = true
+      preemptible        = false
+      initial_node_count = 2
     },
   ]
 
   description = <<EOF
-The list of node pool configurations, each should include:
-name - The name of the node pool, which will be suffixed with '-pool'.
-Defaults to pool number in the Terraform list, starting from 1.
-initial_node_count - The initial node count for the pool. Changing this will
-force recreation of the resource. Defaults to 1.
-autoscaling_min_node_count - Minimum number of nodes in the NodePool. Must be
->=0 and <= max_node_count. Defaults to 2.
-autoscaling_max_node_count - Maximum number of nodes in the NodePool. Must be
->= min_node_count. Defaults to 3.
-management_auto_repair - Whether the nodes will be automatically repaired.
-Defaults to 'true'.
-management_auto_upgrade - Whether the nodes will be automatically upgraded.
-Defaults to 'true'.
-node_config_machine_type - The name of a Google Compute Engine machine type.
-Defaults to n1-standard-1. To create a custom machine type, value should be
-set as specified here:
-https://cloud.google.com/compute/docs/reference/rest/v1/instances#machineType
-node_config_disk_type - Type of the disk attached to each node (e.g.
-'pd-standard' or 'pd-ssd'). Defaults to 'pd-standard'
-node_config_disk_size_gb - Size of the disk attached to each node, specified
-in GB. The smallest allowed disk size is 10GB. Defaults to 100GB.
-node_config_preemptible - Whether or not the underlying node VMs are
-preemptible. See the official documentation for more information. Defaults to
-false. https://cloud.google.com/kubernetes-engine/docs/how-to/preemptible-vms
+  The node pools for your cluster
 EOF
 }
 
 variable "vpc_network_name" {
   type = string
-  default = "forge-network"
+  default = "plural-network"
 
   description = <<EOF
 The name of the Google Compute Engine network to which the cluster is
@@ -100,7 +78,7 @@ EOF
 
 variable "vpc_subnetwork_name" {
   type = string
-  default = "forge-subnetwork"
+  default = "plural-subnetwork"
 
   description = <<EOF
 The name of the Google Compute Engine subnetwork in which the cluster's
@@ -113,48 +91,14 @@ variable "vpc_subnetwork_cidr_range" {
   default = "10.0.16.0/20"
 }
 
-variable "cluster_secondary_range_name" {
-  type = string
-  default = "pods"
-
-  description = <<EOF
-The name of the secondary range to be used as for the cluster CIDR block.
-The secondary range will be used for pod IP addresses. This must be an
-existing secondary range associated with the cluster subnetwork.
-EOF
-}
-
 variable "cluster_secondary_range_cidr" {
   type = string
   default = "10.16.0.0/12"
 }
 
-variable "services_secondary_range_name" {
-  type = string
-  default = "services"
-
-  description = <<EOF
-The name of the secondary range to be used as for the services CIDR block.
-The secondary range will be used for service ClusterIPs. This must be an
-existing secondary range associated with the cluster subnetwork.
-EOF
-}
-
 variable "services_secondary_range_cidr" {
   type = string
   default = "10.1.0.0/20"
-}
-
-variable "master_ipv4_cidr_block" {
-  type    = string
-  default = "172.16.0.0/28"
-
-  description = <<EOF
-The IP range in CIDR notation to use for the hosted master network. This
-range will be used for assigning internal IP addresses to the master or set
-of masters, as well as the ILB VIP. This range must not overlap with any
-other ranges in use within the cluster's network.
-EOF
 }
 
 variable "externaldns_sa_name" {
@@ -197,4 +141,10 @@ variable "namespace" {
   type = string
   description = "the namespace for the bootstrap app to live in"
   default = "bootstrap"
+}
+
+variable "firewall_inbound_ports" {
+  type        = list(string)
+  description = "List of TCP ports for admission/webhook controllers"
+  default     = ["8443", "9443", "15017"]
 }

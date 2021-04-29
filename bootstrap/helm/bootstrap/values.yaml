@@ -51,6 +51,8 @@ aws-load-balancer-controller:
 
 ingress-nginx:
   controller:
+    admissionWebhooks:
+      enabled: false
     service:
       annotations:
         service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp

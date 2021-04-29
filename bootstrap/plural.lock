@@ -1,10 +1,10 @@
 artifact: {}
 terraform:
   terraform/aws-bootstrap: h1:B7ryr0QVlwHdJxh7QKWMY1IlciBSwpblBdYsueUvnaw=
-  terraform/gcp-bootstrap: h1:CRfEYag53IyIn+LT5hOmI8W7cOjBJ4aRrkFGo6LsuqY=
+  terraform/gcp-bootstrap: h1:yv0NczXrJB5+a6MDg36r38GZ7g22aAhEfwOG2AGiVg8=
   terraform/kube: h1:2VSsMe5CpTm5NWnVWzGWwD7RT48UXmvgM1/6D+P4xPE=
 helm:
-  helm/bootstrap: h1:OzbmiALM9xei3G4JRYQyncRa55zw2IyaKwNMMcmPC9o=
+  helm/bootstrap: h1:39iBHfy9CRgKQvpR1YT1Knj5bKb6aLIW+sDH8EiexXI=
 recipe:
   plural/recipes/aws-k8s.yaml: 309d76cd5b35ff5dea9d5b398dc82dee40bcb9e76da5133885441a19afdfa69b
   plural/recipes/gcp-kubernetes.yaml: af34ede32fe4b9caf0004113427e2d272a4515a0272b3c8d7691d60ba2776c0f

@@ -8,10 +8,6 @@ variable "namespace" {
   default = "console"
 }
 
-variable "project_id" {
-  type = string
-}
-
 variable "node_pool" {
   type = string
   default = "ignore"

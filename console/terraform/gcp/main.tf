@@ -17,12 +17,19 @@ resource "kubernetes_service_account" "console" {
       "iam.gke.io/gcp-service-account" = module.console-workload-identity.gcp_service_account_email
     }
   }
+
+  depends_on = [
+    kubernetes_namespace.console
+  ]
 }
 
 module "console-workload-identity" {
   source     = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
   name       = "${var.cluster_name}-console"
   namespace  = var.namespace
-  project_id = var.gcp_project_id
+  project_id = var.project_id
+  use_existing_k8s_sa = true
+  annotate_k8s_sa = false
+  k8s_sa_name = "external-dns"
   roles = ["roles/owner", "roles/storage.admin"]
 }

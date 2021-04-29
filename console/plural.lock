@@ -1,7 +1,7 @@
 artifact: {}
 terraform:
   terraform/aws: h1:yH1m+op4G5sXdOWm38ZHCGqFAbZXoiudu/jQEd7OxVM=
-  terraform/gcp: h1:oZsCmfH9iH7XufGoGRh/esUSmNkWTpe3NjZS+Hu0kq8=
+  terraform/gcp: h1:AziII+P97vyhBpNwYTlTzC8PHftR91t8G2/ZlSOklTk=
 helm:
   helm/console: h1:1RDRyQIVOkUE4NlG53mWeW7oE1a3qBoflNPEOErGQ8k=
 recipe:
