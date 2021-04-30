@@ -41,6 +41,8 @@ module "gke" {
   add_cluster_firewall_rules = true
   network_policy             = true
 
+  node_pools = var.node_pools
+
   depends_on = [google_compute_subnetwork.vpc_subnetwork]
 }
 
