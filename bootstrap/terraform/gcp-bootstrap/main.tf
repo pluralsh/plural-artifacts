@@ -14,6 +14,7 @@ resource "google_compute_subnetwork" "vpc_subnetwork" {
     range_name    = local.pods_cidr_name
     ip_cidr_range = var.cluster_secondary_range_cidr
   }
+
   secondary_ip_range {
     range_name    = local.services_cidr_name
     ip_cidr_range = var.services_secondary_range_cidr
@@ -55,20 +56,21 @@ resource "kubernetes_namespace" "bootstrap" {
 }
 
 module "externaldns-workload-identity" {
-  source     = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
-  name       = "${var.cluster_name}-externaldns"
-  namespace  = var.namespace
-  project_id = var.gcp_project_id
+  source              = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
+  name                = "${var.cluster_name}-externaldns"
+  namespace           = var.namespace
+  project_id          = var.gcp_project_id
   use_existing_k8s_sa = true
-  annotate_k8s_sa = false
-  k8s_sa_name = "external-dns"
-  roles = ["roles/dns.admin"]
+  annotate_k8s_sa     = false
+  k8s_sa_name         = "external-dns"
+  roles               = ["roles/dns.admin"]
 }
 
 resource "kubernetes_service_account" "console" {
   metadata {
     name      = "external-dns"
     namespace = var.namespace
+
     annotations = {
       "iam.gke.io/gcp-service-account" = module.externaldns-workload-identity.gcp_service_account_email
     }

@@ -3,7 +3,7 @@ terraform:
   terraform/aws: h1:yH1m+op4G5sXdOWm38ZHCGqFAbZXoiudu/jQEd7OxVM=
   terraform/gcp: h1:T0tVES/y38rYgbeWvTLODMEDHl6kFSYvMJUB9om1E7w=
 helm:
-  helm/console: h1:COAC6OQyLbHqXa/4RZpY5eQRW/jT9Bbkw2EkXvsOptw=
+  helm/console: h1:8ZnpgYgcbRyC4tPdH3MxFMWSc7uAVUhkh3eY/XN42tk=
 recipe:
   plural/recipe/console-aws.yaml: 5c26130b6fc7b37bd4917eaa4804608f42390fedd8aeb80257837c1ae1e06ea9
   plural/recipe/console-gcp.yaml: bdd516ce513960a725d6570dd6a047c7183bf1a0227f6e1b38a2522d103d93e6

@@ -49,7 +49,7 @@ variable "node_pools" {
     {
       name               = "default-node-pool"
       machine_type       = "n1-standard-2"
-      min_count          = 2
+      min_count          = 1
       max_count          = 5
       disk_size_gb       = 100
       disk_type          = "pd-standard"
@@ -57,7 +57,8 @@ variable "node_pools" {
       auto_repair        = true
       auto_upgrade       = true
       preemptible        = false
-      initial_node_count = 2
+      initial_node_count = 1
+      autoscaling        = true
     },
   ]
 
