@@ -61,8 +61,6 @@ spec:
             secretKeyRef:
               name: {{ .Values.dbPasswordSecret }}
               key: postgresql-password
-        - name: GOOGLE_CREDENTIALS
-          value: /root/.creds/gcp.json
         volumeMounts:
         - name: console-ssh
           mountPath: "/root/.ssh"

@@ -30,6 +30,6 @@ module "console-workload-identity" {
   project_id = var.project_id
   use_existing_k8s_sa = true
   annotate_k8s_sa = false
-  k8s_sa_name = "external-dns"
+  k8s_sa_name = "console"
   roles = ["roles/owner", "roles/storage.admin"]
 }

@@ -36,7 +36,6 @@ secrets:
   cluster_name: {{ .Cluster }}
   erlang: {{ dedupe . "console.secrets.erlang" (randAlphaNum 14) }}
 {{ if and (hasKey . "console") (hasKey .console "secrets") }}
-  webhook_secret: {{ .console.secrets.webhook_secret }}
   id_rsa: {{ .console.secrets.id_rsa | quote }}
   id_rsa_pub: {{ .console.secrets.id_rsa_pub | quote }}
 {{ else if .Values.console_dns }}
