@@ -1,2 +1,12 @@
 application: true
-dependencies: []
+dependencies:
+- type: terraform
+  name: aws-bootstrap
+  repo: bootstrap
+  version: '>= 0.1.1'
+  optional: true
+- type: terraform
+  name: gcp-bootstrap
+  repo: bootstrap
+  version: '>= 0.1.1'
+  optional: true

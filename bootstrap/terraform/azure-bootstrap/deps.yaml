@@ -1,0 +1,10 @@
+dependencies: []
+providers:
+- azure
+outputs:
+  externaldns_msi_client_id: externaldns_msi_client_id
+  externaldns_msi_id: externaldns_msi_id
+provider_wirings:
+  cluster: module.azure-bootstrap.cluster
+description: Creates a AKS cluster and prepares it for bootstrapping
+version: 0.1.1
