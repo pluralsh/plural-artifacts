@@ -1,6 +1,5 @@
-# Watchman
+# console
 
-Webhook receiver deployment to handle auto-upgrades on chart version push.  The deployment basically just wraps the forge cli and handles git for you as well.
+Administration console and upgrade manager for plural.  Supports bootstrapping and querying upgrade queues to automatically upgrade any application in cluster, and also handles observability, logging and kubernetes api introspection for users.
 
-The service requires strong credentials to operate, so it's recommended that you utilize the secured workspace
-given by forge.
+Requires git credentials and plural credentials to operate fully, and utilizes a number of `platform.plural.sh` CRDs to build out the observability features within it.

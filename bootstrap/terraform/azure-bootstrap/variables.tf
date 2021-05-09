@@ -7,18 +7,15 @@ variable "resource_group" {
   type = string
 }
 
-variable "ad_application" {
-  type = string
-}
 
 variable "address_space" {
   type = string
-  default = "10.0.0.0/16"
+  default = "10.1.0.0/16"
 }
 
 variable "subnet_prefixes" {
   type = list(string)
-  default = ["10.0.1.0/24"]
+  default = ["10.1.0.0/22"]
 }
 
 variable "name" {
@@ -32,7 +29,7 @@ variable "os_disk_size" {
 }
 
 variable "private_cluster" {
-  type = boolean
+  type = bool
   default = false
 }
 
@@ -44,4 +41,13 @@ variable "min_nodes" {
 variable "max_nodes" {
   type = number
   default = 5
+}
+
+variable "dns_zone_name" {
+  type = string
+}
+
+variable "namespace" {
+  type = string
+  default = "bootstrap"
 }

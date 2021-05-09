@@ -1,7 +1,11 @@
-dependencies: []
-providers:
-- gcp
-provider_wirings:
-  cluster: module.gcp-bootstrap.cluster
-description: Creates a GKE cluster and prepares it for bootstrapping
-version: 0.1.1
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  description: Creates a GKE cluster and prepares it for bootstrapping
+  version: 0.1.1
+spec:
+  dependencies: []
+  providers:
+  - gcp
+  provider_wirings:
+    cluster: module.gcp-bootstrap.cluster

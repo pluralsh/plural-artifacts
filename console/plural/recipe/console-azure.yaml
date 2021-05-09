@@ -1,14 +1,14 @@
-name: console-aws
-description: Deploys console on out bootstrapped EKS cluster
-provider: AWS
+name: console-azure
+description: Deploys console on an EKS cluster
+provider: AZURE
 dependencies:
 - repo: bootstrap
-  name: aws-k8s
+  name: azure-k8s
 sections:
 - name: console
   items:
   - type: TERRAFORM
-    name: aws
+    name: azure
     configuration: []
   - type: HELM
     name: console

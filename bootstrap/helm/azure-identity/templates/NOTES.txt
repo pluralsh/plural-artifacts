@@ -1,0 +1,1 @@
+Bootstraps kubernetes workload identity for azure

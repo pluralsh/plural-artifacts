@@ -1,7 +1,7 @@
 REPO airflow
 
 HELM helm/*
-RECIPE forge/recipes/*
+RECIPE plural/recipes/*
 
 RUN docker pull apache/airflow:1.10.12-python3.6
 RUN docker tag apache/airflow:1.10.12-python3.6 dkr.plural.sh/airflow/airflow:1.10.12

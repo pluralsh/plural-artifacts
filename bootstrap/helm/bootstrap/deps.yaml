@@ -1,12 +1,22 @@
-application: true
-dependencies:
-- type: terraform
-  name: aws-bootstrap
-  repo: bootstrap
-  version: '>= 0.1.1'
-  optional: true
-- type: terraform
-  name: gcp-bootstrap
-  repo: bootstrap
-  version: '>= 0.1.1'
-  optional: true
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  application: true
+  description: installs the needed dependencies for cluster setup
+spec:
+  dependencies:
+  - type: terraform
+    name: aws-bootstrap
+    repo: bootstrap
+    version: '>= 0.1.1'
+    optional: true
+  - type: terraform
+    name: gcp-bootstrap
+    repo: bootstrap
+    version: '>= 0.1.1'
+    optional: true
+  - type: terraform
+    name: azure-bootstrap
+    repo: bootstrap
+    version: '>= 0.1.1'
+    optional: true

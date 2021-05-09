@@ -1,16 +1,21 @@
-application: true
-dependencies:
-- type: helm
-  name: bootstrap
-  repo: bootstrap
-  version: '>= 0.5.1'
-- type: terraform
-  name: aws
-  repo: plural
-  version: '>= 0.1.1'
-  optional: true
-- type: terraform
-  name: gcp
-  repo: plural
-  version: '>= 0.1.1'
-  optional: true
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  application: true
+  description: deploys plural's api and background services
+spec:
+  dependencies:
+  - type: helm
+    name: bootstrap
+    repo: bootstrap
+    version: '>= 0.5.1'
+  - type: terraform
+    name: aws
+    repo: plural
+    version: '>= 0.1.1'
+    optional: true
+  - type: terraform
+    name: gcp
+    repo: plural
+    version: '>= 0.1.0'
+    optional: true

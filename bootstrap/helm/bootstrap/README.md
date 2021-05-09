@@ -1,19 +1,22 @@
 # Helm Chart for basic kubernetes dependencies
 
-Should include any dependencies you might need per provider
+Includes core dependencies you likely need per provider, and installs plurals base CRDs:
 
+* external-dns
+* cert-manager
+* ingress-nginx
+* prometheus+loki
+* grafana
 
-## Installation
+For aws, we optionally install
+* cluster-autoscaler
+* aws-load-balancer-controller
 
-```
-helm repo add forge https://forge.piazza.app/forge
-```
+Since both are not truly supported within EKS, in particular NLB support is substantially diminished without aws-load-balancer-controller.
 
-## Usage
+## Plural-specific dependencies
 
-```
-helm upgrade --install --name forge forge/forge
-```
+A number of tools to improve the experience using plural applications are also installed, including the kube-app-controller to provide application-level health checks and kubed to sync plural's pull secrets across namespaces.
 
 ## Example Configuration
 

@@ -11,17 +11,16 @@ module "network" {
 }
 
 module "aks" {
-  source                           = "Azure/aks/azurerm"
+  source                           = "github.com/pluralsh/terraform-azurerm-aks?ref=plural"
   resource_group_name              = data.azurerm_resource_group.group.name
-  kubernetes_version               = "1.19.3"
-  orchestrator_version             = "1.19.3"
+  kubernetes_version               = "1.20.5"
+  orchestrator_version             = "1.20.5"
   prefix                           = var.name
+  cluster_name                     = var.name
   network_plugin                   = "azure"
   vnet_subnet_id                   = module.network.vnet_subnets[0]
   os_disk_size_gb                  = var.os_disk_size
   sku_tier                         = "Paid"
-  enable_role_based_access_control = true
-  rbac_aad_managed                 = true
   private_cluster_enabled          = var.private_cluster
   enable_http_application_routing  = true
   enable_azure_policy              = true
@@ -48,6 +47,42 @@ module "aks" {
   net_profile_service_cidr       = "10.0.0.0/16"
 
   depends_on = [module.network]
+}
+
+data "azurerm_resource_group" "node_group" {
+  name = module.aks.node_resource_group
+}
+
+resource "azurerm_role_assignment" "aks-managed-identity" {
+  scope                = data.azurerm_resource_group.group.id
+  role_definition_name = "Managed Identity Operator"
+  principal_id         = module.aks.kubelet_identity[0].object_id
+
+  depends_on = [module.aks]
+}
+
+resource "azurerm_role_assignment" "aks-vm-contributor" {
+  scope                = data.azurerm_resource_group.group.id
+  role_definition_name = "Virtual Machine Contributor"
+  principal_id         = module.aks.kubelet_identity[0].object_id
+
+  depends_on = [module.aks]
+}
+
+resource "azurerm_role_assignment" "aks-node-managed-identity" {
+  scope                = data.azurerm_resource_group.node_group.id
+  role_definition_name = "Managed Identity Operator"
+  principal_id         = module.aks.kubelet_identity[0].object_id
+
+  depends_on = [module.aks]
+}
+
+resource "azurerm_role_assignment" "aks-node-vm-contributor" {
+  scope                = data.azurerm_resource_group.node_group.id
+  role_definition_name = "Virtual Machine Contributor"
+  principal_id         = module.aks.kubelet_identity[0].object_id
+
+  depends_on = [module.aks]
 }
 
 resource "kubernetes_namespace" "bootstrap" {

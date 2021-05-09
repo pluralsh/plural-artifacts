@@ -1,6 +1,10 @@
 external-dns:
   provider: {{ .Provider }}
   txtOwnerId: {{ .Values.txt_owner }}
+{{ if eq .Provider "azure" }}
+  podLabels:
+    aadpodidbinding: externaldns
+{{ end }}
   rbac:
     create: true
   serviceAccount:
@@ -16,6 +20,18 @@ external-dns:
     project: {{ .Project }}
   aws:
     region: {{ .Region }}
+  {{ if eq .Provider "azure" }}
+  azure:
+    useManagedIdentityExtension: true
+    resourceGroup: {{ .Project }}
+    tenantId: {{ .Context.TenantId }}
+    subscriptionId: {{ .Context.SubscriptionId }}
+  {{ end }}
+
+{{ if eq .Provider "azure" }}
+externalDnsIdentityId: {{ importValue "Terraform" "externaldns_msi_id" }}
+externalDnsIdentityClientId: {{ importValue "Terraform" "externaldns_msi_client_id" }}
+{{ end }}
 
 regcreds:
   auths:
@@ -26,7 +42,7 @@ regcreds:
 
 
 grafana_dns: {{ .Values.grafana_dns }}
-
+provider: {{ .Provider }}
 ownerEmail: {{ .Values.ownerEmail }}
 
 cluster-autoscaler:

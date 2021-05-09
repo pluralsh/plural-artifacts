@@ -6,6 +6,22 @@ ingress:
 
 provider: {{ .Provider }}
 
+{{ if eq .Provider "azure" }}
+podLabels:
+  aadpodidbinding: console
+
+consoleIdentityId: {{ importValue "Terraform" "console_msi_id" }}
+consoleIdentityClientId: {{ importValue "Terraform" "console_msi_client_id" }}
+
+extraEnv:
+- name: ARM_USE_MSI
+  value: 'true'
+- name: ARM_SUBSCRIPTION_ID
+  value: {{ .Context.SubscriptionId }}
+- name: ARM_TENANT_ID
+  value: {{ .Context.TenantId }}
+{{ end }}
+
 serviceAccount:
 {{ if eq .Provider "google" }}
   create: false

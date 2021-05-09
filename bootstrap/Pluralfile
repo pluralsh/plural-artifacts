@@ -2,5 +2,6 @@ REPO bootstrap
 
 TF terraform/*
 HELM helm/*
-CRD plural/crds/* bootstrap
+CRD plural/crds/bootstrap/* helm/bootstrap
+CRD plural/crds/azure-identity/* helm/azure-identity
 RECIPE plural/recipes/*

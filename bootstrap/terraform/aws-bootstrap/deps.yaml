@@ -1,7 +1,13 @@
-dependencies: []
-providers:
-- aws
-provider_wirings:
-  cluster: module.aws-bootstrap.cluster_name
-description: Creates an EKS cluster and prepares it for bootstrapping
-version: 0.1.1
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  description: Creates an EKS cluster and prepares it for bootstrapping
+  version: 0.1.1
+spec:
+  dependencies: []
+  providers:
+  - aws
+  outputs:
+    endpoint: cluster_endpoint
+  provider_wirings:
+    cluster: module.aws-bootstrap.cluster_name

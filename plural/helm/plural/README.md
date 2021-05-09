@@ -1,20 +1,28 @@
-# Helm chart for installing Forge
+# Helm chart for installing Plural
 
-Forge is a multi-tenant kubernetes app repository
+Plural is a multi-tenant kubernetes app delivery platform.  It has as subcomponents:
+
+* postgres db
+* rabbitmq cluster
+* rtc, api, and background worker deployments
+* chartmuseum
+* docker registry
 
 ## Installation
 
 ```
-helm repo add forge https://forge.piazza.app/forge
+helm repo add plural https://app.plural.sh/cm/plural
 ```
 
 ## Usage
 
 ```
-helm upgrade --install --name forge forge/forge
+helm upgrade --install plural plural/plural
 ```
 
 ## Example Configuration
+
+(It's highly recommend you utilize plural to generate the initial configuration for you based on the environment you're deploying to)
 
 ```yaml
 postgresql:

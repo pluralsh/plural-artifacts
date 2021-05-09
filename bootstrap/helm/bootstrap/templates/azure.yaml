@@ -1,0 +1,20 @@
+{{ if eq .Values.provider "azure" }}
+apiVersion: "aadpodidentity.k8s.io/v1"
+kind: AzureIdentity
+metadata:
+  name: externaldns
+  annotations:
+    aadpodidentity.k8s.io/Behavior: namespaced
+spec:
+  type: 0
+  resourceID: {{ .Values.externalDnsIdentityId }}
+  clientID: {{ .Values.externalDnsIdentityClientId }}
+---
+apiVersion: "aadpodidentity.k8s.io/v1"
+kind: AzureIdentityBinding
+metadata:
+  name: externaldns-binding
+spec:
+  azureIdentity: externaldns
+  selector: externaldns
+{{ end }}

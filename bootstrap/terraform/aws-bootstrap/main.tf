@@ -28,7 +28,7 @@ module "vpc" {
 }
 
 module "cluster" {
-  source          = "github.com/pluralsh/terraform-aws-eks"
+  source          = "github.com/pluralsh/terraform-aws-eks?ref=plural-eks"
   cluster_name    = var.cluster_name
   cluster_version = "1.17"
   subnets         = concat(module.vpc.public_subnets, module.vpc.private_subnets)

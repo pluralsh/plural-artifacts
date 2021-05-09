@@ -1,16 +1,26 @@
-application: true
-dependencies:
-- type: helm
-  name: bootstrap
-  repo: bootstrap
-  version: '>= 0.5.1'
-- type: terraform
-  name: aws
-  repo: console
-  version: '>= 0.1.1'
-  optional: true
-- type: terraform
-  name: gcp
-  repo: console
-  version: '>= 0.1.1'
-  optional: true
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  application: true
+  description: deploys plural's admin console
+spec:
+  dependencies:
+  - type: helm
+    name: bootstrap
+    repo: bootstrap
+    version: '>= 0.5.1'
+  - type: terraform
+    name: aws
+    repo: console
+    version: '>= 0.1.1'
+    optional: true
+  - type: terraform
+    name: azure
+    repo: console
+    version: '>= 0.1.1'
+    optional: true
+  - type: terraform
+    name: gcp
+    repo: console
+    version: '>= 0.1.1'
+    optional: true

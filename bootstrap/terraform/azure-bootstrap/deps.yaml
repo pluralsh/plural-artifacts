@@ -1,10 +1,18 @@
-dependencies: []
-providers:
-- azure
-outputs:
-  externaldns_msi_client_id: externaldns_msi_client_id
-  externaldns_msi_id: externaldns_msi_id
-provider_wirings:
-  cluster: module.azure-bootstrap.cluster
-description: Creates a AKS cluster and prepares it for bootstrapping
-version: 0.1.1
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  description: Creates a AKS cluster and prepares it for bootstrapping
+  version: 0.1.1
+spec:
+  dependencies: []
+  providers:
+  - azure
+  secrets:
+  - /private_ssh_key
+  outputs:
+    externaldns_msi_client_id: externaldns_msi_client_id
+    externaldns_msi_id: externaldns_msi_id
+    kubelet_msi_id: kubelet_msi_id
+    node_resource_group: node_resource_group
+  provider_wirings:
+    cluster: module.azure-bootstrap.cluster  
