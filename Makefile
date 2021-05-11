@@ -18,4 +18,4 @@ upload-console: # uploads console platform artifacts
 	plural apply -f console/Pluralfile
 
 import-operator:
-	cp ../plural-operator/config/crd/bases/* bootstrap/plural/crds
+	cp ../plural-operator/config/crd/bases/* bootstrap/plural/crds/bootstrap

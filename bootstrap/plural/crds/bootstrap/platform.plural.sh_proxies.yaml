@@ -49,10 +49,12 @@ spec:
                   user:
                     description: username to auth with
                     type: string
+                  userKey:
+                    description: key in the secret that stores the username
+                    type: string
                 required:
                 - key
                 - secret
-                - user
                 type: object
               dbConfig:
                 description: db-specific configuration for this proxy
@@ -102,6 +104,19 @@ spec:
                 - sh
                 - web
                 type: string
+              webConfig:
+                description: web-specific configuration for this proxy
+                properties:
+                  path:
+                    description: path to direct users to on sign-in
+                    type: string
+                  port:
+                    description: port of the service to forward
+                    format: int32
+                    type: integer
+                required:
+                - port
+                type: object
             required:
             - target
             - type
