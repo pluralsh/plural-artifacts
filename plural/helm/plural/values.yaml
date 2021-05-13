@@ -120,6 +120,9 @@ postgresql:
   postgresqlUsername: plural
   postgresqlDatabase: plural
 
+rabbitmqCredentials:
+  namespace: "rabbitmq"
+
 rabbitmq:
   metrics:
     enabled: true

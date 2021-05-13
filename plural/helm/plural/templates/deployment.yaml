@@ -32,6 +32,10 @@ spec:
         envFrom:
         - secretRef:
             name: plural-env
+        {{ if .Values.rabbitmqCredentials.username }}
+        - secretRef:
+            name: plural-rabbitmq-secret
+        {{ end }}
         env:
         - name: HOST
           value: {{ .Values.ingress.dns }}
@@ -50,11 +54,6 @@ spec:
             secretKeyRef:
               name: {{ .Values.dbPasswordSecret }}
               key: postgresql-password
-        - name: RABBITMQ_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.rabbitPasswordSecret }}
-              key: rabbitmq-password
         ports:
         - name: http
           containerPort: {{ .Values.api.port }}
@@ -115,6 +114,10 @@ spec:
         envFrom:
         - secretRef:
             name: plural-env
+        {{ if .Values.rabbitmqCredentials.username }}
+        - secretRef:
+            name: plural-rabbitmq-secret
+        {{ end }}
         env:
         - name: HOST
           value: {{ .Values.ingress.dns }}
@@ -133,11 +136,6 @@ spec:
             secretKeyRef:
               name: {{ .Values.dbPasswordSecret }}
               key: postgresql-password
-        - name: RABBITMQ_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.rabbitPasswordSecret }}
-              key: rabbitmq-password
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
@@ -187,6 +185,10 @@ spec:
         envFrom:
         - secretRef:
             name: plural-env
+        {{ if .Values.rabbitmqCredentials.username }}
+        - secretRef:
+            name: plural-rabbitmq-secret
+        {{ end }}
         env:
         - name: HOST
           value: {{ .Values.ingress.dns }}
@@ -205,11 +207,6 @@ spec:
             secretKeyRef:
               name: {{ .Values.dbPasswordSecret }}
               key: postgresql-password
-        - name: RABBITMQ_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.rabbitPasswordSecret }}
-              key: rabbitmq-password
         ports:
         - name: http
           containerPort: {{ .Values.api.port }}

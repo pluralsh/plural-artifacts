@@ -2,11 +2,6 @@ postgresql:
   postgresqlPassword: {{ dedupe . "plural.postgresql.postgresqlPassword" (randAlphaNum 14) }}
   postgresqlPostgresPassword: {{ dedupe . "plural.postgresql.postgresqlPostgresPassword" (randAlphaNum 14) }}
 
-rabbitmq:
-  auth:
-    password: {{ dedupe . "plural.rabbitmq.auth.password" (randAlphaNum 26) }}
-    erlangCookie: {{ dedupe . "plural.rabbitmq.auth.erlangCookie" (randAlphaNum 26) }}
-
 influxdb:
   setDefaultUser:
     user:
@@ -14,6 +9,12 @@ influxdb:
 
 provider: {{ .Provider }}
 region: {{ .Region }}
+
+{{ $rabbitNamespace := namespace "rabbitmq" }}
+{{ $creds := dedupeObj . "plural.rabbitmqCredentials" (secret $rabbitNamespace "rabbitmq-default-user") }}
+{{ $_ := set $creds "namespace" $rabbitNamespace }}
+rabbitmqCredentials:
+  {{ toYaml $creds | nindent 2 }}
 
 rbac:
   serviceAccountAnnotations:
