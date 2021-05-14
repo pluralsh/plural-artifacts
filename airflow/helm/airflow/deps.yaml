@@ -1,9 +1,26 @@
-application: true
-dependencies:
-- type: terraform
-  name: kube
-  repo: bootstrap
-- type: helm
-  name: bootstrap
-  repo: bootstrap
-  version: '>= 0.5.1'
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  application: true
+  description: Deploy's airflow custom crafted for the target cloud
+spec:
+  dependencies:
+  - type: helm
+    name: bootstrap
+    repo: bootstrap
+    version: '>= 0.5.1'
+  - type: terraform
+    name: aws
+    repo: airflow
+    version: '>= 0.1.1'
+    optional: true
+  - type: terraform
+    name: azure
+    repo: airflow
+    version: '>= 0.1.1'
+    optional: true
+  - type: terraform
+    name: gcp
+    repo: airflow
+    version: '>= 0.1.1'
+    optional: true

@@ -7,7 +7,7 @@ sources:
 maintainers:
 - name: michaeljguarino
   email: mjg@plural.sh
-version: 0.6.35
+version: 0.6.37
 
 dependencies:
 - name: postgresql

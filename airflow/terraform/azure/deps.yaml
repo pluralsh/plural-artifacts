@@ -1,0 +1,15 @@
+dependencies:
+- name: azure-bootstrap
+  repo: bootstrap
+  type: terraform
+  version: '>= 0.1.1'
+
+providers:
+- azure
+
+outputs:
+  console_msi_client_id: console_msi_client_id
+  console_msi_id: console_msi_id
+
+description: console azure bootstrapping
+version: 0.1.1

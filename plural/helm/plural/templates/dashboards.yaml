@@ -6,7 +6,7 @@ metadata:
 {{ include "plural.labels" . | indent 4 }}
 spec:
   name: beam
-  description: internal erlang telemetry for forge
+  description: internal erlang telemetry for plural's api
   timeslices: [30m, 1h, 2h, 1d]
   defaultTime: 30m
   labels:
@@ -48,7 +48,7 @@ metadata:
 {{ include "plural.labels" . | indent 4 }}
 spec:
   name: postgres
-  description: Monitoring for forge's postgres db
+  description: Monitoring for plural's postgres db
   timeslices: [30m, 1h, 2h, 1d]
   defaultTime: 30m
   labels:
@@ -99,49 +99,3 @@ spec:
     - query: pg_stat_database_blks_hit{instance="$instance"} / (pg_stat_database_blks_read{instance="$instance"} + pg_stat_database_blks_hit{instance="$instance"})
       legend: hit rate
     name: Cache hit rate
----
-apiVersion: platform.plural.sh/v1alpha1
-kind: Dashboard
-metadata:
-  name: {{ template "plural.fullname" $ }}-rabbit
-  labels:
-{{ include "plural.labels" . | indent 4 }}
-spec:
-  name: rabbitmq
-  description: telemetry for forge's rabbitmq cluster
-  timeslices: [30m, 1h, 2h, 1d]
-  defaultTime: 30m
-  labels:
-  - name: kubernetes_pod_name
-    query:
-      query: rabbitmq_consumers{app_kubernetes_io_instance="{{ .Release.Name }}"}
-      label: kubernetes_pod_name
-  graphs:
-  - queries:
-    - query: sum(rabbitmq_connections{app_kubernetes_io_instance="{{ .Release.Name }}"})
-      legend: connections
-    - query: sum(rabbitmq_channels{app_kubernetes_io_instance="{{ .Release.Name }}"})
-      legend: channels
-    - query: sum(rabbitmq_consumers{app_kubernetes_io_instance="{{ .Release.Name }}"})
-      legend: consumers
-    format: none
-    name: Connection details
-  - queries:
-    - query: sum(rabbitmq_queue_messages{app_kubernetes_io_instance="{{ .Release.Name }}"})
-      legend: messages
-    format: none
-    name: Messages
-  - queries:
-    - query: min(rabbitmq_disk_space_available_bytes{kubernetes_pod_name=~"$kubernetes_pod_name"})
-      legend: disk free
-    - query: min(rabbitmq_disk_space_available_limit_bytes{kubernetes_pod_name=~"$kubernetes_pod_name"})
-      legend: memory used
-    format: bytes
-    name: Disk utilization
-  - queries:
-    - query: sum(rabbitmq_queue_process_memory_bytes{kubernetes_pod_name=~"$kubernetes_pod_name"}) by (kubernetes_pod_name)
-      legend: process memory
-    - query: sum(rabbitmq_messages_bytes{kubernetes_pod_name=~"$kubernetes_pod_name"}) by (kubernetes_pod_name)
-      legend: message memory
-    format: bytes
-    name: Memory Utilization

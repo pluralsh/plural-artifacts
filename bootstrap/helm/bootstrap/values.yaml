@@ -135,6 +135,21 @@ grafana:
       nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
       nginx.ingress.kubernetes.io/use-regex: "true"
 
+kube-prometheus-stack:
+  fullnameOverride: "bootstrap"
+  grafana:
+    enabled: false
+  prometheus:
+    labels:
+      app.kubernetes.io/managed-by: Helm
+    service:
+      labels:
+        app.kubernetes.io/managed-by: Helm
+    prometheusSpec:
+      podMetadata:
+        labels:
+          app.kubernetes.io/managed-by: Helm
+
 prometheus:
   server:
     statefulSet:

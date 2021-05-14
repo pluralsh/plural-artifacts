@@ -49,11 +49,6 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.dbPasswordSecret }}
                   key: postgresql-password
-            - name: RABBITMQ_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.rabbitPasswordSecret }}
-                  key: rabbitmq-password
             {{ range .envVars }}
               {{ include "plural.envvar" . | nindent 12 }}
             {{ end }}
