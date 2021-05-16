@@ -1,19 +1,24 @@
 variable "cluster_name" {
   type = string
-  default = "piazza"
+  default = "plural"
 }
 
 variable "namespace" {
   type = string
-  default = "console"
+  default = "airflow"
 }
 
-variable "console_serviceaccount" {
+variable "airflow_serviceaccount" {
   type = string
-  default = "console"
+  default = "airflow"
+}
+
+variable "airflow_bucket" {
+  type = string
+  documentation = "name of the bucket to use"
 }
 
 variable "role_name" {
   type = string
-  default = "console"
+  default = "airflow"
 }

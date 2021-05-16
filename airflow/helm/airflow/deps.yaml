@@ -2,7 +2,7 @@ apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
   application: true
-  description: Deploy's airflow custom crafted for the target cloud
+  description: Deploys airflow custom crafted for the target cloud
 spec:
   dependencies:
   - type: helm

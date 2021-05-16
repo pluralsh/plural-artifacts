@@ -29,6 +29,10 @@ spec:
             envFrom:
             - secretRef:
                 name: plural-env
+            {{ if .Values.rabbitmqCredentials.username }}
+            - secretRef:
+                name: plural-rabbitmq-secret
+            {{ end }}
             env:
             - name: CRON
               value: {{ .cronModule }}

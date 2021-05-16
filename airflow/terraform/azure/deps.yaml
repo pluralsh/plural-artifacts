@@ -11,5 +11,5 @@ outputs:
   console_msi_client_id: console_msi_client_id
   console_msi_id: console_msi_id
 
-description: console azure bootstrapping
+description: airflow azure setup
 version: 0.1.1

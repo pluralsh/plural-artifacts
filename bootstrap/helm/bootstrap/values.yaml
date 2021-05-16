@@ -157,3 +157,8 @@ prometheus:
 
 cluster-autoscaler:
   enabled: false
+
+metrics-server:
+  enabled: false
+  apiService:
+    create: true

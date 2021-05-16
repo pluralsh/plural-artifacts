@@ -2,14 +2,14 @@ apiVersion: v2
 name: airflow
 description: A Helm chart for Kubernetes
 type: application
-version: 0.1.5
+version: 0.1.7
 appVersion: "1.16.0"
 sources:
-- https://github.com/michaeljguarino/forge-artifacts/airflow/helm/airflow
+- https://github.com/pluralsh/plural-artifacts/airflow/helm/airflow
 maintainers:
 - name: michaeljguarino
-  email: mguarino46@gmail.com
+  email: mjg@plural.sh
 dependencies:
 - name: airflow
-  version: 7.16.0
+  version: 8.1.1
   repository: https://airflow-helm.github.io/charts

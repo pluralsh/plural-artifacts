@@ -1,14 +1,14 @@
-name: gcp-airflow
-description: Installs airflow on a GKE cluster
-provider: GCP
+name: aws-airflow
+description: Installs airflow on an EKS cluster
+provider: AWS
 dependencies:
 - repo: bootstrap
-  name: gcp-kubernetes
+  name: aws-k8s
 sections:
 - name: airflow
   items:
   - type: TERRAFORM
-    name: gcp
+    name: aws
     configuration:
     - name: airflowBucket
       type: STRING

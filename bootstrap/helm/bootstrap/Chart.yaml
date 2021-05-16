@@ -8,7 +8,7 @@ sources:
 maintainers:
 - name: michaeljguarino
   email: mguarino46@gmail.com
-version: 0.5.47
+version: 0.5.50
 
 dependencies:
 - name: external-dns
@@ -16,6 +16,7 @@ dependencies:
   repository: https://charts.bitnami.com/bitnami
 - name: metrics-server
   version: 5.8.7
+  condition: metrics-server.enabled
   repository: https://charts.bitnami.com/bitnami
 - name: grafana
   version: 6.1.9

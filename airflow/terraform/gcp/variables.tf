@@ -8,15 +8,6 @@ variable "namespace" {
   default = "console"
 }
 
-variable "node_pool" {
-  type = string
-  default = "ignore"
-  description = <<EOF
-The node pool of the cluster you've bootstrapped
-EOF
-}
-
-
 variable "gcp_location" {
   type = string
   default = "us-east1-b"
@@ -31,4 +22,9 @@ variable "project_id" {
   description = <<EOF
 The ID of the project in which the resources belong.
 EOF
+}
+
+variable "airflow_bucket" {
+  type = string
+  description = "The bucket for storing airflow logs"
 }

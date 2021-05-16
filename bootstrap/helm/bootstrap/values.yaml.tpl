@@ -94,3 +94,8 @@ grafana:
       secretName: grafana-tls
     hosts:
     - {{ .Values.grafana_dns }}
+
+{{ if eq .Provider "aws" }}
+metrics-server:
+  enabled: true
+{{ end }}

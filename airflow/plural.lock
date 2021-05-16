@@ -1,9 +1,14 @@
 artifact: {}
-terraform: {}
+terraform:
+  terraform/aws: h1:YmuZ4/74/mk9XHEFKP8PAw1ilLikJzLISkNCRbG1pmw=
+  terraform/azure: h1:da51F5ArhFGEmTqm1rstRspp9I/uSk7fmJkfb/zArrk=
+  terraform/gcp: h1:NEvZ/wudKfBixVwEj+nYlhkHYnNEG91ra1Do+zW6fNo=
 helm:
-  helm/airflow: h1:svSNdtuW2zMEx1FUprnu+NAsJjNWru4VQ5zBLNF2Uwg=
+  helm/airflow: h1:kJ5duZZRywLh0Gklm/BUEI1c6AzvZ5UsY+N48OM0HeU=
 recipe:
   forge/recipes/gcp-airflow.yaml: 4a61bee914e0e3cb3f703e054648781a437ffda570f5645b1a986fdafd1fa681
+  plural/recipes/aws-airflow.yaml: dc6e99ee2f215e8b3db2806c2925e2b6a83c9419b71576d4b019013a7a1ce48e
+  plural/recipes/gcp-airflow.yaml: be19a16870ac28df4a9529aeab9f18f2dd4f556933bde0ef18634affa091eb55
 integration: {}
 crd: {}
 ird: {}

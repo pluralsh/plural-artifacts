@@ -7,5 +7,5 @@ dependencies:
 providers:
 - aws
 
-description: console aws bootstrapping
+description: airflow aws setup
 version: 0.1.1
