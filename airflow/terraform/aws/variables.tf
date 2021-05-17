@@ -11,14 +11,16 @@ variable "namespace" {
 variable "airflow_serviceaccount" {
   type = string
   default = "airflow"
+  description = "name of the k8s service account for airflow"
 }
 
 variable "airflow_bucket" {
   type = string
-  documentation = "name of the bucket to use"
+  description = "name of the bucket to use"
 }
 
 variable "role_name" {
   type = string
   default = "airflow"
+  description = "name of the IAM role for airflow to assume"
 }

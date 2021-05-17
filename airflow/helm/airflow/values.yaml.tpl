@@ -2,9 +2,9 @@ secrets:
   redis_password: {{ dedupe . "airflow.secrets.redis_password" (randAlphaNum 14) }}
 
 sshConfig:
-{{ if and (hasKey . "airflow") (hasKey .airflow "ssConfig") }}
-  id_rsa: {{ .airflow.sshConfig.id_rsa }}
-  id_rsa_pub: {{ .airflow.sshConfig.id_rsa_pub }}
+{{ if and (hasKey . "airflow") (hasKey .airflow "sshConfig") }}
+  id_rsa: {{ .airflow.sshConfig.id_rsa | quote }}
+  id_rsa_pub: {{ .airflow.sshConfig.id_rsa_pub | quote }}
 {{ else if .Values.hostname }}
   {{ $id_rsa := readLineDefault "Enter the path to your deploy keys" (homeDir ".ssh" "id_rsa") }}
   id_rsa: {{ readFile $id_rsa | quote }}

@@ -1,0 +1,30 @@
+version: v1.0
+name: plural-cli
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+blocks:
+- name: build
+  skip:
+    when: "branch != 'main'"
+  task:
+    secrets:
+    - name: GCP
+    - name: gcp-test
+    - name: forge
+    - name: plural
+    prologue:
+      commands:
+      # Authenticate using the file injected from the secret
+      - gcloud auth activate-service-account --key-file=.secrets/gcp-piazzaapp.json
+      # Don't forget -q to silence confirmation prompts
+      - gcloud auth configure-docker -q
+      - docker login -u mjg@plural.sh -p $PLURAL_ACCESS_TOKEN dkr.plural.sh
+      - checkout
+    jobs:
+    - name: "Build airflow"
+      commands:
+      - docker pull apache/airflow:2.0.1-python3.8
+      - docker tag apache/airflow:2.0.1-python3.8 dkr.plural.sh/airflow/airflow:2.0.1-python3.8
+      - docker push dkr.plural.sh/airflow/airflow:2.0.1-python3.8

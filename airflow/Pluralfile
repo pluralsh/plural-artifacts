@@ -3,7 +3,3 @@ REPO airflow
 HELM helm/*
 TF terraform/*
 RECIPE plural/recipes/*
-
-RUN docker pull apache/airflow:2.0.1-python3.8
-RUN docker tag apache/airflow:2.0.1-python3.8 dkr.plural.sh/airflow/airflow:2.0.1-python3.8
-RUN docker push dkr.plural.sh/airflow/airflow:2.0.1-python3.8
