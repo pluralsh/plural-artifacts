@@ -15,10 +15,16 @@ airflow:
     tag: 2.0.1-python3.8
     pullSecret: plural-creds
 
-  postgres:
+  postgresql:
     enabled: true
     metrics:
       enabled: true
+    existingSecret: airflow-postgres-password
+
+  prometheusRule:
+    enabled: true
+  serviceMonitor:
+    enabled: true
   
   flower:
     enabled: false
@@ -71,6 +77,9 @@ airflow:
       AIRFLOW__LOGGING__REMOTE_LOG_CONN_ID: "plural"
     
     usersUpdate: false
+
+    extraPipPackages:
+    - airflow-exporter
 
     variables:
     - key: "environment"
@@ -167,3 +176,10 @@ airflow:
       ## if a persistent volume is mounted at `logs.path`
       ##
       enabled: false
+  
+  gitSync:
+    resources:
+      cpu: 50m
+      memory: 64Mi
+
+    syncTimeout: 1000

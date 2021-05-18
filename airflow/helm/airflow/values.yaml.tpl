@@ -14,10 +14,10 @@ sshConfig:
   id_rsa_pub: example
 {{ end }}
 
-{{ $hostname := default .Values.hostname "https://example.com" }}
+postgresqlPassword: {{ dedupe . "airflow.postgresqlPassword" (randAlphaNum 20) }}
+
+{{ $hostname := default "example.com" .Values.hostname }}
 airflow:
-  postgresql:
-    postgresqlPassword: {{ dedupe . "airflow.postgresql.postgresqlPassword" (randAlphaNum 20) }}
   web:
     baseUrl: {{ $hostname }}
   ingress:
@@ -69,3 +69,4 @@ airflow:
       syncWait: 60
       sshSecret: airflow-ssh-config
       sshSecretKey: id_rsa
+      sshKnownHosts: {{ knownHosts | quote }}
