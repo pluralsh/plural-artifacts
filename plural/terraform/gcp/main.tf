@@ -3,23 +3,27 @@ locals {
   gcp_region         = "${local.gcp_location_parts[0]}-${local.gcp_location_parts[1]}"
 }
 
-resource "google_service_account" "forge" {
-  account_id = "forge-account"
-  display_name = "Service account for forge"
+resource "google_service_account" "plural" {
+  account_id = "plural-account"
+  display_name = "Service account for plural"
 }
 
-resource "google_service_account_key" "forge" {
-  service_account_id = google_service_account.forge.name
+resource "google_service_account_key" "plural" {
+  service_account_id = google_service_account.plural.name
   public_key_type = "TYPE_X509_PEM_FILE"
 
   depends_on = [
-    google_service_account.forge
+    google_service_account.plural
   ]
 }
 
-resource "kubernetes_namespace" "forge" {
+resource "kubernetes_namespace" "plural" {
   metadata {
     name = var.plural_namespace
+
+    labels = {
+      "app.kubernetes.io/managed-by" = "plural"
+    }
   }
 }
 

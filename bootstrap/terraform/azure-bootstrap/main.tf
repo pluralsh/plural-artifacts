@@ -88,6 +88,10 @@ resource "azurerm_role_assignment" "aks-node-vm-contributor" {
 resource "kubernetes_namespace" "bootstrap" {
   metadata {
     name = var.namespace
+
+    labels = {
+      "app.kubernetes.io/managed-by" = "plural"
+    }
   }
 
   depends_on = [module.aks.host]

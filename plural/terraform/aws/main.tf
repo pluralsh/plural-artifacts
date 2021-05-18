@@ -39,6 +39,10 @@ data "aws_iam_policy_document" "s3_admin" {
 resource "kubernetes_namespace" "plural" {
   metadata {
     name = var.plural_namespace
+    
+    labels = {
+      "app.kubernetes.io/managed-by" = "plural"
+    }
   }
 }
 

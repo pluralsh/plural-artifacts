@@ -50,6 +50,10 @@ module "gke" {
 resource "kubernetes_namespace" "bootstrap" {
   metadata {
     name = var.namespace
+
+    labels = {
+      "app.kubernetes.io/managed-by" = "plural"
+    }
   }
 
   depends_on = [module.gke.endpoint]

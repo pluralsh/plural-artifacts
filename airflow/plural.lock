@@ -1,10 +1,10 @@
 artifact: {}
 terraform:
-  terraform/aws: h1:fICsLgsEammwIifv2oKlrU9HRHkCYhi350FjgE20tOw=
-  terraform/azure: h1:da51F5ArhFGEmTqm1rstRspp9I/uSk7fmJkfb/zArrk=
-  terraform/gcp: h1:NEvZ/wudKfBixVwEj+nYlhkHYnNEG91ra1Do+zW6fNo=
+  terraform/aws: h1:U6Hu79j1zdo+oH6q+dlITxKGKBa6GCloLn+vCN4kcus=
+  terraform/azure: h1:0N8Q9oPJcwIeE+WE/8KWEFx6IFYFa1nwLNj99LdJIfw=
+  terraform/gcp: h1:+1ZKjmXhitbJ3dVVtxcvwzuU93qcJk6IHESO6QiMtLQ=
 helm:
-  helm/airflow: h1:1ErohvkLwehXuE7mmtss82k/3G4M3eFOuiwD6xFEYqY=
+  helm/airflow: h1:mkWtL9ycdOAg4dczbOUdTL0LBmcqgcLB93XmzFKslHA=
 recipe:
   forge/recipes/gcp-airflow.yaml: 4a61bee914e0e3cb3f703e054648781a437ffda570f5645b1a986fdafd1fa681
   plural/recipes/aws-airflow.yaml: 91134465866e316621b7546ff8516c73d74d7a87f2f2b5d8219374674479e7ef

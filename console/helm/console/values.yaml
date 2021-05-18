@@ -52,6 +52,8 @@ provider: google
 postgresql:
   metrics:
     enabled: true
+    serviceMonitor:
+      enabled: true
   postgresqlUsername: console
   postgresqlDatabase: console
   nameOverride: console

@@ -55,6 +55,9 @@ module "cluster" {
 resource "kubernetes_namespace" "bootstrap" {
   metadata {
     name = "bootstrap"
+    labels = {
+      "app.kubernetes.io/managed-by" = "plural"
+    }
   }
 
   depends_on = [

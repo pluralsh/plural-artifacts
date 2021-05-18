@@ -19,6 +19,8 @@ airflow:
     enabled: true
     metrics:
       enabled: true
+      serviceMonitor:
+        enabled: true
     existingSecret: airflow-postgres-password
 
   prometheusRule:

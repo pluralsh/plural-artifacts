@@ -115,6 +115,8 @@ registry:
 postgresql:
   metrics:
     enabled: true
+    serviceMonitor:
+      enabled: true
   postgresqlExtendedConf:
     max_connections: 100
   postgresqlUsername: plural

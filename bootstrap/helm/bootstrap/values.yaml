@@ -149,6 +149,30 @@ kube-prometheus-stack:
       podMetadata:
         labels:
           app.kubernetes.io/managed-by: Helm
+      ruleNamespaceSelector:
+        matchLabels:
+          app.kubernetes.io/managed-by: plural
+      ruleSelector:
+        matchLabels:
+          app.kubernetes.io/managed-by:  Helm
+      serviceMonitorNamespaceSelector:
+        matchLabels:
+          app.kubernetes.io/managed-by: plural
+      serviceMonitorSelector:
+        matchLabels:
+          app.kubernetes.io/managed-by:  Helm
+      podMonitorNamespaceSelector:
+        matchLabels:
+          app.kubernetes.io/managed-by: plural
+      podMonitorSelector:
+        matchLabels:
+          app.kubernetes.io/managed-by:  Helm
+      probeNamespaceSelector:
+        matchLabels:
+          app.kubernetes.io/managed-by: plural
+      probeSelector:
+        matchLabels:
+          app.kubernetes.io/managed-by:  Helm
 
 prometheus:
   server:
