@@ -9,6 +9,57 @@ sshConfig:
 secrets:
   redis_password: example
 
+exporter:
+  image:
+    repository: prom/statsd-exporter
+    tag: v0.14.1
+    pullPolicy: IfNotPresent
+  
+  podSecurityContext: {}
+
+  securityContext: {}
+
+  replicas: 1
+
+  service:
+    type: ClusterIP
+    annotations: {}
+
+  web:
+    # The address on which to expose the web interface and generated Prometheus metrics.
+    port: 9102
+
+    # Path under which to expose metrics.
+    path: /metrics
+
+  serviceMonitor:
+    interval: 30s
+    scrapeTimeout: 10s
+    additionalLabels: {}
+
+  statsd:
+    # The UDP port on which to receive statsd metric lines.
+    udpPort: 9125
+
+    # The TCP port on which to receive statsd metric lines.
+    tcpPort: 9125
+
+    # Maximum size of your metric mapping cache.
+    # Relies on least recently used replacement policy if max size is reached.
+    cacheSize: 1000
+
+    # Size of internal queue for processing events.
+    eventQueueSize: 10000
+
+    # Number of events to hold in queue before flushing.
+    eventFlushThreshold: 1000
+
+    # Time interval before flushing events in queue.
+    eventFlushInterval: 200ms
+
+    # Metric mapping configuration
+    mappingConfig: |-
+
 airflow:
   image:
     repository: dkr.plural.sh/airflow/airflow
@@ -77,6 +128,11 @@ airflow:
       ## remote log storage
       AIRFLOW__LOGGING__REMOTE_LOGGING: "True"
       AIRFLOW__LOGGING__REMOTE_LOG_CONN_ID: "plural"
+
+      AIRFLOW__METRICS__STATSD_ON: "True"
+      AIRFLOW__METRICS__STATSD_HOST: "statsd-exporter"
+      AIRFLOW__METRICS__STATSD_PORT: "9125"
+      AIRFLOW__METRICS__STATSD_PREFIX: "airflow"
     
     usersUpdate: false
 

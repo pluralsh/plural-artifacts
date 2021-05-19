@@ -12,7 +12,7 @@ spec:
   labels:
   - name: instance
     query:
-      query: pg_stat_database_tup_fetched{kubernetes_namespace="{{ .Release.Namespace }}"}
+      query: pg_stat_database_tup_fetched{namespace="{{ .Release.Namespace }}"}
       label: instance
   graphs:
   - queries:

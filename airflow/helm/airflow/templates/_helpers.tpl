@@ -55,3 +55,8 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{- define "statsd-exporter.selectorLabels" -}}
+app.kubernetes.io/name: statsd-exporter
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end -}}

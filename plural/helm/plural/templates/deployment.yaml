@@ -15,6 +15,7 @@ spec:
       labels:
         app.kubernetes.io/name: plural-api
         app.kubernetes.io/instance: {{ .Release.Name }}
+        plural.sh/monitoring: scrape
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/path: "/metrics"
@@ -168,6 +169,7 @@ spec:
       labels:
         app.kubernetes.io/name: plural-rtc
         app.kubernetes.io/instance: {{ .Release.Name }}
+        plural.sh/monitoring: scrape
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/path: "/metrics"

@@ -1,12 +1,43 @@
 apiVersion: platform.plural.sh/v1alpha1
 kind: Proxy
 metadata:
-  name: sh
+  name: scheduler
   labels:
 {{ include "airflow.labels" . | indent 4 }}
 spec:
   type: sh
-  target: deployment/airflow-airflow-scheduler
+  target: deployment/airflow-scheduler
   shConfig:
     command: /bin/sh
     args: []
+---
+apiVersion: platform.plural.sh/v1alpha1
+kind: Proxy
+metadata:
+  name: worker
+  labels:
+{{ include "airflow.labels" . | indent 4 }}
+spec:
+  type: sh
+  target: statefulseret/airflow-work
+  shConfig:
+    command: /bin/sh
+    args: []
+---
+apiVersion: platform.plural.sh/v1alpha1
+kind: Proxy
+metadata:
+  name: db
+  labels:
+{{ include "airflow.labels" . | indent 4 }}
+spec:
+  type: db
+  target: statefulset/airflow-postgresql
+  credentials:
+    secret: airflow-postgres-password
+    key: postgresql-password
+    user: postgres
+  dbConfig:
+    name: airflow
+    engine: postgres
+    port: 5432

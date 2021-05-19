@@ -1,0 +1,17 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: statsd-airflow-monitor
+  labels:
+    {{- include "airflow.labels" . | nindent 4 }}
+spec:
+  endpoints:
+  - port: web
+    interval: {{ .Values.exporter.serviceMonitor.interval }}
+    scrapeTimeout: {{ .Values.exporter.serviceMonitor.scrapeTimeout }}
+  namespaceSelector:
+    matchNames:
+    - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      {{- include "statsd-exporter.selectorLabels" . | nindent 6 }}
