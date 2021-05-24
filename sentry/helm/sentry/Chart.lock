@@ -1,0 +1,6 @@
+dependencies:
+- name: sentry
+  repository: file://../../../../sentry-charts/sentry
+  version: 11.3.0
+digest: sha256:c48f77f631263700f3fa72c494d4fab83a5a516383ead579dda441833daf8b77
+generated: "2021-05-23T13:56:58.887417-04:00"

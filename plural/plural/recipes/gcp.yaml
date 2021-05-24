@@ -4,6 +4,8 @@ provider: GCP
 dependencies:
 - repo: bootstrap
   name: gcp-kubernetes
+- repo: rabbitmq
+  name: rabbitmq-gcp
 sections:
 - name: plural
   items:

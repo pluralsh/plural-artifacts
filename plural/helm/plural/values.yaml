@@ -45,6 +45,8 @@ crons:
   envVars: []
 
 chartmuseum:
+  resources: {}
+  replicaCount: 1
   rbac:
     serviceAccountAnnotations: {}
   repository: dkr.plural.sh/plural/chartmuseum

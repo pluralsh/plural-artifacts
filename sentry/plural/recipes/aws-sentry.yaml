@@ -1,0 +1,26 @@
+name: aws-sentry
+description: Installs sentry on an EKS cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: rabbitmq
+  name: rabbitmq-aws
+sections:
+- name: sentry
+  items:
+  - type: TERRAFORM
+    name: aws
+    configuration: []
+  - type: HELM
+    name: sentry
+    configuration:
+    - name: hostname
+      documentation: hostname for your sentry instance
+      type: STRING
+    - name: filestoreBucket
+      documentation: s3 bucket to store miscellaneous files to
+      type: STRING
+    - name: adminEmail
+      documentation: admin user email
+      type: STRING

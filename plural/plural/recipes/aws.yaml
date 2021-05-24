@@ -4,6 +4,8 @@ provider: AWS
 dependencies:
 - repo: bootstrap
   name: aws-k8s
+- repo: rabbitmq
+  name: rabbitmq-aws
 sections:
 - name: plural
   items:

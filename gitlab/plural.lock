@@ -1,0 +1,13 @@
+artifact: {}
+terraform:
+  terraform/aws: h1:vL4+48APzbOYK9UT7bb9dsfzREkHpvKmx1Id6PLnYpQ=
+  terraform/azure: h1:jWyQiP2VWnslaOTNvBx9xrtP9ToaJTq7IAxB04WK5wA=
+  terraform/gcp: h1:55ZWuVG29DKY6wdLNb2yEvyzhwrZ36k0OyG8o2gv13E=
+helm:
+  helm/gitlab: h1:RW7J6UEDZ55f09GNCD4fcMGhFzElIhL//w3R4JFccik=
+recipe:
+  plural/recipes/aws-gitlab.yaml: 94f52cd00ae1f1fb39019410d31a6b8e91dfea8077883a39b2f7273945d3b0f2
+  plural/recipes/gcp-gitlab.yaml: 034482b670c52d03ac8797b79acd0446109d750e7f0e26f4ac8e9b0105733149
+integration: {}
+crd: {}
+ird: {}

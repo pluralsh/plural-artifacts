@@ -1,0 +1,26 @@
+name: gcp-sentry
+description: Installs sentry on a GKE cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-kubernetes
+- repo: rabbitmq
+  name: rabbitmq-gcp
+sections:
+- name: sentry
+  items:
+  - type: TERRAFORM
+    name: gcp
+    configuration: []
+  - type: HELM
+    name: sentry
+    configuration:
+    - name: hostname
+      documentation: FQDN for your sentry instance
+      type: STRING
+    - name: filestoreBucket
+      documentation: gcs bucket to store miscellaneous files to
+      type: STRING
+    - name: adminEmail
+      documentation: admin user email
+      type: STRING

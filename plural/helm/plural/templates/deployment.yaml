@@ -55,6 +55,10 @@ spec:
             secretKeyRef:
               name: {{ .Values.dbPasswordSecret }}
               key: postgresql-password
+        {{ if .Values.sentryDsn }}
+        - name: SENTRY_DSN
+          value: {{ .Values.sentryDsn | quote }}
+        {{ end }}
         ports:
         - name: http
           containerPort: {{ .Values.api.port }}
@@ -137,6 +141,10 @@ spec:
             secretKeyRef:
               name: {{ .Values.dbPasswordSecret }}
               key: postgresql-password
+        {{ if .Values.sentryDsn }}
+        - name: SENTRY_DSN
+          value: {{ .Values.sentryDsn | quote }}
+        {{ end }}
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
@@ -209,6 +217,10 @@ spec:
             secretKeyRef:
               name: {{ .Values.dbPasswordSecret }}
               key: postgresql-password
+        {{ if .Values.sentryDsn }}
+        - name: SENTRY_DSN
+          value: {{ .Values.sentryDsn | quote }}
+        {{ end }}
         ports:
         - name: http
           containerPort: {{ .Values.api.port }}
@@ -223,92 +235,6 @@ spec:
         readinessProbe:
           httpGet:
             path: /health
-            port: http
-        resources:
-          {{- toYaml .Values.resources | nindent 12 }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-    {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: chartmuseum
-  labels:
-{{ include "plural.labels" . | indent 4 }}
-spec:
-  replicas: {{ .Values.replicaCount }}
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: chartmuseum
-      app.kubernetes.io/instance: {{ .Release.Name }}
-  template:
-    metadata:
-      labels:
-        app.kubernetes.io/name: chartmuseum
-        app.kubernetes.io/instance: {{ .Release.Name }}
-    spec:
-      serviceAccountName: plural
-    {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 6 }}
-    {{- end }}
-      containers:
-      - name: chartmuseum
-        image: "{{ .Values.chartmuseum.repository }}:{{ .Values.chartmuseum.tag }}"
-        imagePullPolicy: {{ .Values.chartmuseum.pullPolicy }}
-        env:
-        - name: PORT
-          value: '8080'
-        - name: DEPLOYED_AT
-          value: {{ now | unixEpoch | quote }}
-        - name: DEPTH
-          value: '1'
-        - name: CONTEXT_PATH
-          value: '/cm'
-        {{ if eq .Values.provider "aws" }}
-        - name: STORAGE
-          value: amazon
-        {{ else }}
-        - name: STORAGE
-          value: {{ .Values.provider }}
-        {{ end }}
-        - name: STORAGE_GOOGLE_BUCKET
-          value: {{ .Values.chartmuseum.bucket }}
-        - name: STORAGE_GOOGLE_BUCKET
-          value: {{ .Values.chartmuseum.bucket }}
-        - name: STORAGE_GOOGLE_PREFIX
-          value: ""
-        - name: STORAGE_AMAZON_BUCKET
-          value: {{ .Values.chartmuseum.bucket }}
-        - name: STORAGE_AMAZON_BUCKET
-          value: {{ .Values.chartmuseum.bucket }}
-        - name: STORAGE_AMAZON_PREFIX
-          value: ""
-        - name: STORAGE_AMAZON_REGION
-          value: {{ .Values.region }}
-        - name: AWS_SDK_LOAD_CONFIG
-          value: "1"  
-        ports:
-        - name: http
-          containerPort: 8080
-          protocol: TCP
-        livenessProbe:
-          httpGet:
-            path: /cm/health
-            port: http
-        readinessProbe:
-          httpGet:
-            path: /cm/health
             port: http
         resources:
           {{- toYaml .Values.resources | nindent 12 }}

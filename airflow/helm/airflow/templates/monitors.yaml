@@ -7,6 +7,7 @@ metadata:
 spec:
   endpoints:
   - port: web
+    path: '/metrics'
     interval: {{ .Values.exporter.serviceMonitor.interval }}
     scrapeTimeout: {{ .Values.exporter.serviceMonitor.scrapeTimeout }}
   namespaceSelector:

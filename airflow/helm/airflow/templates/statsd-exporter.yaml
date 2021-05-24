@@ -44,9 +44,7 @@ spec:
             - --statsd.event-queue-size={{ .Values.exporter.statsd.eventQueueSize }}
             - --statsd.event-flush-threshold={{ .Values.exporter.statsd.eventFlushThreshold }}
             - --statsd.event-flush-interval={{ .Values.exporter.statsd.eventFlushInterval }}
-            {{- if .Values.exporter.statsd.mappingConfig }}
             - --statsd.mapping-config=/etc/prometheus-statsd-exporter/statsd-mapping.conf
-            {{- end }}
           ports:
             - name: web
               containerPort: {{ .Values.exporter.web.port }}
@@ -102,6 +100,7 @@ metadata:
   name: statsd-exporter
   labels:
   {{- include "airflow.labels" . | nindent 4 }}
+  {{- include "statsd-exporter.selectorLabels" . | nindent 4 }}
   {{- with .Values.exporter.service.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}

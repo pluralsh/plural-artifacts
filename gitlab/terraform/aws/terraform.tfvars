@@ -1,0 +1,9 @@
+cluster_name = {{ .Cluster | quote }}
+namespace = {{ .Namespace | quote }}
+registry_bucket = {{ .Values.registryBucket | quote }}
+artifacts_bucket = {{ .Values.artifactsBucket | quote }}
+packages_bucket = {{ .Values.packagesBucket | quote }}
+backups_bucket = {{ .Values.backupsBucket | quote }}
+backups_tmp_bucket = {{ .Values.backupsTmpBucket | quote }}
+lfs_bucket = {{ .Values.lfsBucket | quote }}
+uploads_bucket = {{ .Values.uploadsBucket | quote }}

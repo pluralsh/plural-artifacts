@@ -1,0 +1,11 @@
+apiVersion: v2
+name: sentry
+description: A Helm chart for Kubernetes
+type: application
+version: 0.1.3
+appVersion: "1.16.0"
+
+dependencies:
+- name: sentry
+  version: 11.3.0
+  repository: file://../../../../sentry-charts/sentry

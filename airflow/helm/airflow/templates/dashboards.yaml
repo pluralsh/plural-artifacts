@@ -56,3 +56,127 @@ spec:
     - query: pg_stat_database_blks_hit{instance="$instance"} / (pg_stat_database_blks_read{instance="$instance"} + pg_stat_database_blks_hit{instance="$instance"})
       legend: hit rate
     name: Cache hit rate
+---
+apiVersion: platform.plural.sh/v1alpha1
+kind: Dashboard
+metadata:
+  name: {{ template "airflow.fullname" $ }}-airflow-cluster
+  labels:
+{{ include "airflow.labels" . | indent 4 }}
+spec:
+  name: airflow cluster
+  description: Monitoring for airflow's cluster health
+  timeslices: [30m, 1h, 2h, 1d]
+  defaultTime: 30m
+  labels:
+  - name: airflow_id
+    query:
+      query: af_agg_scheduler_heartbeat{namespace="{{ .Release.Namespace }}"}
+      label: airflow_id
+  graphs:
+  - name: Scheduler Heartbeat
+    queries:
+    - query: af_agg_scheduler_heartbeat{airflow_id="$airflow_id"}
+      legend: beats
+  - name: Dagbag size
+    queries:
+    - query: af_agg_dagbag_size{airflow_id="$airflow_id"}
+      legend: size
+  - name: DAG processing time
+    queries:
+    - query: af_agg_dag_processing_total_parse_time{airflow_id="$airflow_id"}
+      legend: time
+  - name: DAG import errors
+    queries:
+    - query: af_agg_dag_processing_import_errors{airflow_id="$airflow_id"}
+      legend: errors
+  - name: Zombies killed
+    queries:
+    - query: af_agg_zombies_killed{airflow_id="$airflow_id"}
+      legend: zombies
+  - name: Task Successes/Failures
+    queries:
+    - query: af_agg_ti_successes{airflow_id="$airflow_id"}
+      legend: succeeded
+    - query: af_agg_ti_failures{airflow_id="$airflow_id"}
+      legend: failed
+  - name: Task Success Rates
+    queries:
+    - query: rate(af_agg_operator_successes{airflow_id="$airflow_id"}[1m]) * 60
+      legend: success/1m
+    - query: rate(af_agg_operator_failures{airflow_id="$airflow_id"}[1m]) * 60
+      legend: failures/1m
+  - name: Job Start Rate
+    queries:
+    - query: rate(af_agg_job_start{airflow_id="$airflow_id"}[1m]) * 60
+      legend: jobs/1m
+  - name: Job Completion Rate
+    queries:
+    - query: rate(af_agg_job_end{airflow_id="$airflow_id"}[1m]) * 60
+      legend: jobs/1m
+  - name: Open Slots
+    queries:
+    - query: af_agg_executor_open_slots{airflow_id="$airflow_id"}
+      legend: slots
+  - name: Queued Tasks
+    queries:
+    - query: af_agg_executor_queued_tasks{airflow_id="$airflow_id"}
+      legend: tasks
+  - name: Running Tasks
+    queries:
+    - query: af_agg_executor_running_tasks{airflow_id="$airflow_id"}
+      legend: tasks
+  - name: DAG run duration
+    queries:
+    - query: af_agg_dagrun_duration_success{airflow_id="$airflow_id"} * 1000
+      legend: successful
+    - query: af_agg_dagrun_duration_failed{airflow_id="$airflow_id"} * 1000
+      legend: failed
+  - name: DAG task runtimes
+    queries:
+    - query: sum by (dag_id, quantile) (af_agg_dag_task_duration{airflow_id="$airflow_id"}) * 1000
+      legendFormat: $dag_id p$quantile
+  - name: DAG dependency runtimes
+    queries:
+    - query: af_agg_dagrun_dependency_check{airflow_id="$airflow_id"} * 1000
+      legendFormat: $dag_id p$quantile
+  - name: DAG scheduling delay
+    queries:
+    - query: af_agg_dagrun_schedule_delay{airflow_id="$airflow_id"} * 1000
+      legendFormat: $dag_id p$quantile
+---
+apiVersion: platform.plural.sh/v1alpha1
+kind: Dashboard
+metadata:
+  name: {{ template "airflow.fullname" $ }}-dags
+  labels:
+{{ include "airflow.labels" . | indent 4 }}
+spec:
+  name: airflow dags
+  description: Monitoring for airflow's DAGS
+  timeslices: [30m, 1h, 2h, 1d]
+  defaultTime: 30m
+  labels:
+  - name: dag_id
+    query:
+      query: af_agg_dagrun_dependency_check{namespace="{{ .Release.Namespace }}"}
+      label: dag_id
+  graphs:
+  - name: DAG run durations
+    queries:
+    - query: af_agg_dagrun_duration_success{dag_id="$dag_id"} * 1000
+      legendFormat: $dag_id success p$quantile
+    - query: af_agg_dagrun_duration_failed{dag_id="$dag_id"} * 1000
+      legendFormat: $dag_id success p$quantile
+  - name: Aggregate DAG run durations
+    queries:
+    - query: sum by (dag_id, quantile) (af_agg_dag_task_duration{dag_id="$dag_id"}) * 1000
+      legendFormat: $dag_id p$quantile
+  - name: DAG dependency check duration
+    queries:
+    - query: af_agg_dagrun_dependency_check{dag_id="$dag_id"} * 1000
+      legendFormat: $dag_id p$quantile
+  - name: DAG scheduling delay
+    queries:
+    - query: af_agg_dagrun_schedule_delay{dag_id="$dag_id"} * 1000
+      legendFormat: $dag_id p$quantile

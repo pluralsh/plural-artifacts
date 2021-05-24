@@ -1,0 +1,81 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: gitlab-exporter-monitor
+  labels:
+    {{- include "gitlab-plural.labels" . | nindent 4 }}
+spec:
+  endpoints:
+  - port: gitlab-exporter
+    path: '/metrics'
+  namespaceSelector:
+    matchNames:
+    - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      app: gitlab-exporter
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: gitlab-rails-monitor
+  labels:
+    {{- include "gitlab-plural.labels" . | nindent 4 }}
+spec:
+  endpoints:
+  - port: http-webservice
+    path: '/-/metrics'
+  namespaceSelector:
+    matchNames:
+    - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      app: webservice
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: gitaly-pod-monitor
+  labels:
+{{ include "gitlab-plural.labels" . | indent 4 }}
+spec:
+  podMetricsEndpoints:
+  - targetPort: 9236
+  selector:
+    matchLabels:
+      app: gitaly
+  namespaceSelector:
+    matchNames:
+    - {{ .Release.Namespace }}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: gitaly-runner-monitor
+  labels:
+{{ include "gitlab-plural.labels" . | indent 4 }}
+spec:
+  podMetricsEndpoints:
+  - targetPort: 9252
+  selector:
+    matchLabels:
+      app: gitlab-gitlab-runner
+  namespaceSelector:
+    matchNames:
+    - {{ .Release.Namespace }}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: gitaly-sidekiq-monitor
+  labels:
+{{ include "gitlab-plural.labels" . | indent 4 }}
+spec:
+  podMetricsEndpoints:
+  - port: metrics
+  selector:
+    matchLabels:
+      app: sidekiq
+  namespaceSelector:
+    matchNames:
+    - {{ .Release.Namespace }}

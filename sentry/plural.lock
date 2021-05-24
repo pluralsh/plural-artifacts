@@ -1,0 +1,13 @@
+artifact: {}
+terraform:
+  terraform/aws: h1:yc6TtmUfAxhWcB7sGfbYB8OQeZ634cJrgiM+b0kCWXo=
+  terraform/azure: h1:4mpuP4YsjpB4gbI0FQqEBacYGsV2Sszrcs1iqJIEm18=
+  terraform/gcp: h1:SqJ95YgGxj63LL03Xugk9Lwak3yIghu7d7a4jgALcxA=
+helm:
+  helm/sentry: h1:2ed7V8T32sBm0Al/9FE//pxDcPp3sDZBKzhu4jEAT54=
+recipe:
+  plural/recipes/aws-sentry.yaml: 41dd7ba7816a42a8090b66a21af24f9bcaf49de62068cfcb5e1313c9a298c4a6
+  plural/recipes/gcp-sentry.yaml: 1de861369aabefc8234d059e808ec232a432f8ac8ed91c05926b926b7b8f1b29
+integration: {}
+crd: {}
+ird: {}

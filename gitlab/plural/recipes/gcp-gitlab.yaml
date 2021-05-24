@@ -1,0 +1,39 @@
+name: gcp-gitlab
+description: Installs gitlab on a GKE cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-kubernetes
+sections:
+- name: gitlab
+  items:
+  - type: TERRAFORM
+    name: gcp
+    configuration: []
+  - type: HELM
+    name: gitlab
+    configuration:
+    - name: domain
+      documentation: toplevel domain for all gitlab subcomponents (eg gitlab itself, registry, etc)
+      type: STRING
+    - name: dagRepo
+      type: STRING
+      documentation: the repo your dags will be stored in
+    - name: branchName
+      type: STRING
+      documentation: the branch to sync from
+    - name: adminUsername
+      type: STRING
+      documentation: the gitlab username for the admin
+    - name: adminFirst
+      type: STRING
+      documentation: the first name for the admin
+    - name: adminLast
+      type: STRING
+      documentation: the last name for the admin
+    - name: adminEmail
+      type: STRING
+      documentation: the email for the admin
+    - name: lfsBucket
+      documentation: bucket name for git large file storage
+      type: STRING

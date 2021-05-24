@@ -1,0 +1,172 @@
+# Default values for gitlab.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+rootPassword: CHANGEME
+
+global:
+  initialRootPassword:
+    secret: gitlab-root-pwd
+    key: password
+  rails:
+    bootsnap:
+      enabled: true
+  minio:
+    enabled: false
+  ingress:
+    configureCertmanager: false
+    annotations:
+      kubernetes.io/tls-acme: "true"
+      kubernetes.io/ingress.class: "nginx"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+  serviceAccount:
+    enabled: true
+    create: true
+    name: gitlab
+
+railsConnection: {}
+registryConnection: {}
+
+gitlab:
+  postgresql:
+    postgresqlExtendedConf:
+      max_connections: 100
+    metrics:
+      serviceMonitor:
+        enabled: true
+  redis:
+    resources:
+      requests:
+        cpu: 10m
+        memory: 64Mi
+  gitlab:
+    webservice:
+      minReplicas: 1
+      ingress:
+        tls:
+          secretName: gitlab-web-tls
+          enabled: true
+    sidekiq:
+      minReplicas: 1
+      resources:
+        limits:
+          memory: 1.5G
+        requests:
+          cpu: 50m
+          memory: 625M
+      pods:
+      - name: all-in-1
+        minReplicas: 1
+        maxReplicas: 10
+        hpa:
+          targetAverageValue: 50
+    gitlab-shell:
+      minReplicas: 1
+    task-runner:
+      enabled: false
+      backups:
+        cron:
+          enabled: false
+
+  registry:
+    hpa:
+      minReplicas: 1
+    ingress:
+      tls:
+        secretName: gitlab-registry-tls
+        enabled: true
+  certmanager:
+    install: false
+  nginx-ingress:
+    enabled: false
+  prometheus:
+    install: false  
+  gitlab-runner:
+    runners:
+      privileged: true
+      config: |
+        [[runners]]
+          [runners.kubernetes]
+            image = "ubuntu:18.04"
+            privileged = true
+          [[runners.kubernetes.volumes.empty_dir]]
+            name = "docker-certs"
+            mount_path = "/certs/client"
+            medium = "Memory"
+
+replicaCount: 1
+
+image:
+  repository: nginx
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths: []
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

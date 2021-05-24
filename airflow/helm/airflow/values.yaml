@@ -12,7 +12,7 @@ secrets:
 exporter:
   image:
     repository: prom/statsd-exporter
-    tag: v0.14.1
+    tag: v0.20.2
     pullPolicy: IfNotPresent
   
   podSecurityContext: {}
