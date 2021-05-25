@@ -30,5 +30,12 @@ redis-exporter:
   stage: push
   script:
   - docker pull bitnami/redis-exporter:1.12.1-debian-10-r11
-  - docker tag bitnami/redis-exporter:1.12.1-debian-10-r11 gcr.io/piazzaapp/bitnami/redis-exporter:1.12.1-debian-10-r11
-  - docker push gcr.io/piazzaapp/bitnami/redis-exporter:1.12.1-debian-10-r11
+  - docker tag bitnami/redis-exporter:1.12.1-debian-10-r11 gcr.io/pluralsh/bitnami/redis-exporter:1.12.1-debian-10-r11
+  - docker push gcr.io/pluralsh/bitnami/redis-exporter:1.12.1-debian-10-r11
+
+dind:
+  stage: push
+  script:
+  - docker pull docker:19.03.13-dind
+  - docker tag docker:19.03.13-dind gcr.io/pluralsh/docker:19.03.13-dind
+  - docker push gcr.io/pluralsh/docker:19.03.13-dind

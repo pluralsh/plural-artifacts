@@ -1,7 +1,7 @@
 default:
   image: gcr.io/google.com/cloudsdktool/cloud-sdk:latest
   services:
-  - docker:19.03.13-dind
+  - gcr.io/piazzaapp/docker:19.03.13-dind
   before_script:
   - until docker info; do sleep 1; done
   - gcloud auth activate-service-account --key-file=$GOOGLE_PIAZZA_CREDENTIALS
@@ -22,7 +22,7 @@ stages:
 - push
 
 include:
-- deploy/bootstrap.yml
-- deploy/vendor.yml
-- deploy/sentry.yml
-- deploy/plural.yml
+- .gitlab-ci/bootstrap.yml
+- .gitlab-ci/vendor.yml
+- .gitlab-ci/sentry.yml
+- .gitlab-ci/plural.yml
