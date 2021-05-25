@@ -47,3 +47,7 @@ variable "backups_tmp_bucket" {
 variable "lfs_bucket" {
   type = string
 }
+
+variable "runner_cache_bucket" {
+  type = string
+}

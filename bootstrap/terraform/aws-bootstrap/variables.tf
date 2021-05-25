@@ -14,16 +14,16 @@ variable "cluster_name" {
   description = "name for the cluster"
 }
 
-variable "instance_type" {
-  type = string
-  default = "t3.medium"
+variable "instance_types" {
+  type = list(string)
+  default = ["t3.large"]
 
   description = "instance type to use in node groups"
 }
 
 variable "max_capacity" {
   type = number
-  default = 6
+  default = 25
 
   description = "the maximum number of nodes in a nodegroup"
 }

@@ -1,5 +1,5 @@
 REPO sentry
 
-HELM helm/*
 TF terraform/*
+HELM helm/*
 RECIPE plural/recipes/*

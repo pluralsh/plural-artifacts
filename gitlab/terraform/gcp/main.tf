@@ -27,6 +27,20 @@ resource "kubernetes_service_account" "gitlab" {
   ]
 }
 
+resource "kubernetes_service_account" "gitlab_runner" {
+  metadata {
+    name      = "gitlab-runner"
+    namespace = var.namespace
+    annotations = {
+      "iam.gke.io/gcp-service-account" = module.gitlab-runner-workload-identity.gcp_service_account_email
+    }
+  }
+
+  depends_on = [
+    kubernetes_namespace.gitlab
+  ]
+}
+
 resource "google_storage_bucket" "registry_bucket" {
   name = var.registry_bucket
   project = var.gcp_project_id
@@ -58,7 +72,13 @@ resource "google_storage_bucket" "backups_tmp_bucket" {
 }
 
 resource "google_storage_bucket" "lfs_bucket" {
-  name = var.lfs_bueckt
+  name = var.lfs_bucket
+  project = var.gcp_project_id
+  force_destroy = true
+}
+
+resource "google_storage_bucket" "runner_cache" {
+  name = var.runner_cache_bucket
   project = var.gcp_project_id
   force_destroy = true
 }
@@ -123,6 +143,16 @@ resource "google_storage_bucket_iam_member" "lfs" {
   ]
 }
 
+resource "google_storage_bucket_iam_member" "runner" {
+  bucket = google_storage_bucket.runner_cache_bucket.name
+  role = "roles/storage.admin"
+  member = "serviceAccount:${module.gitlab-runner-workflow-identity.gcp_service_account_email}"
+
+  depends_on = [
+    google_storage_bucket.runner_cache_bucket,
+  ]
+}
+
 module "gitlab-workload-identity" {
   source     = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
   name       = "${var.cluster_name}-gitlab"
@@ -131,5 +161,16 @@ module "gitlab-workload-identity" {
   use_existing_k8s_sa = true
   annotate_k8s_sa = false
   k8s_sa_name = "gitlab"
+  roles = []
+}
+
+module "gitlab-runner-workload-identity" {
+  source     = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
+  name       = "${var.cluster_name}-gitlab-runner"
+  namespace  = var.namespace
+  project_id = var.project_id
+  use_existing_k8s_sa = true
+  annotate_k8s_sa = false
+  k8s_sa_name = "gitlab-runner"
   roles = []
 }

@@ -20,7 +20,7 @@ blocks:
       - gcloud auth activate-service-account --key-file=.secrets/gcp-piazzaapp.json
       # Don't forget -q to silence confirmation prompts
       - gcloud auth configure-docker -q
-      - docker login -u mjg@plural.sh -p $PLURAL_ACCESS_TOKEN dkr.plural.sh
+      # - docker login -u mjg@plural.sh -p $PLURAL_ACCESS_TOKEN dkr.plural.sh
       - checkout
     jobs:
     - name: "Build airflow"
@@ -28,3 +28,18 @@ blocks:
       - docker pull apache/airflow:2.0.1-python3.8
       - docker tag apache/airflow:2.0.1-python3.8 dkr.plural.sh/airflow/airflow:2.0.1-python3.8
       - docker push dkr.plural.sh/airflow/airflow:2.0.1-python3.8
+    - name: "build postgres exporter"
+      commands:
+      - docker pull bitnami/postgres-exporter:0.8.0-debian-10-r354
+      - docker tag bitnami/postgres-exporter:0.8.0-debian-10-r354 gcr.io/piazzaapp/postgres-exporter:0.8.0
+      - docker push gcr.io/piazzaapp/postgres-exporter:0.8.0
+    - name: "build postgres"
+      commands:
+      - docker pull bitnami/postgresql:11.7.0-debian-10-r9
+      - docker tag bitnami/postgresql:11.7.0-debian-10-r9 gcr.io/piazzaapp/postgres:11.7.0-debian-10-r9
+      - docker push gcr.io/piazzaapp/postgres:11.7.0-debian-10-r9
+    - name: "build rabbitmq"
+      commands:
+      - docker pull rabbitmq:3.8.16-management
+      - docker tag rabbitmq:3.8.16-management gcr.io/piazzaapp/rabbitmq:3.8.16-management
+      - docker push gcr.io/piazzaapp/rabbitmq:3.8.16-management

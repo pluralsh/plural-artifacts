@@ -1,5 +1,5 @@
 REPO airflow
 
-HELM helm/*
 TF terraform/*
+HELM helm/*
 RECIPE plural/recipes/*

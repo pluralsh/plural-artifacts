@@ -41,7 +41,7 @@ module "cluster" {
     min_capacity = 2
     max_capacity = var.max_capacity
 
-    instance_type = var.instance_type
+    instance_types = var.instance_types
     disk_size = 50
     subnets = module.vpc.private_subnets
   }

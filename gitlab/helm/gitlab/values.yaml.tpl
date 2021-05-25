@@ -41,11 +41,61 @@ global:
 
 rootPassword: {{ dedupe . "gitlab.rootPassword" (randAlphaNum 20) }}
 
+serviceAccount:
+{{ if eq .Provider "google" }}
+  create: false
+{{ end }}
+  annotations:
+    eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-gitlab-runner"
+  
 gitlab:
   registry:
     storage:
       secret: registry-connection
       key: config
+  gitlab-runner:
+    runners:
+      config: |
+        [[runners]]
+          name = "plural-gitlab-runner"
+          [runners.kubernetes]
+            image = "ubuntu:18.04"
+            privileged = true
+            service_account = "gitlab-runner"
+            poll_timeout = 360
+            [runners.kubernetes.affinity]
+              [runners.kubernetes.affinity.node_affinity]
+                [[runners.kubernetes.affinity.node_affinity.preferred_during_scheduling_ignored_during_execution]]
+                  weight = 20
+                  [runners.kubernetes.affinity.node_affinity.preferred_during_scheduling_ignored_during_execution.preference]
+                    [[runners.kubernetes.affinity.node_affinity.preferred_during_scheduling_ignored_during_execution.preference.match_expressions]]
+                      key = "usage-intention"
+                      operator = "In"
+                      values = ["ci"]
+          [[runners.kubernetes.volumes.empty_dir]]
+            name = "docker-certs"
+            mount_path = "/certs/client"
+            medium = "Memory"
+          {{ if eq .Provider "aws" }}
+          [runners.cache]
+            Type = "s3"
+            Path = "runner"
+            Shared = true
+            [runners.cache.s3]
+              ServerAddress = "s3.amazonaws.com"
+              BucketName = "{{ .Values.runnerCacheBucket }}"
+              BucketLocation = "{{ .Region }}"
+              Insecure = false
+          {{ end }}
+          {{ if eq .Provider "google" }}
+          [runners.cache]
+            Type = "gcs"
+            Path = "runner"
+            Shared = true
+            [runners.cache.gcs]
+              BucketName = "{{ .Values.runnerCacheBucket }}"
+          {{ end }}
+
 
 railsConnection:
 {{ if eq .Provider "google" }}
