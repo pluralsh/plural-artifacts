@@ -1,10 +1,11 @@
 default:
   image: gcr.io/google.com/cloudsdktool/cloud-sdk:latest
   services:
-  - gcr.io/piazzaapp/docker:19.03.13-dind
+  - name: gcr.io/piazzaapp/docker:19.03.13-dind
+    alias: docker
   before_script:
   - until docker info; do sleep 1; done
-  - gcloud auth activate-service-account --key-file=$GOOGLE_PIAZZA_CREDENTIALS
+  - gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
   - gcloud auth configure-docker -q
   - docker login -u mguarino46@gmail.com -p $PLURAL_ACCESS_TOKEN dkr.plural.sh
   retry:
