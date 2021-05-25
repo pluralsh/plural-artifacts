@@ -20,7 +20,7 @@ blocks:
       - gcloud auth activate-service-account --key-file=.secrets/gcp-piazzaapp.json
       # Don't forget -q to silence confirmation prompts
       - gcloud auth configure-docker -q
-      # - docker login -u mjg@plural.sh -p $PLURAL_ACCESS_TOKEN dkr.plural.sh
+      - docker login -u mjg@plural.sh -p $PLURAL_ACCESS_TOKEN dkr.plural.sh
       - checkout
     jobs:
     - name: "Build airflow"

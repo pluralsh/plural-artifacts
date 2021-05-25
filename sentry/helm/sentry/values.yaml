@@ -15,6 +15,9 @@ sentry:
         enabled: true
 
   metrics:
+    image:
+      repository: gcr.io/piazzaapp/prom/statsd-exporter
+      tag: v0.20.2
     enabled: true
     serviceMonitor:
       enabled: true
@@ -53,3 +56,12 @@ sentry:
   symbolicator:
     autoscaling:
       enabled: true
+
+  clickhouse:
+    clickhouse:
+      image: 'gcr.io/piazzaapp/yandex/clickhouse-server'
+      imageVersion: '20.8.9.6'
+      init:
+        image: 'gcr.io/piazzaapp/busybox'
+        imageVersion: latest
+    
