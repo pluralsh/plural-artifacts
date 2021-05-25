@@ -4,7 +4,7 @@ terraform:
   terraform/azure: h1:4mpuP4YsjpB4gbI0FQqEBacYGsV2Sszrcs1iqJIEm18=
   terraform/gcp: h1:SqJ95YgGxj63LL03Xugk9Lwak3yIghu7d7a4jgALcxA=
 helm:
-  helm/sentry: h1:m2ENpjwr+1/VTenPiTlWXuzwjdiLNGZ0DqSEc+Rwrxg=
+  helm/sentry: h1:gMMumfonO4YNB0Sh4TmcTdvU+LpJ5ZnLvch3djiXnjo=
 recipe:
   plural/recipes/aws-sentry.yaml: 41dd7ba7816a42a8090b66a21af24f9bcaf49de62068cfcb5e1313c9a298c4a6
   plural/recipes/gcp-sentry.yaml: 1de861369aabefc8234d059e808ec232a432f8ac8ed91c05926b926b7b8f1b29

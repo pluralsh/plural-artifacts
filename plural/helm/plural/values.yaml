@@ -78,7 +78,7 @@ registry:
     haSharedSecret: ""
 
   image: 
-    repository: gcr.io/piazzaapp/registry
+    repository: gcr.io/pluralsh/registry
     tag: 2.7.2
 
   configData:
@@ -117,13 +117,13 @@ registry:
 postgresql:
   image:
     registry: gcr.io
-    repository: piazzaapp/postgres
+    repository: pluralsh/postgres
     tag: 11.7.0-debian-10-r9
   metrics:
     enabled: true
     image:
       registry: gcr.io
-      repository: piazzaapp/postgres-exporter
+      repository: pluralsh/postgres-exporter
       tag: 0.8.0
     serviceMonitor:
       enabled: true

@@ -19,7 +19,7 @@ external-dns:
     create: true
     serviceAccountName: external-dns
   domainFilters:
-  - piazzaapp.com
+  - pluralsh.com
 
 ownerEmail: mguarino46@gmail.com
 provider: aws
@@ -41,11 +41,10 @@ autoscaling:
 loki-stack:
   loki:
     image:
-      repository: gcr.io/piazzaapp/grafana/loki
+      repository: gcr.io/pluralsh/grafana/loki
   promtail:
     image:
-      registry: gcr.io
-      repository: piazzaapp/grafana/promtail
+      repository: gcr.io/pluralsh/grafana/promtail
       tag: 1.6.0
   grafana:
     enabled: false
@@ -84,13 +83,13 @@ ingress-nginx:
 
 grafana:
   image:
-    repository: gcr.io/piazzaapp/grafana/grafana
+    repository: gcr.io/pluralsh/grafana/grafana
   initChownData:
     image:
-      repository: gcr.io/piazzaapp/busybox
+      repository: gcr.io/pluralsh/busybox
       tag: latest
   downloadDashboardsImage:
-    repository: gcr.io/curlimages/curl
+    repository: gcr.io/pluralsh/curlimages/curl
   grafana.ini:
     security:
       allow_embedding: true
@@ -138,9 +137,9 @@ grafana:
   service:
     type: NodePort
   persistence:
-    enabled: true
+    enabled: false
     inMemory:
-      enabled: false
+      enabled: true
   sidecar:
     dashboards:
       provider:
@@ -204,7 +203,7 @@ kube-prometheus-stack:
 
 kubed:
   operator:
-    registry: gcr.io/piazzaapp/appscode
+    registry: gcr.io/pluralsh/appscode
 
 
 prometheus:
@@ -219,5 +218,8 @@ cluster-autoscaler:
 
 metrics-server:
   enabled: false
+  image:
+    registry: gcr.io/pluralsh
+    tag: 0.4.4-debian-10-r0
   apiService:
     create: true

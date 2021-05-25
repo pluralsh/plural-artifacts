@@ -7,7 +7,7 @@ rootPassword: CHANGEME
 global:
   busybox:
     image:
-      repository: gcr.io/piazzaapp/busybox
+      repository: gcr.io/pluralsh/busybox
   initialRootPassword:
     secret: gitlab-root-pwd
     key: password
@@ -35,7 +35,7 @@ gitlab:
   postgresql:
     image:
       registry: gcr.io
-      repository: piazzaapp/postgres
+      repository: pluralsh/postgres
       tag: 11.7.0-debian-10-r9
     postgresqlExtendedConf:
       max_connections: 100
@@ -44,16 +44,16 @@ gitlab:
         enabled: true
       image:
         registry: gcr.io
-        repository: piazzaapp/postgres-exporter
+        repository: pluralsh/postgres-exporter
         tag: 0.8.0
   redis:
     image:
       registry: gcr.io
-      repository: piazzaapp/bitnami/redis
+      repository: pluralsh/bitnami/redis
     metrics:
       image:
         registry: gcr.io
-        repository: piazzaapp/bitnami/redis-exporter
+        repository: pluralsh/bitnami/redis-exporter
     resources:
       requests:
         cpu: 10m
@@ -102,6 +102,8 @@ gitlab:
     install: false  
   gitlab-runner:
     runners:
+      cache: {}
+      name: gitlab-plural-runner
       privileged: true
       config: |
         [[runners]]

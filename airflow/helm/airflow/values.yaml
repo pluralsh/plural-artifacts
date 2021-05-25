@@ -11,7 +11,7 @@ secrets:
 
 exporter:
   image:
-    repository: gcr.io/piazzaapp/prom/statsd-exporter
+    repository: gcr.io/pluralsh/prom/statsd-exporter
     tag: v0.20.2
     pullPolicy: IfNotPresent
   
@@ -70,13 +70,13 @@ airflow:
     enabled: true
     image:
       registry: gcr.io
-      repository: piazzaapp/postgres
+      repository: pluralsh/postgres
       tag: 11.7.0-debian-10-r9
     metrics:
       enabled: true
       image:
         registry: gcr.io
-        repository: piazzaapp/postgres-exporter
+        repository: pluralsh/postgres-exporter
         tag: 0.8.0
       serviceMonitor:
         enabled: true
@@ -97,9 +97,20 @@ airflow:
     name: airflow
   
   redis:
+    image:
+      registry: gcr.io/pluralsh
+      tag: 6.0.9-debian-10-r0
     enabled: true
     existingSecret: airflow-redis-password
     existingSecretPasswordKey: redis-password
+
+    metrics:
+      enabled: true
+      image:
+        registry: gcr.io/pluralsh
+        tag: 1.12.1-debian-10-r11
+      serviceMonitor:
+        enabled: true
 
     cluster:
       enabled: false

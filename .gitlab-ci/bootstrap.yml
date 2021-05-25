@@ -36,6 +36,13 @@ curl:
 grafana:
   stage: push
   script:
-  - docker pull grafana/grafana:7.4.5
-  - docker tag grafana/grafana:7.4.5 gcr.io/pluralsh/grafana/grafana:7.4.5
-  - docker push gcr.io/pluralsh/grafana/grafana:7.4.5
+  - docker pull grafana/grafana:7.5.5
+  - docker tag grafana/grafana:7.5.5 gcr.io/pluralsh/grafana/grafana:7.5.5
+  - docker push gcr.io/pluralsh/grafana/grafana:7.5.5
+
+metrics-server:
+  stage: push
+  script:
+  - docker pull bitnami/metrics-server:0.4.4-debian-10-r0
+  - docker tag bitnami/metrics-server:0.4.4-debian-10-r0 gcr.io/pluralsh/bitnami/metrics-server:0.4.4-debian-10-r0
+  - docker push gcr.io/pluralsh/bitnami/metrics-server:0.4.4-debian-10-r0

@@ -1,7 +1,7 @@
 default:
   image: gcr.io/google.com/cloudsdktool/cloud-sdk:latest
   services:
-  - name: gcr.io/piazzaapp/docker:19.03.13-dind
+  - name: gcr.io/pluralsh/docker:19.03.13-dind
     alias: docker
   before_script:
   - until docker info; do sleep 1; done

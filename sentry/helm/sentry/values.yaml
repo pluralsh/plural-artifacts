@@ -5,22 +5,57 @@
 replicaCount: 1
 
 sentry:
+  images:
+    symbolicator:
+      repository: gcr.io/pluralsh/getsentry/symbolicator
+    snuba:
+      repository: gcr.io/pluralsh/getsentry/snuba
+    sentry:
+      repository: gcr.io/pluralsh/getsentry/sentry
+    relay:
+      repository: gcr.io/pluralsh/getsentry/relay
+
   serviceAccount:
     name: sentry
 
   postgresql:
+    image:
+      registry: gcr.io
+      repository: pluralsh/postgres
+      tag: 11.7.0-debian-10-r9
     metrics:
+      image:
+        registry: gcr.io
+        repository: pluralsh/postgres-exporter
+        tag: 0.8.0
       enabled: true
       serviceMonitor:
         enabled: true
+  
+  kafka:
+    image:
+      registry: gcr.io/pluralsh
+    
+    zookeeper:
+      image:
+        registry: gcr.io/pluralsh
 
   metrics:
     image:
-      repository: gcr.io/piazzaapp/prom/statsd-exporter
+      repository: gcr.io/pluralsh/prom/statsd-exporter
       tag: v0.20.2
     enabled: true
     serviceMonitor:
       enabled: true
+
+  redis:
+    image:
+      registry: gcr.io/pluralsh
+      tag: 6.0.9-debian-10-r0
+    metrics:
+      image:
+        registry: gcr.io/pluralsh
+        tag: 1.12.1-debian-10-r11
 
   rabbitmq:
     enabled: false
@@ -59,9 +94,9 @@ sentry:
 
   clickhouse:
     clickhouse:
-      image: 'gcr.io/piazzaapp/yandex/clickhouse-server'
+      image: 'gcr.io/pluralsh/yandex/clickhouse-server'
       imageVersion: '20.8.9.6'
       init:
-        image: 'gcr.io/piazzaapp/busybox'
+        image: 'gcr.io/pluralsh/busybox'
         imageVersion: latest
     

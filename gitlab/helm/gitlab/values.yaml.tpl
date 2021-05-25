@@ -57,13 +57,13 @@ gitlab:
     runners:
       config: |
         [[runners]]
-          name = "plural-gitlab-runner"
+          name = 'plural-gitlab-runner'
           [runners.feature_flags]
             FF_GITLAB_REGISTRY_HELPER_IMAGE = true
           [runners.kubernetes]
-            image = "ubuntu:18.04"
+            image = 'ubuntu:18.04'
             privileged = true
-            service_account = "gitlab-runner"
+            service_account = 'gitlab-runner'
             poll_timeout = 360
             [runners.kubernetes.affinity]
               [runners.kubernetes.affinity.node_affinity]
@@ -71,32 +71,32 @@ gitlab:
                   weight = 20
                   [runners.kubernetes.affinity.node_affinity.preferred_during_scheduling_ignored_during_execution.preference]
                     [[runners.kubernetes.affinity.node_affinity.preferred_during_scheduling_ignored_during_execution.preference.match_expressions]]
-                      key = "usage-intention"
-                      operator = "In"
-                      values = ["ci"]
+                      key = 'usage-intention'
+                      operator = 'In'
+                      values = ['ci']
+            {{ if eq .Provider "aws" }}
+            [runners.cache]
+              Type = 's3'
+              Path = 'runner'
+              Shared = true
+              [runners.cache.s3]
+                ServerAddress = 's3.amazonaws.com'
+                BucketName = '{{ .Values.runnerCacheBucket }}'
+                BucketLocation = '{{ .Region }}'
+                Insecure = false
+            {{ end }}
+            {{ if eq .Provider "google" }}
+            [runners.cache]
+              Type = 'gcs'
+              Path = 'runner'
+              Shared = true
+              [runners.cache.gcs]
+                BucketName = '{{ .Values.runnerCacheBucket }}'
+            {{ end }}
           [[runners.kubernetes.volumes.empty_dir]]
-            name = "docker-certs"
-            mount_path = "/certs/client"
-            medium = "Memory"
-          {{ if eq .Provider "aws" }}
-          [runners.cache]
-            Type = "s3"
-            Path = "runner"
-            Shared = true
-            [runners.cache.s3]
-              ServerAddress = "s3.amazonaws.com"
-              BucketName = "{{ .Values.runnerCacheBucket }}"
-              BucketLocation = "{{ .Region }}"
-              Insecure = false
-          {{ end }}
-          {{ if eq .Provider "google" }}
-          [runners.cache]
-            Type = "gcs"
-            Path = "runner"
-            Shared = true
-            [runners.cache.gcs]
-              BucketName = "{{ .Values.runnerCacheBucket }}"
-          {{ end }}
+            name = 'docker-certs'
+            mount_path = '/certs/client'
+            medium = 'Memory'
 
 
 railsConnection:
