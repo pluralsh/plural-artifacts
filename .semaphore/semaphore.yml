@@ -114,3 +114,9 @@ blocks:
       - docker pull docker:19.03.13-dind
       - docker tag docker:19.03.13-dind gcr.io/piazzaapp/docker:19.03.13-dind
       - docker push gcr.io/piazzaapp/docker:19.03.13-dind
+    
+    - name: "build gitlab-runner"
+      commands:
+      - docker pull gitlab/gitlab-runner:alpine-v13.11.0
+      - docker tag gitlab/gitlab-runner:alpine-v13.11.0 gcr.io/piazzaapp/gitlab/gitlab-runner:alpine-v13.11.0
+      - docker push gcr.io/piazzaapp/gitlab/gitlab-runner:alpine-v13.11.0

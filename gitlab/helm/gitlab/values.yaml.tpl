@@ -58,6 +58,8 @@ gitlab:
       config: |
         [[runners]]
           name = "plural-gitlab-runner"
+          [runners.feature_flags]
+            FF_GITLAB_REGISTRY_HELPER_IMAGE = true
           [runners.kubernetes]
             image = "ubuntu:18.04"
             privileged = true
