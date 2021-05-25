@@ -49,6 +49,9 @@ loki-stack:
       tag: 1.6.0
   grafana:
     enabled: false
+    persistence:
+      inMemory:
+        enabled: true
     sidecar:
       image: {}
       notifiers:
@@ -136,6 +139,8 @@ grafana:
     type: NodePort
   persistence:
     enabled: true
+    inMemory:
+      enabled: false
   sidecar:
     dashboards:
       provider:
