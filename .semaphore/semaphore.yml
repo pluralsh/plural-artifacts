@@ -109,3 +109,8 @@ blocks:
       - docker tag yandex/clickhouse-server:20.8.9.6 gcr.io/piazzaapp/yandex/clickhouse-server:20.8.9.6
       - docker push gcr.io/piazzaapp/yandex/clickhouse-server:20.8.9.6
     
+    - name: "build dind"
+      commands:
+      - docker pull docker:19.03.13-dind
+      - docker tag docker:19.03.13-dind gcr.io/piazzaapp/docker:19.03.13-dind
+      - docker push gcr.io/piazzaapp/docker:19.03.13-dind
