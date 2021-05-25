@@ -1,0 +1,6 @@
+influxdb:
+  stage: push
+  script:
+  - docker pull influxdb:1.8.0-alpine
+  - docker tag influxdb:1.8.0-alpine gcr.io/pluralsh/influxdb:1.8.0-alpine
+  - docker push gcr.io/pluralsh/influxdb:1.8.0-alpine

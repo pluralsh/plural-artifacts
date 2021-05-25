@@ -1,0 +1,13 @@
+sidecar:
+  stage: push
+  script:
+  - docker pull kiwigrid/k8s-sidecar:1.1.0
+  - docker tag kiwigrid/k8s-sidecar:1.1.0 gcr.io/pluralsh/kiwigrid/k8s-sidecar:1.1.0
+  - docker push gcr.io/pluralsh/kiwigrid/k8s-sidecar:1.1.0
+
+clickhouse:
+  stage: push
+  script:
+  - docker pull yandex/clickhouse-server:20.8.9.6
+  - docker tag yandex/clickhouse-server:20.8.9.6 gcr.io/pluralsh/yandex/clickhouse-server:20.8.9.6
+  - docker push gcr.io/pluralsh/yandex/clickhouse-server:20.8.9.6

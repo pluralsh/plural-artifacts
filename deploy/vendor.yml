@@ -1,0 +1,34 @@
+postgres-exporter:
+  stage: push
+  script:
+  - docker pull bitnami/postgres-exporter:0.8.0-debian-10-r354
+  - docker tag bitnami/postgres-exporter:0.8.0-debian-10-r354 gcr.io/pluralsh/postgres-exporter:0.8.0
+  - docker push gcr.io/pluralsh/postgres-exporter:0.8.0
+
+postgres:
+  stage: push
+  script:
+  - docker pull bitnami/postgresql:11.7.0-debian-10-r9
+  - docker tag bitnami/postgresql:11.7.0-debian-10-r9 gcr.io/pluralsh/postgres:11.7.0-debian-10-r9
+  - docker push gcr.io/pluralsh/postgres:11.7.0-debian-10-r9
+
+rabbitmq:
+  stage: push
+  script:
+  - docker pull rabbitmq:3.8.16-management
+  - docker tag rabbitmq:3.8.16-management gcr.io/pluralsh/rabbitmq:3.8.16-management
+  - docker push gcr.io/pluralsh/rabbitmq:3.8.16-management
+
+redis:
+  stage: push
+  script:
+  - docker pull bitnami/redis:6.0.9-debian-10-r0
+  - docker tag bitnami/redis:6.0.9-debian-10-r0 gcr.io/pluralsh/bitnami/redis:6.0.9-debian-10-r0
+  - docker push gcr.io/pluralsh/bitnami/redis:6.0.9-debian-10-r0
+
+redis-exporter:
+  stage: push
+  script:
+  - docker pull bitnami/redis-exporter:1.12.1-debian-10-r11
+  - docker tag bitnami/redis-exporter:1.12.1-debian-10-r11 gcr.io/piazzaapp/bitnami/redis-exporter:1.12.1-debian-10-r11
+  - docker push gcr.io/piazzaapp/bitnami/redis-exporter:1.12.1-debian-10-r11

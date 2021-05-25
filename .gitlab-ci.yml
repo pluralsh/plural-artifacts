@@ -1,0 +1,28 @@
+default:
+  image: gcr.io/google.com/cloudsdktool/cloud-sdk:latest
+  services:
+  - docker:19.03.13-dind
+  before_script:
+  - until docker info; do sleep 1; done
+  - gcloud auth activate-service-account --key-file=$GOOGLE_PIAZZA_CREDENTIALS
+  - gcloud auth configure-docker -q
+  - docker login -u mguarino46@gmail.com -p $PLURAL_ACCESS_TOKEN dkr.plural.sh
+  retry:
+    max: 2
+    when:
+    - runner_system_failure
+
+variables:
+  DOCKER_HOST: tcp://docker:2376
+  DOCKER_TLS_CERTDIR: "/certs"
+  DOCKER_TLS_VERIFY: 1
+  DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client"
+
+stages:
+- push
+
+include:
+- deploy/bootstrap.yml
+- deploy/vendor.yml
+- deploy/sentry.yml
+- deploy/plural.yml
