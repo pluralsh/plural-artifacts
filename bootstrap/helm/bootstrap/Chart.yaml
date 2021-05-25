@@ -8,7 +8,7 @@ sources:
 maintainers:
 - name: michaeljguarino
   email: mguarino46@gmail.com
-version: 0.5.57
+version: 0.5.58
 
 dependencies:
 - name: external-dns
@@ -19,7 +19,7 @@ dependencies:
   condition: metrics-server.enabled
   repository: https://charts.bitnami.com/bitnami
 - name: grafana
-  version: 6.1.9
+  version: 6.9.1
   repository: https://grafana.github.io/helm-charts
 - name: kube-prometheus-stack
   version: 15.4.6

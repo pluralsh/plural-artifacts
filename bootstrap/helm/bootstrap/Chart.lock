@@ -7,7 +7,7 @@ dependencies:
   version: 5.8.7
 - name: grafana
   repository: https://grafana.github.io/helm-charts
-  version: 6.1.9
+  version: 6.9.1
 - name: kube-prometheus-stack
   repository: https://prometheus-community.github.io/helm-charts
   version: 15.4.6
@@ -29,5 +29,5 @@ dependencies:
 - name: aws-load-balancer-controller
   repository: https://aws.github.io/eks-charts
   version: 1.1.6
-digest: sha256:236147a9ce9bcabf198edf0049248aec617984a51c37f42be10238dc05533072
-generated: "2021-05-19T11:24:30.932066-04:00"
+digest: sha256:0d2992345cc0c13a13f9727242235e54b7e6d25bcb0b7b01f5940a6a167a28fd
+generated: "2021-05-25T10:43:45.053605-04:00"

@@ -37,6 +37,7 @@ autoscaling:
     maxReplicas: 11
     targetCPUUtilizationPercentage: 50
 
+
 loki-stack:
   loki:
     image:
@@ -55,8 +56,10 @@ loki-stack:
     imageRenderer:
       enabled: false
 
+
 aws-load-balancer-controller:
   enabled: false
+
 
 ingress-nginx:
   controller:
@@ -74,7 +77,17 @@ ingress-nginx:
       proxy-body-size: '0'
       proxy-read-timeout: '3600'
       proxy-send-timeout: '3600'
+
+
 grafana:
+  image:
+    repository: gcr.io/piazzaapp/grafana/grafana
+  initChownData:
+    image:
+      repository: gcr.io/piazzaapp/busybox
+      tag: latest
+  downloadDashboardsImage:
+    repository: gcr.io/curlimages/curl
   grafana.ini:
     security:
       allow_embedding: true
@@ -143,6 +156,7 @@ grafana:
       nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
       nginx.ingress.kubernetes.io/use-regex: "true"
 
+
 kube-prometheus-stack:
   fullnameOverride: "bootstrap"
   grafana:
@@ -182,17 +196,21 @@ kube-prometheus-stack:
         matchLabels:
           app.kubernetes.io/managed-by:  Helm
 
+
 kubed:
   operator:
     registry: gcr.io/piazzaapp/appscode
+
 
 prometheus:
   server:
     statefulSet:
       enabled: true
 
+
 cluster-autoscaler:
   enabled: false
+
 
 metrics-server:
   enabled: false

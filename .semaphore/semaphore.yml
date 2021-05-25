@@ -88,3 +88,19 @@ blocks:
       - docker pull prom/statsd-exporter:v0.20.2
       - docker tag prom/statsd-exporter:v0.20.2 gcr.io/piazzaapp/prom/statsd-exporter:v0.20.2
       - docker push gcr.io/piazzaapp/prom/statsd-exporter:v0.20.2
+    - name: "build curl"
+      commands:
+      - docker pull curlimages/curl:7.73.0
+      - docker tag curlimages/curl:7.73.0 gcr.io/piazzaapp/curlimages/curl:7.73.0
+      - docker push gcr.io/piazzaapp/curlimages/curl:7.73.0
+    - name: "build grafana"
+      commands:
+      - docker pull grafana/grafana:7.4.5
+      - docker tag grafana/grafana:7.4.5 gcr.io/piazzaapp/grafana/grafana:7.4.5
+      - docker push gcr.io/piazzaapp/grafana/grafana:7.4.5
+    - name: "build sidecar"
+      commands:
+      - docker pull kiwigrid/k8s-sidecar:1.1.0
+      - docker tag kiwigrid/k8s-sidecar:1.1.0 gcr.io/piazzaapp/kiwigrid/k8s-sidecar:1.1.0
+      - docker push gcr.io/piazzaapp/kiwigrid/k8s-sidecar:1.1.0
+    
