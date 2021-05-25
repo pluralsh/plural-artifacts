@@ -50,9 +50,17 @@ affinity: {}
 provider: google
 
 postgresql:
+  image:
+    registry: gcr.io
+    repository: piazzaapp/postgres
+    tag: 11.7.0-debian-10-r9
   metrics:
     enabled: true
-    serviceMonitor:
+    image:
+      registry: gcr.io
+      repository: piazzaapp/postgres-exporter
+      tag: 0.8.0
+    serviceMonitory:
       enabled: true
   postgresqlUsername: console
   postgresqlDatabase: console

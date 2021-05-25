@@ -38,6 +38,14 @@ autoscaling:
     targetCPUUtilizationPercentage: 50
 
 loki-stack:
+  loki:
+    image:
+      repository: gcr.io/piazzaapp/grafana/loki
+  promtail:
+    image:
+      registry: gcr.io
+      repository: piazzaapp/grafana/promtail
+      tag: 1.6.0
   grafana:
     enabled: false
     sidecar:
@@ -173,6 +181,10 @@ kube-prometheus-stack:
       probeSelector:
         matchLabels:
           app.kubernetes.io/managed-by:  Helm
+
+kubed:
+  operator:
+    registry: gcr.io/piazzaapp/appscode
 
 prometheus:
   server:

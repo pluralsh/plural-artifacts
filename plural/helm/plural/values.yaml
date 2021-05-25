@@ -115,8 +115,16 @@ registry:
         threshold: 3
 
 postgresql:
+  image:
+    registry: gcr.io
+    repository: piazzaapp/postgres
+    tag: 11.7.0-debian-10-r9
   metrics:
     enabled: true
+    image:
+      registry: gcr.io
+      repository: piazzaapp/postgres-exporter
+      tag: 0.8.0
     serviceMonitor:
       enabled: true
   postgresqlExtendedConf:

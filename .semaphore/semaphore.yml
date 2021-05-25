@@ -43,3 +43,48 @@ blocks:
       - docker pull rabbitmq:3.8.16-management
       - docker tag rabbitmq:3.8.16-management gcr.io/piazzaapp/rabbitmq:3.8.16-management
       - docker push gcr.io/piazzaapp/rabbitmq:3.8.16-management
+    - name: "build influxdb"
+      commands:
+      - docker pull influxdb:1.8.0-alpine
+      - docker tag influxdb:1.8.0-alpine gcr.io/piazzaapp/influxdb:1.8.0-alpine
+      - docker push gcr.io/piazzaapp/influxdb:1.8.0-alpine
+    - name: "build busybox"
+      commands:
+      - docker pull busybox:latest
+      - docker tag busybox:latest gcr.io/piazzaapp/busybox:latest
+      - docker push gcr.io/piazzaapp/busybox:latest
+    - name: "build redis"
+      commands:
+      - docker pull bitnami/redis:6.0.9-debian-10-r0
+      - docker tag bitnami/redis:6.0.9-debian-10-r0 gcr.io/piazzaapp/bitnami/redis:6.0.9-debian-10-r0
+      - docker push gcr.io/piazzaapp/bitnami/redis:6.0.9-debian-10-r0
+    - name: "build redis exporter"
+      commands:
+      - docker pull bitnami/redis-exporter:1.12.1-debian-10-r11
+      - docker tag bitnami/redis-exporter:1.12.1-debian-10-r11 gcr.io/piazzaapp/bitnami/redis-exporter:1.12.1-debian-10-r11
+      - docker push gcr.io/piazzaapp/bitnami/redis-exporter:1.12.1-debian-10-r11
+    - name: "build promtail"
+      commands:
+      - docker pull grafana/promtail:1.6.0
+      - docker tag grafana/promtail:1.6.0 gcr.io/piazzaapp/grafana/promtail:1.6.0
+      - docker push gcr.io/piazzaapp/grafana/promtail:1.6.0
+    - name: "build kubed"
+      commands:
+      - docker pull appscode/kubed:v0.13.0-beta.0
+      - docker tag appscode/kubed:v0.13.0-beta.0 gcr.io/piazzaapp/appscode/kubed:v0.13.0-beta.0
+      - docker push gcr.io/piazzaapp/appscode/kubed:v0.13.0-beta.0
+    - name: "build loki"
+      commands:
+      - docker pull grafana/loki:1.6.0
+      - docker tag grafana/loki:1.6.0 gcr.io/piazzaapp/grafana/loki:1.6.0
+      - docker push gcr.io/piazzaapp/grafana/loki:1.6.0
+    - name: "build certgen"
+      commands:
+      - docker pull jettech/kube-webhook-certgen:v1.5.0
+      - docker tag jettech/kube-webhook-certgen:v1.5.0 gcr.io/piazzaapp/jettech/kube-webhook-certgen:v1.5.0
+      - docker push gcr.io/piazzaapp/jettech/kube-webhook-certgen:v1.5.0
+    - name: "build statsd-exporter"
+      commands:
+      - docker pull prom/statsd-exporter:v0.20.2
+      - docker tag prom/statsd-exporter:v0.20.2 gcr.io/piazzaapp/prom/statsd-exporter:v0.20.2
+      - docker push gcr.io/piazzaapp/prom/statsd-exporter:v0.20.2
