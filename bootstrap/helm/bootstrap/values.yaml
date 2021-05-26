@@ -137,9 +137,10 @@ grafana:
   service:
     type: NodePort
   persistence:
-    enabled: false
+    enabled: true
+    type: statefulset
     inMemory:
-      enabled: true
+      enabled: false
   sidecar:
     dashboards:
       provider:

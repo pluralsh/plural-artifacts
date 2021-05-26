@@ -8,6 +8,13 @@ default:
   - gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
   - gcloud auth configure-docker -q
   - docker login -u mguarino46@gmail.com -p $PLURAL_ACCESS_TOKEN dkr.plural.sh
+  - |
+    function vendor_image {
+      docker pull $1
+      docker tag $1 gcr.io/pluralsh/$1
+      docker push gcr.io/pluralsh/$1
+    }
+
   retry:
     max: 2
     when:
@@ -21,6 +28,7 @@ variables:
 
 stages:
 - push
+- build-deps
 
 include:
 - .gitlab-ci/bootstrap.yml

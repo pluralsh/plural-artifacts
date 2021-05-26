@@ -1,55 +1,39 @@
 sidecar:
   stage: push
   script:
-  - docker pull kiwigrid/k8s-sidecar:1.1.0
-  - docker tag kiwigrid/k8s-sidecar:1.1.0 gcr.io/pluralsh/kiwigrid/k8s-sidecar:1.1.0
-  - docker push gcr.io/pluralsh/kiwigrid/k8s-sidecar:1.1.0
+  - vendor_image kiwigrid/k8s-sidecar:1.1.0
 
 clickhouse:
   stage: push
   script:
-  - docker pull yandex/clickhouse-server:20.8.9.6
-  - docker tag yandex/clickhouse-server:20.8.9.6 gcr.io/pluralsh/yandex/clickhouse-server:20.8.9.6
-  - docker push gcr.io/pluralsh/yandex/clickhouse-server:20.8.9.6
+  - vendor_image yandex/clickhouse-server:20.8.9.6
 
 kafka:
   stage: push
   script:
-  - docker pull bitnami/kafka:2.6.0-debian-10-r78
-  - docker tag bitnami/kafka:2.6.0-debian-10-r78 gcr.io/pluralsh/bitnami/kafka:2.6.0-debian-10-r78
-  - docker push gcr.io/pluralsh/bitnami/kafka:2.6.0-debian-10-r78
+  - vendor_image bitnami/kafka:2.6.0-debian-10-r78
 
 zookeeper:
   stage: push
   script:
-  - docker pull bitnami/zookeeper:3.6.2-debian-10-r58
-  - docker tag bitnami/zookeeper:3.6.2-debian-10-r58 gcr.io/pluralsh/bitnami/zookeeper:3.6.2-debian-10-r58
-  - docker push gcr.io/pluralsh/bitnami/zookeeper:3.6.2-debian-10-r58
+  - vendor_image bitnami/zookeeper:3.6.2-debian-10-r58
 
 snuba:
   stage: push
   script:
-  - docker pull getsentry/snuba:21.5.1
-  - docker tag getsentry/snuba:21.5.1 gcr.io/pluralsh/getsentry/snuba:21.5.1
-  - docker push gcr.io/pluralsh/getsentry/snuba:21.5.1
+  - vendor_image getsentry/snuba:21.5.1
 
 sentry:
   stage: push
   script:
-  - docker pull getsentry/sentry:21.5.1
-  - docker tag getsentry/sentry:21.5.1 gcr.io/pluralsh/getsentry/sentry:21.5.1
-  - docker push gcr.io/pluralsh/getsentry/sentry:21.5.1
+  - vendor_image getsentry/sentry:21.5.1
 
 symbolicator:
   stage: push
   script:
-  - docker pull getsentry/symbolicator:0.3.3
-  - docker tag getsentry/symbolicator:0.3.3 gcr.io/pluralsh/getsentry/symbolicator:0.3.3
-  - docker push gcr.io/pluralsh/getsentry/symbolicator:0.3.3
+  - vendor_image getsentry/symbolicator:0.3.3
 
 relay:
   stage: push
   script:
-  - docker pull getsentry/relay:21.5.1
-  - docker tag getsentry/relay:21.5.1 gcr.io/pluralsh/getsentry/relay:21.5.1
-  - docker push gcr.io/pluralsh/getsentry/relay:21.5.1
+  - vendor_image getsentry/relay:21.5.1

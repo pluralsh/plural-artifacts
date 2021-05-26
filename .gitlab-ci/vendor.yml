@@ -1,50 +1,60 @@
 postgres-exporter:
   stage: push
   script:
-  - docker pull bitnami/postgres-exporter:0.8.0-debian-10-r354
-  - docker tag bitnami/postgres-exporter:0.8.0-debian-10-r354 gcr.io/pluralsh/postgres-exporter:0.8.0
-  - docker push gcr.io/pluralsh/postgres-exporter:0.8.0
+  - vendor_image bitnami/postgres-exporter:0.8.0-debian-10-r354
 
 postgres:
   stage: push
   script:
-  - docker pull bitnami/postgresql:11.7.0-debian-10-r9
-  - docker tag bitnami/postgresql:11.7.0-debian-10-r9 gcr.io/pluralsh/postgres:11.7.0-debian-10-r9
-  - docker tag bitnami/postgresql:11.7.0-debian-10-r9 gcr.io/pluralsh/bitnami/postgres:11.7.0-debian-10-r9
-  - docker push gcr.io/pluralsh/postgres:11.7.0-debian-10-r9
-  - docker push gcr.io/pluralsh/bitnami/postgres:11.7.0-debian-10-r9
+  - vendor_image bitnami/postgresql:11.7.0-debian-10-r9
 
 rabbitmq:
   stage: push
   script:
-  - docker pull rabbitmq:3.8.16-management
-  - docker tag rabbitmq:3.8.16-management gcr.io/pluralsh/rabbitmq:3.8.16-management
-  - docker push gcr.io/pluralsh/rabbitmq:3.8.16-management
+  - vendor_image rabbitmq:3.8.16-management
 
 redis:
   stage: push
   script:
-  - docker pull bitnami/redis:6.0.9-debian-10-r0
-  - docker tag bitnami/redis:6.0.9-debian-10-r0 gcr.io/pluralsh/bitnami/redis:6.0.9-debian-10-r0
-  - docker push gcr.io/pluralsh/bitnami/redis:6.0.9-debian-10-r0
+  - vendor_image bitnami/redis:6.0.9-debian-10-r0
 
 redis-exporter:
   stage: push
   script:
-  - docker pull bitnami/redis-exporter:1.12.1-debian-10-r11
-  - docker tag bitnami/redis-exporter:1.12.1-debian-10-r11 gcr.io/pluralsh/bitnami/redis-exporter:1.12.1-debian-10-r11
-  - docker push gcr.io/pluralsh/bitnami/redis-exporter:1.12.1-debian-10-r11
+  - vendor_image bitnami/redis-exporter:1.12.1-debian-10-r11
+
 
 dind:
   stage: push
   script:
-  - docker pull docker:19.03.13-dind
-  - docker tag docker:19.03.13-dind gcr.io/pluralsh/docker:19.03.13-dind
-  - docker push gcr.io/pluralsh/docker:19.03.13-dind
+  - vendor_image docker:19.03.13-dind
 
 busybox:
   stage: push
   script:
-  - docker pull busybox:latest
-  - docker tag busybox:latest gcr.io/pluralsh/busybox:latest
-  - docker push gcr.io/pluralsh/busybox:latest
+  - vendor_image busybox:latest
+
+elixir:
+  stage: build-deps
+  script:
+  - vendor_image circleci/elixir:1.9.4
+
+elixir-alpine:
+  stage: build-deps
+  script:
+  - vendor_image elixir:1.9-alpine
+
+alpine:
+  stage: build-deps
+  script:
+  - vendor_image alpine:3
+
+docker-ce:
+  stage: build-deps
+  script:
+  - vendor_image docker:17.12.0-ce
+
+erlang:
+  stage: build-deps
+  script:
+  - vendor_image erlang:22-alpine
