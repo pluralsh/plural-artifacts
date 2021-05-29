@@ -1,0 +1,83 @@
+# Default values for grafana.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+grafana:
+  image:
+    repository: gcr.io/pluralsh/grafana/grafana
+  initChownData:
+    image:
+      repository: gcr.io/pluralsh/busybox
+      tag: latest
+  downloadDashboardsImage:
+    repository: gcr.io/pluralsh/curlimages/curl
+  grafana.ini:
+    security:
+      allow_embedding: true
+  admin:
+    existingSecret: grafana-credentials
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+      - name: default
+        orgId: 1
+        folder: ''
+        type: file
+        updateIntervalSeconds: 10
+        disableDeletion: true
+        editable: true
+        options:
+          path: /var/lib/grafana/dashboards/default
+      - name: sidecar
+        orgId: 1
+        folder: ''
+        type: file
+        updateIntervalSeconds: 10
+        disableDeletion: true
+        editable: true
+        options:
+          path: /var/lib/grafana/dashboards/sidecar
+  dashboards:
+    default:
+      kubernetes-overview:
+        gnetId: 10856
+        revision: 1
+        uid: 'kubernetes-overview'
+        datasource: Prometheus
+      kubernetes-deepdive:
+        gnetId: 8588
+        revision: 1
+        uid: 'kubernetes-deepdive'
+        datasource: Prometheus
+      node-overview:
+        gnetId: 1860
+        revision: 16
+        uid: 'node-overview'
+        datasource: Prometheus
+  service:
+    type: NodePort
+  persistence:
+    enabled: true
+    type: statefulset
+    inMemory:
+      enabled: false
+  sidecar:
+    dashboards:
+      provider:
+        name: sidecar
+        allowUiUpdates: true
+      enabled: true
+      searchNamespace: ALL
+    datasources:
+      enabled: true
+      searchNamespace: ALL
+  ingress:
+    enabled: true
+    path: /.*
+    annotations:
+      kubernetes.io/tls-acme: "true"
+      kubernetes.io/ingress.class: "nginx"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+      nginx.ingress.kubernetes.io/use-regex: "true"

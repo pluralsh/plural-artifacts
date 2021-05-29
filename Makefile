@@ -3,7 +3,7 @@
 help:
 	@perl -nle'print $& if m{^[a-zA-Z_-]+:.*?## .*$$}' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-all: upload-bootstrap upload-plural upload-console upload-airflow upload-gitlab upload-sentry
+all: upload-bootstrap upload-plural upload-console upload-airflow upload-gitlab upload-sentry upload-grafana
 
 upload-airflow: # uploads airflow artifacts 
 	plural apply -f airflow/Pluralfile
@@ -22,6 +22,9 @@ upload-gitlab: # uploads gitlab artifacts
 
 upload-sentry: # uploads sentry artifacts
 	plural apply -f sentry/Pluralfile
+
+upload-grafana: # uploads grafana artifacts
+	plural apply -f grafana/Pluralfile
 
 import-operator:
 	cp ../plural-operator/config/crd/bases/* bootstrap/plural/crds/bootstrap

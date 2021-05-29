@@ -1,0 +1,23 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: LogTail
+metadata:
+  name: externaldns
+  labels:
+{{ include "bootstrap.labels" . | indent 4 }}
+spec:
+  limit: 50
+  target: deployment/bootstrap-external-dns
+  follow: true
+{{ if eq .Values.provider "aws" }}
+---
+apiVersion: platform.plural.sh/v1alpha1
+kind: LogTail
+metadata:
+  name: aws-load-balancer
+  labels:
+{{ include "bootstrap.labels" . | indent 4 }}
+spec:
+  limit: 50
+  target: deployment/bootstrap-aws-load-balancer-controller
+  follow: true
+{{ end }}

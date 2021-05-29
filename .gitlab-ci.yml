@@ -28,7 +28,6 @@ variables:
 
 stages:
 - push
-- build-deps
 
 include:
 - .gitlab-ci/bootstrap.yml

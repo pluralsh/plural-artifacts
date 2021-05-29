@@ -68,8 +68,10 @@ spec:
         {{- toYaml .Values.extraEnv | nindent 8 }}
         {{- end }}
         volumeMounts:
+        {{ if .Values.secrets.id_rsa }}
         - name: console-ssh
           mountPath: "/root/.ssh"
+        {{ end }}
         - name: console-conf
           mountPath: "/root/.plural"
         ports:
@@ -102,10 +104,12 @@ spec:
         {{- toYaml . | nindent 8 }}
     {{- end }}
       volumes:
+      {{ if .Values.secrets.id_rsa }}
       - name: console-ssh
         secret:
           defaultMode: 384
           secretName: console-ssh
+      {{ end }}
       - name: console-conf
         secret:
           secretName: console-conf

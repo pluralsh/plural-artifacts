@@ -23,7 +23,6 @@ redis-exporter:
   script:
   - vendor_image bitnami/redis-exporter:1.12.1-debian-10-r11
 
-
 dind:
   stage: push
   script:
@@ -33,28 +32,3 @@ busybox:
   stage: push
   script:
   - vendor_image busybox:latest
-
-elixir:
-  stage: build-deps
-  script:
-  - vendor_image circleci/elixir:1.9.4
-
-elixir-alpine:
-  stage: build-deps
-  script:
-  - vendor_image elixir:1.9-alpine
-
-alpine:
-  stage: build-deps
-  script:
-  - vendor_image alpine:3
-
-docker-ce:
-  stage: build-deps
-  script:
-  - vendor_image docker:17.12.0-ce
-
-erlang:
-  stage: build-deps
-  script:
-  - vendor_image erlang:22-alpine

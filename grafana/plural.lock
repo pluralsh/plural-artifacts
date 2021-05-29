@@ -1,0 +1,13 @@
+artifact: {}
+terraform:
+  terraform/aws: h1:GmKQx6Ha9yjYA4tiadvM4zXttS1z4V8DWt67qaiyF00=
+  terraform/azure: h1:oiuN9zkJR8BmE8Ggea7pwqvuxglQmFTaf7WGIANu1pc=
+  terraform/gcp: h1:qx17LeJjEjgffmfiTl7qvy6NLuKz/hRGrrDUszKDoPk=
+helm:
+  helm/grafana: h1:VXk2K7Xd5np4uZSbs0ECLpxE0aexa9AWyq6RKVgIVJc=
+recipe:
+  plural/recipes/aws-grafana.yaml: d1a610ee8d1b06f4b3e3d956d0f31c0b6a7d2131755d6099b064981d8f01dcb7
+  plural/recipes/gcp-grafana.yaml: ba7a87b95b94923108949c3c4e3b3dff9dc4d3d4d364763a1d8c424a1fbd1a5f
+integration: {}
+crd: {}
+ird: {}

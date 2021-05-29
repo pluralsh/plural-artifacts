@@ -1,0 +1,19 @@
+name: gcp-grafana
+description: Installs grafana on a GKE cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-kubernetes
+sections:
+- name: grafana
+  items:
+  - type: TERRAFORM
+    name: gcp
+    configuration: []
+  - type: HELM
+    name: grafana
+    configuration:
+    - name: hostname
+      documentation: FQDN to use for your grafana installation
+      type: STRING
+  

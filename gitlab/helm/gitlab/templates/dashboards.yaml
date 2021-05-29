@@ -57,3 +57,87 @@ spec:
     - query: pg_stat_database_blks_hit{instance="$instance"} / (pg_stat_database_blks_read{instance="$instance"} + pg_stat_database_blks_hit{instance="$instance"})
       legend: hit rate
     name: Cache hit rate
+---
+apiVersion: platform.plural.sh/v1alpha1
+kind: Dashboard
+metadata:
+  name: gitaly
+  labels:
+{{ include "gitlab-plural.labels" . | indent 4 }}
+spec:
+  name: gitaly
+  description: Monitoring for gitlab's gitaly storage service
+  timeslices: [30m, 1h, 2h, 1d]
+  defaultTime: 30m
+  labels:
+  - name: instance
+    query:
+      query: grpc_server_started_total{namespace="{{ .Release.Namespace }}"}
+      label: instance
+  graphs:
+  - queries:
+    - query: rate(process_cpu_seconds_total{container="gitaly"}[1m])
+      legend: $pod cpu 
+    name: CPU Utilization
+  - queries:
+    - query: avg(process_resident_memory_bytes{instance=~"$instance"})
+      legend: resident memory
+    - query: avg(go_memstats_next_gc_bytes{instance=~"$instance"})
+      legend: gc waterline
+    name: Memory
+  - queries:
+    - query: avg(go_goroutines{instance=~"$instance"})
+      legend: goroutines
+    - query: avg(process_open_fds{instance=~"$instance"})
+      legend: file descriptors
+    name: Resources
+  - queries:
+    - query: avg(avg_over_time(up{instance=~"$instance"}[1m]))
+      legend: uptime
+    name: Availability
+  - queries:
+    - query: sum without (grpc_method,grpc_service,grpc_type) (rate(grpc_server_started_total{instance=~"$instance"}[1m]))
+      legend: request rate
+    name: GRPC request rate
+---
+apiVersion: platform.plural.sh/v1alpha1
+kind: Dashboard
+metadata:
+  name: gitlab-rails
+  labels:
+{{ include "gitlab-plural.labels" . | indent 4 }}
+spec:
+  name: gitlab-rails
+  description: Monitoring for gitlab's rails webservice
+  timeslices: [30m, 1h, 2h, 1d]
+  defaultTime: 30m
+  labels:
+  - name: pod
+    query:
+      query: ruby_process_resident_memory_bytes{namespace="{{ .Release.Namespace }}"}
+      label: pod
+  graphs:
+  - queries:
+    - query: avg(avg_over_time(ruby_process_resident_memory_bytes{pod=~"$pod"}[5m]))
+      legend: avg memory utilization
+    - query: max(max_over_time(ruby_process_resident_memory_bytes{pod=~"$pod"}[5m]))
+      legend: max memory utilization
+    name: Memory Usage
+  - queries:
+    - query: avg(avg_over_time(ruby_process_resident_memory_bytes{namespace="{{ .Release.Namespace }}"}[5m]))
+      legend: avg $pod
+    - query: max(max_over_time(ruby_process_resident_memory_bytes{namespace="{{ .Release.Namespace }}"}[5m]))
+      legend: max $pod
+    name: Memory Usage by Pod
+  - queries:
+    - query: avg(avg_over_time(ruby_process_cpu_seconds_total{pod=~"$pod"}[5m]))
+      legend: avg cpu utilization
+    - query: max(max_over_time(ruby_process_cpu_seconds_total{pod=~"$pod"}[5m]))
+      legend: max cpu utilization
+    name: CPU Usage
+  - queries:
+    - query: avg(avg_over_time(ruby_process_cpu_seconds_total{namespace="{{ .Release.Namespace }}"}[5m]))
+      legend: avg $pod
+    - query: max(max_over_time(ruby_process_cpu_seconds_total{namespace="{{ .Release.Namespace }}"}[5m]))
+      legend: max $pod
+    name: CPU Usage by Pod

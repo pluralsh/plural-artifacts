@@ -55,6 +55,8 @@ loki-stack:
       image: {}
       notifiers:
         enabled: false
+      datasources:
+        enabled: false
     imageRenderer:
       enabled: false
 

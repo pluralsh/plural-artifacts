@@ -101,6 +101,9 @@ gitlab:
   prometheus:
     install: false  
   gitlab-runner:
+    rbac:
+      create: false
+      serviceAccountName: gitlab-runner
     runners:
       cache:
         cachePath: 'plural-gitlab-runner'

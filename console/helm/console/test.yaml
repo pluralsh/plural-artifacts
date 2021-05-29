@@ -1,0 +1,44 @@
+postgresql:
+  postgresqlPassword: 5zHcvP93Bcb10vOXD0kc
+
+ingress:
+  console_dns: <no value>
+
+provider: provider
+
+
+
+serviceAccount:
+
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::example:role/cluster-console
+
+
+
+
+
+
+ secrets:
+  jwt: vmsHJAQIx8Ny7ONVqowi
+  admin_name: <no value>
+  admin_email: <no value>
+  admin_password: WIX3x8gr2KXvVqTrBhra
+
+  git_url: ''
+  repo_root: ''
+  branch_name: ''
+  config: ''
+  key: ''
+  known_hosts: ''
+
+  cluster_name: cluster
+  erlang: BAKzVSqRS5btML
+
+
+  git_user: console
+
+
+  git_email: console@plural.sh
+
+
+license: "example-license"
