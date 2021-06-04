@@ -34,7 +34,7 @@ serviceAccount:
 {{ $conf := dict }}
 {{ if all $norsa $notoken .Values.console_dns }}
   {{ $url := repoUrl }}
-  {{ if hasPrefix $url "https" }}
+  {{ if hasPrefix "https" $url }}
     {{ $token := readLine "Enter your git access token" }}
     {{ $_ := set $conf "git_access_token" $token }}
   {{ else }}
@@ -56,7 +56,14 @@ secrets:
   repo_root: {{ repoName }}
   branch_name: {{ branchName }}
   config: {{ readFile (homeDir ".plural" "config.yml") | quote }}
+{{ $identity := pathJoin repoRoot ".plural-crypt" "identity" }}
+{{ if fileExists $identity }}
+  identity: {{ readFile $identity | quote }}
+{{ else if ne eq (dig "console" "secrets" "identity" "default" .) "default" }}
+  identity: {{ .console.secrets.identity | quote }}
+{{ else }}
   key: {{ readFile (homeDir ".plural" "key") | quote }}
+{{ end }}
   known_hosts: {{ knownHosts | quote }}
 {{ else }}
   git_url: ''

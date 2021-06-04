@@ -26,7 +26,7 @@ redis-exporter:
 dind:
   stage: push
   script:
-  - vendor_image docker:19.03.13-dind
+  - vendor_image docker:20.10.7-dind
 
 busybox:
   stage: push

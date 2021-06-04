@@ -1,0 +1,10 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: LogTail
+metadata:
+  name: console
+  labels:
+{{ include "console.labels" . | indent 4 }}
+spec:
+  limit: 50
+  target: statefulset/console
+  follow: true
