@@ -5,7 +5,7 @@ module "asummable_role_autoscaler" {
   role_name                     = "${var.cluster_name}-cluster-autoscaler"
   provider_url                  = replace(module.cluster.cluster_oidc_issuer_url, "https://", "")
   role_policy_arns              = [aws_iam_policy.cluster_autoscaler.arn]
-  oidc_fully_qualified_subjects = ["system:serviceaccount:bootstrap:${var.autoscaler_serviceaccount}"]
+  oidc_fully_qualified_subjects = ["system:serviceaccount:${var.namespace}:${var.autoscaler_serviceaccount}"]
 }
 
 resource "aws_iam_policy" "cluster_autoscaler" {

@@ -1,8 +1,8 @@
 apiVersion: v2
 name: airflow
-description: A Helm chart for Kubernetes
+description: A Helm chart for airflow deployable on plural
 type: application
-version: 0.1.39
+version: 0.1.44
 appVersion: "1.16.0"
 sources:
 - https://github.com/pluralsh/plural-artifacts/airflow/helm/airflow

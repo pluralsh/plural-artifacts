@@ -5,7 +5,7 @@ module "assumable_role_alb" {
   role_name                     = "${var.cluster_name}-alb"
   provider_url                  = replace(module.cluster.cluster_oidc_issuer_url, "https://", "")
   role_policy_arns              = [aws_iam_policy.alb.arn]
-  oidc_fully_qualified_subjects = ["system:serviceaccount:bootstrap:${var.alb_serviceaccount}"]
+  oidc_fully_qualified_subjects = ["system:serviceaccount:${var.namespace}:${var.alb_serviceaccount}"]
 }
 
 resource "aws_iam_policy" "alb" {

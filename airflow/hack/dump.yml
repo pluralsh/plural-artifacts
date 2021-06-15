@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: airflow-dump
+  namespace: airflow
+spec:
+  template:
+    spec:
+      containers:
+      - name: dump
+        image: gcr.io/pluralsh/dumper:0.1.1
+        imagePullPolicy: Always
+        env:
+        - name: SOURCE_USER
+          value: postgres
+        - name: SOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: airflow-postgres-password
+              key: postgresql-password
+        - name: SOURCE_HOST
+          value: airflow-postgresql
+        - name: SOURCE_DB
+          value: airflow
+        - name: DEST_USER
+          value: airflow
+        - name: DEST_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: airflow.plural-airflow.credentials.postgresql.acid.zalan.do
+              key: password
+        - name: DEST_HOST
+          value: plural-airflow
+        - name: DEST_DB
+          value: airflow
+      restartPolicy: Never
+  backoffLimit: 5
+        

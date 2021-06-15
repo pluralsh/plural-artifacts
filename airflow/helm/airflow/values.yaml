@@ -66,8 +66,20 @@ airflow:
     tag: 2.0.1-python3.8
     pullSecret: plural-creds
 
+  externalDatabase:
+    type: postgres
+    host: plural-airflow
+    port: 5432
+    database: airflow
+    user: airflow
+    passwordSecret: airflow.plural-airflow.credentials.postgresql.acid.zalan.do
+    passwordSecretKey: password
+
+    # use this for any extra connection-string settings, e.g. ?sslmode=disable
+    properties: "?sslmode=allow"
+
   postgresql:
-    enabled: true
+    enabled: false
     image:
       registry: gcr.io
       repository: pluralsh/postgres

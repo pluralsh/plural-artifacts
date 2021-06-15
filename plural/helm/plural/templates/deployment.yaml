@@ -38,27 +38,7 @@ spec:
             name: plural-rabbitmq-secret
         {{ end }}
         env:
-        - name: HOST
-          value: {{ .Values.ingress.dns }}
-        - name: DEPLOYED_AT
-          value: {{ now | unixEpoch | quote }}
-        - name: NAMESPACE
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.namespace
-        - name: POD_IP
-          valueFrom:
-            fieldRef:
-              fieldPath: status.podIP
-        - name: POSTGRES_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.dbPasswordSecret }}
-              key: postgresql-password
-        {{ if .Values.sentryDsn }}
-        - name: SENTRY_DSN
-          value: {{ .Values.sentryDsn | quote }}
-        {{ end }}
+        {{ include "plural.env" . | nindent 8 }}
         ports:
         - name: http
           containerPort: {{ .Values.api.port }}
@@ -124,27 +104,7 @@ spec:
             name: plural-rabbitmq-secret
         {{ end }}
         env:
-        - name: HOST
-          value: {{ .Values.ingress.dns }}
-        - name: DEPLOYED_AT
-          value: {{ now | unixEpoch | quote }}
-        - name: NAMESPACE
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.namespace
-        - name: POD_IP
-          valueFrom:
-            fieldRef:
-              fieldPath: status.podIP
-        - name: POSTGRES_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.dbPasswordSecret }}
-              key: postgresql-password
-        {{ if .Values.sentryDsn }}
-        - name: SENTRY_DSN
-          value: {{ .Values.sentryDsn | quote }}
-        {{ end }}
+        {{ include "plural.env" . | nindent 8 }}
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
@@ -200,27 +160,7 @@ spec:
             name: plural-rabbitmq-secret
         {{ end }}
         env:
-        - name: HOST
-          value: {{ .Values.ingress.dns }}
-        - name: DEPLOYED_AT
-          value: {{ now | unixEpoch | quote }}
-        - name: NAMESPACE
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.namespace
-        - name: POD_IP
-          valueFrom:
-            fieldRef:
-              fieldPath: status.podIP
-        - name: POSTGRES_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.dbPasswordSecret }}
-              key: postgresql-password
-        {{ if .Values.sentryDsn }}
-        - name: SENTRY_DSN
-          value: {{ .Values.sentryDsn | quote }}
-        {{ end }}
+        {{ include "plural.env" . | nindent 8 }}
         ports:
         - name: http
           containerPort: {{ .Values.api.port }}

@@ -1,8 +1,8 @@
 apiVersion: v2
 name: sentry
-description: A Helm chart for Kubernetes
+description: A Helm chart for deploying sentry on plural
 type: application
-version: 0.1.6
+version: 0.1.12
 appVersion: "1.16.0"
 
 dependencies:

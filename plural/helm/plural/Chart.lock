@@ -1,9 +1,6 @@
 dependencies:
-- name: postgresql
-  repository: https://charts.bitnami.com/bitnami
-  version: 10.3.2
 - name: influxdb
   repository: https://helm.influxdata.com
   version: 4.9.14
-digest: sha256:487adb902c97987deb9f1a7597ce25a0b802dda900ae7b40aca7c675e6ff1941
-generated: "2021-05-13T10:38:37.40089-04:00"
+digest: sha256:7c92ea1eff96bf6e1e182a6ff7fbc5fb6adcaf152f38e910cc3904aee90f1355
+generated: "2021-06-10T21:58:21.801066-04:00"

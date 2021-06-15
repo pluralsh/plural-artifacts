@@ -1,0 +1,11 @@
+dependencies:
+- name: gcp-bootstrap
+  repo: bootstrap
+  type: terraform
+  version: '>= 0.1.1'
+
+providers:
+- gcp
+
+description: grafana gcp setup
+version: 0.1.1

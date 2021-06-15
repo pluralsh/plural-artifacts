@@ -35,7 +35,7 @@ api:
   port: 4000
   bucket: plural-assets
 
-dbPasswordSecret: plural-postgresql
+dbPasswordSecret: plural.plural-plural.credentials.postgresql.acid.zalan.do
 rabbitPasswordSecret: plural-rabbitmq
 
 crons:

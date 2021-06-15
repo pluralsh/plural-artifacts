@@ -1,0 +1,7 @@
+spec:
+  terraform: gcp-bootstrap
+  version: 0.1.1
+tags:
+- stable
+- warm
+- latest

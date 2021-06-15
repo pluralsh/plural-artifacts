@@ -12,6 +12,26 @@ module "asummable_role_autoscaler" {
   oidc_fully_qualified_subjects = ["system:serviceaccount:${var.plural_namespace}:${var.plural_serviceaccount}"]
 }
 
+
+data "aws_iam_role" "postgres" {
+  name = "${var.cluster_name}-postgres"
+}
+
+resource "kubernetes_service_account" "postgres" {
+  metadata {
+    name      = "postgres-pod"
+    namespace = var.plural_namespace
+
+    annotations = {
+      "eks.amazonaws.com/role-arn" = data.aws_iam_role.postgres.arn
+    }
+  }
+
+  depends_on = [
+    kubernetes_namespace.plural
+  ]
+}
+
 resource "aws_iam_policy" "s3_admin" {
   name_prefix = "plural"
   description = "s3 access policy for plural"

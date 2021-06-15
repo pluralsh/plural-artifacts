@@ -5,6 +5,11 @@
 rootPassword: CHANGEME
 
 global:
+  psql:
+    host: plural-gitlab
+    password:
+      secret: gitlab.plural-gitlab.credentials.postgresql.acid.zalan.do
+      key: password
   busybox:
     image:
       repository: gcr.io/pluralsh/busybox
@@ -32,7 +37,10 @@ railsConnection: {}
 registryConnection: {}
 
 gitlab:
+  upgradeCheck:
+    enabled: false
   postgresql:
+    install: false
     image:
       registry: gcr.io
       repository: pluralsh/postgres

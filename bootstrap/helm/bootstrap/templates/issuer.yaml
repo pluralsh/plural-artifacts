@@ -12,11 +12,10 @@ spec:
     privateKeySecretRef:
       # Secret resource that will be used to store the account's private key.
       name: cert-manager-key
-    # Add a single challenge solver, HTTP01 using nginx
+    # Add a single challenge solver, dns01, configured using the appropriate cloud dns setup
     solvers:
-    - http01:
-        ingress:
-          class: nginx
+    - dns01:
+      {{ .Values.dnsSolver | toYaml | nindent 8 }}
 ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer

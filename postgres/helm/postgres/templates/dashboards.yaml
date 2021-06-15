@@ -1,0 +1,64 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Dashboard
+metadata:
+  name: postgres-overview
+  labels:
+{{ include "postgres.labels" . | indent 4 }}
+spec:
+  name: postgres-overview
+  description: Monitoring for cluster-wide postgres dbs
+  timeslices: [30m, 1h, 2h, 1d]
+  defaultTime: 30m
+  labels:
+  - name: namespace
+    query:
+      query: pg_stat_database_tup_fetched
+      label: namespace
+  graphs:
+  - queries:
+    - query: SUM(pg_stat_database_tup_fetched{namespace="$namespace"}) by (pod)
+      legendFormat: $pod tuples fetched
+    name: Tuples Fetched
+  - queries:
+    - query: SUM(pg_stat_database_tup_inserted{namespace="$namespace"}) by (pod)
+      legendFormat: $pod tuples inserted
+    name: Tuples inserted
+  - queries:
+    - query: SUM(pg_stat_database_tup_updated{namespace="$namespace"}) by (pod)
+      legendFormat: $pod tuples updated
+    name: Tuples updated
+  - queries:
+    - query: max(pg_settings_max_connections{namespace="$namespace"}) by (pod)
+      legendFormat: $pod connections 
+    name: Max Connections
+  - queries:
+    - query: avg(rate(process_cpu_seconds_total{namespace="$namespace"}[5m]) * 1000) by (pod)
+      legendFormat: $pod seconds
+    name: CPU time
+  - queries:
+    - query: avg(rate(process_resident_memory_bytes{namespace="$namespace"}[5m])) by (pod)
+      legendFormat: $pod resident mem
+    format: bytes
+    name: Resident memory
+  - queries:
+    - query: avg(rate(process_virtual_memory_bytes{namespace="$namespace"}[5m])) by (pod)
+      legendFormat: $pod process mem
+    format: bytes
+    name: Virtual memory
+  - queries:
+    - query: avg(process_open_fds{namespace="$namespace"}) by (pod)
+      legendFormat: $pod fds
+    name: Open file descriptors
+  - queries:
+    - query: avg(pg_settings_max_wal_size_bytes{namespace="$namespace"}) by (pod)
+      legendFormat: $pod WAL size
+    format: bytes
+    name: Max WAL size
+  - queries:
+    - query: avg(irate(pg_stat_database_xact_commit{namespace="$namespace"}[5m])) by (pod)
+      legendFormat: $pod commits
+    name: Commits
+  - queries:
+    - query: avg(irate(pg_stat_database_xact_rollback{namespace="$namespace"}[5m])) by (pod)
+      legendFormat: $pod rollbacks
+    name: Rollbacks

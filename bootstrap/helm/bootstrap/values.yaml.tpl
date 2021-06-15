@@ -99,3 +99,37 @@ grafana:
 metrics-server:
   enabled: true
 {{ end }}
+
+{{ if eq .Provider "aws" }}
+cert-manager:
+  serviceAccount:
+    create: true
+    name: certmanager
+    annotations:
+      eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-certmanager"
+
+dnsSolver:
+  route53:
+    region: {{ .Region }}
+{{ end }}
+
+{{ if eq .Provider "azure" }}
+dnsSolver:
+  azureDNS:
+    subscriptionID: {{ .Context.SubscriptionId }}
+    resourceGroupName: {{ .Project }}
+    hostedZoneName: {{ .Values.dns_domain }}
+    # Azure Cloud Environment, default to AzurePublicCloud
+    environment: AzurePublicCloud
+{{ end }}
+
+{{ if eq .Provider "google" }}
+cert-manager:
+  serviceAccount:
+    create: false
+    name: certmanager
+
+dnsSolver:
+  cloudDNS:
+    project: {{ .Project }}
+{{ end }}

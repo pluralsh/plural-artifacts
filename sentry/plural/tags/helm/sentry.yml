@@ -1,0 +1,6 @@
+spec:
+  chart: sentry
+  version: 0.1.12
+tags:
+- stable
+- warm

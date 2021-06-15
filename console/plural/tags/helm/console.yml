@@ -1,0 +1,6 @@
+spec:
+  chart: console
+  version: 0.5.32
+tags:
+- stable
+- warm

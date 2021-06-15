@@ -1,0 +1,6 @@
+apiVersion: v2
+name: postgres
+description: A Helm chart for deploying the zalando postgres operator
+type: application
+version: 0.1.11
+appVersion: "1.16.0"

@@ -1,6 +1,3 @@
-postgresql:
-  postgresqlPassword: {{ dedupe . "console.postgresql.postgresqlPassword" (randAlphaNum 20) }}
-
 ingress:
   console_dns: {{ .Values.console_dns }}
 
@@ -59,7 +56,7 @@ secrets:
 {{ $identity := pathJoin repoRoot ".plural-crypt" "identity" }}
 {{ if fileExists $identity }}
   identity: {{ readFile $identity | quote }}
-{{ else if ne eq (dig "console" "secrets" "identity" "default" .) "default" }}
+{{ else if ne (dig "console" "secrets" "identity" "default" .) "default" }}
   identity: {{ .console.secrets.identity | quote }}
 {{ else }}
   key: {{ readFile (homeDir ".plural" "key") | quote }}

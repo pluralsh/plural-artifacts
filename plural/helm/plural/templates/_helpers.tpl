@@ -43,3 +43,32 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
+
+
+{{- define "plural.env" -}}
+- name: HOST
+  value: {{ .Values.ingress.dns }}
+- name: DEPLOYED_AT
+  value: {{ now | unixEpoch | quote }}
+- name: NAMESPACE
+  valueFrom:
+    fieldRef:
+      fieldPath: metadata.namespace
+- name: POD_IP
+  valueFrom:
+    fieldRef:
+      fieldPath: status.podIP
+- name: POSTGRES_PASSWORD
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Values.dbPasswordSecret }}
+      key: password
+- name: DBHOST
+  value: plural-plural
+- name: DBSSL
+  value: 'true'
+{{ if .Values.sentryDsn }}
+- name: SENTRY_DSN
+  value: {{ .Values.sentryDsn | quote }}
+{{ end }}
+{{- end -}}

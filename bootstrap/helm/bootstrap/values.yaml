@@ -31,6 +31,10 @@ application:
   registry: dkr.plural.sh/bootstrap
   tag: v0.8.3
 
+dnsSolver:
+  route53:
+    region: us-east-1
+
 autoscaling:
   ingress:
     minReplicas: 1
@@ -164,6 +168,12 @@ grafana:
       nginx.ingress.kubernetes.io/use-regex: "true"
 
 
+cert-manager:
+  prometheus:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+
 kube-prometheus-stack:
   fullnameOverride: "bootstrap"
   grafana:
@@ -218,6 +228,9 @@ prometheus:
 cluster-autoscaler:
   enabled: false
 
+cert-manager:
+  podLabels:
+    aadpodidbinding: externaldns # grants the same permissions needed for cert-manager
 
 metrics-server:
   enabled: false

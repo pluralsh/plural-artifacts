@@ -1,0 +1,6 @@
+spec:
+  chart: airflow
+  version: 0.1.44
+tags:
+- stable
+- warm

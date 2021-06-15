@@ -7,12 +7,9 @@ sources:
 maintainers:
 - name: michaeljguarino
   email: mjg@plural.sh
-version: 0.6.47
+version: 0.6.58
 
 dependencies:
-- name: postgresql
-  version: 10.3.2
-  repository: https://charts.bitnami.com/bitnami
 - name: influxdb
   version: 4.9.14
   repository: https://helm.influxdata.com

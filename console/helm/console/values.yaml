@@ -22,7 +22,7 @@ service:
   type: ClusterIP
   port: 4000
 
-dbPasswordSecret: console-postgresql
+dbPasswordSecret: console.plural-console.credentials.postgresql.acid.zalan.do
 
 shutdownDelay: 30
 

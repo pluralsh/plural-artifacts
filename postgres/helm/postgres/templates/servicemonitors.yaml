@@ -1,0 +1,33 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: postgres-master-monitor
+  labels:
+  {{ include "postgres.labels" . | nindent 4 }}
+spec:
+  endpoints:
+  - port: http-metrics
+    interval: 15s
+    scrapeTimeout: 10s
+  namespaceSelector:
+    any: true
+  selector:
+    matchLabels:
+      spilo-role: master
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: postgres-replica-monitor
+  labels:
+  {{ include "postgres.labels" . | nindent 4 }}
+spec:
+  endpoints:
+  - port: http-metrics
+    interval: 15s
+    scrapeTimeout: 10s
+  namespaceSelector:
+    any: true
+  selector:
+    matchLabels:
+      spilo-role: replica

@@ -8,7 +8,7 @@ sources:
 maintainers:
 - name: michaeljguarino
   email: mguarino46@gmail.com
-version: 0.6.6
+version: 0.6.8
 
 dependencies:
 - name: external-dns
@@ -28,7 +28,7 @@ dependencies:
   version: 3.29.0
   repository: https://kubernetes.github.io/ingress-nginx
 - name: cert-manager
-  version: v1.0.1
+  version: v1.4.0
   repository: https://charts.jetstack.io
 - name: cluster-autoscaler
   version: 9.1.0

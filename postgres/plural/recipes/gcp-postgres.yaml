@@ -1,0 +1,16 @@
+name: gcp-postgres
+description: Installs postgres operator on a GKE cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-kubernetes
+sections:
+- name: postgres
+  items:
+  - type: TERRAFORM
+    name: gcp
+    configuration: []
+  - type: HELM
+    name: postgres
+    configuration: []
+  

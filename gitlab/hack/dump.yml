@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: gitlab-dump
+  namespace: gitlab
+spec:
+  template:
+    spec:
+      containers:
+      - name: dump
+        image: gcr.io/pluralsh/dumper:0.1.1
+        imagePullPolicy: Always
+        env:
+        - name: SOURCE_USER
+          value: gitlab
+        - name: SOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: gitlab-postgresql-password
+              key: postgresql-password
+        - name: SOURCE_HOST
+          value: gitlab-postgresql
+        - name: SOURCE_DB
+          value: gitlabhq_production
+        - name: DEST_USER
+          value: gitlab
+        - name: DEST_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: gitlab.plural-gitlab.credentials.postgresql.acid.zalan.do
+              key: password
+        - name: DEST_HOST
+          value: plural-gitlab
+        - name: DEST_DB
+          value: gitlabhq_production
+      restartPolicy: Never
+  backoffLimit: 5
+        

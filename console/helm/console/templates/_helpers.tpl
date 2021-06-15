@@ -43,3 +43,35 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
+
+{{- define "console.env" -}}
+- name: HOST
+  value: {{ .Values.ingress.console_dns }}
+- name: DEPLOYED_AT
+  value: {{ now | unixEpoch | quote }}
+- name: NAMESPACE
+  valueFrom:
+    fieldRef:
+      fieldPath: metadata.namespace
+- name: POD_IP
+  valueFrom:
+    fieldRef:
+      fieldPath: status.podIP
+- name: REPLICAS
+  value: {{ .Values.replicaCount | quote }}
+- name: POD_NAME
+  valueFrom:
+    fieldRef:
+      fieldPath: metadata.name
+- name: GRAFANA_DNS
+  value: {{ .Values.grafana_dns }}
+- name: DBHOST
+  value: plural-console
+- name: DBSSL
+  value: 'true'
+- name: POSTGRES_PASSWORD
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Values.dbPasswordSecret }}
+      key: password
+{{- end -}}

@@ -40,6 +40,12 @@ variable "externaldns_serviceaccount" {
   description = "name of externaldns' service account"
 }
 
+variable "certmanager_serviceaccount" {
+  type = string
+  default = "certmanager"
+  description = "name of the certmanager service account"
+}
+
 variable "alb_serviceaccount" {
   type = string
   default = "alb-operator"
@@ -92,4 +98,9 @@ variable "manual_roles" {
   }))
 
   default = []
+}
+
+variable "namespace" {
+  type = string
+  default = "bootstrap"
 }

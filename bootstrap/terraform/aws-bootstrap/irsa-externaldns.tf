@@ -5,7 +5,7 @@ module "assumable_role_externaldns" {
   role_name                     = "${var.cluster_name}-externaldns"
   provider_url                  = replace(module.cluster.cluster_oidc_issuer_url, "https://", "")
   role_policy_arns              = [aws_iam_policy.externaldns.arn]
-  oidc_fully_qualified_subjects = ["system:serviceaccount:bootstrap:${var.externaldns_serviceaccount}"]
+  oidc_fully_qualified_subjects = ["system:serviceaccount:${var.namespace}:${var.externaldns_serviceaccount}"]
 }
 
 resource "aws_iam_policy" "externaldns" {

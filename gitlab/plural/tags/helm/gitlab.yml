@@ -1,0 +1,6 @@
+spec:
+  chart: gitlab
+  version: 0.1.35
+tags:
+- stable
+- warm

@@ -18,7 +18,19 @@ sentry:
   serviceAccount:
     name: sentry
 
+  externalPostgresql:
+    host: plural-sentry
+    port: 5432
+    username: sentry
+    # password: postgres
+    database: sentry
+    sslMode: require
+
   postgresql:
+    enabled: false
+    existingSecret: sentry.plural-sentry.credentials.postgresql.acid.zalan.do
+    existingSecretKey: password
+
     image:
       registry: gcr.io
       repository: pluralsh/postgres

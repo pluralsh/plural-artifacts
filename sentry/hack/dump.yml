@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: sentry-dump
+  namespace: sentry
+spec:
+  template:
+    spec:
+      containers:
+      - name: dump
+        image: gcr.io/pluralsh/dumper:0.1.1
+        imagePullPolicy: Always
+        env:
+        - name: SOURCE_USER
+          value: postgres
+        - name: SOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sentry-sentry-postgresql
+              key: postgresql-password
+        - name: SOURCE_HOST
+          value: sentry-sentry-postgresql
+        - name: SOURCE_DB
+          value: sentry
+        - name: DEST_USER
+          value: sentry
+        - name: DEST_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sentry.plural-sentry.credentials.postgresql.acid.zalan.do
+              key: password
+        - name: DEST_HOST
+          value: plural-sentry
+        - name: DEST_DB
+          value: sentry
+      restartPolicy: Never
+  backoffLimit: 5
+        
