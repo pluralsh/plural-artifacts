@@ -1,25 +1,20 @@
 apiVersion: platform.plural.sh/v1alpha1
 kind: Proxy
 metadata:
-  name: db
+  name: dbsh
   labels:
 {{ include "plural.labels" . | indent 4 }}
 spec:
   type: db
-  target: statefulset/plural-postgresql
-  credentials:
-    secret: plural-postgresql
-    key: postgresql-password
-    user: plural
-  dbConfig:
-    name: plural
-    engine: postgres
-    port: 5432
+  target: statefulset/plural-plural
+  shConfig:
+    command: /bin/sh
+    args: []
 ---
 apiVersion: platform.plural.sh/v1alpha1
 kind: Proxy
 metadata:
-  name: db2
+  name: db
   labels:
 {{ include "plural.labels" . | indent 4 }}
 spec:
