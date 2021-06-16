@@ -34,3 +34,4 @@ include:
 - .gitlab-ci/vendor.yml
 - .gitlab-ci/sentry.yml
 - .gitlab-ci/plural.yml
+- .gitlab-ci/postgres.yml
