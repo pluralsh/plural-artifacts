@@ -5,11 +5,10 @@ metadata:
   labels:
 {{ include "plural.labels" . | indent 4 }}
 spec:
-  type: db
+  type: sh
   target: statefulset/plural-plural
   shConfig:
-    command: /bin/sh
-    args: []
+    command: ""
 ---
 apiVersion: platform.plural.sh/v1alpha1
 kind: Proxy

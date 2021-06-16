@@ -44,7 +44,7 @@ configGeneral:
   # Select if setup uses endpoints (default), or configmaps to manage leader (DCS=k8s)
   # kubernetes_use_configmaps: false
   # Spilo docker image
-  docker_image: registry.opensource.zalan.do/acid/spilo-13:2.0-p7
+  docker_image: gcr.io/pluralsh/acid/spilo-13:2.0-p7
   # min number of instances in Postgres cluster. -1 = no limit
   min_instances: -1
   # max number of instances in Postgres cluster. -1 = no limit
@@ -143,7 +143,7 @@ configKubernetes:
   # namespaced name of the ConfigMap with environment variables to populate on every pod
   # pod_environment_configmap: "default/my-custom-config"
   # name of the Secret (in cluster namespace) with environment variables to populate on every pod
-  # pod_environment_secret: "my-custom-secret"
+  pod_environment_secret: postgres/postgres-environment
 
   # specify the pod management policy of stateful sets of Postgres clusters
   pod_management_policy: "ordered_ready"

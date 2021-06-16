@@ -4,15 +4,15 @@ terraform:
   terraform/azure: h1:oiuN9zkJR8BmE8Ggea7pwqvuxglQmFTaf7WGIANu1pc=
   terraform/gcp: h1:qx17LeJjEjgffmfiTl7qvy6NLuKz/hRGrrDUszKDoPk=
 helm:
-  helm/postgres: h1:BiY9NOkEnnytbRsqJ9KAOGG8awmWM7Vj/iQ0ff50qf0=
+  helm/postgres: h1:YdVIPHn6OgA+itDqFs3zV2jHlTCRNXyZ8k9t5t3l9SE=
 recipe:
   plural/recipes/aws-postgres.yaml: c1d6d4aee995b4e5803f987c0d96a9ff68aa75d01e77446d5f418b051ce39585
   plural/recipes/gcp-postgres.yaml: a44a2585d41b3657912242b0d6b139b8dae972dcacdbba47043a426df65a448c
 integration: {}
 crd:
-  plural/crds/operatorconfigurations.yaml: c564bf334fa94ba84e4328b4af2bc09e0332ac5bb5fb77deab2f0bccf1222afc:h1:BiY9NOkEnnytbRsqJ9KAOGG8awmWM7Vj/iQ0ff50qf0=
-  plural/crds/postgresqls.yaml: 5e9d2ea6add79e99b2cf474150de2d83c22a4d022b524f56ac62a907b69cfb31:h1:BiY9NOkEnnytbRsqJ9KAOGG8awmWM7Vj/iQ0ff50qf0=
-  plural/crds/postgresteams.yaml: f1917a7672c8c1739708107e46c0c56bcd1fffbaa6f77ad85db574f112bc4e02:h1:BiY9NOkEnnytbRsqJ9KAOGG8awmWM7Vj/iQ0ff50qf0=
+  plural/crds/operatorconfigurations.yaml: c564bf334fa94ba84e4328b4af2bc09e0332ac5bb5fb77deab2f0bccf1222afc:h1:YdVIPHn6OgA+itDqFs3zV2jHlTCRNXyZ8k9t5t3l9SE=
+  plural/crds/postgresqls.yaml: 5e9d2ea6add79e99b2cf474150de2d83c22a4d022b524f56ac62a907b69cfb31:h1:YdVIPHn6OgA+itDqFs3zV2jHlTCRNXyZ8k9t5t3l9SE=
+  plural/crds/postgresteams.yaml: f1917a7672c8c1739708107e46c0c56bcd1fffbaa6f77ad85db574f112bc4e02:h1:YdVIPHn6OgA+itDqFs3zV2jHlTCRNXyZ8k9t5t3l9SE=
 ird: {}
 tag:
   plural/tags/helm/postgres.yml: 0785ab7d72b8c8c74d820838ed404a2e84ccba96a4bde8f490cde7fe17380906
