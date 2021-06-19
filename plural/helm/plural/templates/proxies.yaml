@@ -8,7 +8,8 @@ spec:
   type: sh
   target: statefulset/plural-plural
   shConfig:
-    command: ""
+    command: "/bin/bash"
+    args: []
 ---
 apiVersion: platform.plural.sh/v1alpha1
 kind: Proxy

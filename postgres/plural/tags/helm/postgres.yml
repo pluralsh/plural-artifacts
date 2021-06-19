@@ -1,6 +1,6 @@
 spec:
   chart: postgres
-  version: 0.1.11
+  version: 0.1.23
 tags:
 - stable
 - warm

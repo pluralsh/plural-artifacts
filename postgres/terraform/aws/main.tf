@@ -19,7 +19,10 @@ module "assumable_role_postgres" {
   role_name                     = "${var.cluster_name}-${var.role_name}"
   provider_url                  = replace(data.aws_eks_cluster.cluster.identity[0].oidc[0].issuer, "https://", "")
   role_policy_arns              = [aws_iam_policy.postgres.arn]
-  oidc_subjects_with_wildcards = ["system:serviceaccount:*:${var.postgres_serviceaccount}"]
+  oidc_subjects_with_wildcards = [
+    "system:serviceaccount:*:${var.postgres_serviceaccount}",
+    "system:serviceaccount:*:postgres-pod"
+  ]
 }
 
 resource "aws_iam_policy" "postgres" {

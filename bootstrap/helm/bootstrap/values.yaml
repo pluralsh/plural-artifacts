@@ -218,12 +218,10 @@ kubed:
   operator:
     registry: gcr.io/pluralsh/appscode
 
-
 prometheus:
   server:
     statefulSet:
       enabled: true
-
 
 cluster-autoscaler:
   enabled: false

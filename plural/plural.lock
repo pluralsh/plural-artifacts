@@ -3,7 +3,7 @@ terraform:
   terraform/aws: h1:+wrmTJZUlXPHSHqYokk3LDxlzGJ7vuKnV8xHD5/tgrI=
   terraform/gcp: h1:ropodvdgaQhtWl7yoa3e7T94uGr7CK/eKDeVFjo5oHE=
 helm:
-  helm/plural: h1:W6iZp697lT1fX+ovwl93KWVU6LxmstzLAAkTyizJeeM=
+  helm/plural: h1:TANgW9x15+HEv2AOSV23RXlkoqHuIzWkudieyHtutV4=
 recipe:
   plural/recipes/aws.yaml: d778d1398f6ee638a6a0d2721e94e2a1b890e78941ce13d72ce9e6cbbe3b6ba6
   plural/recipes/gcp.yaml: 187d61aeac26ee83024fe70d2a8811af831c01f7817b89279ce03a81bbc2eb58
@@ -11,6 +11,6 @@ integration: {}
 crd: {}
 ird: {}
 tag:
-  plural/tags/helm/plural.yml: 4f180b41a8298826cf1c16ee2122c7957a2a811d207742f9124ef5f728106a65
+  plural/tags/helm/plural.yml: 8c27ce6e7d412e6c6efbbadc1459ab886ee2bc630db3d09d792fcbc17fb5bacb
   plural/tags/terraform/aws.yml: b46befb9716e1f9ef21cec5ba614f4b1f039438af71c8e039140fdd64a67bb3d
   plural/tags/terraform/gcp.yml: 31e6b424e84363f7d98ed36e28d1cc195e250ef7155f9ada0890aed8d4995516
