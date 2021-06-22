@@ -1,0 +1,41 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  labels:
+    eventing.knative.dev/release: v0.22.0
+  name: config.webhook.eventing.knative.dev
+webhooks:
+  - admissionReviewVersions:
+      - v1
+      - v1beta1
+    clientConfig:
+      service:
+        name: eventing-webhook
+        namespace: {{ .Release.Namespace }}
+    failurePolicy: Ignore
+    name: config.webhook.eventing.knative.dev
+    namespaceSelector:
+      matchExpressions:
+        - key: eventing.knative.dev/release
+          operator: Exists
+    sideEffects: None
+    timeoutSeconds: 10
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  labels:
+    eventing.knative.dev/release: v0.22.0
+  name: validation.webhook.eventing.knative.dev
+webhooks:
+  - admissionReviewVersions:
+      - v1
+      - v1beta1
+    clientConfig:
+      service:
+        name: eventing-webhook
+        namespace: {{ .Release.Namespace }}
+    failurePolicy: Fail
+    name: validation.webhook.eventing.knative.dev
+    sideEffects: None
+    timeoutSeconds: 10

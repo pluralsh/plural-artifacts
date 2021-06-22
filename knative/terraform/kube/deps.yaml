@@ -1,0 +1,9 @@
+dependencies: []
+
+providers:
+- aws
+- gcp
+- azure
+
+description: knative kubernetes setup
+version: 0.1.0

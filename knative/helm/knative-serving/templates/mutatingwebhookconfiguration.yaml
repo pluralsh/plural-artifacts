@@ -1,0 +1,18 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  labels:
+    serving.knative.dev/release: v0.22.0
+  name: webhook.serving.knative.dev
+webhooks:
+  - admissionReviewVersions:
+      - v1
+      - v1beta1
+    clientConfig:
+      service:
+        name: webhook
+        namespace: {{ .Release.Namespace }}
+    failurePolicy: Fail
+    name: webhook.serving.knative.dev
+    sideEffects: None
+    timeoutSeconds: 10

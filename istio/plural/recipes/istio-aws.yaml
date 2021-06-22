@@ -1,0 +1,16 @@
+name: istio-aws
+description: Installs istio on an eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+sections:
+- name: istio
+  items:
+  - type: TERRAFORM
+    name: kube
+    configuration: []
+  - type: HELM
+    name: istio
+    configuration: []
+  

@@ -1,0 +1,16 @@
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  name: istio-plural
+  labels:
+  {{ include "istio.labels" . | nindent 4 }}
+spec:
+  revision: {{ .Values.istioRevision }}
+  profile: demo
+{{ with .Values.istioComponents }}
+  components:
+  {{ toYaml . | nindent 4 }}
+{{ end }}
+  values:
+    global:
+      istioNamespace: {{ .Release.Namespace }}

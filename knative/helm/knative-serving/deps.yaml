@@ -1,0 +1,15 @@
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  application: true
+  description: deploys knative serving crafted for plural
+spec:
+  dependencies:
+  - type: helm
+    name: bootstrap
+    repo: bootstrap
+    version: '>= 0.5.1'
+  - type: terraform
+    name: kube
+    repo: knative
+    version: '>= 0.1.0'

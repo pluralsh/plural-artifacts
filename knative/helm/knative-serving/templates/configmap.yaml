@@ -1,0 +1,154 @@
+{{ with .Values.autoscalerConfig }}
+apiVersion: v1
+data:
+{{ toYaml . | nindent 2 }}
+kind: ConfigMap
+metadata:
+  annotations:
+    knative.dev/example-checksum: 604cb513
+  labels:
+    serving.knative.dev/release: v0.22.0
+  name: config-autoscaler
+  namespace: knative-serving
+---
+{{ end }}
+{{ with .Values.defaultsConfig }}
+apiVersion: v1
+data:
+{{ toYaml . | nindent 2}}
+kind: ConfigMap
+metadata:
+  annotations:
+    knative.dev/example-checksum: cdabec96
+  labels:
+    serving.knative.dev/release: v0.22.0
+  name: config-defaults
+  namespace: knative-serving
+---
+{{ end }}
+apiVersion: v1
+data:
+{{ with .Values.deploymentConfig }}
+  {{ toYaml . | nindent 2 }}
+{{ end }}
+  queueSidecarImage: gcr.io/knative-releases/knative.dev/serving/cmd/queue@sha256:6cd0c234bfbf88ac75df5243c2f9213dcc9def610414c506d418f9388187b771
+kind: ConfigMap
+metadata:
+  annotations:
+    knative.dev/example-checksum: fa67b403
+  labels:
+    serving.knative.dev/release: v0.22.0
+  name: config-deployment
+  namespace: knative-serving
+---
+{{ with .Values.domainConfig }}
+apiVersion: v1
+kind: ConfigMap
+data:
+{{ toYaml . | nindent 2 }}
+metadata:
+  annotations:
+    knative.dev/example-checksum: 74c3fc6a
+  labels:
+    serving.knative.dev/release: v0.22.0
+  name: config-domain
+  namespace: knative-serving
+---
+{{ end }}
+{{ with .Values.featuresConfig }}
+apiVersion: v1
+kind: ConfigMap
+data:
+{{ toYaml . | nindent 2 }}
+metadata:
+  annotations:
+    knative.dev/example-checksum: 2cf73688
+  labels:
+    serving.knative.dev/release: v0.22.0
+  name: config-features
+  namespace: knative-serving
+---
+{{ end }}
+{{ with .Values.gcConfig }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  annotations:
+    knative.dev/example-checksum: e6149382
+  labels:
+    serving.knative.dev/release: v0.22.0
+  name: config-gc
+  namespace: knative-serving
+data:
+{{ toYaml . | nindent 2 }}
+---
+{{ end }}
+{{ with .Values.leaderElectionConfig }}
+apiVersion: v1
+data:
+{{ toYaml . | nindent 2 }}
+kind: ConfigMap
+metadata:
+  annotations:
+    knative.dev/example-checksum: 96896b00
+  labels:
+    serving.knative.dev/release: v0.22.0
+  name: config-leader-election
+  namespace: knative-serving
+---
+{{ end }}
+{{ with .Values.loggingConfig }}
+apiVersion: v1
+data:
+{{ toYaml . | nindent 2 }}
+kind: ConfigMap
+metadata:
+  annotations:
+    knative.dev/example-checksum: d9570453
+  labels:
+    serving.knative.dev/release: v0.22.0
+  name: config-logging
+  namespace: knative-serving
+---
+{{ end }}
+{{ with .Values.networkConfig }}
+apiVersion: v1
+data:
+{{ toYaml . | nindent 2 }}
+kind: ConfigMap
+metadata:
+  annotations:
+    knative.dev/example-checksum: 15954d34
+  labels:
+    serving.knative.dev/release: v0.22.0
+  name: config-network
+  namespace: knative-serving
+---
+{{ end }}
+{{ with .Values.observabilityConfig }}
+apiVersion: v1
+data:
+{{ toYaml . | nindent 2 }}
+kind: ConfigMap
+metadata:
+  annotations:
+    knative.dev/example-checksum: 97c1d10b
+  labels:
+    serving.knative.dev/release: v0.22.0
+  name: config-observability
+  namespace: knative-serving
+---
+{{ end }}
+{{ with .Values.tracingConfig }}
+apiVersion: v1
+data:
+{{ toYaml . | nindent 2 }}
+kind: ConfigMap
+metadata:
+  annotations:
+    knative.dev/example-checksum: 4002b4c2
+  labels:
+    serving.knative.dev/release: v0.22.0
+  name: config-tracing
+  namespace: knative-serving
+{{ end }}

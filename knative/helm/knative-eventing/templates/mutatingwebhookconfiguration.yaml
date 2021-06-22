@@ -1,0 +1,37 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  labels:
+    eventing.knative.dev/release: v0.22.0
+  name: webhook.eventing.knative.dev
+webhooks:
+  - admissionReviewVersions:
+      - v1
+      - v1beta1
+    clientConfig:
+      service:
+        name: eventing-webhook
+        namespace: {{ .Release.Namespace }}
+    failurePolicy: Fail
+    name: webhook.eventing.knative.dev
+    sideEffects: None
+    timeoutSeconds: 10
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  labels:
+    eventing.knative.dev/release: v0.22.0
+  name: sinkbindings.webhook.sources.knative.dev
+webhooks:
+  - admissionReviewVersions:
+      - v1
+      - v1beta1
+    clientConfig:
+      service:
+        name: eventing-webhook
+        namespace: {{ .Release.Namespace }}
+    failurePolicy: Fail
+    name: sinkbindings.webhook.sources.knative.dev
+    sideEffects: None
+    timeoutSeconds: 10

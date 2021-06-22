@@ -1,0 +1,25 @@
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  labels:
+    serving.knative.dev/release: v0.22.0
+  name: activator-pdb
+  namespace: {{ .Release.Namespace }}
+spec:
+  minAvailable: 80%
+  selector:
+    matchLabels:
+      app: activator
+---
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  labels:
+    serving.knative.dev/release: v0.22.0
+  name: webhook-pdb
+  namespace: {{ .Release.Namespace }}
+spec:
+  minAvailable: 80%
+  selector:
+    matchLabels:
+      app: webhook

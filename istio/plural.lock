@@ -1,0 +1,14 @@
+artifact: {}
+terraform:
+  terraform/kube: h1:AINhTsSYjUzszgYVHfUwGz7C3uCp24GbM8uSBXV8yh8=
+helm:
+  helm/istio: h1:9OcBp2ei4ZSvWVcvTD7uNFewtNUi1J8zMXNMRA90GYQ=
+recipe:
+  plural/recipes/istio-aws.yaml: fb81e312070f56d4338153874bd0f6530f2d670ae0b2318e310b2ddb6187d2e7
+integration: {}
+crd:
+  plural/crds/crd-operator.yaml: e04f16e7af9591024ba31a5a956a7f18fe93ee65cc3e8311f4a31bcd5195672e:h1:9OcBp2ei4ZSvWVcvTD7uNFewtNUi1J8zMXNMRA90GYQ=
+ird: {}
+tag:
+  plural/tags/helm/istio.yaml: 7a04928ccc1ff18dfd45847813fdbf5006ac7b2f3a325080cb336141ab0b3b72
+  plural/tags/terraform/kube.yaml: 92ef5c9d1ec51bcf6d917cf7bd8032649bda7e894cc2f47c398250c237c2b1a9

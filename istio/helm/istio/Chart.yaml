@@ -1,0 +1,10 @@
+apiVersion: v2
+name: istio
+description: A chart bundling the istio operator for plural
+type: application
+version: 0.1.1
+appVersion: "1.16.0"
+dependencies:
+- name: istio-operator
+  version: 1.7.0
+  repository: file://../../../../istio/manifests/charts/istio-operator

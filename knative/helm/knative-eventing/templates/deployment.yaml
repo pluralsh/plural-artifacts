@@ -1,0 +1,206 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    eventing.knative.dev/release: v0.22.0
+    knative.dev/high-availability: "true"
+  name: eventing-controller
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: eventing-controller
+  template:
+    metadata:
+      labels:
+        app: eventing-controller
+        eventing.knative.dev/release: v0.22.0
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app: eventing-controller
+                topologyKey: kubernetes.io/hostname
+              weight: 100
+      containers:
+        - env:
+            - name: SYSTEM_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: CONFIG_LOGGING_NAME
+              value: config-logging
+            - name: CONFIG_OBSERVABILITY_NAME
+              value: config-observability
+            - name: METRICS_DOMAIN
+              value: knative.dev/eventing
+            - name: APISERVER_RA_IMAGE
+              value: gcr.io/knative-releases/knative.dev/eventing/cmd/apiserver_receive_adapter@sha256:65de192a61150c6f97371a77e2ac462d5e62fc91909662fcdaa285d9602476c3
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          image: gcr.io/knative-releases/knative.dev/eventing/cmd/controller@sha256:b02cfc6d0858de1ae6d5d5acbe1ac2ed1c5411f2adcec417c2b113b3b3274e4a
+          name: eventing-controller
+          ports:
+            - containerPort: 9090
+              name: metrics
+            - containerPort: 8008
+              name: profiling
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+          terminationMessagePolicy: FallbackToLogsOnError
+      enableServiceLinks: false
+      serviceAccountName: eventing-controller
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    eventing.knative.dev/release: v0.22.0
+  name: pingsource-mt-adapter
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      eventing.knative.dev/source: ping-source-controller
+      sources.knative.dev/role: adapter
+  template:
+    metadata:
+      labels:
+        eventing.knative.dev/release: v0.22.0
+        eventing.knative.dev/source: ping-source-controller
+        sources.knative.dev/role: adapter
+    spec:
+      containers:
+        - env:
+            - name: SYSTEM_NAMESPACE
+              value: ""
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: K_METRICS_CONFIG
+              value: ""
+            - name: K_LOGGING_CONFIG
+              value: ""
+            - name: K_LEADER_ELECTION_CONFIG
+              value: ""
+            - name: K_NO_SHUTDOWN_AFTER
+              value: ""
+            - name: K_SINK_TIMEOUT
+              value: "-1"
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          image: gcr.io/knative-releases/knative.dev/eventing/cmd/mtping@sha256:ac30b62fa390b01c24a9bb891c4b8aa7a8c6c747a5182592d81af58d65eaa65c
+          name: dispatcher
+          ports:
+            - containerPort: 9090
+              name: metrics
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 2048Mi
+            requests:
+              cpu: 125m
+              memory: 64Mi
+      enableServiceLinks: false
+      serviceAccountName: pingsource-mt-adapter
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    eventing.knative.dev/release: v0.22.0
+  name: eventing-webhook
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: eventing-webhook
+      role: eventing-webhook
+  template:
+    metadata:
+      labels:
+        app: eventing-webhook
+        role: eventing-webhook
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app: eventing-webhook
+                topologyKey: kubernetes.io/hostname
+              weight: 100
+      containers:
+        - env:
+            - name: SYSTEM_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: CONFIG_LOGGING_NAME
+              value: config-logging
+            - name: METRICS_DOMAIN
+              value: knative.dev/eventing
+            - name: WEBHOOK_NAME
+              value: eventing-webhook
+            - name: WEBHOOK_PORT
+              value: "8443"
+            - name: SINK_BINDING_SELECTION_MODE
+              value: exclusion
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          image: gcr.io/knative-releases/knative.dev/eventing/cmd/webhook@sha256:5f037fe6755fb85fb0a155f9892c8519a058dbf395d2d04b2c6769ffd2d68950
+          livenessProbe:
+            httpGet:
+              httpHeaders:
+                - name: k-kubelet-probe
+                  value: webhook
+              port: 8443
+              scheme: HTTPS
+            initialDelaySeconds: 20
+            periodSeconds: 1
+          name: eventing-webhook
+          ports:
+            - containerPort: 8443
+              name: https-webhook
+            - containerPort: 9090
+              name: metrics
+            - containerPort: 8008
+              name: profiling
+          readinessProbe:
+            httpGet:
+              httpHeaders:
+                - name: k-kubelet-probe
+                  value: webhook
+              port: 8443
+              scheme: HTTPS
+            periodSeconds: 1
+          resources:
+            limits:
+              cpu: 200m
+              memory: 200Mi
+            requests:
+              cpu: 100m
+              memory: 50Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+          terminationMessagePolicy: FallbackToLogsOnError
+      enableServiceLinks: false
+      serviceAccountName: eventing-webhook
+      terminationGracePeriodSeconds: 300

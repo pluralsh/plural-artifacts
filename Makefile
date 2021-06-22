@@ -29,5 +29,11 @@ upload-grafana: # uploads grafana artifacts
 upload-postgres: # uploads postgres artifacts
 	plural apply -f postgres/Pluralfile
 
+upload-istio: # uploads istio artifacts
+	plural apply -f istio/Pluralfile
+
+upload-knative: # uploads knative artifacts
+	plural apply -f knative/Pluralfile
+
 import-operator:
 	cp ../plural-operator/config/crd/bases/* bootstrap/plural/crds/bootstrap
