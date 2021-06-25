@@ -1,0 +1,6 @@
+REPO dex
+
+TF terraform/*
+HELM helm/*
+RECIPE plural/recipes/*
+TAG plural/tags/**/*

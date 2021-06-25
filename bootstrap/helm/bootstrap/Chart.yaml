@@ -8,7 +8,7 @@ sources:
 maintainers:
 - name: michaeljguarino
   email: mguarino46@gmail.com
-version: 0.6.9
+version: 0.6.13
 
 dependencies:
 - name: external-dns
@@ -31,7 +31,7 @@ dependencies:
   version: v1.4.0
   repository: https://charts.jetstack.io
 - name: cluster-autoscaler
-  version: 9.1.0
+  version: 9.9.2
   condition: cluster-autoscaler.enabled
   repository: https://kubernetes.github.io/autoscaler
 - name: kubed

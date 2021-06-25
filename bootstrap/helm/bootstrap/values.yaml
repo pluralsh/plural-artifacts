@@ -225,8 +225,16 @@ prometheus:
 
 cluster-autoscaler:
   enabled: false
+  extraArgs:
+    "scale-down-utilization-threshold": 0.75
+  serviceMonitor:
+    enabled: true
+    namespace: ""
 
 cert-manager:
+  securityContext:
+    fsGroup: 1000
+    runAsNonRoot: true
   podLabels:
     aadpodidbinding: externaldns # grants the same permissions needed for cert-manager
 

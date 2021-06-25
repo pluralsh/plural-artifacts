@@ -35,5 +35,8 @@ upload-istio: # uploads istio artifacts
 upload-knative: # uploads knative artifacts
 	plural apply -f knative/Pluralfile
 
+upload-dex: # uploads dex artifacts
+	plural apply -f dex/Pluralfile
+
 import-operator:
 	cp ../plural-operator/config/crd/bases/* bootstrap/plural/crds/bootstrap

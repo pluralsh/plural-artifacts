@@ -1,0 +1,18 @@
+artifact: {}
+terraform:
+  terraform/aws: h1:A+9B2ee96zdo8tu2HOlJ4bp0K/1us8N4WLJ7X5r84S0=
+  terraform/azure: h1:gf+H4EDjAWGveegIUKWjSgpN+pmez3LpwbL1EqosFEQ=
+  terraform/gcp: h1:oilGsNA/4xjGHvnA1tfWi6v9fn1oxQlWwgoPjS45oDs=
+helm:
+  helm/dex: h1:jKO2rhsj6Su4x5pDacR74zZ8dfIq72IEBsN85HZHCwg=
+recipe:
+  plural/recipes/aws-dex.yaml: b810cf9ca52d9d65ef7b0a3c4c0c05dde8d073de2902c6463754e9a25a4a721b
+  plural/recipes/gcp-dex.yaml: a8d4891ec74b92636ac08c5a19c16e746355608450a1d8953bca006e1e4bcdef
+integration: {}
+crd: {}
+ird: {}
+tag:
+  plural/tags/helm/dex.yml: 418522aa3a7a9fc06283ce4168896633ade6bbecaaae743de6366d7ad026ccc2
+  plural/tags/terraform/aws.yml: b46befb9716e1f9ef21cec5ba614f4b1f039438af71c8e039140fdd64a67bb3d
+  plural/tags/terraform/azure.yml: eb86a8273f31bda3c64704756f7d5d1c99c82ef048cf9b869c4be01f99a7431f
+  plural/tags/terraform/gcp.yml: a5f9d2f77756067979a97968c715feb2a5c509805ee07a86aa32121e56ac976b

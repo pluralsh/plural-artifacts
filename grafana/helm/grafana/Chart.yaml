@@ -1,10 +1,8 @@
 apiVersion: v2
 name: grafana
-description: A Helm chart for Kubernetes
-
-# A chart can be either an 'application' or a 'library' chart.
+description: A Helm chart for grafana on plural
 type: application
-version: 0.1.0
+version: 0.1.1
 appVersion: "1.16.0"
 
 dependencies:

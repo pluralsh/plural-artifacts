@@ -41,10 +41,6 @@ gitlab:
     enabled: false
   postgresql:
     install: false
-    image:
-      registry: gcr.io
-      repository: pluralsh/postgres
-      tag: 11.7.0-debian-10-r9
     postgresqlExtendedConf:
       max_connections: 100
     metrics:
