@@ -41,19 +41,11 @@ global:
 
 rootPassword: {{ dedupe . "gitlab.rootPassword" (randAlphaNum 20) }}
 
-serviceAccount:
-{{ if eq .Provider "google" }}
-  create: false
-{{ end }}
-  annotations:
-    eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-gitlab-runner"
-  
 gitlab:
   registry:
     storage:
       secret: registry-connection
       key: config
-  gitlab-runner:
     runners:
       cache:
       {{ if eq .Provider "aws" }}
