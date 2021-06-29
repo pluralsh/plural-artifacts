@@ -32,3 +32,8 @@ busybox:
   stage: push
   script:
   - vendor_image busybox:latest
+
+golang:
+  stage: push
+  script:
+  - vendor_image golang:1.16-stretch
