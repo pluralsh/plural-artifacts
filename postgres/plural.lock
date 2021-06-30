@@ -1,8 +1,8 @@
 artifact: {}
 terraform:
-  terraform/aws: h1:ijAVugBvjJZPsSzZMX9tE9umYqXADVL5KVdJspsV+Co=
-  terraform/azure: h1:oiuN9zkJR8BmE8Ggea7pwqvuxglQmFTaf7WGIANu1pc=
-  terraform/gcp: h1:qx17LeJjEjgffmfiTl7qvy6NLuKz/hRGrrDUszKDoPk=
+  terraform/aws: h1:TCyPVcknygdQF0GLwSiJKGvLgawqDKZnNhFNSEIIR3Y=
+  terraform/azure: h1:4Lgdokw8+XNVsJFtH4HefczvqHEKQxs9M7uWrMZv7OY=
+  terraform/gcp: h1:Eu4oH9Vyd1owZptMTtp3UOkUSqpYH/yR1Uak1+Yrd2k=
 helm:
   helm/postgres: h1:1nq9Zgnyff1i4BZggZkNocb5phiKygUKNqoj09l6wX0=
 recipe:
