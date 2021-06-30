@@ -1,39 +1,55 @@
 sidecar:
   stage: push
+  only:
+  - main
   script:
   - vendor_image kiwigrid/k8s-sidecar:1.1.0
 
 clickhouse:
   stage: push
+  only:
+  - main
   script:
   - vendor_image yandex/clickhouse-server:20.8.9.6
 
 kafka:
   stage: push
+  only:
+  - main
   script:
   - vendor_image bitnami/kafka:2.6.0-debian-10-r78
 
 zookeeper:
   stage: push
+  only:
+  - main
   script:
   - vendor_image bitnami/zookeeper:3.6.2-debian-10-r58
 
 snuba:
   stage: push
+  only:
+  - main
   script:
   - vendor_image getsentry/snuba:21.5.1
 
 sentry:
   stage: push
+  only:
+  - main
   script:
   - vendor_image getsentry/sentry:21.5.1
 
 symbolicator:
   stage: push
+  only:
+  - main
   script:
   - vendor_image getsentry/symbolicator:0.3.3
 
 relay:
   stage: push
+  only:
+  - main
   script:
   - vendor_image getsentry/relay:21.5.1

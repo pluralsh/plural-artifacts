@@ -1,5 +1,7 @@
 postgres-spilo:
   stage: push
+  only:
+  - main
   script:
   - docker build -f postgres/Dockerfile -t gcr.io/pluralsh/acid/spilo-13:2.0-p7 -t dkr.plural.sh/postgres/acid/spilo-13:2.0-p7 .
   - docker push gcr.io/pluralsh/acid/spilo-13:2.0-p7

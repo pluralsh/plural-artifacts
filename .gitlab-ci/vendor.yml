@@ -1,39 +1,55 @@
 postgres-exporter:
   stage: push
+  only:
+  - main
   script:
   - vendor_image bitnami/postgres-exporter:0.8.0-debian-10-r354
 
 postgres:
   stage: push
+  only:
+  - main
   script:
   - vendor_image bitnami/postgresql:11.7.0-debian-10-r9
 
 rabbitmq:
   stage: push
+  only:
+  - main
   script:
   - vendor_image rabbitmq:3.8.16-management
 
 redis:
   stage: push
+  only:
+  - main
   script:
   - vendor_image bitnami/redis:6.0.9-debian-10-r0
 
 redis-exporter:
   stage: push
+  only:
+  - main
   script:
   - vendor_image bitnami/redis-exporter:1.12.1-debian-10-r11
 
 dind:
   stage: push
+  only:
+  - main
   script:
   - vendor_image docker:20.10.7-dind
 
 busybox:
   stage: push
+  only:
+  - main
   script:
   - vendor_image busybox:latest
 
 golang:
   stage: push
+  only:
+  - main
   script:
   - vendor_image golang:1.16-stretch

@@ -3,11 +3,6 @@ default:
   services:
   - name: gcr.io/pluralsh/docker:19.03.13-dind
     alias: docker
-  except:
-    variables:
-    - $CI_COMMIT_MESSAGE =~ /pushed to plural/
-  only:
-  - main
   before_script:
   - until docker info; do sleep 1; done
   - gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
