@@ -1,34 +1,48 @@
 promtail:
   stage: push
+  only:
+  - main
   script:
   - vendor_image grafana/promtail:1.6.0
 
 kubed:
   stage: push
+  only:
+  - main
   script:
   - vendor_image appscode/kubed:v0.13.0-beta.0
 
 loki:
   stage: push
+  only:
+  - main
   script:
   - vendor_image grafana/loki:1.6.0
 
 statsd-exporter:
   stage: push
+  only:
+  - main
   script:
   - vendor_image prom/statsd-exporter:v0.20.2
 
 curl:
   stage: push
+  only:
+  - main
   script:
   - vendor_image curlimages/curl:7.73.0
 
 grafana:
   stage: push
+  only:
+  - main
   script:
   - vendor_image grafana/grafana:7.5.5
 
 metrics-server:
   stage: push
+  only:
+  - main
   script:
   - vendor_image bitnami/metrics-server:0.4.4-debian-10-r0
