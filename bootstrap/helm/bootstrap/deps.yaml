@@ -8,7 +8,7 @@ spec:
   - type: terraform
     name: aws-bootstrap
     repo: bootstrap
-    version: '>= 0.1.1'
+    version: '>= 0.1.2'
     optional: true
   - type: terraform
     name: gcp-bootstrap
