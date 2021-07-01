@@ -5,6 +5,12 @@
 rootPassword: CHANGEME
 
 global:
+  email:
+    display_name: Gitlab
+  smtp:
+    password:
+      secret: gitlab-smtp-password
+      key: password
   psql:
     host: plural-gitlab
     password:
