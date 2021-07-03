@@ -208,7 +208,7 @@ kube-prometheus-stack:
             - ReadWriteOnce
             resources:
               requests:
-                storage: 30 Gi
+                storage: 30Gi
       podMetadata:
         labels:
           app.kubernetes.io/managed-by: Helm
