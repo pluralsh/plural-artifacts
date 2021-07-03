@@ -201,43 +201,43 @@ kube-prometheus-stack:
       labels:
         app.kubernetes.io/managed-by: Helm
     prometheusSpec:
+      storageSpec:
+        volumeClaimTemplate:
+          spec:
+            accessModes:
+            - ReadWriteOnce
+            resources:
+              requests:
+                storage: 30 Gi
       podMetadata:
         labels:
           app.kubernetes.io/managed-by: Helm
       ruleNamespaceSelector:
         matchLabels:
           app.kubernetes.io/managed-by: plural
-      ruleSelector:
-        matchLabels:
-          app.kubernetes.io/managed-by:  Helm
+      ruleSelectorNilUsesHelmValues: false
+      ruleSelector: ''
       serviceMonitorNamespaceSelector:
         matchLabels:
           app.kubernetes.io/managed-by: plural
-      serviceMonitorSelector:
-        matchLabels:
-          app.kubernetes.io/managed-by:  Helm
+      serviceMonitorSelectorNilUsesHelmValues: false
+      serviceMonitorSelector: ''
       podMonitorNamespaceSelector:
         matchLabels:
           app.kubernetes.io/managed-by: plural
-      podMonitorSelector:
-        matchLabels:
-          app.kubernetes.io/managed-by:  Helm
+      podMonitorSelectorNilUsesHelmValues: false
+      podMonitorSelector: ''
       probeNamespaceSelector:
         matchLabels:
           app.kubernetes.io/managed-by: plural
-      probeSelector:
-        matchLabels:
-          app.kubernetes.io/managed-by:  Helm
+      probeSelectorNilUsesHelmValues: false
+      probeSelector: ''
 
 
 kubed:
   operator:
     registry: gcr.io/pluralsh/appscode
 
-prometheus:
-  server:
-    statefulSet:
-      enabled: true
 
 cluster-autoscaler:
   enabled: false
@@ -246,6 +246,7 @@ cluster-autoscaler:
   serviceMonitor:
     enabled: true
     namespace: ""
+
 
 metrics-server:
   enabled: false
