@@ -100,6 +100,11 @@ metrics-server:
   enabled: true
 {{ end }}
 
+{{ $grafanaNamespace := namespace "grafana" }}
+kube-prometheus-stack:
+  grafana:
+    namespaceOverride: {{ $grafanaNamespace }}
+
 {{ if eq .Provider "aws" }}
 cert-manager:
   serviceAccount:
