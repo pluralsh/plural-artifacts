@@ -6,9 +6,9 @@ terraform:
 helm:
   helm/console: h1:g2XXd5sMjYLg5xgRg4y+hVxeGsFHdFEzBT/LXiRqHwE=
 recipe:
-  plural/recipe/console-aws.yaml: c9901ab5faf29624735912a1f2fcb975af353957baec23e15ab45ca64eda7f6d
-  plural/recipe/console-azure.yaml: 16e6b03bff9b9320e7c571739992fdbd32180a75a5665ecd1ff06c60ea1efa23
-  plural/recipe/console-gcp.yaml: bdd516ce513960a725d6570dd6a047c7183bf1a0227f6e1b38a2522d103d93e6
+  plural/recipe/console-aws.yaml: 8205affaf3aefaa5f26cb372bbe3fe3a7ded6d41e9484563fbe132d9767221fd
+  plural/recipe/console-azure.yaml: 9ce57a44c33095a351c3506a2870698956c705de7f652f84446fd057e8ffcc1d
+  plural/recipe/console-gcp.yaml: fd43985f7a6ccef7f916c0ef035b485b4b186f0a52904b79261a64049dc085ba
 integration: {}
 crd: {}
 ird: {}

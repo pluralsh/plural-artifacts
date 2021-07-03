@@ -39,6 +39,7 @@ grafana:
   - main
   script:
   - vendor_image grafana/grafana:7.5.5
+  - vendor_image grafana/grafana:8.0.3
 
 metrics-server:
   stage: push
