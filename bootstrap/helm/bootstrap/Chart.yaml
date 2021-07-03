@@ -8,7 +8,7 @@ sources:
 maintainers:
 - name: michaeljguarino
   email: mguarino46@gmail.com
-version: 0.6.15
+version: 0.6.16
 
 dependencies:
 - name: external-dns
@@ -19,7 +19,7 @@ dependencies:
   condition: metrics-server.enabled
   repository: https://charts.bitnami.com/bitnami
 - name: kube-prometheus-stack
-  version: 15.4.6
+  version: 16.12.1
   repository: https://prometheus-community.github.io/helm-charts
 - name: loki-stack
   version: 0.40.1
