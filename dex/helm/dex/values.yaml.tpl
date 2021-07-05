@@ -2,7 +2,7 @@
 
 dex:
   config:
-    issuer: {{ .Values.fqdn }}
+    issuer: https://{{ .Values.fqdn }}
     staticPasswords:
     - email: {{ .Values.email }}
       hash: $2y$12$1c5U2ToHRv.PaFI6Va/4a..OQZW8hmomITwNiDxwQu8x7g.doVAce

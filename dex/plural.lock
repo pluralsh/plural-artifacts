@@ -4,7 +4,7 @@ terraform:
   terraform/azure: h1:gf+H4EDjAWGveegIUKWjSgpN+pmez3LpwbL1EqosFEQ=
   terraform/gcp: h1:oilGsNA/4xjGHvnA1tfWi6v9fn1oxQlWwgoPjS45oDs=
 helm:
-  helm/dex: h1:9nSWIinTr0L2Iy6rZrUg81+mA9xtKtfHmrHQoHtBSCQ=
+  helm/dex: h1:Ef2RxkExz9M/zH5pQrz4Enu1sxjTpBMB1FMbCBj9l44=
 recipe:
   plural/recipes/aws-dex.yaml: d5058c34f2c9597ca623c3be9b65cbe24fb7a9be1309cb8128d0f48e2a1ed2b0
   plural/recipes/gcp-dex.yaml: a8d4891ec74b92636ac08c5a19c16e746355608450a1d8953bca006e1e4bcdef
