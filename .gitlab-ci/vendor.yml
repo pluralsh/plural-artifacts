@@ -19,13 +19,6 @@ rabbitmq:
   script:
   - vendor_image rabbitmq:3.8.16-management
 
-redis:
-  stage: push
-  only:
-  - main
-  script:
-  - vendor_image bitnami/redis:6.0.9-debian-10-r0
-
 redis-exporter:
   stage: push
   only:

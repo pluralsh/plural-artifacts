@@ -1,0 +1,22 @@
+redis:
+  existingSecret: redis-password
+  existingSecretPasswordKey: password
+
+  image:
+    registry: gcr.io/pluralsh
+    tag: 6.2.4-debian-10-r0
+  metrics:
+    enabled: true
+    image:
+      registry: gcr.io/pluralsh
+      tag: 1.24.0-debian-10-r11
+    serviceMonitor:
+      enabled: true
+
+    sentinel:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+      image:
+        registry: gcr.io/pluralsh
+        tag: 1.7.1-debian-10-r109

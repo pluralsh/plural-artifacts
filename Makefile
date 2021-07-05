@@ -38,5 +38,8 @@ upload-knative: # uploads knative artifacts
 upload-dex: # uploads dex artifacts
 	plural apply -f dex/Pluralfile
 
+upload-redis: # uploads redis artifacts
+	plural apply -f redis/Pluralfile
+
 import-operator:
 	cp ../plural-operator/config/crd/bases/* bootstrap/plural/crds/bootstrap

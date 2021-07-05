@@ -1,0 +1,15 @@
+name: gcp-redis
+description: Installs redis on a GKE cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-kubernetes
+sections:
+- name: redis
+  items:
+  - type: TERRAFORM
+    name: kube
+    configuration: []
+  - type: HELM
+    name: redis
+    configuration: []

@@ -1,0 +1,22 @@
+# Default values for redis-cluster.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+redis-cluster:
+  replica:
+    replicaCount: 1
+
+  auth:
+    existingSecret: redis-password
+    existingSecretPasswordKey: password
+
+  image:
+    registry: gcr.io/pluralsh
+  metrics:
+    image:
+      registry: gcr.io/pluralsh
+      tag: 1.24.0-debian-10-r11
+    enabled: true
+    serviceMonitor:
+      enabled: true
+
+password:

@@ -1,0 +1,15 @@
+name: aws-redis
+description: Installs redis on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+sections:
+- name: redis
+  items:
+  - type: TERRAFORM
+    name: kube
+    configuration: []
+  - type: HELM
+    name: redis
+    configuration: []

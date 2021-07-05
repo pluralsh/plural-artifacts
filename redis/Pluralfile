@@ -1,0 +1,5 @@
+REPO redis
+
+TF terraform/*
+HELM helm/*
+RECIPE plural/recipes/*

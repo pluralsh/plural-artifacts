@@ -35,3 +35,4 @@ include:
 - .gitlab-ci/sentry.yml
 - .gitlab-ci/plural.yml
 - .gitlab-ci/postgres.yml
+- .gitlab-ci/redis.yml
