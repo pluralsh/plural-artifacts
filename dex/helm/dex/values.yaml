@@ -27,3 +27,4 @@ dex:
   istio:
     enabled: true
     host: dex.kubeflow-aws.com
+    namespace: istio

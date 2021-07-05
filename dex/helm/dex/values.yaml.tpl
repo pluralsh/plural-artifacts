@@ -1,3 +1,5 @@
+{{ $istioNamespace := namespace "istio" }}
+
 dex:
   config:
     issuer: {{ .Values.fqdn }}
@@ -27,3 +29,4 @@ dex:
 istio:
   enabled: {{ .Values.istioEnabled }}
   host: {{ .Values.fqdn }}
+  namespace: {{ $istioNamespace }}
