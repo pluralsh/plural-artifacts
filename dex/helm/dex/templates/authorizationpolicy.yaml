@@ -2,16 +2,28 @@
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
-  name: {{ .Release.Name }}-allow-access
+  name: {{ .Release.Name }}-all-allow-access
   namespace: {{ .Release.Namespace }}
   labels: {{ include "dex.labels" . | nindent 4 }}
 spec:
   action: ALLOW
   rules:
   - {}
-  # - from:
-  #   - source:
-  #       namespaces:
-  #       - auth
-  #       - istio-system
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: {{ .Release.Name }}-allow-external-access
+  namespace: {{ .Values.dex.istio.namespace }}
+spec:
+  action: ALLOW
+  selector:
+    matchLabels:
+      app: istio-ingressgateway
+      istio: ingressgateway
+  rules:
+  - to:
+    - operation:
+        hosts:
+        - {{ .Values.fqdn }}
 {{ end }}
