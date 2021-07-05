@@ -1,0 +1,14 @@
+artifact: {}
+terraform:
+  terraform/kube: h1:Tk2i0H2YUhAZqzsR5l2WMF+JLWvuuBQelVX6bH6Im+g=
+helm:
+  helm/redis: h1:tDa0GNo0L/ovSUG6CSYgh1iPEy9/oXPCRxT8suBOLJc=
+  helm/redis-cluster: h1:ceJU+qPJot/pfk1NhEP8Ou7YhQL9JVvNqSdr+VNWNyU=
+recipe:
+  plural/recipes/aws-redis.yaml: 28250825ce2fdc7bfa7307e951923024e9b7130c7cac452f9642de43fdb1e23c
+  plural/recipes/azure-redis.yaml: 30de3184c624c79779ebc613ea71df153525860d6912917044e1c03fbbd28931
+  plural/recipes/gcp-redis.yaml: afcfff3cb2fc88973e0249181347468673621e1d2bcb801a215401948a4c0997
+integration: {}
+crd: {}
+ird: {}
+tag: {}
