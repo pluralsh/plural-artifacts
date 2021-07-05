@@ -1,12 +1,12 @@
 artifact: {}
 terraform:
-  terraform/aws: h1:A+9B2ee96zdo8tu2HOlJ4bp0K/1us8N4WLJ7X5r84S0=
+  terraform/aws: h1:jVfGGD8CfCzF4cLlsnIP4tNe81pr6tTDFQJGr0yeEdw=
   terraform/azure: h1:gf+H4EDjAWGveegIUKWjSgpN+pmez3LpwbL1EqosFEQ=
   terraform/gcp: h1:oilGsNA/4xjGHvnA1tfWi6v9fn1oxQlWwgoPjS45oDs=
 helm:
-  helm/dex: h1:jKO2rhsj6Su4x5pDacR74zZ8dfIq72IEBsN85HZHCwg=
+  helm/dex: h1:FB6SQtOEALGxc00dZsQ0FlosSvN5K/g9eOMzpM7R/iQ=
 recipe:
-  plural/recipes/aws-dex.yaml: b810cf9ca52d9d65ef7b0a3c4c0c05dde8d073de2902c6463754e9a25a4a721b
+  plural/recipes/aws-dex.yaml: d5058c34f2c9597ca623c3be9b65cbe24fb7a9be1309cb8128d0f48e2a1ed2b0
   plural/recipes/gcp-dex.yaml: a8d4891ec74b92636ac08c5a19c16e746355608450a1d8953bca006e1e4bcdef
 integration: {}
 crd: {}

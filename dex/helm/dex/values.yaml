@@ -4,11 +4,26 @@ dex:
       type: kubernetes
       config:
         inCluster: true
+    web:
+      http: 0.0.0.0:5556
+    logger:
+      level: debug
+      format: text
+    oauth2:
+      skipApprovalScreen: true
+    expiry:
+      signingKeys: 4h
+      idTokens: 1h
+    enablePasswordDB: true
   ingress:
-    enabled: true
+    enabled: false
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       kubernetes.io/tls-acme: "true"
       kubernetes.io/ingress.class: "nginx"
       nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
       nginx.ingress.kubernetes.io/use-regex: "true"
+
+  istio:
+    enabled: true
+    host: dex.kubeflow-aws.com

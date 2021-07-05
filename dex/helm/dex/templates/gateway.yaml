@@ -1,0 +1,30 @@
+{{ if eq .Values.dex.istio.enabled true }}
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: {{ .Release.Name }}-gateway
+  namespace: {{ .Release.Namespace }}
+  labels: {{ include "dex.labels" . | nindent 4 }}
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - hosts:
+    - {{ .Values.dex.istio.host }}
+    port:
+      name: http
+      number: 80
+      protocol: HTTP
+    # Upgrade HTTP to HTTPS
+    tls:
+      httpsRedirect: true
+  - hosts:
+    - {{ .Values.dex.istio.host }}
+    port:
+      name: https
+      number: 443
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: {{ .Release.Name }}-ingressgateway-certs
+{{ end }}

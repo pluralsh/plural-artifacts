@@ -9,11 +9,26 @@ sections:
   items:
   - type: TERRAFORM
     name: aws
-    configuration: []
+    configuration:
+    - name: istioEnabled
+      documentation: enable istio in the dex namespace
+      type: BOOL
   - type: HELM
     name: dex
     configuration:
+    - name: istioEnabled
+      documentation: enable istio in the dex namespace
+      type: BOOL
     - name: fqdn
       documentation: FQDN to use for your dex installation
       type: STRING
-  
+    - name: username
+      documentation: username for dex static user
+      type: STRING
+    - name: email
+      documentation: email for dex static user
+      type: STRING
+    - name: redirectURI
+      documentation: the redirect URI for the static client
+      type: STRING
+      default: https://kubeflow.kubeflow-aws.com/oauth2/callback

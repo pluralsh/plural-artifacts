@@ -1,0 +1,17 @@
+{{ if eq .Values.dex.istio.enabled true }}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: {{ .Release.Name }}-allow-access
+  namespace: {{ .Release.Namespace }}
+  labels: {{ include "dex.labels" . | nindent 4 }}
+spec:
+  action: ALLOW
+  rules:
+  - {}
+  # - from:
+  #   - source:
+  #       namespaces:
+  #       - auth
+  #       - istio-system
+{{ end }}

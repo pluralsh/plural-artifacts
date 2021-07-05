@@ -1,0 +1,19 @@
+{{ if eq .Values.dex.istio.enabled true }}
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+  labels: {{ include "dex.labels" . | nindent 4 }}
+spec:
+  gateways:
+  - dex-gateway
+  hosts:
+  - {{ .Values.dex.istio.host }}
+  http:
+  - route:
+    - destination:
+        host: {{ .Release.Name }}
+        port:
+          number: 5556
+{{ end }}
