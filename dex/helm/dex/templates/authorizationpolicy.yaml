@@ -25,5 +25,5 @@ spec:
   - to:
     - operation:
         hosts:
-        - {{ .Values.fqdn }}
+        - {{ .Values.dex.istio.host }}
 {{ end }}
