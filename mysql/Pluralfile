@@ -1,0 +1,6 @@
+REPO mysql
+
+TF terraform/*
+HELM helm/*
+CRD plural/crds/* helm/mysql
+RECIPE plural/recipes/*
