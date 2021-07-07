@@ -41,5 +41,8 @@ upload-dex: # uploads dex artifacts
 upload-redis: # uploads redis artifacts
 	plural apply -f redis/Pluralfile
 
+upload-mysql: # uploads mysql artifacts
+	plural apply -f mysql/Pluralfile
+
 import-operator:
 	cp ../plural-operator/config/crd/bases/* bootstrap/plural/crds/bootstrap

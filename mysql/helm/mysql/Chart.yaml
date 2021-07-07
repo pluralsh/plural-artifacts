@@ -1,0 +1,10 @@
+apiVersion: v2
+name: mysql
+description: Deploys the mysql operator enhanced for plural
+type: application
+version: 0.1.0
+appVersion: "1.16.0"
+dependencies:
+- name: mysql-operator
+  version: 0.1.1+master
+  repository: https://presslabs.github.io/charts
