@@ -1,0 +1,14 @@
+artifact: {}
+terraform:
+  terraform/kube: h1:yQeW+Uz+GRMhpb0ABJRt9xWFBJapTTXIhkXO9WYvaAI=
+helm:
+  helm/elasticsearch: h1:GEVIniW8Qc0dqLZNxgTNP99sF4ww04/rQCxLyAJmm7s=
+recipe:
+  plural/recipes/elasticsearch-aws.yaml: 7c0447b1a39003018859309e988a119f1beb16ac7dd0d32315ef1402e1cb1355
+integration: {}
+crd:
+  plural/crds/elastic-operator-crds.yaml: 62123b7a5f29386b41b76b1eb71bbec8b0f5c1b2b5d2cd13e72fc6ca66a6be82:h1:GEVIniW8Qc0dqLZNxgTNP99sF4ww04/rQCxLyAJmm7s=
+ird: {}
+tag:
+  plural/tags/helm/elasticsearch.yaml: 43e155522aef658f5b9b592a8ce12ced43e8e1641d6b4343dcdf5d5fe40b12a3
+  plural/tags/terraform/kube.yaml: 92ef5c9d1ec51bcf6d917cf7bd8032649bda7e894cc2f47c398250c237c2b1a9

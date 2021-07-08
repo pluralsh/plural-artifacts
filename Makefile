@@ -44,5 +44,8 @@ upload-redis: # uploads redis artifacts
 upload-mysql: # uploads mysql artifacts
 	plural apply -f mysql/Pluralfile
 
+upload-elasticsearch: # uploads mysql artifacts
+	plural apply -f elasticsearch/Pluralfile
+
 import-operator:
 	cp ../plural-operator/config/crd/bases/* bootstrap/plural/crds/bootstrap
