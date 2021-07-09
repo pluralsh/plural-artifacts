@@ -1,0 +1,5 @@
+1. mysql-percona deployed.
+  If you would like to deploy an pxc-cluster set cluster.enabled to true in values.yaml
+  Check the mysql-percona logs
+    export POD=$(kubectl get pods -l app={{ template "mysql-percona.fullname" . }} --namespace {{ .Release.Namespace }} --output name)
+    kubectl logs $POD --namespace={{ .Release.Namespace }}

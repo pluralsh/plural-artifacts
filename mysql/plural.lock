@@ -5,13 +5,13 @@ terraform:
   terraform/gcp: h1:GCSKZawUGCSsSefAtQ3X3wIPz/DHMXhN3UgYT4PUIMQ=
 helm:
   helm/mysql: h1:tnYEpvJ7BVvbekC4UfJ6WKeo4eFm7tAh8IzxIIcGW9w=
-  helm/mysql-percona: h1:Pg6vjTQRBIk/igVnmtL7UhDm3rWdY1Jg+jo5obE3eho=
+  helm/mysql-percona: h1:BteHnVXkHbMFECdD6JwNVsH8fCRppZ8Sx5fOKEVj3Js=
 recipe:
   plural/recipes/aws-mysql-percona.yaml: 7a01f7cd53c77b8cbe38cc00f134e9ca5b00424e68f89a1370ca1b4a18e666f8
   plural/recipes/aws-mysql.yaml: 1438718d7bb00c0f7a25a934871ce4ea98e2ab52cab729290e84ace1e9e17b66
 integration: {}
 crd:
-  plural/crds/percona/crd.yaml: 0b099d96c21408c34791e0285b7cf85e8576a56147982411ff03e1f9b9c3daa4:h1:Pg6vjTQRBIk/igVnmtL7UhDm3rWdY1Jg+jo5obE3eho=
+  plural/crds/percona/crd.yaml: 0b099d96c21408c34791e0285b7cf85e8576a56147982411ff03e1f9b9c3daa4:h1:BteHnVXkHbMFECdD6JwNVsH8fCRppZ8Sx5fOKEVj3Js=
   plural/crds/presslabs/backups.yaml: 3e5e80e7d01d9beb5f3002e8b5986921e7941d6d6889148771381961c0b59cd1:h1:tnYEpvJ7BVvbekC4UfJ6WKeo4eFm7tAh8IzxIIcGW9w=
   plural/crds/presslabs/mysqlclusters.yaml: df545bfc34efcd7947af788c62af0c2f2b14cc51ae50646481f28b3ac5fa2081:h1:tnYEpvJ7BVvbekC4UfJ6WKeo4eFm7tAh8IzxIIcGW9w=
   plural/crds/presslabs/mysqldatabases.yaml: 9cdaec110fe325ce4051a65b3ad3588316a3681811925bd2e8f4d68b892458d9:h1:tnYEpvJ7BVvbekC4UfJ6WKeo4eFm7tAh8IzxIIcGW9w=
