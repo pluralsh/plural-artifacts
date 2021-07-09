@@ -43,6 +43,10 @@ crons:
   cronModule: Task.Docker
   crontab: "0 0 * * *"
   envVars: []
+- cronName: plrl-login-prune
+  cronModule: Prune.Passwordless
+  crontab: "0 10 * * *"
+  envVars: []
 
 chartmuseum:
   resources: {}
