@@ -1,4 +1,5 @@
 # Default values for mysql-percona.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-{}
+pxc-operator:
+  watchNamespace: ""
