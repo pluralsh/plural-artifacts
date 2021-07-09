@@ -1,4 +1,4 @@
-name: aws-mysql
+name: aws-mysql-percona
 description: Installs mysql operator on an EKS cluster
 provider: AWS
 dependencies:
