@@ -42,3 +42,6 @@ sections:
     - name: publisher_description
       documentation: description for initial publisher
       type: STRING
+    - name: hydra_host
+      documentation: the fqdn to use for hydra, for managing plural oauth
+      type: STRING

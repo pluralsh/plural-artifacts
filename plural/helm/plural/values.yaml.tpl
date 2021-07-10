@@ -73,4 +73,35 @@ chartmuseum:
     serviceAccountAnnotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-plural"
 
+{{ $hydraPassword := dedupe . "plural.hydraPassword" (randAlphaNum 20) }}
+{{ $hydraHost := default "hydra.plural.sh" .Values.hydra_host }}
+hydraPassword: {{ $hydraPassword }}
+configureHydra: true
+hydraSecrets:
+  system: {{ dedupe . "plural.hydraSecrets.system" (randAlphaNum 20) }}
+  cookie: {{ dedupe . "plural.hydraSecrets.cookie" (randAlphaNum 20) }}
+  dsn: "postgres://hydra:{{ $hydraPassword }}@plural-hydra:5432/hydra"
+
+hydra:
+  hydra:
+    config:
+      dsn: "postgres://hydra:{{ $hydraPassword }}@plural-hydra:5432/hydra"
+      secrets:
+        system: {{ dedupe . "plural.hydra.secrets.system" (randAlphaNum 20) }}
+        cookie: {{ dedupe . "plural.hydra.secrets.cookie" (randAlphaNum 20) }}
+      urls:
+        self:
+          issuer: https://{{ $hydraHost }}/
+        login: https://{{ .Values.plural_dns }}/login
+        consent: https://{{ .Values.plural_dns }}/oauth/consent
+  ingress:
+    public:
+      hosts:
+      - host: {{ $hydraHost }}
+        paths: ["/.*"]
+      tls:
+      - hosts:
+        - {{ $hydraHost }}
+        secretName: hydra-tls
+      
 license: {{ .License | quote }}

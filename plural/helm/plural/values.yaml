@@ -48,6 +48,37 @@ crons:
   crontab: "0 10 * * *"
   envVars: []
 
+hydraSecrets:
+  dsn: memory
+  system: dummy
+  cookie: dummy
+
+hydraImage:
+  # ORY Hydra image
+  repository: oryd/hydra
+  # ORY Hydra version
+  tag: v1.8.5
+  # Image pull policy
+  pullPolicy: IfNotPresent
+
+hydra:
+  maester:
+    enabled: false
+  hydra:
+    dangerousForceHttp: true
+    existingSecret: false
+    autoMigrate: true
+    
+  ingress:
+    public:
+      enabled: true
+      annotations:
+        kubernetes.io/tls-acme: "true"
+        kubernetes.io/ingress.class: "nginx"
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+        nginx.ingress.kubernetes.io/use-regex: "true"
+  
 chartmuseum:
   resources: {}
   replicaCount: 1

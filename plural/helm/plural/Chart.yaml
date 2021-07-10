@@ -7,9 +7,12 @@ sources:
 maintainers:
 - name: michaeljguarino
   email: mjg@plural.sh
-version: 0.6.66
+version: 0.6.77
 
 dependencies:
 - name: influxdb
   version: 4.9.14
   repository: https://helm.influxdata.com
+- name: hydra
+  version: 0.16.0
+  repository: https://k8s.ory.sh/helm/charts
