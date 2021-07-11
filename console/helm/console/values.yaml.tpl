@@ -95,5 +95,9 @@ secrets:
 {{ else }}
   git_email: console@plural.sh
 {{ end }}
+{{ if .OIDC }}
+  plural_client_id: {{ .OIDC.ClientId }}
+  plural_client_secret: {{ .OIDC.ClientSecret }}
+{{ end }}
 
 license: {{ .License | quote }}
