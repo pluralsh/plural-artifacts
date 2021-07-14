@@ -12,6 +12,7 @@ sentry:
       repository: gcr.io/pluralsh/getsentry/snuba
     sentry:
       repository: gcr.io/pluralsh/getsentry/sentry
+      tag: 21.5.1-extended
     relay:
       repository: gcr.io/pluralsh/getsentry/relay
 

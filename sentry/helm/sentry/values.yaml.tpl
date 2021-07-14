@@ -22,6 +22,15 @@ sentry:
       region_name: {{ .Region }}
   {{ end }}
 
+  {{ if .OIDC }}
+  config:
+    sentryConfPy: |-
+      OIDC_CLIENT_ID = "{{ .OIDC.ClientId }}"
+      OIDC_CLIENT_SECRET = "{{ .OIDC.ClientSecret }}"
+      OIDC_SCOPE = "openid"
+      OIDC_DOMAIN = "{{ .OIDC.Configuration.Issuer }}"
+  {{ end }}
+
   serviceAccount:
     {{ if eq .Provider "google" }}
     create: false
