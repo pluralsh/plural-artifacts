@@ -53,13 +53,13 @@ airflow:
         
         # registration configs
         AUTH_USER_REGISTRATION = True  # allow users who are not already in the FAB DB
-        AUTH_USER_REGISTRATION_ROLE = "User"  # this role will be given in addition to any AUTH_ROLES_MAPPING
+        AUTH_USER_REGISTRATION_ROLE = "Admin"  # this role will be given in addition to any AUTH_ROLES_MAPPING
 
         # the list of providers which the user can choose from
         OAUTH_PROVIDERS = [
             {
                 'name': 'plural',
-                'icon': 'fa-openid',
+                'icon': 'fa-square-o',
                 'token_key': 'access_token',
                 'remote_app': {
                     'client_id': '{{ .OIDC.ClientId }}',
@@ -94,13 +94,6 @@ airflow:
     {{ if eq .Provider "aws" }}
       AIRFLOW__LOGGING__REMOTE_BASE_LOG_FOLDER: "s3://{{ .Values.airflowBucket }}/airflow/logs"
     {{ end }}
-    users:
-    - username: {{ .Values.adminUsername }}
-      password: CHANGEME
-      role: Admin
-      email: {{ .Values.adminEmail }}
-      firstName: {{ .Values.adminFirst }}
-      lastName: {{ .Values.adminLast }}
   
     {{ if eq .Provider "google" }}
     connections:

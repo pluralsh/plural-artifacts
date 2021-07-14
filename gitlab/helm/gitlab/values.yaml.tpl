@@ -6,6 +6,15 @@ global:
   registry:
     bucket: {{ .Values.registryBucket }}
   appConfig:
+    {{ if .OIDC }}
+    omniauth:
+      enabled: true
+      autoLinkUser: true
+      allowSingleSignOn: true
+      providers:
+      - secret: plural-oidc-provider
+        key: provider
+    {{ end }}
     lfs:
       bucket: {{ .Values.lfsBucket }}
       connection: # https://gitlab.com/gitlab-org/charts/gitlab/blob/master/doc/charts/globals.md#connection
@@ -38,6 +47,22 @@ global:
     {{ end }}
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-gitlab"
+
+{{ if .OIDC }}
+oidc:
+  name: openid_connect
+  label: Plural
+  icon: https://plural-assets.s3.us-east-2.amazonaws.com/uploads/repos/3fbf2a2b-6416-4245-ad28-3c2fb74aac86/plural-logo.png?v=63791948408
+  args:
+    name: openid_connect
+    issuer: {{ .OIDC.Configuration.Issuer }}
+    scope: [openid]
+    discovery: true
+    client_options:
+      identifier: {{ .OIDC.ClientId }}
+      secret: {{ .OIDC.ClientSecret }}
+      redirect_uri: https://gitlab.{{ .Values.domain }}/users/auth/openid_connect/callback
+{{ end }}
 
 rootPassword: {{ dedupe . "gitlab.rootPassword" (randAlphaNum 20) }}
 

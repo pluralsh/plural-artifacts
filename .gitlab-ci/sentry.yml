@@ -39,6 +39,8 @@ sentry:
   - main
   script:
   - vendor_image getsentry/sentry:21.5.1
+  - docker build -f sentry/Dockerfile -t gcr.io/pluralsh/getsentry/sentry:21.5.1-extended .
+  - docker push gcr.io/pluralsh/getsentry/sentry:21.5.1-extended
 
 symbolicator:
   stage: push

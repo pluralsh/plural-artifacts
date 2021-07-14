@@ -4,7 +4,7 @@ terraform:
   terraform/azure: h1:jWyQiP2VWnslaOTNvBx9xrtP9ToaJTq7IAxB04WK5wA=
   terraform/gcp: h1:DoaptJC/2Ay58N1ziTGrvszZQvjA4QjxMwkkXTq9hO0=
 helm:
-  helm/gitlab: h1:cozzeFxGujO243o/NbOM7UsvNu7IKV2j4QXU7fun0ms=
+  helm/gitlab: h1:nekH6X68sXNtjyIbc9M4VVyTB0MVTnq/EjOFYmfjMaY=
 recipe:
   plural/recipes/aws-gitlab.yaml: 94f52cd00ae1f1fb39019410d31a6b8e91dfea8077883a39b2f7273945d3b0f2
   plural/recipes/gcp-gitlab.yaml: 034482b670c52d03ac8797b79acd0446109d750e7f0e26f4ac8e9b0105733149
