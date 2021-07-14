@@ -152,6 +152,7 @@ airflow:
       ## security
       AIRFLOW__WEBSERVER__EXPOSE_CONFIG: "False"
       AIRFLOW__WEBSERVER__BASE_URL: http://localhost/
+      AIRFLOW__WEBSERVER__ENABLE_PROXY_FIX: "True"
 
       ## dags
       AIRFLOW__SCHEDULER__DAG_DIR_LIST_INTERVAL: "30"
@@ -169,6 +170,9 @@ airflow:
 
     extraPipPackages:
     - airflow-exporter
+    - "Flask-AppBuilder~=3.2.0"
+    - "Authlib~=0.15.3"
+    - pyjwt
 
     variables:
     - key: "environment"
