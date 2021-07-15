@@ -11,6 +11,7 @@ global:
       enabled: true
       autoLinkUser: true
       allowSingleSignOn: true
+      blockAutoCreatedUsers: false
       providers:
       - secret: plural-oidc-provider
         key: provider

@@ -7,8 +7,8 @@ helm:
   helm/airflow: h1:j/RTy0OawWfNoKeZyeXXbYry583gDZBA+DDmeWwAvmI=
 recipe:
   forge/recipes/gcp-airflow.yaml: 4a61bee914e0e3cb3f703e054648781a437ffda570f5645b1a986fdafd1fa681
-  plural/recipes/aws-airflow.yaml: 91134465866e316621b7546ff8516c73d74d7a87f2f2b5d8219374674479e7ef
-  plural/recipes/gcp-airflow.yaml: babb6312da9b9ecc23053f97a6d89124afac860e9eb76f0ce3d182206199e955
+  plural/recipes/aws-airflow.yaml: 6455bc22ece4763996085863a49124332be3a342409be4aa8785c5d20c7c2d48
+  plural/recipes/gcp-airflow.yaml: 2eeee026dd26f0c7e062594fc2e4e9f97220c371734f57073e231b89ce3f866c
 integration: {}
 crd: {}
 ird: {}
