@@ -11,5 +11,5 @@ sections:
     name: kube
     configuration: []
   - type: HELM
-    name: redis
+    name: redis-cluster
     configuration: []

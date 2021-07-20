@@ -4,6 +4,9 @@
 redis-cluster:
   replica:
     replicaCount: 1
+  
+  existingSecret: redis-password
+  existingSecretPasswordKey: password
 
   auth:
     existingSecret: redis-password

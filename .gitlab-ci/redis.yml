@@ -7,6 +7,13 @@ redis:
   - vendor_image bitnami/redis:6.2.1-debian-10-r0
   - vendor_image bitnami/redis:6.2.4-debian-10-r0
 
+redis-cluster:
+  stage: push
+  only:
+  - main
+  script:
+  - vendor_image bitnami/redis-cluster:6.2.4-debian-10-r21
+
 redis-exporter:
   stage: push
   only:
