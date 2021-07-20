@@ -13,6 +13,7 @@ redis-exporter:
   - main
   script:
   - vendor_image bitnami/redis-exporter:1.24.0-debian-10-r17
+  - vendor_image bitnami/redis-exporter:1.24.0-debian-10-r11
 
 sentinel-exporter:
   stage: push
