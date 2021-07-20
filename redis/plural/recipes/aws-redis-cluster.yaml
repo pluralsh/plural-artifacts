@@ -1,9 +1,9 @@
-name: gcp-redis
-description: Installs redis on a GKE cluster
-provider: GCP
+name: aws-redis
+description: Installs redis on an aws eks cluster
+provider: AWS
 dependencies:
 - repo: bootstrap
-  name: gcp-kubernetes
+  name: aws-k8s
 sections:
 - name: redis
   items:
@@ -11,5 +11,5 @@ sections:
     name: kube
     configuration: []
   - type: HELM
-    name: redis
+    name: redis-cluster
     configuration: []

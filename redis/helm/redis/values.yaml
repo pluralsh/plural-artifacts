@@ -1,6 +1,7 @@
 redis:
-  existingSecret: redis-password
-  existingSecretPasswordKey: password
+  auth:
+    existingSecret: redis-password
+    existingSecretPasswordKey: password
 
   image:
     registry: gcr.io/pluralsh

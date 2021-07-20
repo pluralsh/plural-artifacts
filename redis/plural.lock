@@ -2,12 +2,15 @@ artifact: {}
 terraform:
   terraform/kube: h1:Tk2i0H2YUhAZqzsR5l2WMF+JLWvuuBQelVX6bH6Im+g=
 helm:
-  helm/redis: h1:tDa0GNo0L/ovSUG6CSYgh1iPEy9/oXPCRxT8suBOLJc=
+  helm/redis: h1:kt+xtvDC1VDun5INrE5hYOEUqxv/X7+q7DH4C4DupG0=
   helm/redis-cluster: h1:dLUjkbtCx8SHjp4+FAR8VqMOjzXZt2cktfT3OOJYwcU=
 recipe:
-  plural/recipes/aws-redis.yaml: cc2e9e05fb24497f30906f2ac5250207eb2b4103a48a6f5e509ba32a82c7f119
-  plural/recipes/azure-redis.yaml: e5241bba5f35a3da7512e15dadb24b32ea59a8b7540c1c174ab00fa269ff7bb3
-  plural/recipes/gcp-redis.yaml: 5d9ed500168025c9310069ce05c2a76912181a97d77816ce04357759372b7c9c
+  plural/recipes/aws-redis-cluster.yaml: cc2e9e05fb24497f30906f2ac5250207eb2b4103a48a6f5e509ba32a82c7f119
+  plural/recipes/aws-redis.yaml: 28250825ce2fdc7bfa7307e951923024e9b7130c7cac452f9642de43fdb1e23c
+  plural/recipes/azure-redis-cluster.yaml: e5241bba5f35a3da7512e15dadb24b32ea59a8b7540c1c174ab00fa269ff7bb3
+  plural/recipes/azure-redis.yaml: 30de3184c624c79779ebc613ea71df153525860d6912917044e1c03fbbd28931
+  plural/recipes/gcp-redis-cluster.yaml: 5d9ed500168025c9310069ce05c2a76912181a97d77816ce04357759372b7c9c
+  plural/recipes/gcp-redis.yaml: afcfff3cb2fc88973e0249181347468673621e1d2bcb801a215401948a4c0997
 integration: {}
 crd: {}
 ird: {}
