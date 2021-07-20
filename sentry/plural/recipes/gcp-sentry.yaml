@@ -6,6 +6,8 @@ dependencies:
   name: gcp-kubernetes
 - repo: rabbitmq
   name: rabbitmq-gcp
+- repo: redis
+  name: gcp-redis
 sections:
 - name: sentry
   items:

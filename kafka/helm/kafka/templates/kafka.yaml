@@ -1,0 +1,54 @@
+{{ if .Values.create }}
+apiVersion: kafka.strimzi.io/v1beta2
+kind: Kafka
+metadata:
+  name: kafka
+spec:
+  kafka:
+    replicas: {{ .Values.kafka.replicas }}
+    version: {{ .Values.kafka.version }}
+    {{ if .Values.kafka.resources }}
+    resources:
+      {{ toYaml .Values.kafka.resources | nindent 6 }}
+    {{ end }}
+    {{ if .Values.kafka.jvmOptions }}
+    jvmOptions:
+      {{ toYaml .Values.kafka.jvmOptions | nindent 6 }}
+    {{ end }}
+    listeners:
+    - name: tcp
+      type: internal
+      port: 9092
+      tls: false
+    {{ range $_ind, $listener := .Values.kafka.additionalListeners }}
+    - name: {{ $listener.name }}
+      type: {{ $listener.type }}
+      port: {{ $listener.port }}
+      tls: {{ $listener.tls }}
+      {{ if $listener.authentication }}
+      authentication:
+      {{ $listener.authentication | toYaml | nindent 8 }}
+      {{ end }}
+    {{ end }}
+    metricsConfig:
+      type: jmxPrometheusExporter
+      valueFrom:
+        configMapKeyRef:
+          name: kafka-metrics
+          key: kafka-metrics-config.yml
+    config:
+    {{ toYaml .Values.kafka.config | nindent 6 }}
+    {{ if .Values.kafka.storage }}
+    storage:
+      {{ toYaml .Values.kafka.storage | nindent 6 }}
+    {{ end }}
+  {{ if .Values.zookeeper }}
+  zookeeper:
+  {{ toYaml .Values.zookeeper | nindent 4 }}
+  {{ end }}
+  entityOperator:
+  {{ toYaml .Values.entityOperator | nindent 4 }}
+  kafkaExporter:
+    topicRegex: ".*"
+    groupRegex: ".*"
+{{ end }}

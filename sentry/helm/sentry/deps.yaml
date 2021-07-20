@@ -17,6 +17,10 @@ spec:
     name: cluster-operator
     repo: rabbitmq
     version: '>= 0.1.8'
+  - type: helm
+    name: redis
+    repo: redis
+    version: '>= 0.1.1'
   - type: terraform
     name: aws
     repo: sentry

@@ -45,6 +45,12 @@ sentry:
     auth:
       username: {{ $creds.username }}
       password: {{ $creds.password }}
+  
+  {{ $redisNamespace := namespace "redis" }}
+  {{ $creds := secret $redisNamespace "redis-password" }}
+  externalRedis:
+    host: redis-master.{{ $redisNamespace }}
+    password: {{ $creds.password | quote }}
 
   user:
     email: {{ .Values.adminEmail }}

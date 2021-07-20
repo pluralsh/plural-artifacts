@@ -1,0 +1,15 @@
+name: gcp-kafka
+description: Installs kafka on an gcp eks cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-kubernetes
+sections:
+- name: kafka
+  items:
+  - type: TERRAFORM
+    name: kube
+    configuration: []
+  - type: HELM
+    name: kafka
+    configuration: []

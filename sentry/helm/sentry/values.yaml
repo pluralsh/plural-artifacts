@@ -62,6 +62,7 @@ sentry:
       enabled: true
 
   redis:
+    enabled: false
     image:
       registry: gcr.io/pluralsh
       tag: 6.0.9-debian-10-r0
