@@ -46,6 +46,7 @@ sentry:
         enabled: true
   
   kafka:
+    enabled: false
     image:
       registry: gcr.io/pluralsh
     

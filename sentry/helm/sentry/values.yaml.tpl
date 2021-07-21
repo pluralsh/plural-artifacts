@@ -52,6 +52,10 @@ sentry:
     host: redis-master.{{ $redisNamespace }}
     password: {{ $creds.password | quote }}
 
+  {{ $kafkaNamespace := namespace "kafka" }}
+  externalKafka:
+    host: kafka-kafka-bootstrap.{{ $kafkaNamespace }}
+
   user:
     email: {{ .Values.adminEmail }}
     password: {{ dedupe . "sentry.sentry.user.password" (randAlphaNum 20) }}
