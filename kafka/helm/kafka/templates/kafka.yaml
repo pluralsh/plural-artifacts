@@ -7,6 +7,35 @@ spec:
   kafka:
     replicas: {{ .Values.kafka.replicas }}
     version: {{ .Values.kafka.version }}
+    template:
+      statefulset:
+        metadata:
+          labels:
+            {{ include "kafka.labels" . | nindent 12 }}
+      bootstrapService:
+        metadata:
+          labels:
+            {{ include "kafka.labels" . | nindent 12 }}
+      externalBootstrapService:
+        metadata:
+          labels:
+            {{ include "kafka.labels" . | nindent 12 }}
+      perPodService:
+        metadata:
+          labels:
+            {{ include "kafka.labels" . | nindent 12 }}
+      externalBootstrapIngress:
+        metadata:
+          labels:
+            {{ include "kafka.labels" . | nindent 12 }}
+      perPodIngress:
+        metadata:
+          labels:
+            {{ include "kafka.labels" . | nindent 12 }}
+      brokersService:
+        metadata:
+          labels:
+            {{ include "kafka.labels" . | nindent 12 }}
     {{ if .Values.kafka.resources }}
     resources:
       {{ toYaml .Values.kafka.resources | nindent 6 }}
@@ -45,6 +74,19 @@ spec:
   {{ if .Values.zookeeper }}
   zookeeper:
   {{ toYaml .Values.zookeeper | nindent 4 }}
+    template:
+      statefulset:
+        metadata:
+          labels:
+            {{ include "kafka.labels" . | nindent 12 }}
+      clientService:
+        metadata:
+          labels:
+            {{ include "kafka.labels" . | nindent 12 }}
+      nodesService:
+        metadata:
+          labels:
+            {{ include "kafka.labels" . | nindent 12 }}
   {{ end }}
   entityOperator:
   {{ toYaml .Values.entityOperator | nindent 4 }}
