@@ -2,7 +2,7 @@ apiVersion: v2
 name: redis
 description: Redis deployable on plural
 type: application
-version: 0.1.1
+version: 0.1.2
 appVersion: "1.16.0"
 dependencies:
 - name: redis
