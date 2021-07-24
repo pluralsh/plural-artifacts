@@ -10,7 +10,7 @@ clickhouse:
   only:
   - main
   script:
-  - vendor_image yandex/clickhouse-server:20.8.9.6
+  - vendor_image yandex/clickhouse-server:20.8.9.6 sentry
 
 kafka:
   stage: push
@@ -31,7 +31,7 @@ snuba:
   only:
   - main
   script:
-  - vendor_image getsentry/snuba:21.5.1
+  - vendor_image getsentry/snuba:21.5.1 sentry
 
 sentry:
   stage: push
@@ -39,19 +39,20 @@ sentry:
   - main
   script:
   - vendor_image getsentry/sentry:21.5.1
-  - docker build -f sentry/Dockerfile -t gcr.io/pluralsh/getsentry/sentry:21.5.1-extended .
+  - docker build -f sentry/Dockerfile -t gcr.io/pluralsh/getsentry/sentry:21.5.1-extended -t dkr.plural.sh/sentry/sentry:21.5.1-extended .
   - docker push gcr.io/pluralsh/getsentry/sentry:21.5.1-extended
+  - docker push dkr.plural.sh/sentry/sentry:21.5.1-extended
 
 symbolicator:
   stage: push
   only:
   - main
   script:
-  - vendor_image getsentry/symbolicator:0.3.3
+  - vendor_image getsentry/symbolicator:0.3.3 sentry
 
 relay:
   stage: push
   only:
   - main
   script:
-  - vendor_image getsentry/relay:21.5.1
+  - vendor_image getsentry/relay:21.5.1 sentry

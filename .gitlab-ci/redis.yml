@@ -3,28 +3,28 @@ redis:
   only:
   - main
   script:
-  - vendor_image bitnami/redis:6.0.9-debian-10-r0
-  - vendor_image bitnami/redis:6.2.1-debian-10-r0
-  - vendor_image bitnami/redis:6.2.4-debian-10-r0
+  - vendor_image bitnami/redis:6.0.9-debian-10-r0 redis
+  - vendor_image bitnami/redis:6.2.1-debian-10-r0 redis
+  - vendor_image bitnami/redis:6.2.4-debian-10-r0 redis
 
 redis-cluster:
   stage: push
   only:
   - main
   script:
-  - vendor_image bitnami/redis-cluster:6.2.4-debian-10-r21
+  - vendor_image bitnami/redis-cluster:6.2.4-debian-10-r21 redis
 
 redis-exporter:
   stage: push
   only:
   - main
   script:
-  - vendor_image bitnami/redis-exporter:1.24.0-debian-10-r17
-  - vendor_image bitnami/redis-exporter:1.24.0-debian-10-r11
+  - vendor_image bitnami/redis-exporter:1.24.0-debian-10-r17 redis
+  - vendor_image bitnami/redis-exporter:1.24.0-debian-10-r11 redis
 
 sentinel-exporter:
   stage: push
   only:
   - main
   script:
-  - vendor_image bitnami/redis-sentinel-exporter:1.7.1-debian-10-r109
+  - vendor_image bitnami/redis-sentinel-exporter:1.7.1-debian-10-r109 redis

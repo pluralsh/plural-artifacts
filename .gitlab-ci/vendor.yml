@@ -3,7 +3,7 @@ postgres-exporter:
   only:
   - main
   script:
-  - vendor_image bitnami/postgres-exporter:0.8.0-debian-10-r354
+  - vendor_image bitnami/postgres-exporter:0.8.0-debian-10-r354 postgres
 
 postgres:
   stage: push
@@ -17,7 +17,7 @@ rabbitmq:
   only:
   - main
   script:
-  - vendor_image rabbitmq:3.8.16-management
+  - vendor_image rabbitmq:3.8.16-management rabbitmq
 
 redis-exporter:
   stage: push
