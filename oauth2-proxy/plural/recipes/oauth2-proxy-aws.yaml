@@ -31,7 +31,7 @@ sections:
     - name: oidc_scope
       documentation: oidc scopes to use
       type: STRING
-      default: openid profile email
+      default: openid #profile email
     - name: user_id_claim
       documentation: claim used for the user id
       type: STRING

@@ -12,6 +12,8 @@ oauth2-proxy:
     portNumber: 4180
   extraArgs: 
     provider: oidc
+    pass-access-token: true
+    pass-authorization-header: true
     set-xauthrequest: true
     cookie-secure: true
     cookie-samesite: lax
