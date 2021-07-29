@@ -8,6 +8,17 @@ resource "kubernetes_namespace" "auth" {
   }
 }
 
+resource "aws_cognito_user_pool" "pool" {
+  name = "${var.cognito_user_pool_name}"
+}
+
+resource "aws_cognito_user_pool_client" "client" {
+  name = "client"
+
+  user_pool_id = aws_cognito_user_pool.pool.id
+  callback_urls = "https://${var.callback_domain}/oauth2/callback"
+}
+
 # data "aws_eks_cluster" "cluster" {
 #   name = var.cluster_name
 # }
