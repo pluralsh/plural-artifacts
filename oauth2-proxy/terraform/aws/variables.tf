@@ -1,6 +1,6 @@
 variable "namespace" {
   type = string
-  default = "auth"
+  default = "oauth2-proxy"
 }
 
 variable "cognito_user_pool_name" {

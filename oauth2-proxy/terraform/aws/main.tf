@@ -1,9 +1,10 @@
-resource "kubernetes_namespace" "auth" {
+resource "kubernetes_namespace" "oauth2proxy" {
   metadata {
     name = var.namespace
 
     labels = {
       "app.kubernetes.io/managed-by" = "plural"
+      "istio-injection" = "enabled"
     }
   }
 }
