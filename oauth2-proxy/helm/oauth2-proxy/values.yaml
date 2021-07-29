@@ -7,8 +7,6 @@ image:
   tag: v7.1.3
 configSecret:
   create: false
-config:
-  existingSecret: oauth2-proxy
 service:
   port: 4180
 extraArgs: 
