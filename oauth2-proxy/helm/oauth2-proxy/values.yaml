@@ -1,4 +1,4 @@
-# Default values for istio.
+# Default values for OAuth2-Proxy.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 

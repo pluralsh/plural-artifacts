@@ -2,7 +2,7 @@ apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
   application: true
-  description: deploys istio operator and istio itself
+  description: deploys oauth2-proxy
 spec:
   dependencies:
   - type: helm

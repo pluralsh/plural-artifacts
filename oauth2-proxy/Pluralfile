@@ -1,4 +1,4 @@
-REPO istio
+REPO oauth2-proxy
 
 TF terraform/*
 HELM helm/*
