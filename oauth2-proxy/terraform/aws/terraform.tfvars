@@ -1,3 +1,4 @@
-namespace = {{ .Namespace | quote }}
-cognito_user_pool_name = {{ .Values.cognito_user_pool_name | quote }}
-callback_domain = {{ .Values.callback_domain | quote }}
+namespace = "oauth2-proxy"
+cognito_user_pool_name = "kubeflow"
+cognito_user_pool_domain = "cognito.kubeflow-aws.com"
+callback_domain = "kubeflow.kubeflow-aws.com"

@@ -17,6 +17,13 @@ variable "callback_domain" {
   description = "the domain for the oidc callback"
 }
 
+variable "cognito_user_pool_domain" {
+  type = string
+  default = "cognito.kubeflow-aws.com"
+
+  description = "the cognito domain"
+}
+
 # variable "wal_bucket" {
 #   type = string
 # }
