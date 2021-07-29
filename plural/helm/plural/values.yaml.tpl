@@ -11,7 +11,7 @@ provider: {{ .Provider }}
 region: {{ .Region }}
 
 {{ $rabbitNamespace := namespace "rabbitmq" }}
-{{ $creds := dedupeObj . "plural.rabbitmqCredentials" (secret $rabbitNamespace "rabbitmq-default-user") }}
+{{ $creds := secret $rabbitNamespace "rabbitmq-default-user" }}
 {{ $_ := set $creds "namespace" $rabbitNamespace }}
 rabbitmqCredentials:
   {{ toYaml $creds | nindent 2 }}

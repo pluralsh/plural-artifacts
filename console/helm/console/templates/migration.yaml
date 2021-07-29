@@ -22,15 +22,19 @@ spec:
         env:
         {{ include "console.env" . | nindent 8 }}
         volumeMounts:
+        {{ if .Values.secrets.id_rsa }}
         - name: console-ssh
           mountPath: "/root/.ssh"
+        {{ end }}
         - name: console-conf
           mountPath: "/root/.plural"
       volumes:
+        {{ if .Values.secrets.id_rsa }}
         - name: console-ssh
           secret:
             defaultMode: 384
             secretName: console-ssh
+        {{ end }}
         - name: console-conf
           secret:
             secretName: console-conf

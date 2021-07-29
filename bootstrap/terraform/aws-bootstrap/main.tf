@@ -37,8 +37,8 @@ module "cluster" {
   write_kubeconfig = false
 
   node_groups_defaults = {
-    desired_capacity = 2
-    min_capacity = 2
+    desired_capacity = 3
+    min_capacity = 3
     max_capacity = var.max_capacity
 
     instance_types = var.instance_types

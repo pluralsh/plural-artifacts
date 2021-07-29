@@ -67,7 +67,7 @@ hydra:
   hydra:
     dangerousForceHttp: true
     existingSecret: false
-    autoMigrate: true
+    autoMigrate: false
     
   ingress:
     public:
