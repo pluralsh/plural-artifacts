@@ -2,7 +2,7 @@ artifact: {}
 terraform:
   terraform/aws: h1:Jc3g/USR0K0GIRTt0kkV2LvzHp/8gErHbDvwUd7twQo=
 helm:
-  helm/oauth2-proxy: h1:95cUCpQIDc5m8k8LH7hE6F0tZc2MQ2iCpUO9/er+wVU=
+  helm/oauth2-proxy: h1:dXR+fxSpoSz5u2e68PZsJ83rNtJFOp0KIO458OaNyQs=
 recipe:
   plural/recipes/oauth2-proxy-aws.yaml: 236ee5098db1cf1eb2fe6b244ea8d50fc654ddc5aa625bcdaa6d45398c212eb3
 integration: {}

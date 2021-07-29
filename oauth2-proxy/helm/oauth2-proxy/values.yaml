@@ -8,7 +8,7 @@ image:
 configSecret:
   create: false
 service:
-  port: 4180
+  portNumber: 4180
 extraArgs: 
   provider: oidc
   set-xauthrequest: true
