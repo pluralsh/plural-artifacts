@@ -1,0 +1,10 @@
+artifact: {}
+terraform:
+  terraform/aws: h1:L/qPkKOJIaXVAPnuXIdvHxY+fl54wPTPM/CQu8IyCoc=
+helm:
+  helm/oauth2-proxy: h1:txQVJF2TucYQDdPO7NQJwN/1oCCXA08fKtpa9aJNA3c=
+recipe: {}
+integration: {}
+crd: {}
+ird: {}
+tag: {}
