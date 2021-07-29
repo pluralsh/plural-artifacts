@@ -9,13 +9,13 @@ sections:
   items:
   - type: TERRAFORM
     name: aws
-    configuration:
-    - name: cognito_user_pool_name
-      documentation: the name for the cognito user pool
-      type: STRING
-    - name: callback_domain
-      documentation: the domain for the oidc callback
-      type: STRING
+    configuration: []
+    # - name: cognito_user_pool_name
+    #   documentation: the name for the cognito user pool
+    #   type: STRING
+    # - name: callback_domain
+    #   documentation: the domain for the oidc callback
+    #   type: STRING
   - type: HELM
     name: oauth2-proxy
     configuration:
