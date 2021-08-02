@@ -8,10 +8,12 @@ oauth2-proxy:
     # Use an existing secret for OAuth2 credentials (see secret.yaml for required fields)
     # Example:
     # existingSecret: secret
-    cookieSecret: 8U6zzbwBC3qt4v1OAOG0bQ==
+    cookieSecret: {{ dedupe . "oauth2-proxy.oauth2-proxy.config.cookieSecret" (randAlphaNum 26) }}
   extraArgs:
     cookie-domain: ".{{ .Values.auth_cookie_domain }}"
     whitelist-domain: ".{{ .Values.auth_whitelist_domain }}"
     oidc-issuer-url: {{ .OIDC.Configuration.Issuer }}
-    scope: {{ .Values.oidc_scope }}
     user-id-claim: {{ .Values.user_id_claim }}
+  metrics:
+    servicemonitor:
+      namespace: {{ namespace "bootstrap" }}

@@ -10,7 +10,8 @@ oauth2-proxy:
     create: false
   service:
     portNumber: 4180
-  extraArgs: 
+  extraArgs:
+    scope: openid profile
     provider: oidc
     pass-access-token: true
     set-authorization-header: true
@@ -32,3 +33,8 @@ oauth2-proxy:
     #   standalone:
     #     clientType: standalone
     #   connectionUrl: <<__oidc.redis.connection_url__>>
+  metrics:
+    enabled: true
+    servicemonitor:
+      enabled: true
+      namespace: bootstrap

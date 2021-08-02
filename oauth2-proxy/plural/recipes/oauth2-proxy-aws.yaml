@@ -28,10 +28,6 @@ sections:
     - name: oidc_issuer_url
       documentation: uri of your oidc issuer
       type: STRING
-    - name: oidc_scope
-      documentation: oidc scopes to use
-      type: STRING
-      default: openid #profile email
     - name: user_id_claim
       documentation: claim used for the user id
       type: STRING
