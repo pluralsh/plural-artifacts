@@ -47,5 +47,8 @@ upload-mysql: # uploads mysql artifacts
 upload-kafka: # uploads kafka artifacts
 	plural apply -f kafka/Pluralfile
 
+upload-oauth2-proxy: # uploads oauth2-proxy artifacts
+	plural apply -f oauth2-proxy/Pluralfile
+
 import-operator:
 	cp ../plural-operator/config/crd/bases/* bootstrap/plural/crds/bootstrap

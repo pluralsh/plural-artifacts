@@ -1,0 +1,40 @@
+# Default values for OAuth2-Proxy.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+oauth2-proxy:
+  image:
+    repository: quay.io/oauth2-proxy/oauth2-proxy
+    tag: v7.1.3
+  configSecret:
+    create: false
+  service:
+    portNumber: 4180
+  extraArgs:
+    scope: openid profile
+    provider: oidc
+    pass-access-token: true
+    set-authorization-header: true
+    set-xauthrequest: true
+    cookie-secure: true
+    cookie-samesite: lax
+    cookie-refresh: 1h
+    cookie-expire: 4h
+    cookie-name: _oauth2_proxy
+    email-domain: '*'
+    upstream: static://200
+    skip-provider-button: true
+  serviceAccount: 
+    enabled: true
+    annotations: {}
+  sessionStorage:
+    type: cookie
+    # redis:
+    #   standalone:
+    #     clientType: standalone
+    #   connectionUrl: <<__oidc.redis.connection_url__>>
+  metrics:
+    enabled: true
+    servicemonitor:
+      enabled: true
+      namespace: bootstrap

@@ -1,0 +1,13 @@
+artifact: {}
+terraform:
+  terraform/aws: h1:Jc3g/USR0K0GIRTt0kkV2LvzHp/8gErHbDvwUd7twQo=
+helm:
+  helm/oauth2-proxy: h1:5U7IJvrPNMqTNcGLQTdL4KTxJkEzbnwwqfN5SE//te0=
+recipe:
+  plural/recipes/oauth2-proxy-aws.yaml: 8fef2878e3cbc080e70e10a7c8cfe89ad65f17dca5e174a468bf87edea9b0687
+integration: {}
+crd: {}
+ird: {}
+tag:
+  plural/tags/helm/oauth2-proxy.yaml: f8da2620216dc9f13edfd8b8da7162031e966bdfa05a3c99dac5fe5cabb6d4db
+  plural/tags/terraform/aws.yaml: 01c402c260cc7fe359d1ebc4302ff11539cfabbd5a82745907ad445914153bb7
