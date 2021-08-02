@@ -105,45 +105,45 @@ grafana:
       allow_embedding: true
   admin:
     existingSecret: grafana-credentials
-  dashboardProviders:
-    dashboardproviders.yaml:
-      apiVersion: 1
-      providers:
-      - name: default
-        orgId: 1
-        folder: ''
-        type: file
-        updateIntervalSeconds: 10
-        disableDeletion: true
-        editable: true
-        options:
-          path: /var/lib/grafana/dashboards/default
-      - name: sidecar
-        orgId: 1
-        folder: ''
-        type: file
-        updateIntervalSeconds: 10
-        disableDeletion: true
-        editable: true
-        options:
-          path: /var/lib/grafana/dashboards/sidecar
-  dashboards:
-    default:
-      kubernetes-overview:
-        gnetId: 10856
-        revision: 1
-        uid: 'kubernetes-overview'
-        datasource: Prometheus
-      kubernetes-deepdive:
-        gnetId: 8588
-        revision: 1
-        uid: 'kubernetes-deepdive'
-        datasource: Prometheus
-      node-overview:
-        gnetId: 1860
-        revision: 16
-        uid: 'node-overview'
-        datasource: Prometheus
+  # dashboardProviders:
+  #   dashboardproviders.yaml:
+  #     apiVersion: 1
+  #     providers:
+  #     - name: default
+  #       orgId: 1
+  #       folder: ''
+  #       type: file
+  #       updateIntervalSeconds: 10
+  #       disableDeletion: true
+  #       editable: true
+  #       options:
+  #         path: /var/lib/grafana/dashboards/default
+  #     - name: sidecar
+  #       orgId: 1
+  #       folder: ''
+  #       type: file
+  #       updateIntervalSeconds: 10
+  #       disableDeletion: true
+  #       editable: true
+  #       options:
+  #         path: /var/lib/grafana/dashboards/sidecar
+  # dashboards:
+  #   default:
+  #     kubernetes-overview:
+  #       gnetId: 10856
+  #       revision: 1
+  #       uid: 'kubernetes-overview'
+  #       datasource: Prometheus
+  #     kubernetes-deepdive:
+  #       gnetId: 8588
+  #       revision: 1
+  #       uid: 'kubernetes-deepdive'
+  #       datasource: Prometheus
+  #     node-overview:
+  #       gnetId: 1860
+  #       revision: 16
+  #       uid: 'node-overview'
+  #       datasource: Prometheus
   service:
     type: NodePort
   persistence:
@@ -156,8 +156,10 @@ grafana:
       provider:
         name: sidecar
         allowUiUpdates: true
+        foldersFromFilesStructure: true
       enabled: true
       searchNamespace: ALL
+      folderAnnotation: k8s-sidecar-target-directory
     datasources:
       enabled: true
       searchNamespace: ALL
@@ -177,11 +179,23 @@ cert-manager:
     enabled: true
     serviceMonitor:
       enabled: true
+  securityContext:
+    fsGroup: 1000
+    runAsNonRoot: true
+  podLabels:
+    aadpodidbinding: externaldns # grants the same permissions needed for cert-manager
+
 
 kube-prometheus-stack:
   fullnameOverride: "bootstrap"
   grafana:
     enabled: false
+    namespaceOverride: grafana
+    forceDeployDashboards: true
+    sidecar:
+      dashboards:
+        annotations:
+          k8s-sidecar-target-directory: /tmp/dashboards/Kubernetes
   prometheus:
     labels:
       app.kubernetes.io/managed-by: Helm
@@ -189,43 +203,43 @@ kube-prometheus-stack:
       labels:
         app.kubernetes.io/managed-by: Helm
     prometheusSpec:
+      storageSpec:
+        volumeClaimTemplate:
+          spec:
+            accessModes:
+            - ReadWriteOnce
+            resources:
+              requests:
+                storage: 30Gi
       podMetadata:
         labels:
           app.kubernetes.io/managed-by: Helm
       ruleNamespaceSelector:
         matchLabels:
           app.kubernetes.io/managed-by: plural
-      ruleSelector:
-        matchLabels:
-          app.kubernetes.io/managed-by:  Helm
+      ruleSelectorNilUsesHelmValues: false
+      ruleSelector: ''
       serviceMonitorNamespaceSelector:
         matchLabels:
           app.kubernetes.io/managed-by: plural
-      serviceMonitorSelector:
-        matchLabels:
-          app.kubernetes.io/managed-by:  Helm
+      serviceMonitorSelectorNilUsesHelmValues: false
+      serviceMonitorSelector: ''
       podMonitorNamespaceSelector:
         matchLabels:
           app.kubernetes.io/managed-by: plural
-      podMonitorSelector:
-        matchLabels:
-          app.kubernetes.io/managed-by:  Helm
+      podMonitorSelectorNilUsesHelmValues: false
+      podMonitorSelector: ''
       probeNamespaceSelector:
         matchLabels:
           app.kubernetes.io/managed-by: plural
-      probeSelector:
-        matchLabels:
-          app.kubernetes.io/managed-by:  Helm
+      probeSelectorNilUsesHelmValues: false
+      probeSelector: ''
 
 
 kubed:
   operator:
     registry: gcr.io/pluralsh/appscode
 
-prometheus:
-  server:
-    statefulSet:
-      enabled: true
 
 cluster-autoscaler:
   enabled: false
@@ -235,12 +249,6 @@ cluster-autoscaler:
     enabled: true
     namespace: ""
 
-cert-manager:
-  securityContext:
-    fsGroup: 1000
-    runAsNonRoot: true
-  podLabels:
-    aadpodidbinding: externaldns # grants the same permissions needed for cert-manager
 
 metrics-server:
   enabled: false

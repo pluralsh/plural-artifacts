@@ -16,45 +16,45 @@ grafana:
       allow_embedding: true
   admin:
     existingSecret: grafana-credentials
-  dashboardProviders:
-    dashboardproviders.yaml:
-      apiVersion: 1
-      providers:
-      - name: default
-        orgId: 1
-        folder: ''
-        type: file
-        updateIntervalSeconds: 10
-        disableDeletion: true
-        editable: true
-        options:
-          path: /var/lib/grafana/dashboards/default
-      - name: sidecar
-        orgId: 1
-        folder: ''
-        type: file
-        updateIntervalSeconds: 10
-        disableDeletion: true
-        editable: true
-        options:
-          path: /var/lib/grafana/dashboards/sidecar
-  dashboards:
-    default:
-      kubernetes-overview:
-        gnetId: 10856
-        revision: 1
-        uid: 'kubernetes-overview'
-        datasource: Prometheus
-      kubernetes-deepdive:
-        gnetId: 8588
-        revision: 1
-        uid: 'kubernetes-deepdive'
-        datasource: Prometheus
-      node-overview:
-        gnetId: 1860
-        revision: 16
-        uid: 'node-overview'
-        datasource: Prometheus
+  # dashboardProviders:
+  #   dashboardproviders.yaml:
+  #     apiVersion: 1
+  #     providers:
+  #     - name: default
+  #       orgId: 1
+  #       folder: ''
+  #       type: file
+  #       updateIntervalSeconds: 10
+  #       disableDeletion: true
+  #       editable: true
+  #       options:
+  #         path: /var/lib/grafana/dashboards/default
+  #     - name: sidecar
+  #       orgId: 1
+  #       folder: ''
+  #       type: file
+  #       updateIntervalSeconds: 10
+  #       disableDeletion: true
+  #       editable: true
+  #       options:
+  #         path: /var/lib/grafana/dashboards/sidecar
+  # dashboards:
+  #   default:
+  #     kubernetes-overview:
+  #       gnetId: 10856
+  #       revision: 1
+  #       uid: 'kubernetes-overview'
+  #       datasource: Prometheus
+  #     kubernetes-deepdive:
+  #       gnetId: 8588
+  #       revision: 1
+  #       uid: 'kubernetes-deepdive'
+  #       datasource: Prometheus
+  #     node-overview:
+  #       gnetId: 1860
+  #       revision: 16
+  #       uid: 'node-overview'
+  #       datasource: Prometheus
   service:
     type: NodePort
   persistence:
@@ -67,8 +67,10 @@ grafana:
       provider:
         name: sidecar
         allowUiUpdates: true
+        foldersFromFilesStructure: true
       enabled: true
       searchNamespace: ALL
+      folderAnnotation: k8s-sidecar-target-directory
     datasources:
       enabled: true
       searchNamespace: ALL
