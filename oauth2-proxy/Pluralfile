@@ -1,0 +1,8 @@
+REPO oauth2-proxy
+
+TF terraform/*
+HELM helm/*
+CRD plural/crds/* helm/oauth2-proxy
+RECIPE plural/recipes/*
+TAG plural/tags/helm/*
+TAG plural/tags/terraform/*
