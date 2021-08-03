@@ -1,0 +1,15 @@
+promtail:
+  stage: push
+  only:
+  - main
+  script:
+  - vendor_image grafana/promtail:1.6.0 monitoring
+  - vendor_image grafana/promtail:2.2.1 monitoring
+
+loki:
+  stage: push
+  only:
+  - main
+  script:
+  - vendor_image grafana/loki:1.6.0 monitoring
+  - vendor_image grafana/loki:2.2.1 monitoring
