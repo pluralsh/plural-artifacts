@@ -35,6 +35,8 @@ stages:
 
 include:
 - .gitlab-ci/bootstrap.yml
+- .gitlab-ci/grafana.yml
+- .gitlab-ci/monitoring.yml
 - .gitlab-ci/vendor.yml
 - .gitlab-ci/sentry.yml
 - .gitlab-ci/plural.yml
