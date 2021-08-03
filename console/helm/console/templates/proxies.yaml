@@ -6,10 +6,10 @@ metadata:
 {{ include "console.labels" . | indent 4 }}
 spec:
   type: db
-  target: statefulset/console-postgresql
+  target: service/console-master
   credentials:
-    secret: console-postgresql
-    key: postgresql-password
+    secret: console.plural-console.credentials.postgresql.acid.zalan.do
+    key: password
     user: console
   dbConfig:
     name: console
