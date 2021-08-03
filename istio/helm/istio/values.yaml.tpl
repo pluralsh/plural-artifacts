@@ -6,20 +6,34 @@ istio:
 
 provider: {{ .Provider }}
 
-{{ $bootstrapNamespace := namespace "bootstrap" }}
+{{ $monitoringNamespace := namespace "monitoring" }}
 {{ $grafanaNamespace := namespace "grafana" }}
 {{ $grafanaCreds := secret $grafanaNamespace "grafana-credentials" }}
 monitoring:
-  namespace: {{ $bootstrapNamespace }}
+  namespace: {{ $monitoringNamespace }}
   grafama:
     namespace: {{ $grafanaNamespace }}
 
 kiali-server:
+  {{/* {{ if .OIDC }}
+  auth:
+    strategy: openid
+    openid:
+      client_id: {{ .OIDC.ClientId }}
+      disable_rbac: true
+      authentication_timeout: 300
+      username_claim: "email"
+      client_secret: {{ .OIDC.ClientSecret }}
+      issuer_uri: {{ .OIDC.Configuration.Issuer }}
+      scopes:
+      - "openid"
+      - "profile"
+  {{ end }} */}}
   namespace: {{ namespace "istio" }}
   istio_namespace: {{ namespace "istio" }}
   external_services:
     prometheus:
-      url: http://bootstrap-prometheus.{{ $bootstrapNamespace }}:9090
+      url: http://monitoring-prometheus.{{ $monitoringNamespace }}:9090
     grafana:
       auth:
         username: {{ ( index $grafanaCreds "admin-user") }}

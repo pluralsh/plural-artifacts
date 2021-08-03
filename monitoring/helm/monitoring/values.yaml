@@ -1,0 +1,69 @@
+loki-stack:
+  loki:
+    image:
+      repository: gcr.io/pluralsh/grafana/loki
+  promtail:
+    image:
+      repository: gcr.io/pluralsh/grafana/promtail
+  grafana:
+    enabled: false
+    persistence:
+      inMemory:
+        enabled: true
+    sidecar:
+      image: {}
+      notifiers:
+        enabled: false
+      datasources:
+        enabled: false
+    imageRenderer:
+      enabled: false
+
+kube-prometheus-stack:
+  fullnameOverride: "monitoring"
+  grafana:
+    enabled: false
+    namespaceOverride: grafana
+    forceDeployDashboards: true
+    sidecar:
+      dashboards:
+        annotations:
+          k8s-sidecar-target-directory: /tmp/dashboards/Kubernetes
+  prometheus:
+    labels:
+      app.kubernetes.io/managed-by: Helm
+    service:
+      labels:
+        app.kubernetes.io/managed-by: Helm
+    prometheusSpec:
+      storageSpec:
+        volumeClaimTemplate:
+          spec:
+            accessModes:
+            - ReadWriteOnce
+            resources:
+              requests:
+                storage: 30Gi
+      podMetadata:
+        labels:
+          app.kubernetes.io/managed-by: Helm
+      ruleNamespaceSelector:
+        matchLabels:
+          app.kubernetes.io/managed-by: plural
+      ruleSelectorNilUsesHelmValues: false
+      ruleSelector: {}
+      serviceMonitorNamespaceSelector:
+        matchLabels:
+          app.kubernetes.io/managed-by: plural
+      serviceMonitorSelectorNilUsesHelmValues: false
+      serviceMonitorSelector: {}
+      podMonitorNamespaceSelector:
+        matchLabels:
+          app.kubernetes.io/managed-by: plural
+      podMonitorSelectorNilUsesHelmValues: false
+      podMonitorSelector: {}
+      probeNamespaceSelector:
+        matchLabels:
+          app.kubernetes.io/managed-by: plural
+      probeSelectorNilUsesHelmValues: false
+      probeSelector: {}

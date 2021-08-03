@@ -43,33 +43,8 @@ autoscaling:
     maxReplicas: 11
     targetCPUUtilizationPercentage: 50
 
-
-loki-stack:
-  loki:
-    image:
-      repository: gcr.io/pluralsh/grafana/loki
-  promtail:
-    image:
-      repository: gcr.io/pluralsh/grafana/promtail
-      tag: 1.6.0
-  grafana:
-    enabled: false
-    persistence:
-      inMemory:
-        enabled: true
-    sidecar:
-      image: {}
-      notifiers:
-        enabled: false
-      datasources:
-        enabled: false
-    imageRenderer:
-      enabled: false
-
-
 aws-load-balancer-controller:
   enabled: false
-
 
 ingress-nginx:
   controller:
@@ -90,90 +65,6 @@ ingress-nginx:
       proxy-read-timeout: '3600'
       proxy-send-timeout: '3600'
 
-
-grafana:
-  image:
-    repository: gcr.io/pluralsh/grafana/grafana
-  initChownData:
-    image:
-      repository: gcr.io/pluralsh/busybox
-      tag: latest
-  downloadDashboardsImage:
-    repository: gcr.io/pluralsh/curlimages/curl
-  grafana.ini:
-    security:
-      allow_embedding: true
-  admin:
-    existingSecret: grafana-credentials
-  # dashboardProviders:
-  #   dashboardproviders.yaml:
-  #     apiVersion: 1
-  #     providers:
-  #     - name: default
-  #       orgId: 1
-  #       folder: ''
-  #       type: file
-  #       updateIntervalSeconds: 10
-  #       disableDeletion: true
-  #       editable: true
-  #       options:
-  #         path: /var/lib/grafana/dashboards/default
-  #     - name: sidecar
-  #       orgId: 1
-  #       folder: ''
-  #       type: file
-  #       updateIntervalSeconds: 10
-  #       disableDeletion: true
-  #       editable: true
-  #       options:
-  #         path: /var/lib/grafana/dashboards/sidecar
-  # dashboards:
-  #   default:
-  #     kubernetes-overview:
-  #       gnetId: 10856
-  #       revision: 1
-  #       uid: 'kubernetes-overview'
-  #       datasource: Prometheus
-  #     kubernetes-deepdive:
-  #       gnetId: 8588
-  #       revision: 1
-  #       uid: 'kubernetes-deepdive'
-  #       datasource: Prometheus
-  #     node-overview:
-  #       gnetId: 1860
-  #       revision: 16
-  #       uid: 'node-overview'
-  #       datasource: Prometheus
-  service:
-    type: NodePort
-  persistence:
-    enabled: true
-    type: statefulset
-    inMemory:
-      enabled: false
-  sidecar:
-    dashboards:
-      provider:
-        name: sidecar
-        allowUiUpdates: true
-        foldersFromFilesStructure: true
-      enabled: true
-      searchNamespace: ALL
-      folderAnnotation: k8s-sidecar-target-directory
-    datasources:
-      enabled: true
-      searchNamespace: ALL
-  ingress:
-    enabled: true
-    path: /.*
-    annotations:
-      kubernetes.io/tls-acme: "true"
-      kubernetes.io/ingress.class: "nginx"
-      cert-manager.io/cluster-issuer: letsencrypt-prod
-      nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
-      nginx.ingress.kubernetes.io/use-regex: "true"
-
-
 cert-manager:
   prometheus:
     enabled: true
@@ -185,61 +76,9 @@ cert-manager:
   podLabels:
     aadpodidbinding: externaldns # grants the same permissions needed for cert-manager
 
-
-kube-prometheus-stack:
-  fullnameOverride: "bootstrap"
-  grafana:
-    enabled: false
-    namespaceOverride: grafana
-    forceDeployDashboards: true
-    sidecar:
-      dashboards:
-        annotations:
-          k8s-sidecar-target-directory: /tmp/dashboards/Kubernetes
-  prometheus:
-    labels:
-      app.kubernetes.io/managed-by: Helm
-    service:
-      labels:
-        app.kubernetes.io/managed-by: Helm
-    prometheusSpec:
-      storageSpec:
-        volumeClaimTemplate:
-          spec:
-            accessModes:
-            - ReadWriteOnce
-            resources:
-              requests:
-                storage: 30Gi
-      podMetadata:
-        labels:
-          app.kubernetes.io/managed-by: Helm
-      ruleNamespaceSelector:
-        matchLabels:
-          app.kubernetes.io/managed-by: plural
-      ruleSelectorNilUsesHelmValues: false
-      ruleSelector: ''
-      serviceMonitorNamespaceSelector:
-        matchLabels:
-          app.kubernetes.io/managed-by: plural
-      serviceMonitorSelectorNilUsesHelmValues: false
-      serviceMonitorSelector: ''
-      podMonitorNamespaceSelector:
-        matchLabels:
-          app.kubernetes.io/managed-by: plural
-      podMonitorSelectorNilUsesHelmValues: false
-      podMonitorSelector: ''
-      probeNamespaceSelector:
-        matchLabels:
-          app.kubernetes.io/managed-by: plural
-      probeSelectorNilUsesHelmValues: false
-      probeSelector: ''
-
-
 kubed:
   operator:
     registry: gcr.io/pluralsh/appscode
-
 
 cluster-autoscaler:
   enabled: false
@@ -248,7 +87,6 @@ cluster-autoscaler:
   serviceMonitor:
     enabled: true
     namespace: ""
-
 
 metrics-server:
   enabled: false

@@ -1,0 +1,15 @@
+name: monitoring-aws
+description: Installs monitoring on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+sections:
+- name: monitoring
+  items:
+  - type: TERRAFORM
+    name: aws
+    configuration: []
+  - type: HELM
+    name: monitoring
+    configuration: []

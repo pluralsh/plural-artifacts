@@ -63,8 +63,6 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
   valueFrom:
     fieldRef:
       fieldPath: metadata.name
-- name: GRAFANA_DNS
-  value: {{ .Values.grafana_dns }}
 - name: DBHOST
   value: plural-console
 - name: DBSSL

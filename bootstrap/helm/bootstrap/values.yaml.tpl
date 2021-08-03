@@ -40,8 +40,6 @@ regcreds:
       password: {{ .Config.Token }}
       auth: {{ list .Config.Email .Config.Token | join ":" | b64enc | quote }}
 
-
-grafana_dns: {{ .Values.grafana_dns }}
 provider: {{ .Provider }}
 ownerEmail: {{ .Values.ownerEmail }}
 
@@ -83,27 +81,10 @@ aws-load-balancer-controller:
       eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-alb"
 {{ end }}
 
-grafana:
-  admin:
-    password: {{ dedupe . "bootstrap.grafana.admin.password" (randAlphaNum 14) }}
-    user: admin
-  ingress:
-    tls:
-    - hosts:
-      - {{ .Values.grafana_dns }}
-      secretName: grafana-tls
-    hosts:
-    - {{ .Values.grafana_dns }}
-
 {{ if eq .Provider "aws" }}
 metrics-server:
   enabled: true
 {{ end }}
-
-{{ $grafanaNamespace := namespace "grafana" }}
-kube-prometheus-stack:
-  grafana:
-    namespaceOverride: {{ $grafanaNamespace }}
 
 {{ if eq .Provider "aws" }}
 cert-manager:

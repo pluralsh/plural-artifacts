@@ -31,7 +31,7 @@ istio-operator:
 
 monitoring:
   enabled: true
-  namespace: bootstrap
+  namespace: monitoring
   grafana:
     namespace: grafana
   kiali:
@@ -42,7 +42,7 @@ monitoring:
 
 # TODO: add prometheus service monitor for Kiali
 kiali-server:
-  istio_namespace: istio-system
+  istio_namespace: istio
   api:
     namespaces:
       exclude:
@@ -77,7 +77,7 @@ kiali-server:
                     name: http
   external_services:
     prometheus:
-      url: http://bootstrap-prometheus.bootstrap:9090
+      url: http://monitoring-prometheus.monitoring:9090
     tracing:
       use_grpc: false # we would actually want this to be true, but it doesn't work currently
       in_cluster_url: http://istio-jaeger-query.istio-system
