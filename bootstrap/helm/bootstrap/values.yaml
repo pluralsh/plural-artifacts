@@ -64,6 +64,18 @@ ingress-nginx:
       proxy-body-size: '0'
       proxy-read-timeout: '3600'
       proxy-send-timeout: '3600'
+    metrics:
+      enabled: true
+      service:
+        annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "10254"
+        prometheus.io/path: "/metrics"
+        prometheus.io/scheme: http
+      serviceMonitor:
+        enabled: true
+      prometheusRule:
+        enabled: false
 
 cert-manager:
   prometheus:
