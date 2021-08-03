@@ -8,6 +8,11 @@ oauth2-proxy:
     tag: v7.1.3
   configSecret:
     create: false
+  podAnnotations:
+    prometheus.io/port: "44180"
+    prometheus.io/scheme: http
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /
   service:
     portNumber: 4180
   extraArgs:
@@ -36,5 +41,4 @@ oauth2-proxy:
   metrics:
     enabled: true
     servicemonitor:
-      enabled: true
-      namespace: bootstrap
+      enabled: false
