@@ -1,0 +1,7 @@
+REPO monitoring
+
+TF terraform/*
+HELM helm/*
+RECIPE plural/recipes/*
+TAG plural/tags/**/*
+CRD plural/crds/monitoring/* helm/monitoring

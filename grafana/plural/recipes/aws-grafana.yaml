@@ -16,4 +16,3 @@ sections:
     - name: hostname
       documentation: FQDN to use for your grafana installation
       type: STRING
-  

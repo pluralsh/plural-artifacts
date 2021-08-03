@@ -3,9 +3,9 @@ kind: Proxy
 metadata:
   name: alertmanager
   labels:
-{{ include "bootstrap.labels" . | indent 4 }}
+{{ include "monitoring.labels" . | indent 4 }}
 spec:
   type: web
-  target: service/bootstrap-alertmanager
+  target: service/monitoring-alertmanager
   webConfig:
     port: 9093

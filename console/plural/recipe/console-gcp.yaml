@@ -4,6 +4,8 @@ provider: GCP
 dependencies:
 - repo: bootstrap
   name: gcp-kubernetes
+- repo: monitoring
+  name: monitoring-gcp
 sections:
 - name: console
   items:
