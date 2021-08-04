@@ -100,6 +100,8 @@ promtail:
             gzip_ratio:
             http_cf_ray:
             geoip_country_code:
+        - output:
+            source: request_id
 
 kube-prometheus-stack:
   fullnameOverride: "monitoring"
