@@ -1,23 +1,10 @@
-loki-stack:
-  loki:
-    image:
-      repository: gcr.io/pluralsh/grafana/loki
-  promtail:
-    image:
-      repository: gcr.io/pluralsh/grafana/promtail
-  grafana:
-    enabled: false
-    persistence:
-      inMemory:
-        enabled: true
-    sidecar:
-      image: {}
-      notifiers:
-        enabled: false
-      datasources:
-        enabled: false
-    imageRenderer:
-      enabled: false
+loki:
+  image:
+    repository: gcr.io/pluralsh/grafana/loki
+promtail:
+  image:
+    registry: gcr.io
+    repository: pluralsh/grafana/promtail
 
 kube-prometheus-stack:
   fullnameOverride: "monitoring"
