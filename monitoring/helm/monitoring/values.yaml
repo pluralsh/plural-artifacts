@@ -60,7 +60,8 @@ promtail:
               http_cf_ray: http_cf_ray
               geoip_country_code: geoip_country_code
         - timestamp:
-            source: time_iso8601
+            source: timetime_iso8601
+            format: RFC3339
         - labels:
             msec:
             connection:
