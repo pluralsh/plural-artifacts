@@ -20,7 +20,7 @@ promtail:
     snippets:
       pipelineStages:
         - match:
-            selector: '{app.kubernetes.io/name="ingress-nginx"}'
+            selector: '{app\.kubernetes\.io\/name="ingress-nginx"}'
             stages:
             - json:
                 expressions:
