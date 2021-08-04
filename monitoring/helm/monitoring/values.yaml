@@ -1,12 +1,22 @@
 loki:
   image:
     repository: gcr.io/pluralsh/grafana/loki
+  podAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "3100"
+    prometheus.io/path: /metrics
+    prometheus.io/scheme: http
 promtail:
   image:
     registry: gcr.io
     repository: pluralsh/grafana/promtail
+  podAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "3101"
+    prometheus.io/path: /metrics
+    prometheus.io/scheme: http
   config:
-    lokiAddress: http://monitoring-loki/loki/api/v1/push
+    lokiAddress: http://monitoring-loki:3100/loki/api/v1/push
 
 kube-prometheus-stack:
   fullnameOverride: "monitoring"
