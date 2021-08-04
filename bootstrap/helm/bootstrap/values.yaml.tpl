@@ -27,6 +27,13 @@ external-dns:
     tenantId: {{ .Context.TenantId }}
     subscriptionId: {{ .Context.SubscriptionId }}
   {{ end }}
+  sources:
+  - service
+  - ingress
+  {{ if .Configuration.istio }}
+  - istio-gateway
+  - istio-virtualservice
+  {{ end }}
 
 {{ if eq .Provider "azure" }}
 externalDnsIdentityId: {{ importValue "Terraform" "externaldns_msi_id" }}
