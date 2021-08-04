@@ -5,6 +5,8 @@ promtail:
   image:
     registry: gcr.io
     repository: pluralsh/grafana/promtail
+  config:
+    lokiAddress: http://monitoring-loki/loki/api/v1/push
 
 kube-prometheus-stack:
   fullnameOverride: "monitoring"
