@@ -22,6 +22,7 @@ promtail:
         - match:
             selector: '{app="ingress-nginx"}'
             stages:
+            - docker:
             - json:
                 expressions:
                   msec: msec
