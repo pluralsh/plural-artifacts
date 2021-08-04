@@ -9,6 +9,6 @@ metadata:
   annotations:
     k8s-sidecar-target-directory: /tmp/dashboards/NGINX Dashboards
 data:
-  istio-control-plane-dashboard.json: |-
+  request-handling-performance-dashboard.json: |-
 {{ .Files.Get "grafana-dashboards/request-handling-performance.json" | indent 4 }}
 {{ end }}
