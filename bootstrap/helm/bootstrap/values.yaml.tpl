@@ -119,3 +119,10 @@ dnsSolver:
   cloudDNS:
     project: {{ .Project }}
 {{ end }}
+
+{{ if .Configuration.grafana }}
+monitoring:
+  grafana:
+    enabled: true
+    namespace: {{ namespace "grafana" }}
+  {{ end }}
