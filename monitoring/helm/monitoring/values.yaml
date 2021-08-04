@@ -19,10 +19,11 @@ promtail:
     lokiAddress: http://monitoring-loki:3100/loki/api/v1/push
     snippets:
       pipelineStages:
-        - match:
-            selector: '{app="ingress-nginx"}'
-            stages:
-            - docker:
+        - docker:
+        # - match:
+        #     selector: '{app="ingress-nginx"}'
+        #     stages:
+        #     - docker:
             # - json:
             #     expressions:
             #       msec: msec
