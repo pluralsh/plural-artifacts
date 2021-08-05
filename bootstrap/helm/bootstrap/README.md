@@ -5,10 +5,9 @@ Includes core dependencies you likely need per provider, and installs plurals ba
 * external-dns
 * cert-manager
 * ingress-nginx
-* prometheus+loki
-* grafana
 
-For aws, we optionally install
+For aws, we optionally install:
+
 * cluster-autoscaler
 * aws-load-balancer-controller
 
