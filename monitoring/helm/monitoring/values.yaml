@@ -20,9 +20,12 @@ promtail:
     snippets:
       pipelineStages:
         - docker:
-        # - match:
-        #     selector: '{app="ingress-nginx"}'
-        #     stages:
+        - match:
+            selector: '{app="ingress-nginx"}'
+            stages:
+              - replace:
+                  expression: '(?:[0-9]{1,3}\.){3}([0-9]{1,3})'
+                  replace: '***'
         #     - docker:
             # - json:
             #     expressions:
