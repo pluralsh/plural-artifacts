@@ -1,23 +1,115 @@
-loki-stack:
-  loki:
-    image:
-      repository: gcr.io/pluralsh/grafana/loki
-  promtail:
-    image:
-      repository: gcr.io/pluralsh/grafana/promtail
-  grafana:
-    enabled: false
-    persistence:
-      inMemory:
-        enabled: true
-    sidecar:
-      image: {}
-      notifiers:
-        enabled: false
-      datasources:
-        enabled: false
-    imageRenderer:
-      enabled: false
+loki:
+  image:
+    repository: gcr.io/pluralsh/grafana/loki
+  podAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "3100"
+    prometheus.io/path: /metrics
+    prometheus.io/scheme: http
+promtail:
+  image:
+    registry: gcr.io
+    repository: pluralsh/grafana/promtail
+  podAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "3101"
+    prometheus.io/path: /metrics
+    prometheus.io/scheme: http
+  config:
+    lokiAddress: http://monitoring-loki:3100/loki/api/v1/push
+    snippets:
+      pipelineStages:
+        - docker:
+        - match:
+            selector: '{app="ingress-nginx"}'
+            stages:
+              - replace:
+                  expression: '(?:[0-9]{1,3}\.){3}([0-9]{1,3})'
+                  replace: '***'
+        #     - docker:
+            # - json:
+            #     expressions:
+            #       msec: msec
+            #       connection: connection
+            #       connection_requests: connection_requests
+            #       pid: pid
+            #       request_id: request_id
+            #       request_length: request_length
+            #       remote_addr: remote_addr
+            #       remote_user: remote_user
+            #       remote_port: remote_port
+            #       time_local: time_local
+            #       time_iso8601: time_iso8601
+            #       request: request
+            #       request_uri: request_uri
+            #       args: args
+            #       status: status
+            #       body_bytes_sent: body_bytes_sent
+            #       bytes_sent: bytes_sent
+            #       http_referer: http_referer
+            #       http_user_agent: http_user_agent
+            #       http_x_forwarded_for: http_x_forwarded_for
+            #       http_host: http_host
+            #       server_name: server_name
+            #       request_time: request_time
+            #       upstream: upstream_addr
+            #       upstream_connect_time: upstream_connect_time
+            #       upstream_header_time: upstream_header_time
+            #       upstream_response_time: upstream_response_time
+            #       upstream_response_length: upstream_response_length
+            #       upstream_cache_status: upstream_cache_status
+            #       ssl_protocol: ssl_protocol
+            #       ssl_cipher: ssl_cipher
+            #       scheme: scheme
+            #       request_method: request_method
+            #       server_protocol: server_protocol
+            #       pipe: pipe
+            #       gzip_ratio: gzip_ratio
+            #       http_cf_ray: http_cf_ray
+            #       geoip_country_code: geoip_country_code
+            # - timestamp:
+            #     source: timetime_iso8601
+            #     format: RFC3339
+            # - labels:
+            #     msec:
+            #     connection:
+            #     connection_requests:
+            #     pid:
+            #     request_id:
+            #     request_length:
+            #     remote_addr:
+            #     remote_user:
+            #     remote_port:
+            #     time_local:
+            #     request:
+            #     request_uri:
+            #     args:
+            #     status:
+            #     body_bytes_sent:
+            #     bytes_sent:
+            #     http_referer:
+            #     http_user_agent:
+            #     http_x_forwarded_for:
+            #     http_host:
+            #     server_name:
+            #     request_time:
+            #     upstream:
+            #     upstream_connect_time:
+            #     upstream_header_time:
+            #     upstream_response_time:
+            #     upstream_response_length:
+            #     upstream_cache_status:
+            #     ssl_protocol:
+            #     ssl_cipher:
+            #     scheme:
+            #     request_method:
+            #     server_protocol:
+            #     pipe:
+            #     gzip_ratio:
+            #     http_cf_ray:
+            #     geoip_country_code:
+            # - output:
+            #     source: request_id
 
 kube-prometheus-stack:
   fullnameOverride: "monitoring"

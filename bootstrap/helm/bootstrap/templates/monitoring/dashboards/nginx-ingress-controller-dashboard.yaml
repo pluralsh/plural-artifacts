@@ -1,0 +1,14 @@
+{{- if .Values.monitoring.grafana.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-ingress-controller-dashboard
+  namespace: {{ .Values.monitoring.grafana.namespace }}
+  labels: {{ include "bootstrap.labels" . | nindent 4 }}
+    grafana_dashboard: nginx-ingress-controller-dashboard
+  annotations:
+    k8s-sidecar-target-directory: /tmp/dashboards/NGINX Dashboards
+data:
+  nginx-ingress-controller-dashboard.json: |-
+{{ .Files.Get "grafana-dashboards/nginx.json" | indent 4 }}
+{{ end }}

@@ -27,6 +27,13 @@ external-dns:
     tenantId: {{ .Context.TenantId }}
     subscriptionId: {{ .Context.SubscriptionId }}
   {{ end }}
+  sources:
+  - service
+  - ingress
+  {{ if .Configuration.istio }}
+  - istio-gateway
+  - istio-virtualservice
+  {{ end }}
 
 {{ if eq .Provider "azure" }}
 externalDnsIdentityId: {{ importValue "Terraform" "externaldns_msi_id" }}
@@ -119,3 +126,10 @@ dnsSolver:
   cloudDNS:
     project: {{ .Project }}
 {{ end }}
+
+{{ if .Configuration.grafana }}
+monitoring:
+  grafana:
+    enabled: true
+    namespace: {{ namespace "grafana" }}
+  {{ end }}
