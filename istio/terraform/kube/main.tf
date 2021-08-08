@@ -15,6 +15,7 @@ resource "kubernetes_namespace" "istio-system" {
       "app.kubernetes.io/managed-by" = "plural"
       "istio-operator-managed" = "Reconcile"
       "istio-injection" = "disabled"
+      "istio" = "system"
     }
   }
 }
