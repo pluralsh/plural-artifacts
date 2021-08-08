@@ -2,7 +2,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
   name: sni-proxy
-  namespace: {{ .Values.istio.namespace }}
+  namespace: david
 spec:
   hosts:
   - sni-proxy.local
@@ -19,7 +19,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
   name: wikipedia
-  namespace: {{ .Values.istio.namespace }}
+  namespace: david
 spec:
   hosts:
   - "*.wikipedia.org"
