@@ -18,7 +18,7 @@ spec:
       - "*.wikipedia.org"
     route:
     - destination:
-        host: istio-egressgateway.istio-system.svc.cluster.local
+        host: istio-egressgateway.{{ .Values.istio.namespace }}.svc.cluster.local
         subset: wikipedia
         port:
           number: 443
