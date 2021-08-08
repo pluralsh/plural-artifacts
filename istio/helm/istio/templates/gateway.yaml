@@ -12,6 +12,6 @@ spec:
       name: tls-egress
       protocol: TLS
     hosts:
-    - "*.wikipedia.org"
+    - "*"
     tls:
       mode: ISTIO_MUTUAL

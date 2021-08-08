@@ -22,7 +22,7 @@ metadata:
   namespace: {{ .Values.istio.namespace }}
 spec:
   hosts:
-  - "*.wikipedia.org"
+  - "*"
   ports:
   - number: 443
     name: tls
