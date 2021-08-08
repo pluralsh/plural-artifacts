@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: plural-operator
+  labels:
+    control-plane: plural-operator
+    {{- include "bootstrap.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      control-plane: plural-operator
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        control-plane: plural-operator
+        {{- include "bootstrap.labels" . | nindent 8 }}
+    spec:
+      securityContext:
+        runAsNonRoot: true
+      containers:
+      - command:
+        - /manager
+        args:
+        - --leader-elect
+        image: "{{ .Values.plural.image.repository }}:{{ .Values.plural.image.tag }}"
+        name: manager
+        securityContext:
+          allowPrivilegeEscalation: false
+        ports:
+        - containerPort: 8081
+          name: health
+          protocol: TCP
+        - containerPort: 8080
+          name: metrics
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8081
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: 8081
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        resources:
+          requests:
+            cpu: 100m
+            memory: 20Mi
+      serviceAccountName: plural-operator
+      terminationGracePeriodSeconds: 10

@@ -24,6 +24,11 @@ external-dns:
 ownerEmail: mguarino46@gmail.com
 provider: aws
 
+plural:
+  image:
+    repository: dkr.plural.sh/bootstrap/plural-operator
+    tag: v0.1.0
+
 imagePullSecrets:
 - name: plural-creds
 
