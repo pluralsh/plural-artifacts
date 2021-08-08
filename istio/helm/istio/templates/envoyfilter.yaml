@@ -5,7 +5,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
   name: forward-downstream-sni
-  namespace: david
+  namespace: {{ .Values.istio.namespace }}
 spec:
   configPatches:
   - applyTo: NETWORK_FILTER

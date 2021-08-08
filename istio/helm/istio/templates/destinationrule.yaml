@@ -2,7 +2,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
   name: disable-mtls-for-sni-proxy
-  namespace: david
+  namespace: {{ .Values.istio.namespace }}
 spec:
   host: sni-proxy.local
   trafficPolicy:
@@ -13,7 +13,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
   name: egressgateway-for-wikipedia
-  namespace: david
+  namespace: {{ .Values.istio.namespace }}
 spec:
   host: istio-egressgateway.{{ .Values.istio.namespace }}.svc.cluster.local
   subsets:
