@@ -32,7 +32,7 @@ istio:
             name: https
         overlays:
         - kind: Deployment
-          name: istio-egressgateway-with-sni-proxy
+          name: istio-egressgateway
           patches:
           - path: spec.template.spec.containers[-1]
             value: |
