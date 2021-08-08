@@ -1,6 +1,6 @@
 artifact: {}
 terraform:
-  terraform/kube: h1:zjXhNsgIsUXR+vDEfJMqZ7EI/Gllx67korbJ45vF/+A=
+  terraform/kube: h1:vMPDCNZkTRKGX1acVe7qsk54Ycy/8ML5L0RKUatL9QM=
 helm:
   helm/istio: h1:plkSSTagU0L+VRVjVv633CGVMogekz5//23Gr1HIXrA=
 recipe:
