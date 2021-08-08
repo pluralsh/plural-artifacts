@@ -18,7 +18,7 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
-  name: wikipedia
+  name: allowed-tlds
   namespace: {{ .Values.istio.namespace }}
 spec:
   hosts:
