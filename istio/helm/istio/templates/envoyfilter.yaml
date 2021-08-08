@@ -35,7 +35,7 @@ metadata:
 spec:
   workloadSelector:
     labels:
-      app: istio-egressgateway-with-sni-proxy
+      app: istio-egressgateway
   configPatches:
   - applyTo: NETWORK_FILTER
     match:
