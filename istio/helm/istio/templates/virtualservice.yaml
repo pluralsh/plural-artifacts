@@ -5,7 +5,9 @@ metadata:
   namespace: {{ .Values.istio.namespace }}
 spec:
   hosts:
-  - "*"
+  - "*.org"
+  - "*.com"
+  - "*.sh"
   gateways:
   - mesh
   - istio-egressgateway
