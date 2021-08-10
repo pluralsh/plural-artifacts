@@ -24,6 +24,7 @@ spec:
         args:
         - --leader-elect
         image: "{{ .Values.plural.image.repository }}:{{ .Values.plural.image.tag }}"
+        imagePullPolicy: Always
         name: manager
         securityContext:
           allowPrivilegeEscalation: false

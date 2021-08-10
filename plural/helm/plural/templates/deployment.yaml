@@ -33,10 +33,6 @@ spec:
         envFrom:
         - secretRef:
             name: plural-env
-        {{ if .Values.rabbitmqCredentials.username }}
-        - secretRef:
-            name: plural-rabbitmq-secret
-        {{ end }}
         env:
         {{ include "plural.env" . | nindent 8 }}
         ports:
@@ -99,10 +95,6 @@ spec:
         envFrom:
         - secretRef:
             name: plural-env
-        {{ if .Values.rabbitmqCredentials.username }}
-        - secretRef:
-            name: plural-rabbitmq-secret
-        {{ end }}
         env:
         {{ include "plural.env" . | nindent 8 }}
         resources:
@@ -155,10 +147,6 @@ spec:
         envFrom:
         - secretRef:
             name: plural-env
-        {{ if .Values.rabbitmqCredentials.username }}
-        - secretRef:
-            name: plural-rabbitmq-secret
-        {{ end }}
         env:
         {{ include "plural.env" . | nindent 8 }}
         ports:

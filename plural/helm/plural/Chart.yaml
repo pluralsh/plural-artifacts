@@ -7,7 +7,7 @@ sources:
 maintainers:
 - name: michaeljguarino
   email: mjg@plural.sh
-version: 0.6.79
+version: 0.6.80
 
 dependencies:
 - name: influxdb

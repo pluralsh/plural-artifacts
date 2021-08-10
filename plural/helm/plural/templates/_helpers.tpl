@@ -63,6 +63,18 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
     secretKeyRef:
       name: {{ .Values.dbPasswordSecret }}
       key: password
+- name: RABBIT_USERNAME
+  valueFrom:
+    secretKeyRef:
+      name: rabbitmq-default-user
+      key: username
+- name: RABBIT_PASSWORD
+  valueFrom:
+    secretKeyRef:
+      name: rabbitmq-default-user
+      key: password
+- name: RABBIT_NAMESPACE
+  value: {{ .Values.rabbitmqNamespace }}
 - name: DBHOST
   value: plural-plural
 - name: DBSSL
