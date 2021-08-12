@@ -8,7 +8,7 @@ helm:
 recipe:
   forge/recipes/gcp-airflow.yaml: 4a61bee914e0e3cb3f703e054648781a437ffda570f5645b1a986fdafd1fa681
   plural/recipes/aws-airflow.yaml: 6455bc22ece4763996085863a49124332be3a342409be4aa8785c5d20c7c2d48
-  plural/recipes/gcp-airflow.yaml: 2eeee026dd26f0c7e062594fc2e4e9f97220c371734f57073e231b89ce3f866c
+  plural/recipes/gcp-airflow.yaml: 235606f53d2464857910fe23708eee1cd850bbe9379059e58be887deeef5cd37
 integration: {}
 crd: {}
 ird: {}

@@ -5,7 +5,7 @@ dependencies:
 - repo: bootstrap
   name: gcp-kubernetes
 - repo: postgres
-  name: aws-postgres
+  name: gcp-postgres
 sections:
 - name: airflow
   items:

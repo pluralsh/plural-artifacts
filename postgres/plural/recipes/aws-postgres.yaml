@@ -11,7 +11,7 @@ sections:
     name: aws
     configuration:
     - name: wal_bucket
-      documentation: bucket to store wal archives in
+      documentation: s3 bucket to store wal archives in
       type: STRING
   - type: HELM
     name: postgres

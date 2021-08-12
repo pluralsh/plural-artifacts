@@ -6,8 +6,8 @@ terraform:
 helm:
   helm/postgres: h1:1nq9Zgnyff1i4BZggZkNocb5phiKygUKNqoj09l6wX0=
 recipe:
-  plural/recipes/aws-postgres.yaml: c1d6d4aee995b4e5803f987c0d96a9ff68aa75d01e77446d5f418b051ce39585
-  plural/recipes/gcp-postgres.yaml: a44a2585d41b3657912242b0d6b139b8dae972dcacdbba47043a426df65a448c
+  plural/recipes/aws-postgres.yaml: a56b65e270701055b59b4d4635ff4b1e77d343cc2ea1c9a4ed205b46d0a09d38
+  plural/recipes/gcp-postgres.yaml: 9084455862fb203b5b0d9594b600e1dea8ba37b088b98624e234a133abfb0a63
 integration: {}
 crd:
   plural/crds/operatorconfigurations.yaml: c564bf334fa94ba84e4328b4af2bc09e0332ac5bb5fb77deab2f0bccf1222afc:h1:1nq9Zgnyff1i4BZggZkNocb5phiKygUKNqoj09l6wX0=

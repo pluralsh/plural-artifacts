@@ -9,7 +9,10 @@ sections:
   items:
   - type: TERRAFORM
     name: gcp
-    configuration: []
+    configuration:
+    - name: wal_bucket
+      documentation: gcs bucket to store wal archives in
+      type: STRING
   - type: HELM
     name: postgres
     configuration: []

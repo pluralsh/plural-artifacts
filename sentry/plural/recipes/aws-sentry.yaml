@@ -8,6 +8,8 @@ dependencies:
   name: rabbitmq-aws
 - repo: redis
   name: aws-redis
+- repo: postgres
+  name: aws-postgres
 sections:
 - name: sentry
   items:

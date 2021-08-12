@@ -8,6 +8,8 @@ dependencies:
   name: rabbitmq-gcp
 - repo: redis
   name: gcp-redis
+- repo: postgres
+  name: gcp-postgres
 sections:
 - name: sentry
   items:
