@@ -1,0 +1,11 @@
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: force-strict-mtls
+  namespace: {{ .Release.Namespace }}
+  labels:
+    serving.knative.dev/release: v0.24.0
+    networking.knative.dev/ingress-provider: istio
+spec:
+  mtls:
+    mode: STRICT

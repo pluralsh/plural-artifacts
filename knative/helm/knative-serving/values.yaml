@@ -3,14 +3,35 @@
 # Declare variables to be passed into your templates.
 replicaCount: 1
 
-observabilityConfig: {}
-networkConfig: {}
-loggingConfig: {}
+observabilityConfig:
+  metrics.backend-destination: opencensus
+  request-metrics-backend-destination: opencensus
+  metrics.opencensus-address: otel-collector.monitoring.svc.cluster.local:55678
+networkConfig:
+  ingress.class: "istio.ingress.networking.knative.dev"
+  domainTemplate: "{{.Name}}-{{.Namespace}}.{{.Domain}}"
+  httpProtocol: "Redirected"
+loggingConfig:
+  loglevel.controller: info
+  loglevel.autoscaler: info
+  loglevel.queueproxy: debug
+  loglevel.webhook: info
+  loglevel.activator: debug
+  loglevel.hpaautoscaler: info
+  loglevel.net-certmanager-controller: info
+  loglevel.net-istio-controller: debug
+  loglevel.net-nscert-controller: info
 leaderElectionConfig: {}
 gcConfig: {}
 featuresConfig: {}
-domainConfig: {}
-deploymentConfig: {}
+domainConfig:
+  serving.kubeflow-aws.com: ""
+deploymentConfig:
+  progressDeadline: 600s
 defaultsConfig: {}
 autoscalerConfig: {}
 tracingConfig: {}
+istioConfig:
+  gateway.kubeflow.kubeflow-gateway: istio-ingressgateway.istio-system.svc.cluster.local
+  local-gateway.istio-system.cluster-local-gateway: cluster-local-gateway.istio-system.svc.cluster.local
+  enable-virtualservice-status: 'true'
