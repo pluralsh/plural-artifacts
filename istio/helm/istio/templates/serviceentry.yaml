@@ -22,9 +22,7 @@ metadata:
   namespace: {{ .Values.istio.namespace }}
 spec:
   hosts:
-  - "*.org"
-  - "*.com"
-  - "*.sh"
+  - "*.*"
   ports:
   - number: 443
     name: tls
