@@ -4,6 +4,14 @@
 
 provider: aws
 
+istioEgressAllowedTLDs:
+- "*.org"
+- "*.com"
+- "*.sh"
+- "*.ai"
+- "*.io"
+- "*.nl"
+
 istio:
   hub: gcr.io/istio-release
   tag: 1.10.3
@@ -21,6 +29,75 @@ istio:
           service.beta.kubernetes.io/aws-load-balancer-type: external
           service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: instance
           proxy.istio.io/config: '{"gatewayTopology" : { "numTrustedProxies": 2 } }'
+    # Cluster-local gateway for KFServing
+    - enabled: true
+      name: cluster-local-gateway
+      # https://github.com/istio/istio/issues/19263#issuecomment-615833092
+      label:
+        app: cluster-local-gateway
+        istio: cluster-local-gateway
+      k8s:
+        env:
+        - name: ISTIO_META_ROUTER_MODE
+          value: sni-dnat
+        hpaSpec:
+          maxReplicas: 5
+          metrics:
+          - resource:
+              name: cpu
+              targetAverageUtilization: 80
+            type: Resource
+          minReplicas: 1
+          scaleTargetRef:
+            apiVersion: apps/v1
+            kind: Deployment
+            name: cluster-local-gateway
+        resources:
+          limits:
+            cpu: 2000m
+            memory: 1024Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        service:
+          type: ClusterIP
+          ports:
+          - name: status-port
+            port: 15020
+            targetPort: 15020
+          - name: http2
+            port: 80
+            targetPort: 8080
+    egressGateways:
+    - name: istio-egressgateway
+      enabled: true
+      k8s:
+        service:
+          ports:
+          - port: 443
+            targetPort: 8443
+            name: tls-https
+        overlays:
+        - kind: Deployment
+          name: istio-egressgateway
+          patches:
+          - path: spec.template.spec.containers[-1]
+            value: |
+              name: sni-proxy
+              image: nginx
+              volumeMounts:
+              - name: sni-proxy-config
+                mountPath: /etc/nginx
+                readOnly: true
+              securityContext:
+                runAsNonRoot: true
+                runAsUser: 101
+          - path: spec.template.spec.volumes[-1]
+            value: |
+              name: sni-proxy-config
+              configMap:
+                name: egress-sni-proxy-configmap
+                defaultMode: 292 # 0444
 
 istio-operator:
   operatorNamespace: istio-operator

@@ -12,6 +12,8 @@ spec:
   hub: {{ .Values.istio.hub }}
   tag: {{ .Values.istio.tag }}
   meshConfig:
+    outboundTrafficPolicy:
+      mode: REGISTRY_ONLY
     accessLogFile: /dev/stdout
     enablePrometheusMerge: true
     {{ if .Values.monitoring.tracing.enabled }}
