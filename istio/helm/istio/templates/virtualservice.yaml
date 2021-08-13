@@ -5,9 +5,9 @@ metadata:
   namespace: {{ .Values.istio.namespace }}
 spec:
   hosts:
-  - "*.org"
-  - "*.com"
-  - "*.sh"
+  {{- range .Values.istioEgressAllowedTLDs }}
+  - {{ . | quote -}}
+  {{ end }}
   gateways:
   - mesh
   - istio-egressgateway
