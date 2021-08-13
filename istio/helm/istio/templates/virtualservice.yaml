@@ -1,0 +1,40 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: direct-tlds-through-egress-gateway
+  namespace: {{ .Values.istio.namespace }}
+spec:
+  hosts:
+  {{- range .Values.istioEgressAllowedTLDs }}
+  - {{ . | quote -}}
+  {{ end }}
+  gateways:
+  - mesh
+  - istio-egressgateway
+  tls:
+  - match:
+    - gateways:
+      - mesh
+      port: 443
+      sniHosts:
+      {{- range .Values.istioEgressAllowedTLDs }}
+      - {{ . | quote -}}
+      {{ end }}
+    route:
+    - destination:
+        host: istio-egressgateway.{{ .Values.istio.namespace }}.svc.cluster.local
+        subset: allowed-tlds
+        port:
+          number: 443
+      weight: 100
+  tcp:
+  - match:
+    - gateways:
+      - istio-egressgateway
+      port: 443
+    route:
+    - destination:
+        host: sni-proxy.local
+        port:
+          number: 18443
+      weight: 100

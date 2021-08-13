@@ -1,0 +1,31 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: sni-proxy
+  namespace: {{ .Values.istio.namespace }}
+spec:
+  hosts:
+  - sni-proxy.local
+  location: MESH_EXTERNAL
+  ports:
+  - number: 18443
+    name: tcp
+    protocol: TCP
+  resolution: STATIC
+  endpoints:
+  - address: 127.0.0.1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: allowed-tlds
+  namespace: {{ .Values.istio.namespace }}
+spec:
+  hosts:
+  {{- range .Values.istioEgressAllowedTLDs }}
+  - {{ . | quote -}}
+  {{ end }}
+  ports:
+  - number: 443
+    name: tls
+    protocol: TLS

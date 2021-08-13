@@ -6,4 +6,4 @@ providers:
 - azure
 
 description: istio kubernetes setup
-version: 0.1.3
+version: 0.1.5

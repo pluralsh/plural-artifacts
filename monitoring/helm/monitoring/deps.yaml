@@ -12,15 +12,15 @@ spec:
   - type: terraform
     name: aws
     repo: monitoring
-    version: '>= 0.1.0'
+    version: '>= 0.1.1'
     optional: true
   - type: terraform
     name: azure
     repo: monitoring
-    version: '>= 0.1.0'
+    version: '>= 0.1.1'
     optional: true
   - type: terraform
     name: gcp
     repo: monitoring
-    version: '>= 0.1.0'
+    version: '>= 0.1.1'
     optional: true
