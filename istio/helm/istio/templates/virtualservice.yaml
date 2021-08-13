@@ -17,9 +17,9 @@ spec:
       - mesh
       port: 443
       sniHosts:
-      - "*.org"
-      - "*.com"
-      - "*.sh"
+      {{- range .Values.istioEgressAllowedTLDs }}
+      - {{ . | quote -}}
+      {{ end }}
     route:
     - destination:
         host: istio-egressgateway.{{ .Values.istio.namespace }}.svc.cluster.local

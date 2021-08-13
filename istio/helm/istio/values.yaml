@@ -4,6 +4,14 @@
 
 provider: aws
 
+istioEgressAllowedTLDs:
+- "*.org"
+- "*.com"
+- "*.sh"
+- "*.ai"
+- "*.io"
+- "*.nl"
+
 istio:
   hub: gcr.io/istio-release
   tag: 1.10.3

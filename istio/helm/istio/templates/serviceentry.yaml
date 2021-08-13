@@ -22,7 +22,9 @@ metadata:
   namespace: {{ .Values.istio.namespace }}
 spec:
   hosts:
-  - "*.*"
+  {{- range .Values.istioEgressAllowedTLDs }}
+  - {{ . | quote -}}
+  {{ end }}
   ports:
   - number: 443
     name: tls
