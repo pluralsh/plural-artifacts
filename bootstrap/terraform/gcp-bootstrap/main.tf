@@ -70,7 +70,7 @@ module "externaldns-workload-identity" {
   roles               = ["roles/dns.admin"]
 }
 
-resource "kubernetes_service_account" "console" {
+resource "kubernetes_service_account" "externaldns" {
   metadata {
     name      = "external-dns"
     namespace = var.namespace
@@ -79,4 +79,30 @@ resource "kubernetes_service_account" "console" {
       "iam.gke.io/gcp-service-account" = module.externaldns-workload-identity.gcp_service_account_email
     }
   }
+
+  depends_on = [kubernetes_namespace.bootstrap]
+}
+
+module "certmanager-workload-identity" {
+  source              = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
+  name                = "${var.cluster_name}-certmanager"
+  namespace           = var.namespace
+  project_id          = var.gcp_project_id
+  use_existing_k8s_sa = true
+  annotate_k8s_sa     = false
+  k8s_sa_name         = "certmanager"
+  roles               = ["roles/dns.admin"]
+}
+
+resource "kubernetes_service_account" "certmanager" {
+  metadata {
+    name      = "certmanager"
+    namespace = var.namespace
+
+    annotations = {
+      "iam.gke.io/gcp-service-account" = module.certmanager-workload-identity.gcp_service_account_email
+    }
+  }
+
+  depends_on = [kubernetes_namespace.bootstrap]
 }

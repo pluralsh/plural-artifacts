@@ -29,14 +29,14 @@ resource "kubernetes_service_account" "airflow" {
 
 resource "google_storage_bucket" "airflow_bucket" {
   name = var.airflow_bucket
-  project = var.gcp_project_id
+  project = var.project_id
   force_destroy = true
 }
 
-resource "google_storage_bucket_iam_member" "plural" {
-  bucket = google_storage_bucket.plural_bucket.name
+resource "google_storage_bucket_iam_member" "airflow" {
+  bucket = google_storage_bucket.airflow_bucket.name
   role = "roles/storage.admin"
-  member = "serviceAccount:${module.airflow-workflow-identity.gcp_service_account_email}"
+  member = "serviceAccount:${module.airflow-workload-identity.gcp_service_account_email}"
 
   depends_on = [
     google_storage_bucket.airflow_bucket,
