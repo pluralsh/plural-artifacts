@@ -16,6 +16,8 @@ rtc:
 worker:
   repository: dkr.plural.sh/plural/worker
   tag: '0.1.1'
+  minReplicas: 1
+  maxReplicas: 10
 
 www:
   image: dkr.plural.sh/plural/plural-www
