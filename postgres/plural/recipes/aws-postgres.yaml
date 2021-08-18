@@ -2,17 +2,17 @@ name: aws-postgres
 description: Installs postgres operator on an EKS cluster
 provider: AWS
 dependencies:
-- repo: bootstrap
-  name: aws-k8s
+  - repo: bootstrap
+    name: aws-k8s
 sections:
-- name: postgres
-  items:
-  - type: TERRAFORM
-    name: aws
-    configuration:
-    - name: wal_bucket
-      documentation: s3 bucket to store wal archives in
-      type: STRING
-  - type: HELM
-    name: postgres
-    configuration: []
+  - name: postgres
+    items:
+      - type: TERRAFORM
+        name: aws
+        configuration:
+          - name: wal_bucket
+            documentation: Arbitary name for s3 bucket to store wal archives in, eg plural-wal-archives
+            type: STRING
+      - type: HELM
+        name: postgres
+        configuration: []
