@@ -4,7 +4,7 @@ terraform:
   terraform/azure: h1:Hv5+1JSJBjUp3yYty2G0GghJKZHPU4W9eBbZuLwmVgo=
   terraform/gcp: h1:GCSKZawUGCSsSefAtQ3X3wIPz/DHMXhN3UgYT4PUIMQ=
 helm:
-  helm/mysql: h1:I0Q7nc7TF2E9+v74YUtu52PozhjnypyH9y0N59vNJSA=
+  helm/mysql: h1:s/xmKoAgO2hLnDQDO2SYWEcq7Ht15qYiwWTajU1GgTs=
   helm/mysql-percona: h1:2A8t82qBu5dsOxTp9vyyfPtmL070nD1OmueIeCcm/dY=
 recipe:
   plural/recipes/aws-mysql-percona.yaml: 2e5f2d43f0b1e96c9c5f4fc41faad9d142e04e081257c1e7217977426893c164
@@ -12,9 +12,9 @@ recipe:
 integration: {}
 crd:
   plural/crds/percona/crd.yaml: 0b099d96c21408c34791e0285b7cf85e8576a56147982411ff03e1f9b9c3daa4:h1:2A8t82qBu5dsOxTp9vyyfPtmL070nD1OmueIeCcm/dY=
-  plural/crds/presslabs/backups.yaml: dd3d1863678c46b8b15c9748698cb784a2173f06b3c4558dbc11dfef5f36e8a6:h1:I0Q7nc7TF2E9+v74YUtu52PozhjnypyH9y0N59vNJSA=
-  plural/crds/presslabs/mysqlclusters.yaml: df545bfc34efcd7947af788c62af0c2f2b14cc51ae50646481f28b3ac5fa2081:h1:I0Q7nc7TF2E9+v74YUtu52PozhjnypyH9y0N59vNJSA=
-  plural/crds/presslabs/mysqldatabases.yaml: 9cdaec110fe325ce4051a65b3ad3588316a3681811925bd2e8f4d68b892458d9:h1:I0Q7nc7TF2E9+v74YUtu52PozhjnypyH9y0N59vNJSA=
-  plural/crds/presslabs/mysqlusers.yaml: 3e24517bb2211c53116ff1e9e01ff544e61ae16d5dfe8aa36e314ed5c34c8241:h1:I0Q7nc7TF2E9+v74YUtu52PozhjnypyH9y0N59vNJSA=
+  plural/crds/presslabs/backups.yaml: 3e5e80e7d01d9beb5f3002e8b5986921e7941d6d6889148771381961c0b59cd1:h1:s/xmKoAgO2hLnDQDO2SYWEcq7Ht15qYiwWTajU1GgTs=
+  plural/crds/presslabs/mysqlclusters.yaml: df545bfc34efcd7947af788c62af0c2f2b14cc51ae50646481f28b3ac5fa2081:h1:s/xmKoAgO2hLnDQDO2SYWEcq7Ht15qYiwWTajU1GgTs=
+  plural/crds/presslabs/mysqldatabases.yaml: 9cdaec110fe325ce4051a65b3ad3588316a3681811925bd2e8f4d68b892458d9:h1:s/xmKoAgO2hLnDQDO2SYWEcq7Ht15qYiwWTajU1GgTs=
+  plural/crds/presslabs/mysqlusers.yaml: 3e24517bb2211c53116ff1e9e01ff544e61ae16d5dfe8aa36e314ed5c34c8241:h1:s/xmKoAgO2hLnDQDO2SYWEcq7Ht15qYiwWTajU1GgTs=
 ird: {}
 tag: {}
