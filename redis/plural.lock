@@ -2,7 +2,7 @@ artifact: {}
 terraform:
   terraform/kube: h1:Tk2i0H2YUhAZqzsR5l2WMF+JLWvuuBQelVX6bH6Im+g=
 helm:
-  helm/redis: h1:pQ+UT2wF0m6g9UKLlI/YDsBWk6DGM+2giu8D7VgprRc=
+  helm/redis: h1:IUA8pD+Jg4ToktxlRM//4JH6FajngEc8kUuogOqI7CU=
   helm/redis-cluster: h1:dLUjkbtCx8SHjp4+FAR8VqMOjzXZt2cktfT3OOJYwcU=
 recipe:
   plural/recipes/aws-redis-cluster.yaml: cc2e9e05fb24497f30906f2ac5250207eb2b4103a48a6f5e509ba32a82c7f119
