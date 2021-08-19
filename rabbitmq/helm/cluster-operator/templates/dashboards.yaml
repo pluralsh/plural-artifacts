@@ -1,0 +1,45 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Dashboard
+metadata:
+  name: {{ template "cluster-operator.fullname" $ }}-rabbit
+  labels:
+{{ include "cluster-operator.labels" . | indent 4 }}
+spec:
+  name: rabbitmq
+  description: telemetry for plural's rabbitmq cluster
+  timeslices: [30m, 1h, 2h, 1d]
+  defaultTime: 30m
+  labels:
+  - name: pod
+    query:
+      query: rabbitmq_consumers{namespace="{{ .Release.Namespace }}"}
+      label: pod
+  graphs:
+  - queries:
+    - query: sum(rabbitmq_connections{namespace="{{ .Release.Namespace }}"})
+      legend: connections
+    - query: sum(rabbitmq_channels{namespace="{{ .Release.Namespace }}"})
+      legend: channels
+    - query: sum(rabbitmq_consumers{namespace="{{ .Release.Namespace }}"})
+      legend: consumers
+    format: none
+    name: Connection details
+  - queries:
+    - query: sum(rabbitmq_queue_messages{namespace="{{ .Release.Namespace }}"})
+      legend: messages
+    format: none
+    name: Messages
+  - queries:
+    - query: min(rabbitmq_disk_space_available_bytes{pod=~"$pod"})
+      legend: disk free
+    - query: min(rabbitmq_disk_space_available_limit_bytes{pod=~"$pod"})
+      legend: memory used
+    format: bytes
+    name: Disk utilization
+  - queries:
+    - query: sum(rabbitmq_queue_process_memory_bytes{pod=~"$pod"}) by (pod)
+      legend: process memory
+    - query: sum(rabbitmq_messages_bytes{pod=~"$pod"}) by (pod)
+      legend: message memory
+    format: bytes
+    name: Memory Utilization
