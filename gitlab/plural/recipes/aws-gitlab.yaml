@@ -39,3 +39,6 @@ sections:
     - name: lfsBucket
       documentation: bucket name for git large file storage
       type: STRING
+    - name: runnerCacheBucket
+      documentation: bucket name for gitlab runner cache
+      type: STRING
