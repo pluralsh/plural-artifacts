@@ -10,6 +10,8 @@ dependencies:
   name: gcp-redis
 - repo: postgres
   name: gcp-postgres
+- repo: kafka
+  name: gcp-kafka
 sections:
 - name: sentry
   items:

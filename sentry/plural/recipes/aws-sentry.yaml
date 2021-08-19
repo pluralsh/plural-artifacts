@@ -1,5 +1,5 @@
 name: aws-sentry
-description: Installs sentry on an EKS cluster
+description: installs sentry on an EKS cluster
 provider: AWS
 dependencies:
 - repo: bootstrap
@@ -10,6 +10,8 @@ dependencies:
   name: aws-redis
 - repo: postgres
   name: aws-postgres
+- repo: kafka
+  name: aws-kafka
 sections:
 - name: sentry
   items:
