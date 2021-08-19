@@ -1,0 +1,14 @@
+{{ if eq .Values.monitoring.enabled true }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-clusters-dashboard
+  namespace: {{ .Values.monitoring.grafana.namespace }}
+  labels: {{ include "redis.labels" . | nindent 4 }}
+    grafana_dashboard: redis-clusters-dashboard
+  annotations:
+    k8s-sidecar-target-directory: /tmp/dashboards/Redis Dashboards
+data:
+  redis-clusters-redis_exporter-3.0.json: |-
+{{ .Files.Get "grafana-dashboards/redis-clusters-redis_exporter-3.0.json" | indent 4 }}
+{{ end }}

@@ -21,3 +21,9 @@ redis:
       image:
         registry: gcr.io/pluralsh
         tag: 1.7.1-debian-10-r109
+
+monitoring:
+  enabled: true
+  namespace: monitoring
+  grafana:
+    namespace: grafana
