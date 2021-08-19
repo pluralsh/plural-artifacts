@@ -1,0 +1,14 @@
+{{ if eq .Values.monitoring.enabled true }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: strimzi-kafka-connect-dashboard
+  namespace: {{ .Values.monitoring.grafana.namespace }}
+  labels: {{ include "kafka.labels" . | nindent 4 }}
+    grafana_dashboard: strimzi-kafka-connect-dashboard
+  annotations:
+    k8s-sidecar-target-directory: /tmp/dashboards/Kafka Dashboards
+data:
+  strimzi-kafka-connect.json: |-
+{{ .Files.Get "grafana-dashboards/strimzi-kafka-connect.json" | indent 4 }}
+{{ end }}
