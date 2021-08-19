@@ -1,0 +1,14 @@
+{{ if eq .Values.monitoring.enabled true }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rabbitmq-overview-dashboard
+  namespace: {{ .Values.monitoring.grafana.namespace }}
+  labels: {{ include "cluster-operator.labels" . | nindent 4 }}
+    grafana_dashboard: rabbitmq-overview-dashboard
+  annotations:
+    k8s-sidecar-target-directory: /tmp/dashboards/RabbitMQ Dashboards
+data:
+  rabbitmq-overview_rev11.json: |-
+{{ .Files.Get "grafana-dashboards/rabbitmq-overview_rev11.json" | indent 4 }}
+{{ end }}
