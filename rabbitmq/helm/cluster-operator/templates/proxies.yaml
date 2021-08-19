@@ -1,0 +1,15 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Proxy
+metadata:
+  name: web
+  labels:
+{{ include "cluster-operator.labels" . | indent 4 }}
+spec:
+  type: web
+  target: service/rabbitmq
+  credentials:
+    secret: rabbitmq-default-user
+    key: password
+    userKey: username
+  webConfig:
+    port: 15672
