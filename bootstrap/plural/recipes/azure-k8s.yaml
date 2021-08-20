@@ -9,7 +9,7 @@ sections:
         name: azure-bootstrap
         configuration:
           - name: dns_domain
-            documentation: Top level domain to deploy Plural applications to, eg plural.<mywebsite>.com
+            documentation: Top level domain to deploy Plural applications to, eg topleveldomain.com. This might also look something like plural.existingcompanydomain.com if you have an existing company domain and you want to aggregate all the plural resources under a single subdomain.
             type: STRING
       - type: HELM
         name: bootstrap
