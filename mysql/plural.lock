@@ -8,7 +8,7 @@ helm:
   helm/mysql-percona: h1:2A8t82qBu5dsOxTp9vyyfPtmL070nD1OmueIeCcm/dY=
 recipe:
   plural/recipes/aws-mysql-percona.yaml: 2e5f2d43f0b1e96c9c5f4fc41faad9d142e04e081257c1e7217977426893c164
-  plural/recipes/aws-mysql.yaml: 1438718d7bb00c0f7a25a934871ce4ea98e2ab52cab729290e84ace1e9e17b66
+  plural/recipes/aws-mysql.yaml: 5426793ed738918708271e7e78b4761e4b2367f717bb5a7d640241e94caade3f
 integration: {}
 crd:
   plural/crds/percona/crd.yaml: 0b099d96c21408c34791e0285b7cf85e8576a56147982411ff03e1f9b9c3daa4:h1:2A8t82qBu5dsOxTp9vyyfPtmL070nD1OmueIeCcm/dY=

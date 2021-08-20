@@ -6,11 +6,12 @@ db:
   name: ghost
   username: ghost
 
-
 ghost:
   ghostEnableHttps: true
   image:
     registry: dkr.plural.sh/ghost
+  mariadb:
+    enabled: false
   ingress:
     enabled: true
     tls: true
