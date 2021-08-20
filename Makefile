@@ -91,3 +91,6 @@ upload-oauth2-proxy: # uploads oauth2-proxy artifacts
 
 upload-monitoring: # uploads monitoring artifacts
 	plural apply -f monitoring/Pluralfile
+
+upload-ghost: # uploads ghost artifacts
+	plural apply -f ghost/Pluralfile

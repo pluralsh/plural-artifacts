@@ -42,3 +42,4 @@ include:
 - .gitlab-ci/plural.yml
 - .gitlab-ci/postgres.yml
 - .gitlab-ci/redis.yml
+- .gitlab-ci/ghost.yml

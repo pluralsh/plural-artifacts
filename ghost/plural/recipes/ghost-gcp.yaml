@@ -1,0 +1,15 @@
+name: ghost-gcp
+description: Installs ghost on a gcp gke cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-kubernetes
+sections:
+- name: ghost
+  items:
+  - type: TERRAFORM
+    name: gcp
+    configuration: []
+  - type: HELM
+    name: ghost
+    configuration: []

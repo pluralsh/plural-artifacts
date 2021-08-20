@@ -1,0 +1,14 @@
+apiVersion: mysql.presslabs.org/v1alpha1
+kind: MysqlDatabase
+metadata:
+  name: ghost
+  namespace: kubeflow
+spec:
+  database: ghost
+  secretName: ghost-mysql
+  volumeSpec:
+    persistentVolumeClaim:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 5Gi

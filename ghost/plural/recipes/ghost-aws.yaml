@@ -1,0 +1,17 @@
+name: ghost-aws
+description: Installs ghost on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: mysql
+  name: aws-mysql
+sections:
+- name: ghost
+  items:
+  - type: TERRAFORM
+    name: aws
+    configuration: []
+  - type: HELM
+    name: ghost
+    configuration: []
