@@ -6,7 +6,7 @@ ghost:
       hostname: {{ .Values.ghostDomain }}
     ghostHost: {{ .Values.ghostDomain }}
     ghostUsername: {{ .Values.ghostUser }}
-    ghostEmail: {{ .Values.ghostUserEmail }}
+    ghostEmail: {{ .Values.ghostEmail }}
     ghostPassword: {{ dedupe . "ghost.ghost.ghostPassword" (randAlphaNum 26) }}
     externalDatabase:
       host: ghost
@@ -16,4 +16,3 @@ ghost:
   db:
     password: {{ $dbPwd }}
     rootPassword: {{ dedupe . "ghost.db.rootPassword" (randAlphaNum 26) }}
-    

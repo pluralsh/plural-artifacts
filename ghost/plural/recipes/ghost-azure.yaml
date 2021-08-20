@@ -12,4 +12,13 @@ sections:
     configuration: []
   - type: HELM
     name: ghost
-    configuration: []
+    configuration:
+    - name: ghostUser
+      documentation: username for your initial ghost user account
+      type: STRING
+    - name: ghostEmail
+      documentation: email address for the initial ghost user
+      type: STRING
+    - name: ghostDomain
+      documentation: fully qualified domain name for the ghost blog instaance
+      type: STRING
