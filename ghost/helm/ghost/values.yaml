@@ -7,7 +7,13 @@ db:
   username: ghost
 
 ghost:
-  ghostEnableHttps: true
+  ghostEnableHttps: false
+  livenessProbe:
+    enabled: false
+  readinessProbe:
+    enabled: false
+  updateStrategy: 
+    type: Recreate
   image:
     registry: dkr.plural.sh/ghost
   mariadb:

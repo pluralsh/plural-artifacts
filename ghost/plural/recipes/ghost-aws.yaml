@@ -24,3 +24,6 @@ sections:
     - name: ghostDomain
       documentation: fully qualified domain name for the ghost blog instaance
       type: STRING
+    - name: blogTitle
+      documentation: title for your ghost-powered blog
+      type: STRING

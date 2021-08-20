@@ -7,6 +7,7 @@ ghost:
   ghostUsername: {{ .Values.ghostUser }}
   ghostEmail: {{ .Values.ghostEmail }}
   ghostPassword: {{ dedupe . "ghost.ghost.ghostPassword" (randAlphaNum 26) }}
+  ghostBlogTitle: {{ default "My Blog" .Values.blogTitle }}
   externalDatabase:
     host: ghost-mysql-master
     user: ghost
