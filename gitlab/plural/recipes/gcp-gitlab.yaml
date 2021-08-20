@@ -18,24 +18,27 @@ sections:
     - name: domain
       documentation: toplevel domain for all gitlab subcomponents (eg gitlab itself, registry, etc)
       type: STRING
-    - name: dagRepo
+    - name: registryBucket
+      documentation: bucket name for gitlab registry
       type: STRING
-      documentation: the repo your dags will be stored in
-    - name: branchName
+    - name: artifactsBucket
+      documentation: bucket name for gitlab artifacts
       type: STRING
-      documentation: the branch to sync from
-    - name: adminUsername
+    - name: uploadsBucket
+      documentation: bucket name for gitlab uploads
       type: STRING
-      documentation: the gitlab username for the admin
-    - name: adminFirst
+    - name: packagesBucket
+      documentation: bucket name for gitlab packages
       type: STRING
-      documentation: the first name for the admin
-    - name: adminLast
+    - name: backupsBucket
+      documentation: bucket name for gitlab backups
       type: STRING
-      documentation: the last name for the admin
-    - name: adminEmail
+    - name: backupsTmpBucket
+      documentation: bucket name for gitlab tmp backups
       type: STRING
-      documentation: the email for the admin
     - name: lfsBucket
       documentation: bucket name for git large file storage
+      type: STRING
+    - name: runnerCacheBucket
+      documentation: bucket name for gitlab runner cache
       type: STRING

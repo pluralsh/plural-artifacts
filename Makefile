@@ -94,3 +94,6 @@ upload-monitoring: # uploads monitoring artifacts
 
 upload-ghost: # uploads ghost artifacts
 	plural apply -f ghost/Pluralfile
+
+upload-rabbitmq: # uploads rabbitmq artifacts
+	plural apply -f rabbitmq/Pluralfile

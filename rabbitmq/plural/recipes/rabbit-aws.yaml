@@ -1,0 +1,15 @@
+name: rabbitmq-aws
+description: Deploys rabbitmq to our bootstrapped EKS cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+sections:
+- name: rabbitmq
+  items:
+  - type: TERRAFORM
+    name: kube
+    configuration: []
+  - type: HELM
+    name: cluster-operator
+    configuration: []

@@ -18,6 +18,7 @@ grafana:
     existingSecret: grafana-credentials
   plugins:
   - grafana-worldmap-panel
+  - natel-discrete-panel
   # dashboardProviders:
   #   dashboardproviders.yaml:
   #     apiVersion: 1

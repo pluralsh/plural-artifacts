@@ -1,0 +1,14 @@
+{{ if eq .Values.monitoring.enabled true }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: strimzi-kafka-mirror-maker-2-dashboard
+  namespace: {{ .Values.monitoring.grafana.namespace }}
+  labels: {{ include "kafka.labels" . | nindent 4 }}
+    grafana_dashboard: strimzi-kafka-mirror-maker-2-dashboard
+  annotations:
+    k8s-sidecar-target-directory: /tmp/dashboards/Kafka Dashboards
+data:
+  strimzi-kafka-mirror-maker-2.json: |-
+{{ .Files.Get "grafana-dashboards/strimzi-kafka-mirror-maker-2.json" | indent 4 }}
+{{ end }}

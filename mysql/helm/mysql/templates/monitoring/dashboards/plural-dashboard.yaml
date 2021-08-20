@@ -1,0 +1,226 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Dashboard
+metadata:
+  name: {{ template "mysql.fullname" $ }}-overview
+  labels: {{ include "mysql.labels" . | nindent 4 }}
+spec:
+  defaultTime: 1h
+  graphs:
+  - name: Uptime
+    format: none
+    queries:
+    - legendFormat: $pod
+      query: mysql_global_status_uptime{pod=~"$pod"}
+  - name: Current QPS
+    format: none
+    queries:
+    - legendFormat: $pod
+      query: rate(mysql_global_status_queries{pod=~"$pod"}[5m])
+  - name: InnoDB Buffer Pool
+    format: bytes
+    queries:
+    - legendFormat: $pod
+      query: mysql_global_variables_innodb_buffer_pool_size{pod=~"$pod"}
+  - name: MySQL Connections
+    queries:
+    - legend: Connections
+      query: sum(max_over_time(mysql_global_status_threads_connected{pod=~"$pod"}[5m]))
+    - legend: Max Used Connections
+      query: sum(mysql_global_status_max_used_connections{pod=~"$pod"})
+    - legend: Max Connections
+      query: sum(mysql_global_variables_max_connections{pod=~"$pod"})
+  - name: MySQL Client Thread Activity
+    queries:
+    - legend: Peak Threads Connected
+      query: sum(max_over_time(mysql_global_status_threads_connected{pod=~"$pod"}[5m]))
+    - legend: Peak Threads Running
+      query: sum(max_over_time(mysql_global_status_threads_running{pod=~"$pod"}[5m]))
+    - legend: Avg Threads Running
+      query: sum(avg_over_time(mysql_global_status_threads_running{pod=~"$pod"}[5m]))
+  - name: MySQL Questions
+    queries:
+    - legendFormat: $pod
+      query: rate(mysql_global_status_questions{pod=~"$pod"}[5m])
+  - name: MySQL Thread Cache
+    queries:
+    - legend: Thread Cache Size
+      query: sum(mysql_global_variables_thread_cache_size{pod=~"$pod"})
+    - legend: Threads Cached
+      query: sum(mysql_global_status_threads_cached{pod=~"$pod"})
+    - legend: Threads Created
+      query: sum(rate(mysql_global_status_threads_created{pod=~"$pod"}[5m]))
+  - name: MySQL Temporary Objects
+    queries:
+    - legend: Created Tmp Tables
+      query: sum(rate(mysql_global_status_created_tmp_tables{pod=~"$pod"}[5m]))
+    - legend: Created Tmp Disk Tables
+      query: sum(rate(mysql_global_status_created_tmp_disk_tables{pod=~"$pod"}[5m]))
+    - legend: Created Tmp Files
+      query: sum(rate(mysql_global_status_created_tmp_files{pod=~"$pod"}[5m]))
+  - name: MySQL Select Types
+    queries:
+    - legend: Select Full Join
+      query: sum(rate(mysql_global_status_select_full_join{pod=~"$pod"}[5m]))
+    - legend: Select Full Range Join
+      query: sum(rate(mysql_global_status_select_full_range_join{pod=~"$pod"}[5m]))
+    - legend: Select Range
+      query: sum(rate(mysql_global_status_select_range{pod=~"$pod"}[5m]))
+    - legend: Select Range Check
+      query: sum(rate(mysql_global_status_select_range_check{pod=~"$pod"}[5m]))
+    - legend: Select Scan
+      query: sum(rate(mysql_global_status_select_scan{pod=~"$pod"}[5m]))
+  - name: MySQL Sorts
+    queries:
+    - legend: Sort Rows
+      query: sum(rate(mysql_global_status_sort_rows{pod=~"$pod"}[5m]))
+    - legend: Sort Range
+      query: sum(rate(mysql_global_status_sort_range{pod=~"$pod"}[5m]))
+    - legend: Sort Merge Passes
+      query: sum(rate(mysql_global_status_sort_merge_passes{pod=~"$pod"}[5m]))
+    - legend: Sort Scan
+      query: sum(rate(mysql_global_status_sort_scan{pod=~"$pod"}[5m]))
+  - name: MySQL Slow Queries
+    queries:
+    - legend: Slow Queries
+      query: sum(rate(mysql_global_status_slow_queries{pod=~"$pod"}[5m]))
+  - name: MySQL Aborted Connections
+    queries:
+    - legend: Aborted Connects (attempts)
+      query: sum(rate(mysql_global_status_aborted_connects{pod=~"$pod"}[5m]))
+    - legend: Aborted Clients (timeout)
+      query: sum(rate(mysql_global_status_aborted_clients{pod=~"$pod"}[5m]))
+  - name: MySQL Table Locks
+    queries:
+    - legend: Table Locks Immediate
+      query: sum(rate(mysql_global_status_table_locks_immediate{pod=~"$pod"}[5m]))
+    - legend: Table Locks Waited
+      query: sum(rate(mysql_global_status_table_locks_waited{pod=~"$pod"}[5m]))
+  - name: MySQL Network Traffic
+    queries:
+    - legend: Inbound
+      query: sum(rate(mysql_global_status_bytes_received{pod=~"$pod"}[5m]))
+    - legend: Outbound
+      query: sum(rate(mysql_global_status_bytes_sent{pod=~"$pod"}[5m]))
+  - name: MySQL Internal Memory Overview
+    format: bytes
+    queries:
+    - legend: InnoDB Buffer Pool Data
+      query: sum(mysql_global_status_innodb_page_size{pod=~"$pod"}
+        * on (instance) mysql_global_status_buffer_pool_pages{pod=~"$pod",
+        state="data"})
+    - legend: InnoDB Log Buffer Size
+      query: sum(mysql_global_variables_innodb_log_buffer_size{pod=~"$pod"})
+    - legend: InnoDB Additional Memory Pool Size
+      query: sum(mysql_global_variables_innodb_additional_mem_pool_size{pod=~"$pod"})
+    - legend: InnoDB Dictionary Size
+      query: sum(mysql_global_status_innodb_mem_dictionary{pod=~"$pod"})
+    - legend: Key Buffer Size
+      query: sum(mysql_global_variables_key_buffer_size{pod=~"$pod"})
+    - legend: Query Cache Size
+      query: sum(mysql_global_variables_query_cache_size{pod=~"$pod"})
+    - legend: Adaptive Hash Index Size
+      query: sum(mysql_global_status_innodb_mem_adaptive_hash{pod=~"$pod"})
+    - legend: TokuDB Cache Size
+      query: sum(mysql_global_variables_tokudb_cache_size{pod=~"$pod"})
+  - name: Top Command Counters
+    queries:
+    - legend: $command
+      query: topk(5, rate(mysql_global_status_commands_total{pod=~"$pod"}[5m])>0)
+  - name: MySQL Handlers
+    queries:
+    - legendFormat: $handler
+      query: rate(mysql_global_status_handlers_total{pod=~"$pod", handler=~"commit|rollback|savepoint.*|prepare"}[5m])
+        or irate(mysql_global_status_handlers_total{pod=~"$pod", handler=~"commit|rollback|savepoint.*|prepare"}[5m])
+  - name: MySQL Transaction Handlers
+    queries:
+    - legendFormat: $handler
+      query: rate(mysql_global_status_handlers_total{pod=~"$pod", handler=~"commit|rollback|savepoint.*|prepare"}[5m])
+        or irate(mysql_global_status_handlers_total{pod=~"$pod", handler=~"commit|rollback|savepoint.*|prepare"}[5m])
+  - name: Process States
+    queries:
+    - legendFormat: $state
+      query: mysql_info_schema_threads{pod=~"$pod"}
+  - name: Top Process States Hourly
+    queries:
+    - legendFormat: $state
+      query: topk(5, avg_over_time(mysql_info_schema_threads{pod=~"$pod"}[1h]))
+  - name: MySQL Query Cache Memory
+    format: bytes
+    queries:
+    - legend: Free Memory
+      query: mysql_global_status_qcache_free_memory{pod=~"$pod"}
+    - legend: Query Cache Size
+      query: mysql_global_variables_query_cache_size{pod=~"$pod"}
+  - name: MySQL Query Cache Activity
+    queries:
+    - legend: Hits
+      query: rate(mysql_global_status_qcache_hits{pod=~"$pod"}[5m])
+        or irate(mysql_global_status_qcache_hits{pod=~"$pod"}[5m])
+    - legend: Inserts
+      query: rate(mysql_global_status_qcache_inserts{pod=~"$pod"}[5m])
+        or irate(mysql_global_status_qcache_inserts{pod=~"$pod"}[5m])
+    - legend: Not Cached
+      query: rate(mysql_global_status_qcache_not_cached{pod=~"$pod"}[5m])
+        or irate(mysql_global_status_qcache_not_cached{pod=~"$pod"}[5m])
+    - legend: Prunes
+      query: rate(mysql_global_status_qcache_lowmem_prunes{pod=~"$pod"}[5m])
+        or irate(mysql_global_status_qcache_lowmem_prunes{pod=~"$pod"}[5m])
+    - legend: Queries in Cache
+      query: mysql_global_status_qcache_queries_in_cache{pod=~"$pod"}
+  - name: MySQL File Openings
+    queries:
+    - legend: Openings
+      query: rate(mysql_global_status_opened_files{pod=~"$pod"}[5m])
+        or irate(mysql_global_status_opened_files{pod=~"$pod"}[5m])
+  - name: MySQL Open Files
+    queries:
+    - legend: Open Files
+      query: mysql_global_status_open_files{pod=~"$pod"}
+    - legend: Open Files Limit
+      query: mysql_global_variables_open_files_limit{pod=~"$pod"}
+    - legend: InnoDB Open Files
+      query: mysql_global_status_innodb_num_open_files{pod=~"$pod"}
+  - name: MySQL Table Open Cache Status
+    queries:
+    - legend: Openings
+      query: rate(mysql_global_status_opened_tables{pod=~"$pod"}[5m])
+        or irate(mysql_global_status_opened_tables{pod=~"$pod"}[5m])
+    - legend: Hits
+      query: rate(mysql_global_status_table_open_cache_hits{pod=~"$pod"}[5m])
+        or irate(mysql_global_status_table_open_cache_hits{pod=~"$pod"}[5m])
+    - legend: Misses
+      query: rate(mysql_global_status_table_open_cache_misses{pod=~"$pod"}[5m])
+        or irate(mysql_global_status_table_open_cache_misses{pod=~"$pod"}[5m])
+    - legend: Misses due to Overflows
+      query: rate(mysql_global_status_table_open_cache_overflows{pod=~"$pod"}[5m])
+        or irate(mysql_global_status_table_open_cache_overflows{pod=~"$pod"}[5m])
+    - legend: Table Open Cache Hit Ratio
+      query: (rate(mysql_global_status_table_open_cache_hits{pod=~"$pod"}[5m])
+        or irate(mysql_global_status_table_open_cache_hits{pod=~"$pod"}[5m]))/((rate(mysql_global_status_table_open_cache_hits{pod=~"$pod"}[5m]) or irate(mysql_global_status_table_open_cache_hits{pod=~"$pod"}[5m]))+(rate(mysql_global_status_table_open_cache_misses{pod=~"$pod"}[5m]) or irate(mysql_global_status_table_open_cache_misses{pod=~"$pod"}[5m])))
+  - name: MySQL Open Tables
+    queries:
+    - legend: Open Tables
+      query: mysql_global_status_open_tables{pod=~"$pod"}
+    - legend: Table Open Cache
+      query: mysql_global_variables_table_open_cache{pod=~"$pod"}
+  - name: MySQL Table Definition Cache
+    queries:
+    - legend: Open Table Definitions
+      query: mysql_global_status_open_table_definitions{pod=~"$pod"}
+    - legend: Table Definitions Cache Size
+      query: mysql_global_variables_table_definition_cache{pod=~"$pod"}
+    - legend: Opened Table Definitions
+      query: rate(mysql_global_status_opened_table_definitions{pod=~"$pod"}[5m])
+        or irate(mysql_global_status_opened_table_definitions{pod=~"$pod"}[5m])
+  labels:
+  - name: pod
+    query:
+      query: mysql_global_status_uptime
+      label: pod
+  name: MySQL Pod Overview
+  timeslices:
+  - 1h
+  - 2h
+  - 6h
+  - 1d
+  - 7d

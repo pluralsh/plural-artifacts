@@ -6,8 +6,8 @@ terraform:
 helm:
   helm/gitlab: h1:UthyXf90quleszu8+ygLXBfU2zwdbQ9EWEoBiTtmUqc=
 recipe:
-  plural/recipes/aws-gitlab.yaml: f978ffd9d02f484a7962ae9a460e8ca30acd738021891ec9d81fabaf98d86093
-  plural/recipes/gcp-gitlab.yaml: 5ee390cf4602143c12591048a6dfa50ac378c7e077d21baf59bd198627c333f7
+  plural/recipes/aws-gitlab.yaml: 491603794e4935bcecb3b0879ab3bf61aa4b1bc1e8b0c7c6d7cce5b3445ac10c
+  plural/recipes/gcp-gitlab.yaml: feaa0a5129e9a4c8ca6bb17b4bea1aca74a3ea524045ec5f6c96d0738782c5d7
 integration: {}
 crd: {}
 ird: {}

@@ -1,5 +1,5 @@
 name: aws-mysql
-description: Installs mysql operator on an EKS cluster
+description: installs mysql operator on an EKS cluster
 provider: AWS
 dependencies:
 - repo: bootstrap

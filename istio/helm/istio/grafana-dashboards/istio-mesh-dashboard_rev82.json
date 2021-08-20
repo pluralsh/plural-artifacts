@@ -1,7 +1,7 @@
 {
   "__inputs": [
     {
-      "name": "Prometheus",
+      "name": "DS_PROMETHEUS",
       "label": "Prometheus",
       "description": "",
       "type": "datasource",
@@ -48,7 +48,7 @@
       }
     ]
   },
-  "description": "Istio Mesh Dashboard version 1.10.2",
+  "description": "Istio Mesh Dashboard version 1.11.0",
   "editable": false,
   "gnetId": 7639,
   "graphTooltip": 0,
@@ -56,7 +56,7 @@
   "links": [],
   "panels": [
     {
-      "content": "<div>\n  <div style=\"position: absolute; bottom: 0\">\n    <a href=\"https://istio.io\" target=\"_blank\" style=\"font-size: 30px; text-decoration: none; color: inherit\"><img src=\"https://istio.io/latest/img/istio-bluelogo-nobackground-unframed.svg\" style=\"height: 50px\"> Istio</a>\n  </div>\n  <div style=\"position: absolute; bottom: 0; right: 0; font-size: 15px\">\n    Istio is an <a href=\"https://github.com/istio/istio\" target=\"_blank\">open platform</a> that provides a uniform way to connect,\n    <a href=\"https://istio.io/docs/concepts/traffic-management/overview.html\" target=\"_blank\">manage</a>, and \n    <a href=\"https://istio.io/docs/concepts/network-and-auth/auth.html\" target=\"_blank\">secure</a> microservices.\n    <br>\n    Need help? Join the <a href=\"https://istio.io/community/\" target=\"_blank\">Istio community</a>.\n  </div>\n</div>",
+      "content": "<div>\n  <div style=\"position: absolute; bottom: 0\">\n    <a href=\"https://istio.io\" target=\"_blank\" style=\"font-size: 30px; text-decoration: none; color: inherit\"><img src=\"https://istio.io/latest/img/istio-bluelogo-nobackground-unframed.svg\" style=\"height: 50px\"> Istio</a>\n  </div>\n  <div style=\"position: absolute; bottom: 0; right: 0; font-size: 15px\">\n    Istio is an <a href=\"https://github.com/istio/istio\" target=\"_blank\">open platform</a> that provides a uniform way to <a href=\"https://istio.io/docs/concepts/security/\" target=\"_blank\">secure</a>,\n    <a href=\"https://istio.io/docs/concepts/traffic-management/\" target=\"_blank\">connect</a>, and \n    <a href=\"https://istio.io/docs/concepts/observability/\" target=\"_blank\">monitor</a> microservices.\n    <br>\n    Need help? <a href=\"https://istio.io/get-involved/\" target=\"_blank\">Join the Istio community</a>.\n  </div>\n</div>",
       "gridPos": {
         "h": 3,
         "w": 24,
@@ -83,7 +83,7 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(50, 172, 45, 0.97)"
       ],
-      "datasource": "${datasource}",
+      "datasource": "${DS_PROMETHEUS}",
       "format": "ops",
       "gauge": {
         "maxValue": 100,
@@ -177,7 +177,7 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(50, 172, 45, 0.97)"
       ],
-      "datasource": "${datasource}",
+      "datasource": "${DS_PROMETHEUS}",
       "format": "percentunit",
       "gauge": {
         "maxValue": 100,
@@ -272,7 +272,7 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(50, 172, 45, 0.97)"
       ],
-      "datasource": "${datasource}",
+      "datasource": "${DS_PROMETHEUS}",
       "format": "ops",
       "gauge": {
         "maxValue": 100,
@@ -367,7 +367,7 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(50, 172, 45, 0.97)"
       ],
-      "datasource": "${datasource}",
+      "datasource": "${DS_PROMETHEUS}",
       "format": "ops",
       "gauge": {
         "maxValue": 100,
@@ -462,7 +462,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "${datasource}",
+      "datasource": "${DS_PROMETHEUS}",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -558,7 +558,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "${datasource}",
+      "datasource": "${DS_PROMETHEUS}",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -654,7 +654,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "${datasource}",
+      "datasource": "${DS_PROMETHEUS}",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -750,7 +750,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "${datasource}",
+      "datasource": "${DS_PROMETHEUS}",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -846,7 +846,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "${datasource}",
+      "datasource": "${DS_PROMETHEUS}",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -942,7 +942,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "${datasource}",
+      "datasource": "${DS_PROMETHEUS}",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -1038,7 +1038,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "${datasource}",
+      "datasource": "${DS_PROMETHEUS}",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -1134,7 +1134,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "${datasource}",
+      "datasource": "${DS_PROMETHEUS}",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -1223,7 +1223,7 @@
     },
     {
       "columns": [],
-      "datasource": "${datasource}",
+      "datasource": "${DS_PROMETHEUS}",
       "fontSize": "100%",
       "gridPos": {
         "h": 21,
@@ -1257,7 +1257,7 @@
           "link": false,
           "linkTargetBlank": false,
           "linkTooltip": "Workload dashboard",
-          "linkUrl": "/d/UbsSZTDik?var-namespace=${__cell_3:raw}&var-workload=${__cell_2:raw}",
+          "linkUrl": "/dashboard/db/istio-workload-dashboard?var-namespace=${__cell_3:raw}&var-workload=${__cell_2:raw}",
           "pattern": "destination_workload",
           "preserveFormat": false,
           "sanitize": false,
@@ -1370,7 +1370,7 @@
           "decimals": 2,
           "link": true,
           "linkTooltip": "$__cell dashboard",
-          "linkUrl": "/d/UbsSZTDik?var-workload=${__cell_2:raw}&var-namespace=${__cell_3:raw}",
+          "linkUrl": "/dashboard/db/istio-workload-dashboard?var-workload=${__cell_2:raw}&var-namespace=${__cell_3:raw}",
           "pattern": "destination_workload_var",
           "thresholds": [],
           "type": "number",
@@ -1388,7 +1388,7 @@
           "decimals": 2,
           "link": true,
           "linkTooltip": "$__cell dashboard",
-          "linkUrl": "/d/LJ_uJAvmk?var-service=${__cell_1:raw}",
+          "linkUrl": "/dashboard/db/istio-service-dashboard?var-service=${__cell_1:raw}",
           "pattern": "destination_service",
           "thresholds": [],
           "type": "string",
@@ -1465,7 +1465,7 @@
     },
     {
       "columns": [],
-      "datasource": "${datasource}",
+      "datasource": "${DS_PROMETHEUS}",
       "fontSize": "100%",
       "gridPos": {
         "h": 18,
@@ -1498,7 +1498,7 @@
           "link": false,
           "linkTargetBlank": false,
           "linkTooltip": "$__cell dashboard",
-          "linkUrl": "/d/UbsSZTDik?var-namespace=${__cell_3:raw}&var-workload=${__cell_2:raw}",
+          "linkUrl": "/dashboard/db/istio-workload-dashboard?var-namespace=${__cell_3:raw}&var-workload=${__cell_2:raw}",
           "pattern": "destination_workload",
           "preserveFormat": false,
           "sanitize": false,
@@ -1565,7 +1565,7 @@
           "decimals": 2,
           "link": true,
           "linkTooltip": "$__cell dashboard",
-          "linkUrl": "/d/UbsSZTDik?var-namespace=${__cell_3:raw}&var-workload=${__cell_2:raw}",
+          "linkUrl": "/dashboard/db/istio-workload-dashboard?var-namespace=${__cell_3:raw}&var-workload=${__cell_2:raw}",
           "pattern": "destination_workload_var",
           "thresholds": [],
           "type": "string",
@@ -1598,7 +1598,7 @@
           "decimals": 2,
           "link": true,
           "linkTooltip": "$__cell dashboard",
-          "linkUrl": "/d/LJ_uJAvmk?var-service=${__cell_1:raw}",
+          "linkUrl": "/dashboard/db/istio-service-dashboard?var-service=${__cell_1:raw}",
           "pattern": "destination_service",
           "thresholds": [],
           "type": "number",
@@ -1635,7 +1635,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${datasource}",
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "gridPos": {
         "h": 9,
@@ -1734,7 +1734,7 @@
         "includeAll": false,
         "label": null,
         "multi": false,
-        "name": "datasource",
+        "name": "DS_PROMETHEUS",
         "options": [],
         "query": "prometheus",
         "queryValue": "",
