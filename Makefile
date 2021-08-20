@@ -97,3 +97,6 @@ upload-ghost: # uploads ghost artifacts
 
 upload-rabbitmq: # uploads rabbitmq artifacts
 	plural apply -f rabbitmq/Pluralfile
+
+upload-nvidia-operator: # uploads nvidia-operator artifacts
+	plural apply -f nvidia-operator/Pluralfile

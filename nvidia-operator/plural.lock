@@ -1,0 +1,20 @@
+artifact: {}
+terraform:
+  terraform/aws: h1:pA7uY3C4AH9fjucWkuAv9ajuC8loHpDwUznAKxlbuvU=
+  terraform/azure: h1:VRqTNqx5WCMfjBu3Kfooz3SpOoXrMfoaoct9XA8Jmog=
+  terraform/gcp: h1:hh/bjs870f4AbNIY29Fwe7JnybVPS6VYLK2Zn+ERNo4=
+helm:
+  helm/nvidia-operator: h1:hEl1DWI78KlbHkuq03afP2TDBKIXdMBkGhpfdUZiUPA=
+recipe:
+  plural/recipes/nvidia-operator-aws.yaml: 29632e5b3339f6d3aeedfa1837d75932012a3ba92db0bb51b37ee8b12fa20ee3
+  plural/recipes/nvidia-operator-azure.yaml: 216b7e76eea4961d2eb14ad6b8657f44573c1c3ddcabe43973ff21d7c5ff0668
+  plural/recipes/nvidia-operator-gcp.yaml: 59da7c2c2bf80f3394811b0a7fc4e1e96d1def93359ae95ff1d0ceebd6c417f8
+integration: {}
+crd:
+  plural/crds/crds.yaml: f85c7a17dfa8c99b8a3b7f5cd9566e7c8be2b032cc58dd248abe840b48155749:h1:hEl1DWI78KlbHkuq03afP2TDBKIXdMBkGhpfdUZiUPA=
+ird: {}
+tag:
+  plural/tags/helm/nvidia-operator.yaml: 1b3fd7c3d02d72d284c51018b8372626c4dfb9e8182163ec42b109cfc458d5ec
+  plural/tags/terraform/aws.yaml: 01c402c260cc7fe359d1ebc4302ff11539cfabbd5a82745907ad445914153bb7
+  plural/tags/terraform/azure.yaml: 86b17dc5dcbc7d877dddbda68b790231f9f7eaa025d00471360108ccd5f42a07
+  plural/tags/terraform/gcp.yaml: 3761f7e078206cf85f48969d231071adfb3b68ee68b7c68a2b50045e896a3288
