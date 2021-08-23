@@ -1,9 +1,7 @@
-{{- if .Values.monitoring.grafana.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: request-handling-performance-dashboard
-  namespace: {{ .Values.monitoring.grafana.namespace }}
   labels: {{ include "bootstrap.labels" . | nindent 4 }}
     grafana_dashboard: request-handling-performance-dashboard
   annotations:
@@ -11,4 +9,3 @@ metadata:
 data:
   request-handling-performance-dashboard.json: |-
 {{ .Files.Get "grafana-dashboards/request-handling-performance.json" | indent 4 }}
-{{ end }}

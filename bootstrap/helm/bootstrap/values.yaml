@@ -126,8 +126,3 @@ metrics-server:
     tag: 0.4.4-debian-10-r0
   apiService:
     create: true
-
-monitoring:
-  grafana:
-    enabled: false
-    namespace: grafana
