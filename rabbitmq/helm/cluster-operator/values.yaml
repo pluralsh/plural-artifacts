@@ -116,9 +116,3 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
-
-monitoring:
-  enabled: true
-  namespace: monitoring
-  grafana:
-    namespace: grafana
