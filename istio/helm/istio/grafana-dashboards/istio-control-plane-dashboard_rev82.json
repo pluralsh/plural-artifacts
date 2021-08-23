@@ -1518,7 +1518,7 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1535,7 +1535,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1631,7 +1631,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "description": "",
       "fill": 1,
       "fillGradient": 0,
