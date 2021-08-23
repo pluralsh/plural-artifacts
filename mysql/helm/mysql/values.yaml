@@ -1,9 +1,3 @@
-monitoring:
-  enabled: true
-  namespace: monitoring
-  grafana:
-    namespace: grafana
-
 # Default values for mysql.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
