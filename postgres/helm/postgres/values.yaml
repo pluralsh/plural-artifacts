@@ -2,12 +2,6 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-monitoring:
-  enabled: true
-  namespace: monitoring
-  grafana:
-    namespace: grafana
-
 replicaCount: 1
 
 operatorConfigName: operator-configuration
