@@ -63,10 +63,3 @@ sentry:
   postgresql:
     postgresqlPassword: {{ dedupe . "sentry.sentry.postgresql.postgresqlPassword" (randAlphaNum 14) }}
     postgresqlPostgresPassword: {{ dedupe . "sentry.sentry.postgresql.postgresqlPostgresPassword" (randAlphaNum 14) }}
-
-{{ $monitoringNamespace := namespace "monitoring" }}
-{{ $grafanaNamespace := namespace "grafana" }}
-monitoring:
-  namespace: {{ $monitoringNamespace }}
-  grafama:
-    namespace: {{ $grafanaNamespace }}

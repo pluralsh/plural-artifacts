@@ -1,9 +1,7 @@
-{{ if eq .Values.monitoring.enabled true }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: sentry-issues-events-overview-dashboard
-  namespace: {{ .Values.monitoring.grafana.namespace }}
   labels: {{ include "sentry.labels" . | nindent 4 }}
     grafana_dashboard: sentry-issues-events-overview
   annotations:
@@ -11,4 +9,3 @@ metadata:
 data:
   sentry-issues-events-overview_rev2.json: |-
 {{ .Files.Get "grafana-dashboards/sentry-issues-events-overview_rev2.json" | indent 4 }}
-{{ end }}

@@ -114,9 +114,3 @@ sentry:
       init:
         image: 'gcr.io/pluralsh/busybox'
         imageVersion: latest
-
-monitoring:
-  enabled: true
-  namespace: monitoring
-  grafana:
-    namespace: grafana
