@@ -1,9 +1,7 @@
-{{ if eq .Values.monitoring.enabled true }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: istio-control-plane-dashboard
-  namespace: {{ .Values.monitoring.grafana.namespace }}
   labels: {{ include "istio.labels" . | nindent 4 }}
     grafana_dashboard: istio-control-plane-dashboard
   annotations:
@@ -11,4 +9,3 @@ metadata:
 data:
   istio-control-plane-dashboard.json: |-
 {{ .Files.Get "grafana-dashboards/istio-control-plane-dashboard_rev82.json" | indent 4 }}
-{{ end }}
