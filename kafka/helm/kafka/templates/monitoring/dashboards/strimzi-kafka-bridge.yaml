@@ -1,9 +1,7 @@
-{{ if eq .Values.monitoring.enabled true }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: strimzi-kafka-bridge
-  namespace: {{ .Values.monitoring.grafana.namespace }}
   labels: {{ include "kafka.labels" . | nindent 4 }}
     grafana_dashboard: strimzi-kafka-bridge
   annotations:
@@ -11,4 +9,3 @@ metadata:
 data:
   strimzi-kafka-bridge.json: |-
 {{ .Files.Get "grafana-dashboards/strimzi-kafka-bridge.json" | indent 4 }}
-{{ end }}

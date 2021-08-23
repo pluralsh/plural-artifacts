@@ -37,9 +37,3 @@ zookeeper:
       configMapKeyRef:
         name: kafka-metrics
         key: zookeeper-metrics-config.yml
-
-monitoring:
-  enabled: true
-  namespace: monitoring
-  grafana:
-    namespace: grafana

@@ -1,9 +1,7 @@
-{{ if eq .Values.monitoring.enabled true }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: strimzi-zookeeper-dashboard
-  namespace: {{ .Values.monitoring.grafana.namespace }}
   labels: {{ include "kafka.labels" . | nindent 4 }}
     grafana_dashboard: strimzi-zookeeper-dashboard
   annotations:
@@ -11,4 +9,3 @@ metadata:
 data:
   strimzi-zookeeper.json: |-
 {{ .Files.Get "grafana-dashboards/strimzi-zookeeper.json" | indent 4 }}
-{{ end }}
