@@ -13,6 +13,7 @@ oauth2-proxy:
     prometheus.io/scheme: http
     prometheus.io/scrape: "true"
     prometheus.io/path: /
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
   service:
     portNumber: 4180
   extraArgs:
