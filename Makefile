@@ -100,3 +100,6 @@ upload-rabbitmq: # uploads rabbitmq artifacts
 
 upload-nvidia-operator: # uploads nvidia-operator artifacts
 	plural apply -f nvidia-operator/Pluralfile
+
+upload-argo-cd: # uploads argo-cd artifacts
+	plural apply -f argo-cd/Pluralfile
