@@ -1,0 +1,15 @@
+name: nvidia-operator-azure
+description: Installs nvidia-operator on an azure aks cluster
+provider: AZURE
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+sections:
+- name: nvidia-operator
+  items:
+  - type: TERRAFORM
+    name: azure
+    configuration: []
+  - type: HELM
+    name: nvidia-operator
+    configuration: []

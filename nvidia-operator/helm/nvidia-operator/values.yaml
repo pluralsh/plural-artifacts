@@ -1,0 +1,7 @@
+gpu-operator:
+  driver:
+    enabled: false
+  toolkit:
+    enabled: false
+  operator:
+    defaultRuntime: docker
