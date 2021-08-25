@@ -7,19 +7,28 @@ global:
   grafana:
     enabled: false
     domainName: grafana.grafana.svc.cluster.local
-  kubeStateMetrics:
-    enabled: false
+  notifications:
+    alertmanager: 
+      enabled: true
+      fqdn: http://monitoring-alertmanager.monitoring.svc.cluster.local9093
 
-kubecostProductConfigs:
-  grafanaURL: https://grafana.example.com
+cost-analyzer:
+  prometheus:
+    kube-state-metrics:
+      disabled: true
 
-grafana:
-  sidecar:
-    dashboards:
-      annotations:
-        k8s-sidecar-target-directory: "/tmp/dashboards/KubeCost Dashboards"
+  kubecostProductConfigs:
+    grafanaURL: https://grafana.example.com
 
-serviceMonitor:
-  enabled: true
-prometheusRule:
-  enavled: true
+  grafana:
+    sidecar:
+    datasources:
+      enabled: false
+      dashboards:
+        annotations:
+          k8s-sidecar-target-directory: "/tmp/dashboards/KubeCost Dashboards"
+
+  serviceMonitor:
+    enabled: true
+  prometheusRule:
+    enavled: true

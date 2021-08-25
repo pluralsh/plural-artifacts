@@ -2,11 +2,13 @@
 {{ $grafanaNamespace := namespace "grafana" }}
 global:
   prometheus:
-    enabled: false
     fqdn: http://monitoring-prometheus.{{ $monitoringNamespace }}.svc.cluster.local:9090
   grafana:
-    enabled: false
     domainName: grafana.{{ $grafanaNamespace }}.svc.cluster.local
+  notifications:
+    alertmanager: 
+      fqdn: http://monitoring-alertmanager.{{ $monitoringNamespace }}.svc.cluster.local9093
 
-kubecostProductConfigs:
-  grafanaURL: https://{{ .Configuration.grafana.hostname }}
+cost-analyzer:
+  kubecostProductConfigs:
+    grafanaURL: https://{{ .Configuration.grafana.hostname }}
