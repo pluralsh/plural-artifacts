@@ -31,4 +31,4 @@ cost-analyzer:
   serviceMonitor:
     enabled: true
   prometheusRule:
-    enavled: true
+    enabled: true
