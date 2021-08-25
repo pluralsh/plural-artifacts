@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ghost
+  labels:
+{{ include "ghost.labels" . | indent 4 }}
+  annotations:
+  {{ .Values.ingress.annotations | toYaml | nindent 4 }}
+spec:
+  tls:
+  - hosts:
+    - {{ .Values.ghost.domain | quote }}
+    secretName: ghost-tls
+  rules:
+  - host: {{ .Values.ghost.domain | quote }}
+    http:
+      paths:
+      - backend:
+          serviceName: ghost
+          servicePort: http

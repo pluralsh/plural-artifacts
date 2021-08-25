@@ -6,27 +6,30 @@ db:
   name: ghost
   username: ghost
 
+image:
+  repository: dkr.plural.sh/ghost/ghost
+  tag: 4-alpine
+  pullPolicy: IfNotPresent
+
+ingress:
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+    nginx.ingress.kubernetes.io/proxy-read-timeout: '3600'
+    nginx.ingress.kubernetes.io/proxy-send-timeout: '3600'
+
+service:
+  port: 2368
+
+persistence:
+  volume:
+    size: 5Gi
+
 ghost:
-  ghostEnableHttps: false
-  livenessProbe:
-    enabled: false
-  readinessProbe:
-    enabled: false
-  updateStrategy: 
-    type: Recreate
-  image:
-    registry: dkr.plural.sh/ghost
-  mariadb:
-    enabled: false
-  ingress:
-    enabled: true
-    tls: true
-    certManager: true
-    annotations:
-      kubernetes.io/tls-acme: "true"
-      kubernetes.io/ingress.class: "nginx"
-      cert-manager.io/cluster-issuer: letsencrypt-prod
-      nginx.ingress.kubernetes.io/affinity: cookie
-      nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
-      nginx.ingress.kubernetes.io/proxy-read-timeout: '3600'
-      nginx.ingress.kubernetes.io/proxy-send-timeout: '3600'
+  env:
+    database__client: mysql
+    database__connection__host: ghost-mysql-master
+    database__connection__user: ghost
+    database__connection__database: ghost

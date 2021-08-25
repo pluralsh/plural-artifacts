@@ -60,3 +60,8 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{- define "ghost.env" -}}
+- name: PLURAL_VERSION
+  value: '1'
+{{- end -}}

@@ -49,7 +49,7 @@ secrets:
   admin_email: {{ .Values.admin_email }}
   admin_password: {{ dedupe . "console.secrets.admin_password" (randAlphaNum 20) }}
 {{ if .Values.console_dns }}
-  git_url: {{ repoUrl }}
+  git_url: {{ dedupe . "console.secrets.git_url" repoUrl }}
   repo_root: {{ repoName }}
   branch_name: {{ branchName }}
   config: {{ readFile (homeDir ".plural" "config.yml") | quote }}
