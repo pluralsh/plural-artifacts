@@ -1,0 +1,25 @@
+global:
+  podAnnotations:
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+  prometheus:
+    enabled: false
+    fqdn: http://monitoring-prometheus.monitoring.svc.cluster.local:9090
+  grafana:
+    enabled: false
+    domainName: grafana.grafana.svc.cluster.local
+  kubeStateMetrics:
+    enabled: false
+
+kubecostProductConfigs:
+  grafanaURL: https://grafana.example.com
+
+grafana:
+  sidecar:
+    dashboards:
+      annotations:
+        k8s-sidecar-target-directory: "/tmp/dashboards/KubeCost Dashboards"
+
+serviceMonitor:
+  enabled: true
+prometheusRule:
+  enavled: true
