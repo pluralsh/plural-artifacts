@@ -4,7 +4,7 @@ terraform:
   terraform/azure: h1:iSK+IdyrS3NMnoFP+SdUKMeU7ZdAj6JMkKyifwAgy1o=
   terraform/gcp: h1:rVoarImzapl4z3viyFhGsq1Dfkr9UKIM6L80rzkM0/Q=
 helm:
-  helm/kubecost: h1:lwt2rf2bzzkydEYL93HZqgPZrc1PHIEVrKVCzWkql9k=
+  helm/kubecost: h1:47v13gkLpL5KIrmQjydaVSSFsGtaylVAUCHCi8Zz0Vk=
 recipe:
   plural/recipes/kubecost-aws.yaml: 96d5a73901bf691e897844488c26699c5a0c5f3b3b06d748046f349579b989b6
   plural/recipes/kubecost-azure.yaml: 2adee4e018f2bd5595afe1bf40235a8268e94c683d89154cbb7ed06b9f4841a0

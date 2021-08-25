@@ -9,6 +9,14 @@ spec:
     name: bootstrap
     repo: bootstrap
     version: '>= 0.5.1'
+  - type: helm
+    name: monitoring
+    repo: monitoring
+    version: '>= 0.1.20'
+  - type: helm
+    name: grafana
+    repo: grafana
+    version: '>= 0.1.11'
   - type: terraform
     name: aws
     repo: kubecost
