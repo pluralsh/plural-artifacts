@@ -4,6 +4,12 @@ argo-cd:
     certificate:
       domain: {{ $hostname }}
     ingress:
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        kubernetes.io/ingress.class: nginx
+        kubernetes.io/tls-acme: "true"
+        nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+        nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
       hosts:
         - {{ $hostname }}
       tls:
