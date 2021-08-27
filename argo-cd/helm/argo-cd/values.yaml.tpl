@@ -35,10 +35,6 @@ argo-cd:
         p, role:org-admin, accounts, *, *, allow
         p, role:org-admin, gpgkeys, *, *, allow
         g, {{ .Values.adminGroup }}, role:org-admin
-  configs:
-    secret:
-      extra:
-        oidc.plural.clientSecret: {{ .OIDC.ClientSecret }}
   dex:
     enabled: false
     metrics:
@@ -46,3 +42,21 @@ argo-cd:
       serviceMonitor:
         enabled: false
   {{ end }}
+  configs:
+    {{ if .OIDC }}
+    secret:
+      extra:
+        oidc.plural.clientSecret: {{ .OIDC.ClientSecret }}
+    {{ end }}
+    {{ if .Values.credentialTemplateURL }}
+    credentialTemplates:
+      https-creds:
+        url: {{ .Values.credentialTemplateURL }}
+        username: {{ .Values.credentialUsername }}
+        password: {{ .Values.credentialPassword }}
+    {{ end }}
+    {{ if .Values.privateRepoName }}
+    repositories:
+      {{ .Values.privateRepoName }}:
+        url: {{ .Values.privateRepoURL }}
+    {{ end }}
