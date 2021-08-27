@@ -18,11 +18,19 @@ external-dns:
   rbac:
     create: true
     serviceAccountName: external-dns
+  extraEnv:
+  - name: PLURAL_ACCESS_TOKEN
+    valueFrom:
+      secretKeyRef:
+        name: plural-env
+        key: PLURAL_ACCESS_TOKEN
   domainFilters:
   - pluralsh.com
 
 ownerEmail: mguarino46@gmail.com
 provider: aws
+
+pluralToken: plrl-api-token
 
 plural:
   image:
