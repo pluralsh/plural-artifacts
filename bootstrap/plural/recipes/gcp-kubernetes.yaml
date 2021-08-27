@@ -3,24 +3,24 @@ description: Constructs a gke cluster and installs the bootstrap chart
 provider: GCP
 dependencies: []
 sections:
-- name: bootstrap
-  items:
-  - type: TERRAFORM
-    name: gcp-bootstrap
-    configuration:
-    - name: vpc_name
-      type: STRING
-      documentation: Name for the vcp to place your cluster in
-  - type: HELM
-    name: bootstrap
-    configuration:
-    - name: txt_owner
-      documentation: arbitrary name for externaldns to use to track ownership of dns records
-      type: STRING
-      default: plural
-    - name: dns_domain
-      documentation: top level domain to use
-      type: STRING
-    - name: ownerEmail
-      type: STRING
-      documentation: email to be used for certificate renewal notifications
+  - name: bootstrap
+    items:
+      - type: TERRAFORM
+        name: gcp-bootstrap
+        configuration:
+          - name: vpc_name
+            type: STRING
+            documentation: Arbitary name for the virtual private cloud to place your cluster in, eg "plural"
+      - type: HELM
+        name: bootstrap
+        configuration:
+          - name: txt_owner
+            documentation: Arbitary name for externaldns to use to track ownership of dns records, eg "plural"
+            type: STRING
+            default: plural
+          - name: dns_domain
+            documentation: Top level domain to deploy Plural applications to, eg topleveldomain.com. This might also look something like plural.existingcompanydomain.com if you have an existing company domain and you want to aggregate all the plural resources under a single subdomain.
+            type: STRING
+          - name: ownerEmail
+            type: STRING
+            documentation: Email to be used for certificate renewal notifications

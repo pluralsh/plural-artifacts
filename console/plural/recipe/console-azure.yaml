@@ -2,31 +2,31 @@ name: console-azure
 description: Deploys console on an EKS cluster
 provider: AZURE
 dependencies:
-- repo: bootstrap
-  name: azure-k8s
-- repo: monitoring
-  name: monitoring-azure
+  - repo: bootstrap
+    name: azure-k8s
+  - repo: monitoring
+    name: monitoring-azure
 sections:
-- name: console
-  items:
-  - type: TERRAFORM
-    name: azure
-    configuration: []
-  - type: HELM
-    name: console
-    configuration:
-    - name: console_dns
-      documentation: FQDN for the console dashboard
-      type: STRING
-    - name: git_user
-      documentation: user for console to use in git operations
-      type: STRING
-    - name: git_email
-      documentation: email for git operations by console
-      type: STRING
-    - name: admin_email
-      documentation: email for the initial admin user
-      type: STRING
-    - name: admin_name
-      documentation: name for the initial admin user
-      type: STRING
+  - name: console
+    items:
+      - type: TERRAFORM
+        name: azure
+        configuration: []
+      - type: HELM
+        name: console
+        configuration:
+          - name: console_dns
+            documentation: Fully Qualified Domain Name for the console dashboard, eg console.topleveldomain.com if topleveldomain.com is the hostname you inputed above.
+            type: STRING
+          - name: git_user
+            documentation: git username for console to use in git operations, eg your github username
+            type: STRING
+          - name: git_email
+            documentation: email for git operations by console
+            type: STRING
+          - name: admin_email
+            documentation: email for the initial admin user
+            type: STRING
+          - name: admin_name
+            documentation: name for the initial admin user
+            type: STRING
