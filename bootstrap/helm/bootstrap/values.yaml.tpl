@@ -1,13 +1,13 @@
 {{ $pluraldns := .Values.pluralDns }}
 external-dns:
-{{ if $pluraldns }}
+  {{ if $pluraldns }}
   provider: plural
   extraArgs:
     plural-cluster: {{ .Cluster }}
     plural-provider: {{ .Provider }}
-{{ else }}
+  {{ else }}
   provider: {{ .Provider }}
-{{ end }}
+  {{ end }}
   txtOwnerId: {{ .Values.txt_owner }}
 {{ if eq .Provider "azure" }}
   podLabels:
@@ -16,7 +16,7 @@ external-dns:
   rbac:
     create: true
   serviceAccount:
-{{ if eq .Provider "google"}}
+{{ if eq .Provider "google" }}
     create: false
 {{ end }}
     name: {{ default "external-dns" .Values.externaldns_service_account }}

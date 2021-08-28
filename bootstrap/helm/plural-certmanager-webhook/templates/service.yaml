@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "plural-webhook.fullname" . }}
+  labels:
+    app: {{ include "plural-webhook.name" . }}
+    chart: {{ include "plural-webhook.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: https
+      protocol: TCP
+      name: https
+  selector:
+    app: {{ include "plural-webhook.name" . }}
+    release: {{ .Release.Name }}
