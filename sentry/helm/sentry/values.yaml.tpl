@@ -31,6 +31,16 @@ sentry:
       OIDC_DOMAIN = "{{ .OIDC.Configuration.Issuer }}"
   {{ end }}
 
+  {{ if .SMTP }}
+  mail:
+    backend: smtp
+    username: {{ .SMTP.User }}
+    password: {{ .SMTP.Password }}
+    host: {{ .SMTP.Server }}
+    port: {{ .SMTP.Port }}
+    from: {{ .SMTP.Sender }}
+  {{ end }}
+
   serviceAccount:
     {{ if eq .Provider "google" }}
     create: false
