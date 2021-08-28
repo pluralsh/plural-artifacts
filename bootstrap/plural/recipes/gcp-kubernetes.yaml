@@ -24,3 +24,6 @@ sections:
           - name: ownerEmail
             type: STRING
             documentation: Email to be used for certificate renewal notifications
+      - type: HELM
+        name: plural-certmanager-webhook
+        configuration: []

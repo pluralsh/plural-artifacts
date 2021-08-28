@@ -8,6 +8,9 @@ sections:
       - type: TERRAFORM
         name: aws-bootstrap
         configuration:
+          - name: pluralDns
+            documentation: use plural as your dns provider
+            type: BOOL
           - name: vpc_name
             documentation: Arbitary name for the virtual private cloud to place your cluster in, eg "plural"
             type: STRING
@@ -17,6 +20,9 @@ sections:
       - type: HELM
         name: bootstrap
         configuration:
+          - name: pluralDns
+            documentation: use plural as your dns provider
+            type: BOOL
           - name: txt_owner
             documentation: Arbitary name for externaldns to use to track ownership of dns records, eg "plural"
             type: STRING
@@ -27,3 +33,6 @@ sections:
           - name: ownerEmail
             type: STRING
             documentation: Email to be used for certificate renewal notifications
+      - type: HELM
+        name: plural-certmanager-webhook
+        configuration: []

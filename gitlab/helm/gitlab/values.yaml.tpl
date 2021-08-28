@@ -3,6 +3,17 @@ global:
   hosts:
     domain: {{ .Values.domain }}
   {{ end }}
+  {{ if .SMTP }}
+  email:
+    display_name: GitLab
+    from: {{ .SMTP.Sender }}
+  smtp:
+    enabled: true
+    address: {{ .SMTP.Server }}
+    authentication: 'plain'
+    port: {{ .SMTP.Port }}
+    user_name: {{ .SMTP.User }}
+  {{ end }}
   registry:
     bucket: {{ .Values.registryBucket }}
   appConfig:
@@ -65,6 +76,9 @@ oidc:
       redirect_uri: https://gitlab.{{ .Values.domain }}/users/auth/openid_connect/callback
 {{ end }}
 
+{{ if .SMTP }}
+smtpPassword: {{ .SMTP.Password }}
+{{ end }}
 rootPassword: {{ dedupe . "gitlab.rootPassword" (randAlphaNum 20) }}
 
 gitlab:

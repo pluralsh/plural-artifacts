@@ -24,3 +24,6 @@ sections:
       - type: HELM
         name: azure-identity
         configuration: []
+      - type: HELM
+        name: plural-certmanager-webhook
+        configuration: []

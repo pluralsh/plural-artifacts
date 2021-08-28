@@ -1,0 +1,10 @@
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  description: installs the plural certmanager webhook 
+spec:
+  dependencies:
+  - type: helm
+    name: bootstrap
+    repo: bootstrap
+    version: '>= 0.1.2'

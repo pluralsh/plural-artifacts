@@ -1,5 +1,13 @@
+{{ $pluraldns := .Values.pluralDns }}
 external-dns:
+  {{ if $pluraldns }}
+  provider: plural
+  extraArgs:
+    plural-cluster: {{ .Cluster }}
+    plural-provider: {{ .Provider }}
+  {{ else }}
   provider: {{ .Provider }}
+  {{ end }}
   txtOwnerId: {{ .Values.txt_owner }}
 {{ if eq .Provider "azure" }}
   podLabels:
@@ -8,7 +16,7 @@ external-dns:
   rbac:
     create: true
   serviceAccount:
-{{ if eq .Provider "google"}}
+{{ if eq .Provider "google" }}
     create: false
 {{ end }}
     name: {{ default "external-dns" .Values.externaldns_service_account }}
@@ -39,6 +47,8 @@ external-dns:
 externalDnsIdentityId: {{ importValue "Terraform" "externaldns_msi_id" }}
 externalDnsIdentityClientId: {{ importValue "Terraform" "externaldns_msi_client_id" }}
 {{ end }}
+
+pluralToken: {{ .Config.Token }}
 
 regcreds:
   auths:
@@ -93,6 +103,16 @@ metrics-server:
   enabled: true
 {{ end }}
 
+{{ if $pluraldns }}
+dnsSolver:
+  webhook:
+    groupName: acme.plural.sh
+    solverName: plural-solver
+    config:
+      cluster: {{ .Cluster }}
+      provider: {{ .Provider }}
+{{ end }}
+
 {{ if eq .Provider "aws" }}
 cert-manager:
   serviceAccount:
@@ -101,12 +121,14 @@ cert-manager:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-certmanager"
 
+{{ if not $pluraldns }}
 dnsSolver:
   route53:
     region: {{ .Region }}
 {{ end }}
+{{ end }}
 
-{{ if eq .Provider "azure" }}
+{{ if and (not $pluraldns) (eq .Provider "azure") }}
 dnsSolver:
   azureDNS:
     subscriptionID: {{ .Context.SubscriptionId }}
@@ -122,7 +144,9 @@ cert-manager:
     create: false
     name: certmanager
 
+{{ if not $pluraldns }}
 dnsSolver:
   cloudDNS:
     project: {{ .Project }}
+{{ end }}
 {{ end }}
