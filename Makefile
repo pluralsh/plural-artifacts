@@ -103,3 +103,6 @@ upload-nvidia-operator: # uploads nvidia-operator artifacts
 
 upload-argo-cd: # uploads argo-cd artifacts
 	plural apply -f argo-cd/Pluralfile
+
+upload-kubecost: # uploads kubecost artifacts
+	plural apply -f kubecost/Pluralfile

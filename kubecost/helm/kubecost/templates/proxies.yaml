@@ -1,0 +1,11 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Proxy
+metadata:
+  name: kubecost-web
+  labels:
+{{ include "kubecost.labels" . | indent 4 }}
+spec:
+  type: web
+  target: service/kubecost-cost-analyzer
+  webConfig:
+    port: 9090
