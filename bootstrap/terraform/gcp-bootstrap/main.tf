@@ -1,10 +1,10 @@
 resource "google_compute_network" "vpc_network" {
-  name                    = var.vpc_network_name
+  name                    = local.vpc_network_name
   auto_create_subnetworks = "false"
 }
 
 resource "google_compute_subnetwork" "vpc_subnetwork" {
-  name = var.vpc_subnetwork_name
+  name = local.vpc_subnetwork_name
 
   ip_cidr_range = var.vpc_subnetwork_cidr_range
 

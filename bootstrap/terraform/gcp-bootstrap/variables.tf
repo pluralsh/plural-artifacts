@@ -69,7 +69,7 @@ EOF
 
 variable "vpc_network_name" {
   type = string
-  default = "plural-network"
+  default = ""
 
   description = <<EOF
 The name of the Google Compute Engine network to which the cluster is
@@ -77,9 +77,18 @@ connected.
 EOF
 }
 
+variable "vpc_name_prefix" {
+  type = string
+  default = "plural"
+
+  description = <<EOF
+Prefix to use for naming vpc networks/subnetworks
+EOF
+}
+
 variable "vpc_subnetwork_name" {
   type = string
-  default = "plural-subnetwork"
+  default = ""
 
   description = <<EOF
 The name of the Google Compute Engine subnetwork in which the cluster's
