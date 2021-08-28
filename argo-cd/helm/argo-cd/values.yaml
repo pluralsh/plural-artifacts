@@ -635,7 +635,7 @@ argo-cd:
         #       port:
         #         name: use-annotation
       tls:
-        - secretName: argocd-server-tls
+        - secretName: argocd-tls-certificate
           hosts:
             - argocd.example.com
       https: true
