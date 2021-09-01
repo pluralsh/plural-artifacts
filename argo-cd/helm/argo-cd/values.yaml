@@ -1,8 +1,13 @@
 global:
   image:
     repository: quay.io/argoproj/argocd
-    tag: v2.0.5
+    tag: v2.1.1
     imagePullPolicy: IfNotPresent
+  ## Annotations applied to all pods
+  podAnnotations:
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+  ## Labels applied to all pods
+  podLabels: {}
   securityContext: {}
   #  runAsUser: 999
   #  runAsGroup: 999
@@ -55,6 +60,7 @@ argo-cd:
       operationProcessors: "10"
       appResyncPeriod: "180"
       selfHealTimeout: "5"
+      repoServerTimeoutSeconds: "60"
 
     ## Argo controller log format: text|json
     logFormat: text
@@ -82,8 +88,7 @@ argo-cd:
 
     ## Annotations to be added to controller pods
     ##
-    podAnnotations:
-      cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+    podAnnotations: {}
 
     ## Labels to be added to controller pods
     ##
@@ -96,6 +101,7 @@ argo-cd:
       #   drop:
       #     - all
       # readOnlyRootFilesystem: true
+      # runAsNonRoot: true
 
     ## Configures the controller port
     containerPort: 8082
@@ -164,6 +170,8 @@ argo-cd:
       serviceMonitor:
         enabled: true
         interval: 30s
+        relabelings: []
+        metricRelabelings: []
       #   selector:
       #     prometheus: kube-prometheus
       #   namespace: monitoring
@@ -225,6 +233,8 @@ argo-cd:
       serviceMonitor:
         enabled: true
         interval: 30s
+        relabelings: []
+        metricRelabelings: []
         # selector:
         #   prometheus: kube-prometheus
         # namespace: monitoring
@@ -232,7 +242,7 @@ argo-cd:
 
     image:
       repository: ghcr.io/dexidp/dex
-      tag: v2.28.1
+      tag: v2.30.0
       imagePullPolicy: IfNotPresent
     initImage:
       repository:
@@ -252,12 +262,28 @@ argo-cd:
 
     ## Annotations to be added to the Dex server pods
     ##
-    podAnnotations:
-      cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+    podAnnotations: {}
 
     ## Labels to be added to the Dex server pods
     ##
     podLabels: {}
+
+    ## Probes for Dex server
+    ## Supported from Dex >= 2.28.0
+    livenessProbe:
+      enabled: false
+      failureThreshold: 3
+      initialDelaySeconds: 10
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+    readinessProbe:
+      enabled: false
+      failureThreshold: 3
+      initialDelaySeconds: 10
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
 
     serviceAccount:
       create: true
@@ -280,8 +306,10 @@ argo-cd:
     ## Dex deployment container ports
     containerPortHttp: 5556
     servicePortHttp: 5556
+    servicePortHttpName: http
     containerPortGrpc: 5557
     servicePortGrpc: 5557
+    servicePortGrpcName: grpc
     containerPortMetrics: 5558
     servicePortMetrics: 5558
 
@@ -343,8 +371,7 @@ argo-cd:
 
     ## Annotations to be added to the Redis server pods
     ##
-    podAnnotations:
-      cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+    podAnnotations: {}
 
     ## Labels to be added to the Redis server pods
     ##
@@ -392,6 +419,26 @@ argo-cd:
 
     volumeMounts: []
     volumes: []
+
+  # This key configures Redis-HA subchart and when enabled (redis-ha.enabled=true)
+  # the custom redis deployment is omitted
+  redis-ha:
+    enabled: false
+    # Check the redis-ha chart for more properties
+    exporter:
+      enabled: true
+    persistentVolume:
+      enabled: false
+    redis:
+      masterGroupName: argocd
+      config:
+        save: '""'
+    haproxy:
+      enabled: true
+      metrics:
+        enabled: true
+    image:
+      tag: 6.2.4-alpine
 
   ## Server
   server:
@@ -443,8 +490,7 @@ argo-cd:
 
     ## Annotations to be added to controller pods
     ##
-    podAnnotations:
-      cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+    podAnnotations: {}
 
     ## Labels to be added to controller pods
     ##
@@ -539,6 +585,8 @@ argo-cd:
       serviceMonitor:
         enabled: true
         interval: 30s
+        relabelings: []
+        metricRelabelings: []
       #   selector:
       #     prometheus: kube-prometheus
       #   namespace: monitoring
@@ -587,7 +635,7 @@ argo-cd:
         #       port:
         #         name: use-annotation
       tls:
-        - secretName: argocd-server-tls
+        - secretName: argocd-tls-certificate
           hosts:
             - argocd.example.com
       https: true
@@ -656,6 +704,8 @@ argo-cd:
       url: https://argocd.example.com
       # Argo CD instance label key
       application.instanceLabelKey: argocd.argoproj.io/instance
+
+      # DEPRECATED: Please instead use configs.credentialTemplates and configs.repositories
       # repositories: |
       #   - url: git@github.com:group/repo.git
       #     sshPrivateKeySecret:
@@ -667,6 +717,7 @@ argo-cd:
       #   - type: helm
       #     url: https://argoproj.github.io/argo-helm
       #     name: argo
+
       # oidc.config: |
       #   name: AzureAD
       #   issuer: https://login.microsoftonline.com/TENANT_ID/v2.0
@@ -854,8 +905,7 @@ argo-cd:
 
     ## Annotations to be added to repo server pods
     ##
-    podAnnotations:
-      cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+    podAnnotations: {}
 
     ## Labels to be added to repo server pods
     ##
@@ -928,6 +978,8 @@ argo-cd:
       serviceMonitor:
         enabled: true
         interval: 30s
+        relabelings: []
+        metricRelabelings: []
       #   selector:
       #     prometheus: kube-prometheus
       #   namespace: monitoring
@@ -1074,25 +1126,49 @@ argo-cd:
       #     +LB9LGh4OAp68ImTjqf6ioGKG0RBSznwME+r4nXtT1S/qLR6ASWUS4ViWRhbRlNK
       #     XWyb96wrUlv+E8I=
       #     -----END CERTIFICATE-----
-    # Creates a secret with optional repository credentials
+    ## # Creates a secret with optional repository credentials
+    ## DEPRECATED: Instead, use configs.credentialTemplates and/or configs.repositories
     repositoryCredentials:
       {}
-      # sample-ssh-key: |
-      # -----BEGIN RSA PRIVATE KEY-----
-      # MIICXAIBAAKBgQCcmiVJXGUvL8zqWmRRETbCKgFadtjJ9WDQpSwiZzMiktpYBo0N
-      # z0cThzGQfWqvdiJYEy72MrKCaSYssV3eHP5zTffk4VBDktNfdl1kgkOpqnh7tQO4
-      # nBONRLzcK6KEbKUsmiTbW8Jb4UFYDhyyyveby7y3vYePmaRQIrlEenVfKwIDAQAB
-      # AoGAbbg+WZjnt9jYzHWKhZX29LDzg8ty9oT6URT4yB3gIOAdJMFqQHuyg8cb/e0x
-      # O0AcrfK623oHwgEj4vpeFwnfaBdtM5GfH9zaj6pnXV7VZc3oBHrBnHUgFT3NEYUe
-      # tt6rtatIguBH61Aj/pyij9sOfF0xDj0s1nwFTbdHtZR/31kCQQDIwcVTqhKkDNW6
-      # cvdz+Wt3v9x1wNg+VhZhyA/pKILz3+qtn3GogLrQqhpVi+Y7tdvEv9FvgKaCjUp8
-      # 6Lfp6dDFAkEAx7HpQbXFdrtcveOi9kosKRDX1PT4zdhB08jAXGlV8jr0jkrZazVM
-      # hV5rVCuu35Vh6x1fiyGwwiVsqhgWE+KPLwJAWrDemasM/LsnmjDxhJy6ZcBwsWlK
-      # xu5Q8h9UwLmiXtVayNBsofh1bGpLtzWZ7oN7ImidDkgJ8JQvgDoJS0xrGQJBALPJ
-      # FkMFnrjtqGqBVkc8shNqyZY90v6oM2OzupO4dht2PpUZCDPAMZtlTWXjSjabbCPc
-      # NxexBk1UmkdtFftjHxsCQGjG+nhRYH92MsmrbvZyFzgxg9SIOu6xel7D3Dq9l5Le
-      # XG+bpHPF4SiCpAxthP5WNa17zuvk+CDsMZgZNuhYNMo=
-      # -----END RSA PRIVATE KEY-----
+
+    ## Creates a secret for each key/value specified below to create repository credentials
+    credentialTemplates: {}
+      # github-enterprise-creds-1:
+      #   url: https://github.com/argoproj
+      #   githubAppID: 1
+      #   githubAppInstallationID: 2
+      #   githubAppEnterpriseBaseUrl: https://ghe.example.com/api/v3
+      #   githubAppPrivateKey: |
+      #     -----BEGIN OPENSSH PRIVATE KEY-----
+      #     ...
+      #     -----END OPENSSH PRIVATE KEY-----
+      # https-creds:
+      #   url: https://github.com/argoproj
+      #   password: my-password
+      #   username: my-username
+      # ssh-creds:
+      #  url: git@github.com:argoproj-labs
+      #  sshPrivateKey: |
+      #    -----BEGIN OPENSSH PRIVATE KEY-----
+      #    ...
+      #    -----END OPENSSH PRIVATE KEY-----
+
+  ## Creates a secret for each key/value specified below to create repositories
+  ## Note: the last example in the list would use a repository credential template, configured under "configs.repositoryCredentials".
+    repositories: {}
+      # istio-helm-repo:
+      #   url: https://storage.googleapis.com/istio-prerelease/daily-build/master-latest-daily/charts
+      #   name: istio.io
+      #   type: helm
+      # private-helm-repo:
+      #   url: https://my-private-chart-repo.internal
+      #   name: private-repo
+      #   type: helm
+      #   password: my-password
+      #   username: my-username
+      # private-repo:
+      #   url: https://github.com/argoproj/private-repo
+
     secret:
       createSecret: true
       ## Annotations to be added to argocd-secret
