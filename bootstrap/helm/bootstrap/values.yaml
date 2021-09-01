@@ -44,9 +44,7 @@ application:
   registry: dkr.plural.sh/bootstrap
   tag: v0.8.3
 
-dnsSolver:
-  route53:
-    region: us-east-1
+dnsSolver: {}
 
 autoscaling:
   ingress:

@@ -8,7 +8,7 @@ external-dns:
   {{ else }}
   provider: {{ .Provider }}
   {{ end }}
-  txtOwnerId: {{ .Values.txt_owner }}
+  txtOwnerId: {{ default "plural" .Values.txt_owner }}
 {{ if eq .Provider "azure" }}
   podLabels:
     aadpodidbinding: externaldns
