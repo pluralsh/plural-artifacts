@@ -19,3 +19,18 @@ sections:
     - name: adminGroup
       documentation: OIDC group that should receive admin permissions
       type: STRING
+    - name: credentialTemplateURL
+      documentation: Domain for which to configure private repository credentials
+      type: STRING
+    - name: credentialUsername
+      documentation: Username to access private repositories
+      type: STRING
+    - name: credentialPassword
+      documentation: Password or Personal Access Token to access private repositories
+      type: STRING
+    - name: privateRepoName
+      documentation: Name for the private repository to add
+      type: STRING
+    - name: privateRepoURL
+      documentation: URL of the private repository
+      type: STRING
