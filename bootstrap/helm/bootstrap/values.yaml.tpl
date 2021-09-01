@@ -1,10 +1,15 @@
 {{ $pluraldns := .Values.pluralDns }}
+{{ $providerArgs := dict "provider" .Provider "cluster" .Cluster }}
+{{ if eq .Provider "google" }}
+  {{ $_ := set $providerArgs "provider" "gcp" }}
+{{ end }}
+
 external-dns:
   {{ if $pluraldns }}
   provider: plural
   extraArgs:
-    plural-cluster: {{ .Cluster }}
-    plural-provider: {{ .Provider }}
+    plural-cluster: {{ $providerArgs.cluster }}
+    plural-provider: {{ $providerArgs.provider }}
   {{ else }}
   provider: {{ .Provider }}
   {{ end }}
@@ -109,8 +114,8 @@ dnsSolver:
     groupName: acme.plural.sh
     solverName: plural-solver
     config:
-      cluster: {{ .Cluster }}
-      provider: {{ .Provider }}
+      cluster: {{ $providerArgs.cluster }}
+      provider: {{ $providerArgs.provider }}
 {{ end }}
 
 {{ if eq .Provider "aws" }}
