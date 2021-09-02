@@ -15,6 +15,7 @@ spec:
       keySecretRef:
         name: acme-eab-secret
         key: eab-secret
+      keyAlgorithm: HS256
     {{ end }}
     privateKeySecretRef:
       # Secret resource that will be used to store the account's private key.
