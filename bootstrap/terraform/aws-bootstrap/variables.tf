@@ -52,11 +52,6 @@ variable "alb_serviceaccount" {
   description = "name of the nlb operator's service account"
 }
 
-variable "dns_domain" {
-  type = string
-  description = "domain to use for traffic"
-}
-
 variable "node_groups" {
   type = any
   default = {

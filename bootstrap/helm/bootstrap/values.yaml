@@ -46,6 +46,9 @@ application:
 
 dnsSolver: {}
 
+acmeServer: https://acme-v02.api.letsencrypt.org/directory
+acmeEAB: {}
+
 autoscaling:
   ingress:
     minReplicas: 1

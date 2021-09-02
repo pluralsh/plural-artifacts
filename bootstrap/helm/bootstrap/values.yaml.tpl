@@ -55,6 +55,13 @@ externalDnsIdentityClientId: {{ importValue "Terraform" "externaldns_msi_client_
 
 pluralToken: {{ .Config.Token }}
 
+{{ if and $pluraldns .Acme }}
+acmeServer: https://acme.zerossl.com/v2/DV90
+acmeEAB:
+  kid: {{ .Acme.KeyId }}
+  secret: {{ .Acme.Secret }}
+{{ end }}
+
 regcreds:
   auths:
     dkr.plural.sh:
