@@ -1,14 +1,14 @@
 artifact: {}
 terraform:
-  terraform/aws: h1:AOYGrYkE0V9zgWUI9TaIUFRhLZ/azvMQP9qN6U0bbRA=
+  terraform/aws: h1:BuHqi6uFUncCOIP0TiOxrQa3hAuIGPP/SCJwck/IuE4=
   terraform/azure: h1:0N8Q9oPJcwIeE+WE/8KWEFx6IFYFa1nwLNj99LdJIfw=
   terraform/gcp: h1:cdB2gi9NRpB9UWSw4WkaVoZD8ToW7lEdl0nrNSeVw2w=
 helm:
   helm/airflow: h1:w1QFCO+1GkmoTEkdBoIQciMNRc45P1StVn7dNQKyT9A=
 recipe:
   forge/recipes/gcp-airflow.yaml: 4a61bee914e0e3cb3f703e054648781a437ffda570f5645b1a986fdafd1fa681
-  plural/recipes/aws-airflow.yaml: 6455bc22ece4763996085863a49124332be3a342409be4aa8785c5d20c7c2d48
-  plural/recipes/gcp-airflow.yaml: 235606f53d2464857910fe23708eee1cd850bbe9379059e58be887deeef5cd37
+  plural/recipes/aws-airflow.yaml: 18b033b35f2191e039fb415281cae5ea71ab35fbe0444565d4c4f46ec38c5db9
+  plural/recipes/gcp-airflow.yaml: 35a003ad7509e216e610bd4a4eae3d38ef1acca671c68a241ff23524dd7a37bd
 integration: {}
 crd: {}
 ird: {}

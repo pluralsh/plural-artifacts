@@ -34,6 +34,7 @@ resource "aws_iam_policy" "mysql" {
 resource "aws_s3_bucket" "wal" {
   bucket = var.backup_bucket
   acl    = "private"
+  force_destroy = true
 }
 
 data "aws_iam_policy_document" "mysql" {
