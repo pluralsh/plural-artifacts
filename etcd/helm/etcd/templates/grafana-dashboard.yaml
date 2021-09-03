@@ -1,0 +1,22 @@
+{{ if .Values.metrics.grafanaDashboard.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels: {{- include "etcd.labels" . | nindent 4 }}
+    {{- with .Values.metrics.grafanaDashboard.additionalLabels }}
+      {{- toYaml . | nindent 4 }}
+    {{ end }}
+  annotations:
+    {{- with .Values.metrics.grafanaDashboard.additionalAnnotations }}
+      {{- toYaml . | nindent 4 }}
+    {{ end }}
+  name: etcd-cluster-dashboard
+  {{- if .Values.metrics.serviceMonitor.namespace }}
+  namespace: {{ .Values.metrics.grafanaDashboard.namespace }}
+  {{- else }}
+  namespace: {{ .Release.Namespace }}
+  {{- end }}
+data:
+  etcd-cluster-dashboard.json: |-
+{{ .Files.Get "grafana-dashboards/etcd-cluster-dashboard.json" | indent 4 }}
+{{ end }}

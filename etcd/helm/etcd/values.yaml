@@ -93,3 +93,13 @@ metrics:
     scrapeTimeout: ""
     relabellings: []
     additionalLabels: {}
+  grafanaDashboard:
+    enabled: false
+    # -- The Grafana sidecar should watch all namespace by default, so this setting usually should not be necessary
+    namespace: ""
+    additionalLabels:
+      # -- This is the default annotation used by the Grafana sidecar to get dashboards
+      grafana_dashboard: "etcd-cluster-dashboard"
+    additionalAnnotations:
+      # -- This annotation can be used to place dashboard into a folder in Grafana
+      k8s-sidecar-target-directory: /tmp/dashboards/Etcd Dashboards
