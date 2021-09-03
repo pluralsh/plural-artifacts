@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "etcd.fullname" . }}-proxy
+  labels:
+    {{- include "etcd.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: metrics
+      protocol: TCP
+      name: http-metrics
+  selector:
+    {{- include "etcd.proxySelectorLabels" . | nindent 4 }}
