@@ -7,9 +7,9 @@ helm:
   helm/argo-cd: h1:cJp8nHbpxjuzZ0ulYcPrhPXsCQWLolubP/o4ypxlih0=
   helm/argocd: h1:ekOxLom9wLnGvjVcvCZU1cGpbS+uEiTm/LAq8ZM0Vz4=
 recipe:
-  plural/recipes/argo-cd-aws.yaml: bd9e58fde77bcfd97b9d6bdf508ddf586f53ea66da3077ee397333f97bc910ef
-  plural/recipes/argo-cd-azure.yaml: 68fc05b03e76d45c89b58ec31bb2006d843ee3c2c321a7629103cab08ccac6e1
-  plural/recipes/argo-cd-gcp.yaml: 5ffb64240d7923893b3065674a2e3f7a0efe0b430d3987d065eea2183f0a4ffe
+  plural/recipes/argo-cd-aws.yaml: 7a88efe8d842d2b26503aa3d7d96df2d16f7f39fe0cc07a0fc5b1d9c31f14423
+  plural/recipes/argo-cd-azure.yaml: 8297870c351a007ccc7cb872cab41ea5ec84240b24ecb61477d4dac86814d0a9
+  plural/recipes/argo-cd-gcp.yaml: 4f6226b057d8f7b0e26a4035e4358f61237022a55ad69991956adcf0d897bb44
 integration: {}
 crd:
   plural/crds/crd-application.yaml: b947869a3c2ebe23658bbc7fbaa859356ffdf4c43ff4e6a97afc6882f983e361:h1:cJp8nHbpxjuzZ0ulYcPrhPXsCQWLolubP/o4ypxlih0=

@@ -1,6 +1,10 @@
 name: console-aws
-description: Deploys console on our bootstrapped EKS cluster
+description: Deploys console on a bootstrapped EKS cluster
 provider: AWS
+oidcSettings:
+  uriFormat: https://{domain}/oauth/callback
+  authMethod: POST
+  domainKey: console_dns
 dependencies:
   - repo: bootstrap
     name: aws-k8s

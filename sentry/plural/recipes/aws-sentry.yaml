@@ -1,6 +1,10 @@
 name: aws-sentry
 description: installs sentry on an EKS cluster
 provider: AWS
+oidcSettings:
+  authMethod: POST
+  uriFormat: https://{domain}/auth/sso
+  domainKey: hostname
 dependencies:
 - repo: bootstrap
   name: aws-k8s

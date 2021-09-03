@@ -1,6 +1,10 @@
 name: aws-gitlab
 description: Installs gitlab on an EKS cluster
 provider: AWS
+oidcSettings:
+  authMethod: BASIC
+  uriFormat: https://gitlab.{domain}/users/auth/plural/callback
+  domainKey: domain
 dependencies:
 - repo: bootstrap
   name: aws-k8s

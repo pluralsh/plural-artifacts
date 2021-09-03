@@ -1,6 +1,10 @@
 name: gcp-grafana
 description: Installs grafana on a GKE cluster
 provider: GCP
+oidcSettings:
+  authMethod: POST
+  uriFormat: https://{domain}/login/generic_oauth
+  domainKey: hostname
 dependencies:
 - repo: bootstrap
   name: gcp-kubernetes

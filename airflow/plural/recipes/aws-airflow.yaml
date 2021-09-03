@@ -1,6 +1,10 @@
 name: aws-airflow
 description: Installs airflow on an EKS cluster
 provider: AWS
+oidcSettings:
+  authMethod: POST
+  uriFormat: https://{domain}/oauth-authorized/plural
+  domainKey: hostname
 dependencies:
   - repo: bootstrap
     name: aws-k8s

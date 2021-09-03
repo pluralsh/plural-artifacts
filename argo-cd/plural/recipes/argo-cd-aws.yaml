@@ -1,6 +1,10 @@
 name: argo-cd-aws
 description: Installs argo-cd on an aws eks cluster
 provider: AWS
+oidcSettings:
+  authMethod: POST
+  uriFormat: https://{domain}/auth/callback
+  domainKey: hostname
 dependencies:
 - repo: bootstrap
   name: aws-k8s

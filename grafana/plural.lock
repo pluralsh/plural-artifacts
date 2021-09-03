@@ -6,8 +6,8 @@ terraform:
 helm:
   helm/grafana: h1:QazuiR9kb5gWbeg7FIXFDPl5RkgRICdg6GCBkU7xlLs=
 recipe:
-  plural/recipes/aws-grafana.yaml: daa1f54b46a26a518662ae1a027b842bdac4ed1d0bd8f1b16952f331bd1147d3
-  plural/recipes/gcp-grafana.yaml: ba7a87b95b94923108949c3c4e3b3dff9dc4d3d4d364763a1d8c424a1fbd1a5f
+  plural/recipes/aws-grafana.yaml: ecdad4b2d56904d8a48b79fc67c44bb5debc3e0f574efe94613e7523bb4d4cdd
+  plural/recipes/gcp-grafana.yaml: f468b0df09212023fd021de6437ab60a44b58df27c727104d8afd42a331643df
 integration: {}
 crd: {}
 ird: {}

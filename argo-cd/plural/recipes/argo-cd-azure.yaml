@@ -1,6 +1,10 @@
 name: argo-cd-azure
 description: Installs argo-cd on an azure aks cluster
 provider: AZURE
+oidcSettings:
+  authMethod: POST
+  uriFormat: https://{domain}/auth/callback
+  domainKey: hostname
 dependencies:
 - repo: bootstrap
   name: azure-k8s

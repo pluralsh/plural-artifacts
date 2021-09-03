@@ -1,6 +1,10 @@
 name: gcp-gitlab
 description: Installs gitlab on a GKE cluster
 provider: GCP
+oidcSettings:
+  authMethod: BASIC
+  uriFormat: https://gitlab.{domain}/users/auth/plural/callback
+  domainKey: domain
 dependencies:
 - repo: bootstrap
   name: gcp-kubernetes
