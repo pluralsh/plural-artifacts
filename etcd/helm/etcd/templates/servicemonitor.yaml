@@ -3,7 +3,7 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: {{ include "etcd.fullname" . }}
+  name: {{ include "etcd.fullname" . }}-controller
   {{- if .Values.metrics.serviceMonitor.namespace }}
   namespace: {{ .Values.metrics.serviceMonitor.namespace }}
   {{- else }}
@@ -31,5 +31,29 @@ spec:
       - {{ .Release.Namespace }}
   selector:
     matchLabels: {{- include "etcd.controllerSelectorLabels" . | nindent 6 }}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: etcd-clusters
+  {{- if .Values.metrics.serviceMonitor.namespace }}
+  namespace: {{ .Values.metrics.serviceMonitor.namespace }}
+  {{- else }}
+  namespace: {{ .Release.Namespace }}
+  {{- end }}
+  labels: {{- include "etcd.labels" . | nindent 4 }}
+    {{- with .Values.metrics.serviceMonitor.additionalLabels }}
+      {{- toYaml . | nindent 4 }}
+    {{ end }}
+spec:
+  endpoints:
+  - interval: 15s
+    path: /metrics
+    targetPort: 2379
+  namespaceSelector:
+    any: true
+  selector:
+    matchExpressions:
+    - {key: etcd.improbable.io/cluster-name, operator: Exists}
 {{- end }}
 {{- end }}
