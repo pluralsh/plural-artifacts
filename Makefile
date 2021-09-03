@@ -14,7 +14,7 @@ create-template:
 	helm create ./$$application/helm/$$application; \
 	echo "apiVersion: plural.sh/v1alpha1\nkind: Dependencies\nmetadata:\n  application: true\n  description: Deploys $$application crafted for the target cloud\nspec:\n  dependencies:\n  - type: helm\n    name: bootstrap\n    repo: bootstrap\n    version: '>= 0.5.1'\n  - type: terraform\n    name: aws\n    repo: $$application\n    version: '>= 0.1.0'\n    optional: true\n  - type: terraform\n    name: azure\n    repo: $$application\n    version: '>= 0.1.0'\n    optional: true\n  - type: terraform\n    name: gcp\n    repo: $$application\n    version: '>= 0.1.0'\n    optional: true" > ./$$application/helm/$$application/deps.yaml; \
 	echo "# $$application\n\nInstalls $$application using Plural." > ./$$application/helm/$$application/README.md; \
-	touch ./$$application/helm/$$application/values.yaml.tpl; \
+	echo "{}" > ./$$application/helm/$$application/values.yaml.tpl; \
 	mkdir -p ./$$application/plural/crds; \
 	mkdir -p ./$$application/plural/recipes; \
 	mkdir -p ./$$application/plural/tags/helm; \
@@ -32,9 +32,9 @@ create-template:
 	echo "apiVersion: plural.sh/v1alpha1\nkind: Dependencies\nmetadata:\n  description: $$application aws setup\n  version: 0.1.0\nspec:\n  dependencies:\n  - name: aws-bootstrap\n    repo: bootstrap\n    type: terraform\n    version: '>= 0.1.1'\n  providers:\n  - aws" > ./$$application/terraform/aws/deps.yaml; \
 	echo "apiVersion: plural.sh/v1alpha1\nkind: Dependencies\nmetadata:\n  description: $$application azure setup\n  version: 0.1.0\nspec:\n  dependencies:\n  - name: azure-bootstrap\n    repo: bootstrap\n    type: terraform\n    version: '>= 0.1.1'\n  providers:\n  - azure" > ./$$application/terraform/azure/deps.yaml; \
 	echo "apiVersion: plural.sh/v1alpha1\nkind: Dependencies\nmetadata:\n  description: $$application gcp setup\n  version: 0.1.0\nspec:\n  dependencies:\n  - name: gcp-bootstrap\n    repo: bootstrap\n    type: terraform\n    version: '>= 0.1.1'\n  providers:\n  - gcp" > ./$$application/terraform/gcp/deps.yaml; \
-	echo "resource \"kubernetes_namespace\" \"$$application\" {\n  metadata {\n    name = var.namespace\n    labels = {\n      \"app.kubernetes.io/managed-by\" = \"plural\"\n    }\n  }\n}" > ./$$application/terraform/aws/main.tf; \
-	echo "resource \"kubernetes_namespace\" \"$$application\" {\n  metadata {\n    name = var.namespace\n    labels = {\n      \"app.kubernetes.io/managed-by\" = \"plural\"\n    }\n  }\n}" > ./$$application/terraform/azure/main.tf; \
-	echo "resource \"kubernetes_namespace\" \"$$application\" {\n  metadata {\n    name = var.namespace\n    labels = {\n      \"app.kubernetes.io/managed-by\" = \"plural\"\n    }\n  }\n}" > ./$$application/terraform/gcp/main.tf; \
+	echo "resource \"kubernetes_namespace\" \"$$application\" {\n  metadata {\n    name = var.namespace\n    labels = {\n      \"app.kubernetes.io/managed-by\" = \"plural\"\n      \"app.plural.sh/name\" = \"$$application\"\n    }\n  }\n}" > ./$$application/terraform/aws/main.tf; \
+	echo "resource \"kubernetes_namespace\" \"$$application\" {\n  metadata {\n    name = var.namespace\n    labels = {\n      \"app.kubernetes.io/managed-by\" = \"plural\"\n      \"app.plural.sh/name\" = \"$$application\"\n    }\n  }\n}" > ./$$application/terraform/azure/main.tf; \
+	echo "resource \"kubernetes_namespace\" \"$$application\" {\n  metadata {\n    name = var.namespace\n    labels = {\n      \"app.kubernetes.io/managed-by\" = \"plural\"\n      \"app.plural.sh/name\" = \"$$application\"\n    }\n  }\n}" > ./$$application/terraform/gcp/main.tf; \
 	echo "namespace = {{ .Namespace | quote }}" > ./$$application/terraform/aws/terraform.tfvars; \
 	echo "namespace = {{ .Namespace | quote }}" > ./$$application/terraform/azure/terraform.tfvars; \
 	echo "namespace = {{ .Namespace | quote }}" > ./$$application/terraform/gcp/terraform.tfvars; \
@@ -106,3 +106,6 @@ upload-argo-cd: # uploads argo-cd artifacts
 
 upload-kubecost: # uploads kubecost artifacts
 	plural apply -f kubecost/Pluralfile
+
+upload-test: # uploads test artifacts
+	plural apply -f test/Pluralfile
