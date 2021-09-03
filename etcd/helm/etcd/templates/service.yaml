@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ include "etcd.fullname" . }}-proxy
   labels:
-    {{- include "etcd.labels" . | nindent 4 }}
+    {{- include "etcd.proxySelectorLabels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:

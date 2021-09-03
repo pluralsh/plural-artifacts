@@ -83,3 +83,13 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+metrics:
+  serviceMonitor:
+    enabled: true
+    namespace: ""
+    path: /metrics
+    interval: 30s
+    scrapeTimeout: ""
+    relabellings: []
+    additionalLabels: {}
