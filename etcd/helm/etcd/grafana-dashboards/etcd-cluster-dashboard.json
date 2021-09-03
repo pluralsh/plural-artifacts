@@ -458,7 +458,7 @@
       "steppedLine": true,
       "targets": [
         {
-          "expr": "histogram_quantile(0.99, sum(rate(etcd_disk_wal_fsync_duration_seconds_bucket{job=\"$cluster\"}[5m])) by (pod, le))",
+          "expr": "histogram_quantile(0.99, sum(rate(etcd_disk_wal_fsync_duration_seconds_bucket{job=\"$cluster\"}[5m])) by (instance, le))",
           "hide": false,
           "intervalFactor": 2,
           "legendFormat": "{{pod}} WAL fsync",
@@ -467,7 +467,7 @@
           "step": 4
         },
         {
-          "expr": "histogram_quantile(0.99, sum(rate(etcd_disk_backend_commit_duration_seconds_bucket{job=\"$cluster\"}[5m])) by (pod, le))",
+          "expr": "histogram_quantile(0.99, sum(rate(etcd_disk_backend_commit_duration_seconds_bucket{job=\"$cluster\"}[5m])) by (instance, le))",
           "intervalFactor": 2,
           "legendFormat": "{{pod}} DB fsync",
           "metric": "etcd_disk_backend_commit_duration_seconds_bucket",
