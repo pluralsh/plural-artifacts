@@ -356,7 +356,7 @@
           "hide": false,
           "interval": "",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}} DB Size",
+          "legendFormat": "{{pod}} DB Size",
           "metric": "",
           "refId": "A",
           "step": 4
@@ -448,18 +448,18 @@
       "steppedLine": true,
       "targets": [
         {
-          "expr": "histogram_quantile(0.99, sum(rate(etcd_disk_wal_fsync_duration_seconds_bucket{job=\"$cluster\"}[5m])) by (instance, le))",
+          "expr": "histogram_quantile(0.99, sum(rate(etcd_disk_wal_fsync_duration_seconds_bucket{job=\"$cluster\"}[5m])) by (pod, le))",
           "hide": false,
           "intervalFactor": 2,
-          "legendFormat": "{{instance}} WAL fsync",
+          "legendFormat": "{{pod}} WAL fsync",
           "metric": "etcd_disk_wal_fsync_duration_seconds_bucket",
           "refId": "A",
           "step": 4
         },
         {
-          "expr": "histogram_quantile(0.99, sum(rate(etcd_disk_backend_commit_duration_seconds_bucket{job=\"$cluster\"}[5m])) by (instance, le))",
+          "expr": "histogram_quantile(0.99, sum(rate(etcd_disk_backend_commit_duration_seconds_bucket{job=\"$cluster\"}[5m])) by (pod, le))",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}} DB fsync",
+          "legendFormat": "{{pod}} DB fsync",
           "metric": "etcd_disk_backend_commit_duration_seconds_bucket",
           "refId": "B",
           "step": 4
@@ -553,7 +553,7 @@
         {
           "expr": "process_resident_memory_bytes{job=\"$cluster\"}",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}} Resident Memory",
+          "legendFormat": "{{pod}} Resident Memory",
           "metric": "process_resident_memory_bytes",
           "refId": "A",
           "step": 4
@@ -649,7 +649,7 @@
         {
           "expr": "rate(etcd_network_client_grpc_received_bytes_total{job=\"$cluster\"}[5m])",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}} Client Traffic In",
+          "legendFormat": "{{pod}} Client Traffic In",
           "metric": "etcd_network_client_grpc_received_bytes_total",
           "refId": "A",
           "step": 4
@@ -745,7 +745,7 @@
         {
           "expr": "rate(etcd_network_client_grpc_sent_bytes_total{job=\"$cluster\"}[5m])",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}} Client Traffic Out",
+          "legendFormat": "{{pod}} Client Traffic Out",
           "metric": "etcd_network_client_grpc_sent_bytes_total",
           "refId": "A",
           "step": 4
@@ -839,9 +839,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(etcd_network_peer_received_bytes_total{job=\"$cluster\"}[5m])) by (instance)",
+          "expr": "sum(rate(etcd_network_peer_received_bytes_total{job=\"$cluster\"}[5m])) by (pod)",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}} Peer Traffic In",
+          "legendFormat": "{{pod}} Peer Traffic In",
           "metric": "etcd_network_peer_received_bytes_total",
           "refId": "A",
           "step": 4
@@ -936,11 +936,11 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(etcd_network_peer_sent_bytes_total{job=\"$cluster\"}[5m])) by (instance)",
+          "expr": "sum(rate(etcd_network_peer_sent_bytes_total{job=\"$cluster\"}[5m])) by (pod)",
           "hide": false,
           "interval": "",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}} Peer Traffic Out",
+          "legendFormat": "{{pod}} Peer Traffic Out",
           "metric": "etcd_network_peer_sent_bytes_total",
           "refId": "A",
           "step": 4
@@ -1156,7 +1156,7 @@
         {
           "expr": "changes(etcd_server_leader_changes_seen_total{job=\"$cluster\"}[1d])",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}} Total Leader Elections Per Day",
+          "legendFormat": "{{pod}} Total Leader Elections Per Day",
           "metric": "etcd_server_leader_changes_seen_total",
           "refId": "A",
           "step": 2
@@ -1295,6 +1295,6 @@
   },
   "timezone": "browser",
   "title": "etcd",
-  "uid": "fYSyM97nk",
+  "uid": "fYSyM97nl",
   "version": 2
 }
