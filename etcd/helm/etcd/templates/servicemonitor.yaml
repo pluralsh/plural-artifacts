@@ -30,6 +30,6 @@ spec:
     matchNames:
       - {{ .Release.Namespace }}
   selector:
-    matchLabels: {{- include "etcd.proxySelectorLabels" . | nindent 6 }}
+    matchLabels: {{- include "etcd.controllerSelectorLabels" . | nindent 6 }}
 {{- end }}
 {{- end }}
