@@ -94,7 +94,7 @@ metrics:
     relabellings: []
     additionalLabels: {}
   grafanaDashboard:
-    enabled: false
+    enabled: true
     # -- The Grafana sidecar should watch all namespace by default, so this setting usually should not be necessary
     namespace: ""
     additionalLabels:

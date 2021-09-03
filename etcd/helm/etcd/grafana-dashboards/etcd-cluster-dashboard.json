@@ -16,8 +16,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 659,
-  "iteration": 1630674885849,
+  "id": 701,
+  "iteration": 1630676552530,
   "links": [],
   "panels": [
     {
@@ -84,7 +84,9 @@
       "pluginVersion": "8.0.5",
       "targets": [
         {
-          "expr": "sum(etcd_server_has_leader{job=\"$cluster\"})",
+          "exemplar": true,
+          "expr": "sum(etcd_server_has_leader{job=~\"$cluster\"})",
+          "interval": "",
           "intervalFactor": 2,
           "legendFormat": "",
           "metric": "etcd_server_has_leader",
@@ -141,8 +143,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(grpc_server_started_total{job=\"$cluster\",grpc_type=\"unary\"}[5m]))",
+          "exemplar": true,
+          "expr": "sum(rate(grpc_server_started_total{job=~\"$cluster\",grpc_type=\"unary\"}[5m]))",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 2,
           "legendFormat": "RPC Rate",
           "metric": "grpc_server_started_total",
@@ -150,8 +154,10 @@
           "step": 2
         },
         {
-          "expr": "sum(rate(grpc_server_handled_total{job=\"$cluster\",grpc_type=\"unary\",grpc_code!=\"OK\"}[5m]))",
+          "exemplar": true,
+          "expr": "sum(rate(grpc_server_handled_total{job=~\"$cluster\",grpc_type=\"unary\",grpc_code!=\"OK\"}[5m]))",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 2,
           "legendFormat": "RPC Failed Rate",
           "metric": "grpc_server_handled_total",
@@ -247,7 +253,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(grpc_server_started_total{job=\"$cluster\",grpc_service=\"etcdserverpb.Watch\",grpc_type=\"bidi_stream\"}) - sum(grpc_server_handled_total{job=\"$cluster\",grpc_service=\"etcdserverpb.Watch\",grpc_type=\"bidi_stream\"})",
+          "exemplar": true,
+          "expr": "sum(grpc_server_started_total{job=~\"$cluster\",grpc_service=\"etcdserverpb.Watch\",grpc_type=\"bidi_stream\"}) - sum(grpc_server_handled_total{job=~\"$cluster\",grpc_service=\"etcdserverpb.Watch\",grpc_type=\"bidi_stream\"})",
+          "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Watch Streams",
           "metric": "grpc_server_handled_total",
@@ -255,7 +263,9 @@
           "step": 4
         },
         {
-          "expr": "sum(grpc_server_started_total{job=\"$cluster\",grpc_service=\"etcdserverpb.Lease\",grpc_type=\"bidi_stream\"}) - sum(grpc_server_handled_total{job=\"$cluster\",grpc_service=\"etcdserverpb.Lease\",grpc_type=\"bidi_stream\"})",
+          "exemplar": true,
+          "expr": "sum(grpc_server_started_total{job=~\"$cluster\",grpc_service=\"etcdserverpb.Lease\",grpc_type=\"bidi_stream\"}) - sum(grpc_server_handled_total{job=~\"$cluster\",grpc_service=\"etcdserverpb.Lease\",grpc_type=\"bidi_stream\"})",
+          "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Lease Streams",
           "metric": "grpc_server_handled_total",
@@ -1205,7 +1215,7 @@
       }
     }
   ],
-  "refresh": "10s",
+  "refresh": "",
   "schemaVersion": 30,
   "style": "dark",
   "tags": [],
@@ -1213,7 +1223,7 @@
     "list": [
       {
         "current": {
-          "selected": false,
+          "selected": true,
           "text": "Prometheus",
           "value": "Prometheus"
         },
@@ -1226,6 +1236,7 @@
         "name": "datasource",
         "options": [],
         "query": "prometheus",
+        "queryValue": "",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -1233,14 +1244,33 @@
       },
       {
         "allValue": null,
-        "current": {
-          "selected": true,
-          "text": "etcd-test-new",
-          "value": "etcd-test-new"
-        },
-        "datasource": "$datasource",
-        "definition": "",
+        "current": {},
+        "datasource": "${datasource}",
+        "definition": "label_values(etcd_server_has_leader, namespace)",
         "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": "namespace",
+        "multi": false,
+        "name": "namespace",
+        "options": [],
+        "query": {
+          "query": "label_values(etcd_server_has_leader, namespace)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "$datasource",
+        "definition": "label_values(etcd_server_has_leader{namespace=\"$namespace\"}, job)",
+        "description": "",
         "error": null,
         "hide": 0,
         "includeAll": false,
@@ -1249,8 +1279,8 @@
         "name": "cluster",
         "options": [],
         "query": {
-          "query": "label_values(etcd_server_has_leader, job)",
-          "refId": "Prometheus-cluster-Variable-Query"
+          "query": "label_values(etcd_server_has_leader{namespace=\"$namespace\"}, job)",
+          "refId": "StandardVariableQuery"
         },
         "refresh": 1,
         "regex": "",
@@ -1295,6 +1325,6 @@
   },
   "timezone": "browser",
   "title": "etcd",
-  "uid": "fYSyM97nl",
-  "version": 2
+  "uid": "POw2PUVnz",
+  "version": 7
 }

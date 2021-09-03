@@ -4,7 +4,7 @@ terraform:
   terraform/azure: h1:ooafymWwMd6bmE7+COrrihHb3D6c9+dNzMiAPKIrkFg=
   terraform/gcp: h1:wfSKdDLVnFTmmcv6JX4Xa75Ai+98xYCG9YCzOvWA8kQ=
 helm:
-  helm/etcd: h1:eFAPIBj0wIzmdRdJRjIFqDBlnZpUX0Hv5tpV/ATK6RI=
+  helm/etcd: h1:OLB9+y1CnXvkBfEaF/zgiAIjnBpMnJQFMG79eyucZZg=
 recipe:
   plural/recipes/etcd-aws.yaml: 900fc0297f06e45921f81c2f3c400b7c14c7b2820b9e5a14eed319e52f8d4948
   plural/recipes/etcd-azure.yaml: 2e2a725761ceef36a9bb9627a3ca6b8ebfb502b12a80f4a3a03e41adb90b1695
