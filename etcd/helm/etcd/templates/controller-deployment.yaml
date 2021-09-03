@@ -43,14 +43,14 @@ spec:
             - name: metrics
               containerPort: 8080
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /metrics
-              port: metrics
-          readinessProbe:
-            httpGet:
-              path: /metrics
-              port: metrics
+          # livenessProbe:
+          #   httpGet:
+          #     path: /metrics
+          #     port: metrics
+          # readinessProbe:
+          #   httpGet:
+          #     path: /metrics
+          #     port: metrics
           resources:
             {{- toYaml .Values.resources.controller | nindent 12 }}
       terminationGracePeriodSeconds: 10
