@@ -3,6 +3,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.4.0
+  labels: {{- include "etcd.labels" . | nindent 4 }}
   name: etcdbackups.etcd.improbable.io
 spec:
   group: etcd.improbable.io
@@ -83,6 +84,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.4.0
+  labels: {{- include "etcd.labels" . | nindent 4 }}
   name: etcdbackupschedules.etcd.improbable.io
 spec:
   group: etcd.improbable.io
@@ -822,6 +824,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.4.0
+  labels: {{- include "etcd.labels" . | nindent 4 }}
   name: etcdpeers.etcd.improbable.io
 spec:
   group: etcd.improbable.io
@@ -1497,6 +1500,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.4.0
+  labels: {{- include "etcd.labels" . | nindent 4 }}
   name: etcdrestores.etcd.improbable.io
 spec:
   group: etcd.improbable.io
