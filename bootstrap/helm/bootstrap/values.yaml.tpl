@@ -55,11 +55,12 @@ externalDnsIdentityClientId: {{ importValue "Terraform" "externaldns_msi_client_
 
 pluralToken: {{ .Config.Token }}
 
-{{ if and $pluraldns .Acme }}
+{{ if $pluraldns }}
+{{ $eab := eabCredential $providerArgs.cluster $providerArgs.provider }}
 acmeServer: https://acme.zerossl.com/v2/DV90
 acmeEAB:
-  kid: {{ .Acme.KeyId }}
-  secret: {{ .Acme.Secret }}
+  kid: {{ $eab.KeyId }}
+  secret: {{ $eab.HmacKey }}
 {{ end }}
 
 regcreds:
