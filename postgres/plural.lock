@@ -19,3 +19,5 @@ tag:
   plural/tags/terraform/aws.yml: b46befb9716e1f9ef21cec5ba614f4b1f039438af71c8e039140fdd64a67bb3d
   plural/tags/terraform/azure.yml: eb86a8273f31bda3c64704756f7d5d1c99c82ef048cf9b869c4be01f99a7431f
   plural/tags/terraform/gcp.yml: a5f9d2f77756067979a97968c715feb2a5c509805ee07a86aa32121e56ac976b
+attrs:
+  repository.yaml_Plural: Tm7HJgPCTqQhDxNWAoOJj2G0hpYbjURVX9LcV3_HJrg=

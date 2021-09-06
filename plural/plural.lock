@@ -14,3 +14,5 @@ tag:
   plural/tags/helm/plural.yml: 8c27ce6e7d412e6c6efbbadc1459ab886ee2bc630db3d09d792fcbc17fb5bacb
   plural/tags/terraform/aws.yml: b46befb9716e1f9ef21cec5ba614f4b1f039438af71c8e039140fdd64a67bb3d
   plural/tags/terraform/gcp.yml: 31e6b424e84363f7d98ed36e28d1cc195e250ef7155f9ada0890aed8d4995516
+attrs:
+  repository.yaml_Plural: ke3OtEzgVzwCB1P5-yNirG1Rz2W9kQTaTC4wNEvryIw=

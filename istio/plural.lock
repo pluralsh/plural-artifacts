@@ -13,3 +13,5 @@ ird: {}
 tag:
   plural/tags/helm/istio.yaml: 7a04928ccc1ff18dfd45847813fdbf5006ac7b2f3a325080cb336141ab0b3b72
   plural/tags/terraform/kube.yaml: 92ef5c9d1ec51bcf6d917cf7bd8032649bda7e894cc2f47c398250c237c2b1a9
+attrs:
+  repository.yaml_Plural: qava14MzprjErTTj6mFxYkNwCf5Wh0FDnfErbRODID4=

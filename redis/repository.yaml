@@ -1,0 +1,6 @@
+name: redis
+description: high performance in-memory object store
+category: DATABASE
+icon: plural/icons/redis.png
+tags:
+- tag: cache

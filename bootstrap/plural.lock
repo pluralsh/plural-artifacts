@@ -55,3 +55,5 @@ tag:
   plural/tags/terraform/aws-bootstrap.yml: ed3c46edce2bfa9547b9a7b3ca4869619177da5779d620d65415756d70f585ea
   plural/tags/terraform/azure-bootstrap.yml: f6508ff83bc4d8dcd270253250ad9f11aa67b89e38537386051e6fdb7a9301b4
   plural/tags/terraform/gcp-bootstrap.yml: 706154868c9fc77df5a7f407c185b3f582986d30c18db41d4b64ba9387c450f3
+attrs:
+  repository.yaml_Plural: nMC8gTHp9aMChxlnMA_vQkuzykbTObVKAT5G9ZXSLAo=

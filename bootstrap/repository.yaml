@@ -1,0 +1,8 @@
+name: bootstrap
+description: cluster initialization resources for plural
+icon: plural/icons/k8s.png
+category: DEVOPS
+tags:
+- tag: externaldns
+- tag: ingress
+- tag: kubernetes

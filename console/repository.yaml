@@ -1,0 +1,10 @@
+name: console
+description: plural admin console
+category: DEVOPS
+icon: plural/icons/console-logo.png
+darkIcon: plural/icons/console-white.png
+oauthSettings:
+  uriFormat: https://{domain}/oauth/callback
+  authMethod: POST
+tags:
+- tag: kubernetes

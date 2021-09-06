@@ -1,0 +1,10 @@
+name: sentry
+description: error monitoring for multiple languages and platforms
+icon: plural/icons/sentry.png
+category: DEVOPS
+oauthSettings:
+  uriFormat: https://{domain}/auth/sso/
+  authMethod: POST
+tags:
+- tag: observability
+- tag: monitoring

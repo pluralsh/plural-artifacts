@@ -1,4 +1,5 @@
 REPO bootstrap
+ATTRIBUTES Plural repository.yaml
 
 TF terraform/*
 HELM helm/*

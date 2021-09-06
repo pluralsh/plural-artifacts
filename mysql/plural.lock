@@ -18,3 +18,5 @@ crd:
   plural/crds/presslabs/mysqlusers.yaml: 3e24517bb2211c53116ff1e9e01ff544e61ae16d5dfe8aa36e314ed5c34c8241:h1:hQss/ZAEUXiyMR3fKHUgVpFk7MZh6Jo0WnGEXYvYi7I=
 ird: {}
 tag: {}
+attrs:
+  repository.yaml_Plural: KdzUDsdVo8z8Y8IFOWpNydChpB4ZEq8wOcE2LCGrZ4Y=

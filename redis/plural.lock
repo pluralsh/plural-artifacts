@@ -15,3 +15,5 @@ integration: {}
 crd: {}
 ird: {}
 tag: {}
+attrs:
+  repository.yaml_Plural: qaN20EPbRhU78KQpkOKlNqZy-JrPxKN7GNCgmpTcimM=

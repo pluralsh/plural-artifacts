@@ -1,0 +1,7 @@
+name: knative
+description: serverless for kubernetes
+category: DEVOPS
+icon: plural/icons/knative.png
+tags:
+  - tag: functions
+  - tag: serverless

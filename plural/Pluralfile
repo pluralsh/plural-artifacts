@@ -1,4 +1,5 @@
 REPO plural
+ATTRIBUTES Plural repository.yaml
 
 TF terraform/*
 HELM helm/plural

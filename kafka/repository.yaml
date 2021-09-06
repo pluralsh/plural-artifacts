@@ -1,0 +1,6 @@
+name: kafka
+description: high performance log database
+category: MESSAGING
+icon: plural/icons/kafka.png
+tags:
+  - tag: log

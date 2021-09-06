@@ -1,4 +1,5 @@
 REPO rabbitmq
+ATTRIBUTES Plural repository.yaml
 
 HELM helm/cluster-operator
 TF terraform/*

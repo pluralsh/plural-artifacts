@@ -1,0 +1,10 @@
+name: airflow
+description: DAG-based dependency aware job scheduler
+category: DATA
+icon: plural/icons/airflow.png
+oauthSettings:
+  uriFormat: https://{domain}/oauth-authorized/plural
+  authMethod: POST
+tags:
+- tag: apache
+- tag: data

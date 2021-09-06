@@ -1,0 +1,11 @@
+name: gitlab
+description: unified devops experience based on git
+category: DEVOPS
+icon: plural/icons/gitlab.png
+oauthSettings:
+  uriFormat: https://{domain}/users/auth/plural/callback
+  authMethod: BASIC
+tags:
+- tag: ci
+- tag: devops
+- tag: git

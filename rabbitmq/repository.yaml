@@ -1,0 +1,7 @@
+name: rabbitmq
+description: deploys the rabbitmq operator and associated monitoring
+category: MESSAGING
+icon: plural/icons/rabbitmq.png
+tags:
+- tag: operator
+- tag: queue

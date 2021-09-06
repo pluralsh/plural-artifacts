@@ -7,8 +7,8 @@ helm:
   helm/console: h1:0qXxC0fHWJLh1V0kAcaJ2J0BrhZsZGcDObadispCJEw=
 recipe:
   plural/recipe/console-aws.yaml: 6af27ee455fefb79ffb6cae601bea29f490e0a743805689f39fb5ada4398b7f7
-  plural/recipe/console-azure.yaml: 5e5e0996724ecf81b8fbc39224acb9b063cc20b666ab0ccc2e51614538e7a368
-  plural/recipe/console-gcp.yaml: e51423941bf15d89d30bd87af580a581ebfc9021bb5d2ad240288ae65dc84ed6
+  plural/recipe/console-azure.yaml: 0a4e433875bc9124ddb5025bb63f26b69000e90aedbf399c367bd981fef79c4c
+  plural/recipe/console-gcp.yaml: b494d03e07c321eb45aaad38c5b6a3006ca227e5a9f39f6ae9ba8596b0d379b1
 integration: {}
 crd: {}
 ird: {}
@@ -17,3 +17,5 @@ tag:
   plural/tags/terraform/aws.yml: b46befb9716e1f9ef21cec5ba614f4b1f039438af71c8e039140fdd64a67bb3d
   plural/tags/terraform/azure.yml: eb86a8273f31bda3c64704756f7d5d1c99c82ef048cf9b869c4be01f99a7431f
   plural/tags/terraform/gcp.yml: a5f9d2f77756067979a97968c715feb2a5c509805ee07a86aa32121e56ac976b
+attrs:
+  repository.yaml_Plural: jisqIwL6HMeAfV9pI2AT2sPTiLgjY5X49dqVx100py8=

@@ -1,0 +1,7 @@
+name: monitoring
+description: openmetrics suite for plural
+icon: plural/icons/monitoring.png
+category: DEVOPS
+tags:
+  - tag: prometheus
+  - tag: observability

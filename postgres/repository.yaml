@@ -1,0 +1,8 @@
+name: postgres
+description: postgres as a service for kubernetes
+icon: plural/icons/postgres.png
+category: DATABASE
+tags:
+  - tag: operator
+  - tag: rdbms
+  - tag: postgres

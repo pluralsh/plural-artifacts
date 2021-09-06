@@ -29,3 +29,5 @@ crd:
   plural/crds/kafkauser.yaml: dec1a867e43f8f77505265e4089d82804aaf517ba102a79a98bb48bf7140bd58:h1:9lrhYd0COOs+atOy8375t0EzacdAkTX/dzsRSHbAZVs=
 ird: {}
 tag: {}
+attrs:
+  repository.yaml_Plural: Zlg5bMDKgl4cFkw6v5BjiQjybmyIb3pjWCl0RDF0aDo=

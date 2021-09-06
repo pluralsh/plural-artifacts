@@ -1,0 +1,9 @@
+name: grafana
+description: open source metrics visualization
+category: DEVOPS
+icon: plural/icons/grafana.png
+oauthSettings:
+  uriFormat: https://{domain}/login/generic_oauth
+  authMethod: POST
+tags:
+- tag: observability

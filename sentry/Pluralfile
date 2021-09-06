@@ -1,4 +1,5 @@
 REPO sentry
+ATTRIBUTES Plural repository.yaml
 
 TF terraform/*
 HELM helm/*

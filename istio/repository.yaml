@@ -1,0 +1,6 @@
+name: istio
+description: envoy powered service mesh
+category: DEVOPS
+icon: plural/icons/istio.png
+tags:
+- tag: network

@@ -1,4 +1,5 @@
 REPO airflow
+ATTRIBUTES Plural repository.yaml
 
 TF terraform/*
 HELM helm/*

@@ -1,0 +1,6 @@
+name: mysql
+description: open source rdbms
+icon: plural/icons/mysql.png
+category: DATABASE
+tags:
+  - tag: rdbms

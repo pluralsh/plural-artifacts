@@ -1,7 +1,7 @@
 artifact: {}
 terraform:
-  terraform/aws: h1:JVZnYiIrpHroQOUz910iaLf4SrYFZFsHMOgx2kbkBWY=
-  terraform/azure: h1:5DVqMVceBibPQabiJAye4x/JZWQeOTAndXTt7y53jfE=
+  terraform/aws: h1:+hFbpwbaYgJSvqgGeU/unlAAN4aCPaspY3xIhVswJ5k=
+  terraform/azure: h1:ZEvkWMGPyjOVzT9LrDaqc1W9vvgA4NR0PNcFycRbrfE=
   terraform/gcp: h1:TZ1nwqtuIaCDhuTzyubQpNpRUcrASd64O0yAaRpHjkU=
 helm:
   helm/monitoring: h1:tcFuZ3277c4vlyQa3GNs4QZ6FODjpGDYKu1hcsdpLTU=
@@ -26,3 +26,5 @@ tag:
   plural/tags/terraform/aws.yaml: 01c402c260cc7fe359d1ebc4302ff11539cfabbd5a82745907ad445914153bb7
   plural/tags/terraform/azure.yaml: 86b17dc5dcbc7d877dddbda68b790231f9f7eaa025d00471360108ccd5f42a07
   plural/tags/terraform/gcp.yaml: 3761f7e078206cf85f48969d231071adfb3b68ee68b7c68a2b50045e896a3288
+attrs:
+  repository.yaml_Plural: M58dbHVQeTmHfj7bN7kMW0ixRSS7S4YdQqj5J1xCJ4c=
