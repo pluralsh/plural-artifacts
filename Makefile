@@ -109,3 +109,6 @@ upload-kubecost: # uploads kubecost artifacts
 
 upload-test: # uploads test artifacts
 	plural apply -f test/Pluralfile
+
+upload-etcd: # uploads etcd artifacts
+	plural apply -f etcd/Pluralfile

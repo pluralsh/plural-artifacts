@@ -1,0 +1,167 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "etcd.fullname" . }}-cluster-role
+  labels: {{- include "etcd.labels" . | nindent 4 }}
+rules:
+  - apiGroups:
+      - apps
+    resources:
+      - replicasets
+    verbs:
+      - create
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - events
+    verbs:
+      - create
+      - patch
+  - apiGroups:
+      - ""
+    resources:
+      - persistantvolumeclaims/status
+    verbs:
+      - create
+      - get
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - persistentvolumeclaims
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+    verbs:
+      - create
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - '*'
+  - apiGroups:
+      - ""
+    resources:
+      - serviceaccounts
+    verbs:
+      - create
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - services
+    verbs:
+      - create
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - etcd.improbable.io
+    resources:
+      - etcdbackups
+    verbs:
+      - create
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - etcd.improbable.io
+    resources:
+      - etcdbackups/status
+    verbs:
+      - get
+      - patch
+      - update
+  - apiGroups:
+      - etcd.improbable.io
+    resources:
+      - etcdbackupschedules
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - etcd.improbable.io
+    resources:
+      - etcdbackupschedules/status
+    verbs:
+      - get
+      - patch
+      - update
+  - apiGroups:
+      - etcd.improbable.io
+    resources:
+      - etcdclusters
+    verbs:
+      - create
+      - get
+      - list
+      - patch
+      - watch
+  - apiGroups:
+      - etcd.improbable.io
+    resources:
+      - etcdclusters/finalizers
+      - etcdclusters/status
+    verbs:
+      - get
+      - patch
+      - update
+  - apiGroups:
+      - etcd.improbable.io
+    resources:
+      - etcdpeers
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - watch
+  - apiGroups:
+      - etcd.improbable.io
+    resources:
+      - etcdpeers/finalizers
+      - etcdpeers/status
+    verbs:
+      - get
+      - patch
+      - update
+  - apiGroups:
+      - etcd.improbable.io
+    resources:
+      - etcdrestores
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - etcd.improbable.io
+    resources:
+      - etcdrestores/status
+    verbs:
+      - get
+      - patch
+      - update

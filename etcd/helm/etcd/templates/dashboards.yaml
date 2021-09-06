@@ -1,0 +1,82 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Dashboard
+metadata:
+  name: {{ include "etcd.fullname" . }}-overview-dashboard
+  labels: {{ include "etcd.labels" . | nindent 4 }}
+spec:
+  defaultTime: 1h
+  graphs:
+  - name: RPC Rate
+    queries:
+    - legend: RPC Rate
+      query: sum(rate(grpc_server_started_total{job=~"$cluster",grpc_type="unary"}[5m]))
+    - legend: RPC Failed Rate
+      query: sum(rate(grpc_server_handled_total{job=~"$cluster",grpc_type="unary",grpc_code!="OK"}[5m]))
+  - name: Active Streams
+    queries:
+    - legend: Watch Streams
+      query: sum(grpc_server_started_total{job=~"$cluster",grpc_service="etcdserverpb.Watch",grpc_type="bidi_stream"})
+        - sum(grpc_server_handled_total{job=~"$cluster",grpc_service="etcdserverpb.Watch",grpc_type="bidi_stream"})
+    - legend: Lease Streams
+      query: sum(grpc_server_started_total{job=~"$cluster",grpc_service="etcdserverpb.Lease",grpc_type="bidi_stream"})
+        - sum(grpc_server_handled_total{job=~"$cluster",grpc_service="etcdserverpb.Lease",grpc_type="bidi_stream"})
+  - name: DB Size
+    queries:
+    - legendFormat: $pod DB Size
+      query: etcd_mvcc_db_total_size_in_bytes{job="$cluster"}
+  - name: Disk Sync Duration
+    queries:
+    - legendFormat: $pod WAL fsync'
+      query: histogram_quantile(0.99, sum(rate(etcd_disk_wal_fsync_duration_seconds_bucket{job="$cluster"}[5m]))
+        by (pod, le))
+    - legendFormat: $pod DB fsync
+      query: histogram_quantile(0.99, sum(rate(etcd_disk_backend_commit_duration_seconds_bucket{job="$cluster"}[5m]))
+        by (pod, le))
+  - name: Memory
+    queries:
+    - legendFormat: $pod Resident Memory
+      query: process_resident_memory_bytes{job="$cluster"}
+  - name: Client Traffic In
+    queries:
+    - legendFormat: $pod Client Traffic In
+      query: rate(etcd_network_client_grpc_received_bytes_total{job="$cluster"}[5m])
+  - name: Client Traffic Out
+    queries:
+    - legendFormat: $pod Client Traffic Out
+      query: rate(etcd_network_client_grpc_sent_bytes_total{job="$cluster"}[5m])
+  - name: Peer Traffic In
+    queries:
+    - legendFormat: $pod Peer Traffic In
+      query: sum(rate(etcd_network_peer_received_bytes_total{job="$cluster"}[5m]))
+        by (pod)
+  - name: Peer Traffic Out
+    queries:
+    - legendFormat: $pod Peer Traffic Out
+      query: sum(rate(etcd_network_peer_sent_bytes_total{job="$cluster"}[5m])) by
+        (pod)
+  - name: Raft Proposals
+    queries:
+    - legend: Proposal Failure Rate
+      query: sum(rate(etcd_server_proposals_failed_total{job="$cluster"}[5m]))
+    - legend: Proposal Pending Total
+      query: sum(etcd_server_proposals_pending{job="$cluster"})
+    - legend: Proposal Commit Rate
+      query: sum(rate(etcd_server_proposals_committed_total{job="$cluster"}[5m]))
+    - legend: Proposal Apply Rate
+      query: sum(rate(etcd_server_proposals_applied_total{job="$cluster"}[5m]))
+  - name: Total Leader Elections Per Day
+    queries:
+    - legendFormat: $pod Total Leader Elections Per Day
+      query: changes(etcd_server_leader_changes_seen_total{job="$cluster"}[1d])
+  labels:
+  - name: cluster
+    query:
+      query: etcd_server_has_leader
+      label: job
+  name: Etcd - Overview
+  timeslices:
+  - 1h
+  - 2h
+  - 6h
+  - 1d
+  - 7d
