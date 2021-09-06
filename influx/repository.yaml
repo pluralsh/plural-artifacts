@@ -2,5 +2,8 @@ name: influx
 description: time series database and monitoring platform
 category: DATABASE
 icon: plural/icons/influx.png
+oauthSettings:
+  uriFormat: https://{domain}/oauth/plural/callback
+  authMethod: POST
 tags:
 - tag: monitoring
