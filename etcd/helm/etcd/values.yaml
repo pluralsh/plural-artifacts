@@ -1,0 +1,105 @@
+# Default values for etcd.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  controller:
+    repository: storageos/etcd-cluster-operator-controller
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: develop
+  proxy:
+    repository: storageos/etcd-cluster-operator-proxy
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: develop
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources:
+  controller:
+    limits:
+      cpu: 100m
+      memory: 100Mi
+    requests:
+      cpu: 100m
+      memory: 100Mi
+  proxy:
+    limits:
+      cpu: 100m
+      memory: 50Mi
+    requests:
+      cpu: 100m
+      memory: 50Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+metrics:
+  serviceMonitor:
+    enabled: true
+    namespace: ""
+    path: /metrics
+    interval: 30s
+    scrapeTimeout: ""
+    relabellings: []
+    additionalLabels: {}
+  grafanaDashboard:
+    enabled: true
+    # -- The Grafana sidecar should watch all namespace by default, so this setting usually should not be necessary
+    namespace: ""
+    additionalLabels:
+      # -- This is the default annotation used by the Grafana sidecar to get dashboards
+      grafana_dashboard: "etcd-cluster-dashboard"
+    additionalAnnotations:
+      # -- This annotation can be used to place dashboard into a folder in Grafana
+      k8s-sidecar-target-directory: /tmp/dashboards/Etcd Dashboards
