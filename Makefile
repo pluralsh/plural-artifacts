@@ -41,7 +41,7 @@ create-template:
 	echo "variable \"namespace\" {\n  type = string\n  default = \"$$application\"\n}" > ./$$application/terraform/aws/variables.tf; \
 	echo "variable \"namespace\" {\n  type = string\n  default = \"$$application\"\n}" > ./$$application/terraform/azure/variables.tf; \
 	echo "variable \"namespace\" {\n  type = string\n  default = \"$$application\"\n}" > ./$$application/terraform/gcp/variables.tf; \
-	echo "REPO $$application\n\nTF terraform/*\nHELM helm/*\nRECIPE plural/recipes/*\nTAG plural/tags/**/*\nCRD plural/crds/**/*" > ./$$application/Pluralfile; \
+	echo "REPO $$application\n\nTF terraform/*\nHELM helm/*\nRECIPE plural/recipes/*\nTAG plural/tags/**/*" > ./$$application/Pluralfile; \
 	echo "\nupload-$$application: # uploads $$application artifacts\n	plural apply -f $$application/Pluralfile" >> ./Makefile
 
 upload-airflow: # uploads airflow artifacts 
@@ -112,3 +112,6 @@ upload-test: # uploads test artifacts
 
 upload-etcd: # uploads etcd artifacts
 	plural apply -f etcd/Pluralfile
+
+upload-influx: # uploads influx artifacts
+	plural apply -f influx/Pluralfile

@@ -1,0 +1,6 @@
+name: influx
+description: time series database and monitoring platform
+category: DATABASE
+icon: plural/icons/influx.png
+tags:
+- tag: monitoring

@@ -1,0 +1,21 @@
+dependencies:
+- name: chronograf
+  repository: https://helm.influxdata.com/
+  version: 1.1.24
+- name: kapacitor
+  repository: https://helm.influxdata.com/
+  version: 1.3.1
+- name: telegraf-ds
+  repository: https://helm.influxdata.com/
+  version: 1.0.22
+- name: telegraf
+  repository: https://helm.influxdata.com/
+  version: 1.8.4
+- name: telegraf-operator
+  repository: https://helm.influxdata.com/
+  version: 1.3.0
+- name: influxdb
+  repository: https://helm.influxdata.com/
+  version: 4.10.0
+digest: sha256:e6aa936948e45fe4afb1d7b21690856afe43cc5b609b85e10cafb2ad313b67d8
+generated: "2021-09-05T19:38:19.125395-04:00"

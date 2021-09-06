@@ -1,0 +1,31 @@
+name: influx-azure
+description: Installs influx on an azure aks cluster
+provider: AZURE
+oidcSettings:
+  uriFormat: https://{domain}/oauth/plural/callback
+  authMethod: POST
+  domainKey: chronografHostname
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+sections:
+- name: influx
+  items:
+  - type: TERRAFORM
+    name: azure
+    configuration: []
+  - type: HELM
+    name: influx
+    configuration:
+    - name: enableChronograf
+      documentation: whether to deploy the chronograf web ui
+      type: BOOL
+    - name: chronografHostname
+      documentation: Fully Qualified Domain Name for the chronograf web ui
+      type: STRING
+    - name: enableKapacitor
+      documentation: whether to deploy kapacitor alerting
+      type: BOOL
+    - name: enableTelegraf
+      documentation: whether to deploy telegraf metrics collection
+      type: BOOL

@@ -1,0 +1,21 @@
+artifact: {}
+terraform:
+  terraform/aws: h1:A0v0ZQCsR7YlPoO1WotZC1yPSBsri+cwaPULoi7Ek7M=
+  terraform/azure: h1:SR1TElBo0OmA7cEKisckG+9IXmdDQKhSvqyewu4nb0Q=
+  terraform/gcp: h1:IE8CvtV7WiP+4jGRrvzPvky2ZugiuwKwFRvuz6n3gbM=
+helm:
+  helm/influx: h1:kswUdVhHS0e6fyjMJEdDt9mAUS63OWYgBfh2D8j1QKk=
+recipe:
+  plural/recipes/influx-aws.yaml: b33399dce7bf8185e4f6e7afc6c2d50344070cbeeee151d62718ee523e007dd4
+  plural/recipes/influx-azure.yaml: 97651b66b2e070a8c940357cdae1aee5311529da94c83cb6cee43674fe5dcb83
+  plural/recipes/influx-gcp.yaml: badbda07bb5403b79ab95423efe2b2b120d93761bcf38c5ba5b71b80fac9209c
+integration: {}
+crd: {}
+ird: {}
+tag:
+  plural/tags/helm/influx.yaml: aba302399de0ba1209bf57062ff137a1aabb7f174cbfea01e08a0be0706592de
+  plural/tags/terraform/aws.yaml: 01c402c260cc7fe359d1ebc4302ff11539cfabbd5a82745907ad445914153bb7
+  plural/tags/terraform/azure.yaml: 86b17dc5dcbc7d877dddbda68b790231f9f7eaa025d00471360108ccd5f42a07
+  plural/tags/terraform/gcp.yaml: 3761f7e078206cf85f48969d231071adfb3b68ee68b7c68a2b50045e896a3288
+attrs:
+  repository.yaml_Plural: Zw3aPyRfnkTo5DcqUnDGPcufTQYbqV9Er8OugLKfVLU=
