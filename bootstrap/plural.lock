@@ -10,7 +10,7 @@ helm:
   helm/plural-certmanager-webhook: h1:wlEH6Cob0ZCfY1QIGiX/lgf4DO9yJkq4IoinU56BsJM=
 recipe:
   plural/recipes/aws-k8s.yaml: 93780a3a2cf6f01efe01d8d67268b7de860d454b4d32cc22099301d541aeebb1
-  plural/recipes/azure-k8s.yaml: 2153a7807d93dbea14e9513e244496c13a3fd895d1082d3d3a9bcbb2cafec504
+  plural/recipes/azure-k8s.yaml: 87f04c431e2cd8e2320a53ac1925cd9481a562098b3dea0b1bb0cf4e0144b802
   plural/recipes/gcp-kubernetes.yaml: 22e1c7d5cb0a2e0f1034b657a2d9588b018fc26bfd6f259f18837676a401839e
 integration: {}
 crd:

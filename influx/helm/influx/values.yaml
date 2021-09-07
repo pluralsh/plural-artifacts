@@ -1,7 +1,17 @@
 kapacitor:
   influxURL: http://influxdb:8086
+  existingSecret: influxdb-auth
 
 chronograf:
+  image:
+    repository: dkr.plural.sh/influx/chronograf
+  persistence:
+    enabled: true
+  updateStrategy: 
+    type: Recreate
+  influxdb:
+    existingSecret: influxdb-auth
+
   ingress:
     enabled: true
     tls: true
@@ -12,7 +22,10 @@ chronograf:
       nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
       nginx.ingress.kubernetes.io/use-regex: "true"
     path: /.*
+  
 telegraf:
+  image:
+    repository: dkr.plural.sh/influx/telegraf
   config:
     outputs:
     - influxdb:
@@ -21,6 +34,8 @@ telegraf:
         database: telegraf
         
 telegraf-ds:
+  image:
+    repository: dkr.plural.sh/influx/telegraf
   config:
     outputs:
     - influxdb:
@@ -43,5 +58,7 @@ telegraf-operator:
           type = "infra"
 
 influxdb:
+  image:
+    repository: dkr.plural.sh/influx/influxdb
   initScripts:
     enabled: true

@@ -4,6 +4,8 @@ chronograf:
     hostname: {{ .Values.chronografHostname }}
   {{ if .OIDC }}
   oauth:
+    enabled: true
+    token_secret: {{ dedupe . "influx.chronograf.oauth.token_secret" (randAlphaNum 20) }}
     generic:
       enabled: true
       client_id: {{ .OIDC.ClientId }}

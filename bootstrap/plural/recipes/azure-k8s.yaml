@@ -14,10 +14,16 @@ sections:
       - type: HELM
         name: bootstrap
         configuration:
+          - name: pluralDns
+            documentation: use plural as your dns provider
+            type: BOOL
           - name: txt_owner
             documentation: Arbitrary name for externaldns to use to track ownership of dns records, eg "plural"
             type: STRING
             default: plural
+            condition:
+              operation: NOT
+              field: pluralDns
           - name: ownerEmail
             type: STRING
             documentation: Email to be used for certificate renewal notifications
