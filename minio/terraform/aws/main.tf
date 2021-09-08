@@ -51,8 +51,8 @@ resource "kubernetes_secret" "minio_s3_secret" {
     namespace = kubernetes_namespace.minio.id
   }
   data = {
-    "username" = aws_iam_access_key.minio.id
-    "password" = aws_iam_access_key.minio.secret
+    "access-key" = aws_iam_access_key.minio.id
+    "secret-key" = aws_iam_access_key.minio.secret
   }
 }
 
@@ -72,4 +72,15 @@ data "aws_iam_policy_document" "minio" {
       "arn:aws:s3:::${var.minio_bucket}/*"
     ]
   }
+
+  statement {
+    sid    = "AllowUserToSeeBucketListInTheConsole"
+    effect = "Allow"
+    actions = ["s3:ListAllMyBuckets", "s3:GetBucketLocation"]
+
+    resources = [
+      "arn:aws:s3:::*"
+    ]
+  }
+
 }
