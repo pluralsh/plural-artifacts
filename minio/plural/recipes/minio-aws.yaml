@@ -9,7 +9,10 @@ sections:
   items:
   - type: TERRAFORM
     name: aws
-    configuration: []
+    configuration:
+    - name: minio_bucket
+      type: STRING
+      documentation: bucket to store minio data
   - type: HELM
     name: minio
     configuration:
