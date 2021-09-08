@@ -107,11 +107,11 @@ upload-argo-cd: # uploads argo-cd artifacts
 upload-kubecost: # uploads kubecost artifacts
 	plural apply -f kubecost/Pluralfile
 
-upload-test: # uploads test artifacts
-	plural apply -f test/Pluralfile
-
 upload-etcd: # uploads etcd artifacts
 	plural apply -f etcd/Pluralfile
 
 upload-influx: # uploads influx artifacts
 	plural apply -f influx/Pluralfile
+
+upload-minio: # uploads minio artifacts
+	plural apply -f minio/Pluralfile
