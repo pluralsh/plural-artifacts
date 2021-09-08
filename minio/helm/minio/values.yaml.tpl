@@ -10,9 +10,5 @@ minio:
     type: "s3"
   envFrom:
   - secretRef:
-    name: minio-s3-secret
+      name: minio-s3-secret
 {{ end }}
-
-minio:
-  ingress: 
-    hostname: {{ .Values.hostname }}

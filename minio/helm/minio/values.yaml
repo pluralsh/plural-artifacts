@@ -104,7 +104,7 @@ minio:
   # Number of drives attached to a node
   drivesPerNode: 1
   # Number of MinIO containers running
-  replicas: 16
+  replicas: 1
   # Number of expanded MinIO clusters
   pools: 1
 
@@ -135,7 +135,7 @@ minio:
   ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
   ##
   persistence:
-    enabled: true
+    enabled: false
     annotations: {}
 
     ## A manually managed Persistent Volume and Claim
@@ -155,7 +155,7 @@ minio:
     storageClass: ""
     VolumeName: ""
     accessMode: ReadWriteOnce
-    size: 500Gi
+    size: 5Gi
 
     ## If subPath is set mount a sub folder of a volume instead of the root of the volume.
     ## This is especially handy for volume plugins that don't natively support sub mounting (like glusterfs).
@@ -182,8 +182,8 @@ minio:
       # node-role.kubernetes.io/ingress: platform
 
     annotations:
-      kubernetes.io/ingress.class: nginx
-      kubernetes.io/tls-acme: "true"
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
       # kubernetes.io/ingress.allow-http: "false"
       # kubernetes.io/ingress.global-static-ip-name: ""
       # nginx.ingress.kubernetes.io/secure-backends: "true"
@@ -251,7 +251,7 @@ minio:
   ##
   resources:
     requests:
-      memory: 16Gi
+      memory: 1Gi
 
   ## List of users to be created after minio install
   ##
