@@ -12,4 +12,7 @@ sections:
     configuration: []
   - type: HELM
     name: minio
-    configuration: []
+    configuration:
+    - name: hostname
+      documentation: Fully Qualified Domain Name to use for your minio installation, eg minio.topleveldomain.com if topleveldomain.com is the domain you inputed for dns_domain above.
+      type: STRING

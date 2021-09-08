@@ -1,3 +1,7 @@
+secret:
+  accessKey: ""
+  secretKey: ""
+
 ## @section Global parameters
 ## Global Docker image parameters
 ## Please, note that this will override the image parameters, including dependencies, configured to use the global value
@@ -385,13 +389,13 @@ minio:
   ingress:
     ## @param ingress.enabled Enable ingress controller resource
     ##
-    enabled: false
+    enabled: true
     ## @param ingress.certManager Set this to true in order to add the corresponding annotations for cert-manager
     ##
     certManager: false
     ## @param ingress.apiVersion Force Ingress API version (automatically detected if not set)
     ##
-    apiVersion: ""
+    apiVersion: networking.k8s.io/v1
     ## @param ingress.hostname Default host for the ingress resource
     ##
     hostname: minio.local
@@ -411,12 +415,14 @@ minio:
     ##
     ## If certManager is set to true, annotation kubernetes.io/tls-acme: "true" will automatically be set
     ##
-    annotations: {}
+    annotations:
+      kubernetes.io/ingress.class: "nginx"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
     ## @param ingress.tls Enable TLS configuration for the hostname defined at `ingress.hostname` parameter
     ## TLS certificates will be retrieved from a TLS secret with name: {{- printf "%s-tls" .Values.ingress.hostname }}
     ## You can use the ingress.secrets parameter to create this TLS secret or relay on cert-manager to create it
     ##
-    tls: false
+    tls: true
     ## @param ingress.extraHosts The list of additional hostnames to be covered with this ingress record.
     ## Most likely the hostname above will be enough, but in the event more hosts are needed, this is an array
     ## e.g:
@@ -598,7 +604,7 @@ minio:
     serviceMonitor:
       ## @param metrics.serviceMonitor.enabled If the operator is installed in your cluster, set to true to create a Service Monitor Entry
       ##
-      enabled: false
+      enabled: true
       ## @param metrics.serviceMonitor.namespace Namespace which Prometheus is running in
       ##
       namespace: ""
@@ -628,7 +634,7 @@ minio:
   gateway:
     ## @param gateway.enabled Use MinIO&reg; as Gateway for other storage systems
     ##
-    enabled: false
+    enabled: true
     ## @param gateway.type Gateway type. Supported types are: `azure`, `gcs`, `nas`, `s3`
     ## ref: https://docs.minio.io/docs/minio-gateway-for-azure
     ## ref: https://docs.minio.io/docs/minio-gateway-for-gcs
