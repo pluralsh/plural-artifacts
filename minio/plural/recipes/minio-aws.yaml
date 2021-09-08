@@ -1,0 +1,21 @@
+name: minio-aws
+description: Installs minio on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+sections:
+- name: minio
+  items:
+  - type: TERRAFORM
+    name: aws
+    configuration:
+    - name: minio_bucket
+      type: STRING
+      documentation: bucket to store minio data
+  - type: HELM
+    name: minio
+    configuration:
+    - name: hostname
+      documentation: Fully Qualified Domain Name to use for your minio installation, eg minio.topleveldomain.com if topleveldomain.com is the domain you inputed for dns_domain above.
+      type: STRING
