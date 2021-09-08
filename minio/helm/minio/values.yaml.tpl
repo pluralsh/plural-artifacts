@@ -1,18 +1,16 @@
-{{ if eq .Provider "aws" }}
-{{ $minioNamespace := namespace "minio" }}
-{{ $awsCreds := secret $minioNamespace "minio-s3-secret" }}
 secret:
-  accessKey: {{ ( index $awsCreds "access-key") }}
-  secretKey: {{ ( index $awsCreds "secret-key") }}
+  rootUser: {{ dedupe . "minio.secrets.rootUser" (randAlphaNum 20) }}
+  rootPassword: {{ dedupe . "minio.secrets.rootUser" (randAlphaNum 30) }}
 
+
+{{ if eq .Provider "aws" }}
 minio:
+  mode: gateway
   gateway:
-    enabled: true
-    auth:
-      s3:
-        accessKey: {{ ( index $awsCreds "access-key") }}
-        secretKey: {{ ( index $awsCreds "secret-key") }}
-        serviceEndpoint: https://s3.amazonaws.com
+    type: "s3"
+  envFrom:
+  - secretRef:
+    name: minio-s3-secret
 {{ end }}
 
 minio:

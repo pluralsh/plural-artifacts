@@ -51,8 +51,8 @@ resource "kubernetes_secret" "minio_s3_secret" {
     namespace = kubernetes_namespace.minio.id
   }
   data = {
-    "access-key" = aws_iam_access_key.minio.id
-    "secret-key" = aws_iam_access_key.minio.secret
+    "AWS_ACCESS_KEY_ID" = aws_iam_access_key.minio.id
+    "AWS_SECRET_ACCESS_KEY" = aws_iam_access_key.minio.secret
   }
 }
 
