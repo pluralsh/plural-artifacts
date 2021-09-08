@@ -1,0 +1,22 @@
+name: azure-grafana
+description: Installs grafana on an AKS cluster
+provider: AZURE
+oidcSettings:
+  authMethod: POST
+  uriFormat: https://{domain}/login/generic_oauth
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+sections:
+- name: grafana
+  items:
+  - type: TERRAFORM
+    name: azure
+    configuration: []
+  - type: HELM
+    name: grafana
+    configuration:
+    - name: hostname
+      documentation: FQDN to use for your grafana installation
+      type: STRING
