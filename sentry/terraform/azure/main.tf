@@ -1,4 +1,4 @@
-resource "kubernetes_namespace" "console" {
+resource "kubernetes_namespace" "sentry" {
   metadata {
     name = var.namespace
 

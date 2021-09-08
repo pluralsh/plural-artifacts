@@ -21,9 +21,9 @@ sentry:
       bucketName: {{ .Values.filestoreBucket }}
       region_name: "us-east-1"
       {{ $sentryNamespace := namespace "sentry" }}
-      {{ $creds := secret $sentryNamespace "sentry-s3-secret" }}
-      accessKey: {{ $creds.AWS_ACCESS_KEY_ID }}
-      secretKey: {{ $creds.AWS_SECRET_ACCESS_KEY }}
+      {{ $sentryCreds := secret $sentryNamespace "sentry-s3-secret" }}
+      accessKey: {{ $sentryCreds.AWS_ACCESS_KEY_ID }}
+      secretKey: {{ $sentryCreds.AWS_SECRET_ACCESS_KEY }}
       endpointUrl: {{ printf "https://%s" .Configuration.minio.hostname }}
   {{ end }}
   {{ if eq .Provider "aws" }}
@@ -55,14 +55,15 @@ sentry:
   serviceAccount:
     {{ if eq .Provider "google" }}
     create: false
-    {{ end }}
-    {{ if eq .Provider "aws" }}
+    {{ else if eq .Provider "aws" }}
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-sentry"
+    {{ else }}
+    annotations: {}
     {{ end }}
 
   {{ $rabbitNamespace := namespace "rabbitmq" }}
-  {{ $creds := dedupeObj . "sentry.sentry.rabbitmq.auth" (secret $rabbitNamespace "rabbitmq-default-user") }}
+  {{ $creds := secret $rabbitNamespace "rabbitmq-default-user" }}
   rabbitmq:
     host: rabbitmq.{{ $rabbitNamespace }}
     auth:
