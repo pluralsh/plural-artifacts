@@ -15,6 +15,17 @@ sentry:
     gcs:
       bucketName: {{ .Values.filestoreBucket }}
   {{ end }}
+  {{ if eq .Provider "azure" }}
+    backend: s3
+    s3:
+      bucketName: {{ .Values.filestoreBucket }}
+      region_name: "us-east-1"
+      {{ $sentryNamespace := namespace "sentry" }}
+      {{ $creds := secret $sentryNamespace "sentry-s3-secret" }}
+      accessKey: {{ $creds.AWS_ACCESS_KEY_ID }}
+      secretKey: {{ $creds.AWS_SECRET_ACCESS_KEY }}
+      endpointUrl: {{ printf "https://%s" .Configuration.minio.hostname }}
+  {{ end }}
   {{ if eq .Provider "aws" }}
     backend: s3
     s3:
@@ -45,8 +56,10 @@ sentry:
     {{ if eq .Provider "google" }}
     create: false
     {{ end }}
+    {{ if eq .Provider "aws" }}
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-sentry"
+    {{ end }}
 
   {{ $rabbitNamespace := namespace "rabbitmq" }}
   {{ $creds := dedupeObj . "sentry.sentry.rabbitmq.auth" (secret $rabbitNamespace "rabbitmq-default-user") }}
