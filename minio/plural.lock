@@ -1,0 +1,19 @@
+artifact: {}
+terraform:
+  terraform/aws: h1:IpDl6DvoLdBZZom5t/PWiM33JLKRM58ouMd+GP+bN9I=
+  terraform/azure: h1:h1444Ty5X8vk5l5seV0le0fUERtoS6JJj8lb95LM1Dw=
+  terraform/gcp: h1:otiyICEazr8I7Z4s5wSr3MPWAzXXKULv+O8c7ufEKvw=
+helm:
+  helm/minio: h1:DBVG7qjk64MMPcOv/w5oe/0BwD+QFfe75XpH3XlNtks=
+recipe:
+  plural/recipes/minio-aws.yaml: 783941e53729a1d65d6511ea8deb5d637083b1d79d3a0dd19aa716bf40d172e1
+  plural/recipes/minio-azure.yaml: cb6bf8ace1c5754c5dbb106341a035ac648c6961cdcc2ea7a445f421035347fe
+  plural/recipes/minio-gcp.yaml: 161d04a9a491a7bbc70eb667316123434d01dec58f4c5a5664ca03bbd3c0d4a8
+integration: {}
+crd: {}
+ird: {}
+tag:
+  plural/tags/helm/minio.yaml: a874ce6addd8ebd36c065b552cde4c5ad48ea6e42db4b25a94b8a4b3d1583804
+  plural/tags/terraform/aws.yaml: 01c402c260cc7fe359d1ebc4302ff11539cfabbd5a82745907ad445914153bb7
+  plural/tags/terraform/azure.yaml: 86b17dc5dcbc7d877dddbda68b790231f9f7eaa025d00471360108ccd5f42a07
+  plural/tags/terraform/gcp.yaml: 3761f7e078206cf85f48969d231071adfb3b68ee68b7c68a2b50045e896a3288

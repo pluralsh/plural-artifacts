@@ -7,6 +7,7 @@ secret:
 {{ $awsCreds := secret $minioNamespace "minio-secret" }}
 minio:
   gateway:
+    enabled: true
     auth:
       s3:
         accessKey: {{ ( index $awsCreds "access-key") }}

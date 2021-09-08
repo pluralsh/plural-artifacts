@@ -634,7 +634,7 @@ minio:
   gateway:
     ## @param gateway.enabled Use MinIO&reg; as Gateway for other storage systems
     ##
-    enabled: true
+    enabled: false
     ## @param gateway.type Gateway type. Supported types are: `azure`, `gcs`, `nas`, `s3`
     ## ref: https://docs.minio.io/docs/minio-gateway-for-azure
     ## ref: https://docs.minio.io/docs/minio-gateway-for-gcs
