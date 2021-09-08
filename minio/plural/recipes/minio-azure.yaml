@@ -1,0 +1,15 @@
+name: minio-azure
+description: Installs minio on an azure aks cluster
+provider: AZURE
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+sections:
+- name: minio
+  items:
+  - type: TERRAFORM
+    name: azure
+    configuration: []
+  - type: HELM
+    name: minio
+    configuration: []

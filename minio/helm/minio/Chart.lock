@@ -1,0 +1,6 @@
+dependencies:
+- name: minio
+  repository: file://../../../../minio/helm/minio
+  version: 3.0.2
+digest: sha256:cda676944acd08f05f799fbadda838058b534de5e636a5c57fcb60b3166641ee
+generated: "2021-09-06T13:01:38.108784993+02:00"
