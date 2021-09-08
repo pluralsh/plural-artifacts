@@ -9,6 +9,10 @@ spec:
     name: bootstrap
     repo: bootstrap
     version: '>= 0.5.1'
+  - type: helm
+    name: etcd
+    repo: etcd
+    version: '>= 0.1.13'
   - type: terraform
     name: aws
     repo: minio

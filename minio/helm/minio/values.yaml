@@ -111,7 +111,7 @@ minio:
   # Deploy if 'mode == gateway' - 4 replicas.
   gateway:
     type: "s3" # currently only "nas" is supported.
-    replicas: 4
+    replicas: 1
     s3:
       serviceEndpoint: https://s3.amazonaws.com
     gcs:
@@ -313,6 +313,7 @@ minio:
   ## Use this field to add environment variables relevant to MinIO server. These fields will be passed on to MinIO container(s)
   ## when Chart is deployed
   environment:
+    MINIO_ETCD_ENDPOINTS: http://minio-etcd.minio:2379
     ## Please refer for comprehensive list https://docs.min.io/minio/baremetal/reference/minio-server/minio-server.html
     ## MINIO_SUBNET_LICENSE: "License key obtained from https://subnet.min.io"
     ## MINIO_BROWSER: "off"
