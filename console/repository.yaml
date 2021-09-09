@@ -3,6 +3,7 @@ description: plural admin console
 category: DEVOPS
 icon: plural/icons/console-logo.png
 darkIcon: plural/icons/console-white.png
+notes: plural/notes.tpl
 oauthSettings:
   uriFormat: https://{domain}/oauth/callback
   authMethod: POST

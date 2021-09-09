@@ -2,6 +2,7 @@ name: sentry
 description: error monitoring for multiple languages and platforms
 icon: plural/icons/sentry.png
 category: DEVOPS
+notes: plural/notes.tpl
 oauthSettings:
   uriFormat: https://{domain}/auth/sso/
   authMethod: POST

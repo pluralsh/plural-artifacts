@@ -50,6 +50,10 @@ crons:
   cronModule: Prune.Passwordless
   crontab: "0 10 * * *"
   envVars: []
+- cronName: plrl-prune-queues
+  cronModule: Prune.Queues
+  crontab: "0 15 * * *"
+  envVars: []
 
 hydraSecrets:
   dsn: memory

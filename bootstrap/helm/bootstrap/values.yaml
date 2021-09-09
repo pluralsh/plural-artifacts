@@ -124,6 +124,7 @@ cluster-autoscaler:
   enabled: false
   extraArgs:
     "scale-down-utilization-threshold": 0.75
+    "skip-nodes-with-local-storage": false
   serviceMonitor:
     enabled: true
     namespace: ""

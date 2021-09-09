@@ -2,6 +2,7 @@ name: grafana
 description: open source metrics visualization
 category: DEVOPS
 icon: plural/icons/grafana.png
+notes: plural/notes.tpl
 oauthSettings:
   uriFormat: https://{domain}/login/generic_oauth
   authMethod: POST
