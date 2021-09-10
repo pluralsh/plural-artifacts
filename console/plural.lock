@@ -1,13 +1,13 @@
 artifact: {}
 terraform:
-  terraform/aws: h1:9/KsH0dWMpcHQtqZJuuLClL6sLSrcn+vLLTRUUyrM4c=
-  terraform/azure: h1:ZroEiBilMYZiDU8PF6I+5qUIEZmUKrqFN61DGJ2QAP4=
-  terraform/gcp: h1:YTL+42F9w18tifkJSdhgEX6MYoGLTwTYGbm5R6tVVew=
+  terraform/aws: h1:FVInZi+LvO9re8hA+WAn/7laxMCWofwAFKbAPz+j4yE=
+  terraform/azure: h1:ZGPWr2FsR4MfT2TJA/q13zEP0EimGsH8Xqvg9qMbj94=
+  terraform/gcp: h1:dNW+CnPj0c6GaxXvJaofzpoVBt2Klk0KNawe9Rypkow=
 helm:
   helm/console: h1:0qXxC0fHWJLh1V0kAcaJ2J0BrhZsZGcDObadispCJEw=
 recipe:
   plural/recipe/console-aws.yaml: 6af27ee455fefb79ffb6cae601bea29f490e0a743805689f39fb5ada4398b7f7
-  plural/recipe/console-azure.yaml: 0a4e433875bc9124ddb5025bb63f26b69000e90aedbf399c367bd981fef79c4c
+  plural/recipe/console-azure.yaml: f226d435bb0436de77cc6bedac84109d2e1bdeacd5dad5fa08316c3e14cd34f4
   plural/recipe/console-gcp.yaml: b494d03e07c321eb45aaad38c5b6a3006ca227e5a9f39f6ae9ba8596b0d379b1
 integration: {}
 crd: {}

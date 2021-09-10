@@ -4,6 +4,8 @@ provider: AWS
 dependencies:
 - repo: bootstrap
   name: aws-k8s
+- repo: etcd
+  name: etcd-aws
 sections:
 - name: minio
   items:
@@ -17,5 +19,8 @@ sections:
     name: minio
     configuration:
     - name: hostname
-      documentation: Fully Qualified Domain Name to use for your minio installation, eg minio.topleveldomain.com if topleveldomain.com is the domain you inputed for dns_domain above.
+      documentation: Fully Qualified Domain Name to use for your minio gateway installation, eg minio.topleveldomain.com if topleveldomain.com is the domain you inputed for dns_domain above.
+      type: STRING
+    - name: consoleHostname
+      documentation: Fully Qualified Domain Name to use for your minio console installation, eg minio.topleveldomain.com if topleveldomain.com is the domain you inputed for dns_domain above.
       type: STRING

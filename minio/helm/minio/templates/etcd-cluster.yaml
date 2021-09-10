@@ -7,7 +7,7 @@ spec:
   version: 3.5.0
   storage:
     volumeClaimTemplate:
-      storageClassName: "gp2"
+      storageClassName: {{ .Values.storageClass }}
       resources:
         requests:
           storage: 1Gi

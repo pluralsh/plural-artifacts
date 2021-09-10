@@ -4,6 +4,8 @@ provider: GCP
 dependencies:
 - repo: bootstrap
   name: gcp-kubernetes
+- repo: etcd
+  name: etcd-gcp
 sections:
 - name: minio
   items:
@@ -12,4 +14,10 @@ sections:
     configuration: []
   - type: HELM
     name: minio
-    configuration: []
+    configuration:
+    - name: hostname
+      documentation: Fully Qualified Domain Name to use for your minio gateway installation, eg minio.topleveldomain.com if topleveldomain.com is the domain you inputed for dns_domain above.
+      type: STRING
+    - name: consoleHostname
+      documentation: Fully Qualified Domain Name to use for your minio console installation, eg minio.topleveldomain.com if topleveldomain.com is the domain you inputed for dns_domain above.
+      type: STRING

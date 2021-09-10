@@ -1,6 +1,6 @@
 variable "namespace" {
   type = string
-  default = "airflow"
+  default = "postgres"
 }
 
 variable "wal_bucket" {
