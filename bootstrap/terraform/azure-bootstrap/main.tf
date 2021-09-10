@@ -20,6 +20,10 @@ module "aks" {
   network_plugin                   = "azure"
   vnet_subnet_id                   = module.network.vnet_subnets[0]
   os_disk_size_gb                  = var.os_disk_size
+  os_disk_type                     = var.os_disk_type
+  enable_role_based_access_control = true
+  rbac_aad_enabled                 = false 
+  rbac_aad_managed                 = false
   sku_tier                         = "Paid"
   private_cluster_enabled          = var.private_cluster
   enable_http_application_routing  = true
