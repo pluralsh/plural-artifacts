@@ -29,5 +29,45 @@ provider "minio" {
 
 resource "minio_s3_bucket" "wal" {
   bucket = var.wal_bucket
-  acl    = "public"
+}
+
+data "minio_iam_policy_document" "postgres" {
+  statement {
+    sid    = "admin"
+    effect = "Allow"
+    actions = ["s3:*"]
+
+    resources = [
+      "arn:aws:s3:::${var.wal_bucket}",
+      "arn:aws:s3:::${var.wal_bucket}/*"
+    ]
+  }
+}
+resource "minio_iam_policy" "postgres" {
+  name = "minio-postgres"
+  policy    = data.minio_iam_policy_document.postgres.json
+
+}
+
+resource "minio_iam_user" "postgres" {
+  name = "postgres"
+}
+
+resource "minio_iam_user_policy_attachment" "postgres" {
+  user_name      = minio_iam_user.postgres.id
+  policy_name = minio_iam_policy.postgres.id
+}
+
+resource "kubernetes_secret" "postgres_s3_secret" {
+  metadata {
+    name = "postgres-s3-secret"
+    namespace = kubernetes_namespace.postgres.id
+  }
+  data = {
+    "AWS_SDK_LOAD_CONFIG" = "1"
+    "USE_WALG_BACKUP" = "true"
+    "USE_WALG_RESTORE" = "true"
+    "AWS_ACCESS_KEY_ID" = minio_iam_user.postgres.id
+    "AWS_SECRET_ACCESS_KEY" = minio_iam_user.postgres.secret
+  }
 }
