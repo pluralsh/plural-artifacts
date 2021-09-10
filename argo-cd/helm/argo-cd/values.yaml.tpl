@@ -1,6 +1,27 @@
 {{ $hostname := default "example.com" .Values.hostname }}
+{{ $redisNamespace := namespace "redis" }}
 argo-cd:
+  controller:
+    extraArgs:
+      - --redis=redis-master.{{ $redisNamespace }}:6379
+      - --redisdb=2
+    envFrom:
+      - secretRef:
+          name: redis-secret
+  repoServer:
+    extraArgs:
+      - --redis=redis-master.{{ $redisNamespace }}:6379
+      - --redisdb=4
+    envFrom:
+      - secretRef:
+          name: redis-secret
   server:
+    extraArgs:
+      - --redis=redis-master.{{ $redisNamespace }}:6379
+      - --redisdb=3
+    envFrom:
+      - secretRef:
+          name: redis-secret
     certificate:
       domain: {{ $hostname }}
     ingress:
@@ -66,3 +87,14 @@ argo-cd:
       {{ .Values.privateRepoName }}:
         url: {{ .Values.privateRepoURL }}
     {{ end }}
+
+{{ $creds := secret $redisNamespace "redis-password" }}
+redisPassword: {{ $creds.password }}
+
+{{ if .Values.enableImageUpdater }}
+argocd-image-updater:
+  enabled: true
+  config:
+    argocd:
+      serverAddress: {{ $hostname }}
+{{ end }}
