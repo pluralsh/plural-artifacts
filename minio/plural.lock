@@ -4,7 +4,7 @@ terraform:
   terraform/azure: h1:os+ttGQ8TeC4EDQE/pwAxIyGylkAkAGWRIQjhoFDYgc=
   terraform/gcp: h1:otiyICEazr8I7Z4s5wSr3MPWAzXXKULv+O8c7ufEKvw=
 helm:
-  helm/minio: h1:pQ6GIUTB6hRAOLr2/H5+mK8+9BMPTJzj0YtwS/nxprg=
+  helm/minio: h1:Mx+sTHYnliONOqczu896K6jtOnnSxhk4UQkWVnM+bLk=
 recipe:
   plural/recipes/minio-aws.yaml: 145cf39b269b1f27515a0948c421879e2b2391ead8a037b28e6d52f8e6796170
   plural/recipes/minio-azure.yaml: f7eb06a093dbe91358a00b63bab4475f22c31ebc89ba41dd9b5f785860229d68

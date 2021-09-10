@@ -1,6 +1,6 @@
 secret:
   rootUser: {{ dedupe . "minio.secret.rootUser" (randAlphaNum 20) }}
-  rootPassword: {{ dedupe . "minio.secret.rootUser" (randAlphaNum 30) }}
+  rootPassword: {{ dedupe . "minio.secret.rootPassword" (randAlphaNum 30) }}
 
 
 {{ if eq .Provider "aws" }}
