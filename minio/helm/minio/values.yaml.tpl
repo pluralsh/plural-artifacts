@@ -2,30 +2,28 @@ secret:
   rootUser: {{ dedupe . "minio.secret.rootUser" (randAlphaNum 20) }}
   rootPassword: {{ dedupe . "minio.secret.rootPassword" (randAlphaNum 30) }}
 
-
-{{ if eq .Provider "aws" }}
-storageClass: gp2
-minio:
-  mode: gateway
-  gateway:
-    type: "s3"
-  envFrom:
-  - secretRef:
-      name: minio-s3-secret
-{{ end }}
-
-{{ if eq .Provider "azure" }}
+{{- if eq .Provider "azure" }}
 storageClass: "managed-csi-premium"
+{{- else if eq .Provider "aws" }}
+storageClass: gp2
+{{- end }}
+
 minio:
+  {{- if eq .Provider "azure" }}
   mode: gateway
   gateway:
     type: "azure"
   envFrom:
   - secretRef:
       name: minio-azure-secret
-{{ end }}
-
-minio:
+  {{- else if eq .Provider "aws" }}
+  mode: gateway
+  gateway:
+    type: "s3"
+  envFrom:
+  - secretRef:
+      name: minio-s3-secret
+  {{- end }}
   ingress:
     enabled: true
     hosts:
