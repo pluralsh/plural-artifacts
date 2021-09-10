@@ -38,3 +38,7 @@ sections:
     - name: privateRepoURL
       documentation: URL of the private repository
       type: STRING
+    - name: enableImageUpdater
+      type: BOOL
+      documentation: Enable the Argo CD Image Updater
+      default: true

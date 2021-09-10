@@ -66,3 +66,11 @@ argo-cd:
       {{ .Values.privateRepoName }}:
         url: {{ .Values.privateRepoURL }}
     {{ end }}
+
+{{ if .Values.enableImageUpdater }}
+argocd-image-updater:
+  enabled: true
+  config:
+    argocd:
+      serverAddress: {{ $hostname }}
+{{ end }}
