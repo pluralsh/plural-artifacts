@@ -340,7 +340,7 @@ argo-cd:
 
   ## Redis
   redis:
-    enabled: true
+    enabled: false
     name: redis
 
     image:
@@ -1218,7 +1218,7 @@ argo-cd:
     enabled: false
 
 argocd-image-updater:
-  enabled: false
+  enabled: true
   config:
     argocd:
       applicationsAPI: "kubernetes"
