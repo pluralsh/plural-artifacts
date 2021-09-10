@@ -35,12 +35,12 @@ variable "private_cluster" {
 
 variable "min_nodes" {
   type = number
-  default = 2
+  default = 3
 }
 
 variable "max_nodes" {
   type = number
-  default = 5
+  default = 25
 }
 
 variable "dns_zone_name" {
