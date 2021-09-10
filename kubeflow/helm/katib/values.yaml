@@ -1,0 +1,194 @@
+# Default values for katib.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+global:
+  istioNamespace: istio
+  clusterDomain: cluster.local
+  userIDHeader: kubeflow-userid
+  userIDPrefix: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+webApp:
+  replicaCount: 1
+  image:
+    repository: docker.io/kubeflowkatib/katib-new-ui
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: v0.11.1
+  podAnnotations:
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+    sidecar.istio.io/inject: "true"
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  service:
+    port: 80
+
+  virtualService:
+    annotations: {}
+    prefix: /katib
+    gateways:
+      - kubeflow-gateway
+    hosts:
+      - '*'
+  resources:
+    requests:
+      cpu: 32m
+      memory: 128Mi
+    limits:
+      cpu: 32m
+      memory: 128Mi
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+controller:
+  istio:
+    enabled: true
+    gateway: kubeflow/kubeflow-gateway
+
+  image:
+    repository: docker.io/kubeflowkatib/katib-controller
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: v0.11.1
+
+  replicaCount: 1
+
+  podAnnotations:
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+    prometheus.io/port: "8080"
+    prometheus.io/scheme: http
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /metrics
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+  
+  resources:
+    requests:
+      cpu: 32m
+      memory: 128Mi
+    limits:
+      cpu: 32m
+      memory: 128Mi
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  service:
+    webhook:
+      port: 8443
+    metrics:
+      port: 8080
+
+dbManager:
+  image:
+    repository: docker.io/kubeflowkatib/katib-db-manager
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: v0.11.1
+
+  replicaCount: 1
+
+  service:
+    port: 6789
+
+  podAnnotations:
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+    sidecar.istio.io/inject: "true"
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  resources:
+    requests:
+      cpu: 32m
+      memory: 128Mi
+    limits:
+      cpu: 32m
+      memory: 128Mi
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+  
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  dbPassword: something-secret
+  dbUser: katib
+
+  config:
+    secret:
+      name: katib-db-user
+      userKey: USERNAME
+      passwordKey: PASSWORD
+    database:
+      name: katib
+      host: kubeflow-mysql-cluster-mysql-master.kubeflow.svc.cluster.local
+      port: 3306

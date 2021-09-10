@@ -1,0 +1,34 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ include "volumes.fullname" . }}-web-app
+  namespace: kubeflow
+  labels: {{- include "volumes.labels" . | nindent 4 }}
+  {{- with .Values.webApp.virtualService.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  gateways:
+    {{- range .Values.webApp.virtualService.gateways }}
+    - {{ . | quote }}
+    {{- end }}
+  hosts:
+    {{- range .Values.webApp.virtualService.hosts }}
+    - {{ . | quote }}
+    {{- end }}
+  http:
+    - headers:
+        request:
+          add:
+            x-forwarded-prefix: {{ .Values.webApp.virtualService.prefix }}
+      match:
+        - uri:
+            prefix: {{ .Values.webApp.virtualService.prefix }}/
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: {{ include "volumes.fullname" . }}-web-app.kubeflow.svc.{{ .Values.global.clusterDomain }}
+            port:
+              number: {{ .Values.webApp.service.port }}

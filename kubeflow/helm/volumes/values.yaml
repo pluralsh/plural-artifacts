@@ -1,0 +1,134 @@
+# Default values for volumes.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+global:
+  istioNamespace: istio
+  clusterDomain: cluster.local
+  userIDHeader: kubeflow-userid
+  userIDPrefix: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+webApp:
+  replicaCount: 1
+
+  image:
+    repository: davidspek/volumes-web-app
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: 0.5.2 # newer version with snapshot support causes error due to missing snapshot class
+  
+  podAnnotations:
+    sidecar.istio.io/inject: "true"
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  service:
+    port: 80
+
+  virtualService:
+    annotations: {}
+    prefix: /volumes
+    gateways:
+      - kubeflow-gateway
+    hosts:
+      - '*'
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 225Mi
+    limits:
+      cpu: 100m
+      memory: 225Mi
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+controller:
+
+  rwoScheduling:
+    enabled: true
+
+  replicaCount: 1
+
+  image:
+    repository: davidspek/kubeflow-pvcviewer-controller
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: 0.7
+
+  service:
+    port: 8080
+
+  podAnnotations:
+    sidecar.istio.io/inject: "true"
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+    prometheus.io/port: "8080"
+    prometheus.io/scheme: http
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /metrics
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  resources:
+    requests:
+      cpu: 11m
+      memory: 53Mi
+    limits:
+      cpu: 11m
+      memory: 53Mi
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}

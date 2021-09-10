@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "notebooks.fullname" . }}-web-app
+  labels:
+    {{- include "notebooks.labels" . | nindent 4 }}
+  namespace: kubeflow
+spec:
+  {{- if not .Values.webApp.autoscaling.enabled }}
+  replicas: {{ .Values.webApp.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "notebooks.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.webApp.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "notebooks.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "notebooks.serviceAccountName" . }}-web-app
+      securityContext:
+        {{- toYaml .Values.webApp.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}-web-app
+          securityContext:
+            {{- toYaml .Values.webApp.securityContext | nindent 12 }}
+          image: "{{ .Values.webApp.image.repository }}:{{ .Values.webApp.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.webApp.image.pullPolicy }}
+          ports:
+            - name: website
+              containerPort: 5000
+              protocol: TCP
+          # livenessProbe:
+          #   httpGet:
+          #     path: / # TODO: check if this is correct
+          #     port: website
+          # readinessProbe:
+          #   httpGet:
+          #     path: / # TODO: check if this is correct
+          #     port: website
+          resources:
+            {{- toYaml .Values.webApp.resources | nindent 12 }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "notebooks.fullname" . }}-web-app-parameters
+          volumeMounts:
+            - mountPath: /etc/config
+              name: config-volume
+            - mountPath: /src/apps/default/static/assets/logos
+              name: logos-volume
+      volumes:
+        - configMap:
+            name: {{ include "notebooks.fullname" . }}-web-app-config
+          name: config-volume
+        - configMap:
+            name: {{ include "notebooks.fullname" . }}-web-app-logos
+          name: logos-volume
+      {{- with .Values.webApp.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.webApp.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.webApp.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

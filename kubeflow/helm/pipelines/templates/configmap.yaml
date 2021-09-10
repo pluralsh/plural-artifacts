@@ -1,0 +1,29 @@
+apiVersion: v1
+data:
+  appName: pipeline
+  appVersion: 1.6.0
+  autoUpdatePipelineDefaultVersion: "true"
+  bucketHost: s3.amazonaws.com
+  bucketRegion: us-east-2
+  bucketName: pipelines-bucket
+  bucketPipelineFolder: "pipelines"
+  bucketPipelinePath: "pipelines"
+  cacheDb: {{ .Values.config.databases.cacheDB }}
+  cacheImage: gcr.io/google-containers/busybox
+  cacheNodeRestrictions: "false"
+  cronScheduleTimezone: UTC
+  dbHost: {{ .Values.config.databases.connection.host }}
+  dbPort: {{ .Values.config.databases.connection.port | quote }}
+  dbConMaxLifeTimeSec: "120"
+  dbDriverName: mysql
+  dbGroupConcatMaxLen: "4194304"
+  mlmdDb: {{ .Values.config.databases.metadataDB }}
+  pipelineDb: {{ .Values.config.databases.pipelineDB }}
+kind: ConfigMap
+metadata:
+  labels:
+    app.kubernetes.io/component: ml-pipeline
+    app.kubernetes.io/name: kubeflow-pipelines
+    application-crd-id: kubeflow-pipelines
+  name: pipeline-install-config
+  namespace: kubeflow
