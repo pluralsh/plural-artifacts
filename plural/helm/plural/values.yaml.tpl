@@ -11,6 +11,7 @@ provider: {{ .Provider }}
 region: {{ .Region }}
 
 rabbitmqNamespace: {{ namespace "rabbitmq" }}
+influxNamespace: {{ namespace "influx" }}
 
 rbac:
   serviceAccountAnnotations:

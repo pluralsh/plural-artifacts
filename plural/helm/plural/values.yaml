@@ -1,5 +1,6 @@
 replicaCount: 2
 rabbitmqNamespace: rabbitmq
+influxNamespace: influx
 
 rbac:
   serviceAccountAnnotations: {}

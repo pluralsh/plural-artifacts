@@ -8,6 +8,8 @@ dependencies:
   name: aws-postgres
 - repo: rabbitmq
   name: rabbitmq-aws
+- repo: influx
+  name: influx-aws
 sections:
 - name: plural
   items:

@@ -73,6 +73,11 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
     secretKeyRef:
       name: rabbitmq-default-user
       key: password
+- name: INFLUX_PASSWORD
+  valueFrom:
+    secretKeyRef:
+      name: influxdb-auth
+      key: influxdb-password
 - name: RABBIT_NAMESPACE
   value: {{ .Values.rabbitmqNamespace }}
 - name: DBHOST

@@ -29,3 +29,6 @@ sections:
     - name: enableTelegraf
       documentation: whether to deploy telegraf metrics collection
       type: BOOL
+    - name: databaseName
+      documentation: name for the initial bootstrapped database
+      type: STRING

@@ -4,11 +4,11 @@ terraform:
   terraform/azure: h1:SR1TElBo0OmA7cEKisckG+9IXmdDQKhSvqyewu4nb0Q=
   terraform/gcp: h1:IE8CvtV7WiP+4jGRrvzPvky2ZugiuwKwFRvuz6n3gbM=
 helm:
-  helm/influx: h1:n/xvHc9yDrbXm3EkHz+PlDoUv/u6Lhcqd+S5q43Ig38=
+  helm/influx: h1:fR/I8Ekg5uCSzwPAGQUhD1tpw8fY06xOq4TjjJ88z1A=
 recipe:
-  plural/recipes/influx-aws.yaml: b33399dce7bf8185e4f6e7afc6c2d50344070cbeeee151d62718ee523e007dd4
-  plural/recipes/influx-azure.yaml: 97651b66b2e070a8c940357cdae1aee5311529da94c83cb6cee43674fe5dcb83
-  plural/recipes/influx-gcp.yaml: badbda07bb5403b79ab95423efe2b2b120d93761bcf38c5ba5b71b80fac9209c
+  plural/recipes/influx-aws.yaml: 2f32d6561f5a3f29833251de35bd3c3d670c54a37d1104605c608c071672d174
+  plural/recipes/influx-azure.yaml: 7aa8b2b34847b43bf3383fbcfcccefa07bfe1e55b5cdf6b46e6a3d5a88d64bd6
+  plural/recipes/influx-gcp.yaml: 7108868d5146ad84ef346f68999007dafcb451c00e5d175ec240415751705f20
 integration: {}
 crd: {}
 ird: {}

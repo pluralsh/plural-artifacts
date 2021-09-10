@@ -6,6 +6,10 @@ dependencies:
   name: gcp-kubernetes
 - repo: rabbitmq
   name: rabbitmq-gcp
+- repo: postgres
+  name: gcp-postgres
+- repo: influx
+  name: influx-gcp
 sections:
 - name: plural
   items:

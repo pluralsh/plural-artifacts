@@ -1,9 +1,6 @@
 dependencies:
-- name: influxdb
-  repository: https://helm.influxdata.com
-  version: 4.9.14
 - name: hydra
   repository: https://k8s.ory.sh/helm/charts
   version: 0.16.0
-digest: sha256:2e21b2a9d12f009a13ea41ed74fdabb7a3927ce1ca57cde7cd6b4d18ca1e3494
-generated: "2021-07-09T12:31:22.71628-04:00"
+digest: sha256:1843316e67e28ab90734c24a70a932f597d7a085bd613acb9fe58c078485dcd8
+generated: "2021-09-09T22:26:52.976735-04:00"

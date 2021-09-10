@@ -27,6 +27,11 @@ kapacitor:
 
 influxdb:
   fullnameOverride: influxdb
+  {{ if .Values.databaseName }}
+  env:
+  - name: INFLUXDB_DB
+    value: {{ .Values.databaseName }}
+  {{ end }}
   setDefaultUser:
     enabled: true
     user:
