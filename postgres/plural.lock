@@ -7,7 +7,7 @@ helm:
   helm/postgres: h1:yuAz7ui3vVlPVZaXtmEX/EnaTqydtXJDDmwCTW+ZdIM=
 recipe:
   plural/recipes/aws-postgres.yaml: 92cc579f204ed9c2f5bb0f4f946a6ba0f1e9fa426c4eb987c4c8d453ac78a194
-  plural/recipes/azure-postgres.yaml: e43777511c231b227387cc7b0a314df932f4d208c3eca2cc2ddb8789236c2f6f
+  plural/recipes/azure-postgres.yaml: 025e72e64af569c761ef03bfe28bfd5c89c17b0d8d74c88fe342d20a6dae86ac
   plural/recipes/gcp-postgres.yaml: e74e6e6f54ca4c448c4f762aa344e9af1d857a9a6ba907fef01d91715c52a589
 integration: {}
 crd:
