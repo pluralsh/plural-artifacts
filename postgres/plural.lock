@@ -1,12 +1,13 @@
 artifact: {}
 terraform:
-  terraform/aws: h1:m268eqlsA60pVXkSKW9REvG1zltBn89ATpz8aZwWftA=
-  terraform/azure: h1:4Lgdokw8+XNVsJFtH4HefczvqHEKQxs9M7uWrMZv7OY=
-  terraform/gcp: h1:Eu4oH9Vyd1owZptMTtp3UOkUSqpYH/yR1Uak1+Yrd2k=
+  terraform/aws: h1:nxHvJ8KGic9LxH97OPmz8C5MvbfDcZ5DZ1exlfcYe2I=
+  terraform/azure: h1:buPCNo4JgPg4hryZCxVyTxQmnHXBiCpEYz79c5ifrUc=
+  terraform/gcp: h1:sevYx4C88dAp3WAzApSNIkwoJ/LlvJGzNmuaNNpi0NE=
 helm:
   helm/postgres: h1:yuAz7ui3vVlPVZaXtmEX/EnaTqydtXJDDmwCTW+ZdIM=
 recipe:
   plural/recipes/aws-postgres.yaml: 92cc579f204ed9c2f5bb0f4f946a6ba0f1e9fa426c4eb987c4c8d453ac78a194
+  plural/recipes/azure-postgres.yaml: e43777511c231b227387cc7b0a314df932f4d208c3eca2cc2ddb8789236c2f6f
   plural/recipes/gcp-postgres.yaml: e74e6e6f54ca4c448c4f762aa344e9af1d857a9a6ba907fef01d91715c52a589
 integration: {}
 crd:
