@@ -10,6 +10,8 @@ dependencies:
     name: azure-k8s
   - repo: monitoring
     name: monitoring-azure
+  - repo: postgres
+    name: aws-postgres
 sections:
   - name: console
     items:
