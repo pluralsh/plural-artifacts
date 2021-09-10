@@ -340,7 +340,7 @@ argo-cd:
 
   ## Redis
   redis:
-    enabled: true
+    enabled: false
     name: redis
 
     image:
@@ -1216,3 +1216,29 @@ argo-cd:
 
   openshift:
     enabled: false
+
+argocd-image-updater:
+  enabled: true
+  config:
+    argocd:
+      applicationsAPI: "kubernetes"
+      argocdNamespace: ""
+      grpcWeb: true
+      serverAddress: ""
+      insecure: false
+      plaintext: false
+    registries: []
+  metrics:
+    serviceMonitor:
+      enabled: true
+      path: /metrics
+      interval: 30s
+    grafanaDashboard:
+      enabled: true
+      additionalLabels:
+        grafana_dashboard: "example-grafana-dashboard"
+      additionalAnnotations:
+        k8s-sidecar-target-directory: /tmp/dashboards/Argo CD Dashboards
+
+argocd-notifications:
+ enabled: false
