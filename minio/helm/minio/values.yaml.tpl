@@ -24,3 +24,21 @@ minio:
   - secretRef:
       name: minio-azure-secret
 {{ end }}
+
+minio:
+  ingress:
+    enabled: true
+    hosts:
+      - {{ .Values.hostname }}
+    tls:
+    - secretName: minio-gateway-tls
+      hosts:
+        - {{ .Values.hostname }}
+  consoleIngress:
+    enabled: true
+    hosts:
+      - {{ .Values.consoleHostname }}
+    tls:
+    - secretName: minio-console-tls
+      hosts:
+        - {{ .Values.consoleHostname }}
