@@ -11,7 +11,7 @@ dependencies:
   - repo: monitoring
     name: monitoring-azure
   - repo: postgres
-    name: aws-postgres
+    name: azure-postgres
 sections:
   - name: console
     items:
