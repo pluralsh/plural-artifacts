@@ -4,6 +4,8 @@ provider: GCP
 dependencies:
 - repo: bootstrap
   name: gcp-kubernetes
+- repo: etcd
+  name: etcd-gcp
 sections:
 - name: minio
   items:
