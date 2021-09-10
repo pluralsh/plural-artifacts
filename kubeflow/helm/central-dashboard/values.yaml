@@ -1,0 +1,100 @@
+# Default values for central-dashboard.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+global:
+  domain: kubeflow.kubeflow-aws.com
+  istioNamespace: istio
+  clusterDomain: cluster.local
+  userIDHeader: kubeflow-userid
+  userIDPrefix: ""
+  oidcIssuer: https://oidc.plural.sh/
+  jwksURI: https://oidc.plural.sh/.well-known/jwks.json
+
+kubeflowComponents:
+  notebooks:
+    enabled: true
+  tensorboards:
+    enabled: true
+  volumes:
+    enabled: true
+  katib:
+    enabled: true
+  pipelines:
+    enabled: true
+  serving:
+    enabled: true
+  operators:
+    enabled: true
+
+replicaCount: 1
+
+image:
+  repository: public.ecr.aws/j1r0q0g6/notebooks/central-dashboard
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: v1.3.0
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations:
+  sidecar.istio.io/inject: "true"
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  port: 80
+
+config:
+  profileControllerService: kubeflow-profile-controller-kfam.kubeflow.svc.cluster.local
+  kfamPort: 8082
+  registrationFlow:
+    enabled: true
+
+virtualService:
+  annotations: {}
+  gateways:
+    - kubeflow-gateway
+  hosts:
+    - kubeflow.kubeflow-aws.com
+
+resources:
+  requests:
+    cpu: 32m
+    memory: 128Mi
+  limits:
+    cpu: 32m
+    memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

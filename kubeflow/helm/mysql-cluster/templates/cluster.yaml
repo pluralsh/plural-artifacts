@@ -1,0 +1,17 @@
+apiVersion: mysql.presslabs.org/v1alpha1
+kind: MysqlCluster
+metadata:
+  name: kubeflow-mysql-cluster
+  namespace: kubeflow
+spec:
+  replicas: 2
+  secretName: kubeflow-mysql-cluster-root
+  volumeSpec:
+    persistentVolumeClaim:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 5Gi
+  podSpec:
+    annotations:
+      sidecar.istio.io/inject: "false"
