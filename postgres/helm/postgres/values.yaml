@@ -178,6 +178,11 @@ configKubernetes:
   # operator watches for postgres objects in the given namespace
   watched_namespace: "*"  # listen to all namespaces
 
+configSecret:
+  AWS_SDK_LOAD_CONFIG: "1"
+  USE_WALG_BACKUP: "true"
+  USE_WALG_RESTORE: "true"
+
 # configure resource requests for the Postgres pods
 configPostgresPodResources:
   # CPU limits for the postgres containers
