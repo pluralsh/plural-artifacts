@@ -4,3 +4,4 @@ TF terraform/*
 HELM helm/*
 RECIPE plural/recipes/*
 TAG plural/tags/**/*
+CRD plural/crds/* helm/goldilocks
