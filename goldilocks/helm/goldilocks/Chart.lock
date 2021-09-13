@@ -1,0 +1,9 @@
+dependencies:
+- name: goldilocks
+  repository: https://charts.fairwinds.com/stable
+  version: 3.2.4
+- name: vpa
+  repository: https://charts.fairwinds.com/stable
+  version: 0.4.2
+digest: sha256:53c3b6f05734722002ab3c09741e38fe319678c43cea57d32143f6ce4386f935
+generated: "2021-08-17T13:05:49.722150519+02:00"

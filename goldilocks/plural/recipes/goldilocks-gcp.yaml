@@ -1,0 +1,15 @@
+name: goldilocks-gcp
+description: Installs goldilocks on a gcp gke cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-kubernetes
+sections:
+- name: goldilocks
+  items:
+  - type: TERRAFORM
+    name: gcp
+    configuration: []
+  - type: HELM
+    name: goldilocks
+    configuration: []
