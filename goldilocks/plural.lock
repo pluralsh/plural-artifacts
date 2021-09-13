@@ -4,14 +4,14 @@ terraform:
   terraform/azure: h1:MIE0aiTgBqf5rfksk0aD31Xo09uPaAEVHhjjXKvBrok=
   terraform/gcp: h1:AO8BOAokf2UrzHCVYlbo7A+X+RoU7lG2LtKowAmjTSw=
 helm:
-  helm/goldilocks: h1:RRI++QqK6rQLRe3qyppPYO+YvEbvht3sipG/QAbPWJ4=
+  helm/goldilocks: h1:6A/izeZPArpRxhpYy67TJ8aoDQWxb9CwLhRNzTQ1xx0=
 recipe:
   plural/recipes/goldilocks-aws.yaml: f8716f129aec70c1b098223ccf103f53e2e4e5e70abc2f426f3cee357661951b
   plural/recipes/goldilocks-azure.yaml: 0667127a162b66adcfa59892bc49f1a8914e935836446fbecf1b17b0a5a0328b
   plural/recipes/goldilocks-gcp.yaml: 12fc423e5ac1ff76d94fbaf85f48e409226b3fcebdcdd5fbbecdeac134c79af8
 integration: {}
 crd:
-  plural/crds/vpa-v1-crd.yaml: 6c264e03771509e313cb36314e5ead50873bb262639b79fe45ab4c45949d479a:h1:RRI++QqK6rQLRe3qyppPYO+YvEbvht3sipG/QAbPWJ4=
+  plural/crds/vpa-v1-crd.yaml: 6c264e03771509e313cb36314e5ead50873bb262639b79fe45ab4c45949d479a:h1:6A/izeZPArpRxhpYy67TJ8aoDQWxb9CwLhRNzTQ1xx0=
 ird: {}
 tag:
   plural/tags/helm/goldilocks.yaml: 7eaee96ad2b691ca23997a210cfffcaf0854031b57475c012974f1bcb0e6e797
