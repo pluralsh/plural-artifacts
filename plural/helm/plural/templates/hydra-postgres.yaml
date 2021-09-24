@@ -10,6 +10,10 @@ spec:
   volume:
     size: 25Gi
   numberOfInstances: 2
+  {{ if .Values.postgres.hydra.resources }}
+  resources:
+  {{ mergeOverwrite .Values.postgres.default.resources .Values.postgres.hydra.resources | toYaml | nindent 4 }}
+  {{ end }}
   users:
     hydra:  # database owner
     - superuser

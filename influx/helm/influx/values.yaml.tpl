@@ -27,6 +27,11 @@ kapacitor:
 
 influxdb:
   fullnameOverride: influxdb
+  {{ if .Values.influxdbHostname }}
+  ingress:
+    enabled: true
+    hostname: {{ .Values.influxdbHostname }}
+  {{ end }}
   {{ if .Values.databaseName }}
   env:
   - name: INFLUXDB_DB

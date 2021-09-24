@@ -1,4 +1,4 @@
-You can view your grafana instance at https://{{ .Values.chronografHostname }}
+You can view your chronograf instance at https://{{ .Values.chronografHostname }}
 
 {{ if .OIDC }}
 You've enabled Plural OIDC for your chronograf instance.  
@@ -12,3 +12,9 @@ Your initial admin credentials are:
 username: admin
 password: {{ .influx.influxdb.setDefaultUser.user.password }}
 {{ end }}
+
+To help you set up the chronograf wizard, you can use these hostnames for the various influxdata components:
+
+influxdb: http://influxdb
+kapacitor: http:/influx-kapacitor
+telegraf: http://influx-telegraf

@@ -9,6 +9,17 @@ sshConfig:
 secrets:
   redis_password: example
 
+postgres:
+  resources: {}
+  default:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 100Mi
+      limits:
+        cpu: '2'
+        memory: 1Gi
+
 exporter:
   image:
     repository: gcr.io/pluralsh/prom/statsd-exporter

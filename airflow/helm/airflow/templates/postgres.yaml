@@ -13,6 +13,10 @@ spec:
     airflow:  # database owner
     - superuser
     - createdb
+  {{ if .Values.postgres.resources }}
+  resources:
+  {{ mergeOverwrite .Values.postgres.default.resources .Values.postgres.resources | toYaml | nindent 4 }}
+  {{ end }}
   databases:
     airflow: airflow  # dbname: owner
   postgresql:

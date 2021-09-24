@@ -4,7 +4,7 @@ terraform:
   terraform/azure: h1:0N8Q9oPJcwIeE+WE/8KWEFx6IFYFa1nwLNj99LdJIfw=
   terraform/gcp: h1:cdB2gi9NRpB9UWSw4WkaVoZD8ToW7lEdl0nrNSeVw2w=
 helm:
-  helm/airflow: h1:w1QFCO+1GkmoTEkdBoIQciMNRc45P1StVn7dNQKyT9A=
+  helm/airflow: h1:m9q33/yX1XWm4pvvT/vyQMCRaxrfjc+5Ty2yKVNjOsM=
 recipe:
   forge/recipes/gcp-airflow.yaml: 4a61bee914e0e3cb3f703e054648781a437ffda570f5645b1a986fdafd1fa681
   plural/recipes/aws-airflow.yaml: 9af07813b829b19aa2ee61af4193d17f0ebae7f6aa6312f944e4f732eecb102f

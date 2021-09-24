@@ -5,6 +5,33 @@ influxNamespace: influx
 rbac:
   serviceAccountAnnotations: {}
 
+secrets:
+  jwt: dummy
+  erlang: dummy
+  jwt_pk: dummy
+  jwt_cert: dummy
+  jwt_iss: dummy
+  jwt_aud: dummy
+  aes_key: dummy
+
+admin:
+  enabled: false
+
+postgres:
+  plural:
+    resources: {}
+  hydra:
+    resources: {}
+  default:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 100Mi
+      limits:
+        cpu: '2'
+        memory: 1Gi
+      
+
 image:
   repository: dkr.plural.sh/plural/plural
   tag: '0.1.1'

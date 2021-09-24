@@ -1,0 +1,109 @@
+<root gap='medium'>
+  <box pad='small' gap='medium' direction='row' align='center'>
+    <box direction='row' align='center' gap='small'>
+      <box gap='small' align='center'>
+        <timeseries datasource="influx-cpu" label="Influx CPU Usage" />
+        <text size='small'>You should set a reservation to 
+          roughly correspond to 60% utilization</text>
+      </box>
+      <box gap='small' align='center'>
+        <timeseries datasource="influx-memory" label="Influx Memory Usage" />
+        <text size='small'>You should set a reservation to 
+          roughly correspond to 80% utilization</text>
+      </box>
+    </box>
+    <box gap='small'>
+      <box gap='xsmall'>
+        <input placeholder="250m" label='Influxdb CPU Request' name='influx-cpu'>
+          <valueFrom 
+            datasource="influx" 
+            doc="kubernetes.raw" 
+            path="spec.template.spec.containers[0].resources.requests.cpu" />
+        </input>
+        <input placeholder="1Gi" label='Influxdb Memory Request' name='influx-memory'>
+          <valueFrom 
+            datasource="influx" 
+            doc="kubernetes.raw" 
+            path="spec.template.spec.containers[0].resources.requests.memory" />
+        </input>
+      </box>
+      <box direction='row' justify='end'>
+        <button label='Scale' action='influx-scale' primary='true' />
+      </box>
+    </box>
+  </box>
+  <box pad='small' gap='medium' direction='row' align='center'>
+    <box direction='row' align='center' gap='small'>
+      <box gap='small' align='center'>
+        <timeseries datasource="kap-cpu" label="Kapacitor CPU Usage" />
+        <text size='small'>You should set a reservation to 
+          roughly correspond to 60% utilization</text>
+      </box>
+      <box gap='small' align='center'>
+        <timeseries datasource="kap-memory" label="Kapacitor Memory Usage" />
+        <text size='small'>You should set a reservation to 
+          roughly correspond to 80% utilization</text>
+      </box>
+    </box>
+    <box gap='small'>
+      <box gap='xsmall'>
+        <input placeholder="250m" label='Kapacitor CPU Request' name='kap-cpu'>
+          <valueFrom 
+            datasource="kap" 
+            doc="kubernetes.raw" 
+            path="spec.template.spec.containers[0].resources.requests.cpu" />
+        </input>
+        <input placeholder="1Gi" label='Kapacitor Memory Request' name='kap-memory'>
+          <valueFrom
+            datasource="kap" 
+            doc="kubernetes.raw" 
+            path="spec.template.spec.containers[0].resources.requests.memory" />
+        </input>
+      </box>
+      <box direction='row' justify='end'>
+        <button label='Scale' action='kap-scale' primary='true' />
+      </box>
+    </box>
+  </box>
+  <box pad='small' gap='medium' direction='row' align='center'>
+    <box direction='row' align='center' gap='small'>
+      <box gap='small' align='center'>
+        <timeseries datasource="chron-cpu" label="Chronograf CPU Usage" />
+        <text size='small'>You should set a reservation to 
+          roughly correspond to 60% utilization</text>
+      </box>
+      <box gap='small' align='center'>
+        <timeseries datasource="chron-memory" label="Chronograf Memory Usage" />
+        <text size='small'>You should set a reservation to 
+          roughly correspond to 80% utilization</text>
+      </box>
+    </box>
+    <box gap='small'>
+      <box gap='xsmall'>
+        <input placeholder="250m" label='Chronograf CPU Request' name='chron-cpu'>
+          <valueFrom 
+            datasource="chron" 
+            doc="kubernetes.raw" 
+            path="spec.template.spec.containers[0].resources.requests.cpu" />
+        </input>
+        <input placeholder="1Gi" label='Chronograf Memory Request' name='chron-memory'>
+          <valueFrom
+            datasource="chron" 
+            doc="kubernetes.raw" 
+            path="spec.template.spec.containers[0].resources.requests.memory" />
+        </input>
+      </box>
+      <box direction='row' justify='end'>
+        <button label='Scale' action='chron-scale' primary='true' />
+      </box>
+    </box>
+  </box>
+  <box width='100%' gap='small'>
+    <text size='small'>Be sure to scale your influxdata components within your node's capacity, listed here:</text>
+    <table width='100%' datasource='nodes' path='nodes'>
+      <tableColumn path='metadata.name' header='name' width='33%' />
+      <tableColumn path='status.capacity.cpu' header='cpu' width='33%' />
+      <tableColumn path='status.capacity.memory' header='memory' width='33%' />
+    </table>
+  </box>
+</root>

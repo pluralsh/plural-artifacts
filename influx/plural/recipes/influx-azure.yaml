@@ -32,3 +32,6 @@ sections:
     - name: databaseName
       documentation: name for the initial bootstrapped database
       type: STRING
+    - name: influxdbHostname
+      documentation: external dns name for your influxdb instance (leave empty if you don't want ingress)
+      type: STRING

@@ -39,6 +39,7 @@ crd:
   plural/crds/bootstrap/platform.plural.sh_logfilters.yaml: 9f2d19387d619c4152b750df7b2d44c38042a9a1d95375b08583efec08d1aa38:h1:JAp/xw9wiBM0R72rj7Q5rS4rzpwnMfb5LAuTlCXL0cI=
   plural/crds/bootstrap/platform.plural.sh_logtails.yaml: f60837d260185254ca5fd1a393686204d38edfe1daf9c9404d34cb056f4ad566:h1:JAp/xw9wiBM0R72rj7Q5rS4rzpwnMfb5LAuTlCXL0cI=
   plural/crds/bootstrap/platform.plural.sh_proxies.yaml: f2a733b0ddc1c4f4fe5b6da0af6fcf876890a2dbe917ce4483fdc511489ec7cd:h1:JAp/xw9wiBM0R72rj7Q5rS4rzpwnMfb5LAuTlCXL0cI=
+  plural/crds/bootstrap/platform.plural.sh_runbooks.yaml: b5d046fdb278e14aa07c7af0470844f7a352aa8acb4bfa8cd94100894c9e630e:h1:JAp/xw9wiBM0R72rj7Q5rS4rzpwnMfb5LAuTlCXL0cI=
   plural/crds/bootstrap/platform.plural.sh_secretsyncs.yaml: d15ac11f6383a7f48b36a216e0c0c8808bcfee44781b8cc59f29fb328c1e22ba:h1:JAp/xw9wiBM0R72rj7Q5rS4rzpwnMfb5LAuTlCXL0cI=
   plural/crds/bootstrap/platform.plural.sh_slashcommands.yaml: 52e82b7d67526be8b09b1548422f26f48c7b526ef2544442f91e8e1c007eb4f4:h1:JAp/xw9wiBM0R72rj7Q5rS4rzpwnMfb5LAuTlCXL0cI=
   plural/crds/bootstrap/targetgroupbinding.yaml: 59ee819aa43cd9b2fc714869b88ab01801e29f394cda26264a0bdf496482797b:h1:JAp/xw9wiBM0R72rj7Q5rS4rzpwnMfb5LAuTlCXL0cI=

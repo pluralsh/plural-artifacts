@@ -1,0 +1,88 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Runbook
+metadata:
+  name: scaling-manual
+  labels:
+    platform.plural.sh/pinned: 'true'
+{{ include "kafka.labels" . | indent 4 }}
+spec:
+  name: Kafka Scaling
+  description: overview of how to optimally scale your kafka cluster
+  display: |-
+{{ .Files.Get "runbooks/scaling-manual.xml" | indent 4 }}
+  datasources:
+  - name: kafka-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"kafka-kafka-[0-9]+"}[5m])) by (pod)
+  - name: kafka-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"kafka-kafka-[0-9]+"}) by (pod)
+  - name: zk-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"kafka-zookeeper-[0-9]+"}[5m])) by (pod)
+  - name: zk-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"kafka-zookeeper-[0-9]+"}) by (pod)
+  - name: kafka
+    type: kubernetes
+    kubernetes:
+      resource: statefulset
+      name: kafka-kafka
+  - name: zk
+    type: kubernetes
+    kubernetes:
+      resource: statefulset
+      name: kafka-zookeeper
+  - name: nodes
+    type: nodes
+  actions:
+  - name: zk-scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+      - path: 
+        - kafka
+        - zookeeper
+        - resources
+        - requests
+        - cpu
+        valueFrom: zk-cpu
+      - path:
+        - kafka
+        - zookeeper
+        - resources
+        - requests
+        - memory
+        valueFrom: zk-memory
+  - name: kafka-scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+      - path: 
+        - kafka
+        - kafka
+        - resources
+        - requests
+        - cpu
+        valueFrom: kafka-cpu
+      - path:
+        - kafka
+        - kafka
+        - resources
+        - requests
+        - memory
+        valueFrom: kafka-memory

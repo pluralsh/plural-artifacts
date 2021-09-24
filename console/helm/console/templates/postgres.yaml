@@ -13,6 +13,10 @@ spec:
     console:  # database owner
     - superuser
     - createdb
+  {{ if .Values.postgres.resources }}
+  resources:
+  {{ mergeOverwrite .Values.postgres.default.resources .Values.postgres.resources | toYaml | nindent 4 }}
+  {{ end }}
   databases:
     console: console  # dbname: owner
   postgresql:

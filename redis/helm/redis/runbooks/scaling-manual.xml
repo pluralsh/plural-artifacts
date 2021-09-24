@@ -1,0 +1,76 @@
+<root gap='medium'>
+  <box pad='small' gap='medium' direction='row' align='center'>
+    <box direction='row' align='center' gap='small'>
+      <box gap='small' align='center'>
+        <timeseries datasource="master-cpu" label="Master CPU Usage" />
+        <text size='small'>You should set a reservation to 
+          roughly correspond to 60% utilization</text>
+      </box>
+      <box gap='small' align='center'>
+        <timeseries datasource="master-memory" label="Master Memory Usage" />
+        <text size='small'>You should set a reservation to 
+          roughly correspond to 80% utilization</text>
+      </box>
+    </box>
+    <box gap='small'>
+      <box gap='xsmall'>
+        <input placeholder="250m" label='Master CPU Request' name='master-cpu'>
+          <valueFrom 
+            datasource="master" 
+            doc="kubernetes.raw" 
+            path="spec.template.spec.containers[0].resources.requests.cpu" />
+        </input>
+        <input placeholder="1Gi" label='Master Memory Request' name='master-memory'>
+          <valueFrom 
+            datasource="master" 
+            doc="kubernetes.raw" 
+            path="spec.template.spec.containers[0].resources.requests.memory" />
+        </input>
+      </box>
+      <box direction='row' justify='end'>
+        <button label='Scale' action='master-scale' primary='true' />
+      </box>
+    </box>
+  </box>
+  <box pad='small' gap='medium' direction='row' align='center'>
+    <box direction='row' align='center' gap='small'>
+      <box gap='small' align='center'>
+        <timeseries datasource="replica-cpu" label="Replica CPU Usage" />
+        <text size='small'>You should set a reservation to 
+          roughly correspond to 60% utilization</text>
+      </box>
+      <box gap='small' align='center'>
+        <timeseries datasource="replica-memory" label="replica Memory Usage" />
+        <text size='small'>You should set a reservation to 
+          roughly correspond to 80% utilization</text>
+      </box>
+    </box>
+    <box gap='small'>
+      <box gap='xsmall'>
+        <input placeholder="250m" label='Replica CPU Request' name='replica-cpu'>
+          <valueFrom 
+            datasource="replica" 
+            doc="kubernetes.raw" 
+            path="spec.template.spec.containers[0].resources.requests.cpu" />
+        </input>
+        <input placeholder="1Gi" label='Replica Memory Request' name='replica-memory'>
+          <valueFrom
+            datasource="replica" 
+            doc="kubernetes.raw" 
+            path="spec.template.spec.containers[0].resources.requests.memory" />
+        </input>
+      </box>
+      <box direction='row' justify='end'>
+        <button label='Scale' action='replica-scale' primary='true' />
+      </box>
+    </box>
+  </box>
+  <box width='100%' gap='small'>
+    <text size='small'>Be sure to scale your kafka components within your node's capacity, listed here:</text>
+    <table width='100%' datasource='nodes' path='nodes'>
+      <tableColumn path='metadata.name' header='name' width='33%' />
+      <tableColumn path='status.capacity.cpu' header='cpu' width='33%' />
+      <tableColumn path='status.capacity.memory' header='memory' width='33%' />
+    </table>
+  </box>
+</root>

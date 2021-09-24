@@ -2,7 +2,7 @@ apiVersion: v2
 name: influx
 description: A Helm chart for Kubernetes
 type: application
-version: 0.1.5
+version: 0.1.9
 appVersion: "1.16.0"
 dependencies:
 - name: chronograf
@@ -10,8 +10,8 @@ dependencies:
   repository: https://helm.influxdata.com/
   condition: chronograf.enabled
 - name: kapacitor
-  version: 1.3.1
-  repository: https://helm.influxdata.com/
+  version: 1.3.3
+  repository: file://../../../../influxdata-helm-charts/charts/kapacitor
   condition: kapacitor.enabled
 - name: telegraf-ds
   version: 1.0.22
