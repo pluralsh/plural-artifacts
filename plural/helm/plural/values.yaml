@@ -133,6 +133,11 @@ registry:
   tolerations: []
   rbac:
     serviceAccountAnnotations: {}
+  
+  resources:
+    requests:
+      cpu: 100m
+      memory: 100Mi
 
   persistence:
     accessMode: ReadWriteOnce

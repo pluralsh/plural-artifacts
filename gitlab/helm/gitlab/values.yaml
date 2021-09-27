@@ -42,6 +42,17 @@ global:
 railsConnection: {}
 registryConnection: {}
 
+postgres:
+  resources: {}
+  default:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 100Mi
+      limits:
+        cpu: '2'
+        memory: 1Gi
+
 gitlab:
   upgradeCheck:
     enabled: false

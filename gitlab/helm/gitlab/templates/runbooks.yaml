@@ -134,3 +134,56 @@ spec:
         - requests
         - memory
         valueFrom: chron-memory
+---
+apiVersion: platform.plural.sh/v1alpha1
+kind: Runbook
+metadata:
+  name: db-scaling
+  labels:
+    platform.plural.sh/pinned: 'true'
+{{ include "gitlab-plural.labels" . | indent 4 }}
+spec:
+  name: Postgres Scaling
+  description: overview of how to accurately scale gitlab's postgres instance
+  display: |-
+{{ .Files.Get "runbooks/db-scaling.xml" | indent 4 }}
+  datasources:
+  - name: cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"plural-gitlab-[0-9]+"}[5m])) by (pod)
+  - name: memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"plural-gitlab-[0-9]+"}) by (pod)
+  - name: statefulset
+    type: kubernetes
+    kubernetes:
+      resource: statefulset
+      name: plural-gitlab
+  - name: nodes
+    type: nodes
+  actions:
+  - name: scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+      - path: 
+        - gitlab
+        - postgres
+        - resources
+        - requests
+        - cpu
+        valueFrom: cpu
+      - path:
+        - gitlab
+        - postgres
+        - resources
+        - requests
+        - memory
+        valueFrom: memory
