@@ -121,3 +121,6 @@ upload-kubeflow: # uploads kubeflow artifacts
 
 upload-goldilocks: # uploads goldilocks artifacts
 	plural apply -f goldilocks/Pluralfile
+
+upload-crossplane: # uploads crossplane artifacts
+	plural apply -f crossplane/Pluralfile
