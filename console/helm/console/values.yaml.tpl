@@ -29,12 +29,12 @@ serviceAccount:
 {{ $norsa := eq (dig "console" "secrets" "id_rsa" "default" .) "default" }}
 {{ $notoken := eq (dig "console" "secrets" "git_access_token" "default" .) "default" }}
 {{ $conf := dict }}
-{{ if all $norsa $notoken .Values.console_dns }}
+{{ if .Values.console_dns }}
   {{ $url := repoUrl }}
-  {{ if hasPrefix "https" $url }}
+  {{ if all $notoken (hasPrefix "https" $url) }}
     {{ $token := readLine "Enter your git access token" }}
     {{ $_ := set $conf "git_access_token" $token }}
-  {{ else }}
+  {{ else if and $norsa (not (hasPrefix "https" $url)) }}
     {{ $id_rsa := readLineDefault "Enter the path to your deploy keys" (homeDir ".ssh" "id_rsa") }}
     {{ $pass := readLine "Enter ssh passphrase (just press enter if none)" }}
     {{ $_ := set $conf "id_rsa" (readFile $id_rsa) }}
@@ -78,9 +78,11 @@ secrets:
   {{ if .console.secrets.ssh_passphrase }}
   ssh_passphrase: {{ .console.secrets.ssh_passphrase | quote }}
   {{ end }}
-{{ else if not $notoken }}
+{{ end}}
+{{ if not $notoken }}
   git_access_token: {{ .console.secrets.git_access_token | quote }}
-{{ else if .Values.console_dns }}
+{{ end }}
+{{ if and .Values.console_dns $conf }}
 {{ range $key, $value := $conf }}
   {{ $key }}: {{ $value | quote }}
 {{ end }}

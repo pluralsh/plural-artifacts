@@ -8,8 +8,10 @@ db:
 
 image:
   repository: dkr.plural.sh/ghost/ghost
-  tag: 4-alpine
+  tag: 4.16-alpine
   pullPolicy: IfNotPresent
+
+resources: {}
 
 ingress:
   annotations:

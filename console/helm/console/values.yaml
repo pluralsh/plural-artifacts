@@ -59,7 +59,16 @@ nodeSelector: {}
 
 tolerations: []
 
-affinity: {}
+affinity:
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+    - labelSelector:
+        matchExpressions:
+        - key: 'app.kubernetes.io/name'
+          operator: In
+          values:
+          - console
+      topologyKey: "kubernetes.io/hostname"
 
 provider: google
 
