@@ -8,6 +8,9 @@ metadata:
 spec:
   name: Postgres Scaling
   description: overview of how to accurately scale console's postgres instance
+  alerts:
+  - name: ConsoleDbCPU
+  - name: ConsoleDbMEM
   display: |-
 {{ .Files.Get "runbooks/db-scaling.xml" | indent 4 }}
   datasources:
@@ -61,6 +64,9 @@ metadata:
 spec:
   name: Console Scaling
   description: overview of how to accurately scale console deployment
+  alerts:
+  - name: ConsoleCPU
+  - name: ConsoleMEM
   display: |-
 {{ .Files.Get "runbooks/scaling.xml" | indent 4 }}
   datasources:

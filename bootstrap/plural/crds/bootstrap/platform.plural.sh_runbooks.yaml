@@ -90,6 +90,18 @@ spec:
                   - name
                   type: object
                 type: array
+              alerts:
+                description: alerts to tie to this runbook
+                items:
+                  description: RunbookAlert represents an alert to join to this runbook
+                  properties:
+                    name:
+                      description: the name of the alert
+                      type: string
+                  required:
+                  - name
+                  type: object
+                type: array
               datasources:
                 description: datasources to hydrate graphs and tables in the runbooks
                   display
@@ -167,6 +179,44 @@ spec:
             type: object
           status:
             description: RunbookStatus defines the observed state of Runbook
+            properties:
+              alerts:
+                description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
+                  of cluster Important: Run "make" to regenerate code after modifying
+                  this file'
+                items:
+                  description: RunbookAlertStatus represents the status of an alert
+                    joined to a runbook
+                  properties:
+                    annotations:
+                      additionalProperties:
+                        type: string
+                      description: the alert annotations
+                      type: object
+                    fingerprint:
+                      description: the fingerprint of this alert
+                      type: string
+                    labels:
+                      additionalProperties:
+                        type: string
+                      description: the alert labels
+                      type: object
+                    name:
+                      description: the name of the alert
+                      type: string
+                    startsAt:
+                      description: the time it fired
+                      type: string
+                  required:
+                  - annotations
+                  - fingerprint
+                  - labels
+                  - name
+                  - startsAt
+                  type: object
+                type: array
+            required:
+            - alerts
             type: object
         type: object
     served: true

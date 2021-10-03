@@ -113,6 +113,17 @@ promtail:
 
 kube-prometheus-stack:
   fullnameOverride: "monitoring"
+
+  kubeControllerManager:
+    enabled: false
+  
+  kubeScheduler:
+    enabled: false
+
+  defaultRules:
+    additionalRuleLabels:
+      namespace: monitoring
+
   grafana:
     enabled: false
     namespaceOverride: grafana
@@ -121,6 +132,39 @@ kube-prometheus-stack:
       dashboards:
         annotations:
           k8s-sidecar-target-directory: /tmp/dashboards/Kubernetes
+  alertmanager:
+    alertmanagerSpec:
+      logLevel: debug
+
+    config:
+      global:
+        resolve_timeout: 5m
+      route:
+        group_by: ['job']
+        group_wait: 30s
+        group_interval: 5m
+        repeat_interval: 30m
+        receiver: plural
+        routes:
+        - match:
+            alertname: Watchdog
+          receiver: 'null'
+        - match:
+            severity: critical
+          receiver: console
+      receivers:
+      - name: 'null'
+      - name: plural
+        webhook_configs:
+        - send_resolved: true
+          url: http://plural-operator.bootstrap:8080/webhook
+      - name: console
+        webhook_configs:
+        - send_resolved: true
+          url: http://console.console:4000/alertmanager
+      templates:
+      - '/etc/alertmanager/config/*.tmpl'
+
   prometheus:
     labels:
       app.kubernetes.io/managed-by: Helm

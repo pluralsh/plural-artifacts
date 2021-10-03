@@ -23,4 +23,6 @@ grafana:
       auth_url: {{ .OIDC.Configuration.AuthorizationEndpoint }}
       token_url: {{ .OIDC.Configuration.TokenEndpoint }}
       api_url: {{ .OIDC.Configuration.UserinfoEndpoint }}
+      role_attribute_path: "\"'Editor'\""
+      groups_attribute_path: groups
   {{ end }}
