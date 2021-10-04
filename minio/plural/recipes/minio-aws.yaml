@@ -6,6 +6,8 @@ dependencies:
   name: aws-k8s
 - repo: etcd
   name: etcd-aws
+- repo: ingress-nginx
+  name: ingress-nginx-aws
 sections:
 - name: minio
   items:

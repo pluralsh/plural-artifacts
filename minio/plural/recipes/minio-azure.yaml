@@ -6,6 +6,8 @@ dependencies:
   name: azure-k8s
 - repo: etcd
   name: etcd-azure
+- repo: ingress-nginx
+  name: ingress-nginx-azure
 sections:
 - name: minio
   items:
