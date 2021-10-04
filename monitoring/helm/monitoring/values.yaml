@@ -203,3 +203,5 @@ kube-prometheus-stack:
           app.kubernetes.io/managed-by: plural
       probeSelectorNilUsesHelmValues: false
       probeSelector: {}
+
+opentelemetry-operator: {}
