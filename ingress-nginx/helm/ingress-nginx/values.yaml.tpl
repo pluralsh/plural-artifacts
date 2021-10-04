@@ -1,5 +1,13 @@
-{{- if eq .Provider "aws"}}
 ingress-nginx:
+  {{- if .Configuration.gitlab }}
+  tcp:
+    {{- if eq .Provider "aws" }}
+    22: gitlab/gitlab-gitlab-shell:22:PROXY
+    {{- else }}
+    22: gitlab/gitlab-gitlab-shell:22
+    {{- end }}
+  {{- end }}
+  {{- if eq .Provider "aws"}}
   controller:
     service:
       annotations:
