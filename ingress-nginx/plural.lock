@@ -4,7 +4,7 @@ terraform:
   terraform/azure: h1:dHo3jKot8uNJbak1RrVkmlnbvgGo/hJ2kNyW2HmhVS8=
   terraform/gcp: h1:TgeMB0ft5b8AEPqfCA+ig/rT1j+wRvQNs3xe8QvbAg0=
 helm:
-  helm/ingress-nginx: h1:LDI9E8BcynGzSZvDG6JPqYVIC51tgDaImIeF3zEGKfk=
+  helm/ingress-nginx: h1:MzH1vqi1WKuK1JkUO3mUQtPXf9MCuaDWnHsAJUQCrSY=
 recipe:
   plural/recipes/ingress-nginx-aws.yaml: 8305de23da3e83f483f2acc6685c2296dd05142975f4b41ac3c8c2c915a1c924
   plural/recipes/ingress-nginx-azure.yaml: 9252418ca0cf84774083973d93732d943b872b56f713650dbd0fbbb9f451dd86
