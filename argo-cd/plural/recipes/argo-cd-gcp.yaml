@@ -8,6 +8,10 @@ oidcSettings:
 dependencies:
 - repo: bootstrap
   name: gcp-kubernetes
+- repo: redis
+  name: gcp-redis
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
 sections:
 - name: argo-cd
   items:
