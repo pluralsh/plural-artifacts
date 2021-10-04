@@ -1,0 +1,15 @@
+name: ingress-nginx-gcp
+description: Installs ingress-nginx on a gcp gke cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-kubernetes
+sections:
+- name: ingress-nginx
+  items:
+  - type: TERRAFORM
+    name: gcp
+    configuration: []
+  - type: HELM
+    name: ingress-nginx
+    configuration: []

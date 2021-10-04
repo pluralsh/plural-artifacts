@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: request-handling-performance-dashboard
+  labels: {{ include "ingress-nginx-plural.labels" . | nindent 4 }}
+    grafana_dashboard: request-handling-performance-dashboard
+  annotations:
+    k8s-sidecar-target-directory: /tmp/dashboards/NGINX Dashboards
+data:
+  request-handling-performance-dashboard.json: |-
+{{ .Files.Get "grafana-dashboards/request-handling-performance.json" | indent 4 }}

@@ -1,0 +1,46 @@
+ingress-nginx:
+  controller:
+    admissionWebhooks:
+      enabled: false
+    service:
+      annotations:
+        service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+        service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
+        service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: 'true'
+        service.beta.kubernetes.io/aws-load-balancer-type: external
+        service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+        service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
+        service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: '3600'
+    config:
+      worker-shutdown-timeout: 240s
+      proxy-body-size: '0'
+      proxy-read-timeout: '3600'
+      proxy-send-timeout: '3600'
+      log-format-escape-json: "true"
+      log-format-upstream: '{"msec":"$msec","connection":"$connection","connection_requests":"$connection_requests","pid":"$pid","request_id":"$request_id","request_length":"$request_length","remote_addr":"$remote_addr","remote_user":"$remote_user","remote_port":"$remote_port","time_local":"$time_local","time_iso8601":"$time_iso8601","request":"$request","request_uri":"$request_uri","args":"$args","status":"$status","body_bytes_sent":"$body_bytes_sent","bytes_sent":"$bytes_sent","http_referer":"$http_referer","http_user_agent":"$http_user_agent","http_x_forwarded_for":"$http_x_forwarded_for","http_host":"$http_host","server_name":"$server_name","request_time":"$request_time","upstream":"$upstream_addr","upstream_connect_time":"$upstream_connect_time","upstream_header_time":"$upstream_header_time","upstream_response_time":"$upstream_response_time","upstream_response_length":"$upstream_response_length","upstream_cache_status":"$upstream_cache_status","ssl_protocol":"$ssl_protocol","ssl_cipher":"$ssl_cipher","scheme":"$scheme","request_method":"$request_method","server_protocol":"$server_protocol","pipe":"$pipe","gzip_ratio":"$gzip_ratio","http_cf_ray":"$http_cf_ray","geoip_country_code":"$geoip_country_code"}'
+    proxySetHeaders:
+      GeoIP-Country-Code: "$geoip_country_code"
+      GeoIP-Country-Name: "$geoip_country_name"
+      GeoIP-Continent-Code: "$geoip_city_continent_code"
+      GeoIP-Region-Name: "$geoip_region_name"
+      GeoIP-Region: "$geoip_region"
+      GeoIP-City: "$geoip_city"
+      GeoIP-Metro-Code: "$geoip_dma_code"
+      GeoIP-Area-Code: "$geoip_area_code"
+      GeoIP-Latitude: "$geoip_latitude"
+      GeoIP-Longitude: "$geoip_longitude"
+      GeoIP-Postal-Code: "$geoip_postal_code"
+      GeoIP-Isp: "$geoip_org"
+      GeoIP-Organization: "$geoip_org"
+    metrics:
+      enabled: true
+      service:
+        annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "10254"
+        prometheus.io/path: "/metrics"
+        prometheus.io/scheme: http
+      serviceMonitor:
+        enabled: true
+      prometheusRule:
+        enabled: false
