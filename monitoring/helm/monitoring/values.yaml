@@ -172,6 +172,9 @@ kube-prometheus-stack:
       labels:
         app.kubernetes.io/managed-by: Helm
     prometheusSpec:
+      prometheusExternalLabelName: cluster
+      externalLabels:
+        cluster: "plural"
       storageSpec:
         volumeClaimTemplate:
           spec:

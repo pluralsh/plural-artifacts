@@ -2,6 +2,10 @@
 kube-prometheus-stack:
   grafana:
     namespaceOverride: {{ $grafanaNamespace }}
+  prometheus:
+    prometheusSpec:
+      externalLabels:
+        cluster: {{ .Cluster }}
 
 {{- if .Configuration }}
 {{- if index .Configuration "grafana-tempo" }}
