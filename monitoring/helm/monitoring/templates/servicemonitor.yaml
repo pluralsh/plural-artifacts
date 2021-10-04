@@ -15,4 +15,7 @@ spec:
   - port: monitoring
     path: /metrics
     interval: 5s
+  - port: prom-export
+    path: /metrics
+    interval: 5s
 {{- end }}

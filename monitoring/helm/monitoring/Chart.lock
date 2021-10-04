@@ -10,6 +10,6 @@ dependencies:
   version: 3.6.1
 - name: opentelemetry-operator
   repository: https://pluralsh.github.io/plural-helm-charts
-  version: 0.3.3
-digest: sha256:110fe0373d1373b8200b483b69271d656e1021de014d8a1636f463f758dbdf71
-generated: "2021-10-04T12:13:35.62079356+02:00"
+  version: 0.3.4
+digest: sha256:823647f81ea4aaec830d6b529fc696ad64d1b4a54884f25cfdc79c3f11db9dc7
+generated: "2021-10-04T13:53:03.443854285+02:00"
