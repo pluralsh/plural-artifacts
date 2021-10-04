@@ -1,0 +1,7 @@
+name: grafana-tempo
+description: easy-to-use and high-scale distributed tracing backend
+category: DEVOPS
+icon: plural/icons/tempo.png
+notes: plural/notes.tpl
+tags:
+- tag: observability

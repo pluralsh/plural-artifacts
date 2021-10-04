@@ -127,3 +127,6 @@ upload-goldilocks: # uploads goldilocks artifacts
 
 upload-crossplane: # uploads crossplane artifacts
 	plural apply -f crossplane/Pluralfile
+
+upload-grafana-tempo: # uploads grafana-tempo artifacts
+	plural apply -f grafana-tempo/Pluralfile
