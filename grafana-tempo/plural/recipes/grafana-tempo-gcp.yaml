@@ -1,0 +1,20 @@
+name: grafana-tempo-gcp
+description: Installs grafana-tempo on a gcp gke cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-kubernetes
+- repo: redis
+  name: gcp-redis
+sections:
+- name: grafana-tempo
+  items:
+  - type: TERRAFORM
+    name: gcp
+    configuration:
+    - name: tempoBucket
+      type: STRING
+      documentation: Arbitrary bucket name to store the traces in, eg plural-tempo-traces
+  - type: HELM
+    name: grafana-tempo
+    configuration: []

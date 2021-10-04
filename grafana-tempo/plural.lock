@@ -1,12 +1,14 @@
 artifact: {}
 terraform:
   terraform/aws: h1:3729PYZMPfXYaNJrNULA2SD7+vt1YSCi8u/4z8cIPRQ=
-  terraform/azure: h1:drnHlr2OF16rHcpwsrHvli9AFg4eQIrZMhyDqdMXz8c=
-  terraform/gcp: h1:zQWng2jzjnXnXdDWKwS1YtRArPGPPI2fKOg7nZkiy+4=
+  terraform/azure: h1:kRjCE2IYRIdzjqCSWVlNS0JLOtIEUPa9Y1SXCJy6JgA=
+  terraform/gcp: h1:fNuccpaCDMqGsAjg1mdfOxEoWklfDgKm6uGNAxrIrAQ=
 helm:
-  helm/grafana-tempo: h1:jwz66jrO9hanSIHGqqkBPJPbqsGbOhPh2hE/mODE/x8=
+  helm/grafana-tempo: h1:PSu8yqRhLB7aIr8KNC3pkQ99ZE2LEtaydTvz79GcUhw=
 recipe:
   plural/recipes/grafana-tempo-aws.yaml: b17071c1327a064860be4f46e16c1b928536e5c3565e79bf26ba6027814ed016
+  plural/recipes/grafana-tempo-azure.yaml: 8971e9955e5c24f20d4f1b8f5817a2be3adc13a2fea60d689ffbeea69e1b2f66
+  plural/recipes/grafana-tempo-gcp.yaml: f647c85397fc04ebe0bd589302f19f5ed064d4f670f6840a9cea3d629234c20d
 integration: {}
 crd: {}
 ird: {}
