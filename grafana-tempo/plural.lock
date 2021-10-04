@@ -4,7 +4,7 @@ terraform:
   terraform/azure: h1:drnHlr2OF16rHcpwsrHvli9AFg4eQIrZMhyDqdMXz8c=
   terraform/gcp: h1:zQWng2jzjnXnXdDWKwS1YtRArPGPPI2fKOg7nZkiy+4=
 helm:
-  helm/grafana-tempo: h1:G5OEWFNU/vSOsW9vEbDNp0tII+6bbe3iLN0H84tyRvI=
+  helm/grafana-tempo: h1:jwz66jrO9hanSIHGqqkBPJPbqsGbOhPh2hE/mODE/x8=
 recipe:
   plural/recipes/grafana-tempo-aws.yaml: b17071c1327a064860be4f46e16c1b928536e5c3565e79bf26ba6027814ed016
 integration: {}

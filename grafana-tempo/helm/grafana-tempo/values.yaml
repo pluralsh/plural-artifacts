@@ -5,6 +5,10 @@ tempo-distributed:
     jaeger:
       grpc: true
     zipkin: true
+    otlp:
+      http: true
+      grpc: true
+    opencensus: true
   storage:
     trace:
       cache: redis
