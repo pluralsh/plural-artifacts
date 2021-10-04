@@ -10,9 +10,9 @@ spec:
       - {{ .Release.Namespace }}
   selector:
     matchLabels:
-      app.kubernetes.io/instance: {{ .Release.Namespace }}.plural-otel
+      app.kubernetes.io/instance: monitoring.plural-otel
   endpoints:
-  - port: 8888
+  - port: monitoring
     path: /metrics
     interval: 5s
 {{- end }}
