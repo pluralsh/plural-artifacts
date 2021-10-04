@@ -1,4 +1,5 @@
 {{- if .Capabilities.APIVersions.Has "opentelemetry.io/v1alpha1" }}
+{{- if index .Values "opentelemetry-operator" "collector" "enabled" }}
 apiVersion: opentelemetry.io/v1alpha1
 kind: OpenTelemetryCollector
 metadata:
@@ -15,9 +16,9 @@ spec:
     exporters:
       logging:
       prometheus:
-        endpoint: "0.0.0.0:8889"
+        endpoint: "0.0.0.0:8888"
       otlp:
-        endpoint: "0.0.0.0:55680"
+        endpoint: "grafana-tempo-tempo-distributed-distributor.{{ index .Values "opentelemetry-operator" "collector" "tempoNamespace" }}:55680"
     
     extensions:
         health_check:
@@ -34,4 +35,5 @@ spec:
           receivers: [opencensus]
           processors: []
           exporters: [prometheus]
+{{- end }}
 {{- end }}

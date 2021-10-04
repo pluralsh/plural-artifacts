@@ -204,4 +204,7 @@ kube-prometheus-stack:
       probeSelectorNilUsesHelmValues: false
       probeSelector: {}
 
-opentelemetry-operator: {}
+opentelemetry-operator:
+  collector:
+    enabled: false
+    tempoNamespace: grafana-tempo
