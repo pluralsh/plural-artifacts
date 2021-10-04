@@ -1,5 +1,16 @@
 {{ $redisNamespace := namespace "redis" }}
 {{ $creds := secret $redisNamespace "redis-password" }}
+
+{{- if eq .Provider "aws" }}
+provider: aws
+{{- else if eq .Provider "google" }}
+provider: google
+{{- else if eq .Provider "azure" }}
+provider: azure
+tempoStorageIdentityId: {{ importValue "Terraform" "tempo_msi_id" }}
+tempoStorageIdentityClientId: {{ importValue "Terraform" "tempo_msi_client_id" }}
+{{- end }}
+
 tempo-distributed:
   serviceAccount:
     {{- if eq .Provider "google" }}
