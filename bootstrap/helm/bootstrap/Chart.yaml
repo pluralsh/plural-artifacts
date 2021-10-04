@@ -8,7 +8,7 @@ sources:
 maintainers:
 - name: michaeljguarino
   email: mguarino46@gmail.com
-version: 0.7.2
+version: 0.7.4
 
 dependencies:
 - name: external-dns
@@ -18,9 +18,6 @@ dependencies:
   version: 5.8.7
   condition: metrics-server.enabled
   repository: https://charts.bitnami.com/bitnami
-- name: ingress-nginx
-  version: 3.29.0
-  repository: https://kubernetes.github.io/ingress-nginx
 - name: cert-manager
   version: v1.4.0
   repository: https://charts.jetstack.io
