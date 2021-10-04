@@ -4,11 +4,11 @@ terraform:
   terraform/azure: h1:ZGPWr2FsR4MfT2TJA/q13zEP0EimGsH8Xqvg9qMbj94=
   terraform/gcp: h1:dNW+CnPj0c6GaxXvJaofzpoVBt2Klk0KNawe9Rypkow=
 helm:
-  helm/console: h1:zUqEUC92S6AXn4gefoX6PIfCScoF3PpATlP+gfueRQY=
+  helm/console: h1:yEUQkG6CGqIxLZ0MvXVzZdx8N+C++jjiKrDPJyv3bzg=
 recipe:
-  plural/recipe/console-aws.yaml: 6af27ee455fefb79ffb6cae601bea29f490e0a743805689f39fb5ada4398b7f7
-  plural/recipe/console-azure.yaml: f226d435bb0436de77cc6bedac84109d2e1bdeacd5dad5fa08316c3e14cd34f4
-  plural/recipe/console-gcp.yaml: b494d03e07c321eb45aaad38c5b6a3006ca227e5a9f39f6ae9ba8596b0d379b1
+  plural/recipe/console-aws.yaml: caebd55f1d12f6466ea82f7a276b1fdc83d9f94d8aec8848775ec6cfbff6ee38
+  plural/recipe/console-azure.yaml: 4357f0057db31a857aa4241affdb816fa1681df6fb4ec00695a298eb84c1587f
+  plural/recipe/console-gcp.yaml: 17ae03ebb5153b1e2d4f5f03453f2466bfb2016f77aa81dac43346c79f1375b4
 integration: {}
 crd: {}
 ird: {}
