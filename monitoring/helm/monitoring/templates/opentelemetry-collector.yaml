@@ -25,7 +25,10 @@ spec:
       otlp:
         endpoint: "grafana-tempo-tempo-distributed-distributor.{{ index .Values "opentelemetry-operator" "collector" "tempoNamespace" }}:55680"
         insecure: true
-    
+
+    processors:
+      batch:
+
     extensions:
         health_check:
         pprof:
@@ -36,10 +39,11 @@ spec:
       pipelines:
         traces:
           receivers: [zipkin, opencensus]
+          processors: [batch]
           exporters: [otlp]
         metrics:
           receivers: [opencensus]
-          processors: []
+          processors: [batch]
           exporters: [prometheus]
 {{- end }}
 {{- end }}
