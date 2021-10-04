@@ -1,0 +1,20 @@
+name: grafana-tempo-aws
+description: Installs grafana-tempo on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: redis
+  name: aws-redis
+sections:
+- name: grafana-tempo
+  items:
+  - type: TERRAFORM
+    name: aws
+    configuration:
+    - name: tempoBucket
+      type: STRING
+      documentation: Arbitrary bucket name to store the traces in, eg plural-tempo-traces
+  - type: HELM
+    name: grafana-tempo
+    configuration: []

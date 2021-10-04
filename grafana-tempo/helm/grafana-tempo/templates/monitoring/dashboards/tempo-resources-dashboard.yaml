@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tempo-resources-dashboard
+  labels: {{ include "grafana-tempo.labels" . | nindent 4 }}
+    grafana_dashboard: tempo-resources-dashboard
+  annotations:
+    k8s-sidecar-target-directory: /tmp/dashboards/Tempo Dashboards
+data:
+  tempo-resources.json: |-
+{{ .Files.Get "grafana-dashboards/tempo-resources.json" | indent 4 }}

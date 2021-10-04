@@ -1,0 +1,19 @@
+artifact: {}
+terraform:
+  terraform/aws: h1:3729PYZMPfXYaNJrNULA2SD7+vt1YSCi8u/4z8cIPRQ=
+  terraform/azure: h1:drnHlr2OF16rHcpwsrHvli9AFg4eQIrZMhyDqdMXz8c=
+  terraform/gcp: h1:zQWng2jzjnXnXdDWKwS1YtRArPGPPI2fKOg7nZkiy+4=
+helm:
+  helm/grafana-tempo: h1:G5OEWFNU/vSOsW9vEbDNp0tII+6bbe3iLN0H84tyRvI=
+recipe:
+  plural/recipes/grafana-tempo-aws.yaml: b17071c1327a064860be4f46e16c1b928536e5c3565e79bf26ba6027814ed016
+integration: {}
+crd: {}
+ird: {}
+tag:
+  plural/tags/helm/grafana-tempo.yaml: f126d5d1ecab9cd4d609dc8524b3e178081519d84bdfd006ef56f753e587c0c5
+  plural/tags/terraform/aws.yaml: 01c402c260cc7fe359d1ebc4302ff11539cfabbd5a82745907ad445914153bb7
+  plural/tags/terraform/azure.yaml: 86b17dc5dcbc7d877dddbda68b790231f9f7eaa025d00471360108ccd5f42a07
+  plural/tags/terraform/gcp.yaml: 3761f7e078206cf85f48969d231071adfb3b68ee68b7c68a2b50045e896a3288
+attrs:
+  repository.yaml_Plural: Lok-x6ZQfYUhCNeZAoWzS6t37aAZ8G_oWRA5XBxO7oA=

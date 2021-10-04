@@ -4,7 +4,7 @@ terraform:
   terraform/azure: h1:fu3ccCfQ8RVG8h3sri9r/8gDdwgnCsxf0qLF3od+J3w=
   terraform/gcp: h1:kVk8wnq85D6o56XBBZSfvk6YRXj3BYHpa+nVAdcRkL0=
 helm:
-  helm/grafana: h1:VgHeV44PU8Rbuvm1zRwY4wRZ5X5rGBOl6nIW2MZqH1Q=
+  helm/grafana: h1:1Pvzp8fdHCuBxqPgwrsUsScwoiNJ0uEqL2qOXxOIjDY=
 recipe:
   plural/recipes/aws-grafana.yaml: ecdad4b2d56904d8a48b79fc67c44bb5debc3e0f574efe94613e7523bb4d4cdd
   plural/recipes/azure-grafana.yaml: 79ae4d87b5c10602309efdd4773244bc4ceba7295f33c82bec8cdec04a2ceaad
