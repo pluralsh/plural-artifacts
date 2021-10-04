@@ -1,7 +1,8 @@
+{{- if .Capabilities.APIVersions.Has "opentelemetry.io/v1alpha1" }}
 apiVersion: opentelemetry.io/v1alpha1
 kind: OpenTelemetryCollector
 metadata:
-  name: my-collector
+  name: plural-otel
 spec:
   mode: deployment # This configuration is omittable.
   config: |
@@ -30,6 +31,7 @@ spec:
           receivers: [zipkin]
           exporters: [otlp]
         metrics:
-          receivers:[opencensus]
+          receivers: [opencensus]
           processors: []
           exporters: [prometheus]
+{{- end }}
