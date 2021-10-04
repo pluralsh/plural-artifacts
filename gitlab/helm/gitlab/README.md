@@ -11,14 +11,12 @@ For configuration of the gitlab chart itself, see https://docs.gitlab.com/charts
 
 ## SSH setup
 
-To configure ssh, you need to do a bit of manual work to open port 22 on the ingress resource.  Since plural uses ingress-nginx with TCP support by default, you can follow its guidelines about opening TCP services.  This amounts to adding configuration in your bootstrap application config like
+To configure ssh, you need to do a bit of manual work to open port 22 on the ingress resource.  Since plural uses ingress-nginx with TCP support by default, you can follow its guidelines about opening TCP services.  This amounts to adding configuration in your ingress-nginx application config like
 
 ```yaml
-bootstrap:
-  ...
-  ingress-nginx:
-    tcp:
-      22: gitlab/gitlab-gitlab-shell:22 # add :PROXY to the end of the string for AWS, which requires proxy-protocol to be enabled
+ingress-nginx:
+  tcp:
+    22: gitlab/gitlab-gitlab-shell:22 # add :PROXY to the end of the string for AWS, which requires proxy-protocol to be enabled
 ```
 
 You might see a message like `Host key verification failed` as a result of attempting to push via ssh.  Simply run:
