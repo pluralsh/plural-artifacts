@@ -10,6 +10,10 @@ dependencies:
     name: gcp-kubernetes
   - repo: monitoring
     name: monitoring-gcp
+  - repo: ingress-nginx
+    name: ingress-nginx-gcp
+  - repo: postgres
+    name: gcp-postgres
 sections:
   - name: console
     items:

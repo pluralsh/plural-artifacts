@@ -4,11 +4,11 @@ terraform:
   terraform/azure: h1:eItrN7DnakImS6kfrbW+f28s+czALcH4LHnslsnmsUY=
   terraform/gcp: h1:SqJ95YgGxj63LL03Xugk9Lwak3yIghu7d7a4jgALcxA=
 helm:
-  helm/sentry: h1:O8nV6emniN/GHdcodku/UVeVjurhpJr0ZGk2RCBRC/A=
+  helm/sentry: h1:O9P4WV7m6SmlG3PG2NqDbd0lJS5YgupkrCxFVz52d74=
 recipe:
-  plural/recipes/aws-sentry.yaml: e06836cb28c11c39d939df1e2689fc62577994327d53bdbbb13ea939aa934f5e
-  plural/recipes/azure-sentry.yaml: 8bbb170c15e6de2b516561873da26907dd4b981f4503f81db92767bd9e308e40
-  plural/recipes/gcp-sentry.yaml: 9f1fb68b9e9db51ac025cbc9d1f34c06a806717115e508d0359f59cb40559f1b
+  plural/recipes/aws-sentry.yaml: de5cc06e976f7ede0b1b003283a57e4a1c16f6b764984174e3258096b754d2b3
+  plural/recipes/azure-sentry.yaml: c5a20d4d5166eb48166b6e5a23e9a1746068491c90c6cc4c2b5adfd3e0bec220
+  plural/recipes/gcp-sentry.yaml: d651d40827504741dd155d1f4d14428487d634bce630bfe8bde67307ff3b35c8
 integration: {}
 crd: {}
 ird: {}

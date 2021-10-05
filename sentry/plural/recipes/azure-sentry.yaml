@@ -8,6 +8,8 @@ oidcSettings:
 dependencies:
 - repo: bootstrap
   name: azure-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-azure
 - repo: rabbitmq
   name: rabbitmq-azure
 - repo: redis

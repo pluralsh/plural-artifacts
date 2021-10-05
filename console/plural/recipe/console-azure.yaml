@@ -10,6 +10,8 @@ dependencies:
     name: azure-k8s
   - repo: monitoring
     name: monitoring-azure
+  - repo: ingress-nginx
+    name: ingress-nginx-azure
   - repo: postgres
     name: azure-postgres
 sections:

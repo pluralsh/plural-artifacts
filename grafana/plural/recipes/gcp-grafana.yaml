@@ -8,6 +8,8 @@ oidcSettings:
 dependencies:
 - repo: bootstrap
   name: gcp-kubernetes
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
 sections:
 - name: grafana
   items:

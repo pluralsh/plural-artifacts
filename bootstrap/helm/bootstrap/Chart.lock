@@ -5,9 +5,6 @@ dependencies:
 - name: metrics-server
   repository: https://charts.bitnami.com/bitnami
   version: 5.8.7
-- name: ingress-nginx
-  repository: https://kubernetes.github.io/ingress-nginx
-  version: 3.29.0
 - name: cert-manager
   repository: https://charts.jetstack.io
   version: v1.4.0
@@ -20,5 +17,5 @@ dependencies:
 - name: aws-load-balancer-controller
   repository: https://aws.github.io/eks-charts
   version: 1.2.3
-digest: sha256:296ce40d275e775f3a26b620c8f5b762d020672b39730acae28ab68578e4cee1
-generated: "2021-08-03T15:04:00.037868756+02:00"
+digest: sha256:e2b8d62fbaf48134523ac25a444c998ce318f899227a28a604ab25a833924295
+generated: "2021-10-04T19:26:46.550762061+02:00"

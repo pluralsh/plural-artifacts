@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: nginx-ingress-controller-dashboard
-  labels: {{ include "bootstrap.labels" . | nindent 4 }}
+  labels: {{ include "ingress-nginx-plural.labels" . | nindent 4 }}
     grafana_dashboard: nginx-ingress-controller-dashboard
   annotations:
     k8s-sidecar-target-directory: /tmp/dashboards/NGINX Dashboards

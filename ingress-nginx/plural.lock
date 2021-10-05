@@ -1,0 +1,21 @@
+artifact: {}
+terraform:
+  terraform/aws: h1:d5MZ6kjb4E/blpb6g2OiO/0NXU+I3azDtcwxx62qbao=
+  terraform/azure: h1:dHo3jKot8uNJbak1RrVkmlnbvgGo/hJ2kNyW2HmhVS8=
+  terraform/gcp: h1:TgeMB0ft5b8AEPqfCA+ig/rT1j+wRvQNs3xe8QvbAg0=
+helm:
+  helm/ingress-nginx: h1:hNCYfBV40aVphhe18KxyZzGSYbMFfMG3GZZod6RAL3I=
+recipe:
+  plural/recipes/ingress-nginx-aws.yaml: 8305de23da3e83f483f2acc6685c2296dd05142975f4b41ac3c8c2c915a1c924
+  plural/recipes/ingress-nginx-azure.yaml: 9252418ca0cf84774083973d93732d943b872b56f713650dbd0fbbb9f451dd86
+  plural/recipes/ingress-nginx-gcp.yaml: 17ff09f10ccfe00ee69db454605ea8a5426e52983b62f40625e64bc1fc845dd5
+integration: {}
+crd: {}
+ird: {}
+tag:
+  plural/tags/helm/ingress-nginx.yaml: a2bf2be66526f9c3c5364a6816d55bc4498eefcdf8ed86037853c1b6aadc889f
+  plural/tags/terraform/aws.yaml: 01c402c260cc7fe359d1ebc4302ff11539cfabbd5a82745907ad445914153bb7
+  plural/tags/terraform/azure.yaml: 86b17dc5dcbc7d877dddbda68b790231f9f7eaa025d00471360108ccd5f42a07
+  plural/tags/terraform/gcp.yaml: 3761f7e078206cf85f48969d231071adfb3b68ee68b7c68a2b50045e896a3288
+attrs:
+  repository.yaml_Plural: odmBoxkL1l1_AYI_7S6yEWNTKFLYTvfJxsLJuK5SfO0=

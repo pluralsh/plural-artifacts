@@ -10,9 +10,21 @@ spec:
     repo: bootstrap
     version: '>= 0.5.1'
   - type: helm
+    name: ingress-nginx
+    repo: ingress-nginx
+    version: '>= 0.1.2'
+  - type: helm
     name: postgres
     repo: postgres
     version: '>= 0.1.0'
+  - type: helm
+    name: cluster-operator
+    repo: rabbitmq
+    version: '>= 0.1.11'
+  - type: helm
+    name: influx
+    repo: influx
+    version: '>= 0.1.10'
   - type: terraform
     name: aws
     repo: plural
