@@ -3,7 +3,11 @@ terraform:
   terraform/aws: h1:XmviErHdujaOBxUAmDKJF0OepR8g9zYFPTO0N+GTXSQ=
   terraform/gcp: h1:ropodvdgaQhtWl7yoa3e7T94uGr7CK/eKDeVFjo5oHE=
 helm:
+<<<<<<< HEAD
   helm/plural: h1:3ZCvG/jH28LIcDEDlG+/J5tL3stER3W0322rrFfDF+Q=
+=======
+  helm/plural: h1:/n00Ng5ZSLIrXedaAnyP5Cgz2BJZCQBXlGDwneCj4hs=
+>>>>>>> 6b80eb3 (prometheus rules)
 recipe:
   plural/recipes/aws.yaml: b08b33270f990d51cb26b582eac96ca52943f622d945cf0284e0d1efbaeaddef
   plural/recipes/gcp.yaml: 6512a45c60d2f7201a60546373be49462880837d6cccde05f2a90db69e249f70

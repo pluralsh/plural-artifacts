@@ -8,6 +8,9 @@ metadata:
 spec:
   name: Postgres Scaling
   description: overview of how to accurately scale plural's postgres instance
+  alerts:
+  - name: PluralDbCPU
+  - name: PluralDbMEM
   display: |-
 {{ .Files.Get "runbooks/db-scaling-manual.xml" | indent 4 }}
   datasources:
@@ -63,6 +66,9 @@ metadata:
 spec:
   name: Hydra Postgres Scaling
   description: overview of how to accurately scale hydra's postgres instance
+  alerts:
+  - name: PluralHydraCPU
+  - name: PluralHydraMEM
   display: |-
 {{ .Files.Get "runbooks/db-scaling-manual.xml" | indent 4 }}
   datasources:

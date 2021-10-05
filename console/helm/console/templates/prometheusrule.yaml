@@ -62,5 +62,3 @@ spec:
       annotations:
         summary: Console postgres memory has gotten too high
         description: the memory utilization of your console deployment's postgres db is higher than recommended
-
-    

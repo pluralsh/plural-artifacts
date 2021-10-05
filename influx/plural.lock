@@ -4,7 +4,7 @@ terraform:
   terraform/azure: h1:SR1TElBo0OmA7cEKisckG+9IXmdDQKhSvqyewu4nb0Q=
   terraform/gcp: h1:IE8CvtV7WiP+4jGRrvzPvky2ZugiuwKwFRvuz6n3gbM=
 helm:
-  helm/influx: h1:6x7lKb0ekTg3BElzuuvCGeOMWmCe8CxoGdgVfg+84pU=
+  helm/influx: h1:3RYrUiKh0JxpJMRgmLamzAU5X9aUdkVIaaQz8VmZbb4=
 recipe:
   plural/recipes/influx-aws.yaml: 504928d79b52b9ceba691f382e018c01f3a2dd160978f7998acc52b68656b86c
   plural/recipes/influx-azure.yaml: bdef63d64ed34401cd87cb8b4590d1aca91e4ebbc49b89d97c0b1a8e52da59fb
