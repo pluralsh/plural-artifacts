@@ -4,6 +4,8 @@ provider: AWS
 dependencies:
 - repo: bootstrap
   name: aws-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-aws
 - repo: postgres
   name: aws-postgres
 - repo: rabbitmq

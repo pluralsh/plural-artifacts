@@ -4,10 +4,12 @@ provider: GCP
 dependencies:
 - repo: bootstrap
   name: gcp-kubernetes
-- repo: rabbitmq
-  name: rabbitmq-gcp
+- repo: ingress-nginx
+  name: ingress-nginx-aws
 - repo: postgres
   name: gcp-postgres
+- repo: rabbitmq
+  name: rabbitmq-gcp
 - repo: influx
   name: influx-gcp
 sections:

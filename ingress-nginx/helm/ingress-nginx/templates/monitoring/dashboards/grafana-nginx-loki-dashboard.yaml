@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: grafana-nginx-loki-dashboard
-  labels: {{ include "bootstrap.labels" . | nindent 4 }}
+  labels: {{ include "ingress-nginx-plural.labels" . | nindent 4 }}
     grafana_dashboard: grafana-nginx-loki-dashboard
   annotations:
     k8s-sidecar-target-directory: /tmp/dashboards/NGINX Dashboards

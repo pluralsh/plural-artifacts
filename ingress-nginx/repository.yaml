@@ -1,0 +1,8 @@
+name: ingress-nginx
+description: NGINX Ingress Controller for Kubernetes
+category: DEVOPS
+icon: plural/icons/nginx.png
+notes: plural/notes.tpl
+tags:
+- tag: ingress
+- tag: nginx

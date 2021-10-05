@@ -4,11 +4,11 @@ terraform:
   terraform/azure: h1:os+ttGQ8TeC4EDQE/pwAxIyGylkAkAGWRIQjhoFDYgc=
   terraform/gcp: h1:otiyICEazr8I7Z4s5wSr3MPWAzXXKULv+O8c7ufEKvw=
 helm:
-  helm/minio: h1:nQhJCbmbblZkQGFCRZkRf4rWdFzkywMjV0WKxOaqKME=
+  helm/minio: h1:n9eLHh8EQawjCs4PGEx0fsoDSTw7RJVN8NiPTvcTYfU=
 recipe:
-  plural/recipes/minio-aws.yaml: 605393dcb90b6cef32065c402102765cd8aa59f6a9b49691713c9789397dcb78
-  plural/recipes/minio-azure.yaml: 0d58d30f23f4621830dc864b03e529d4e43d0060444354952a490b936611176c
-  plural/recipes/minio-gcp.yaml: bee546cdd8da091c9b19928b33529c872c93d66c6b91a7c23f46314fc7c2aedb
+  plural/recipes/minio-aws.yaml: 979226192f78f65a1f19d223672a34ecff5434d8266a763c8327cf2eac51af6c
+  plural/recipes/minio-azure.yaml: 6118fa031b8171878cff851d7eafe3177e541e6233b79189cdfc801425cac509
+  plural/recipes/minio-gcp.yaml: 2dc9dff4752474ccfb29b5d28cc82c690778e77fa12b6a201f704926f64074b0
 integration: {}
 crd: {}
 ird: {}

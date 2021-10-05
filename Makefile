@@ -130,3 +130,6 @@ upload-crossplane: # uploads crossplane artifacts
 
 upload-grafana-tempo: # uploads grafana-tempo artifacts
 	plural apply -f grafana-tempo/Pluralfile
+
+upload-ingress-nginx: # uploads ingress-nginx artifacts
+	plural apply -f ingress-nginx/Pluralfile

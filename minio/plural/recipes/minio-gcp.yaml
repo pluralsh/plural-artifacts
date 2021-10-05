@@ -6,6 +6,8 @@ dependencies:
   name: gcp-kubernetes
 - repo: etcd
   name: etcd-gcp
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
 sections:
 - name: minio
   items:

@@ -13,6 +13,10 @@ spec:
     name: etcd
     repo: etcd
     version: '>= 0.1.13'
+  - type: helm
+    name: ingress-nginx
+    repo: ingress-nginx
+    version: '>= 0.1.2'
   - type: terraform
     name: aws
     repo: minio

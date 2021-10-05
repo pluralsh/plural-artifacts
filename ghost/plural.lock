@@ -4,11 +4,11 @@ terraform:
   terraform/azure: h1:QiGCixnhWQQBnhParJZlcBJ3ru5cjyfKHeE1vNYhG0w=
   terraform/gcp: h1:xQ4E8MOEgJ6fCw76yty76ywuWKY00WAIQzrefpqIVUg=
 helm:
-  helm/ghost: h1:YTOr/djfrG/AytQ55lh1OsaQAByUxjEG+kEoMJGv16I=
+  helm/ghost: h1:IsaSVA/i4PeoC1ERMDmVO8rxACTF24k9utSmLUGLQqQ=
 recipe:
-  plural/recipes/ghost-aws.yaml: 4ef7ad320f1c5a0daafb26ae7e3d4a8859250d2601ffc8fe3d675454385bc54e
-  plural/recipes/ghost-azure.yaml: b50cbfd1990ee97a91f16049e3fc10784cd0b898e236d935d0007b4aff86c489
-  plural/recipes/ghost-gcp.yaml: 47fcf0a518719627b781eec6fe00f62f22369e330dc935b25e732702e61e8f50
+  plural/recipes/ghost-aws.yaml: 1b0d00fcb2235b4bc1dde245523e473eb6b0b8b9409c28341359459f42db3ccd
+  plural/recipes/ghost-azure.yaml: 8e8d2dca77d9bd84b1c03c97aa5f446b9d6862ac1de1c322cc54ddd318391e01
+  plural/recipes/ghost-gcp.yaml: 6b5409839d4f5244c85188d4f860c88b6747dfca584440e9dcbd87a076da5b0c
 integration: {}
 crd: {}
 ird: {}

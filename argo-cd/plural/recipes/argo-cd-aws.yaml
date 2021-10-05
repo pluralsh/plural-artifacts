@@ -8,6 +8,10 @@ oidcSettings:
 dependencies:
 - repo: bootstrap
   name: aws-k8s
+- repo: redis
+  name: aws-redis
+- repo: ingress-nginx
+  name: ingress-nginx-aws
 sections:
 - name: argo-cd
   items:

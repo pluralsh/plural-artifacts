@@ -4,10 +4,10 @@ terraform:
   terraform/azure: h1:jWyQiP2VWnslaOTNvBx9xrtP9ToaJTq7IAxB04WK5wA=
   terraform/gcp: h1:DoaptJC/2Ay58N1ziTGrvszZQvjA4QjxMwkkXTq9hO0=
 helm:
-  helm/gitlab: h1:CGEBPUPup+Ik/Nk+Ja6xLi9sG/NYqr1qGy06LLUwyEI=
+  helm/gitlab: h1:yd0kqH/2x54iufbIBRjTGd/dUBUdFQrCbRhHQUNxCFQ=
 recipe:
-  plural/recipes/aws-gitlab.yaml: 25a504749242bb46731f61398e508ab2f7b0e94c2b4b0290654d2bc826d4c6aa
-  plural/recipes/gcp-gitlab.yaml: 67d6505d43fff7441df02b53e8663a81341d1283c0bf96b80aa2503a12d6e9e5
+  plural/recipes/aws-gitlab.yaml: bb2c3f959a1dc224cf583cf3a02b08a4e1fc252a217302b37b3ad3f83b30ea35
+  plural/recipes/gcp-gitlab.yaml: f9be5e2396234a29214ddbb18ddbba875d6e1d617608c64b3a024b2acdabe550
 integration: {}
 crd: {}
 ird: {}
