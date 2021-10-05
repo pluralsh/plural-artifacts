@@ -101,6 +101,9 @@ metadata:
 spec:
   name: Postgres Scaling
   description: overview of how to accurately scale airflow's postgres instance
+  alerts:
+  - name: AirflowPostgresCPU
+  - name: AirflowPostgresMEM
   display: |-
 {{ .Files.Get "runbooks/db-scaling.xml" | indent 4 }}
   datasources:

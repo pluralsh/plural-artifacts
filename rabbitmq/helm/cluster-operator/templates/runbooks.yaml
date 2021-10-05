@@ -8,6 +8,9 @@ metadata:
 spec:
   name: Rabbitmq Scaling
   description: overview of how to accurately scale your rabbitmq cluster
+  alerts:
+  - name: RabbitmqCPU
+  - name: RabbitmqMEM
   display: |-
 {{ .Files.Get "runbooks/scaling-manual.xml" | indent 4 }}
   datasources:

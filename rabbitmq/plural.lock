@@ -4,14 +4,14 @@ terraform:
   terraform/kube: h1:EPfg93jf9+Mn+2suhIYMYuTdZ9m+81dLAqLo5EUn1Sk=
 helm:
   charts/cluster-operator: h1:SGvYMMbOxj5y3D6MYbR74pcR7/pwXhvwRODgPNf2Sjc=
-  helm/cluster-operator: h1:OYbfz1Gx5xBGsZSESOvp7gXvFtbN7ewHe6yM+tSirt0=
+  helm/cluster-operator: h1:ufmvr/f5FuVHsk1vBCiiubw5nvM0LyzNfWy/CS4G8iM=
 recipe:
   plural/recipes/rabbit-aws.yaml: 56d469b80f8162ff075c0a8136f25d908d29eb42d88513aa8e1b1fa5bc88c82a
   plural/recipes/rabbit-azure.yaml: 2df73e7c7b581ac8b98e7f9b226c1afc45b459ef377f8bfcd9c4bf9ee1822ed6
   plural/recipes/rabbit-gcp.yaml: 68223073eb4f10be43b85164427fe7cdf6b76e46b99af9be6192ecfb4908ba50
 integration: {}
 crd:
-  plural/crds/rabbit_cluster.yaml: 97d128c99cbd81768cdea267f3f36f5152062f43190be9cb4b488cb94dfa91dc:h1:OYbfz1Gx5xBGsZSESOvp7gXvFtbN7ewHe6yM+tSirt0=
+  plural/crds/rabbit_cluster.yaml: 97d128c99cbd81768cdea267f3f36f5152062f43190be9cb4b488cb94dfa91dc:h1:ufmvr/f5FuVHsk1vBCiiubw5nvM0LyzNfWy/CS4G8iM=
 ird: {}
 tag:
   plural/tags/helm/cluster-operator.yaml: d735ef0f14d0bdf065ee29ef43890425a5781edc6881474888dd0364ce3be8c9

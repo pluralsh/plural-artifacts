@@ -8,6 +8,11 @@ metadata:
 spec:
   name: Redis Scaling
   description: overview of how to optimally scale your redis cluster
+  alerts:
+  - name: RedisMasterCPU
+  - name: RedisMasterMEM
+  - name: RedisReplicasCPU
+  - name: RedisReplicasMEM
   display: |-
 {{ .Files.Get "runbooks/scaling-manual.xml" | indent 4 }}
   datasources:

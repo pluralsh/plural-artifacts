@@ -12,7 +12,7 @@ spec:
   labels: []
   graphs:
   - queries:
-    - query: (kubelet_volume_stats_capacity_bytes{namespace="{{ .Release.Namespace }}"} - kubelet_volume_stats_available_bytes{namespace="{{ .Release.Namespace }}"}) / kubelet_volume_stats_capacity_bytes{namespace="{{ .Release.Namespace }}"} * 100
-      legend: $persitentvolumeclaim
+    - query: (kubelet_volume_stats_capacity_bytes{namespace="{{ .Release.Namespace }}"} - kubelet_volume_stats_available_bytes{namespace="{{ .Release.Namespace }}"}) / kubelet_volume_stats_capacity_bytes{namespace="{{ .Release.Namespace }}"}
+      legendFormat: $persistentvolumeclaim
     format: percent
     name: PVC Utilization

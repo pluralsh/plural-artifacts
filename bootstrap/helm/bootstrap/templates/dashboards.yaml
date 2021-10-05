@@ -61,7 +61,7 @@ spec:
     format: bytes
     name: Network Usage
   - queries:
-    - query: (kubelet_volume_stats_capacity_bytes - kubelet_volume_stats_available_bytes) / kubelet_volume_stats_capacity_bytes * 100
+    - query: (kubelet_volume_stats_capacity_bytes - kubelet_volume_stats_available_bytes) / kubelet_volume_stats_capacity_bytes
       legendFormat: $persistentvolumeclaim
     format: percent
-    name: Persistent Volume Usage 
+    name: Persistent Volume Usage
