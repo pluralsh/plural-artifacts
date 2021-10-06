@@ -60,8 +60,9 @@ resource "kubernetes_secret" "pipelines_s3_secret" {
 }
 
 resource "aws_s3_bucket" "pipelines" {
-  bucket = var.pipelines_bucket
-  acl    = "private"
+  bucket        = var.pipelines_bucket
+  acl           = "private"
+  force_destroy = true
 }
 
 data "aws_iam_policy_document" "kubeflow" {
