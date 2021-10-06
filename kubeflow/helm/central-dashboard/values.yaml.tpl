@@ -1,5 +1,5 @@
 {{ $istioNamespace := namespace "istio" }}
-{{ $hostname := default "kubeflow.kubeflow-aws.com" .Values.hostname }}
+{{ $hostname := .Values.hostname }}
 global:
   istioNamespace: {{ $istioNamespace }}
   domain: {{ $hostname }}
