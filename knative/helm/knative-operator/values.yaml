@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: gcr.io/knative-releases/knative.dev/operator/cmd/operator@sha256:8c059349eea290a7752737ce94e25aead18ff3fff09c2a14ba58a7e74ce80639
+  repository: gcr.io/knative-releases/knative.dev/operator/cmd/operator@sha256:eef3c6fb489a49701e558dcc6e8453936d9e7b8b2ecdfebb1035110bdaeea67d
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
@@ -24,9 +24,32 @@ serviceAccount:
 podAnnotations:
   sidecar.istio.io/inject: "false"
 
-loggingConfig: {}
+loggingConfig:
+  zap-logger-config: |
+    {
+      "level": "info",
+      "development": false,
+      "outputPaths": ["stdout"],
+      "errorOutputPaths": ["stderr"],
+      "encoding": "json",
+      "encoderConfig": {
+        "timeKey": "ts",
+        "levelKey": "level",
+        "nameKey": "logger",
+        "callerKey": "caller",
+        "messageKey": "msg",
+        "stacktraceKey": "stacktrace",
+        "lineEnding": "",
+        "levelEncoder": "",
+        "timeEncoder": "iso8601",
+        "durationEncoder": "",
+        "callerEncoder": ""
+      }
+    }
 
-observabilityConfig: {}
+observabilityConfig:
+  metrics.backend-destination: prometheus
+  metrics.request-metrics-backend-destination: prometheus
 
 podSecurityContext: {}
   # fsGroup: 2000

@@ -52,14 +52,14 @@ spec:
             - name: metrics
               containerPort: 9090
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /metrics
-              port: metrics
-          readinessProbe:
-            httpGet:
-              path: /metrics
-              port: metrics
+          # livenessProbe:
+          #   httpGet:
+          #     path: /metrics
+          #     port: metrics
+          # readinessProbe:
+          #   httpGet:
+          #     path: /metrics
+          #     port: metrics
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
