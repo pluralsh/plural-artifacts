@@ -85,7 +85,7 @@ resource "aws_eks_node_group" "gpu" {
   instance_types = var.gpu_instance_type
   ami_type = "AL2_x86_64_GPU"
   release_version = "1.21.2-20210914"
-  capacity_type = "SPOT"
+  capacity_type = "ON_DEMAND"
 
   scaling_config {
     desired_size = 0
