@@ -156,6 +156,9 @@ kiali-server:
     tracing:
       in_cluster_url: http://grafana-tempo-tempo-distributed-query-frontend.{{ $tempoNamespace }}:16686
 
-{{ $oath2proxyNamespace := namespace "oauth2-proxy" }}
-oauth2proxy:
-  namespace: {{ $oath2proxyNamespace }}
+{{ if .Configuration.kubeflow }}
+{{ $kubeflowNamespace := namespace "kubeflow" }}
+kubeflow:
+  enabled: true
+  namespace: {{ $kubeflowNamespace }}
+{{ end }}

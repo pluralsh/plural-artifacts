@@ -102,6 +102,6 @@ kiali-server:
           var-cluster: ''
           var-instance: All
 
-oauth2proxy:
-  enabled: true
-  namespace: oauth2-proxy
+kubeflow:
+  enabled: false
+  namespace: kubeflow

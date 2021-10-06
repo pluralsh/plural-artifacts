@@ -30,10 +30,10 @@ spec:
           address: {{ .Values.monitoring.tracing.tempoService }}.{{ .Values.monitoring.tracing.tempoNamespace }}.svc.cluster.local:9411
       {{ end }}
     extensionProviders:
-    {{ if .Values.oauth2proxy.enabled }}
-    - name: oauth2-proxy
+    {{ if .Values.kubeflow.enabled }}
+    - name: kubeflow
       envoyExtAuthzHttp:
-        service: oauth2-proxy.{{ .Values.oauth2proxy.namespace }}.svc.cluster.local
+        service: kubeflow-central-dashboard.{{ .Values.kubeflow.namespace }}.svc.cluster.local
         port: '4180' # The default port used by oauth2-proxy.
         #includeHeadersInCheck: ["authorization", "cookie"]  # headers sent to the oauth2-proxy in the check request.
         includeHeadersInCheck: # headers sent to the oauth2-proxy in the check request.
