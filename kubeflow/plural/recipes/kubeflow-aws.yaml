@@ -4,6 +4,16 @@ provider: AWS
 dependencies:
 - repo: bootstrap
   name: aws-k8s
+- repo: mysql
+  name: aws-mysql
+- repo: knative
+  name: knative-aws
+- repo: crossplane
+  name: crossplane-aws
+- repo: istio
+  name: istio-aws
+- repo: oauth2-proxy
+  name: oauth2-proxy-aws
 sections:
 - name: kubeflow
   items:
@@ -21,6 +31,9 @@ sections:
       type: STRING
   - type: HELM
     name: katib
+    configuration: []
+  - type: HELM
+    name: mysql-cluster
     configuration: []
   - type: HELM
     name: notebooks
