@@ -23,7 +23,7 @@ spec:
         - /manager
         args:
         - --leader-elect
-        - --oauth-sidecar-config-path="/tmp/k8s-webhook-server/config/oauth-sidecar-config.yaml"
+        - --oauth-sidecar-config-path=/tmp/k8s-webhook-server/config/oauth-sidecar-config.yaml
         image: "{{ .Values.plural.image.repository }}:{{ .Values.plural.image.tag }}"
         imagePullPolicy: Always
         name: manager
