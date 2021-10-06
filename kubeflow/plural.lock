@@ -13,7 +13,7 @@ helm:
   helm/operators/xgboost: h1:KaitX2yztaulcHy63YJ9gogrBf6K+97ApMc1pFJzYs4=
   helm/pipelines: h1:cC7J0dxFmb72tvchLxQrwLxBXKj75eC8u1u6WgfHjOM=
   helm/profile-controller: h1:sj8K8NEmy5AWuTxlgmBK5ERSsTSvo3UtE61pUqgTSWg=
-  helm/serving: h1:dsReD4zDC/S0AYfcYMVVbFgDQxUbrunELI3xVmGhdEs=
+  helm/serving: h1:4fRZkT61hZ9xv5kc0zjPNaaz0lCtrOpXB2ejN5XckXs=
   helm/tensorboards: h1:e+2xTYX53JCJ+0gIMvpcNJRTXqUzUrkoVnp9dscn+IE=
   helm/volumes: h1:416qzMUu2Ho+jBRoSYk1oOoKKkbtigAhOWpl0AhfKaI=
 recipe:

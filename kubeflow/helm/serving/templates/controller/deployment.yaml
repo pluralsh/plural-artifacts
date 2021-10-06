@@ -71,7 +71,7 @@ spec:
         - name: cert
           secret:
             defaultMode: 420
-            secretName: {{ include "serving.fullname" . }}-controller-certs
+            secretName: kfserving-webhook-server-cert
       {{- with .Values.controller.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
