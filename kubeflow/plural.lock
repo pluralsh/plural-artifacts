@@ -1,6 +1,6 @@
 artifact: {}
 terraform:
-  terraform/aws: h1:hSNvb9g6mWHWdriyyZee2APopTjUzwAqWLXlbgl3Iiw=
+  terraform/aws: h1:TPsN9lxfBfjzXZ18zPUvRC+hbgYw2yeBVI2FzRgh90c=
 helm:
   helm/central-dashboard: h1:kyU+zF0UvaBExfIoXyPOwShEAtmcviwKY5rro8J8YX4=
   helm/katib: h1:q7G+/uGHl9w8wPqibb+/+tohX5ZnFfCExqV1y5MVJUk=
@@ -24,3 +24,4 @@ crd:
   plural/crds/profiles.yaml: b3097e7bce72e61f2f0eca692594fc5301e681c36f08ed38e205d406af99f6d4:h1:93j96nnXsNghvBD0sKNWoSPnNA7RDVtLRAoaPYAVaOg=
 ird: {}
 tag: {}
+attrs: {}

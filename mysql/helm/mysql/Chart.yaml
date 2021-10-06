@@ -2,7 +2,7 @@ apiVersion: v2
 name: mysql
 description: Deploys the mysql operator enhanced for plural
 type: application
-version: 0.1.10
+version: 0.1.11
 appVersion: "v0.5.0"
 dependencies:
 - name: mysql-operator
