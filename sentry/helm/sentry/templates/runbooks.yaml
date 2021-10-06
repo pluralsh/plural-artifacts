@@ -8,6 +8,9 @@ metadata:
 spec:
   name: Postgres Scaling
   description: overview of how to accurately scale sentry's postgres instance
+  alert:
+  - name: SentryPostgresMEM
+  - name: SentryPostgresCPU
   display: |-
 {{ .Files.Get "runbooks/db-scaling.xml" | indent 4 }}
   datasources:
