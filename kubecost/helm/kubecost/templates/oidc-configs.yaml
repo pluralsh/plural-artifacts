@@ -3,12 +3,19 @@ apiVersion: v1
 kind: Service
 metadata:
   name: kubecost-oauth2-proxy
+  labels:
+    endpoint: oauth2-proxy
+    {{- include "kubecost.labels" . | nindent 4 }}
 spec:
   ports:
   - port: 80
     targetPort: 4180
     protocol: TCP
     name: http-oauth
+  - port: 44180
+    targetPort: 44180
+    protocol: TCP
+    name: metrics-oauth
   selector:
     app: cost-analyzer
     app.kubernetes.io/instance: kubecost
@@ -69,4 +76,22 @@ spec:
   - hosts:
     - {{ .Values.oidcProxy.ingress.host | quote }}
     secretName: kubecost-tls
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    {{- include "kubecost.labels" . | nindent 4 }}
+  name: kubecost-oauth2-proxy-monitor
+spec:
+  endpoints:
+  - interval: 5s
+    path: /metrics
+    port: metrics-oauth
+  namespaceSelector:
+    matchNames:
+    - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      endpoint: oauth2-proxy
 {{- end }}
