@@ -56,7 +56,12 @@ spec:
   {{ toYaml . | nindent 4 }}
 {{ end }}
   values:
+    pilot:
+      env:
+        PILOT_ENABLE_STATUS: true
     global:
+      istiod:
+        enableAnalysis: true
       istioNamespace: {{ .Values.istio.namespace }}
       {{ if .Values.monitoring.tracing.enabled }}
       tracer:

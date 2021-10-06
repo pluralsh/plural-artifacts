@@ -99,11 +99,11 @@ resource "aws_eks_node_group" "gpu" {
 
   }
 
-  taint {
-    key = "GPU"
-    value = "true"
-    effect = "NO_SCHEDULE"
-  }
+  # taint {
+  #   key = "GPU"
+  #   value = "true"
+  #   effect = "NO_SCHEDULE"
+  # }
 
   depends_on = [
     aws_iam_role_policy_attachment.gpu-AmazonEKSWorkerNodePolicy,
