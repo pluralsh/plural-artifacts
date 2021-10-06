@@ -11,7 +11,7 @@ oidcProxy:
   issuer: {{ .OIDC.Configuration.Issuer }}
   clientID: {{ .OIDC.ClientId }}
   clientSecret: {{ .OIDC.ClientSecret }}
-  cookieSecret: {{ dedupe . "kubecost.oidcProxy.cookieSecret" (randAlphaNum 32) }}
+  cookieSecret: {{ dedupe . "central-dashboard.oidcProxy.cookieSecret" (randAlphaNum 32) }}
 
 podLabels:
   security.plural.sh/inject-oauth-sidecar: "true"

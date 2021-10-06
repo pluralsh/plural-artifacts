@@ -2,9 +2,9 @@ artifact: {}
 terraform:
   terraform/aws: h1:1tM5VCmchCfOZXU8PDR8MccwUDeGHP/SDPxWdtY6wFM=
 helm:
-  helm/central-dashboard: h1:LLrzP5zvHjoQx5sQs3i1+Zji2OhIKoRxlPKG56fH57I=
+  helm/central-dashboard: h1:VQa175oe1zrdJ4Xng/M0bu5rvkLeBqTWW0JQE78gn0g=
   helm/katib: h1:r+9vbxJQ41xpK6TWlVXC19m7bTQfyC95bNO/FQEJOPo=
-  helm/mysql-cluster: h1:ITIhvamfZqBkahuD+FdXKRx4X5uE7RMQFE7v5E9BDeI=
+  helm/mysql-cluster: h1:tsBynZVAYARilQtTpiBo7nRKPYZgdLvJf63Y8MbwfPU=
   helm/notebooks: h1:nw7Y6KvtgKgEO0JgavSQGDA++75fgPfKvdEU7l3Orlw=
   helm/operators/mpi: h1:oy9WH4CdcBSjovxHIR4V5kTLFV2Z9BEN/DCfCgJ++4o=
   helm/operators/mxnet: h1:3TVyvRlMSVdCGFVE5Pnf/9L3MqdKl2n0YpGzhPnE1Yk=

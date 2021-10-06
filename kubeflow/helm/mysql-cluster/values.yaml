@@ -1,2 +1,7 @@
 secret:
   rootPassword: root_password
+
+resources:
+  requests:
+    cpu: 200m
+    memory: 500Mi

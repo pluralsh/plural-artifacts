@@ -15,3 +15,7 @@ spec:
   podSpec:
     annotations:
       sidecar.istio.io/inject: "false"
+    resources:
+    {{- with .Values.resources }}
+    {{- toYaml . | nindent 6 }}
+    {{- end }}

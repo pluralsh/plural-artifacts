@@ -1,0 +1,38 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  creationTimestamp: null
+  labels:
+    prometheus: example
+    role: alert-rules
+  name: kubeflow-rules
+spec:
+  groups:
+  - name: kubeflow
+    rules:
+    - alert: KubeflowDbCPU
+      expr: |
+        (
+          sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"kubeflow-mysql-cluster-mysql-[0-9]+"}[5m])) 
+          / sum(kube_pod_container_resource_requests{endpoint="http",namespace="{{ .Release.Namespace }}", pod=~"kubeflow-mysql-cluster-mysql-[0-9]+", resource="cpu"})
+        )  > 0.6
+      for: 5m
+      labels:
+        severity: critical
+        namespace: {{ .Release.Namespace }}
+      annotations:
+        summary: Kubeflow's MySQL cpu usage has gotten too high
+        description: the cpu utilization of your kubeflow deployment's mysql db is higher than recommended
+    - alert: KubeflowDbMEM
+      expr: |
+        (
+          sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"kubeflow-mysql-cluster-mysql-[0-9]+"})
+          / sum(kube_pod_container_resource_requests{endpoint="http",resource="memory",namespace="{{ .Release.Namespace }}", pod=~"kubeflow-mysql-cluster-mysql-[0-9]+"})
+        )  > 0.6
+      for: 5m
+      labels:
+        severity: critical
+        namespace: {{ .Release.Namespace }}
+      annotations:
+        summary: Kubeflow's MySQL memory usage has gotten too high
+        description: the memory utilization of your kubeflow deployment's mysql db is higher than recommended
