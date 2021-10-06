@@ -4,7 +4,7 @@ terraform:
   terraform/azure: h1:iSK+IdyrS3NMnoFP+SdUKMeU7ZdAj6JMkKyifwAgy1o=
   terraform/gcp: h1:rVoarImzapl4z3viyFhGsq1Dfkr9UKIM6L80rzkM0/Q=
 helm:
-  helm/kubecost: h1:NbFvxImkp4sXqdC6BXC1IFW7DaTO8d9MhqHupXQJLOU=
+  helm/kubecost: h1:MT0LtMhvBONqIuI9t8lvaXHWuEo2o+ItsflYARA+bVM=
 recipe:
   plural/recipes/kubecost-aws.yaml: 3824e1f33c16128b609ff70783552c809e6f4290138b31ea833db01090509c5c
   plural/recipes/kubecost-azure.yaml: bed1fe13c1f31e299e9c56a9167f14853e93c54242edd9f0d3103d201efb5989
@@ -17,4 +17,5 @@ tag:
   plural/tags/terraform/aws.yaml: 01c402c260cc7fe359d1ebc4302ff11539cfabbd5a82745907ad445914153bb7
   plural/tags/terraform/azure.yaml: 86b17dc5dcbc7d877dddbda68b790231f9f7eaa025d00471360108ccd5f42a07
   plural/tags/terraform/gcp.yaml: 3761f7e078206cf85f48969d231071adfb3b68ee68b7c68a2b50045e896a3288
-attrs: {}
+attrs:
+  repository.yaml_Plural: YJkPA3E_UHaGHQ5F_DOqCL64I4NbjlmzJUWr3AL5t9w=

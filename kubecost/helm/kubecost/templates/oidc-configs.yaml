@@ -8,7 +8,7 @@ spec:
   - port: 80
     targetPort: 4180
     protocol: TCP
-    name: http-oauth2-proxy
+    name: http-oauth
   selector:
     app: cost-analyzer
     app.kubernetes.io/instance: kubecost
@@ -62,7 +62,7 @@ spec:
           service:
             name: kubecost-oauth2-proxy
             port:
-              name: http-oauth2-proxy
+              name: http-oauth
         path: /.*
         pathType: Prefix
   tls:
