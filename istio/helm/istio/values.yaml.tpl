@@ -154,7 +154,7 @@ kiali-server:
       in_cluster_url: http://grafana.{{ $grafanaNamespace }}:80
     {{  end }}
     tracing:
-      in_cluster_url: http://grafana-tempo-tempo-distributed-query-frontend.{{ $tempoNamespace }}
+      in_cluster_url: http://grafana-tempo-tempo-distributed-query-frontend.{{ $tempoNamespace }}:16686
 
 {{ $oath2proxyNamespace := namespace "oauth2-proxy" }}
 oauth2proxy:

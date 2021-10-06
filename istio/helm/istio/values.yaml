@@ -77,8 +77,8 @@ kiali-server:
     prometheus:
       url: http://monitoring-prometheus.monitoring:9090
     tracing:
-      use_grpc: true # we would actually want this to be true, but it doesn't work currently
-      in_cluster_url: http://grafana-tempo-tempo-distributed-query-frontend.grafana-tempo
+      use_grpc: false # we would actually want this to be true, but it doesn't work currently
+      in_cluster_url: http://grafana-tempo-tempo-distributed-query-frontend.grafana-tempo:16686
     grafana:
       auth:
         type: basic
