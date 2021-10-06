@@ -13,3 +13,16 @@ spec:
     name: metrics
   selector:
     control-plane: plural-operator
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: plural-operator-webhook-service
+spec:
+  ports:
+  - port: 443
+    targetPort: webhook-server
+    protocol: TCP
+    name: https-webhook-server
+  selector:
+    control-plane: plural-operator
