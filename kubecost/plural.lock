@@ -4,11 +4,11 @@ terraform:
   terraform/azure: h1:iSK+IdyrS3NMnoFP+SdUKMeU7ZdAj6JMkKyifwAgy1o=
   terraform/gcp: h1:rVoarImzapl4z3viyFhGsq1Dfkr9UKIM6L80rzkM0/Q=
 helm:
-  helm/kubecost: h1:2ayoJtq3ODpStG9vb0x+k/XHiaEoFXHRkSW25YLjR8c=
+  helm/kubecost: h1:gjge9jHXuU5IeSEnhethFDk5SYsOp36xV2yEM1WUqkE=
 recipe:
-  plural/recipes/kubecost-aws.yaml: 96d5a73901bf691e897844488c26699c5a0c5f3b3b06d748046f349579b989b6
-  plural/recipes/kubecost-azure.yaml: 2adee4e018f2bd5595afe1bf40235a8268e94c683d89154cbb7ed06b9f4841a0
-  plural/recipes/kubecost-gcp.yaml: b39cb683c4b1b91ce537111fbecea9137a72cc03304905e8a9507d3b72baad70
+  plural/recipes/kubecost-aws.yaml: 3824e1f33c16128b609ff70783552c809e6f4290138b31ea833db01090509c5c
+  plural/recipes/kubecost-azure.yaml: bed1fe13c1f31e299e9c56a9167f14853e93c54242edd9f0d3103d201efb5989
+  plural/recipes/kubecost-gcp.yaml: ab8f3d971c959e9f0cba358637776f1278c32954ddfd5a17f492ba5b9ee7994f
 integration: {}
 crd: {}
 ird: {}
@@ -17,4 +17,5 @@ tag:
   plural/tags/terraform/aws.yaml: 01c402c260cc7fe359d1ebc4302ff11539cfabbd5a82745907ad445914153bb7
   plural/tags/terraform/azure.yaml: 86b17dc5dcbc7d877dddbda68b790231f9f7eaa025d00471360108ccd5f42a07
   plural/tags/terraform/gcp.yaml: 3761f7e078206cf85f48969d231071adfb3b68ee68b7c68a2b50045e896a3288
-attrs: {}
+attrs:
+  repository.yaml_Plural: YJkPA3E_UHaGHQ5F_DOqCL64I4NbjlmzJUWr3AL5t9w=

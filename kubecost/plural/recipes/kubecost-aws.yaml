@@ -1,6 +1,10 @@
 name: kubecost-aws
 description: Installs kubecost on an aws eks cluster
 provider: AWS
+oidcSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
+  domainKey: hostname
 dependencies:
 - repo: bootstrap
   name: aws-k8s
@@ -12,4 +16,7 @@ sections:
     configuration: []
   - type: HELM
     name: kubecost
-    configuration: []
+    configuration:
+    - name: hostname
+      documentation: FQDN to use for your KubeCost installation
+      type: STRING

@@ -1,4 +1,5 @@
 REPO kubecost
+ATTRIBUTES Plural repository.yaml
 
 TF terraform/*
 HELM helm/*
