@@ -3,7 +3,6 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: istio-federation
-  namespace: {{ .Values.monitoring.namespace }}
   labels: {{ include "istio.labels" . | nindent 4 }}
 spec:
   namespaceSelector:
