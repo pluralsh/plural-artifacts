@@ -85,6 +85,7 @@ resource "aws_eks_node_group" "gpu" {
   instance_types = var.gpu_instance_type
   ami_type = "AL2_x86_64_GPU"
   release_version = "1.21.2-20210914"
+  capacity_type = "SPOT"
 
   scaling_config {
     desired_size = 0
@@ -96,6 +97,12 @@ resource "aws_eks_node_group" "gpu" {
     "k8s.io/cluster-autoscaler/node-template/label/nvidia.com/gpu" = "true"
     "k8s.io/cluster-autoscaler/node-template/taint/dedicated" = "nvidia.com/gpu=true"
 
+  }
+
+  taint {
+    key = "GPU"
+    value = "true"
+    effect = "NO_SCHEDULE"
   }
 
   depends_on = [
