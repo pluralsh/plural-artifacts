@@ -9,6 +9,14 @@ spec:
     name: bootstrap
     repo: bootstrap
     version: '>= 0.5.1'
+  - type: helm
+    name: monitoring
+    repo: monitoring
+    version: '>= 0.1.37'
+  - type: helm
+    name: grafana-tempo
+    repo: grafana-tempo
+    version: '>= 0.1.7'
   - type: terraform
     name: kube
     repo: knative

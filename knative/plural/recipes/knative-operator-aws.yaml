@@ -1,0 +1,19 @@
+name: knative-operator-aws
+description: Installs the knative operator on an eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+sections:
+- name: knative
+  items:
+  - type: TERRAFORM
+    name: kube
+    configuration: []
+  - type: HELM
+    name: knative-operator
+    configuration: []
+  # - type: HELM
+  #   name: knative-eventing
+  #   configuration: []
+  

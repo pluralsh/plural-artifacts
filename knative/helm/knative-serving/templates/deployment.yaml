@@ -1,10 +1,13 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    serving.knative.dev/release: v0.24.0
   name: activator
   namespace: {{ .Release.Namespace }}
+  labels:
+    serving.knative.dev/release: "v0.26.0"
+    app.kubernetes.io/name: activator
+    app.kubernetes.io/version: "0.26.0"
+    app.kubernetes.io/part-of: knative-serving
 spec:
   selector:
     matchLabels:
@@ -17,10 +20,28 @@ spec:
       labels:
         app: activator
         role: activator
-        serving.knative.dev/release: v0.24.0
+        serving.knative.dev/release: "v0.26.0"
+        app.kubernetes.io/name: activator
+        app.kubernetes.io/part-of: knative-serving
+        app.kubernetes.io/version: "0.26.0"
     spec:
+      serviceAccountName: controller
       containers:
-        - env:
+        - name: activator
+          # This is the Go import path for the binary that is containerized
+          # and substituted here.
+          image: gcr.io/knative-releases/knative.dev/serving/cmd/activator@sha256:8619f871364463cd821a7324636686b6d835ca65c3d671fb8c141b8437fd2a0b
+          # The numbers are based on performance test results from
+          # https://github.com/knative/serving/issues/1625#issuecomment-511930023
+          resources:
+            requests:
+              cpu: 300m
+              memory: 60Mi
+            limits:
+              cpu: 1000m
+              memory: 600Mi
+          env:
+            # Run Activator with GC collection when newly generated memory is 500%.
             - name: GOGC
               value: "500"
             - name: POD_NAME
@@ -39,58 +60,59 @@ spec:
               value: config-logging
             - name: CONFIG_OBSERVABILITY_NAME
               value: config-observability
+            # TODO(https://github.com/knative/pkg/pull/953): Remove stackdriver specific config
             - name: METRICS_DOMAIN
               value: knative.dev/internal/serving
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/activator@sha256:bd48057f8d6e5f95f389225979c89d2d99d52a4876d2342fc033c909096d4698
-          livenessProbe:
-            failureThreshold: 12
-            httpGet:
-              httpHeaders:
-                - name: k-kubelet-probe
-                  value: activator
-              port: 8012
-            initialDelaySeconds: 15
-          name: activator
-          ports:
-            - containerPort: 9090
-              name: metrics
-            - containerPort: 8008
-              name: profiling
-            - containerPort: 8012
-              name: http1
-            - containerPort: 8013
-              name: h2c
-          readinessProbe:
-            failureThreshold: 12
-            httpGet:
-              httpHeaders:
-                - name: k-kubelet-probe
-                  value: activator
-              port: 8012
-          resources:
-            limits:
-              cpu: 1000m
-              memory: 600Mi
-            requests:
-              cpu: 300m
-              memory: 60Mi
           securityContext:
             allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
             capabilities:
               drop:
                 - all
-            readOnlyRootFilesystem: true
-            runAsNonRoot: true
-      serviceAccountName: controller
+          ports:
+            - name: metrics
+              containerPort: 9090
+            - name: profiling
+              containerPort: 8008
+            - name: http1
+              containerPort: 8012
+            - name: h2c
+              containerPort: 8013
+          readinessProbe:
+            httpGet:
+              port: 8012
+              httpHeaders:
+                - name: k-kubelet-probe
+                  value: "activator"
+            failureThreshold: 12
+          livenessProbe:
+            httpGet:
+              port: 8012
+              httpHeaders:
+                - name: k-kubelet-probe
+                  value: "activator"
+            failureThreshold: 12
+            initialDelaySeconds: 15
+      # The activator (often) sits on the dataplane, and may proxy long (e.g.
+      # streaming, websockets) requests.  We give a long grace period for the
+      # activator to "lame duck" and drain outstanding requests before we
+      # forcibly terminate the pod (and outstanding connections).  This value
+      # should be at least as large as the upper bound on the Revision's
+      # timeoutSeconds property to avoid servicing events disrupting
+      # connections.
       terminationGracePeriodSeconds: 600
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    serving.knative.dev/release: v0.24.0
   name: autoscaler
   namespace: {{ .Release.Namespace }}
+  labels:
+    serving.knative.dev/release: "v0.26.0"
+    app.kubernetes.io/name: autoscaler
+    app.kubernetes.io/part-of: knative-serving
+    app.kubernetes.io/version: "0.26.0"
 spec:
   replicas: 1
   selector:
@@ -102,8 +124,12 @@ spec:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
       labels:
         app: autoscaler
-        serving.knative.dev/release: v0.24.0
+        serving.knative.dev/release: "v0.26.0"
+        app.kubernetes.io/name: autoscaler
+        app.kubernetes.io/part-of: knative-serving
+        app.kubernetes.io/version: "0.26.0"
     spec:
+      # To avoid node becoming SPOF, spread our replicas to different nodes.
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -113,8 +139,20 @@ spec:
                     app: autoscaler
                 topologyKey: kubernetes.io/hostname
               weight: 100
+      serviceAccountName: controller
       containers:
-        - env:
+        - name: autoscaler
+          # This is the Go import path for the binary that is containerized
+          # and substituted here.
+          image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler@sha256:d083394e718a3cc157ecac6dae4812db56e700603ca72ec5f7ac19f5d9283d05
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+            limits:
+              cpu: 1000m
+              memory: 1000Mi
+          env:
             - name: POD_NAME
               valueFrom:
                 fieldRef:
@@ -131,53 +169,47 @@ spec:
               value: config-logging
             - name: CONFIG_OBSERVABILITY_NAME
               value: config-observability
+            # TODO(https://github.com/knative/pkg/pull/953): Remove stackdriver specific config
             - name: METRICS_DOMAIN
               value: knative.dev/serving
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler@sha256:d3d6f5ecfff577a6d4d5a0549379fa1acf1d66d7422a58b1756e40eba555285c
-          livenessProbe:
-            failureThreshold: 6
-            httpGet:
-              httpHeaders:
-                - name: k-kubelet-probe
-                  value: autoscaler
-              port: 8080
-          name: autoscaler
-          ports:
-            - containerPort: 9090
-              name: metrics
-            - containerPort: 8008
-              name: profiling
-            - containerPort: 8080
-              name: websocket
-          readinessProbe:
-            httpGet:
-              httpHeaders:
-                - name: k-kubelet-probe
-                  value: autoscaler
-              port: 8080
-          resources:
-            limits:
-              cpu: 1000m
-              memory: 1000Mi
-            requests:
-              cpu: 100m
-              memory: 100Mi
           securityContext:
             allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
             capabilities:
               drop:
                 - all
-            readOnlyRootFilesystem: true
-            runAsNonRoot: true
-      serviceAccountName: controller
+          ports:
+            - name: metrics
+              containerPort: 9090
+            - name: profiling
+              containerPort: 8008
+            - name: websocket
+              containerPort: 8080
+          readinessProbe:
+            httpGet:
+              port: 8080
+              httpHeaders:
+                - name: k-kubelet-probe
+                  value: "autoscaler"
+          livenessProbe:
+            httpGet:
+              port: 8080
+              httpHeaders:
+                - name: k-kubelet-probe
+                  value: "autoscaler"
+            failureThreshold: 6
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    serving.knative.dev/release: v0.24.0
   name: controller
   namespace: {{ .Release.Namespace }}
+  labels:
+    serving.knative.dev/release: "v0.26.0"
+    app.kubernetes.io/name: controller
+    app.kubernetes.io/version: "0.26.0"
+    app.kubernetes.io/part-of: knative-serving
 spec:
   selector:
     matchLabels:
@@ -188,8 +220,12 @@ spec:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
       labels:
         app: controller
-        serving.knative.dev/release: v0.24.0
+        serving.knative.dev/release: "v0.26.0"
+        app.kubernetes.io/name: controller
+        app.kubernetes.io/version: "0.26.0"
+        app.kubernetes.io/part-of: knative-serving
     spec:
+      # To avoid node becoming SPOF, spread our replicas to different nodes.
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -199,8 +235,20 @@ spec:
                     app: controller
                 topologyKey: kubernetes.io/hostname
               weight: 100
+      serviceAccountName: controller
       containers:
-        - env:
+        - name: controller
+          # This is the Go import path for the binary that is containerized
+          # and substituted here.
+          image: gcr.io/knative-releases/knative.dev/serving/cmd/controller@sha256:cb49a3e48804f52b5a55a7e0fd7c8662bae092bfbb9e6dd9134c8962d0799e65
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+            limits:
+              cpu: 1000m
+              memory: 1000Mi
+          env:
             - name: POD_NAME
               valueFrom:
                 fieldRef:
@@ -213,38 +261,32 @@ spec:
               value: config-logging
             - name: CONFIG_OBSERVABILITY_NAME
               value: config-observability
+            # TODO(https://github.com/knative/pkg/pull/953): Remove stackdriver specific config
             - name: METRICS_DOMAIN
               value: knative.dev/internal/serving
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/controller@sha256:e9b9cc7a2a091194161a7a256d6fc342317080f1a31e1f1a33993a5e1993fdb5
-          name: controller
-          ports:
-            - containerPort: 9090
-              name: metrics
-            - containerPort: 8008
-              name: profiling
-          resources:
-            limits:
-              cpu: 1000m
-              memory: 1000Mi
-            requests:
-              cpu: 100m
-              memory: 100Mi
           securityContext:
             allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
             capabilities:
               drop:
                 - all
-            readOnlyRootFilesystem: true
-            runAsNonRoot: true
-      serviceAccountName: controller
+          ports:
+            - name: metrics
+              containerPort: 9090
+            - name: profiling
+              containerPort: 8008
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    serving.knative.dev/release: v0.24.0
   name: domain-mapping
   namespace: {{ .Release.Namespace }}
+  labels:
+    serving.knative.dev/release: "v0.26.0"
+    app.kubernetes.io/name: domain-mapping
+    app.kubernetes.io/version: "0.26.0"
+    app.kubernetes.io/part-of: knative-serving
 spec:
   selector:
     matchLabels:
@@ -255,8 +297,12 @@ spec:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
       labels:
         app: domain-mapping
-        serving.knative.dev/release: v0.24.0
+        serving.knative.dev/release: "v0.26.0"
+        app.kubernetes.io/name: domain-mapping
+        app.kubernetes.io/part-of: knative-serving
+        app.kubernetes.io/version: "0.26.0"
     spec:
+      # To avoid node becoming SPOF, spread our replicas to different nodes.
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -266,8 +312,20 @@ spec:
                     app: domain-mapping
                 topologyKey: kubernetes.io/hostname
               weight: 100
+      serviceAccountName: controller
       containers:
-        - env:
+        - name: domain-mapping
+          # This is the Go import path for the binary that is containerized
+          # and substituted here.
+          image: gcr.io/knative-releases/knative.dev/serving/cmd/domain-mapping@sha256:c746bb5ce65b28655a54b601cbf2d489db30e8673f3c8b9c269b4ee50eb4502c
+          resources:
+            requests:
+              cpu: 30m
+              memory: 40Mi
+            limits:
+              cpu: 300m
+              memory: 400Mi
+          env:
             - name: SYSTEM_NAMESPACE
               valueFrom:
                 fieldRef:
@@ -276,38 +334,32 @@ spec:
               value: config-logging
             - name: CONFIG_OBSERVABILITY_NAME
               value: config-observability
+            # TODO(https://github.com/knative/pkg/pull/953): Remove stackdriver specific config
             - name: METRICS_DOMAIN
               value: knative.dev/serving
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/domain-mapping@sha256:fafa1afcc9f2c6e79b096ffbc67e14ff3f34e3591d887335811ca15970b3b837
-          name: domain-mapping
-          ports:
-            - containerPort: 9090
-              name: metrics
-            - containerPort: 8008
-              name: profiling
-          resources:
-            limits:
-              cpu: 300m
-              memory: 400Mi
-            requests:
-              cpu: 30m
-              memory: 40Mi
           securityContext:
             allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
             capabilities:
               drop:
                 - all
-            readOnlyRootFilesystem: true
-            runAsNonRoot: true
-      serviceAccountName: controller
+          ports:
+            - name: metrics
+              containerPort: 9090
+            - name: profiling
+              containerPort: 8008
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    serving.knative.dev/release: v0.24.0
   name: domainmapping-webhook
   namespace: {{ .Release.Namespace }}
+  labels:
+    serving.knative.dev/release: "v0.26.0"
+    app.kubernetes.io/name: domainmapping-webhook
+    app.kubernetes.io/version: "0.26.0"
+    app.kubernetes.io/part-of: knative-serving
 spec:
   selector:
     matchLabels:
@@ -319,9 +371,13 @@ spec:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
       labels:
         app: domainmapping-webhook
+        app.kubernetes.io/name: domainmapping-webhook
+        app.kubernetes.io/part-of: knative-serving
+        app.kubernetes.io/version: "0.26.0"
         role: domainmapping-webhook
-        serving.knative.dev/release: v0.24.0
+        serving.knative.dev/release: "v0.26.0"
     spec:
+      # To avoid node becoming SPOF, spread our replicas to different nodes.
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -331,8 +387,20 @@ spec:
                     app: domainmapping-webhook
                 topologyKey: kubernetes.io/hostname
               weight: 100
+      serviceAccountName: controller
       containers:
-        - env:
+        - name: domainmapping-webhook
+          # This is the Go import path for the binary that is containerized
+          # and substituted here.
+          image: gcr.io/knative-releases/knative.dev/serving/cmd/domain-mapping-webhook@sha256:687d5a14aa94e17872d05df845d4b8c779daac401feee6d90b0f0a6fa7b594d8
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+            limits:
+              cpu: 500m
+              memory: 500Mi
+          env:
             - name: POD_NAME
               valueFrom:
                 fieldRef:
@@ -347,60 +415,53 @@ spec:
               value: config-observability
             - name: WEBHOOK_PORT
               value: "8443"
+            # TODO(https://github.com/knative/pkg/pull/953): Remove stackdriver specific config
             - name: METRICS_DOMAIN
               value: knative.dev/serving
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/domain-mapping-webhook@sha256:1335e57427a372d15e8a90a3370eaa6896c9cb3fd7cb6f2a63021cceaea2e8e6
-          livenessProbe:
-            failureThreshold: 6
-            httpGet:
-              httpHeaders:
-                - name: k-kubelet-probe
-                  value: webhook
-              port: 8443
-              scheme: HTTPS
-            initialDelaySeconds: 20
-            periodSeconds: 1
-          name: domainmapping-webhook
-          ports:
-            - containerPort: 9090
-              name: metrics
-            - containerPort: 8008
-              name: profiling
-            - containerPort: 8443
-              name: https-webhook
-          readinessProbe:
-            httpGet:
-              httpHeaders:
-                - name: k-kubelet-probe
-                  value: webhook
-              port: 8443
-              scheme: HTTPS
-            periodSeconds: 1
-          resources:
-            limits:
-              cpu: 500m
-              memory: 500Mi
-            requests:
-              cpu: 100m
-              memory: 100Mi
           securityContext:
             allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
             capabilities:
               drop:
                 - all
-            readOnlyRootFilesystem: true
-            runAsNonRoot: true
-      serviceAccountName: controller
+          ports:
+            - name: metrics
+              containerPort: 9090
+            - name: profiling
+              containerPort: 8008
+            - name: https-webhook
+              containerPort: 8443
+          readinessProbe:
+            periodSeconds: 1
+            httpGet:
+              scheme: HTTPS
+              port: 8443
+              httpHeaders:
+                - name: k-kubelet-probe
+                  value: "webhook"
+          livenessProbe:
+            periodSeconds: 1
+            httpGet:
+              scheme: HTTPS
+              port: 8443
+              httpHeaders:
+                - name: k-kubelet-probe
+                  value: "webhook"
+            failureThreshold: 6
+            initialDelaySeconds: 20
+      # Our webhook should gracefully terminate by lame ducking first, set this to a sufficiently
+      # high value that we respect whatever value it has configured for the lame duck grace period.
       terminationGracePeriodSeconds: 300
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    networking.knative.dev/ingress-provider: istio
-    serving.knative.dev/release: v0.24.0
   name: net-istio-controller
   namespace: {{ .Release.Namespace }}
+  labels:
+    serving.knative.dev/release: "v0.26.0"
+    networking.knative.dev/ingress-provider: istio
 spec:
   selector:
     matchLabels:
@@ -409,13 +470,28 @@ spec:
     metadata:
       annotations:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
-        sidecar.istio.io/inject: "true"
+        # This must be outside of the mesh to probe the gateways.
+        # NOTE: this is allowed here and not elsewhere because
+        # this is the Istio controller, and so it may be Istio-aware.
+        sidecar.istio.io/inject: "false"
       labels:
         app: net-istio-controller
-        serving.knative.dev/release: v0.24.0
+        serving.knative.dev/release: "v0.26.0"
     spec:
+      serviceAccountName: controller
       containers:
-        - env:
+        - name: controller
+          # This is the Go import path for the binary that is containerized
+          # and substituted here.
+          image: gcr.io/knative-releases/knative.dev/net-istio/cmd/controller@sha256:f7ee8b0170fba628b396c6fd6ac7a6644c4b06880913a4505ef227dbbc352091
+          resources:
+            requests:
+              cpu: 30m
+              memory: 40Mi
+            limits:
+              cpu: 300m
+              memory: 400Mi
+          env:
             - name: SYSTEM_NAMESPACE
               valueFrom:
                 fieldRef:
@@ -424,39 +500,30 @@ spec:
               value: config-logging
             - name: CONFIG_OBSERVABILITY_NAME
               value: config-observability
+            # TODO(https://github.com/knative/pkg/pull/953): Remove stackdriver specific config
             - name: METRICS_DOMAIN
               value: knative.dev/net-istio
-          image: gcr.io/knative-releases/knative.dev/net-istio/cmd/controller@sha256:41f58d7e8319e473dbf27dec3d329b631f03ec0899c98ba2dd3d3166a6fb7a42
-          name: controller
-          ports:
-            - containerPort: 9090
-              name: metrics
-            - containerPort: 8008
-              name: profiling
-          resources:
-            limits:
-              cpu: 300m
-              memory: 400Mi
-            requests:
-              cpu: 30m
-              memory: 40Mi
           securityContext:
             allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
             capabilities:
               drop:
                 - all
-            readOnlyRootFilesystem: true
-            runAsNonRoot: true
-      serviceAccountName: controller
+          ports:
+            - name: metrics
+              containerPort: 9090
+            - name: profiling
+              containerPort: 8008
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    networking.knative.dev/ingress-provider: istio
-    serving.knative.dev/release: v0.24.0
   name: net-istio-webhook
   namespace: {{ .Release.Namespace }}
+  labels:
+    serving.knative.dev/release: "v0.26.0"
+    networking.knative.dev/ingress-provider: istio
 spec:
   selector:
     matchLabels:
@@ -469,10 +536,22 @@ spec:
       labels:
         app: net-istio-webhook
         role: net-istio-webhook
-        serving.knative.dev/release: v0.24.0
+        serving.knative.dev/release: "v0.26.0"
     spec:
+      serviceAccountName: controller
       containers:
-        - env:
+        - name: webhook
+          # This is the Go import path for the binary that is containerized
+          # and substituted here.
+          image: gcr.io/knative-releases/knative.dev/net-istio/cmd/webhook@sha256:43293c73a6d49cf8af20f0a8822f74c6b6a23484757fecbd00b97e7aedbb2fc0
+          resources:
+            requests:
+              cpu: 20m
+              memory: 20Mi
+            limits:
+              cpu: 200m
+              memory: 200Mi
+          env:
             - name: SYSTEM_NAMESPACE
               valueFrom:
                 fieldRef:
@@ -481,37 +560,31 @@ spec:
               value: config-logging
             - name: CONFIG_OBSERVABILITY_NAME
               value: config-observability
+            # TODO(https://github.com/knative/pkg/pull/953): Remove stackdriver specific config
             - name: METRICS_DOMAIN
               value: knative.dev/net-istio
             - name: WEBHOOK_NAME
               value: net-istio-webhook
-          image: gcr.io/knative-releases/knative.dev/net-istio/cmd/webhook@sha256:49bf045db42aa0bfe124e9c5a5c511595e8fc27bf3a77e3900d9dec2b350173c
-          name: webhook
-          ports:
-            - containerPort: 9090
-              name: metrics
-            - containerPort: 8008
-              name: profiling
-            - containerPort: 8443
-              name: https-webhook
-          resources:
-            limits:
-              cpu: 200m
-              memory: 200Mi
-            requests:
-              cpu: 20m
-              memory: 20Mi
           securityContext:
             allowPrivilegeEscalation: false
-      serviceAccountName: controller
+          ports:
+            - name: metrics
+              containerPort: 9090
+            - name: profiling
+              containerPort: 8008
+            - name: https-webhook
+              containerPort: 8443
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    serving.knative.dev/release: v0.24.0
   name: webhook
   namespace: {{ .Release.Namespace }}
+  labels:
+    serving.knative.dev/release: "v0.26.0"
+    app.kubernetes.io/name: webhook
+    app.kubernetes.io/version: "0.26.0"
+    app.kubernetes.io/part-of: knative-serving
 spec:
   selector:
     matchLabels:
@@ -524,8 +597,12 @@ spec:
       labels:
         app: webhook
         role: webhook
-        serving.knative.dev/release: v0.24.0
+        serving.knative.dev/release: "v0.26.0"
+        app.kubernetes.io/name: webhook
+        app.kubernetes.io/version: "0.26.0"
+        app.kubernetes.io/part-of: knative-serving
     spec:
+      # To avoid node becoming SPOF, spread our replicas to different nodes.
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -535,8 +612,20 @@ spec:
                     app: webhook
                 topologyKey: kubernetes.io/hostname
               weight: 100
+      serviceAccountName: controller
       containers:
-        - env:
+        - name: webhook
+          # This is the Go import path for the binary that is containerized
+          # and substituted here.
+          image: gcr.io/knative-releases/knative.dev/serving/cmd/webhook@sha256:d512342e1a1ec454ceade96923e21c24ec0f2cb780e86ced8e66eb62033c74b5
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+            limits:
+              cpu: 500m
+              memory: 500Mi
+          env:
             - name: POD_NAME
               valueFrom:
                 fieldRef:
@@ -553,48 +642,41 @@ spec:
               value: webhook
             - name: WEBHOOK_PORT
               value: "8443"
+            # TODO(https://github.com/knative/pkg/pull/953): Remove stackdriver specific config
             - name: METRICS_DOMAIN
               value: knative.dev/internal/serving
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/webhook@sha256:e9503135b4b46a3700d91bdb32df60923575aaedbcc5192bdc3e41b64591ee50
-          livenessProbe:
-            failureThreshold: 6
-            httpGet:
-              httpHeaders:
-                - name: k-kubelet-probe
-                  value: webhook
-              port: 8443
-              scheme: HTTPS
-            initialDelaySeconds: 20
-            periodSeconds: 1
-          name: webhook
-          ports:
-            - containerPort: 9090
-              name: metrics
-            - containerPort: 8008
-              name: profiling
-            - containerPort: 8443
-              name: https-webhook
-          readinessProbe:
-            httpGet:
-              httpHeaders:
-                - name: k-kubelet-probe
-                  value: webhook
-              port: 8443
-              scheme: HTTPS
-            periodSeconds: 1
-          resources:
-            limits:
-              cpu: 500m
-              memory: 500Mi
-            requests:
-              cpu: 100m
-              memory: 100Mi
           securityContext:
             allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
             capabilities:
               drop:
                 - all
-            readOnlyRootFilesystem: true
-            runAsNonRoot: true
-      serviceAccountName: controller
+          ports:
+            - name: metrics
+              containerPort: 9090
+            - name: profiling
+              containerPort: 8008
+            - name: https-webhook
+              containerPort: 8443
+          readinessProbe:
+            periodSeconds: 1
+            httpGet:
+              scheme: HTTPS
+              port: 8443
+              httpHeaders:
+                - name: k-kubelet-probe
+                  value: "webhook"
+          livenessProbe:
+            periodSeconds: 1
+            httpGet:
+              scheme: HTTPS
+              port: 8443
+              httpHeaders:
+                - name: k-kubelet-probe
+                  value: "webhook"
+            failureThreshold: 6
+            initialDelaySeconds: 20
+      # Our webhook should gracefully terminate by lame ducking first, set this to a sufficiently
+      # high value that we respect whatever value it has configured for the lame duck grace period.
       terminationGracePeriodSeconds: 300

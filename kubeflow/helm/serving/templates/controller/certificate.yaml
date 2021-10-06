@@ -2,14 +2,14 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   labels: {{- include "serving.labels" . | nindent 4 }}
-  name: {{ include "serving.fullname" . }}-controller-certs
+  name: kfserving-webhook-server-cert
   namespace: kubeflow
 spec:
-  commonName: {{ include "serving.fullname" . }}-controller.kubeflow.svc
+  commonName: kfserving-webhook-server-service.kubeflow.svc
   dnsNames:
-    - {{ include "serving.fullname" . }}-controller.kubeflow.svc
-    - {{ include "serving.fullname" . }}-controller.kubeflow.svc.cluster.local
+    - kfserving-webhook-server-service.kubeflow.svc
+    - kfserving-webhook-server-service.kubeflow.svc.cluster.local
   issuerRef:
     kind: ClusterIssuer
     name: kubeflow-self-signing-issuer
-  secretName: {{ include "serving.fullname" . }}-controller-certs
+  secretName: kfserving-webhook-server-cert

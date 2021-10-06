@@ -3,10 +3,10 @@ data:
   artifactRepository: |
     archiveLogs: true
     s3:
-      bucket: pipelines-bucket
+      bucket: {{ .Values.config.objectStore.bucketName }}
       keyPrefix: pipelines
       endpoint: s3.amazonaws.com
-      region: us-east-2
+      region: {{ .Values.config.objectStore.bucketRegion }}
       insecure: false
       accessKeySecret:
         name: pipelines-s3-secret

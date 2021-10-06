@@ -1,9 +1,30 @@
 name: kubeflow-aws
 description: Installs Kubeflow on an EKS cluster
 provider: AWS
+oidcSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
+  domainKey: hostname
 dependencies:
 - repo: bootstrap
   name: aws-k8s
+- repo: mysql
+  name: aws-mysql
+- repo: knative
+  name: knative-aws
+- repo: crossplane
+  name: crossplane-aws
+- repo: istio
+  name: istio-aws
+- repo: nvidia-operator
+  name: nvidia-operator-aws
+# the following should be removed once transient recipe dependencies are fixed
+- repo: monitoring
+  name: monitoring-aws
+- repo: grafana-tempo
+  name: grafana-tempo-aws
+- repo: ingress-nginx
+  name: ingress-nginx-aws
 sections:
 - name: kubeflow
   items:
@@ -21,6 +42,9 @@ sections:
       type: STRING
   - type: HELM
     name: katib
+    configuration: []
+  - type: HELM
+    name: mysql-cluster
     configuration: []
   - type: HELM
     name: notebooks

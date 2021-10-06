@@ -37,8 +37,6 @@ spec:
             - -alsologtostderr
             - --lock-namespace
             - kubeflow
-            - --kubectl-delivery-image
-            - mpioperator/kubectl-delivery:latest
           # ports:
           #   - name: http
           #     containerPort: 80

@@ -3,7 +3,6 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: istio-component-monitor
-  namespace: {{ .Values.monitoring.namespace }}
   labels: {{ include "istio.labels" . | nindent 4 }}
 spec:
   jobLabel: istio
@@ -21,7 +20,6 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: kiali-service-monitor
-  namespace: {{ .Values.monitoring.namespace }}
   labels: {{ include "istio.labels" . | nindent 4 }}
 spec:
   selector:

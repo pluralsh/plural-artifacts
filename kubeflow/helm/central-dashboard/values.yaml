@@ -2,6 +2,14 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+oidcProxy:
+  enabled: false
+  upstream: static://200
+  issuer: https://oidc.plural.sh/
+  clientID: ""
+  clientSecret: ""
+  cookieSecret: ""
+
 global:
   domain: kubeflow.kubeflow-aws.com
   istioNamespace: istio
@@ -48,8 +56,11 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
+podLabels: {}
+
 podAnnotations:
   sidecar.istio.io/inject: "true"
+  cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
 
 podSecurityContext: {}
   # fsGroup: 2000
@@ -75,8 +86,6 @@ virtualService:
   annotations: {}
   gateways:
     - kubeflow-gateway
-  hosts:
-    - kubeflow.kubeflow-aws.com
 
 resources:
   requests:

@@ -3,7 +3,7 @@ kind: AuthorizationPolicy
 metadata:
   labels:
     networking.knative.dev/ingress-provider: istio
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: allow-all-knative-serving
   namespace: {{ .Release.Namespace }}
 spec:

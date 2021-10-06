@@ -2,7 +2,7 @@ apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingWebhookConfiguration
 metadata:
   annotations:
-    cert-manager.io/inject-ca-from: kubeflow/katib-webhook-cert
+    cert-manager.io/inject-ca-from: kubeflow/{{ include "katib.fullname" . }}-controller-certs
   name: katib.kubeflow.org
   labels: {{- include "katib.labels" . | nindent 4 }}
 webhooks:
@@ -11,7 +11,7 @@ webhooks:
     clientConfig:
       caBundle: Cg==
       service:
-        name: katib-controller
+        name: {{ include "katib.fullname" . }}-controller
         namespace: kubeflow
         path: /validate-experiment
     failurePolicy: Ignore

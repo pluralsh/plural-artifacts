@@ -21,3 +21,8 @@ variable "role_name" {
   type = string
   default = "kubeflow"
 }
+variable "gpu_instance_type" {
+  type = list(string)
+  default = ["g4dn.xlarge"]
+  description = "instance type to use in gpu node group"
+}

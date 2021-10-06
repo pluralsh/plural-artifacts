@@ -45,8 +45,8 @@ data:
     {
         "ingressGateway" : "kubeflow/kubeflow-gateway",
         "ingressService" : "istio-ingressgateway.istio-system.svc.cluster.local",
-        "localGateway" : "istio-system/cluster-local-gateway",
-        "localGatewayService" : "cluster-local-gateway.istio-system.svc.cluster.local"
+        "localGateway" : "knative/knative-local-gateway",
+        "localGatewayService" : "knative-local-gateway.istio.svc.cluster.local"
     }
   logger: |-
     {

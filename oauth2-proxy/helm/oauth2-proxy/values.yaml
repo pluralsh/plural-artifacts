@@ -42,4 +42,4 @@ oauth2-proxy:
   metrics:
     enabled: true
     servicemonitor:
-      enabled: false
+      enabled: true

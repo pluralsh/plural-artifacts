@@ -4,6 +4,12 @@ provider: AZURE
 dependencies:
 - repo: bootstrap
   name: azure-k8s
+- repo: monitoring
+  name: monitoring-aws
+- repo: grafana-tempo
+  name: grafana-tempo-aws
+- repo: ingress-nginx
+  name: ingress-nginx-azure
 sections:
 - name: istio
   items:

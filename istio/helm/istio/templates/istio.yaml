@@ -15,6 +15,8 @@ spec:
     outboundTrafficPolicy:
       mode: REGISTRY_ONLY
     accessLogFile: /dev/stdout
+    accessLogFormat: |
+      [%START_TIME%] "%REQ(:METHOD)% %REQ(X-ENVOY-ORIGINAL-PATH?:PATH)% %PROTOCOL%" %RESPONSE_CODE% %RESPONSE_FLAGS% %RESPONSE_CODE_DETAILS% %CONNECTION_TERMINATION_DETAILS% "%UPSTREAM_TRANSPORT_FAILURE_REASON%" %BYTES_RECEIVED% %BYTES_SENT% %DURATION% %RESP(X-ENVOY-UPSTREAM-SERVICE-TIME)% "%REQ(X-FORWARDED-FOR)%" "%REQ(USER-AGENT)%" "%REQ(X-REQUEST-ID)%" "%REQ(:AUTHORITY)%" "%UPSTREAM_HOST%" %UPSTREAM_CLUSTER% %UPSTREAM_LOCAL_ADDRESS% %DOWNSTREAM_LOCAL_ADDRESS% %DOWNSTREAM_REMOTE_ADDRESS% %REQUESTED_SERVER_NAME% %ROUTE_NAME% traceID=%REQ(x-b3-traceid)%
     enablePrometheusMerge: true
     {{ if .Values.monitoring.tracing.enabled }}
     enableTracing: true
@@ -25,13 +27,13 @@ spec:
         sampling: {{ .Values.monitoring.tracing.sampling }}
         max_path_tag_length: 256
         zipkin:
-          address: {{ .Release.Name }}-jaeger-collector.{{ .Values.istio.namespace }}.svc.cluster.local:{{ .Values.jaeger.collector.service.zipkin.port }}
+          address: {{ .Values.monitoring.tracing.tempoService }}.{{ .Values.monitoring.tracing.tempoNamespace }}.svc.cluster.local:9411
       {{ end }}
     extensionProviders:
-    {{ if .Values.oauth2proxy.enabled }}
-    - name: oauth2-proxy
+    {{ if .Values.kubeflow.enabled }}
+    - name: kubeflow
       envoyExtAuthzHttp:
-        service: oauth2-proxy.{{ .Values.oauth2proxy.namespace }}.svc.cluster.local
+        service: kubeflow-central-dashboard.{{ .Values.kubeflow.namespace }}.svc.cluster.local
         port: '4180' # The default port used by oauth2-proxy.
         #includeHeadersInCheck: ["authorization", "cookie"]  # headers sent to the oauth2-proxy in the check request.
         includeHeadersInCheck: # headers sent to the oauth2-proxy in the check request.
@@ -56,12 +58,17 @@ spec:
   {{ toYaml . | nindent 4 }}
 {{ end }}
   values:
+    pilot:
+      env:
+        PILOT_ENABLE_STATUS: true
     global:
+      istiod:
+        enableAnalysis: true
       istioNamespace: {{ .Values.istio.namespace }}
       {{ if .Values.monitoring.tracing.enabled }}
       tracer:
         zipkin:
-          address: {{ .Release.Name }}-jaeger-collector.{{ .Values.istio.namespace }}.svc.cluster.local:{{ .Values.jaeger.collector.service.zipkin.port }}
+          address: {{ .Values.monitoring.tracing.tempoService }}.{{ .Values.monitoring.tracing.tempoNamespace }}.svc.cluster.local:9411
       {{ end }}
     sidecarInjectorWebhook:
       neverInjectSelector:

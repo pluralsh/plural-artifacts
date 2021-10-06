@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-logging
+  labels:
+    {{- include "knative-operator.labels" . | nindent 4 }}
+{{ with .Values.loggingConfig }}
+data:
+{{ toYaml . | nindent 2 }}
+{{ end }}
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-observability
+  labels:
+    {{- include "knative-operator.labels" . | nindent 4 }}
+{{ with .Values.observabilityConfig }}
+data:
+{{ toYaml . | nindent 2 }}
+{{ end }}

@@ -92,7 +92,7 @@ controller:
     metrics:
       port: 8080
     webhook:
-      port: 8443
+      port: 443 # do not change
   
   podAnnotations:
     sidecar.istio.io/inject: "true"

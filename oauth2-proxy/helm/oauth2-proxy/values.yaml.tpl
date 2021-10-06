@@ -8,7 +8,7 @@ oauth2-proxy:
     # Use an existing secret for OAuth2 credentials (see secret.yaml for required fields)
     # Example:
     # existingSecret: secret
-    cookieSecret: {{ dedupe . "oauth2-proxy.oauth2-proxy.config.cookieSecret" (randAlphaNum 26) }}
+    cookieSecret: {{ dedupe . "oauth2-proxy.oauth2-proxy.config.cookieSecret" (randAlphaNum 32) }}
   extraArgs:
     cookie-domain: ".{{ .Values.auth_cookie_domain }}"
     whitelist-domain: ".{{ .Values.auth_whitelist_domain }}"

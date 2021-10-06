@@ -2,14 +2,14 @@ apiVersion: admissionregistration.k8s.io/v1beta1
 kind: MutatingWebhookConfiguration
 metadata:
   annotations:
-    cert-manager.io/inject-ca-from: kubeflow/admission-webhook-cert
+    cert-manager.io/inject-ca-from: kubeflow/{{ include "notebooks.fullname" . }}-pod-defaults-certs
   labels: {{- include "notebooks.labels" . | nindent 4 }}
   name: admission-webhook-mutating-webhook-configuration
 webhooks:
   - clientConfig:
       caBundle: ""
       service:
-        name: admission-webhook-service
+        name: {{ include "notebooks.fullname" . }}-pod-defaults
         namespace: kubeflow
         path: /apply-poddefault
     name: admission-webhook-deployment.kubeflow.org

@@ -8,15 +8,15 @@ spec:
   - type: helm
     name: bootstrap
     repo: bootstrap
-    version: '>= 0.5.1'
+    version: '>= 0.7.12'
   - type: helm
     name: istio
     repo: istio
-    version: '>= 0.1.66'
+    version: '>= 0.1.84'
   - type: helm
-    name: oauth2-proxy
-    repo: oauth2-proxy
-    version: '>= 0.1.11'
+    name: nvidia-operator
+    repo: nvidia-operator
+    version: '>= 0.1.2'
   - type: helm
     name: katib
     repo: kubeflow

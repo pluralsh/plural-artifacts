@@ -15,9 +15,7 @@ spec:
     - {{ . | quote }}
     {{- end }}
   hosts:
-    {{- range .Values.virtualService.hosts }}
-    - {{ . | quote }}
-    {{- end }}
+    - {{ .Values.global.domain }}
   http:
     - match:
         - uri:
