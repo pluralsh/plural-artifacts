@@ -35,6 +35,8 @@ monitoring:
   tracing:
     enabled: true
     sampling: 100.0
+    tempoNamespace: grafana-tempo
+    tempoService: grafana-tempo-tempo-distributed-distributor
 
 # TODO: add prometheus service monitor for Kiali
 kiali-server:
@@ -75,8 +77,8 @@ kiali-server:
     prometheus:
       url: http://monitoring-prometheus.monitoring:9090
     tracing:
-      use_grpc: false # we would actually want this to be true, but it doesn't work currently
-      in_cluster_url: http://istio-jaeger-query.istio-system
+      use_grpc: true # we would actually want this to be true, but it doesn't work currently
+      in_cluster_url: http://grafana-tempo-tempo-distributed-query-frontend.grafana-tempo
     grafana:
       auth:
         type: basic
@@ -99,15 +101,6 @@ kiali-server:
           var-datasource: default
           var-cluster: ''
           var-instance: All
-
-jaeger:
-  provisionDataStore:
-    cassandra: true
-    elasticsearch: false
-  collector:
-    service: 
-      zipkin:
-        port: 9411
 
 oauth2proxy:
   enabled: true

@@ -91,11 +91,14 @@ provider: {{ .Provider }}
 
 {{ $monitoringNamespace := namespace "monitoring" }}
 {{ $grafanaNamespace := namespace "grafana" }}
+{{ $tempoNamespace := namespace "grafana-tempo" }}
 {{ $grafanaCreds := secret $grafanaNamespace "grafana-credentials" }}
 monitoring:
   namespace: {{ $monitoringNamespace }}
   grafama:
     namespace: {{ $grafanaNamespace }}
+  tracing:
+    tempoNamespace: {{ $tempoNamespace }}
 
 kiali-server:
   {{/* {{ if .OIDC }}
@@ -151,7 +154,7 @@ kiali-server:
       in_cluster_url: http://grafana.{{ $grafanaNamespace }}:80
     {{  end }}
     tracing:
-      in_cluster_url: http://istio-jaeger-query.{{ namespace "istio" }}
+      in_cluster_url: http://grafana-tempo-tempo-distributed-query-frontend.{{ $tempoNamespace }}
 
 {{ $oath2proxyNamespace := namespace "oauth2-proxy" }}
 oauth2proxy:
