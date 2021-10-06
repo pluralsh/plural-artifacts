@@ -2,7 +2,10 @@ apiVersion: caching.internal.knative.dev/v1alpha1
 kind: Image
 metadata:
   labels:
-    serving.knative.dev/release: v0.26.0
+    serving.knative.dev/release: "v0.26.0"
+    app.kubernetes.io/name: queue-proxy
+    app.kubernetes.io/version: "0.26.0"
+    app.kubernetes.io/part-of: knative-serving
   name: queue-proxy
   namespace: {{ .Release.Namespace }}
 spec:
