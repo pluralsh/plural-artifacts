@@ -33,5 +33,5 @@ autoscalerConfig: {}
 tracingConfig: {}
 istioConfig:
   gateway.kubeflow.kubeflow-gateway: istio-ingressgateway.istio.svc.cluster.local
-  local-gateway.istio.cluster-local-gateway: cluster-local-gateway.istio.svc.cluster.local
+  local-gateway.knative-serving.knative-local-gateway: "knative-local-gateway.istio-system.svc.cluster.local"
   enable-virtualservice-status: 'true'
