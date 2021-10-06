@@ -79,7 +79,7 @@ data "aws_iam_policy_document" "kubeflow" {
 
 resource "aws_eks_node_group" "gpu" {
   cluster_name    = data.aws_eks_cluster.cluster.name
-  node_group_name = "gpu-main"
+  node_group_name = "${var.cluster_name}-gpu-main"
   node_role_arn   = aws_iam_role.gpu.arn
   subnet_ids      = data.aws_eks_cluster.cluster.vpc_config[0].subnet_ids
   instance_types = var.gpu_instance_type
