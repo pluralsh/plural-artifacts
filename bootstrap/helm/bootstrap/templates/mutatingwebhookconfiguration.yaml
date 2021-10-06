@@ -1,0 +1,34 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  annotations:
+    cert-manager.io/inject-ca-from: {{ .Release.Namespace }}/plural-operator-serving-cert
+  name: mutating-webhook-configuration
+webhooks:
+- admissionReviewVersions:
+  - v1
+  - v1beta1
+  clientConfig:
+    service:
+      name: plural-operator-webhook-service
+      namespace: {{ .Release.Namespace }}
+      path: /mutate-security-plural-sh-v1alpha1-oauthinjector
+  failurePolicy: Fail
+  name: moauthinjector.security.plural.sh
+  objectSelector:
+    matchExpressions:
+    - key: security.plural.sh/inject-oauth-sidecar
+      operator: In
+      values:
+      - "true"
+  rules:
+  - apiGroups:
+    - ""
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - pods
+  sideEffects: None

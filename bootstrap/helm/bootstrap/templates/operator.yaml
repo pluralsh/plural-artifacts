@@ -23,6 +23,7 @@ spec:
         - /manager
         args:
         - --leader-elect
+        - --oauth-sidecar-config-path="/tmp/k8s-webhook-server/config/oauth-sidecar-config.yaml"
         image: "{{ .Values.plural.image.repository }}:{{ .Values.plural.image.tag }}"
         imagePullPolicy: Always
         name: manager
@@ -34,6 +35,9 @@ spec:
           protocol: TCP
         - containerPort: 8080
           name: metrics
+          protocol: TCP
+        - containerPort: 9443
+          name: webhook-server
           protocol: TCP
         livenessProbe:
           httpGet:
@@ -51,5 +55,19 @@ spec:
           requests:
             cpu: 100m
             memory: 20Mi
+        volumeMounts:
+        - mountPath: /tmp/k8s-webhook-server/serving-certs
+          name: webhook-cert
+          readOnly: true
+        - mountPath: /tmp/k8s-webhook-server/config
+          name: sidecar-config
+      volumes:
+      - name: webhook-cert
+        secret:
+          defaultMode: 420
+          secretName: plural-operator-webhook-server-cert
+      - configMap:
+          name: plural-operator-oauth-sidecar-config
+        name: sidecar-config
       serviceAccountName: plural-operator
       terminationGracePeriodSeconds: 10
