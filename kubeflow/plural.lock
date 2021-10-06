@@ -5,7 +5,7 @@ helm:
   helm/central-dashboard: h1:aFI3R7JtMKkRd2NkpZCXNQSWyGwDLi1pVtl+7wW0ovU=
   helm/katib: h1:r+9vbxJQ41xpK6TWlVXC19m7bTQfyC95bNO/FQEJOPo=
   helm/mysql-cluster: h1:ITIhvamfZqBkahuD+FdXKRx4X5uE7RMQFE7v5E9BDeI=
-  helm/notebooks: h1:InriyyiW8jmHnHHYd4sgGYOY1jlUECdQw3RV3SlcRlo=
+  helm/notebooks: h1:nw7Y6KvtgKgEO0JgavSQGDA++75fgPfKvdEU7l3Orlw=
   helm/operators/mpi: h1:oy9WH4CdcBSjovxHIR4V5kTLFV2Z9BEN/DCfCgJ++4o=
   helm/operators/mxnet: h1:3TVyvRlMSVdCGFVE5Pnf/9L3MqdKl2n0YpGzhPnE1Yk=
   helm/operators/pytorch: h1:KRh+hGTYK9G4+ER8WSl7zsLGZHDQJGNfupT6ypDouS4=
@@ -13,7 +13,7 @@ helm:
   helm/operators/xgboost: h1:KaitX2yztaulcHy63YJ9gogrBf6K+97ApMc1pFJzYs4=
   helm/pipelines: h1:cC7J0dxFmb72tvchLxQrwLxBXKj75eC8u1u6WgfHjOM=
   helm/profile-controller: h1:sj8K8NEmy5AWuTxlgmBK5ERSsTSvo3UtE61pUqgTSWg=
-  helm/serving: h1:Ad117O7IuGWS6At3eWQK6/eTH2t1wDEYnKRrnLRzdVE=
+  helm/serving: h1:uUTbqfcxmR/CsLHRnmHy7ZAIx+8oWw2NapMH0ldFebs=
   helm/tensorboards: h1:e+2xTYX53JCJ+0gIMvpcNJRTXqUzUrkoVnp9dscn+IE=
   helm/volumes: h1:416qzMUu2Ho+jBRoSYk1oOoKKkbtigAhOWpl0AhfKaI=
 recipe:

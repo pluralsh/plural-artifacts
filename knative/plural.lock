@@ -3,17 +3,17 @@ terraform:
   terraform/kube: h1:aIkXBh2cF3BUvrwOu5kJ1BwzyIt5INCKWXs2ekWFwoU=
 helm:
   helm/knative-eventing: h1:s2qcJeuvr/TpRRMhOWvWJLYtYIIZVEt4/Q2SmhFt1T8=
-  helm/knative-serving: h1:NW+Y6T7Wa8H8wI2ub9XLyPn1bQh5HY3UvAmDhnfJYT4=
+  helm/knative-serving: h1:nlvd2Y+r2y6Opb91xWLhhrj4oLuKgH8szBTFDxYS5ns=
 recipe:
   plural/recipes/knative-aws.yaml: d4b3d9081792a9420bd24bbab3f641832f3df3ac3f0957b5099c4012d7a9b8dc
 integration: {}
 crd:
   plural/crds/eventing/crds.yaml: 2892c5545a962507cda742f64e55a03174db0f5d176bbe11fc24e917d82b6bb7:h1:s2qcJeuvr/TpRRMhOWvWJLYtYIIZVEt4/Q2SmhFt1T8=
-  plural/crds/serving/crds.yaml: 6b6db31f0f1ccc781a4360b8eb8925ecaa82ed808e125f0eb8007f8be7053db5:h1:NW+Y6T7Wa8H8wI2ub9XLyPn1bQh5HY3UvAmDhnfJYT4=
+  plural/crds/serving/crds.yaml: 6b6db31f0f1ccc781a4360b8eb8925ecaa82ed808e125f0eb8007f8be7053db5:h1:nlvd2Y+r2y6Opb91xWLhhrj4oLuKgH8szBTFDxYS5ns=
 ird: {}
 tag:
   plural/tags/helm/knative-eventing.yaml: af3d79bc83ee70a3765ccbbf6e36bfc59ccd7ee19911176700a00333d8673093
   plural/tags/helm/knative-serving.yaml: 3314931d47a45a80ec0c589b449e2b419309904d3db8b34ae1b1a5ac8b827825
   plural/tags/terraform/kube.yaml: 92ef5c9d1ec51bcf6d917cf7bd8032649bda7e894cc2f47c398250c237c2b1a9
 attrs:
-  repository.yaml_Plural: psgchlkiF3pjYhl8pKdZXlE5dkQDvJy9-Xr-wiKZTwo=
+  repository.yaml_Plural: -Fj9ryzUwTRVw2f-Ari5XoLkDeDo73rI9aeXbnHU99k=
