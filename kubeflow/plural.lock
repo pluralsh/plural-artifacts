@@ -4,7 +4,7 @@ terraform:
 helm:
   helm/central-dashboard: h1:VQa175oe1zrdJ4Xng/M0bu5rvkLeBqTWW0JQE78gn0g=
   helm/katib: h1:r+9vbxJQ41xpK6TWlVXC19m7bTQfyC95bNO/FQEJOPo=
-  helm/mysql-cluster: h1:gwWyYn2btslkYHxwrGmqScbSi6H15/H1vzqQEZlFw/4=
+  helm/mysql-cluster: h1:kXvOQkH/GKYE/v/ghHCJObgVs8+d6IVlupPfipUNkSY=
   helm/notebooks: h1:nw7Y6KvtgKgEO0JgavSQGDA++75fgPfKvdEU7l3Orlw=
   helm/operators/mpi: h1:oy9WH4CdcBSjovxHIR4V5kTLFV2Z9BEN/DCfCgJ++4o=
   helm/operators/mxnet: h1:3TVyvRlMSVdCGFVE5Pnf/9L3MqdKl2n0YpGzhPnE1Yk=
@@ -17,7 +17,7 @@ helm:
   helm/tensorboards: h1:e+2xTYX53JCJ+0gIMvpcNJRTXqUzUrkoVnp9dscn+IE=
   helm/volumes: h1:416qzMUu2Ho+jBRoSYk1oOoKKkbtigAhOWpl0AhfKaI=
 recipe:
-  plural/recipes/kubeflow-aws.yaml: b15793ce4a0f72416b61ca6a9ea6d9eeee73d4b45c7fae8eacd7f6df1c847218
+  plural/recipes/kubeflow-aws.yaml: 5f4b64fcc47d91b5f8f3f072841c2cdf62f2b329ae9b7114249877e4a924b4aa
 integration: {}
 crd:
   plural/crds/profile-controller/profiles.yaml: b3097e7bce72e61f2f0eca692594fc5301e681c36f08ed38e205d406af99f6d4:h1:sj8K8NEmy5AWuTxlgmBK5ERSsTSvo3UtE61pUqgTSWg=
