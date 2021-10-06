@@ -2,7 +2,7 @@ apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
   application: true
-  description: deploys knative serving crafted for plural
+  description: deploys the knative operator crafted for plural
 spec:
   dependencies:
   - type: helm
