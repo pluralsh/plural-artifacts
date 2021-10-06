@@ -1,3 +1,6 @@
+{{ $monitoringNamespace := namespace "monitoring" }}
+observabilityConfig:
+  metrics.opencensus-address: plural-otel-collector.{{ $monitoringNamespace }}.svc.cluster.local:55678
 {{- if .Configuration.kubeflow }}
 domainConfig:
   {{- .Configuration.kubeflow.hostname }}: ""

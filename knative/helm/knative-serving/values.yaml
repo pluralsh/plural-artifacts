@@ -6,7 +6,7 @@ replicaCount: 1
 observabilityConfig:
   metrics.backend-destination: opencensus
   request-metrics-backend-destination: opencensus
-  metrics.opencensus-address: otel-collector.monitoring.svc.cluster.local:55678
+  metrics.opencensus-address: plural-otel-collector.monitoring.svc.cluster.local:55678
 networkConfig:
   ingress.class: "istio.ingress.networking.knative.dev"
   domainTemplate: "{{.Name}}-{{.Namespace}}.{{.Domain}}"
