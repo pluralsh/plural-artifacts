@@ -142,12 +142,14 @@ kiali-server:
   external_services:
     prometheus:
       url: http://monitoring-prometheus.{{ $monitoringNamespace }}:9090
+    {{ if .Configuration.grafana }}
     grafana:
       auth:
         username: {{ ( index $grafanaCreds "admin-user") }}
         password: {{ ( index $grafanaCreds "admin-password") }}
       url: https://{{ .Configuration.grafana.hostname }}
       in_cluster_url: http://grafana.{{ $grafanaNamespace }}:80
+    {{  end }}
     tracing:
       in_cluster_url: http://istio-jaeger-query.{{ namespace "istio" }}
 
