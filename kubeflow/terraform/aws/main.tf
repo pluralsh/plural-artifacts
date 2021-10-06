@@ -113,7 +113,7 @@ resource "aws_eks_node_group" "gpu" {
 }
 
 resource "aws_iam_role" "gpu" {
-  name = "eks-node-group-gpu"
+  name = "eks-node-group-gpu-${var.cluster_name}"
 
   assume_role_policy = jsonencode({
     Statement = [{
