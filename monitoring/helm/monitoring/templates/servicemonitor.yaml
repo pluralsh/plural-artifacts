@@ -1,0 +1,21 @@
+
+{{- if index .Values "opentelemetry-operator" "collector" "enabled" }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: otel-metrics
+spec:
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: monitoring.plural-otel
+  endpoints:
+  - port: monitoring
+    path: /metrics
+    interval: 5s
+  - port: prom-export
+    path: /metrics
+    interval: 5s
+{{- end }}

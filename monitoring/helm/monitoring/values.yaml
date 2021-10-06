@@ -172,6 +172,9 @@ kube-prometheus-stack:
       labels:
         app.kubernetes.io/managed-by: Helm
     prometheusSpec:
+      prometheusExternalLabelName: cluster
+      externalLabels:
+        cluster: "plural"
       storageSpec:
         volumeClaimTemplate:
           spec:
@@ -203,3 +206,8 @@ kube-prometheus-stack:
           app.kubernetes.io/managed-by: plural
       probeSelectorNilUsesHelmValues: false
       probeSelector: {}
+
+opentelemetry-operator:
+  collector:
+    enabled: false
+    tempoNamespace: grafana-tempo

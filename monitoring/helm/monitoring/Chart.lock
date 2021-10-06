@@ -8,5 +8,8 @@ dependencies:
 - name: promtail
   repository: https://grafana.github.io/helm-charts
   version: 3.6.1
-digest: sha256:a8f2497877fbc5a54fdd1d4d38ce8a17fb67b88bbd131766fe8f813bda758b68
-generated: "2021-08-04T13:36:31.41260166+02:00"
+- name: opentelemetry-operator
+  repository: https://pluralsh.github.io/plural-helm-charts
+  version: 0.3.4
+digest: sha256:823647f81ea4aaec830d6b529fc696ad64d1b4a54884f25cfdc79c3f11db9dc7
+generated: "2021-10-04T13:53:03.443854285+02:00"
