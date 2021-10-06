@@ -4,7 +4,7 @@ terraform:
 helm:
   helm/knative-eventing: h1:s2qcJeuvr/TpRRMhOWvWJLYtYIIZVEt4/Q2SmhFt1T8=
   helm/knative-operator: h1:XHbAS4FsASkIUN49cv/mAUtdopaK5opmYABF3/skv0w=
-  helm/knative-serving: h1:IPSsmiJKYrBmBcrYbJjhHQtTtxkmUQ1RDKjAAVOya+M=
+  helm/knative-serving: h1:0sTnNRzLwoPowjvF2qUzmqzjR2vDiqLc+mPeYaE7DJw=
 recipe:
   plural/recipes/knative-aws.yaml: d4b3d9081792a9420bd24bbab3f641832f3df3ac3f0957b5099c4012d7a9b8dc
   plural/recipes/knative-operator-aws.yaml: 76c5b5e81c21374109ca4eb4c5caaa3e0ba322ae75a1f16627f0b1bedf42ae97
@@ -13,7 +13,7 @@ crd:
   plural/crds/eventing/crds.yaml: 2892c5545a962507cda742f64e55a03174db0f5d176bbe11fc24e917d82b6bb7:h1:s2qcJeuvr/TpRRMhOWvWJLYtYIIZVEt4/Q2SmhFt1T8=
   plural/crds/operator/knative-eventing.yaml: 95c61091f439b700e49100e75832d475fd81d53e1fff9d8907641d6e1f0ae701:h1:XHbAS4FsASkIUN49cv/mAUtdopaK5opmYABF3/skv0w=
   plural/crds/operator/knative-serving.yaml: 30e5f7763fb9a969c8bc34f37f39ae6dba72f78599d0506bd10533acaa247432:h1:XHbAS4FsASkIUN49cv/mAUtdopaK5opmYABF3/skv0w=
-  plural/crds/serving/crds.yaml: 60f77a21eab4c3baf98eb5b78552d35c861bec73fdac8136fd62a9a906864689:h1:IPSsmiJKYrBmBcrYbJjhHQtTtxkmUQ1RDKjAAVOya+M=
+  plural/crds/serving/crds.yaml: 60f77a21eab4c3baf98eb5b78552d35c861bec73fdac8136fd62a9a906864689:h1:0sTnNRzLwoPowjvF2qUzmqzjR2vDiqLc+mPeYaE7DJw=
 ird: {}
 tag:
   plural/tags/helm/knative-eventing.yaml: af3d79bc83ee70a3765ccbbf6e36bfc59ccd7ee19911176700a00333d8673093
