@@ -3,7 +3,7 @@ kind: Service
 metadata:
   labels:
     app: activator
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: activator-service
   namespace: {{ .Release.Namespace }}
 spec:
@@ -29,7 +29,7 @@ kind: Service
 metadata:
   labels:
     app: autoscaler
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: autoscaler
   namespace: {{ .Release.Namespace }}
 spec:
@@ -51,7 +51,7 @@ kind: Service
 metadata:
   labels:
     app: controller
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: controller
   namespace: {{ .Release.Namespace }}
 spec:
@@ -70,7 +70,7 @@ kind: Service
 metadata:
   labels:
     role: domainmapping-webhook
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: domainmapping-webhook
   namespace: {{ .Release.Namespace }}
 spec:
@@ -93,7 +93,7 @@ metadata:
   labels:
     networking.knative.dev/ingress-provider: istio
     role: net-istio-webhook
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: net-istio-webhook
   namespace: {{ .Release.Namespace }}
 spec:
@@ -115,7 +115,7 @@ kind: Service
 metadata:
   labels:
     role: webhook
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: webhook
   namespace: {{ .Release.Namespace }}
 spec:

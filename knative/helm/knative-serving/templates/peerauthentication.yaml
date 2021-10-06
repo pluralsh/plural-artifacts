@@ -4,7 +4,7 @@ metadata:
   name: force-strict-mtls
   namespace: {{ .Release.Namespace }}
   labels:
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
     networking.knative.dev/ingress-provider: istio
 spec:
   mtls:

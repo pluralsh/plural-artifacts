@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: activator
   namespace: {{ .Release.Namespace }}
 spec:
@@ -17,7 +17,7 @@ spec:
       labels:
         app: activator
         role: activator
-        serving.knative.dev/release: v0.24.0
+        serving.knative.dev/release: v0.26.0
     spec:
       containers:
         - env:
@@ -41,7 +41,7 @@ spec:
               value: config-observability
             - name: METRICS_DOMAIN
               value: knative.dev/internal/serving
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/activator@sha256:bd48057f8d6e5f95f389225979c89d2d99d52a4876d2342fc033c909096d4698
+          image: gcr.io/knative-releases/knative.dev/serving/cmd/activator:v0.26.0
           livenessProbe:
             failureThreshold: 12
             httpGet:
@@ -88,7 +88,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: autoscaler
   namespace: {{ .Release.Namespace }}
 spec:
@@ -102,7 +102,7 @@ spec:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
       labels:
         app: autoscaler
-        serving.knative.dev/release: v0.24.0
+        serving.knative.dev/release: v0.26.0
     spec:
       affinity:
         podAntiAffinity:
@@ -133,7 +133,7 @@ spec:
               value: config-observability
             - name: METRICS_DOMAIN
               value: knative.dev/serving
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler@sha256:d3d6f5ecfff577a6d4d5a0549379fa1acf1d66d7422a58b1756e40eba555285c
+          image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler:v0.26.0
           livenessProbe:
             failureThreshold: 6
             httpGet:
@@ -175,7 +175,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: controller
   namespace: {{ .Release.Namespace }}
 spec:
@@ -188,7 +188,7 @@ spec:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
       labels:
         app: controller
-        serving.knative.dev/release: v0.24.0
+        serving.knative.dev/release: v0.26.0
     spec:
       affinity:
         podAntiAffinity:
@@ -215,7 +215,7 @@ spec:
               value: config-observability
             - name: METRICS_DOMAIN
               value: knative.dev/internal/serving
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/controller@sha256:e9b9cc7a2a091194161a7a256d6fc342317080f1a31e1f1a33993a5e1993fdb5
+          image: gcr.io/knative-releases/knative.dev/serving/cmd/controller:v0.26.0
           name: controller
           ports:
             - containerPort: 9090
@@ -242,7 +242,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: domain-mapping
   namespace: {{ .Release.Namespace }}
 spec:
@@ -255,7 +255,7 @@ spec:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
       labels:
         app: domain-mapping
-        serving.knative.dev/release: v0.24.0
+        serving.knative.dev/release: v0.26.0
     spec:
       affinity:
         podAntiAffinity:
@@ -278,7 +278,7 @@ spec:
               value: config-observability
             - name: METRICS_DOMAIN
               value: knative.dev/serving
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/domain-mapping@sha256:fafa1afcc9f2c6e79b096ffbc67e14ff3f34e3591d887335811ca15970b3b837
+          image: gcr.io/knative-releases/knative.dev/serving/cmd/domain-mapping:v0.26.0
           name: domain-mapping
           ports:
             - containerPort: 9090
@@ -305,7 +305,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: domainmapping-webhook
   namespace: {{ .Release.Namespace }}
 spec:
@@ -320,7 +320,7 @@ spec:
       labels:
         app: domainmapping-webhook
         role: domainmapping-webhook
-        serving.knative.dev/release: v0.24.0
+        serving.knative.dev/release: v0.26.0
     spec:
       affinity:
         podAntiAffinity:
@@ -349,7 +349,7 @@ spec:
               value: "8443"
             - name: METRICS_DOMAIN
               value: knative.dev/serving
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/domain-mapping-webhook@sha256:1335e57427a372d15e8a90a3370eaa6896c9cb3fd7cb6f2a63021cceaea2e8e6
+          image: gcr.io/knative-releases/knative.dev/serving/cmd/domain-mapping-webhook:v0.26.0
           livenessProbe:
             failureThreshold: 6
             httpGet:
@@ -398,7 +398,7 @@ kind: Deployment
 metadata:
   labels:
     networking.knative.dev/ingress-provider: istio
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: net-istio-controller
   namespace: {{ .Release.Namespace }}
 spec:
@@ -409,10 +409,10 @@ spec:
     metadata:
       annotations:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
-        sidecar.istio.io/inject: "true"
+        sidecar.istio.io/inject: "false"
       labels:
         app: net-istio-controller
-        serving.knative.dev/release: v0.24.0
+        serving.knative.dev/release: v0.26.0
     spec:
       containers:
         - env:
@@ -426,7 +426,7 @@ spec:
               value: config-observability
             - name: METRICS_DOMAIN
               value: knative.dev/net-istio
-          image: gcr.io/knative-releases/knative.dev/net-istio/cmd/controller@sha256:41f58d7e8319e473dbf27dec3d329b631f03ec0899c98ba2dd3d3166a6fb7a42
+          image: gcr.io/knative-releases/knative.dev/net-istio/cmd/controller:v0.26.0
           name: controller
           ports:
             - containerPort: 9090
@@ -454,7 +454,7 @@ kind: Deployment
 metadata:
   labels:
     networking.knative.dev/ingress-provider: istio
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: net-istio-webhook
   namespace: {{ .Release.Namespace }}
 spec:
@@ -469,7 +469,7 @@ spec:
       labels:
         app: net-istio-webhook
         role: net-istio-webhook
-        serving.knative.dev/release: v0.24.0
+        serving.knative.dev/release: v0.26.0
     spec:
       containers:
         - env:
@@ -485,7 +485,7 @@ spec:
               value: knative.dev/net-istio
             - name: WEBHOOK_NAME
               value: net-istio-webhook
-          image: gcr.io/knative-releases/knative.dev/net-istio/cmd/webhook@sha256:49bf045db42aa0bfe124e9c5a5c511595e8fc27bf3a77e3900d9dec2b350173c
+          image: gcr.io/knative-releases/knative.dev/net-istio/cmd/webhook:v0.26.0
           name: webhook
           ports:
             - containerPort: 9090
@@ -509,7 +509,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: webhook
   namespace: {{ .Release.Namespace }}
 spec:
@@ -524,7 +524,7 @@ spec:
       labels:
         app: webhook
         role: webhook
-        serving.knative.dev/release: v0.24.0
+        serving.knative.dev/release: v0.26.0
     spec:
       affinity:
         podAntiAffinity:
@@ -555,7 +555,7 @@ spec:
               value: "8443"
             - name: METRICS_DOMAIN
               value: knative.dev/internal/serving
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/webhook@sha256:e9503135b4b46a3700d91bdb32df60923575aaedbcc5192bdc3e41b64591ee50
+          image: gcr.io/knative-releases/knative.dev/serving/cmd/webhook:v0.26.0
           livenessProbe:
             failureThreshold: 6
             httpGet:

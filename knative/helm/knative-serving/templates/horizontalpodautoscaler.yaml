@@ -2,7 +2,7 @@ apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
   labels:
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: activator
   namespace: {{ .Release.Namespace }}
 spec:
@@ -24,7 +24,7 @@ apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
   labels:
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: webhook
   namespace: {{ .Release.Namespace }}
 spec:

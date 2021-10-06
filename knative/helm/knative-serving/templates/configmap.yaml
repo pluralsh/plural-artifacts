@@ -8,7 +8,7 @@ metadata:
   annotations:
     knative.dev/example-checksum: 604cb513
   labels:
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: config-autoscaler
   namespace: {{ .Release.Namespace }}
 ---
@@ -22,7 +22,7 @@ metadata:
   annotations:
     knative.dev/example-checksum: cdabec96
   labels:
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: config-defaults
   namespace: {{ .Release.Namespace }}
 ---
@@ -37,7 +37,7 @@ metadata:
   annotations:
     knative.dev/example-checksum: fa67b403
   labels:
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: config-deployment
   namespace: {{ .Release.Namespace }}
 ---
@@ -51,7 +51,7 @@ metadata:
   annotations:
     knative.dev/example-checksum: 74c3fc6a
   labels:
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: config-domain
   namespace: {{ .Release.Namespace }}
 ---
@@ -65,7 +65,7 @@ metadata:
   annotations:
     knative.dev/example-checksum: 2cf73688
   labels:
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: config-features
   namespace: {{ .Release.Namespace }}
 ---
@@ -79,7 +79,7 @@ metadata:
   annotations:
     knative.dev/example-checksum: e6149382
   labels:
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: config-gc
   namespace: {{ .Release.Namespace }}
 ---
@@ -93,7 +93,7 @@ metadata:
   annotations:
     knative.dev/example-checksum: 96896b00
   labels:
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: config-leader-election
   namespace: {{ .Release.Namespace }}
 ---
@@ -107,7 +107,7 @@ metadata:
   annotations:
     knative.dev/example-checksum: d9570453
   labels:
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: config-logging
   namespace: {{ .Release.Namespace }}
 ---
@@ -121,7 +121,7 @@ metadata:
   annotations:
     knative.dev/example-checksum: 15954d34
   labels:
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: config-network
   namespace: {{ .Release.Namespace }}
 ---
@@ -135,7 +135,7 @@ metadata:
   annotations:
     knative.dev/example-checksum: 97c1d10b
   labels:
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: config-observability
   namespace: {{ .Release.Namespace }}
 ---
@@ -149,7 +149,7 @@ metadata:
   annotations:
     knative.dev/example-checksum: 4002b4c2
   labels:
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: config-tracing
   namespace: {{ .Release.Namespace }}
 ---
@@ -162,6 +162,6 @@ kind: ConfigMap
 metadata:
   labels:
     networking.knative.dev/ingress-provider: istio
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: config-istio
   namespace: {{ .Release.Namespace }}

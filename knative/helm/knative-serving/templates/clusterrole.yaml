@@ -3,7 +3,7 @@ kind: ClusterRole
 metadata:
   labels:
     duck.knative.dev/addressable: "true"
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: knative-serving-addressable-resolver
 rules:
   - apiGroups:
@@ -26,7 +26,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   labels:
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: knative-serving-admin
 rules: []
 ---
@@ -38,7 +38,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   labels:
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: knative-serving-aggregated-addressable-resolver
 rules: []
 ---
@@ -47,7 +47,7 @@ kind: ClusterRole
 metadata:
   labels:
     serving.knative.dev/controller: "true"
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: knative-serving-core
 rules:
   - apiGroups:
@@ -180,7 +180,7 @@ metadata:
   labels:
     networking.knative.dev/ingress-provider: istio
     serving.knative.dev/controller: "true"
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: knative-serving-istio
 rules:
   - apiGroups:
@@ -203,7 +203,7 @@ kind: ClusterRole
 metadata:
   labels:
     rbac.authorization.k8s.io/aggregate-to-admin: "true"
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: knative-serving-namespaced-admin
 rules:
   - apiGroups:
@@ -228,7 +228,7 @@ kind: ClusterRole
 metadata:
   labels:
     rbac.authorization.k8s.io/aggregate-to-edit: "true"
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: knative-serving-namespaced-edit
 rules:
   - apiGroups:
@@ -256,7 +256,7 @@ kind: ClusterRole
 metadata:
   labels:
     rbac.authorization.k8s.io/aggregate-to-view: "true"
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: knative-serving-namespaced-view
 rules:
   - apiGroups:
@@ -276,7 +276,7 @@ kind: ClusterRole
 metadata:
   labels:
     duck.knative.dev/podspecable: "true"
-    serving.knative.dev/release: v0.24.0
+    serving.knative.dev/release: v0.26.0
   name: knative-serving-podspecable-binding
 rules:
   - apiGroups:
