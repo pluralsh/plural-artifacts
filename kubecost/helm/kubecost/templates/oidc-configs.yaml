@@ -31,11 +31,11 @@ stringData:
   OAUTH2_PROXY_EMAIL_DOMAINS: "*"
   OAUTH2_PROXY_OIDC_ISSUER_URL: {{ .Values.oidcProxy.issuer }}
   OAUTH2_PROXY_PASS_ACCESS_TOKEN: "true"
-  OAUTH2_PROXY_SCOPES: "openid profile"
+  OAUTH2_PROXY_SCOPE: "openid profile"
   OAUTH2_PROXY_SET_AUTHORIZATION_HEADER: "true"
   OAUTH2_PROXY_SET_XAUTHREQUEST: "true"
   OAUTH2_PROXY_SKIP_PROVIDER_BUTTON: "true"
-  OAUTH2_PROXY_UPSTREAM: {{ .Values.oidcProxy.upstream }}
+  OAUTH2_PROXY_UPSTREAMS: {{ .Values.oidcProxy.upstream }}
   OAUTH2_PROXY_USER_ID_CLAIM: email
   OAUTH2_PROXY_CLIENT_ID: {{ .Values.oidcProxy.clientID }}
   OAUTH2_PROXY_CLIENT_SECRET: {{ .Values.oidcProxy.clientSecret }}
