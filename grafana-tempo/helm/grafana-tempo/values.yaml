@@ -1,3 +1,7 @@
+provider: aws
+tempoStorageIdentityId: 
+tempoStorageIdentityClientId: 
+
 tempo-distributed:
   serviceAccount:
     name: grafana-tempo
