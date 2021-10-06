@@ -4,7 +4,7 @@ terraform:
 helm:
   helm/istio: h1:y+Nz79ZdlCiynsSGkM7FmpshQaFTpHVWKl28nZbtTUY=
 recipe:
-  plural/recipes/istio-aws.yaml: 02eeb3a342ebeb3215d992d60a1c41193e56ed2e16022418eb3cb457fe1ce947
+  plural/recipes/istio-aws.yaml: e4b46a10fdd2d664d57e5aabfcf1a5e2e4bf843629e589014a72500b82b537c3
   plural/recipes/istio-azure.yaml: cd396907ceb41c8760979b6b90f0003807869d4dd4e5f12027301170da273b49
 integration: {}
 crd:

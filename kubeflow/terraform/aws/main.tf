@@ -83,12 +83,19 @@ resource "aws_eks_node_group" "gpu" {
   node_role_arn   = aws_iam_role.gpu.arn
   subnet_ids      = data.aws_eks_cluster.cluster.vpc_config[0].subnet_ids
   instance_types = var.gpu_instance_type
+  ami_type = "AL2_x86_64_GPU"
   release_version = "1.21.2-20210914"
 
   scaling_config {
     desired_size = 0
     min_size     = 0
     max_size     = 3
+  }
+
+  tags = {
+    "k8s.io/cluster-autoscaler/node-template/label/nvidia.com/gpu" = "true"
+    "k8s.io/cluster-autoscaler/node-template/taint/dedicated" = "nvidia.com/gpu=true"
+
   }
 
   depends_on = [
