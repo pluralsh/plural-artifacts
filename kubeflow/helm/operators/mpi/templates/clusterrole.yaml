@@ -56,99 +56,87 @@ metadata:
   name: {{ include "mpi.fullname" . }}-cluster-role
 rules:
   - apiGroups:
-      - ""
+    - ""
     resources:
-      - configmaps
-      - serviceaccounts
+    - configmaps
+    - secrets
+    - services
     verbs:
-      - create
-      - list
-      - watch
+    - create
+    - list
+    - watch
+    - update
   - apiGroups:
-      - ""
+    - ""
     resources:
-      - pods
+    - pods
     verbs:
-      - get
-      - list
-      - watch
+    - create
+    - get
+    - list
+    - watch
+    - delete
+    - update
+    - patch
   - apiGroups:
-      - ""
+    - ""
     resources:
-      - pods/exec
+    - pods/exec
     verbs:
-      - create
+    - create
   - apiGroups:
-      - ""
+    - ""
     resources:
-      - endpoints
+    - endpoints
     verbs:
-      - create
-      - get
-      - update
+    - create
+    - get
+    - update
   - apiGroups:
-      - ""
+    - ""
     resources:
-      - events
+    - events
     verbs:
-      - create
-      - patch
+    - create
+    - patch
   - apiGroups:
-      - rbac.authorization.k8s.io
+    - apps
     resources:
-      - roles
-      - rolebindings
+    - statefulsets
     verbs:
-      - create
-      - list
-      - watch
+    - create
+    - list
+    - update
+    - watch
   - apiGroups:
-      - policy
+    - batch
     resources:
-      - poddisruptionbudgets
+    - jobs
     verbs:
-      - create
-      - list
-      - update
-      - watch
+    - create
+    - list
+    - update
+    - watch
   - apiGroups:
-      - apps
+    - apiextensions.k8s.io
     resources:
-      - statefulsets
+    - customresourcedefinitions
     verbs:
-      - create
-      - list
-      - update
-      - watch
+    - create
+    - get
   - apiGroups:
-      - batch
+    - kubeflow.org
     resources:
-      - jobs
+    - mpijobs
+    - mpijobs/finalizers
+    - mpijobs/status
     verbs:
-      - create
-      - list
-      - update
-      - watch
+    - '*'
   - apiGroups:
-      - apiextensions.k8s.io
+    - scheduling.incubator.k8s.io
+    - scheduling.sigs.dev
     resources:
-      - customresourcedefinitions
+    - queues
+    - podgroups
     verbs:
-      - create
-      - get
-  - apiGroups:
-      - kubeflow.org
-    resources:
-      - mpijobs
-      - mpijobs/finalizers
-      - mpijobs/status
-    verbs:
-      - '*'
-  - apiGroups:
-      - scheduling.incubator.k8s.io
-      - scheduling.sigs.dev
-    resources:
-      - queues
-      - podgroups
-    verbs:
-      - '*'
+    - '*'

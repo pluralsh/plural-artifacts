@@ -4,8 +4,8 @@ data:
   appVersion: 1.6.0
   autoUpdatePipelineDefaultVersion: "true"
   bucketHost: s3.amazonaws.com
-  bucketRegion: us-east-2
-  bucketName: pipelines-bucket
+  bucketRegion: {{ .Values.config.objectStore.bucketRegion }}
+  bucketName: {{ .Values.config.objectStore.bucketName }}
   bucketPipelineFolder: "pipelines"
   bucketPipelinePath: "pipelines"
   cacheDb: {{ .Values.config.databases.cacheDB }}

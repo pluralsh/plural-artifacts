@@ -23,6 +23,9 @@ config:
     pipelineDB: mlpipeline
     metadataDB: metadb
     cacheDB: cachedb
+  objectStore:
+    bucketName: pipelines-bucket
+    bucketRegion: us-east-2
 
 image:
   repository: gcr.io/ml-pipeline/frontend
