@@ -65,9 +65,6 @@ resource "kubernetes_secret" "postgres_s3_secret" {
     namespace = kubernetes_namespace.postgres.id
   }
   data = {
-    "AWS_SDK_LOAD_CONFIG" = "1"
-    "USE_WALG_BACKUP" = "true"
-    "USE_WALG_RESTORE" = "true"
     "AWS_ACCESS_KEY_ID" = minio_iam_user.postgres.id
     "AWS_SECRET_ACCESS_KEY" = minio_iam_user.postgres.secret
   }
