@@ -1,6 +1,10 @@
 name: kubeflow-aws
 description: Installs Kubeflow on an EKS cluster
 provider: AWS
+oidcSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
+  domainKey: hostname
 dependencies:
 - repo: bootstrap
   name: aws-k8s
@@ -12,8 +16,6 @@ dependencies:
   name: crossplane-aws
 - repo: istio
   name: istio-aws
-- repo: oauth2-proxy
-  name: oauth2-proxy-aws
 - repo: nvidia-operator
   name: nvidia-operator-aws
 sections:

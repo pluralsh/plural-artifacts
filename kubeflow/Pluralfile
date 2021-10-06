@@ -1,4 +1,5 @@
 REPO kubeflow
+ATTRIBUTES Plural repository.yaml
 
 TF terraform/*
 HELM helm/central-dashboard

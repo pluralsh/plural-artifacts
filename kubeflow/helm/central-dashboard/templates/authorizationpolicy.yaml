@@ -14,4 +14,3 @@ spec:
   selector:
     matchLabels:
       {{- include "central-dashboard.selectorLabels" . | nindent 6 }}
-
