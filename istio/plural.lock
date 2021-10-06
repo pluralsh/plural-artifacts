@@ -2,14 +2,14 @@ artifact: {}
 terraform:
   terraform/kube: h1:vMPDCNZkTRKGX1acVe7qsk54Ycy/8ML5L0RKUatL9QM=
 helm:
-  helm/istio: h1:5b84WMDhBroAGCGdOXGQPFs1L//1GKD4IlJAul81vyY=
+  helm/istio: h1:BB9hnsgHXm7VDFnRuZQfOS9R4keE1KAbKbKu70Zovyg=
 recipe:
-  plural/recipes/istio-aws.yaml: e4b46a10fdd2d664d57e5aabfcf1a5e2e4bf843629e589014a72500b82b537c3
-  plural/recipes/istio-azure.yaml: cd396907ceb41c8760979b6b90f0003807869d4dd4e5f12027301170da273b49
+  plural/recipes/istio-aws.yaml: 634134ad786f530659d82673ae995061f38d1a4bd2e29ccd379d40fa2463711d
+  plural/recipes/istio-azure.yaml: d30ea4075764af5ce8ea776141639a1d9a833fd88982c6b10d4f19d7ec9d1b16
 integration: {}
 crd:
-  plural/crds/crd-all.gen.yaml: 108d7ce9a38ab7e40a2c899c2a29caaae25198f7c556cbfe7e3539f37d4ec415:h1:5b84WMDhBroAGCGdOXGQPFs1L//1GKD4IlJAul81vyY=
-  plural/crds/crd-operator.yaml: e04f16e7af9591024ba31a5a956a7f18fe93ee65cc3e8311f4a31bcd5195672e:h1:5b84WMDhBroAGCGdOXGQPFs1L//1GKD4IlJAul81vyY=
+  plural/crds/crd-all.gen.yaml: 108d7ce9a38ab7e40a2c899c2a29caaae25198f7c556cbfe7e3539f37d4ec415:h1:BB9hnsgHXm7VDFnRuZQfOS9R4keE1KAbKbKu70Zovyg=
+  plural/crds/crd-operator.yaml: e04f16e7af9591024ba31a5a956a7f18fe93ee65cc3e8311f4a31bcd5195672e:h1:BB9hnsgHXm7VDFnRuZQfOS9R4keE1KAbKbKu70Zovyg=
 ird: {}
 tag:
   plural/tags/helm/istio.yaml: 7a04928ccc1ff18dfd45847813fdbf5006ac7b2f3a325080cb336141ab0b3b72

@@ -9,6 +9,10 @@ spec:
     name: bootstrap
     repo: bootstrap
     version: '>= 0.6.14'
+  - type: helm
+    name: ingress-nginx
+    repo: ingress-nginx
+    version: '>= 0.1.2'
   - type: terraform
     name: kube
     repo: istio
