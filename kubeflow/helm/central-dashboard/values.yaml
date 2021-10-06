@@ -75,8 +75,6 @@ virtualService:
   annotations: {}
   gateways:
     - kubeflow-gateway
-  hosts:
-    - kubeflow.kubeflow-aws.com
 
 resources:
   requests:
