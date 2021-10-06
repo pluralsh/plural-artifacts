@@ -19,13 +19,13 @@ spec:
     prometheus:
       format: cpu
       legend: $pod
-      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"kubeflow-mysql-cluster-mysql-[0-9]+"}[5m])) by (pod)
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"kubeflow-mysql-cluster-mysql-[0-9]+",container=~"mysql"}[5m])) by (pod)
   - name: memory
     type: prometheus
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"kubeflow-mysql-cluster-mysql-[0-9]+"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"kubeflow-mysql-cluster-mysql-[0-9]+",container=~"mysql"}) by (pod)
   - name: statefulset
     type: kubernetes
     kubernetes:

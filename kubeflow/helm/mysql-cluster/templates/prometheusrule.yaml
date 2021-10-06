@@ -13,8 +13,8 @@ spec:
     - alert: KubeflowDbCPU
       expr: |
         (
-          sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"kubeflow-mysql-cluster-mysql-[0-9]+"}[5m])) 
-          / sum(kube_pod_container_resource_requests{endpoint="http",namespace="{{ .Release.Namespace }}", pod=~"kubeflow-mysql-cluster-mysql-[0-9]+", resource="cpu"})
+          sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"kubeflow-mysql-cluster-mysql-[0-9]+",container=~"mysql"}[5m])) 
+          / sum(kube_pod_container_resource_requests{endpoint="http",namespace="{{ .Release.Namespace }}", pod=~"kubeflow-mysql-cluster-mysql-[0-9]+",container=~"mysql",resource="cpu"})
         )  > 0.6
       for: 5m
       labels:
@@ -26,8 +26,8 @@ spec:
     - alert: KubeflowDbMEM
       expr: |
         (
-          sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"kubeflow-mysql-cluster-mysql-[0-9]+"})
-          / sum(kube_pod_container_resource_requests{endpoint="http",resource="memory",namespace="{{ .Release.Namespace }}", pod=~"kubeflow-mysql-cluster-mysql-[0-9]+"})
+          sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"kubeflow-mysql-cluster-mysql-[0-9]+",container=~"mysql"})
+          / sum(kube_pod_container_resource_requests{endpoint="http",resource="memory",namespace="{{ .Release.Namespace }}",pod=~"kubeflow-mysql-cluster-mysql-[0-9]+",container=~"mysql"})
         )  > 0.6
       for: 5m
       labels:
