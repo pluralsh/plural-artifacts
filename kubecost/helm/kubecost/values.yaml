@@ -1,6 +1,9 @@
 global:
+  additionalLabels:
+    security.plural.sh/inject-oauth-sidecar: "true"
   podAnnotations:
     cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+    security.plural.sh/oauth-env-secret: "kubecost-oauth2-proxy-config"
   prometheus:
     enabled: false
     fqdn: http://monitoring-prometheus.monitoring.svc.cluster.local:9090
@@ -11,6 +14,16 @@ global:
     alertmanager: 
       enabled: true
       fqdn: http://monitoring-alertmanager.monitoring.svc.cluster.local9093
+
+oidcProxy:
+  enabled: false
+  upstream: http://localhost:9090/
+  issuer: https://oidc.plural.sh/
+  clientID: ""
+  clientSecret: ""
+  cookieSecret: ""
+  ingress:
+    host: kubecost.david.onplural.sh
 
 cost-analyzer:
   prometheus:
