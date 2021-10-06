@@ -1,0 +1,6 @@
+{{ if .OIDC }}
+It looks like you've enabled OIDC!  Login will be managed by plural from now on,
+feel free to add your teammembers in the OIDC configuration page in the plural UI.
+
+You can view your installation at https://{{ .Values.hostname }}
+{{ end }}
