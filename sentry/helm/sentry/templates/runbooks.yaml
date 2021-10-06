@@ -8,7 +8,7 @@ metadata:
 spec:
   name: Postgres Scaling
   description: overview of how to accurately scale sentry's postgres instance
-  alert:
+  alerts:
   - name: SentryPostgresMEM
   - name: SentryPostgresCPU
   display: |-
