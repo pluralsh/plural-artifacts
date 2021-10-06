@@ -33,7 +33,7 @@ resource "aws_iam_access_key" "pipelines" {
 
 # create iam user(s) with full s3 permissions
 resource "aws_iam_user" "pipelines" {
-  name          = "pipelines"
+  name          = "pipelines-${var.cluster_name}"
   force_destroy = true
 }
 
@@ -75,4 +75,55 @@ data "aws_iam_policy_document" "kubeflow" {
       "arn:aws:s3:::${var.pipelines_bucket}/*"
     ]
   }
+}
+
+resource "aws_eks_node_group" "gpu" {
+  cluster_name    = data.aws_eks_cluster.cluster.name
+  node_group_name = "gpu-main"
+  node_role_arn   = aws_iam_role.gpu.arn
+  subnet_ids      = data.aws_eks_cluster.cluster.vpc_config[0].subnet_ids
+  instance_types = var.gpu_instance_type
+  release_version = "1.21.2-20210914"
+
+  scaling_config {
+    desired_size = 0
+    min_size     = 0
+    max_size     = 3
+  }
+
+  depends_on = [
+    aws_iam_role_policy_attachment.gpu-AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.gpu-AmazonEKS_CNI_Policy,
+    aws_iam_role_policy_attachment.gpu-AmazonEC2ContainerRegistryReadOnly,
+  ]
+}
+
+resource "aws_iam_role" "gpu" {
+  name = "eks-node-group-gpu"
+
+  assume_role_policy = jsonencode({
+    Statement = [{
+      Action = "sts:AssumeRole"
+      Effect = "Allow"
+      Principal = {
+        Service = "ec2.amazonaws.com"
+      }
+    }]
+    Version = "2012-10-17"
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "gpu-AmazonEKSWorkerNodePolicy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+  role       = aws_iam_role.gpu.name
+}
+
+resource "aws_iam_role_policy_attachment" "gpu-AmazonEKS_CNI_Policy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+  role       = aws_iam_role.gpu.name
+}
+
+resource "aws_iam_role_policy_attachment" "gpu-AmazonEC2ContainerRegistryReadOnly" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+  role       = aws_iam_role.gpu.name
 }

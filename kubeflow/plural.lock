@@ -1,8 +1,8 @@
 artifact: {}
 terraform:
-  terraform/aws: h1:TPsN9lxfBfjzXZ18zPUvRC+hbgYw2yeBVI2FzRgh90c=
+  terraform/aws: h1:IMNdxuagZYt/Vvb16R4M1bQdbnZlMQEViRQ7c8HOVPc=
 helm:
-  helm/central-dashboard: h1:kyU+zF0UvaBExfIoXyPOwShEAtmcviwKY5rro8J8YX4=
+  helm/central-dashboard: h1:H+hzwyF8aZ1foRrrwpbQPXYehUilYo/EINR3AWczSWY=
   helm/katib: h1:q7G+/uGHl9w8wPqibb+/+tohX5ZnFfCExqV1y5MVJUk=
   helm/mysql-cluster: h1:ITIhvamfZqBkahuD+FdXKRx4X5uE7RMQFE7v5E9BDeI=
   helm/notebooks: h1:InriyyiW8jmHnHHYd4sgGYOY1jlUECdQw3RV3SlcRlo=
@@ -17,7 +17,7 @@ helm:
   helm/tensorboards: h1:e+2xTYX53JCJ+0gIMvpcNJRTXqUzUrkoVnp9dscn+IE=
   helm/volumes: h1:416qzMUu2Ho+jBRoSYk1oOoKKkbtigAhOWpl0AhfKaI=
 recipe:
-  plural/recipes/kubeflow-aws.yaml: ab0e496a1d89fad3533bbcdb3a247b1aa7dd2bd6465074fdb1c9aa907e778fd0
+  plural/recipes/kubeflow-aws.yaml: eeb0755723f0a6e0dca550daac4a256c7c5d6a1556b0a1e0ec4b4f074e36d916
 integration: {}
 crd:
   plural/crds/profile-controller/profiles.yaml: b3097e7bce72e61f2f0eca692594fc5301e681c36f08ed38e205d406af99f6d4:h1:7CfpUrfejvLgtFCE0D1WDQI1D5u43gP6kS5ovkadHhQ=
