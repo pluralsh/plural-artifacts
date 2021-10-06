@@ -1,6 +1,10 @@
 name: aws-mysql
 description: installs mysql operator on an EKS cluster
 provider: AWS
+oidcSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
+  domainKey: hostname
 dependencies:
 - repo: bootstrap
   name: aws-k8s
@@ -15,4 +19,7 @@ sections:
       type: STRING
   - type: HELM
     name: mysql
-    configuration: []
+    configuration:
+    - name: hostname
+      documentation: FQDN to use for your accessing the mysql orchestrator
+      type: STRING
