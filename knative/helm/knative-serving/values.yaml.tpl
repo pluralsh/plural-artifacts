@@ -1,6 +1,10 @@
 {{ $monitoringNamespace := namespace "monitoring" }}
 observabilityConfig:
   metrics.opencensus-address: plural-otel-collector.{{ $monitoringNamespace }}.svc.cluster.local:55678
+tracingConfig:
+  backend: zipkin
+  zipkin-endpoint: "http://plural-otel-collector.{{ $monitoringNamespace }}.svc.cluster.local:9411/api/v2/spans"
+  sample-rate: "1.0"
 {{- if .Configuration.kubeflow }}
 domainConfig:
   {{- .Configuration.kubeflow.hostname }}: ""
