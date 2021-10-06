@@ -15,3 +15,10 @@ data:
         limits:
           cpu: 10m
           memory: 20Mi
+      ports:
+      - name: oauth-http
+        containerPort: 4180
+        protocol: TCP
+      - name: oauth-metrics
+        containerPort: 44180
+        protocol: TCP
