@@ -58,7 +58,7 @@ module "cluster" {
 resource "aws_eks_addon" "vpc_cni" {
   cluster_name = module.cluster.cluster_id
   addon_name   = "vpc-cni"
-  addon_version     = "v1.9.0-eksbuild.1"
+  addon_version     = "v1.9.1-eksbuild.1"
   resolve_conflicts = "OVERWRITE"
   tags = {
       "eks_addon" = "vpc-cni"
