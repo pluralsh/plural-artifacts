@@ -22,4 +22,4 @@ sections:
     configuration:
     - name: hostname
       documentation: FQDN to use for your accessing the mysql orchestrator
-      type: STRING
+      type: DOMAIN

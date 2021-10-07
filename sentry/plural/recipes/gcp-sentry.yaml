@@ -29,7 +29,7 @@ sections:
     configuration:
     - name: hostname
       documentation: FQDN for your sentry instance
-      type: STRING
+      type: DOMAIN
     - name: filestoreBucket
       documentation: gcs bucket to store miscellaneous files to
       type: STRING

@@ -6,9 +6,9 @@ terraform:
 helm:
   helm/minio: h1:n9eLHh8EQawjCs4PGEx0fsoDSTw7RJVN8NiPTvcTYfU=
 recipe:
-  plural/recipes/minio-aws.yaml: 979226192f78f65a1f19d223672a34ecff5434d8266a763c8327cf2eac51af6c
-  plural/recipes/minio-azure.yaml: 6118fa031b8171878cff851d7eafe3177e541e6233b79189cdfc801425cac509
-  plural/recipes/minio-gcp.yaml: 2dc9dff4752474ccfb29b5d28cc82c690778e77fa12b6a201f704926f64074b0
+  plural/recipes/minio-aws.yaml: c0d509ae74f8f4ea4b3158c1b1637547a36f107c55c4cbd72f3f48362229b258
+  plural/recipes/minio-azure.yaml: 90ea4fb16b80c31af0b468dce64d9ca99c7db1d0d7c1f5aa6da5f02d316f1f6b
+  plural/recipes/minio-gcp.yaml: e05eaf6b57338f6df0f4773fb8868305092f87fd6b6f7f7a51b7779d32aa9c8a
 integration: {}
 crd: {}
 ird: {}

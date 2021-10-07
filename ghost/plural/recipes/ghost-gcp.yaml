@@ -23,4 +23,4 @@ sections:
       type: STRING
     - name: ghostDomain
       documentation: fully qualified domain name for the ghost blog instance
-      type: STRING
+      type: DOMAIN

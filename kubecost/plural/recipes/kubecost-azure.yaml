@@ -19,4 +19,4 @@ sections:
     configuration:
     - name: hostname
       documentation: FQDN to use for your KubeCost installation
-      type: STRING
+      type: DOMAIN

@@ -21,9 +21,6 @@ sections:
   - type: HELM
     name: gitlab
     configuration:
-    - name: domain
-      documentation: toplevel domain for all gitlab subcomponents (eg gitlab itself, registry, etc)
-      type: STRING
     - name: registryBucket
       documentation: bucket name for gitlab registry
       type: STRING

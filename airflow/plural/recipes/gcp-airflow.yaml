@@ -26,7 +26,7 @@ sections:
         configuration:
           - name: hostname
             documentation: Fully Qualified Domain Name to use for your airflow installation, eg airflow.topleveldomain.com if topleveldomain.com is the domain you inputed for dns_domain above.
-            type: STRING
+            type: DOMAIN
           - name: dagRepo
             type: STRING
             documentation: Arbitrary repo name for the repo your dags will be stored in. eg plural-airflow-dag

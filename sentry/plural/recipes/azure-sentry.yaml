@@ -32,7 +32,7 @@ sections:
     configuration:
     - name: hostname
       documentation: hostname for your sentry instance
-      type: STRING
+      type: DOMAIN
     - name: adminEmail
       documentation: admin user email
       type: STRING

@@ -14,19 +14,10 @@ sections:
       - type: HELM
         name: bootstrap
         configuration:
-          - name: pluralDns
-            documentation: use plural as your dns provider
-            type: BOOL
           - name: txt_owner
             documentation: Arbitary name for externaldns to use to track ownership of dns records, eg "plural"
             type: STRING
             default: plural
-            condition:
-              operation: NOT
-              field: pluralDns
-          - name: dns_domain
-            documentation: Top level domain to deploy Plural applications to, eg topleveldomain.com. This might also look something like plural.existingcompanydomain.com if you have an existing company domain and you want to aggregate all the plural resources under a single subdomain.
-            type: STRING
           - name: ownerEmail
             type: STRING
             documentation: Email to be used for certificate renewal notifications

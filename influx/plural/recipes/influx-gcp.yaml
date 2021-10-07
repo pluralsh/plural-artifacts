@@ -24,7 +24,7 @@ sections:
       type: BOOL
     - name: chronografHostname
       documentation: Fully Qualified Domain Name for the chronograf web ui
-      type: STRING
+      type: DOMAIN
     - name: enableKapacitor
       documentation: whether to deploy kapacitor alerting
       type: BOOL
@@ -36,4 +36,4 @@ sections:
       type: STRING
     - name: influxdbHostname
       documentation: external dns name for your influxdb instance (leave empty if you don't want ingress)
-      type: STRING
+      type: DOMAIN

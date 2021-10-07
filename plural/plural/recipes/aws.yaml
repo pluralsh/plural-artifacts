@@ -32,10 +32,10 @@ sections:
     configuration:
     - name: plural_dns
       documentation: FQDN to use for your plural cluster
-      type: STRING
+      type: DOMAIN
     - name: plural_dkr_dns
       documentaion: FQDN for your plural docker registry
-      type: STRING
+      type: DOMAIN
     - name: admin_name
       documentation: name for initial admin user
       type: STRING

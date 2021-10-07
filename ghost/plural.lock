@@ -6,9 +6,9 @@ terraform:
 helm:
   helm/ghost: h1:IsaSVA/i4PeoC1ERMDmVO8rxACTF24k9utSmLUGLQqQ=
 recipe:
-  plural/recipes/ghost-aws.yaml: 1b0d00fcb2235b4bc1dde245523e473eb6b0b8b9409c28341359459f42db3ccd
-  plural/recipes/ghost-azure.yaml: 8e8d2dca77d9bd84b1c03c97aa5f446b9d6862ac1de1c322cc54ddd318391e01
-  plural/recipes/ghost-gcp.yaml: 6b5409839d4f5244c85188d4f860c88b6747dfca584440e9dcbd87a076da5b0c
+  plural/recipes/ghost-aws.yaml: a1e56034b3cb1cab39384ab4aa17f9e3a8ad49206ed9c2d862ca9d4757327c1f
+  plural/recipes/ghost-azure.yaml: 0a457a0a6329150c45fe87399baef4d0c6e28c55be2b20d3f518f0a37dbfb20e
+  plural/recipes/ghost-gcp.yaml: af7b2ef7577c597fdd3f80b517bdbe146e12be391e54e48e2db66705c93fad78
 integration: {}
 crd: {}
 ird: {}

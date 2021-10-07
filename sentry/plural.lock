@@ -6,9 +6,9 @@ terraform:
 helm:
   helm/sentry: h1:Z4S+h9wCDnm38xdqtOBrw4Et+lVlC6k7jvkW0tALS+M=
 recipe:
-  plural/recipes/aws-sentry.yaml: de5cc06e976f7ede0b1b003283a57e4a1c16f6b764984174e3258096b754d2b3
-  plural/recipes/azure-sentry.yaml: c5a20d4d5166eb48166b6e5a23e9a1746068491c90c6cc4c2b5adfd3e0bec220
-  plural/recipes/gcp-sentry.yaml: d651d40827504741dd155d1f4d14428487d634bce630bfe8bde67307ff3b35c8
+  plural/recipes/aws-sentry.yaml: fa8b28bf6838cdc132e3ba5589f1670e39c0fde5a1393946b58fed16aa9501e6
+  plural/recipes/azure-sentry.yaml: bfcdbf0569e8b562442d6099388dd07a1a78302c531fd8d0548327cb248ef9bc
+  plural/recipes/gcp-sentry.yaml: 9ffabd72bf67fdc3f5941e3622ef7faffad03ddab03989873735a0fc9fea79cd
 integration: {}
 crd: {}
 ird: {}

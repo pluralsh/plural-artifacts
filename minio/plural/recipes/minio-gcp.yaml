@@ -19,7 +19,7 @@ sections:
     configuration:
     - name: hostname
       documentation: Fully Qualified Domain Name to use for your minio gateway installation, eg minio.topleveldomain.com if topleveldomain.com is the domain you inputed for dns_domain above.
-      type: STRING
+      type: DOMAIN
     - name: consoleHostname
       documentation: Fully Qualified Domain Name to use for your minio console installation, eg minio.topleveldomain.com if topleveldomain.com is the domain you inputed for dns_domain above.
-      type: STRING
+      type: DOMAIN

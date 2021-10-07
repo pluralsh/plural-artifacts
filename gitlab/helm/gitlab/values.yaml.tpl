@@ -1,7 +1,7 @@
 global:
-  {{ if .Values.domain }}
+  {{ if .Network }}
   hosts:
-    domain: {{ .Values.domain }}
+    domain: {{ .Network.Subdomain }}
   {{ end }}
   {{ if .SMTP }}
   email:

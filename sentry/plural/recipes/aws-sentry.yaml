@@ -29,7 +29,7 @@ sections:
     configuration:
     - name: hostname
       documentation: hostname for your sentry instance
-      type: STRING
+      type: DOMAIN
     - name: filestoreBucket
       documentation: s3 bucket to store miscellaneous files to
       type: STRING

@@ -1,4 +1,4 @@
-{{ $pluraldns := .Values.pluralDns }}
+{{ $pluraldns := .Network.PluralDns }}
 {{ $providerArgs := dict "provider" .Provider "cluster" .Cluster }}
 {{ if eq .Provider "google" }}
   {{ $_ := set $providerArgs "provider" "gcp" }}
@@ -28,7 +28,7 @@ external-dns:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-externaldns"
   domainFilters:
-  - {{ .Values.dns_domain }}
+  - {{ .Network.Subdomain }}
   google:
     project: {{ .Project }}
   aws:
@@ -138,7 +138,7 @@ dnsSolver:
   azureDNS:
     subscriptionID: {{ .Context.SubscriptionId }}
     resourceGroupName: {{ .Project }}
-    hostedZoneName: {{ .Values.dns_domain }}
+    hostedZoneName: {{ .Network.Subdomain }}
     # Azure Cloud Environment, default to AzurePublicCloud
     environment: AzurePublicCloud
 {{ end }}
