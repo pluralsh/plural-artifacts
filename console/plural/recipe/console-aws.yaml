@@ -25,7 +25,7 @@ sections:
         configuration:
           - name: console_dns
             documentation: Fully Qualified Domain Name for the console dashboard, eg console.topleveldomain.com if topleveldomain.com is the hostname you inputed above.
-            type: STRING
+            type: DOMAIN
           - name: git_user
             documentation: git username for console to use in git operations, eg your github username
             type: STRING
