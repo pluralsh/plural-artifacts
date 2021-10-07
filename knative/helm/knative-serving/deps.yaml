@@ -17,6 +17,7 @@ spec:
     name: grafana-tempo
     repo: grafana-tempo
     version: '>= 0.1.7'
+    optional: true
   - type: terraform
     name: kube
     repo: knative
