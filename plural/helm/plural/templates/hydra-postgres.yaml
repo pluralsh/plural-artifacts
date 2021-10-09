@@ -3,7 +3,7 @@ kind: postgresql
 metadata:
   name: plural-hydra
   labels:
-    app: postgres
+    app: postgres-hydra
   {{ include "plural.labels" . | nindent 4 }}
 spec:
   teamId: plural

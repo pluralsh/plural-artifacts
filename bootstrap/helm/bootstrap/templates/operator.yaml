@@ -9,7 +9,7 @@ spec:
   selector:
     matchLabels:
       control-plane: plural-operator
-  replicas: 1
+  replicas: 2
   template:
     metadata:
       labels:

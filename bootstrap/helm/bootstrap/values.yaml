@@ -76,7 +76,7 @@ kubed:
 cluster-autoscaler:
   enabled: false
   extraArgs:
-    "scale-down-utilization-threshold": 0.5
+    "scale-down-utilization-threshold": 0.4
     "skip-nodes-with-local-storage": false
   serviceMonitor:
     enabled: true

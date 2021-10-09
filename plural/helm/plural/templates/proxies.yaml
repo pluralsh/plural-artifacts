@@ -32,6 +32,24 @@ spec:
 apiVersion: platform.plural.sh/v1alpha1
 kind: Proxy
 metadata:
+  name: hydradb
+  labels:
+{{ include "plural.labels" . | indent 4 }}
+spec:
+  type: db
+  target: service/plural-hydra
+  credentials:
+    secret: hydra.plural-hydra.credentials.postgresql.acid.zalan.do
+    key: password
+    user: hydra
+  dbConfig:
+    name: hydra
+    engine: postgres
+    port: 5432
+---
+apiVersion: platform.plural.sh/v1alpha1
+kind: Proxy
+metadata:
   name: sh
   labels:
 {{ include "plural.labels" . | indent 4 }}

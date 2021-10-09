@@ -97,12 +97,19 @@ hydraImage:
   pullPolicy: IfNotPresent
 
 hydra:
+  replicaCount: 2
+
   maester:
     enabled: false
   hydra:
     dangerousForceHttp: true
     existingSecret: false
     autoMigrate: false
+  pdb:
+    enabled: true
+  deployment:
+    autoscaling:
+      enabled: false
     
   ingress:
     public:
