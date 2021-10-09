@@ -61,4 +61,13 @@ spec:
       annotations:
         summary: gitlab gitaly cluster memory utilization has gotten too high
         description: the memory utilization of your gitlab gitaly cluster is higher than recommended
-    
+    - alert: GitlabGitalyVolumeFull
+      expr: |
+        avg((kubelet_volume_stats_capacity_bytes{persistentvolumeclaim=~"repo-data-gitlab-gitaly-.*"} - kubelet_volume_stats_available_bytes{persistentvolumeclaim=~"repo-data-gitlab-gitaly-.*"}) / kubelet_volume_stats_capacity_bytes{persistentvolumeclaim=~"repo-data-gitlab-gitaly-.*"}) > 0.7
+      for: 5m
+      labels:
+        severity: critical
+        namespace: {{ .Release.Namespace }}
+      annotations:
+        summary: gitaly disk utilization is too high
+        description: your gitaly disk space is filling up, add more capacity to avoid running out of disk space

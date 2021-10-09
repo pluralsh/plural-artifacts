@@ -8,6 +8,9 @@ metadata:
 spec:
   name: Influxdb Scaling
   description: overview of how to optimally scale your influxdata deployment
+  alerts:
+  - name: InfluxDbCPU
+  - name: InfluxDbMEM
   display: |-
 {{ .Files.Get "runbooks/scaling-manual.xml" | indent 4 }}
   datasources:
@@ -133,6 +136,8 @@ metadata:
 spec:
   name: Influxdb Volume Scaling
   description: overview of how to optimally scale your influxdata persistent volumes
+  alerts:
+  - name: InfluxDbVolumeFull
   display: |-
 {{ .Files.Get "runbooks/volume-scaling.xml" | indent 4 }}
   datasources:
