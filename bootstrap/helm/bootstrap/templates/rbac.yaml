@@ -16,10 +16,14 @@ rules:
 - apiGroups:
   - ""
   - platform.plural.sh
+  - apps
   resources:
   - secretsyncs
   - secrets
   - runbooks
+  - statefulsetresizes
+  - persistentvolumeclaims
+  - statefulsets
   verbs:
   - create
   - delete
@@ -83,6 +87,15 @@ rules:
   - watch
   - list
   - delete
+- apiGroups:
+  - storage.k8s.io
+  resources:
+  - storageclasses
+  verbs:
+  - get
+  - list
+  - update
+  - patch
 ---
 # permissions to do leader election.
 apiVersion: rbac.authorization.k8s.io/v1

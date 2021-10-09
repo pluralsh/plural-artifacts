@@ -21,6 +21,20 @@ variable "instance_types" {
   description = "instance type to use in node groups"
 }
 
+variable "min_capacity" {
+  type = number
+  default = 3
+
+  description = "the minumum number of nodes for the initial nodegroup"
+}
+
+variable "desired_capacity" {
+  type = number
+  default = 3
+
+  description = "the desired number of nodes for the initial nodegroup"
+}
+
 variable "max_capacity" {
   type = number
   default = 25

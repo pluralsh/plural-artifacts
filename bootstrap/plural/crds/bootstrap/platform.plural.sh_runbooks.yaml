@@ -55,7 +55,23 @@ spec:
                           description: stateful sets to clean before rebuilding (for
                             pvc resizes)
                           items:
-                            type: string
+                            description: details for any statefulset resizes to apply
+                            properties:
+                              name:
+                                description: name of statefulset
+                                type: string
+                              persistentVolume:
+                                description: persistent volume to resize
+                                type: string
+                              valueFrom:
+                                description: the value to use from the args for the
+                                  execution
+                                type: string
+                            required:
+                            - name
+                            - persistentVolume
+                            - valueFrom
+                            type: object
                           type: array
                         updates:
                           description: The updates you want to perform
