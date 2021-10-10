@@ -103,20 +103,67 @@ sentry:
     web:
       autoscaling:
         enabled: true
+      resources:
+        requests:
+          cpu: 50m
+          memory: 350Mi
     worker:
       autoscaling:
         enabled: true
+      resources:
+        requests:
+          cpu: 50m
+          memory: 750Mi
     ingestConsumer:
       autoscaling:
         enabled: true
+      resources:
+        requests:
+          cpu: 50m
+          memory: 300Mi
 
   snuba:
-    autoscaling:
-      enabled: true
+    api:
+      autoscaling:
+        enabled: true
+      resources:
+        requests:
+          cpu: 20m
+          memory: 100Mi
+    sessionsConsumer:
+      resources:
+        requests:
+          cpu: 20m
+          memory: 100Mi
+    consumer:
+      resources:
+        requests:
+          cpu: 20m
+          memory: 100Mi
+    outcomesConsumer:
+      resources:
+        requests:
+          cpu: 20m
+          memory: 100Mi
+    replacer:
+      resources:
+        requests:
+          cpu: 20m
+          memory: 100Mi
+    transactionsConsumer:
+      resources:
+        requests:
+          cpu: 20m
+          memory: 100Mi
 
   symbolicator:
     autoscaling:
       enabled: true
+    api:
+      resources:
+        requests:
+          cpu: 20m
+          memory: 50Mi
 
   clickhouse:
     clickhouse:
@@ -125,3 +172,9 @@ sentry:
       init:
         image: 'gcr.io/pluralsh/busybox'
         imageVersion: latest
+      
+      metrics:
+        enabled: true
+        serviceMonitor:
+          enabled: true
+        

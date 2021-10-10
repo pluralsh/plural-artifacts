@@ -48,7 +48,7 @@ spec:
   - name: nodes
     type: nodes
   actions:
-  - name: web-scale
+  - name: scale
     action: config
     redirectTo: '/'
     configuration:
@@ -69,11 +69,6 @@ spec:
         - requests
         - memory
         valueFrom: web-memory
-  - name: worker-scale
-    action: config
-    redirectTo: '/'
-    configuration:
-      updates:
       - path: 
         - airflow
         - airflow

@@ -53,3 +53,58 @@ spec:
         - requests
         - memory
         valueFrom: memory
+---
+apiVersion: platform.plural.sh/v1alpha1
+kind: Runbook
+metadata:
+  name: clickhouse-scaling
+  labels:
+    platform.plural.sh/pinned: 'true'
+{{ include "sentry-plural.labels" . | indent 4 }}
+spec:
+  name: Clickhouse Scaling
+  description: overview of how to accurately scale sentry's clickhouse cluster
+  display: |-
+{{ .Files.Get "runbooks/db-scaling.xml" | indent 4 }}
+  datasources:
+  - name: cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"sentry-clickhouse-[0-9]+"}[5m])) by (pod)
+  - name: memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"sentry-clickhouse-[0-9]+"}) by (pod)
+  - name: statefulset
+    type: kubernetes
+    kubernetes:
+      resource: statefulset
+      name: sentry-clickhouse
+  - name: nodes
+    type: nodes
+  actions:
+  - name: scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+      - path: 
+        - sentry
+        - clickhouse
+        - clickhouse
+        - resources
+        - requests
+        - cpu
+        valueFrom: cpu
+      - path:
+        - sentry
+        - clickhouse
+        - clickhouse
+        - resources
+        - requests
+        - memory
+        valueFrom: memory

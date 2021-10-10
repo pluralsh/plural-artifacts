@@ -48,7 +48,7 @@ spec:
   - name: nodes
     type: nodes
   actions:
-  - name: zk-scale
+  - name: scale
     action: config
     redirectTo: '/'
     configuration:
@@ -67,11 +67,6 @@ spec:
         - requests
         - memory
         valueFrom: zk-memory
-  - name: kafka-scale
-    action: config
-    redirectTo: '/'
-    configuration:
-      updates:
       - path: 
         - kafka
         - kafka
@@ -86,3 +81,4 @@ spec:
         - requests
         - memory
         valueFrom: kafka-memory
+      

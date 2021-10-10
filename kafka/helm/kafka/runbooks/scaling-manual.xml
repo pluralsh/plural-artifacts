@@ -1,5 +1,6 @@
 <root gap='medium'>
   <box pad='small' gap='medium' direction='row' align='center'>
+    <button label='Scale' action='scale' primary='true' headline='true' />
     <box direction='row' align='center' gap='small'>
       <box gap='small' align='center'>
         <timeseries datasource="kafka-cpu" label="Kafka CPU Usage" />
@@ -26,9 +27,6 @@
             doc="kubernetes.raw" 
             path="spec.template.spec.containers[0].resources.requests.memory" />
         </input>
-      </box>
-      <box direction='row' justify='end'>
-        <button label='Scale' action='kafka-scale' primary='true' />
       </box>
     </box>
   </box>
@@ -59,9 +57,6 @@
             doc="kubernetes.raw" 
             path="spec.template.spec.containers[0].resources.requests.memory" />
         </input>
-      </box>
-      <box direction='row' justify='end'>
-        <button label='Scale' action='zk-scale' primary='true' />
       </box>
     </box>
   </box>

@@ -1,5 +1,6 @@
 <root gap='medium'>
   <box pad='small' gap='medium' direction='row' align='center'>
+    <button label='Scale' action='scale' primary='true' headline='true' />
     <box direction='row' align='center' gap='small'>
       <box gap='small' align='center'>
         <timeseries datasource="master-cpu" label="Master CPU Usage" />
@@ -12,24 +13,19 @@
           roughly correspond to 80% utilization</text>
       </box>
     </box>
-    <box gap='small'>
-      <box gap='xsmall'>
-        <input placeholder="250m" label='Master CPU Request' name='master-cpu'>
-          <valueFrom 
-            datasource="master" 
-            doc="kubernetes.raw" 
-            path="spec.template.spec.containers[0].resources.requests.cpu" />
-        </input>
-        <input placeholder="1Gi" label='Master Memory Request' name='master-memory'>
-          <valueFrom 
-            datasource="master" 
-            doc="kubernetes.raw" 
-            path="spec.template.spec.containers[0].resources.requests.memory" />
-        </input>
-      </box>
-      <box direction='row' justify='end'>
-        <button label='Scale' action='master-scale' primary='true' />
-      </box>
+    <box gap='xsmall'>
+      <input placeholder="250m" label='Master CPU Request' name='master-cpu'>
+        <valueFrom 
+          datasource="master" 
+          doc="kubernetes.raw" 
+          path="spec.template.spec.containers[0].resources.requests.cpu" />
+      </input>
+      <input placeholder="1Gi" label='Master Memory Request' name='master-memory'>
+        <valueFrom 
+          datasource="master" 
+          doc="kubernetes.raw" 
+          path="spec.template.spec.containers[0].resources.requests.memory" />
+      </input>
     </box>
   </box>
   <box pad='small' gap='medium' direction='row' align='center'>
@@ -45,24 +41,19 @@
           roughly correspond to 80% utilization</text>
       </box>
     </box>
-    <box gap='small'>
-      <box gap='xsmall'>
-        <input placeholder="250m" label='Replica CPU Request' name='replica-cpu'>
-          <valueFrom 
-            datasource="replica" 
-            doc="kubernetes.raw" 
-            path="spec.template.spec.containers[0].resources.requests.cpu" />
-        </input>
-        <input placeholder="1Gi" label='Replica Memory Request' name='replica-memory'>
-          <valueFrom
-            datasource="replica" 
-            doc="kubernetes.raw" 
-            path="spec.template.spec.containers[0].resources.requests.memory" />
-        </input>
-      </box>
-      <box direction='row' justify='end'>
-        <button label='Scale' action='replica-scale' primary='true' />
-      </box>
+    <box gap='xsmall'>
+      <input placeholder="250m" label='Replica CPU Request' name='replica-cpu'>
+        <valueFrom 
+          datasource="replica" 
+          doc="kubernetes.raw" 
+          path="spec.template.spec.containers[0].resources.requests.cpu" />
+      </input>
+      <input placeholder="1Gi" label='Replica Memory Request' name='replica-memory'>
+        <valueFrom
+          datasource="replica" 
+          doc="kubernetes.raw" 
+          path="spec.template.spec.containers[0].resources.requests.memory" />
+      </input>
     </box>
   </box>
   <box width='100%' gap='small'>

@@ -1,5 +1,6 @@
 <root gap='medium'>
   <box pad='small' gap='medium' direction='row' align='center'>
+    <button label='Scale' action='scale' primary='true' headline="true" />
     <box direction='row' align='center' gap='small'>
       <box gap='small' align='center'>
         <timeseries datasource="worker-cpu" label="Worker CPU Usage" />
@@ -12,24 +13,19 @@
           roughly correspond to 80% utilization</text>
       </box>
     </box>
-    <box gap='small'>
-      <box gap='xsmall'>
-        <input placeholder="250m" label='Worker CPU Request' name='worker-cpu'>
-          <valueFrom 
-            datasource="worker" 
-            doc="kubernetes.raw" 
-            path="spec.template.spec.containers[0].resources.requests.cpu" />
-        </input>
-        <input placeholder="1Gi" label='Worker Memory Request' name='worker-memory'>
-          <valueFrom 
-            datasource="worker" 
-            doc="kubernetes.raw" 
-            path="spec.template.spec.containers[0].resources.requests.memory" />
-        </input>
-      </box>
-      <box direction='row' justify='end'>
-        <button label='Scale' action='worker-scale' primary='true' />
-      </box>
+    <box gap='xsmall'>
+      <input placeholder="250m" label='Worker CPU Request' name='worker-cpu'>
+        <valueFrom 
+          datasource="worker" 
+          doc="kubernetes.raw" 
+          path="spec.template.spec.containers[0].resources.requests.cpu" />
+      </input>
+      <input placeholder="1Gi" label='Worker Memory Request' name='worker-memory'>
+        <valueFrom 
+          datasource="worker" 
+          doc="kubernetes.raw" 
+          path="spec.template.spec.containers[0].resources.requests.memory" />
+      </input>
     </box>
   </box>
   <box pad='small' gap='medium' direction='row' align='center'>
@@ -45,24 +41,19 @@
           roughly correspond to 80% utilization</text>
       </box>
     </box>
-    <box gap='small'>
-      <box gap='xsmall'>
-        <input placeholder="250m" label='Webserver CPU Request' name='web-cpu'>
-          <valueFrom 
-            datasource="web" 
-            doc="kubernetes.raw" 
-            path="spec.template.spec.containers[0].resources.requests.cpu" />
-        </input>
-        <input placeholder="1Gi" label='Webserver Memory Request' name='web-memory'>
-          <valueFrom 
-            datasource="web" 
-            doc="kubernetes.raw" 
-            path="spec.template.spec.containers[0].resources.requests.memory" />
-        </input>
-      </box>
-      <box direction='row' justify='end'>
-        <button label='Scale' action='web-scale' primary='true' />
-      </box>
+    <box gap='xsmall'>
+      <input placeholder="250m" label='Webserver CPU Request' name='web-cpu'>
+        <valueFrom 
+          datasource="web" 
+          doc="kubernetes.raw" 
+          path="spec.template.spec.containers[0].resources.requests.cpu" />
+      </input>
+      <input placeholder="1Gi" label='Webserver Memory Request' name='web-memory'>
+        <valueFrom 
+          datasource="web" 
+          doc="kubernetes.raw" 
+          path="spec.template.spec.containers[0].resources.requests.memory" />
+      </input>
     </box>
   </box>
   <box width='100%' gap='small'>
