@@ -10,12 +10,12 @@ dependencies:
   version: v1.4.0
 - name: cluster-autoscaler
   repository: https://kubernetes.github.io/autoscaler
-  version: 9.9.2
+  version: 9.10.7
 - name: kubed
   repository: https://charts.appscode.com/stable
   version: v0.13.0-beta.0
 - name: aws-load-balancer-controller
   repository: https://aws.github.io/eks-charts
   version: 1.2.3
-digest: sha256:e2b8d62fbaf48134523ac25a444c998ce318f899227a28a604ab25a833924295
-generated: "2021-10-04T19:26:46.550762061+02:00"
+digest: sha256:f7527d7ac2a38e70adc09ac1386c72ad8fe0f046ecf3d3c2fff8322f1a1e62c1
+generated: "2021-10-12T13:32:13.755048979+02:00"
