@@ -56,3 +56,4 @@ csi-drivers:
   - vendor_image k8s.gcr.io/sig-storage/csi-resizer:v1.2.0
   - vendor_image k8s.gcr.io/sig-storage/csi-resizer:v1.3.0
   - vendor_image k8s.gcr.io/sig-storage/snapshot-controller:v4.2.1
+  - vendor_image k8s.gcr.io/sig-storage/snapshot-validation-webhook:v4.2.1
