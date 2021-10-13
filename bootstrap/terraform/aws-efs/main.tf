@@ -103,6 +103,11 @@ resource "aws_efs_file_system" "efs_main" {
   performance_mode = "generalPurpose"
   throughput_mode = "bursting"
 
+  lifecycle_policy {
+    transition_to_ia = "AFTER_14_DAYS"
+    transition_to_primary_storage_class = "AFTER_1_ACCESS"
+  }
+
 }
 
 resource "aws_efs_mount_target" "efs_mount_target" {
