@@ -16,7 +16,7 @@ dependencies:
   version: v0.13.0-beta.0
 - name: aws-load-balancer-controller
   repository: https://aws.github.io/eks-charts
-  version: 1.2.3
+  version: 1.2.7
 - name: aws-ebs-csi-driver
   repository: https://kubernetes-sigs.github.io/aws-ebs-csi-driver
   version: 2.3.0
@@ -26,5 +26,5 @@ dependencies:
 - name: snapshot-controller
   repository: https://piraeus.io/helm-charts/
   version: 1.2.1
-digest: sha256:0b6d130c0882c78065c200d8cfd7749a3462a979100d546d18825fe361c8f5ae
-generated: "2021-10-12T17:08:33.801259539+02:00"
+digest: sha256:fa7aff45f0564d449e1e7b2791dd44646b503bf6fdd5cb604a7fa6f454fa1743
+generated: "2021-10-13T19:25:03.296345802Z"
