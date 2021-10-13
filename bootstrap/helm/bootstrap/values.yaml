@@ -94,6 +94,7 @@ aws-ebs-csi-driver:
         encrypted: "true"
       reclaimPolicy: Delete
       volumeBindingMode: WaitForFirstConsumer
+      allowVolumeExpansion: true
   image:
     repository: gcr.io/pluralsh/k8s.gcr.io/provider-aws/aws-ebs-csi-driver
     tag: v1.3.0
