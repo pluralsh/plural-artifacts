@@ -2,7 +2,7 @@ artifact: {}
 terraform:
   terraform/kube: h1:Vbadx+ceIDTXw+y7tmtjDoSaGWHQthuZqXJEb2zMQpU=
 helm:
-  helm/kafka: h1:9otUP2ZsH8wIexIAcrD9hMZ/wJ4OVhQDsBLSTg/QOM4=
+  helm/kafka: h1:gtD8iQfr7+LEYvLjdbUVZAj1eIx2eaWscLF2poKER2Y=
   helm/redis: h1:kt+xtvDC1VDun5INrE5hYOEUqxv/X7+q7DH4C4DupG0=
   helm/redis-cluster: h1:dLUjkbtCx8SHjp4+FAR8VqMOjzXZt2cktfT3OOJYwcU=
 recipe:
@@ -17,16 +17,16 @@ recipe:
   plural/recipes/gcp-redis.yaml: afcfff3cb2fc88973e0249181347468673621e1d2bcb801a215401948a4c0997
 integration: {}
 crd:
-  plural/crds/kafka.yaml: 30d6aabb7c06ec4adf36f7ba2fb4a8e37dadc8b4a5dd3224a549e87b05346f7e:h1:9otUP2ZsH8wIexIAcrD9hMZ/wJ4OVhQDsBLSTg/QOM4=
-  plural/crds/kafkabalance.yaml: 24d4908e36a22353f42b2f6fd709d3a6b4dc9497a8367248adce002346f35de2:h1:9otUP2ZsH8wIexIAcrD9hMZ/wJ4OVhQDsBLSTg/QOM4=
-  plural/crds/kafkabridge.yaml: e264362c4c105a04342eb7bd8f0ad8009d1ea2b9333aa8243612d878f4433a09:h1:9otUP2ZsH8wIexIAcrD9hMZ/wJ4OVhQDsBLSTg/QOM4=
-  plural/crds/kafkaconnect.yaml: a5cef014cd69f0fcd2afe3a5b3f5bae0ca582a22745c55eea22ba7069342a5fe:h1:9otUP2ZsH8wIexIAcrD9hMZ/wJ4OVhQDsBLSTg/QOM4=
-  plural/crds/kafkaconnect2i.yaml: 92eea99ed28b6a94ff7e03574bca0b8e9b376bbd8520d07e5fecea15021affd6:h1:9otUP2ZsH8wIexIAcrD9hMZ/wJ4OVhQDsBLSTg/QOM4=
-  plural/crds/kafkaconnector.yaml: b9e5fb58632a141a808722a778d37f76de8e50867bc4f366af216ba6b626ada5:h1:9otUP2ZsH8wIexIAcrD9hMZ/wJ4OVhQDsBLSTg/QOM4=
-  plural/crds/kafkamirrormaker.yaml: 84b903c24febc007d89820c911318036362311668d9a40cb44993c012d649e53:h1:9otUP2ZsH8wIexIAcrD9hMZ/wJ4OVhQDsBLSTg/QOM4=
-  plural/crds/kafkamirrormaker2.yaml: 20b90752f76893f679b9cbe3cc216952adf5565d4a4d6135c3103409f7024c5f:h1:9otUP2ZsH8wIexIAcrD9hMZ/wJ4OVhQDsBLSTg/QOM4=
-  plural/crds/kafkatopic.yaml: af61a7946989caae6ed5fb20c2bc368dc6168d376748b436570e7cfdcef92067:h1:9otUP2ZsH8wIexIAcrD9hMZ/wJ4OVhQDsBLSTg/QOM4=
-  plural/crds/kafkauser.yaml: dec1a867e43f8f77505265e4089d82804aaf517ba102a79a98bb48bf7140bd58:h1:9otUP2ZsH8wIexIAcrD9hMZ/wJ4OVhQDsBLSTg/QOM4=
+  plural/crds/kafka.yaml: 30d6aabb7c06ec4adf36f7ba2fb4a8e37dadc8b4a5dd3224a549e87b05346f7e:h1:gtD8iQfr7+LEYvLjdbUVZAj1eIx2eaWscLF2poKER2Y=
+  plural/crds/kafkabalance.yaml: 24d4908e36a22353f42b2f6fd709d3a6b4dc9497a8367248adce002346f35de2:h1:gtD8iQfr7+LEYvLjdbUVZAj1eIx2eaWscLF2poKER2Y=
+  plural/crds/kafkabridge.yaml: e264362c4c105a04342eb7bd8f0ad8009d1ea2b9333aa8243612d878f4433a09:h1:gtD8iQfr7+LEYvLjdbUVZAj1eIx2eaWscLF2poKER2Y=
+  plural/crds/kafkaconnect.yaml: a5cef014cd69f0fcd2afe3a5b3f5bae0ca582a22745c55eea22ba7069342a5fe:h1:gtD8iQfr7+LEYvLjdbUVZAj1eIx2eaWscLF2poKER2Y=
+  plural/crds/kafkaconnect2i.yaml: 92eea99ed28b6a94ff7e03574bca0b8e9b376bbd8520d07e5fecea15021affd6:h1:gtD8iQfr7+LEYvLjdbUVZAj1eIx2eaWscLF2poKER2Y=
+  plural/crds/kafkaconnector.yaml: b9e5fb58632a141a808722a778d37f76de8e50867bc4f366af216ba6b626ada5:h1:gtD8iQfr7+LEYvLjdbUVZAj1eIx2eaWscLF2poKER2Y=
+  plural/crds/kafkamirrormaker.yaml: 84b903c24febc007d89820c911318036362311668d9a40cb44993c012d649e53:h1:gtD8iQfr7+LEYvLjdbUVZAj1eIx2eaWscLF2poKER2Y=
+  plural/crds/kafkamirrormaker2.yaml: 20b90752f76893f679b9cbe3cc216952adf5565d4a4d6135c3103409f7024c5f:h1:gtD8iQfr7+LEYvLjdbUVZAj1eIx2eaWscLF2poKER2Y=
+  plural/crds/kafkatopic.yaml: af61a7946989caae6ed5fb20c2bc368dc6168d376748b436570e7cfdcef92067:h1:gtD8iQfr7+LEYvLjdbUVZAj1eIx2eaWscLF2poKER2Y=
+  plural/crds/kafkauser.yaml: dec1a867e43f8f77505265e4089d82804aaf517ba102a79a98bb48bf7140bd58:h1:gtD8iQfr7+LEYvLjdbUVZAj1eIx2eaWscLF2poKER2Y=
 ird: {}
 tag: {}
 attrs:
