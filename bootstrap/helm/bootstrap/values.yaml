@@ -58,6 +58,122 @@ autoscaling:
 aws-load-balancer-controller:
   enabled: false
 
+snapshot-validation-webhook:
+  enabled: false
+  image:
+    repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/snapshot-validation-webhook
+    tag: v4.2.1
+  resources:
+    requests:
+      cpu: 10m
+      memory: 20Mi
+    limits:
+      cpu: 10m
+      memory: 20Mi
+
+snapshot-controller:
+  enabled: false
+  image:
+    repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/snapshot-controller
+    tag: v4.2.1
+  resources:
+    requests:
+      cpu: 10m
+      memory: 20Mi
+    limits:
+      cpu: 10m
+      memory: 20Mi
+
+aws-ebs-csi-driver:
+  enabled: false
+  storageClasses:
+    - name: ebs-csi
+      annotations:
+        storageclass.kubernetes.io/is-default-class: "true"
+      parameters:
+        encrypted: "true"
+      reclaimPolicy: Delete
+      volumeBindingMode: WaitForFirstConsumer
+      allowVolumeExpansion: true
+  image:
+    repository: gcr.io/pluralsh/k8s.gcr.io/provider-aws/aws-ebs-csi-driver
+    tag: v1.3.0
+  controller:
+    resources:
+      requests:
+        cpu: 10m
+        memory: 20Mi
+      limits:
+        cpu: 10m
+        memory: 20Mi
+  sidecars:
+    provisioner:
+      image:
+        repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/csi-provisioner
+        tag: "v2.1.1"
+      resources:
+        requests:
+          cpu: 10m
+          memory: 20Mi
+        limits:
+          cpu: 10m
+          memory: 20Mi
+    attacher:
+      image:
+        repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/csi-attacher
+        tag: "v3.1.0"
+      resources:
+        requests:
+          cpu: 10m
+          memory: 20Mi
+        limits:
+          cpu: 10m
+          memory: 20Mi
+    snapshotter:
+      image:
+        repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/csi-snapshotter
+        tag: "v3.0.3"
+      resources:
+        requests:
+          cpu: 10m
+          memory: 20Mi
+        limits:
+          cpu: 10m
+          memory: 20Mi
+    livenessProbe:
+      image:
+        repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/livenessprobe
+        tag: "v2.2.0"
+      resources:
+        requests:
+          cpu: 10m
+          memory: 10Mi
+        limits:
+          cpu: 10m
+          memory: 10Mi
+    resizer:
+      image:
+        repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/csi-resizer
+        tag: "v1.0.0"
+      resources:
+        requests:
+          cpu: 10m
+          memory: 30Mi
+        limits:
+          cpu: 10m
+          memory: 30Mi
+    nodeDriverRegistrar:
+      image:
+        repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/csi-node-driver-registrar
+        tag: "v2.1.0"
+      resources:
+        requests:
+          cpu: 10m
+          memory: 0Mi
+        limits:
+          cpu: 10m
+          memory: 10Mi
+
 cert-manager:
   prometheus:
     enabled: true
