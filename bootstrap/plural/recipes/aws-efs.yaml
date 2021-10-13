@@ -1,0 +1,13 @@
+name: aws-efs
+description: Creates and configures an EFS instance for use with kubernetes
+provider: AWS
+dependencies: []
+sections:
+- name: bootstrap
+  items:
+  - type: TERRAFORM
+    name: aws-efs
+    configuration: []
+  - type: HELM
+    name: efs-csi-driver
+    configuration: []
