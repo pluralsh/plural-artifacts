@@ -4,7 +4,7 @@ dependencies:
   version: 4.11.0
 - name: metrics-server
   repository: https://charts.bitnami.com/bitnami
-  version: 5.8.7
+  version: 5.8.15
 - name: cert-manager
   repository: https://charts.jetstack.io
   version: v1.4.0
@@ -26,5 +26,5 @@ dependencies:
 - name: snapshot-controller
   repository: https://piraeus.io/helm-charts/
   version: 1.2.1
-digest: sha256:0b6d130c0882c78065c200d8cfd7749a3462a979100d546d18825fe361c8f5ae
-generated: "2021-10-12T17:08:33.801259539+02:00"
+digest: sha256:e568931d131eacb29401ca63ebd51ecd81c1100554f8789978faa551489881d6
+generated: "2021-10-13T19:27:30.26591789Z"
