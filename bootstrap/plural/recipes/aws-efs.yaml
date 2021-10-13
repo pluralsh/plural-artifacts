@@ -8,3 +8,6 @@ sections:
   - type: TERRAFORM
     name: aws-efs
     configuration: []
+  - type: HELM
+    name: efs-csi-driver
+    configuration: []

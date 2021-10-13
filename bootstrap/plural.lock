@@ -7,10 +7,11 @@ terraform:
   terraform/kube: h1:2VSsMe5CpTm5NWnVWzGWwD7RT48UXmvgM1/6D+P4xPE=
 helm:
   helm/azure-identity: h1:z/P1XnNMlIq3wZHDM0+bJXQwkF3Oq+F3kOmBcUv3SZ8=
-  helm/bootstrap: h1:cOcPWv3x2Id+DNry+PBCMkIx/nA35KXkxl8yxmh+/xI=
+  helm/bootstrap: h1:XzCG/6R6HWV44JNHZbto3Bh0+a6V1KZIYzXx6bVd8Dk=
+  helm/efs-csi-driver: h1:5+3XCUPit4i7hedJ251SpmKgBQYxVGNY44oCNjIC30c=
   helm/plural-certmanager-webhook: h1:wlEH6Cob0ZCfY1QIGiX/lgf4DO9yJkq4IoinU56BsJM=
 recipe:
-  plural/recipes/aws-efs.yaml: b118fc413f26cc93acbb47772f2a4413c270a5d28dc0b5a4fbf3168cb7bd549c
+  plural/recipes/aws-efs.yaml: 0a38f5e3e5ce0b725bd58f4e7cb8bf3670071a411f3bbf1996459fa58336562f
   plural/recipes/aws-k8s.yaml: 93780a3a2cf6f01efe01d8d67268b7de860d454b4d32cc22099301d541aeebb1
   plural/recipes/azure-k8s.yaml: 87f04c431e2cd8e2320a53ac1925cd9481a562098b3dea0b1bb0cf4e0144b802
   plural/recipes/gcp-kubernetes.yaml: 22e1c7d5cb0a2e0f1034b657a2d9588b018fc26bfd6f259f18837676a401839e

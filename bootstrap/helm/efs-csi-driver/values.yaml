@@ -1,0 +1,4 @@
+aws-efs-csi-driver:
+  controller:
+    serviceAccount:
+      name: efs-csi-controller
