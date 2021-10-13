@@ -10,9 +10,10 @@ helm:
   helm/bootstrap: h1:cOcPWv3x2Id+DNry+PBCMkIx/nA35KXkxl8yxmh+/xI=
   helm/plural-certmanager-webhook: h1:wlEH6Cob0ZCfY1QIGiX/lgf4DO9yJkq4IoinU56BsJM=
 recipe:
-  plural/recipes/aws-k8s.yaml: 9d3b8541a0f6aea3fa63508cbb494e8f1a0ecfd6c13eaf702e12802aa0ee3afc
-  plural/recipes/azure-k8s.yaml: 752776b0c22978866a11dca225d67dda9e7d59770a038ad33b5309a1fe37220a
-  plural/recipes/gcp-kubernetes.yaml: eeaaa6a050e6592b70234bb5fce50dca80480b5be517d72c7dad8c3d4e798da4
+  plural/recipes/aws-efs.yaml: b118fc413f26cc93acbb47772f2a4413c270a5d28dc0b5a4fbf3168cb7bd549c
+  plural/recipes/aws-k8s.yaml: 93780a3a2cf6f01efe01d8d67268b7de860d454b4d32cc22099301d541aeebb1
+  plural/recipes/azure-k8s.yaml: 87f04c431e2cd8e2320a53ac1925cd9481a562098b3dea0b1bb0cf4e0144b802
+  plural/recipes/gcp-kubernetes.yaml: 22e1c7d5cb0a2e0f1034b657a2d9588b018fc26bfd6f259f18837676a401839e
 integration: {}
 crd:
   plural/crds/application.yaml: c40bde3ad70c0d5aa3970a366ff742ba4a31ae40e0d256baf093d164c292abcf:h1:dBJSd9fVUBI9x6u6mzbALI3YjPkUOCuZ59EyJeTNH+o=
