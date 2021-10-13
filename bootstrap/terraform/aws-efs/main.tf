@@ -3,14 +3,16 @@ data "aws_eks_cluster" "cluster" {
 }
 
 data "aws_vpc" "cluster_vpcs" {
-  for_each = data.aws_eks_cluster.cluster.vpc_config
-  id = data.aws_eks_cluster.cluster.vpc_config[each.key].vpc_id
+  for_each = { for vpc in data.aws_eks_cluster.cluster.vpc_config : vpc.vpc_id => vpc }
+  id = each.value.vpc_id
 }
 
 locals {
   subnet_ids = flatten([
     for vpc_key, vpc in data.aws_eks_cluster.cluster.vpc_config : [
       for subnet_key, subnet_id in vpc.subnet_ids : {
+        vpc_key = vpc_key
+        subnet_key  = subnet_key
         subnet_id = subnet_id
       }
     ]
@@ -30,7 +32,7 @@ module "assumable_role_efs" {
 
 resource "aws_iam_policy" "efs_csi_policy" {
   name_prefix = "efs-csi"
-  description = "EKS EFS CSI policy for cluster ${data.aws_eks_cluster.cluster.cluster_id}"
+  description = "EKS EFS CSI policy for cluster ${data.aws_eks_cluster.cluster.id}"
   policy      = data.aws_iam_policy_document.efs_csi.json
 }
 
@@ -81,29 +83,27 @@ resource "aws_security_group" "allow_nfs" {
   name        = "allow_nfs-${var.cluster_name}"
   description = "Allow TLS inbound traffic"
 
-  for_each = data.aws_eks_cluster.cluster.vpc_config
+  # for_each = data.aws_eks_cluster.cluster.vpc_config
+  for_each = { for vpc in data.aws_eks_cluster.cluster.vpc_config : vpc.vpc_id => vpc }
 
-  ingress = [
-    {
+  ingress {
       description      = "NFS from VPC"
       from_port        = 2049
       to_port          = 2049
       protocol         = "tcp"
-      cidr_blocks      = concat(data.aws_vpc.cluster_vpcs[each.key].cidr_block)
-      security_groups = concat(data.aws_eks_cluster.cluster.vpc_config[each.key].security_group_ids)
+      cidr_blocks      = [cidrsubnet(data.aws_vpc.cluster_vpcs[each.key].cidr_block, 4, 1)]
+      security_groups = each.value.security_group_ids
     }
-  ]
+  
 
-  egress = [
-    {
+  egress {
       description      = "NFS from VPC"
       from_port        = 2049
       to_port          = 2049
       protocol         = "tcp"
-      cidr_blocks      = concat(data.aws_vpc.cluster_vpcs[each.key].cidr_block)
-      security_groups = concat(data.aws_eks_cluster.cluster.vpc_config[each.key].security_group_ids)
+      cidr_blocks      = [cidrsubnet(data.aws_vpc.cluster_vpcs[each.key].cidr_block, 4, 1)]
+      security_groups = each.value.security_group_ids
     }
-  ]
 }
 
 resource "aws_efs_file_system" "efs_main" {
@@ -114,7 +114,7 @@ resource "aws_efs_file_system" "efs_main" {
 
 resource "aws_efs_mount_target" "efs_mount_target" {
 
-  for_each = local.subnet_ids
+  for_each = { for subnet_id in local.subnet_ids : "${subnet_id.vpc_key}.${subnet_id.subnet_key}" => subnet_id }
 
   file_system_id = aws_efs_file_system.efs_main.id
   subnet_id      = each.value.subnet_id
