@@ -24,6 +24,7 @@ rules:
   - statefulsetresizes
   - persistentvolumeclaims
   - statefulsets
+  - defaultstorageclasses
   verbs:
   - create
   - delete
