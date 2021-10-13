@@ -2,7 +2,7 @@ apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
   description: aws efs setup
-  version: 0.1.1
+  version: 0.1.2
 spec:
   dependencies:
   - name: aws-bootstrap
@@ -11,6 +11,3 @@ spec:
     version: '>= 0.1.1'
   providers:
   - aws
-  wirings:
-    terraform:
-      cluster_name: aws-bootstrap.cluster_name
