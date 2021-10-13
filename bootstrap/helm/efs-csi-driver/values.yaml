@@ -1,4 +1,14 @@
 aws-efs-csi-driver:
+  sidecars:
+    livenessProbe:
+      image:
+        tag: v2.2.0-eks-1-21-5
+    nodeDriverRegistrar:
+      image:
+        tag: v2.1.0-eks-1-21-5
+    csiProvisioner:
+      image:
+        tag: v2.1.1-eks-1-21-5
   controller:
     serviceAccount:
       name: efs-csi-controller

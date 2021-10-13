@@ -2,7 +2,7 @@ apiVersion: v2
 name: efs-csi-driver
 description: A Helm chart for Kubernetes
 type: application
-version: 0.1.2
+version: 0.1.4
 appVersion: "1.3.4"
 dependencies:
 - name: aws-efs-csi-driver
