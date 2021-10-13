@@ -7,7 +7,7 @@ dependencies:
   version: 5.8.7
 - name: cert-manager
   repository: https://charts.jetstack.io
-  version: v1.4.0
+  version: v1.4.4
 - name: cluster-autoscaler
   repository: https://kubernetes.github.io/autoscaler
   version: 9.9.2
@@ -26,5 +26,5 @@ dependencies:
 - name: snapshot-controller
   repository: https://piraeus.io/helm-charts/
   version: 1.2.1
-digest: sha256:0b6d130c0882c78065c200d8cfd7749a3462a979100d546d18825fe361c8f5ae
-generated: "2021-10-12T17:08:33.801259539+02:00"
+digest: sha256:f9788e2de2969fcf7127792bb43d0beabe341d47151119ceb5982d6260923530
+generated: "2021-10-13T19:25:51.57809094Z"
