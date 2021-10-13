@@ -86,6 +86,14 @@ snapshot-controller:
 
 aws-ebs-csi-driver:
   enabled: false
+  storageClasses:
+    - name: ebs-csi
+      annotations:
+        storageclass.kubernetes.io/is-default-class: "true"
+      parameters:
+        encrypted: "true"
+      reclaimPolicy: Delete
+      volumeBindingMode: WaitForFirstConsumer
   image:
     repository: gcr.io/pluralsh/k8s.gcr.io/provider-aws/aws-ebs-csi-driver
     tag: v1.3.0
