@@ -3,7 +3,6 @@ data "aws_eks_cluster" "cluster" {
 }
 
 data "aws_vpc" "cluster_vpc" {
-  # for_each = { for vpc in data.aws_eks_cluster.cluster.vpc_config : vpc.vpc_id => vpc }
   id = data.aws_eks_cluster.cluster.vpc_config[0].vpc_id
 }
 
@@ -13,18 +12,6 @@ data "aws_subnet_ids" "cluster_private_subnets" {
     name   = "tag:Name"
     values = ["${var.cluster_name}-private-*"]
   }
-}
-
-locals {
-  subnet_ids = flatten([
-    for vpc_key, vpc in data.aws_eks_cluster.cluster.vpc_config : [
-      for subnet_key, subnet_id in vpc.subnet_ids : {
-        vpc_key = vpc_key
-        subnet_key  = subnet_key
-        subnet_id = subnet_id
-      }
-    ]
-  ])
 }
 
 module "assumable_role_efs" {
@@ -92,9 +79,6 @@ resource "aws_security_group" "allow_nfs" {
   description = "Allow TLS inbound traffic"
   vpc_id = data.aws_vpc.cluster_vpc.id
 
-  # for_each = data.aws_eks_cluster.cluster.vpc_config
-  # for_each = { for vpc in data.aws_eks_cluster.cluster.vpc_config : vpc.vpc_id => vpc }
-
   ingress {
       description      = "NFS from VPC"
       from_port        = 2049
@@ -123,11 +107,26 @@ resource "aws_efs_file_system" "efs_main" {
 
 resource "aws_efs_mount_target" "efs_mount_target" {
 
-  # for_each = { for subnet_id in local.subnet_ids : "${subnet_id.vpc_key}.${subnet_id.subnet_key}" => subnet_id }
-
   for_each = data.aws_subnet_ids.cluster_private_subnets.ids
 
   file_system_id = aws_efs_file_system.efs_main.id
   subnet_id      = each.value
   security_groups = [aws_security_group.allow_nfs.id]
+}
+
+resource "kubernetes_storage_class" "efs" {
+  metadata {
+    name = "efs-csi"
+  }
+  storage_provisioner = "efs.csi.aws.com"
+  reclaim_policy      = "Delete"
+  parameters = {
+    provisioningMode = "efs-ap"
+    fileSystemId = aws_efs_file_system.efs_main.id
+    directoryPerms = "700"
+    # gidRangeStart = "1000" # optional
+    # gidRangeEnd = "2000" # optional
+    basePath = "/dynamic_provisioning" # optional
+  }
+  # mount_options = ["file_mode=0700", "dir_mode=0777", "mfsymlinks", "uid=1000", "gid=1000", "nobrl", "cache=none"]
 }
