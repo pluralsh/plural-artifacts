@@ -158,10 +158,10 @@ aws-ebs-csi-driver:
       resources:
         requests:
           cpu: 10m
-          memory: 20Mi
+          memory: 30Mi
         limits:
           cpu: 10m
-          memory: 20Mi
+          memory: 30Mi
     nodeDriverRegistrar:
       image:
         repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/csi-node-driver-registrar
