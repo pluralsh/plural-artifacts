@@ -73,6 +73,7 @@ rules:
   - ""
   resources:
   - serviceaccounts
+  - storageclasses
   verbs:
   - get
   - watch
