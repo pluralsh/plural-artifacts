@@ -6,10 +6,6 @@ metadata:
 spec:
   dependencies:
   - type: terraform
-    name: aws-bootstrap
-    repo: bootstrap
-    version: '>= 0.1.2'
-  - type: terraform
     name: aws-efs
     repo: bootstrap
     version: '>= 0.1.2'

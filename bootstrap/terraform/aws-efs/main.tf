@@ -30,7 +30,7 @@ module "assumable_role_efs" {
 
 resource "aws_iam_policy" "efs_csi_policy" {
   name_prefix = "efs-csi"
-  description = "EKS EFS CSI policy for cluster ${module.cluster.cluster_id}"
+  description = "EKS EFS CSI policy for cluster ${data.aws_eks_cluster.cluster.cluster_id}"
   policy      = data.aws_iam_policy_document.efs_csi.json
 }
 
@@ -96,6 +96,7 @@ resource "aws_security_group" "allow_nfs" {
 
   egress = [
     {
+      description      = "NFS from VPC"
       from_port        = 2049
       to_port          = 2049
       protocol         = "tcp"
