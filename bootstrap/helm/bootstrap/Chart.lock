@@ -17,5 +17,14 @@ dependencies:
 - name: aws-load-balancer-controller
   repository: https://aws.github.io/eks-charts
   version: 1.2.3
-digest: sha256:e2b8d62fbaf48134523ac25a444c998ce318f899227a28a604ab25a833924295
-generated: "2021-10-04T19:26:46.550762061+02:00"
+- name: aws-ebs-csi-driver
+  repository: https://kubernetes-sigs.github.io/aws-ebs-csi-driver
+  version: 2.3.0
+- name: snapshot-validation-webhook
+  repository: https://piraeus.io/helm-charts/
+  version: 1.2.1
+- name: snapshot-controller
+  repository: https://piraeus.io/helm-charts/
+  version: 1.2.1
+digest: sha256:0b6d130c0882c78065c200d8cfd7749a3462a979100d546d18825fe361c8f5ae
+generated: "2021-10-12T17:08:33.801259539+02:00"

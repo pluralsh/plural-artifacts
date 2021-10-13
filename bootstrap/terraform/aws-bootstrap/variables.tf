@@ -48,6 +48,12 @@ variable "autoscaler_serviceaccount" {
   description = "name of cluster autoscalers service account"
 }
 
+variable "ebs_csi_serviceaccount" {
+  type = string
+  default = "ebs-csi-controller"
+  description = "name of cluster autoscalers service account"
+}
+
 variable "externaldns_serviceaccount" {
   type = string
   default = "external-dns"

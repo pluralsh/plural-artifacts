@@ -21,6 +21,10 @@ sections:
           - name: ownerEmail
             type: STRING
             documentation: Email to be used for certificate renewal notifications
+          - name: enableSnapshot
+            type: BOOL
+            documentation: Enable support for volume snapshots by deploying the external snapshotter controller
+            default: false
       - type: HELM
         name: plural-certmanager-webhook
         configuration: []
