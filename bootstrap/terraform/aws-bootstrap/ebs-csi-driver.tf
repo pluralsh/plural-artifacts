@@ -16,8 +16,9 @@ resource "aws_iam_policy" "ebs_csi" {
 
 data "aws_iam_policy_document" "ebs_csi" {
   statement {
-    sid    = "ebsCSIAll"
-    effect = "Allow"
+    sid       = "ebsCSIAll"
+    effect    = "Allow"
+    resources = ["*"]
 
     actions = [
       "ec2:CreateSnapshot",
@@ -31,27 +32,27 @@ data "aws_iam_policy_document" "ebs_csi" {
       "ec2:DescribeVolumes",
       "ec2:DescribeVolumesModifications",
     ]
-
-    resources = ["*"]
   }
 
   statement {
     sid    = "ebsCSICreateTags"
     effect = "Allow"
 
-    actions = [
-      "ec2:CreateTags",
-    ]
-
     resources = [
       "arn:aws:ec2:*:*:volume/*",
-      "arn:aws:ec2:*:*:snapshot/*"
+      "arn:aws:ec2:*:*:snapshot/*",
     ]
+
+    actions = ["ec2:CreateTags"]
 
     condition {
       test     = "StringEquals"
       variable = "ec2:CreateAction"
-      values   = ["CreateVolume", "CreateVolume"]
+
+      values = [
+        "CreateVolume",
+        "CreateSnapshot",
+      ]
     }
   }
 
@@ -59,89 +60,110 @@ data "aws_iam_policy_document" "ebs_csi" {
     sid    = "ebsCSIDeleteTags"
     effect = "Allow"
 
-    actions = [
-      "ec2:DeleteTags",
-    ]
-
     resources = [
       "arn:aws:ec2:*:*:volume/*",
-      "arn:aws:ec2:*:*:snapshot/*"
+      "arn:aws:ec2:*:*:snapshot/*",
     ]
+
+    actions = ["ec2:DeleteTags"]
   }
 
   statement {
-    sid    = "ebsCSICreateVolume"
-    effect = "Allow"
-
-    actions = [
-      "ec2:CreateVolume",
-    ]
-
+    sid       = "ebsCSICreateVolume1"
+    effect    = "Allow"
     resources = ["*"]
+    actions   = ["ec2:CreateVolume"]
 
     condition {
       test     = "StringLike"
       variable = "aws:RequestTag/ebs.csi.aws.com/cluster"
       values   = ["true"]
     }
+  }
+
+  statement {
+    sid       = "ebsCSICreateVolume2"
+    effect    = "Allow"
+    resources = ["*"]
+    actions   = ["ec2:CreateVolume"]
 
     condition {
       test     = "StringLike"
       variable = "aws:RequestTag/CSIVolumeName"
       values   = ["*"]
     }
+  }
+
+  statement {
+    sid       = "ebsCSICreateVolume3"
+    effect    = "Allow"
+    resources = ["*"]
+    actions   = ["ec2:CreateVolume"]
 
     condition {
-      test     = "StringEquals"
-      variable = "aws:RequestTag/kubernetes.io/cluster/${module.cluster.cluster_id}"
+      test     = "StringLike"
+      variable = "aws:RequestTag/kubernetes.io/cluster/*"
       values   = ["owned"]
     }
   }
 
   statement {
-    sid    = "ebsCSIDeleteVolume"
-    effect = "Allow"
-
-    actions = [
-      "ec2:DeleteVolume",
-    ]
-
+    sid       = "ebsCSIDeleteVolume1"
+    effect    = "Allow"
     resources = ["*"]
+    actions   = ["ec2:DeleteVolume"]
 
     condition {
       test     = "StringLike"
       variable = "ec2:ResourceTag/ebs.csi.aws.com/cluster"
       values   = ["true"]
     }
+  }
+
+  statement {
+    sid       = "ebsCSIDeleteVolume2"
+    effect    = "Allow"
+    resources = ["*"]
+    actions   = ["ec2:DeleteVolume"]
 
     condition {
       test     = "StringLike"
       variable = "ec2:ResourceTag/CSIVolumeName"
       values   = ["*"]
     }
+  }
+
+  statement {
+    sid       = "ebsCSIDeleteVolume3"
+    effect    = "Allow"
+    resources = ["*"]
+    actions   = ["ec2:DeleteVolume"]
 
     condition {
-      test     = "StringEquals"
-      variable = "ec2:ResourceTag/kubernetes.io/cluster/${module.cluster.cluster_id}"
+      test     = "StringLike"
+      variable = "ec2:ResourceTag/kubernetes.io/cluster/*"
       values   = ["owned"]
     }
   }
 
   statement {
-    sid    = "ebsCSIDeleteSnapshot"
-    effect = "Allow"
-
-    actions = [
-      "ec2:DeleteSnapshot",
-    ]
-
+    sid       = "ebsCSIDeleteSnapshot1"
+    effect    = "Allow"
     resources = ["*"]
+    actions   = ["ec2:DeleteSnapshot"]
 
     condition {
       test     = "StringLike"
       variable = "ec2:ResourceTag/CSIVolumeSnapshotName"
       values   = ["*"]
     }
+  }
+
+  statement {
+    sid       = "ebsCSIDeleteSnapshot2"
+    effect    = "Allow"
+    resources = ["*"]
+    actions   = ["ec2:DeleteSnapshot"]
 
     condition {
       test     = "StringLike"
