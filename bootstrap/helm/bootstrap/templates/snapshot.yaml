@@ -1,0 +1,10 @@
+{{- if and (eq .Values.provider "aws") ( index .Values "snapshot-controller" "enabled") }}
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: ebs-csi-vsc
+  annotations:
+    snapshot.storage.kubernetes.io/is-default-class: "true"
+driver: ebs.csi.aws.com
+deletionPolicy: Delete
+{{- end }}

@@ -63,14 +63,26 @@ snapshot-validation-webhook:
   image:
     repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/snapshot-validation-webhook
     tag: v4.2.1
-  resources: {}
+  resources:
+    requests:
+      cpu: 10m
+      memory: 20Mi
+    limits:
+      cpu: 10m
+      memory: 20Mi
 
 snapshot-controller:
   enabled: false
   image:
     repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/snapshot-controller
     tag: v4.2.1
-  resources: {}
+  resources:
+    requests:
+      cpu: 10m
+      memory: 20Mi
+    limits:
+      cpu: 10m
+      memory: 20Mi
 
 aws-ebs-csi-driver:
   enabled: false
