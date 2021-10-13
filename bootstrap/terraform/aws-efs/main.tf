@@ -105,6 +105,9 @@ resource "aws_efs_file_system" "efs_main" {
 
   lifecycle_policy {
     transition_to_ia = "AFTER_14_DAYS"
+  }
+
+  lifecycle_policy {
     transition_to_primary_storage_class = "AFTER_1_ACCESS"
   }
 
