@@ -110,6 +110,13 @@ aws-ebs-csi-driver:
         eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-ebs-csi"
 {{ end }}
 
+{{ if .Values.enableSnapshot }}
+snapshot-validation-webhook:
+  enabled: true
+snapshot-controller:
+  enabled: true
+{{ end }}
+
 {{ if eq .Provider "aws" }}
 metrics-server:
   enabled: true

@@ -58,6 +58,20 @@ autoscaling:
 aws-load-balancer-controller:
   enabled: false
 
+snapshot-validation-webhook:
+  enabled: false
+  image:
+    repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/snapshot-validation-webhook
+    tag: v4.2.1
+  resources: {}
+
+snapshot-controller:
+  enabled: false
+  image:
+    repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/snapshot-controller
+    tag: v4.2.1
+  resources: {}
+
 aws-ebs-csi-driver:
   enabled: false
   image:

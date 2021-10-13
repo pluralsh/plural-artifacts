@@ -20,5 +20,11 @@ dependencies:
 - name: aws-ebs-csi-driver
   repository: https://kubernetes-sigs.github.io/aws-ebs-csi-driver
   version: 2.3.0
-digest: sha256:23abc4abed03d0eeda8c7788fb2f8e1fcdb0e842b115ed7fd386acd38c673a53
-generated: "2021-10-12T15:27:01.403286059+02:00"
+- name: snapshot-validation-webhook
+  repository: https://piraeus.io/helm-charts/
+  version: 1.2.1
+- name: snapshot-controller
+  repository: https://piraeus.io/helm-charts/
+  version: 1.2.1
+digest: sha256:0b6d130c0882c78065c200d8cfd7749a3462a979100d546d18825fe361c8f5ae
+generated: "2021-10-12T17:08:33.801259539+02:00"
