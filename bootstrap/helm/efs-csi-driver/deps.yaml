@@ -10,6 +10,6 @@ spec:
     repo: bootstrap
     version: '>= 0.1.2'
   - type: terraform
-    name: aws-bootstrap
-    repo: aws-efs
+    name: aws-efs
+    repo: bootstrap
     version: '>= 0.1.2'
