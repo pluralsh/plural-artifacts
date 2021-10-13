@@ -5,6 +5,12 @@ variable "cluster_name" {
   description = "name for the cluster"
 }
 
+variable "vpc_name" {
+  type = string
+  default = "plural"
+  description = "Name for the vpc for the cluster"
+}
+
 variable "namespace" {
   type = string
   default = "bootstrap"

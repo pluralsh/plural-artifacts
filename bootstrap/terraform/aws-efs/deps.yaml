@@ -2,7 +2,7 @@ apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
   description: aws efs setup
-  version: 0.1.30
+  version: 0.1.31
 spec:
   dependencies:
   - name: aws-bootstrap

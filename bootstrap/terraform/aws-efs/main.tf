@@ -10,7 +10,7 @@ data "aws_subnet_ids" "cluster_private_subnets" {
   vpc_id = data.aws_vpc.cluster_vpc.id
   filter {
     name   = "tag:Name"
-    values = ["${var.cluster_name}-private-*"]
+    values = ["${var.vpc_name}-private-*"]
   }
 }
 
