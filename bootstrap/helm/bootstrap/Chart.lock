@@ -1,7 +1,7 @@
 dependencies:
 - name: external-dns
   repository: https://charts.bitnami.com/bitnami
-  version: 4.11.0
+  version: 4.11.2
 - name: metrics-server
   repository: https://charts.bitnami.com/bitnami
   version: 5.8.7
@@ -26,5 +26,5 @@ dependencies:
 - name: snapshot-controller
   repository: https://piraeus.io/helm-charts/
   version: 1.2.1
-digest: sha256:0b6d130c0882c78065c200d8cfd7749a3462a979100d546d18825fe361c8f5ae
-generated: "2021-10-12T17:08:33.801259539+02:00"
+digest: sha256:25d9f433d36f97674402c8de72aa5901d0a3be8bde84aa9b2065ca768b1a4dc1
+generated: "2021-10-13T19:26:40.354442146Z"
