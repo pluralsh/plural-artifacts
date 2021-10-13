@@ -1,25 +1,23 @@
-
----
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.4.1
   creationTimestamp: null
-  name: statefulsetresizes.platform.plural.sh
+  name: logfilters.platform.plural.sh
 spec:
   group: platform.plural.sh
   names:
-    kind: StatefulSetResize
-    listKind: StatefulSetResizeList
-    plural: statefulsetresizes
-    singular: statefulsetresize
+    kind: LogFilter
+    listKind: LogFilterList
+    plural: logfilters
+    singular: logfilter
   scope: Namespaced
   versions:
   - name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: StatefulSetResize is the Schema for the statefulsetresizes API
+        description: LogFilter is the Schema for the logfilters API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -34,20 +32,39 @@ spec:
           metadata:
             type: object
           spec:
-            description: StatefulSetResizeSpec defines the desired state of StatefulSetResize
+            description: LogFilterSpec defines the desired state of LogFilter
             properties:
+              description:
+                description: description for this logfilter
+                type: string
+              labels:
+                description: labels to query against
+                items:
+                  description: A label to filter logs against
+                  properties:
+                    name:
+                      description: name of the label
+                      type: string
+                    value:
+                      description: value of the label
+                      type: string
+                  required:
+                  - name
+                  - value
+                  type: object
+                type: array
               name:
-                description: Name of the stateful set
+                description: name for this logfilter
                 type: string
-              persistentVolume:
-                description: Name of the persistent volume you wish to resize
+              query:
+                description: loki query to use for the filter
                 type: string
-              size:
-                description: Size you want to set it to
-                type: string
+            required:
+            - description
+            - name
             type: object
           status:
-            description: StatefulSetResizeStatus defines the observed state of StatefulSetResize
+            description: LogFilterStatus defines the observed state of LogFilter
             type: object
         type: object
     served: true

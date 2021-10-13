@@ -6,7 +6,7 @@ help:
 all: upload-bootstrap upload-plural upload-console upload-airflow upload-gitlab upload-sentry upload-grafana upload-postgres
 
 import-operator:
-	cp ../plural-operator/config/crd/bases/* bootstrap/plural/crds/bootstrap
+	kustomize build ../plural-operator/config/crd/ -o bootstrap/plural/crds/bootstrap
 
 create-template:
 	@read -p "Enter Application Name:" application; \
