@@ -25,6 +25,7 @@ rules:
   - persistentvolumeclaims
   - statefulsets
   - defaultstorageclasses
+  - resourcegroups
   verbs:
   - create
   - delete
