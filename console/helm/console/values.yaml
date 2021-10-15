@@ -31,6 +31,9 @@ ingress:
 
 postgres:
   resources: {}
+  replicas: 1
+  volume:
+    size: 25Gi
   default:
     resources:
       requests:

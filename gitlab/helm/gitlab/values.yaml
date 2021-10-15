@@ -43,6 +43,9 @@ railsConnection: {}
 registryConnection: {}
 
 postgres:
+  replicas: 1
+  storage:
+    size: 50Gi
   resources: {}
   default:
     resources:

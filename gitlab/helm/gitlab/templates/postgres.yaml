@@ -8,8 +8,8 @@ metadata:
 spec:
   teamId: plural
   volume:
-    size: 50Gi
-  numberOfInstances: 1
+    size: {{ .Values.postgres.storage.size }}
+  numberOfInstances: {{ .Values.postgres.replicas }}
   users:
     gitlab:  # database owner
     - superuser

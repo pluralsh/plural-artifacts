@@ -10,6 +10,9 @@ secrets:
   redis_password: example
 
 postgres:
+  replicas: 1
+  storage:
+    size: 25Gi
   resources: {}
   default:
     resources:

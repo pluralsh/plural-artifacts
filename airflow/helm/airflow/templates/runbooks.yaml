@@ -141,3 +141,8 @@ spec:
         - requests
         - memory
         valueFrom: memory
+      - path:
+        - airflow
+        - postgres
+        - replicas
+        valueFrom: replicas

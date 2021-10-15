@@ -7,8 +7,8 @@ metadata:
 spec:
   teamId: plural
   volume:
-    size: 25Gi
-  numberOfInstances: 1
+    size: {{ .Values.postgres.storage.size }}
+  numberOfInstances: {{ .Values.postgres.replicas }}
   users:
     sentry:  # database owner
     - superuser
