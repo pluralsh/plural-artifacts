@@ -56,7 +56,7 @@ deploy:
   stage: deploy
   <<: *ignore-cond
   only:
-  - master
+  - main
   before_script:
   - eval `ssh-agent -s`
   - echo "${GIT_SSH_KEY}" | tr -d '\r' | ssh-add - > /dev/null # add ssh key
