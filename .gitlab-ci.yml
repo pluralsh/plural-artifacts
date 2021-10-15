@@ -31,20 +31,20 @@ variables:
   DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client"
 
 stages:
-- push
+# - push
 - deploy
 
-include:
-- .gitlab-ci/bootstrap.yml
-- .gitlab-ci/grafana.yml
-- .gitlab-ci/monitoring.yml
-- .gitlab-ci/vendor.yml
-- .gitlab-ci/sentry.yml
-- .gitlab-ci/plural.yml
-- .gitlab-ci/postgres.yml
-- .gitlab-ci/redis.yml
-- .gitlab-ci/ghost.yml
-- .gitlab-ci/influx.yml
+# include:
+# - .gitlab-ci/bootstrap.yml
+# - .gitlab-ci/grafana.yml
+# - .gitlab-ci/monitoring.yml
+# - .gitlab-ci/vendor.yml
+# - .gitlab-ci/sentry.yml
+# - .gitlab-ci/plural.yml
+# - .gitlab-ci/postgres.yml
+# - .gitlab-ci/redis.yml
+# - .gitlab-ci/ghost.yml
+# - .gitlab-ci/influx.yml
 
 .ignore-cond: &ignore-cond
   except:
@@ -52,7 +52,7 @@ include:
     - $CI_COMMIT_MESSAGE =~ /pushed to plural/
 
 deploy:
-  image: gcr.io/pluralsh/plrl-base:0.1
+  image: gcr.io/pluralsh/plrl-base:0.1.1
   stage: deploy
   <<: *ignore-cond
   only:
@@ -71,6 +71,9 @@ deploy:
   - git config --global user.email mjg@plural.sh
   - git config --global user.name mjg
   - git add .
-  - git commit -m "pushed to plural"
-  - git remote rm origin && git remote add origin git@gitlab.plural.sh:$CI_PROJECT_PATH.git
-  - git push origin HEAD:$CI_COMMIT_REF_NAME # Pushes to the same branch as the trigger
+  - |
+      if git commit -m "pushed to plural"
+      then 
+        git remote rm origin && git remote add origin git@gitlab.plural.sh:$CI_PROJECT_PATH.git
+        git push origin HEAD:$CI_COMMIT_REF_NAME # Pushes to the same branch as the trigger
+      fi
