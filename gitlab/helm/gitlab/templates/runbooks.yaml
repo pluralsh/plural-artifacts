@@ -193,6 +193,11 @@ spec:
         - requests
         - memory
         valueFrom: memory
+      - path:
+        - gitlab
+        - postgres
+        - replicas
+        valueFrom: replicas
 ---
 apiVersion: platform.plural.sh/v1alpha1
 kind: Runbook
