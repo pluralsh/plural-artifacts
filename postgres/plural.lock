@@ -4,7 +4,7 @@ terraform:
   terraform/azure: h1:pNtacWHp91+XezosxlX945keATDCuxulU/8Igvf9de4=
   terraform/gcp: h1:sevYx4C88dAp3WAzApSNIkwoJ/LlvJGzNmuaNNpi0NE=
 helm:
-  helm/postgres: h1:6EsFgMdiK2fTHkay5IN1RkyeXi4+9NyMjID4NPVq01A=
+  helm/postgres: h1:gay0Nmgunq5UuXZyDiT/XuZa2ef1xBP/e7JOx32fCJY=
 recipe:
   plural/recipes/aws-postgres.yaml: 92cc579f204ed9c2f5bb0f4f946a6ba0f1e9fa426c4eb987c4c8d453ac78a194
   plural/recipes/azure-postgres.yaml: 025e72e64af569c761ef03bfe28bfd5c89c17b0d8d74c88fe342d20a6dae86ac

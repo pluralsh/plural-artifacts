@@ -2,7 +2,7 @@ artifact: {}
 terraform:
   terraform/aws: h1:8Ia5OJwfROVSbEJztPA09ooKB+25b3nC31GKVRm5jww=
 helm:
-  helm/crossplane: h1:tWVXq43htYwDGRI0T6/5d7hnOwstMeCgCRWoJOqSnmQ=
+  helm/crossplane: h1:jOgZe+7Z4tgcjLEZlvkueVUz5W2g9iRjKfuePL8Mx7A=
 recipe:
   plural/recipes/crossplane-aws.yaml: 379182596bd1ea26a4e0323208960f0e4822919598a97845e392e31c210c475c
 integration: {}

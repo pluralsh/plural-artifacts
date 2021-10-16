@@ -4,7 +4,7 @@ terraform:
   terraform/azure: h1:VRqTNqx5WCMfjBu3Kfooz3SpOoXrMfoaoct9XA8Jmog=
   terraform/gcp: h1:hh/bjs870f4AbNIY29Fwe7JnybVPS6VYLK2Zn+ERNo4=
 helm:
-  helm/nvidia-operator: h1:YiyiSpiK0NQN14bhVaCJ1bG39SMJgkz8UcUyUMNYWyA=
+  helm/nvidia-operator: h1:iBbl3kSaoZ7Cq5J2gYDR/Vtu2iy1UyUKYXwj2JUAyhM=
 recipe:
   plural/recipes/nvidia-operator-aws.yaml: 29632e5b3339f6d3aeedfa1837d75932012a3ba92db0bb51b37ee8b12fa20ee3
   plural/recipes/nvidia-operator-azure.yaml: 216b7e76eea4961d2eb14ad6b8657f44573c1c3ddcabe43973ff21d7c5ff0668

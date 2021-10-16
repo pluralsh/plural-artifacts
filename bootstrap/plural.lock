@@ -6,8 +6,8 @@ terraform:
   terraform/gcp-bootstrap: h1:LxsVCmKZgE2mBnoYkN5/INCSMcbq8ar2J7TAvVybYKc=
   terraform/kube: h1:2VSsMe5CpTm5NWnVWzGWwD7RT48UXmvgM1/6D+P4xPE=
 helm:
-  helm/azure-identity: h1:z/P1XnNMlIq3wZHDM0+bJXQwkF3Oq+F3kOmBcUv3SZ8=
-  helm/bootstrap: h1:4Tmpv6tkpIYKmIuIZlFlyBP/8hkK8DlloVPx6210SLA=
+  helm/azure-identity: h1:A3qDt/46b3nJ+TMToa6zm3HKryn18yPABJko6Wj3CZw=
+  helm/bootstrap: h1:vx8j1AVOJXMbiIR68aVAjkB02ztgujebmKJq9E6PRY0=
   helm/efs-csi-driver: h1:gIps26Sexqcpij6c7Zv+qqrJSteXQPjZB9QhvKyFmAo=
   helm/plural-certmanager-webhook: h1:wlEH6Cob0ZCfY1QIGiX/lgf4DO9yJkq4IoinU56BsJM=
 recipe:

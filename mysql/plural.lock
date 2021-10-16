@@ -4,8 +4,8 @@ terraform:
   terraform/azure: h1:Hv5+1JSJBjUp3yYty2G0GghJKZHPU4W9eBbZuLwmVgo=
   terraform/gcp: h1:GCSKZawUGCSsSefAtQ3X3wIPz/DHMXhN3UgYT4PUIMQ=
 helm:
-  helm/mysql: h1:qhE1/7G6/mpncod5/n5oKA87osy/tIcngGGm5zG+B5g=
-  helm/mysql-percona: h1:2A8t82qBu5dsOxTp9vyyfPtmL070nD1OmueIeCcm/dY=
+  helm/mysql: h1:rLuoKLs8zOVzpR8Q8jeOIsjDL7BF0vKrGcuDV1fZuwg=
+  helm/mysql-percona: h1:XkCjHEu4iRR4bpPdrgeEz5sL1IykqLT5BObQ9cOn3+c=
 recipe:
   plural/recipes/aws-mysql-percona.yaml: 2e5f2d43f0b1e96c9c5f4fc41faad9d142e04e081257c1e7217977426893c164
   plural/recipes/aws-mysql.yaml: ddbcfa9624a2b142a81c74fe2f17f1153dad0ed752c1749ada2b8ff7eca62dfd

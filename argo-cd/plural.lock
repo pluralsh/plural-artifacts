@@ -4,7 +4,7 @@ terraform:
   terraform/azure: h1:yZyl+PThZHBDNxIvKUx9V5C4wM8m+xmh4HFYmXJHGwg=
   terraform/gcp: h1:Er6eTB0w67NTjpK3WV/L149BWG4iQTO2Ru4YwjeEtQg=
 helm:
-  helm/argo-cd: h1:iDlstodACZCiHEZkdUrOWAdDnaxzrYIhVL4MLo3ZEBc=
+  helm/argo-cd: h1:GMFn9Vbpv/BjaHUL+Bx3ug0FTSZt8o06OTaG7m63eEE=
   helm/argocd: h1:ekOxLom9wLnGvjVcvCZU1cGpbS+uEiTm/LAq8ZM0Vz4=
 recipe:
   plural/recipes/argo-cd-aws.yaml: 290add42112191493d6bab4b296b70af35e2143ae834dc4f27f61465790f1da1

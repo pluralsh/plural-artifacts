@@ -2,7 +2,7 @@ artifact: {}
 terraform:
   terraform/kube: h1:Vbadx+ceIDTXw+y7tmtjDoSaGWHQthuZqXJEb2zMQpU=
 helm:
-  helm/kafka: h1:gtD8iQfr7+LEYvLjdbUVZAj1eIx2eaWscLF2poKER2Y=
+  helm/kafka: h1:+JkkwDM/HBoy1YMDMtiwcxT9ou65TuJVd4Tjw0AbMfw=
   helm/redis: h1:kt+xtvDC1VDun5INrE5hYOEUqxv/X7+q7DH4C4DupG0=
   helm/redis-cluster: h1:dLUjkbtCx8SHjp4+FAR8VqMOjzXZt2cktfT3OOJYwcU=
 recipe:

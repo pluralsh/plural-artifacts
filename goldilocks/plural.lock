@@ -4,7 +4,7 @@ terraform:
   terraform/azure: h1:MIE0aiTgBqf5rfksk0aD31Xo09uPaAEVHhjjXKvBrok=
   terraform/gcp: h1:AO8BOAokf2UrzHCVYlbo7A+X+RoU7lG2LtKowAmjTSw=
 helm:
-  helm/goldilocks: h1:6A/izeZPArpRxhpYy67TJ8aoDQWxb9CwLhRNzTQ1xx0=
+  helm/goldilocks: h1:jQrogFHftD9fmSP+sUP8plGB+rQS/8zfwTjbyK17B94=
 recipe:
   plural/recipes/goldilocks-aws.yaml: f8716f129aec70c1b098223ccf103f53e2e4e5e70abc2f426f3cee357661951b
   plural/recipes/goldilocks-azure.yaml: 0667127a162b66adcfa59892bc49f1a8914e935836446fbecf1b17b0a5a0328b

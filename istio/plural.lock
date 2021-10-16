@@ -2,7 +2,7 @@ artifact: {}
 terraform:
   terraform/kube: h1:vMPDCNZkTRKGX1acVe7qsk54Ycy/8ML5L0RKUatL9QM=
 helm:
-  helm/istio: h1:Zm1opjMCJiz0MKTkt/4dQCI3MNeLLIihI/L+uKZxiU8=
+  helm/istio: h1:JL/2OcXZJt2TuQ2M7dCs/UotosOa3BXGbyGM2JWa5s0=
 recipe:
   plural/recipes/istio-aws.yaml: ed8b07b137b65286ba8831c8afc912e380066b331bf414d2e8b14c8649cd386b
   plural/recipes/istio-azure.yaml: 16cee03e0960e8f39b1403781e126ec251d3a9f87fcc79635d116868a3a3295b
