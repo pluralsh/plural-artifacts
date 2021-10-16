@@ -3,6 +3,4 @@ ATTRIBUTES Plural repository.yaml
 
 TF terraform/*
 HELM helm/*
-CRD plural/crds/presslabs/* helm/mysql
-CRD plural/crds/percona/* helm/mysql-percona
 RECIPE plural/recipes/*

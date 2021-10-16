@@ -3,5 +3,4 @@ ATTRIBUTES Plural repository.yaml
 
 TF terraform/*
 HELM helm/*
-CRD plural/crds/* helm/kafka
 RECIPE plural/recipes/*

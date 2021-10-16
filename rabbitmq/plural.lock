@@ -4,7 +4,7 @@ terraform:
   terraform/kube: h1:EPfg93jf9+Mn+2suhIYMYuTdZ9m+81dLAqLo5EUn1Sk=
 helm:
   charts/cluster-operator: h1:SGvYMMbOxj5y3D6MYbR74pcR7/pwXhvwRODgPNf2Sjc=
-  helm/cluster-operator: h1:ufmvr/f5FuVHsk1vBCiiubw5nvM0LyzNfWy/CS4G8iM=
+  helm/cluster-operator: h1:VF58lfdJH+OJDrpNV8u6Yu56TObZApVRdRVLngfzZ7I=
 recipe:
   plural/recipes/rabbit-aws.yaml: 56d469b80f8162ff075c0a8136f25d908d29eb42d88513aa8e1b1fa5bc88c82a
   plural/recipes/rabbit-azure.yaml: 2df73e7c7b581ac8b98e7f9b226c1afc45b459ef377f8bfcd9c4bf9ee1822ed6

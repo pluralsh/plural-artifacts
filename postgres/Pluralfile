@@ -3,6 +3,5 @@ ATTRIBUTES Plural repository.yaml
 
 TF terraform/*
 HELM helm/postgres
-CRD plural/crds/* helm/postgres
 RECIPE plural/recipes/*
 TAG plural/tags/**/*

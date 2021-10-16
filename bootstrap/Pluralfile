@@ -3,8 +3,6 @@ ATTRIBUTES Plural repository.yaml
 
 TF terraform/*
 HELM helm/*
-CRD plural/crds/bootstrap/* helm/bootstrap
-CRD plural/crds/azure-identity/* helm/azure-identity
 RECIPE plural/recipes/*
 TAG plural/tags/helm/*
 TAG plural/tags/terraform/*

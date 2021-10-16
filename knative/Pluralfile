@@ -3,9 +3,6 @@ ATTRIBUTES Plural repository.yaml
 
 TF terraform/*
 HELM helm/*
-CRD plural/crds/eventing/* helm/knative-eventing
-CRD plural/crds/serving/* helm/knative-serving
-CRD plural/crds/operator/* helm/knative-operator
 RECIPE plural/recipes/*
 TAG plural/tags/helm/*
 TAG plural/tags/terraform/*
