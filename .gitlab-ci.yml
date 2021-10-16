@@ -52,13 +52,13 @@ stages:
     - $CI_COMMIT_MESSAGE =~ /pushed to plural/
 
 deploy:
-  image: gcr.io/pluralsh/plrl-base:0.1.3
+  image: gcr.io/pluralsh/plrl-base:0.1.4
   stage: deploy
   <<: *ignore-cond
   only:
   - main
   before_script:
-  - cat /root/configure-git.sh
-  - source /root/configure-git.sh
+  - cat /root/configure.sh
+  - source /root/configure.sh
   script:
   - make all
