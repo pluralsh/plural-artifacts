@@ -7,7 +7,7 @@ sources:
 maintainers:
 - name: michaeljguarino
   email: mjg@plural.sh
-version: 0.7.26
+version: 0.7.27
 
 dependencies:
 - name: hydra
