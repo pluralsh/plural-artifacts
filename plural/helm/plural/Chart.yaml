@@ -11,5 +11,5 @@ version: 0.7.28
 
 dependencies:
 - name: hydra
-  version: 0.16.0
+  version: 0.19.6
   repository: https://k8s.ory.sh/helm/charts
