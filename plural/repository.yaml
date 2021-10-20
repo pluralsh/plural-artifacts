@@ -1,7 +1,0 @@
-name: plural
-description: the plural platform, available on plural
-category: DEVOPS
-icon: plural/icons/plural-logo.png
-darkIcon: plural/icons/plural-white.png
-tags:
-- tag: kubernetes
