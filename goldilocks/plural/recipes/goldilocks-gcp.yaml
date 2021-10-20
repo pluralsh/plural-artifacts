@@ -1,6 +1,10 @@
 name: goldilocks-gcp
 description: Installs goldilocks on a gcp gke cluster
 provider: GCP
+oidcSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
+  domainKey: hostname
 dependencies:
 - repo: bootstrap
   name: gcp-kubernetes
@@ -12,4 +16,7 @@ sections:
     configuration: []
   - type: HELM
     name: goldilocks
-    configuration: []
+    configuration:
+    - name: hostname
+      documentation: FQDN to use for your accessing the goldilocks dashboard
+      type: DOMAIN

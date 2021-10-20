@@ -1,4 +1,5 @@
 REPO goldilocks
+ATTRIBUTES Plural repository.yaml
 
 TF terraform/*
 HELM helm/*

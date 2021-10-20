@@ -1,0 +1,10 @@
+name: goldilocks
+description: resource scaling assistant
+category: DEVOPS
+icon: plural/icons/goldilocks.png
+notes: plural/notes.tpl
+oauthSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
+tags:
+  - tag: devops
