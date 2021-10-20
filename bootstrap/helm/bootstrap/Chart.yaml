@@ -34,7 +34,7 @@ dependencies:
   repository: https://aws.github.io/eks-charts
 - name: aws-ebs-csi-driver
   condition: aws-ebs-csi-driver.enabled
-  version: 2.3.0
+  version: 2.3.1
   repository: https://kubernetes-sigs.github.io/aws-ebs-csi-driver
 - name: snapshot-validation-webhook
   condition: snapshot-validation-webhook.enabled
