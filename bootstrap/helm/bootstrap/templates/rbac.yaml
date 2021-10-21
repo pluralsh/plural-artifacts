@@ -26,6 +26,7 @@ rules:
   - statefulsets
   - defaultstorageclasses
   - resourcegroups
+  - licenses
   verbs:
   - create
   - delete
@@ -51,6 +52,7 @@ rules:
   resources:
   - secretsyncs/status
   - runbooks/status
+  - licenses/status
   verbs:
   - get
   - update
