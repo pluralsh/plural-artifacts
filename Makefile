@@ -13,7 +13,7 @@ git-push:
 	git push
 
 import-operator:
-	kustomize build ../plural-operator/config/crd/ -o bootstrap/plural/crds/bootstrap
+	kustomize build ../plural-operator/config/crd/ -o bootstrap/helm/bootstrap/crds
 
 create-template:
 	@read -p "Enter Application Name:" application; \
