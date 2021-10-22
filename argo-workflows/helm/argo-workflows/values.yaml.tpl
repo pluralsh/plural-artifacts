@@ -51,7 +51,6 @@ artifactRepository:
     endpoint: s3.amazonaws.com
     useSDKCreds: true
     roleARN: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-argo-workflows"
-    keyFormat: {{ printf "\"{{workflow.namespace}}/{{workflow.name}}/{{pod.name}}\"" }}
 serviceAccount:
   create: true
   annotations:

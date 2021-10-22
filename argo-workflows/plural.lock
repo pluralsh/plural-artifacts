@@ -4,7 +4,7 @@ terraform:
   terraform/azure: h1:DetDny1rHAQJRhc1CnEvlvlWCRcG1AQo5plMfJPodXw=
   terraform/gcp: h1:kRFA+ue6GS04365alSLyh2D0ukI/6DBANFz+HevMNIA=
 helm:
-  helm/argo-workflows: h1:NTB7pskY/QjPb6u0E/Ce+l3QkthlWCNyZUmEMj8Cb4k=
+  helm/argo-workflows: h1:/8W0fQqKVFM9sJ9/mmY6NCfq19NhvfJaNoJv6kR1CZU=
 recipe:
   plural/recipes/argo-workflows-aws.yaml: cdf041b10773ba6cd01f2438ad0b54531a52c513226b618c409e7d7e19f43d50
 integration: {}
