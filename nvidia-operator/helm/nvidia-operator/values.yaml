@@ -4,7 +4,7 @@ gpu-operator:
     - key: nvidia.com/gpu
       operator: Exists
       effect: NoSchedule
-    - key: "capacityType"
+    - key: "plural.sh/capacityType"
       operator: "Equal"
       value: "SPOT"
       effect: "NoSchedule"
@@ -24,7 +24,7 @@ gpu-operator:
       - key: nvidia.com/gpu
         operator: Exists
         effect: NoSchedule
-      - key: "capacityType"
+      - key: "plural.sh/capacityType"
         operator: "Equal"
         value: "SPOT"
         effect: "NoSchedule"
