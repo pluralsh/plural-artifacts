@@ -84,15 +84,17 @@ webApp:
         value: IfNotPresent
         readOnly: false
       jupyterImages:
-        - public.ecr.aws/j1r0q0g6/notebooks/notebook-servers/jupyter-scipy:master-1831e436
-        - public.ecr.aws/j1r0q0g6/notebooks/notebook-servers/jupyter-pytorch-full:master-1831e436
-        - public.ecr.aws/j1r0q0g6/notebooks/notebook-servers/jupyter-pytorch-cuda-full:master-1831e436
-        - public.ecr.aws/j1r0q0g6/notebooks/notebook-servers/jupyter-tensorflow-full:master-1831e436
-        - public.ecr.aws/j1r0q0g6/notebooks/notebook-servers/jupyter-tensorflow-cuda-full:master-1831e436
+        - ghcr.io/pluralsh/kubeflow-notebooks-jupyter-scipy:v1.0.34
+        - ghcr.io/pluralsh/kubeflow-notebooks-jupyter-pytorch-full:v1.0.34
+        - ghcr.io/pluralsh/kubeflow-notebooks-jupyter-pytorch-full-cuda:v1.0.34
+        - ghcr.io/pluralsh/kubeflow-notebooks-jupyter-tensorflow-full:v1.0.32
+        - ghcr.io/pluralsh/kubeflow-notebooks-jupyter-tensorflow-full-cuda:v1.0.32
+        - ghcr.io/pluralsh/kubeflow-notebooks-jupyter-go:v1.0.11
+        - ghcr.io/pluralsh/kubeflow-notebooks-jupyter-elixir:v1.0.12
       vscodeImages:
-        - public.ecr.aws/j1r0q0g6/notebooks/notebook-servers/codeserver-python:master-1831e436
+        - ghcr.io/pluralsh/kubeflow-notebooks-codeserver-python:v1.0.8
       rstudioImages:
-        - public.ecr.aws/j1r0q0g6/notebooks/notebook-servers/rstudio-tidyverse:master-164fa2ea
+        - ghcr.io/pluralsh/kubeflow-notebooks-rstudio-tidyverse:v1.0.1
     cpu:
       # CPU for user's Notebook
       value: '0.5'

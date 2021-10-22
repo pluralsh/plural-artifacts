@@ -179,19 +179,30 @@ data:
         # If readonly, the default value will be the only option
         value: ""
         # The list of available tolerationGroup configs
-        options: []
-        #options:
-        #  - groupKey: "group_1"
-        #    displayName: "Group 1: description"
-        #    tolerations:
-        #      - key: "key1"
-        #        operator: "Equal"
-        #        value: "value1"
-        #        effect: "NoSchedule"
-        #      - key: "key2"
-        #        operator: "Equal"
-        #        value: "value2"
-        #        effect: "NoSchedule"
+        options:
+          - groupKey: "spot"
+            displayName: "Spot Pool"
+            tolerations:
+              - key: "plural.sh/capacityType"
+                operator: "Equal"
+                value: "SPOT"
+                effect: "NoSchedule"
+          - groupKey: "gpu"
+            displayName: "GPU Pool"
+            tolerations:
+              - key: "nvidia.com/gpu"
+                operator: "Exists"
+                effect: "NoSchedule"
+          - groupKey: "spot-gpu"
+            displayName: "GPU Spot Pool"
+            tolerations:
+              - key: "nvidia.com/gpu"
+                operator: "Exists"
+                effect: "NoSchedule"
+              - key: "plural.sh/capacityType"
+                operator: "Equal"
+                value: "SPOT"
+                effect: "NoSchedule"
         readOnly: false
       shm:
         value: true

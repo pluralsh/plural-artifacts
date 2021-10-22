@@ -5,7 +5,7 @@ helm:
   helm/central-dashboard: h1:W2NUth6iUZvWBu6j1U8dJu2zQJNuCxBkA9g9I6piFcU=
   helm/katib: h1:r+9vbxJQ41xpK6TWlVXC19m7bTQfyC95bNO/FQEJOPo=
   helm/mysql-cluster: h1:kXvOQkH/GKYE/v/ghHCJObgVs8+d6IVlupPfipUNkSY=
-  helm/notebooks: h1:dL+l5PT1HA2VkYoKtFu8hrBH/5nrEU+xV5LtKhiow8k=
+  helm/notebooks: h1:xO875WCTQqlxt+sbkhpIxvzCoByJxCJ12o9GNbR36Js=
   helm/operators/mpi: h1:oy9WH4CdcBSjovxHIR4V5kTLFV2Z9BEN/DCfCgJ++4o=
   helm/operators/mxnet: h1:3TVyvRlMSVdCGFVE5Pnf/9L3MqdKl2n0YpGzhPnE1Yk=
   helm/operators/pytorch: h1:KRh+hGTYK9G4+ER8WSl7zsLGZHDQJGNfupT6ypDouS4=
