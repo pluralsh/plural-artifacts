@@ -1,4 +1,14 @@
 gpu-operator:
+  daemonsets:
+    tolerations:
+    - key: "instance"
+      operator: "Equal"
+      value: "DL-gpux"
+      effect: "NoSchedule"
+    - key: "instance"
+      operator: "Equal"
+      value: "DL-spot-gpux"
+      effect: "NoSchedule"
   driver:
     enabled: false
   toolkit:
