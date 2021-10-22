@@ -2,12 +2,16 @@ apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
   description: kubeflow aws setup
-  version: 0.1.26
+  version: 0.1.27
 spec:
   dependencies:
   - name: aws-bootstrap
     repo: bootstrap
     type: terraform
     version: '>= 0.1.1'
+  - name: aws-efs
+    repo: bootstrap
+    type: terraform
+    version: '>= 0.1.30'
   providers:
   - aws
