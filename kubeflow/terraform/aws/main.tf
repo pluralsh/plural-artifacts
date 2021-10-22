@@ -101,6 +101,12 @@ resource "aws_eks_node_group" "gpu_small" {
 
   }
 
+  labels = {
+    "k8s.io/cluster-autoscaler/enabled" = "true"
+    "kubernetes.io/cluster/${var.cluster_name}" = "owned"
+    "nvidia.com/gpu" = "true"
+  }
+
   taint {
     key = "instance"
     value = "DL-gpux"
@@ -135,6 +141,12 @@ resource "aws_eks_node_group" "gpu_small_spot" {
     "k8s.io/cluster-autoscaler/node-template/label/instance" = "DL-spot-gpux"
     "k8s.io/cluster-autoscaler/node-template/taint/instance" = "DL-spot-gpux:NoSchedule"
 
+  }
+
+  labels = {
+    "k8s.io/cluster-autoscaler/enabled" = "true"
+    "kubernetes.io/cluster/${var.cluster_name}" = "owned"
+    "nvidia.com/gpu" = "true"
   }
 
   taint {
@@ -172,6 +184,11 @@ resource "aws_eks_node_group" "spot_small" {
 
   }
 
+  labels = {
+    "k8s.io/cluster-autoscaler/enabled" = "true"
+    "kubernetes.io/cluster/${var.cluster_name}" = "owned"
+  }
+
   taint {
     key = "instance"
     value = "DL-spot"
@@ -207,6 +224,11 @@ resource "aws_eks_node_group" "spot_medium" {
 
   }
 
+  labels = {
+    "k8s.io/cluster-autoscaler/enabled" = "true"
+    "kubernetes.io/cluster/${var.cluster_name}" = "owned"
+  }
+
   taint {
     key = "instance"
     value = "DL-spot"
@@ -240,6 +262,11 @@ resource "aws_eks_node_group" "spot_large" {
     "k8s.io/cluster-autoscaler/node-template/label/instance" = "DL-spot"
     "k8s.io/cluster-autoscaler/node-template/taint/instance" = "DL-spot:NoSchedule"
 
+  }
+
+  labels = {
+    "k8s.io/cluster-autoscaler/enabled" = "true"
+    "kubernetes.io/cluster/${var.cluster_name}" = "owned"
   }
 
   taint {

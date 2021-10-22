@@ -5,3 +5,14 @@ gpu-operator:
     enabled: false
   operator:
     defaultRuntime: docker
+  node-feature-discovery:
+    worker:
+      tolerations:
+      - key: "instance"
+        operator: "Equal"
+        value: "DL-gpux"
+        effect: "NoSchedule"
+      - key: "instance"
+        operator: "Equal"
+        value: "DL-spot-gpux"
+        effect: "NoSchedule"
