@@ -24,8 +24,6 @@ argo-workflows:
             - {{ .Values.hostname }}
       https: true
   {{- if .OIDC }}
-    securityContext:
-      fsGroup: 65534
     sso:
       issuer: {{ .OIDC.Configuration.Issuer }}
       clientId:
@@ -42,6 +40,8 @@ argo-workflows:
       - profile
   {{- end }}
   {{- if eq .Provider "aws" }}
+    podSecurityContext:
+      fsGroup: 65534
   useStaticCredentials: false
 artifactRepository:
   archiveLogs: true
