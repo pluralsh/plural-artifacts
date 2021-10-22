@@ -10,6 +10,10 @@ spec:
     repo: bootstrap
     version: '>= 0.5.1'
   - type: helm
+    name: istio
+    repo: istio
+    version: '>= 0.1.86'
+  - type: helm
     name: monitoring
     repo: monitoring
     version: '>= 0.1.37'

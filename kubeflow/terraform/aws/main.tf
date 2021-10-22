@@ -78,14 +78,15 @@ data "aws_iam_policy_document" "kubeflow" {
   }
 }
 
-resource "aws_eks_node_group" "gpu" {
+resource "aws_eks_node_group" "gpu_inf_small" {
   cluster_name    = data.aws_eks_cluster.cluster.name
-  node_group_name = "${var.cluster_name}-gpu-main"
-  node_role_arn   = aws_iam_role.gpu.arn
+  node_group_name = "${var.cluster_name}-gpu-inf-small"
+  node_role_arn   = aws_iam_role.kubeflow.arn
   subnet_ids      = data.aws_eks_cluster.cluster.vpc_config[0].subnet_ids
-  instance_types = var.gpu_instance_type
+  instance_types = var.instance_types_gpu_inf_small
   ami_type = "AL2_x86_64_GPU"
-  release_version = "1.21.2-20210914"
+  release_version = var.ami_release_version
+  disk_size = 50
   capacity_type = "ON_DEMAND"
 
   scaling_config {
@@ -96,25 +97,409 @@ resource "aws_eks_node_group" "gpu" {
 
   tags = {
     "k8s.io/cluster-autoscaler/node-template/label/nvidia.com/gpu" = "true"
+    "k8s.io/cluster-autoscaler/node-template/label/plural.sh/capacityType" = "ON_DEMAND"
+    "k8s.io/cluster-autoscaler/node-template/label/plural.sh/scalingGroup" = "GPU-Inf-Small"
+    # "k8s.io/cluster-autoscaler/node-template/label/instance" = "DL-gpux"
+    # "k8s.io/cluster-autoscaler/node-template/taint/instance" = "DL-gpux:NoSchedule"
     "k8s.io/cluster-autoscaler/node-template/taint/dedicated" = "nvidia.com/gpu=true"
 
   }
 
-  # taint {
-  #   key = "GPU"
-  #   value = "true"
-  #   effect = "NO_SCHEDULE"
-  # }
+  labels = {
+    "plural.sh/capacityType" = "ON_DEMAND"
+    "plural.sh/scalingGroup" = "GPU-Inf-Small"
+    "nvidia.com/gpu" = "true"
+  }
+
+  taint {
+    key = "nvidia.com/gpu"
+    value = "true"
+    effect = "NO_SCHEDULE"
+  }
 
   depends_on = [
-    aws_iam_role_policy_attachment.gpu-AmazonEKSWorkerNodePolicy,
-    aws_iam_role_policy_attachment.gpu-AmazonEKS_CNI_Policy,
-    aws_iam_role_policy_attachment.gpu-AmazonEC2ContainerRegistryReadOnly,
+    aws_iam_role_policy_attachment.kubeflow-AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.kubeflow-AmazonEKS_CNI_Policy,
+    aws_iam_role_policy_attachment.kubeflow-AmazonEC2ContainerRegistryReadOnly,
   ]
 }
 
-resource "aws_iam_role" "gpu" {
-  name = "eks-node-group-gpu-${var.cluster_name}"
+resource "aws_eks_node_group" "gpu_inf_small_spot" {
+  cluster_name    = data.aws_eks_cluster.cluster.name
+  node_group_name = "${var.cluster_name}-gpu-inf-small-spot"
+  node_role_arn   = aws_iam_role.kubeflow.arn
+  subnet_ids      = data.aws_eks_cluster.cluster.vpc_config[0].subnet_ids
+  instance_types = var.instance_types_gpu_inf_small
+  ami_type = "AL2_x86_64_GPU"
+  release_version = var.ami_release_version
+  disk_size = 50
+  capacity_type = "SPOT"
+
+  scaling_config {
+    desired_size = 0
+    min_size     = 0
+    max_size     = 3
+  }
+
+  tags = {
+    "k8s.io/cluster-autoscaler/node-template/label/nvidia.com/gpu" = "true"
+    "k8s.io/cluster-autoscaler/node-template/label/plural.sh/capacityType" = "SPOT"
+    "k8s.io/cluster-autoscaler/node-template/label/plural.sh/scalingGroup" = "GPU-Inf-Small"
+    # "k8s.io/cluster-autoscaler/node-template/label/instance" = "DL-spot-gpux"
+    # "k8s.io/cluster-autoscaler/node-template/taint/instance" = "DL-spot-gpux:NoSchedule"
+    "k8s.io/cluster-autoscaler/node-template/taint/dedicated" = "nvidia.com/gpu=true"
+    "k8s.io/cluster-autoscaler/node-template/taint/dedicated" = "plural.sh/capacityType=SPOT"
+
+  }
+
+  labels = {
+    "plural.sh/capacityType" = "SPOT"
+    "plural.sh/scalingGroup" = "GPU-Inf-Small"
+    "nvidia.com/gpu" = "true"
+  }
+
+  taint {
+    key = "nvidia.com/gpu"
+    value = "true"
+    effect = "NO_SCHEDULE"
+  }
+
+  taint {
+    key = "plural.sh/capacityType"
+    value = "SPOT"
+    effect = "NO_SCHEDULE"
+  }
+
+  depends_on = [
+    aws_iam_role_policy_attachment.kubeflow-AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.kubeflow-AmazonEKS_CNI_Policy,
+    aws_iam_role_policy_attachment.kubeflow-AmazonEC2ContainerRegistryReadOnly,
+  ]
+}
+
+resource "aws_eks_node_group" "gpu_small" {
+  cluster_name    = data.aws_eks_cluster.cluster.name
+  node_group_name = "${var.cluster_name}-gpu-small"
+  node_role_arn   = aws_iam_role.kubeflow.arn
+  subnet_ids      = data.aws_eks_cluster.cluster.vpc_config[0].subnet_ids
+  instance_types = var.instance_types_gpu_small
+  ami_type = "AL2_x86_64_GPU"
+  release_version = var.ami_release_version
+  disk_size = 50
+  capacity_type = "ON_DEMAND"
+
+  scaling_config {
+    desired_size = 0
+    min_size     = 0
+    max_size     = 3
+  }
+
+  tags = {
+    "k8s.io/cluster-autoscaler/node-template/label/nvidia.com/gpu" = "true"
+    "k8s.io/cluster-autoscaler/node-template/label/plural.sh/capacityType" = "ON_DEMAND"
+    "k8s.io/cluster-autoscaler/node-template/label/plural.sh/scalingGroup" = "GPU-Small"
+    # "k8s.io/cluster-autoscaler/node-template/label/instance" = "DL-gpux"
+    # "k8s.io/cluster-autoscaler/node-template/taint/instance" = "DL-gpux:NoSchedule"
+    "k8s.io/cluster-autoscaler/node-template/taint/dedicated" = "nvidia.com/gpu=true"
+
+  }
+
+  labels = {
+    "plural.sh/capacityType" = "ON_DEMAND"
+    "plural.sh/scalingGroup" = "GPU-Small"
+    "nvidia.com/gpu" = "true"
+  }
+
+  taint {
+    key = "nvidia.com/gpu"
+    value = "true"
+    effect = "NO_SCHEDULE"
+  }
+
+  depends_on = [
+    aws_iam_role_policy_attachment.kubeflow-AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.kubeflow-AmazonEKS_CNI_Policy,
+    aws_iam_role_policy_attachment.kubeflow-AmazonEC2ContainerRegistryReadOnly,
+  ]
+}
+
+resource "aws_eks_node_group" "gpu_small_spot" {
+  cluster_name    = data.aws_eks_cluster.cluster.name
+  node_group_name = "${var.cluster_name}-gpu-small-spot"
+  node_role_arn   = aws_iam_role.kubeflow.arn
+  subnet_ids      = data.aws_eks_cluster.cluster.vpc_config[0].subnet_ids
+  instance_types = var.instance_types_gpu_small
+  ami_type = "AL2_x86_64_GPU"
+  release_version = var.ami_release_version
+  disk_size = 50
+  capacity_type = "SPOT"
+
+  scaling_config {
+    desired_size = 0
+    min_size     = 0
+    max_size     = 3
+  }
+
+  tags = {
+    "k8s.io/cluster-autoscaler/node-template/label/nvidia.com/gpu" = "true"
+    "k8s.io/cluster-autoscaler/node-template/label/plural.sh/capacityType" = "SPOT"
+    "k8s.io/cluster-autoscaler/node-template/label/plural.sh/scalingGroup" = "GPU-Small"
+    # "k8s.io/cluster-autoscaler/node-template/label/instance" = "DL-spot-gpux"
+    # "k8s.io/cluster-autoscaler/node-template/taint/instance" = "DL-spot-gpux:NoSchedule"
+    "k8s.io/cluster-autoscaler/node-template/taint/dedicated" = "nvidia.com/gpu=true"
+    "k8s.io/cluster-autoscaler/node-template/taint/dedicated" = "plural.sh/capacityType=SPOT"
+
+  }
+
+  labels = {
+    "plural.sh/capacityType" = "SPOT"
+    "plural.sh/scalingGroup" = "GPU-Small"
+    "nvidia.com/gpu" = "true"
+  }
+
+  taint {
+    key = "nvidia.com/gpu"
+    value = "true"
+    effect = "NO_SCHEDULE"
+  }
+
+  taint {
+    key = "plural.sh/capacityType"
+    value = "SPOT"
+    effect = "NO_SCHEDULE"
+  }
+
+  depends_on = [
+    aws_iam_role_policy_attachment.kubeflow-AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.kubeflow-AmazonEKS_CNI_Policy,
+    aws_iam_role_policy_attachment.kubeflow-AmazonEC2ContainerRegistryReadOnly,
+  ]
+}
+
+resource "aws_eks_node_group" "gpu_medium" {
+  cluster_name    = data.aws_eks_cluster.cluster.name
+  node_group_name = "${var.cluster_name}-gpu-medium"
+  node_role_arn   = aws_iam_role.kubeflow.arn
+  subnet_ids      = data.aws_eks_cluster.cluster.vpc_config[0].subnet_ids
+  instance_types = var.instance_types_gpu_medium
+  ami_type = "AL2_x86_64_GPU"
+  release_version = var.ami_release_version
+  disk_size = 50
+  capacity_type = "ON_DEMAND"
+
+  scaling_config {
+    desired_size = 0
+    min_size     = 0
+    max_size     = 3
+  }
+
+  tags = {
+    "k8s.io/cluster-autoscaler/node-template/label/nvidia.com/gpu" = "true"
+    "k8s.io/cluster-autoscaler/node-template/label/plural.sh/capacityType" = "ON_DEMAND"
+    "k8s.io/cluster-autoscaler/node-template/label/plural.sh/scalingGroup" = "GPU-Medium"
+    # "k8s.io/cluster-autoscaler/node-template/label/instance" = "DL-gpux"
+    # "k8s.io/cluster-autoscaler/node-template/taint/instance" = "DL-gpux:NoSchedule"
+    "k8s.io/cluster-autoscaler/node-template/taint/dedicated" = "nvidia.com/gpu=true"
+
+  }
+
+  labels = {
+    "plural.sh/capacityType" = "ON_DEMAND"
+    "plural.sh/scalingGroup" = "GPU-Medium"
+    "nvidia.com/gpu" = "true"
+  }
+
+  taint {
+    key = "nvidia.com/gpu"
+    value = "true"
+    effect = "NO_SCHEDULE"
+  }
+
+  depends_on = [
+    aws_iam_role_policy_attachment.kubeflow-AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.kubeflow-AmazonEKS_CNI_Policy,
+    aws_iam_role_policy_attachment.kubeflow-AmazonEC2ContainerRegistryReadOnly,
+  ]
+}
+
+resource "aws_eks_node_group" "gpu_medium_spot" {
+  cluster_name    = data.aws_eks_cluster.cluster.name
+  node_group_name = "${var.cluster_name}-gpu-medium-spot"
+  node_role_arn   = aws_iam_role.kubeflow.arn
+  subnet_ids      = data.aws_eks_cluster.cluster.vpc_config[0].subnet_ids
+  instance_types = var.instance_types_gpu_medium
+  ami_type = "AL2_x86_64_GPU"
+  release_version = var.ami_release_version
+  disk_size = 50
+  capacity_type = "SPOT"
+
+  scaling_config {
+    desired_size = 0
+    min_size     = 0
+    max_size     = 3
+  }
+
+  tags = {
+    "k8s.io/cluster-autoscaler/node-template/label/nvidia.com/gpu" = "true"
+    "k8s.io/cluster-autoscaler/node-template/label/plural.sh/capacityType" = "SPOT"
+    "k8s.io/cluster-autoscaler/node-template/label/plural.sh/scalingGroup" = "GPU-Medium"
+    # "k8s.io/cluster-autoscaler/node-template/label/instance" = "DL-spot-gpux"
+    # "k8s.io/cluster-autoscaler/node-template/taint/instance" = "DL-spot-gpux:NoSchedule"
+    "k8s.io/cluster-autoscaler/node-template/taint/dedicated" = "nvidia.com/gpu=true"
+    "k8s.io/cluster-autoscaler/node-template/taint/dedicated" = "plural.sh/capacityType=SPOT"
+
+  }
+
+  labels = {
+    "plural.sh/capacityType" = "SPOT"
+    "plural.sh/scalingGroup" = "GPU-Medium"
+    "nvidia.com/gpu" = "true"
+  }
+
+  taint {
+    key = "nvidia.com/gpu"
+    value = "true"
+    effect = "NO_SCHEDULE"
+  }
+
+  taint {
+    key = "plural.sh/capacityType"
+    value = "SPOT"
+    effect = "NO_SCHEDULE"
+  }
+
+  depends_on = [
+    aws_iam_role_policy_attachment.kubeflow-AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.kubeflow-AmazonEKS_CNI_Policy,
+    aws_iam_role_policy_attachment.kubeflow-AmazonEC2ContainerRegistryReadOnly,
+  ]
+}
+
+resource "aws_eks_node_group" "spot_small" {
+  cluster_name    = data.aws_eks_cluster.cluster.name
+  node_group_name = "${var.cluster_name}-small-spot"
+  node_role_arn   = aws_iam_role.kubeflow.arn
+  subnet_ids      = data.aws_eks_cluster.cluster.vpc_config[0].subnet_ids
+  instance_types = var.instance_types_small
+  ami_type = "AL2_x86_64"
+  release_version = var.ami_release_version
+  disk_size = 50
+  capacity_type = "SPOT"
+
+  scaling_config {
+    desired_size = 0
+    min_size     = 0
+    max_size     = 5
+  }
+
+  tags = {
+    "k8s.io/cluster-autoscaler/node-template/label/plural.sh/capacityType" = "SPOT"
+    # "k8s.io/cluster-autoscaler/node-template/label/instance" = "DL-spot"
+    "k8s.io/cluster-autoscaler/node-template/taint/dedicated" = "plural.sh/capacityType=SPOT"
+
+  }
+
+  labels = {
+    "plural.sh/capacityType" = "SPOT"
+  }
+
+  taint {
+    key = "plural.sh/capacityType"
+    value = "SPOT"
+    effect = "NO_SCHEDULE"
+  }
+
+  depends_on = [
+    aws_iam_role_policy_attachment.kubeflow-AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.kubeflow-AmazonEKS_CNI_Policy,
+    aws_iam_role_policy_attachment.kubeflow-AmazonEC2ContainerRegistryReadOnly,
+  ]
+}
+
+resource "aws_eks_node_group" "spot_medium" {
+  cluster_name    = data.aws_eks_cluster.cluster.name
+  node_group_name = "${var.cluster_name}-medium-spot"
+  node_role_arn   = aws_iam_role.kubeflow.arn
+  subnet_ids      = data.aws_eks_cluster.cluster.vpc_config[0].subnet_ids
+  instance_types = var.instance_types_medium
+  ami_type = "AL2_x86_64"
+  release_version = var.ami_release_version
+  disk_size = 50
+  capacity_type = "SPOT"
+
+  scaling_config {
+    desired_size = 0
+    min_size     = 0
+    max_size     = 5
+  }
+
+  tags = {
+    "k8s.io/cluster-autoscaler/node-template/label/plural.sh/capacityType" = "SPOT"
+    # "k8s.io/cluster-autoscaler/node-template/label/instance" = "DL-spot"
+    "k8s.io/cluster-autoscaler/node-template/taint/dedicated" = "plural.sh/capacityType=SPOT"
+
+  }
+
+  labels = {
+    "plural.sh/capacityType" = "SPOT"
+  }
+
+  taint {
+    key = "plural.sh/capacityType"
+    value = "SPOT"
+    effect = "NO_SCHEDULE"
+  }
+
+  depends_on = [
+    aws_iam_role_policy_attachment.kubeflow-AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.kubeflow-AmazonEKS_CNI_Policy,
+    aws_iam_role_policy_attachment.kubeflow-AmazonEC2ContainerRegistryReadOnly,
+  ]
+}
+
+resource "aws_eks_node_group" "spot_large" {
+  cluster_name    = data.aws_eks_cluster.cluster.name
+  node_group_name = "${var.cluster_name}-large-spot"
+  node_role_arn   = aws_iam_role.kubeflow.arn
+  subnet_ids      = data.aws_eks_cluster.cluster.vpc_config[0].subnet_ids
+  instance_types = var.instance_types_large
+  ami_type = "AL2_x86_64"
+  release_version = var.ami_release_version
+  disk_size = 50
+  capacity_type = "SPOT"
+
+  scaling_config {
+    desired_size = 0
+    min_size     = 0
+    max_size     = 5
+  }
+
+  tags = {
+    "k8s.io/cluster-autoscaler/node-template/label/plural.sh/capacityType" = "SPOT"
+    # "k8s.io/cluster-autoscaler/node-template/label/instance" = "DL-spot"
+    "k8s.io/cluster-autoscaler/node-template/taint/dedicated" = "plural.sh/capacityType=SPOT"
+
+  }
+
+  labels = {
+    "plural.sh/capacityType" = "SPOT"
+  }
+
+  taint {
+    key = "plural.sh/capacityType"
+    value = "SPOT"
+    effect = "NO_SCHEDULE"
+  }
+
+  depends_on = [
+    aws_iam_role_policy_attachment.kubeflow-AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.kubeflow-AmazonEKS_CNI_Policy,
+    aws_iam_role_policy_attachment.kubeflow-AmazonEC2ContainerRegistryReadOnly,
+  ]
+}
+
+resource "aws_iam_role" "kubeflow" {
+  name = "eks-node-group-kubeflow-${var.cluster_name}"
 
   assume_role_policy = jsonencode({
     Statement = [{
@@ -128,17 +513,17 @@ resource "aws_iam_role" "gpu" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "gpu-AmazonEKSWorkerNodePolicy" {
+resource "aws_iam_role_policy_attachment" "kubeflow-AmazonEKSWorkerNodePolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
-  role       = aws_iam_role.gpu.name
+  role       = aws_iam_role.kubeflow.name
 }
 
-resource "aws_iam_role_policy_attachment" "gpu-AmazonEKS_CNI_Policy" {
+resource "aws_iam_role_policy_attachment" "kubeflow-AmazonEKS_CNI_Policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
-  role       = aws_iam_role.gpu.name
+  role       = aws_iam_role.kubeflow.name
 }
 
-resource "aws_iam_role_policy_attachment" "gpu-AmazonEC2ContainerRegistryReadOnly" {
+resource "aws_iam_role_policy_attachment" "kubeflow-AmazonEC2ContainerRegistryReadOnly" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
-  role       = aws_iam_role.gpu.name
+  role       = aws_iam_role.kubeflow.name
 }
