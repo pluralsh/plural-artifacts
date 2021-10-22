@@ -1,10 +1,10 @@
 artifact: {}
 terraform:
-  terraform/aws: h1:6BisgCt5BjkyqO4ZhyIHBwfl93SGtKdep0zpVmacg/U=
+  terraform/aws: h1:lcrwv8sCHWuqzGvfG5yhPPU2lLmktGC6vNGjUHRxNvc=
   terraform/azure: h1:DetDny1rHAQJRhc1CnEvlvlWCRcG1AQo5plMfJPodXw=
   terraform/gcp: h1:kRFA+ue6GS04365alSLyh2D0ukI/6DBANFz+HevMNIA=
 helm:
-  helm/argo-workflows: h1:l+Mku+yS5EKv/EQqsLcztPkHRVxqsXO9SeI3nNZg7fo=
+  helm/argo-workflows: h1:L+9ewyk/g4FH970axyslPGSqWh3Wml8dxKLTQICGh5c=
 recipe:
   plural/recipes/argo-workflows-aws.yaml: cdf041b10773ba6cd01f2438ad0b54531a52c513226b618c409e7d7e19f43d50
 integration: {}

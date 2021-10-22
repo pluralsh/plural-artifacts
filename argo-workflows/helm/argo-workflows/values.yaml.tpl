@@ -13,6 +13,7 @@ argo-workflows:
         cert-manager.io/cluster-issuer: letsencrypt-prod
         nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
         nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
       hosts:
         - {{ .Values.hostname }}
       paths:
@@ -24,6 +25,9 @@ argo-workflows:
             - {{ .Values.hostname }}
       https: true
   {{- if .OIDC }}
+    extraArgs:
+    - --auth-mode=sso
+    secure: true
     sso:
       issuer: {{ .OIDC.Configuration.Issuer }}
       clientId:
@@ -54,7 +58,7 @@ artifactRepository:
 serviceAccount:
   create: true
   annotations:
-    workflows.argoproj.io/rbac-rule: "'david@plural.sh' in sub"
+    workflows.argoproj.io/rbac-rule: "email in ['david@plural.sh']"
     workflows.argoproj.io/rbac-rule-precedence: "1"
     eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-argo-workflows"
   {{- end }}

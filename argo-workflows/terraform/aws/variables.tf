@@ -14,7 +14,7 @@ variable "cluster_name" {
 
 variable "kubeflow_serviceaccount" {
   type = string
-  default = "argo-wrokflow"
+  default = "argo-workflow"
 }
 
 variable "role_name" {
