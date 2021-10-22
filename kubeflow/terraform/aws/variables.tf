@@ -21,7 +21,25 @@ variable "role_name" {
   type = string
   default = "kubeflow"
 }
-variable "gpu_instance_type" {
+variable "instance_types_small" {
+  type = list(string)
+  default = ["t3.large","t3a.large"]
+  description = "instance type to use in small node group"
+}
+
+variable "instance_types_medium" {
+  type = list(string)
+  default = ["t3.xlarge","t3a.xlarge"]
+  description = "instance type to use in medium node group"
+}
+
+variable "instance_types_large" {
+  type = list(string)
+  default = ["t3.2xlarge","t3a.2xlarge"]
+  description = "instance type to use in gpu node group"
+}
+
+variable "instance_types_gpu_small" {
   type = list(string)
   default = ["g4dn.xlarge"]
   description = "instance type to use in gpu node group"
