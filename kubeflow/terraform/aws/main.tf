@@ -86,6 +86,7 @@ resource "aws_eks_node_group" "gpu_small" {
   instance_types = var.instance_types_gpu_small
   ami_type = "AL2_x86_64_GPU"
   release_version = var.ami_release_version
+  disk_size = 50
   capacity_type = "ON_DEMAND"
 
   scaling_config {
@@ -127,6 +128,7 @@ resource "aws_eks_node_group" "gpu_small_spot" {
   instance_types = var.instance_types_gpu_small
   ami_type = "AL2_x86_64_GPU"
   release_version = var.ami_release_version
+  disk_size = 50
   capacity_type = "SPOT"
 
   scaling_config {
@@ -168,6 +170,7 @@ resource "aws_eks_node_group" "spot_small" {
   instance_types = var.instance_types_small
   ami_type = "AL2_x86_64"
   release_version = var.ami_release_version
+  disk_size = 50
   capacity_type = "SPOT"
 
   scaling_config {
@@ -203,6 +206,7 @@ resource "aws_eks_node_group" "spot_medium" {
   instance_types = var.instance_types_medium
   ami_type = "AL2_x86_64"
   release_version = var.ami_release_version
+  disk_size = 50
   capacity_type = "SPOT"
 
   scaling_config {
@@ -238,6 +242,7 @@ resource "aws_eks_node_group" "spot_large" {
   instance_types = var.instance_types_large
   ami_type = "AL2_x86_64"
   release_version = var.ami_release_version
+  disk_size = 50
   capacity_type = "SPOT"
 
   scaling_config {
