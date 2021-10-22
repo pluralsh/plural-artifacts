@@ -44,8 +44,20 @@ variable "instance_types_large" {
   description = "instance type to use in gpu node group"
 }
 
-variable "instance_types_gpu_small" {
+variable "instance_types_gpu_inf_small" {
   type = list(string)
   default = ["g4dn.xlarge"]
+  description = "instance type to use in gpu node group"
+}
+
+variable "instance_types_gpu_small" {
+  type = list(string)
+  default = ["p3.2xlarge"]
+  description = "instance type to use in gpu node group"
+}
+
+variable "instance_types_gpu_medium" {
+  type = list(string)
+  default = ["p3.8xlarge"]
   description = "instance type to use in gpu node group"
 }
