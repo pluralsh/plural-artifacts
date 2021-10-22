@@ -1,6 +1,6 @@
 artifact: {}
 terraform:
-  terraform/aws: h1:2zc8k3zlvp//rdbh+HrBiya7+xTY0xAqk00qCNh7FeA=
+  terraform/aws: h1:e9GQAcQcJI22yl0JHQAtkk+QMWw6C07jcQXG3bSAcV8=
 helm:
   helm/central-dashboard: h1:Iw3Ta7f2x4naFIbUt/hqf1MAuUTo7n3CRbOme7OOHVc=
   helm/katib: h1:r+9vbxJQ41xpK6TWlVXC19m7bTQfyC95bNO/FQEJOPo=
