@@ -1,0 +1,11 @@
+name: argo-workflows
+description: The workflow engine for Kubernetes
+category: DEVOPS
+icon: plural/icons/argo-stacked-color-square.png
+notes: plural/notes.tpl
+oauthSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
+tags:
+- tag: argo
+- tag: ci
