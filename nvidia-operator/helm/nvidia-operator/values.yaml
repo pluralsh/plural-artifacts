@@ -1,13 +1,12 @@
 gpu-operator:
   daemonsets:
     tolerations:
-    - key: "instance"
+    - key: nvidia.com/gpu
+      operator: Exists
+      effect: NoSchedule
+    - key: "capacityType"
       operator: "Equal"
-      value: "DL-gpux"
-      effect: "NoSchedule"
-    - key: "instance"
-      operator: "Equal"
-      value: "DL-spot-gpux"
+      value: "SPOT"
       effect: "NoSchedule"
   driver:
     enabled: false
@@ -18,11 +17,14 @@ gpu-operator:
   node-feature-discovery:
     worker:
       tolerations:
-      - key: "instance"
+      - key: "node-role.kubernetes.io/master"
         operator: "Equal"
-        value: "DL-gpux"
+        value: ""
         effect: "NoSchedule"
-      - key: "instance"
+      - key: nvidia.com/gpu
+        operator: Exists
+        effect: NoSchedule
+      - key: "capacityType"
         operator: "Equal"
-        value: "DL-spot-gpux"
+        value: "SPOT"
         effect: "NoSchedule"

@@ -11,7 +11,7 @@ recipe:
   plural/recipes/nvidia-operator-gcp.yaml: 59da7c2c2bf80f3394811b0a7fc4e1e96d1def93359ae95ff1d0ceebd6c417f8
 integration: {}
 crd:
-  plural/crds/crds.yaml: 2fc09cd49463eafb7d605b0af0b4077b26e0893ce3dc6ae1fca38eeb35f9e124:h1:Xp9LRlaZ1FsEkJA1owl59sGUURA56ekN645yJUa/X9g=
+  plural/crds/crds.yaml: 2fc09cd49463eafb7d605b0af0b4077b26e0893ce3dc6ae1fca38eeb35f9e124:h1:xGykf9PzWLKGadES1eZC4vKYOet1OpM/8MzJht7RscI=
 ird: {}
 tag:
   plural/tags/helm/nvidia-operator.yaml: 1b3fd7c3d02d72d284c51018b8372626c4dfb9e8182163ec42b109cfc458d5ec

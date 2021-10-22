@@ -98,7 +98,8 @@ resource "aws_eks_node_group" "gpu_small" {
   tags = {
     "k8s.io/cluster-autoscaler/node-template/label/nvidia.com/gpu" = "true"
     "k8s.io/cluster-autoscaler/node-template/label/instance" = "DL-gpux"
-    "k8s.io/cluster-autoscaler/node-template/taint/instance" = "DL-gpux:NoSchedule"
+    # "k8s.io/cluster-autoscaler/node-template/taint/instance" = "DL-gpux:NoSchedule"
+    "k8s.io/cluster-autoscaler/node-template/taint/dedicated" = "nvidia.com/gpu=true"
 
   }
 
@@ -108,8 +109,8 @@ resource "aws_eks_node_group" "gpu_small" {
   }
 
   taint {
-    key = "instance"
-    value = "DL-gpux"
+    key = "nvidia.com/gpu"
+    value = "true"
     effect = "NO_SCHEDULE"
   }
 
@@ -140,7 +141,8 @@ resource "aws_eks_node_group" "gpu_small_spot" {
   tags = {
     "k8s.io/cluster-autoscaler/node-template/label/nvidia.com/gpu" = "true"
     "k8s.io/cluster-autoscaler/node-template/label/instance" = "DL-spot-gpux"
-    "k8s.io/cluster-autoscaler/node-template/taint/instance" = "DL-spot-gpux:NoSchedule"
+    # "k8s.io/cluster-autoscaler/node-template/taint/instance" = "DL-spot-gpux:NoSchedule"
+    "k8s.io/cluster-autoscaler/node-template/taint/dedicated" = "nvidia.com/gpu=true"
 
   }
 
@@ -150,8 +152,14 @@ resource "aws_eks_node_group" "gpu_small_spot" {
   }
 
   taint {
-    key = "instance"
-    value = "DL-spot-gpux"
+    key = "nvidia.com/gpu"
+    value = "true"
+    effect = "NO_SCHEDULE"
+  }
+
+  taint {
+    key = "capacityType"
+    value = "SPOT"
     effect = "NO_SCHEDULE"
   }
 
