@@ -140,3 +140,6 @@ upload-grafana-tempo: # uploads grafana-tempo artifacts
 
 upload-ingress-nginx: # uploads ingress-nginx artifacts
 	plural apply -f ingress-nginx/Pluralfile
+
+upload-nextcloud: # uploads nextcloud artifacts
+	plural apply -f nextcloud/Pluralfile
