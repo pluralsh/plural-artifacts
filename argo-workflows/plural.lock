@@ -1,6 +1,6 @@
 artifact: {}
 terraform:
-  terraform/aws: h1:lcrwv8sCHWuqzGvfG5yhPPU2lLmktGC6vNGjUHRxNvc=
+  terraform/aws: h1:cHcwZ0jHZ0whu9/XWzK7VW/8UWY9XI4RZtDlMqtAecA=
   terraform/azure: h1:DetDny1rHAQJRhc1CnEvlvlWCRcG1AQo5plMfJPodXw=
   terraform/gcp: h1:kRFA+ue6GS04365alSLyh2D0ukI/6DBANFz+HevMNIA=
 helm:
