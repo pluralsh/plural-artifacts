@@ -101,7 +101,8 @@ resource "aws_eks_node_group" "gpu_small" {
   }
 
   taint {
-    key = "DL-gpux"
+    key = "instance"
+    value = "DL-gpux"
     effect = "NO_SCHEDULE"
   }
 
@@ -135,7 +136,8 @@ resource "aws_eks_node_group" "gpu_small_spot" {
   }
 
   taint {
-    key = "DL-spot-gpux"
+    key = "instance"
+    value = "DL-spot-gpux"
     effect = "NO_SCHEDULE"
   }
 
@@ -169,7 +171,8 @@ resource "aws_eks_node_group" "spot_small" {
   }
 
   taint {
-    key = "DL-spot"
+    key = "instance"
+    value = "DL-spot"
     effect = "NO_SCHEDULE"
   }
 
@@ -203,7 +206,8 @@ resource "aws_eks_node_group" "spot_medium" {
   }
 
   taint {
-    key = "DL-spot"
+    key = "instance"
+    value = "DL-spot"
     effect = "NO_SCHEDULE"
   }
 
@@ -237,7 +241,8 @@ resource "aws_eks_node_group" "spot_large" {
   }
 
   taint {
-    key = "DL-spot"
+    key = "instance"
+    value = "DL-spot"
     effect = "NO_SCHEDULE"
   }
 
