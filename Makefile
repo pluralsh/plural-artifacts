@@ -143,3 +143,6 @@ upload-ingress-nginx: # uploads ingress-nginx artifacts
 
 upload-nextcloud: # uploads nextcloud artifacts
 	plural apply -f nextcloud/Pluralfile
+
+upload-argo-workflows: # uploads argo-workflows artifacts
+	plural apply -f argo-workflows/Pluralfile
