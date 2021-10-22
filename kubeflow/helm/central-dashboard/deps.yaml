@@ -10,6 +10,10 @@ spec:
     repo: bootstrap
     version: '>= 0.7.12'
   - type: helm
+    name: efs-csi-driver
+    repo: bootstrap
+    version: '>= 0.1.4'
+  - type: helm
     name: istio
     repo: istio
     version: '>= 0.1.84'
