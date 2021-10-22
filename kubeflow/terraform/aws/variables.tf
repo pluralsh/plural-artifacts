@@ -12,6 +12,11 @@ variable "cluster_name" {
   default = "plural"
 }
 
+variable "ami_release_version" {
+  type = string
+  default = "1.21.2-20211004"
+}
+
 variable "kubeflow_serviceaccount" {
   type = string
   default = "default-editor"
