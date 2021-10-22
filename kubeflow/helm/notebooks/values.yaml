@@ -27,7 +27,7 @@ webApp:
     repository: public.ecr.aws/j1r0q0g6/notebooks/jupyter-web-app
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: v1.3.1-rc.0
+    tag: v1.4
   
   podAnnotations:
     sidecar.istio.io/inject: "true"
