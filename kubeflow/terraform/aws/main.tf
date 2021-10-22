@@ -80,7 +80,7 @@ data "aws_iam_policy_document" "kubeflow" {
 
 resource "aws_eks_node_group" "gpu_small" {
   cluster_name    = data.aws_eks_cluster.cluster.name
-  node_group_name = "${var.cluster_name}-gpu-small"
+  node_group_name = "${var.cluster_name}-DL-gpu-small"
   node_role_arn   = aws_iam_role.kubeflow.arn
   subnet_ids      = data.aws_eks_cluster.cluster.vpc_config[0].subnet_ids
   instance_types = var.instance_types_gpu_small
@@ -114,7 +114,7 @@ resource "aws_eks_node_group" "gpu_small" {
 
 resource "aws_eks_node_group" "gpu_small_spot" {
   cluster_name    = data.aws_eks_cluster.cluster.name
-  node_group_name = "${var.cluster_name}-gpu-small-spot"
+  node_group_name = "${var.cluster_name}-DL-gpu-spot-small"
   node_role_arn   = aws_iam_role.kubeflow.arn
   subnet_ids      = data.aws_eks_cluster.cluster.vpc_config[0].subnet_ids
   instance_types = var.instance_types_gpu_small
