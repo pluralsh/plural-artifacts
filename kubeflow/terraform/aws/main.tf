@@ -103,7 +103,7 @@ resource "aws_eks_node_group" "gpu_small" {
 
   labels = {
     "instance" = "DL-gpux"
-    # "nvidia.com/gpu" = "true"
+    "nvidia.com/gpu" = "true"
   }
 
   taint {
@@ -144,7 +144,7 @@ resource "aws_eks_node_group" "gpu_small_spot" {
 
   labels = {
     "instance" = "DL-spot-gpux"
-    # "nvidia.com/gpu" = "true"
+    "nvidia.com/gpu" = "true"
   }
 
   taint {
