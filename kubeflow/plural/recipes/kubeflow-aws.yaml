@@ -27,6 +27,8 @@ dependencies:
   name: grafana-tempo-aws
 - repo: ingress-nginx
   name: ingress-nginx-aws
+- repo: redis
+  name: aws-redis
 sections:
 - name: kubeflow
   items:
