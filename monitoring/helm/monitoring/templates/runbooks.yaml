@@ -8,6 +8,11 @@ metadata:
 spec:
   name: Prometheus Scaling
   description: overview of how to optimally scale your prometheus deployment
+  alerts:
+  - name: PrometheusCPU
+  - name: PrometheusMEM
+  - name: LokiCPU
+  - name: LokiMEM
   display: |-
 {{ .Files.Get "runbooks/scaling-manual.xml" | indent 4 }}
   datasources:
