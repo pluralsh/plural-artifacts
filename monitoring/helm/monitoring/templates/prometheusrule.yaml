@@ -28,7 +28,7 @@ spec:
         (
           sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"prometheus-monitoring-prometheus-[0-9]+"})
           / sum(kube_pod_container_resource_requests{endpoint="http",resource="memory",namespace="{{ .Release.Namespace }}", pod=~"prometheus-monitoring-prometheus-[0-9]+"})
-        )  > 0.9
+        )  > 1.1
       for: 5m
       labels:
         severity: warning
