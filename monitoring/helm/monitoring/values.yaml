@@ -172,6 +172,11 @@ kube-prometheus-stack:
       labels:
         app.kubernetes.io/managed-by: Helm
     prometheusSpec:
+      resources:
+        requests:
+          cpu: 1
+          memory: 1Gi
+        limits: {}
       prometheusExternalLabelName: cluster
       externalLabels:
         cluster: "plural"
