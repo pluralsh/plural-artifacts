@@ -102,10 +102,10 @@ aws-ebs-csi-driver:
     resources:
       requests:
         cpu: 10m
-        memory: 20Mi
+        memory: 24Mi
       limits:
         cpu: 10m
-        memory: 20Mi
+        memory: 24Mi
   sidecars:
     provisioner:
       image:
@@ -114,10 +114,10 @@ aws-ebs-csi-driver:
       resources:
         requests:
           cpu: 10m
-          memory: 20Mi
+          memory: 24Mi
         limits:
           cpu: 10m
-          memory: 20Mi
+          memory: 24Mi
     attacher:
       image:
         repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/csi-attacher
@@ -125,10 +125,10 @@ aws-ebs-csi-driver:
       resources:
         requests:
           cpu: 10m
-          memory: 20Mi
+          memory: 24Mi
         limits:
           cpu: 10m
-          memory: 20Mi
+          memory: 24Mi
     snapshotter:
       image:
         repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/csi-snapshotter
@@ -136,10 +136,10 @@ aws-ebs-csi-driver:
       resources:
         requests:
           cpu: 10m
-          memory: 20Mi
+          memory: 24Mi
         limits:
           cpu: 10m
-          memory: 20Mi
+          memory: 24Mi
     livenessProbe:
       image:
         repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/livenessprobe
@@ -147,10 +147,10 @@ aws-ebs-csi-driver:
       resources:
         requests:
           cpu: 10m
-          memory: 10Mi
+          memory: 145Mi
         limits:
           cpu: 10m
-          memory: 10Mi
+          memory: 145Mi
     resizer:
       image:
         repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/csi-resizer
@@ -158,10 +158,10 @@ aws-ebs-csi-driver:
       resources:
         requests:
           cpu: 10m
-          memory: 30Mi
+          memory: 37Mi
         limits:
           cpu: 10m
-          memory: 30Mi
+          memory: 37Mi
     nodeDriverRegistrar:
       image:
         repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/csi-node-driver-registrar
@@ -169,10 +169,10 @@ aws-ebs-csi-driver:
       resources:
         requests:
           cpu: 10m
-          memory: 0Mi
+          memory: 24Mi
         limits:
           cpu: 10m
-          memory: 10Mi
+          memory: 24Mi
 
 cert-manager:
   prometheus:
