@@ -27,7 +27,7 @@ spec:
         (
           sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"plural-sentry-[0-9]+"})
           / sum(kube_pod_container_resource_requests{endpoint="http",resource="memory",namespace="{{ .Release.Namespace }}", pod=~"plural-sentry-[0-9]+"})
-        )  > 0.7
+        )  > 1
       for: 5m
       labels:
         severity: warning
