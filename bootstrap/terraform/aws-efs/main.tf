@@ -6,14 +6,6 @@ data "aws_vpc" "cluster_vpc" {
   id = data.aws_eks_cluster.cluster.vpc_config[0].vpc_id
 }
 
-data "aws_subnet_ids" "cluster_private_subnets" {
-  vpc_id = data.aws_vpc.cluster_vpc.id
-  filter {
-    name   = "tag:Name"
-    values = ["${var.vpc_name}-private-*"]
-  }
-}
-
 module "assumable_role_efs" {
   source                        = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
   version                       = "3.14.0"
@@ -115,10 +107,10 @@ resource "aws_efs_file_system" "efs_main" {
 
 resource "aws_efs_mount_target" "efs_mount_target" {
 
-  for_each = data.aws_subnet_ids.cluster_private_subnets.ids
+  count = length(var.cluster_private_subnets)
 
   file_system_id = aws_efs_file_system.efs_main.id
-  subnet_id      = each.value
+  subnet_id      = var.cluster_private_subnet_ids[count.index]
   security_groups = [aws_security_group.allow_nfs.id]
 }
 
