@@ -98,3 +98,21 @@ resource "kubernetes_namespace" "bootstrap" {
     module.cluster.cluster_id
   ]
 }
+
+data "aws_subnet_ids" "cluster_private_subnets" {
+  vpc_id = module.vpc.vpc_id
+  filter {
+    name   = "tag:Name"
+    values = ["${var.vpc_name}-private-*"]
+  }
+  depends_on = [module.vpc]
+}
+
+data "aws_subnet_ids" "cluster_public_subnets" {
+  vpc_id = module.vpc.vpc_id
+  filter {
+    name   = "tag:Name"
+    values = ["${var.vpc_name}-public-*"]
+  }
+  depends_on = [module.vpc]
+}
