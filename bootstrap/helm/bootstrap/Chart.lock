@@ -10,7 +10,7 @@ dependencies:
   version: v1.4.0
 - name: cluster-autoscaler
   repository: https://kubernetes.github.io/autoscaler
-  version: 9.9.2
+  version: 9.10.8
 - name: kubed
   repository: https://charts.appscode.com/stable
   version: v0.13.0-beta.0
@@ -26,5 +26,5 @@ dependencies:
 - name: snapshot-controller
   repository: https://piraeus.io/helm-charts/
   version: 1.2.1
-digest: sha256:0b6d130c0882c78065c200d8cfd7749a3462a979100d546d18825fe361c8f5ae
-generated: "2021-10-12T17:08:33.801259539+02:00"
+digest: sha256:15fb11e950b74c62769ec36867c1320eccff9778ed2f26615fcbdb68b1879893
+generated: "2021-11-02T01:03:26.066262586Z"
