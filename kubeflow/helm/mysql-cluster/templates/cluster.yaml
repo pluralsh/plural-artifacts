@@ -6,6 +6,10 @@ metadata:
 spec:
   replicas: 2
   secretName: kubeflow-mysql-cluster-root
+  backupSchedule: {{ .Values.backup.backupSchedule }}
+  backupURL: {{ .Values.backup.backupURL }}
+  backupScheduleJobsHistoryLimit: {{ .Values.backup.backupScheduleJobsHistoryLimit }}
+  backupRemoteDeletePolicy: {{ .Values.backup.backupRemoteDeletePolicy }}
   volumeSpec:
     persistentVolumeClaim:
       accessModes: ["ReadWriteOnce"]
@@ -15,6 +19,16 @@ spec:
   podSpec:
     annotations:
       sidecar.istio.io/inject: "false"
+    labels:
+      kubeflow.org/component: mysql-cluster
+    serviceAccountName: {{ include "mysql-cluster.serviceAccountName" . }}
+    affinity:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+        - topologyKey: "topology.kubernetes.io/zone"
+          labelSelector:
+            matchLabels:
+              kubeflow.org/component: mysql-cluster
     resources:
     {{- with .Values.resources }}
     {{- toYaml . | nindent 6 }}

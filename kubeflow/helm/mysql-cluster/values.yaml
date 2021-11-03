@@ -1,7 +1,16 @@
 secret:
   rootPassword: root_password
 
+serviceAccount:
+  annotations: {}
+
 resources:
   requests:
     cpu: 200m
     memory: 500Mi
+
+backup:
+  backupSchedule: ""
+  backupURL: ""
+  backupScheduleJobsHistoryLimit:
+  backupRemoteDeletePolicy:
