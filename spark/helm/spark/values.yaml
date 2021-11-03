@@ -1,0 +1,16 @@
+spark-operator:
+  webhook:
+    enable: true
+  podMonitor:
+    enable: true
+  resources:
+    limits:
+      cpu: 100m
+      memory: 300Mi
+    requests:
+      cpu: 100m
+      memory: 300Mi
+  resourceQuotaEnforcement:
+    enabled: true
+  istio:
+    enabled: true

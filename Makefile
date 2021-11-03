@@ -146,3 +146,6 @@ upload-nextcloud: # uploads nextcloud artifacts
 
 upload-argo-workflows: # uploads argo-workflows artifacts
 	plural apply -f argo-workflows/Pluralfile
+
+upload-spark: # uploads spark artifacts
+	plural apply -f spark/Pluralfile
