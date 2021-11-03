@@ -1,0 +1,8 @@
+name: spark
+description: a unified analytics engine for large-scale data processing
+category: DATA
+icon: plural/icons/spark.png
+notes: plural/notes.tpl
+tags:
+- tag: apache
+- tag: data

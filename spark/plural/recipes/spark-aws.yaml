@@ -1,0 +1,15 @@
+name: spark-aws
+description: Installs spark on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+sections:
+- name: spark
+  items:
+  - type: TERRAFORM
+    name: aws
+    configuration: []
+  - type: HELM
+    name: spark
+    configuration: []
