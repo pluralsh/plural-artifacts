@@ -6,10 +6,6 @@ metadata:
 spec:
   replicas: 2
   secretName: kubeflow-mysql-cluster-root
-  backupSchedule: {{ .Values.backup.backupSchedule }}
-  backupURL: {{ .Values.backup.backupURL }}
-  backupScheduleJobsHistoryLimit: {{ .Values.backup.backupScheduleJobsHistoryLimit }}
-  backupRemoteDeletePolicy: {{ .Values.backup.backupRemoteDeletePolicy }}
   volumeSpec:
     persistentVolumeClaim:
       accessModes: ["ReadWriteOnce"]
