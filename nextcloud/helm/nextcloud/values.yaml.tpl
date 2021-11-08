@@ -1,4 +1,4 @@
-{{ $hostname := default "example.com" .Values.hostname }}
+{{ $hostname := .Values.hostname }}
 nextcloud:
   ingress:
     tls:
@@ -14,6 +14,11 @@ nextcloud:
       passwordKey: nextcloud-password
       smtpUsernameKey: smtp-username
       smtpPasswordKey: smtp-password
+  #  extraSecurityContext:
+  #    runAsUser: 33
+  #    runAsGroup: 33
+  #    runAsNonRoot: true
+  #    readOnlyRootFilesystem: true
     configs:
       s3.config.php: |-
         <?php
@@ -67,6 +72,11 @@ nextcloud:
       secretName: nextcloud.plural-nextcloud.credentials.postgresql.acid.zalan.do
       usernameKey: username
       passwordKey: password
+{{- if eq .Provider "aws" }}
+  persistence:
+    storageClass: efs-csi
+    accessMode: ReadWriteMany
+{{- end }}
 
 {{ $creds := secret $redisNamespace "redis-password" }}
 redisPassword: {{ $creds.password }}

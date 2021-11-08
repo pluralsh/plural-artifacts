@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: entrypoint-script
+  labels: {{ include "nextcloud-plural.labels" . | nindent 4 }}
+data:
+  entrypoint.sh: |-
+{{ .Files.Get "scripts/entrypoint.sh" | indent 4 }}

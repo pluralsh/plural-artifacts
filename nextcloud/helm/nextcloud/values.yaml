@@ -10,7 +10,7 @@ nextcloud:
   ##
   image:
     repository: nextcloud
-    tag: 21.0.4-apache
+    tag: 22.2.0-apache
     pullPolicy: IfNotPresent
     # pullSecrets:
     #   - myRegistrKeySecretName
@@ -26,34 +26,36 @@ nextcloud:
   ##
   ingress:
     enabled: true
+    ingressClassName: nginx
     annotations:
-     nginx.ingress.kubernetes.io/proxy-body-size: 4G
-     kubernetes.io/tls-acme: "true"
-     cert-manager.io/cluster-issuer: letsencrypt-prod
-     nginx.ingress.kubernetes.io/server-snippet: |-
-       server_tokens off;
-       proxy_hide_header X-Powered-By;
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/proxy-body-size: 4G
+      kubernetes.io/tls-acme: "true"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      nginx.ingress.kubernetes.io/server-snippet: |-
+        server_tokens off;
+        proxy_hide_header X-Powered-By;
 
-       rewrite ^/.well-known/webfinger /public.php?service=webfinger last;
-       rewrite ^/.well-known/host-meta /public.php?service=host-meta last;
-       rewrite ^/.well-known/host-meta.json /public.php?service=host-meta-json;
-       location = /.well-known/carddav {
-         return 301 $scheme://$host/remote.php/dav;
-       }
-       location = /.well-known/caldav {
-         return 301 $scheme://$host/remote.php/dav;
-       }
-       location = /robots.txt {
-         allow all;
-         log_not_found off;
-         access_log off;
-       }
-       location ~ ^/(?:build|tests|config|lib|3rdparty|templates|data)/ {
-         deny all;
-       }
-       location ~ ^/(?:autotest|occ|issue|indie|db_|console) {
-         deny all;
-       }
+        rewrite ^/.well-known/webfinger /public.php?service=webfinger last;
+        rewrite ^/.well-known/host-meta /public.php?service=host-meta last;
+        rewrite ^/.well-known/host-meta.json /public.php?service=host-meta-json;
+        location = /.well-known/carddav {
+          return 301 $scheme://$host/remote.php/dav;
+        }
+        location = /.well-known/caldav {
+          return 301 $scheme://$host/remote.php/dav;
+        }
+        location = /robots.txt {
+          allow all;
+          log_not_found off;
+          access_log off;
+        }
+        location ~ ^/(?:build|tests|config|lib|3rdparty|templates|data)/ {
+          deny all;
+        }
+        location ~ ^/(?:autotest|occ|issue|indie|db_|console) {
+          deny all;
+        }
     tls:
       - secretName: nextcloud-tls
         hosts:
@@ -165,11 +167,11 @@ nextcloud:
     ## IMPORTANT: use with care, it is suggested to leave as that for upgrade purposes
     ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy
     strategy:
-      type: Recreate
-      # type: RollingUpdate
-      # rollingUpdate:
-      #   maxSurge: 1
-      #   maxUnavailable: 0
+      # type: Recreate
+      type: RollingUpdate
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 0
 
     ##
     ## Extra environment variables
@@ -178,12 +180,19 @@ nextcloud:
     # Extra mounts for the pods. Example shown is for connecting a legacy NFS volume
     # to NextCloud pods in Kubernetes. This can then be configured in External Storage
     extraVolumes:
+    - name: entrypoint-script
+      configMap:
+        name: entrypoint-script
+        defaultMode: 0777
     #  - name: nfs
     #    nfs:
     #      server: "10.0.0.1"
     #      path: "/nextcloud_data"
     #      readOnly: false
     extraVolumeMounts:
+    - name: entrypoint-script
+      mountPath: /entrypoint.sh
+      subPath: entrypoint.sh
     #  - name: nfs
     #    mountPath: "/legacy_data"
 
@@ -273,7 +282,7 @@ nextcloud:
   ## ref: https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/background_jobs_configuration.html#webcron
   ##
   cronjob:
-    enabled: false
+    enabled: true
     # Nexcloud image is used as default but only curl is needed
     image: {}
       # repository: nextcloud
@@ -358,14 +367,14 @@ nextcloud:
   ## Ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes
   ##
   livenessProbe:
-    enabled: true
+    enabled: false
     initialDelaySeconds: 10
     periodSeconds: 10
     timeoutSeconds: 5
     failureThreshold: 3
     successThreshold: 1
   readinessProbe:
-    enabled: true
+    enabled: false
     initialDelaySeconds: 10
     periodSeconds: 10
     timeoutSeconds: 5
