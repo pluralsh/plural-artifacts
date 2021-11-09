@@ -149,3 +149,6 @@ upload-argo-workflows: # uploads argo-workflows artifacts
 
 upload-spark: # uploads spark artifacts
 	plural apply -f spark/Pluralfile
+
+upload-vaultwarden: # uploads vaultwarden artifacts
+	plural apply -f vaultwarden/Pluralfile

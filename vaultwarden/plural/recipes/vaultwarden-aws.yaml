@@ -1,0 +1,25 @@
+name: vaultwarden-aws
+description: Installs vaultwarden on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: bootstrap
+  name: aws-efs
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+sections:
+- name: vaultwarden
+  items:
+  - type: TERRAFORM
+    name: aws
+    configuration: []
+  - type: HELM
+    name: vaultwarden
+    configuration:
+    - name: hostname
+      documentation: FQDN to use for your Argo CD installation
+      type: STRING
+    - name: signupDomains
+      documentation: comma separated list of domains to allow for user signup
+      type: STRING
