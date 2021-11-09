@@ -12,4 +12,10 @@ sections:
     configuration: []
   - type: HELM
     name: vaultwarden
-    configuration: []
+    configuration:
+    - name: hostname
+      documentation: FQDN to use for your Argo CD installation
+      type: STRING
+    - name: signupDomains
+      documentation: comma separated list of domains to allow for user signup
+      type: STRING

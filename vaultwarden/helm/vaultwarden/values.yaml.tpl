@@ -1,8 +1,20 @@
-postgresqlPassword: {{ dedupe . "vaultwarden.postgresqlPassword" (randAlphaNum 30) }}
-
-{{ $postgresqlPassword := dedupe . "vaultwarden.postgresqlPassword" (randAlphaNum 30) }}
-
 vaultwarden:
-  env:
-    ADMIN_TOKEN: {{ dedupe . "vaultwarden.vaultwarden.env.ADMIN_TOKEN" (randAlphaNum 30) }}
-    DATABASE_URL: postgresql://vaultwarden:{{ $postgresqlPassword }}@plural-vaultwarden[:5432]/vaultwarden
+  config:
+    domain: {{ .Values.hostname }}
+    signupDomainsWhitelist: {{ .Values.signupDomains }}
+
+{{- if eq .Provider "aws" }}
+  storage:
+    storageClassName: efs-csi
+    accessModes:
+    - ReadWriteMany
+{{- end }}
+
+  ingress:
+    enabled: true
+    hosts:
+      - host: {{ .Values.hostname }}
+    tls:
+      - secretName: vaultwarden-host-tls
+        hosts:
+          - {{ .Values.hostname }}

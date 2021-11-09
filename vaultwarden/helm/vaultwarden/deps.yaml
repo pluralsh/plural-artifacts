@@ -9,6 +9,15 @@ spec:
     name: bootstrap
     repo: bootstrap
     version: '>= 0.5.1'
+  - type: helm
+    name: ingress-nginx
+    repo: ingress-nginx
+    version: '>= 0.1.2'
+  - type: helm
+    name: efs-csi-driver
+    repo: bootstrap
+    version: '>= 0.1.4'
+    optional: true
   - type: terraform
     name: aws
     repo: vaultwarden

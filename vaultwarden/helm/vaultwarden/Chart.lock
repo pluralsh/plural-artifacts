@@ -1,6 +1,6 @@
 dependencies:
 - name: vaultwarden
-  repository: https://k8s-at-home.com/charts/
-  version: 3.1.0
-digest: sha256:18645ec3f88157b2bd6b4117c6fea21308c1d369148463e384fb0644ab4a888a
-generated: "2021-09-06T13:49:53.870483711+02:00"
+  repository: https://pluralsh.github.io/plural-helm-charts
+  version: 0.1.0
+digest: sha256:d30ae3b7fb6258ce86102708b9e4212536a7ede04a6b1d4c424767356f7ed749
+generated: "2021-11-09T14:30:57.577399927+01:00"
