@@ -1,0 +1,15 @@
+name: vaultwarden-azure
+description: Installs vaultwarden on an azure aks cluster
+provider: AZURE
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+sections:
+- name: vaultwarden
+  items:
+  - type: TERRAFORM
+    name: azure
+    configuration: []
+  - type: HELM
+    name: vaultwarden
+    configuration: []

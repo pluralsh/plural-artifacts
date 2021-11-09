@@ -1,0 +1,15 @@
+name: vaultwarden-gcp
+description: Installs vaultwarden on a gcp gke cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-kubernetes
+sections:
+- name: vaultwarden
+  items:
+  - type: TERRAFORM
+    name: gcp
+    configuration: []
+  - type: HELM
+    name: vaultwarden
+    configuration: []

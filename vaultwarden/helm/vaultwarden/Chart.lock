@@ -1,0 +1,6 @@
+dependencies:
+- name: vaultwarden
+  repository: https://k8s-at-home.com/charts/
+  version: 3.1.0
+digest: sha256:18645ec3f88157b2bd6b4117c6fea21308c1d369148463e384fb0644ab4a888a
+generated: "2021-09-06T13:49:53.870483711+02:00"
