@@ -18,7 +18,7 @@ sections:
     name: vaultwarden
     configuration:
     - name: hostname
-      documentation: FQDN to use for your Argo CD installation
+      documentation: FQDN to use for your Vaultwarden installation
       type: STRING
     - name: signupDomains
       documentation: comma separated list of domains to allow for user signup
