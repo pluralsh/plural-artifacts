@@ -14,6 +14,13 @@ vaultwarden:
     enabled: true
     hosts:
       - host: {{ .Values.hostname }}
+        paths:
+          - path: /
+            pathType: Prefix
+          - path: /notifications/hub/negotiate
+            pathType: Prefix
+          - path: /notifications/hub
+            pathType: Prefix
     tls:
       - secretName: vaultwarden-host-tls
         hosts:
