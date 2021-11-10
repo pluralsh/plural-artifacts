@@ -84,11 +84,11 @@ webApp:
         value: IfNotPresent
         readOnly: false
       jupyterImages:
-        - ghcr.io/pluralsh/kubeflow-notebooks-jupyter-scipy:v1.0.34
-        - ghcr.io/pluralsh/kubeflow-notebooks-jupyter-pytorch-full:v1.0.34
-        - ghcr.io/pluralsh/kubeflow-notebooks-jupyter-pytorch-full-cuda:v1.0.34
-        - ghcr.io/pluralsh/kubeflow-notebooks-jupyter-tensorflow-full:v1.0.32
-        - ghcr.io/pluralsh/kubeflow-notebooks-jupyter-tensorflow-full-cuda:v1.0.32
+        - ghcr.io/pluralsh/kubeflow-notebooks-jupyter-scipy:v1.0.55
+        - ghcr.io/pluralsh/kubeflow-notebooks-jupyter-pytorch-full:v1.0.55
+        - ghcr.io/pluralsh/kubeflow-notebooks-jupyter-pytorch-full-cuda:v1.0.55
+        - ghcr.io/pluralsh/kubeflow-notebooks-jupyter-tensorflow-full:v1.0.54
+        - ghcr.io/pluralsh/kubeflow-notebooks-jupyter-tensorflow-full-cuda:v1.0.54
         - ghcr.io/pluralsh/kubeflow-notebooks-jupyter-go:v1.0.11
         - ghcr.io/pluralsh/kubeflow-notebooks-jupyter-elixir:v1.0.12
       vscodeImages:
