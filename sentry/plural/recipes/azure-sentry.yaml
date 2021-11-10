@@ -26,7 +26,8 @@ sections:
     configuration:
     - name: filestoreBucket
       documentation: s3 bucket to store miscellaneous files to
-      type: STRING
+      type: BUCKET
+      default: sentry-firestore
   - type: HELM
     name: sentry
     configuration:

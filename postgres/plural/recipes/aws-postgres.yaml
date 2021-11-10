@@ -12,7 +12,8 @@ sections:
         configuration:
           - name: wal_bucket
             documentation: Arbitary name for s3 bucket to store wal archives in, eg plural-wal-archives
-            type: STRING
+            type: BUCKET
+            default: postgres-wal
       - type: HELM
         name: postgres
         configuration: []

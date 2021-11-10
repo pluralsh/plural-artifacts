@@ -32,7 +32,8 @@ sections:
       type: DOMAIN
     - name: filestoreBucket
       documentation: s3 bucket to store miscellaneous files to
-      type: STRING
+      type: BUCKET
+      default: sentry-firestore
     - name: adminEmail
       documentation: admin user email
       type: STRING
