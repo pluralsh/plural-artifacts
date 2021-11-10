@@ -18,9 +18,10 @@ sections:
       - type: TERRAFORM
         name: gcp
         configuration:
-          - name: airflowBucket
-            type: STRING
-            documentation: Arbitrary bucket name to store the logs in, eg plural-airflow-logs
+        - name: airflowBucket
+          type: BUCKET
+          default: airflow
+          documentation: Arbitrary bucket name to store the logs in
       - type: HELM
         name: airflow
         configuration:
