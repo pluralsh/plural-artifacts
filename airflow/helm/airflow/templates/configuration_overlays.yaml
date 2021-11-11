@@ -1,0 +1,15 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: ConfigurationOverlay
+metadata:
+  name: registry
+  labels:
+{{ include "airflow.labels" . | indent 4 }}
+spec:
+  name: Registry
+  documentation: base registry to use for all images
+  updates:
+  - path:
+    - airflow
+    - airflow
+    - image
+    - repository

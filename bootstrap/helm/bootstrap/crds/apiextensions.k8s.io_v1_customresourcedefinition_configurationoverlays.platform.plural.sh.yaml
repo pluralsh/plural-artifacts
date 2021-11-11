@@ -41,22 +41,32 @@ spec:
               name:
                 description: Name of the configuration input field
                 type: string
-              path:
-                description: configuration path to update against
-                items:
-                  type: string
-                type: array
               type:
                 description: type of configuration value
                 enum:
                 - helm
                 - terraform
                 type: string
+              updates:
+                description: configuration path to update against
+                items:
+                  description: OverlayUpdate defines an update to perform for this
+                    update
+                  properties:
+                    path:
+                      description: the path to update with
+                      items:
+                        type: string
+                      type: array
+                  required:
+                  - path
+                  type: object
+                type: array
             required:
             - documentation
             - name
-            - path
             - type
+            - updates
             type: object
           status:
             description: ConfigurationOverlayStatus defines the observed state of
