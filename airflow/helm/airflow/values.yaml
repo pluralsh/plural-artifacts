@@ -74,12 +74,15 @@ exporter:
     # Metric mapping configuration
     mappingConfig: |-
 
-airflow:
-  image:
-    repository: dkr.plural.sh/airflow/airflow
-    tag: 2.0.1-python3.8
-    pullSecret: plural-creds
+configOverlays:
+- name: airflow-registry
+  spec:
+    name: Airflow Registry
+    documentation: docker repository to use for airflow (default is dkr.plural.sh/airflow/apache/airflow)
+    updates:
+    - path: ['airflow', 'airflow', 'airflow', 'image', 'repository']
 
+airflow:    
   externalDatabase:
     type: postgres
     host: plural-airflow
@@ -162,6 +165,10 @@ airflow:
 
   airflow:
     executor: CeleryExecutor
+    image:
+      repository: dkr.plural.sh/airflow/apache/airflow
+      tag: 2.0.1-python3.8
+
     config:
       ## security
       AIRFLOW__WEBSERVER__EXPOSE_CONFIG: "False"
