@@ -65,7 +65,6 @@ spec:
             required:
             - documentation
             - name
-            - type
             - updates
             type: object
           status:

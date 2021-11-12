@@ -1,0 +1,6 @@
+airflow:
+  stage: push
+  only:
+  - main
+  script:
+  - vendor_image apache/airflow:2.0.1-python3.8 airflow

@@ -32,19 +32,20 @@ variables:
 
 stages:
 - deploy
-# - push
+- push
 
-# include:
-# - .gitlab-ci/bootstrap.yml
-# - .gitlab-ci/grafana.yml
-# - .gitlab-ci/monitoring.yml
-# - .gitlab-ci/vendor.yml
-# - .gitlab-ci/sentry.yml
-# - .gitlab-ci/plural.yml
-# - .gitlab-ci/postgres.yml
-# - .gitlab-ci/redis.yml
-# - .gitlab-ci/ghost.yml
-# - .gitlab-ci/influx.yml
+include:
+- .gitlab-ci/bootstrap.yml
+- .gitlab-ci/grafana.yml
+- .gitlab-ci/monitoring.yml
+- .gitlab-ci/vendor.yml
+- .gitlab-ci/sentry.yml
+- .gitlab-ci/plural.yml
+- .gitlab-ci/postgres.yml
+- .gitlab-ci/redis.yml
+- .gitlab-ci/ghost.yml
+- .gitlab-ci/influx.yml
+- .gitlab-ci/airflow.yml
 
 .ignore-cond: &ignore-cond
   except:
