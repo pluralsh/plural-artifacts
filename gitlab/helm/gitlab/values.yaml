@@ -125,6 +125,7 @@ gitlab:
   prometheus:
     install: false  
   gitlab-runner:
+    image: gcr.io/pluralsh/gitlab/gitlab-runner:alpine-v14.0.0
     rbac:
       create: false
       serviceAccountName: gitlab-runner
