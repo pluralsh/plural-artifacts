@@ -1,0 +1,6 @@
+gitlab-runner:
+  stage: push
+  only:
+  - main
+  script:
+  - vendor_image gitlab/gitlab-runner:alpine-v14.0.0 gitlab
