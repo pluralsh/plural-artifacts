@@ -31,6 +31,6 @@ dependencies:
   repository: file://../../../../argo-helm/charts/argocd-image-updater/
   condition: argocd-image-updater.enabled
 - name: argocd-notifications
-  version: 1.5.0
+  version: 1.5.2
   repository: https://argoproj.github.io/argo-helm
   condition: argocd-notifications.enabled
