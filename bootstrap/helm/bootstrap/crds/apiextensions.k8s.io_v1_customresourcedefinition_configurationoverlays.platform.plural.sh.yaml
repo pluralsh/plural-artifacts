@@ -38,6 +38,18 @@ spec:
               documentation:
                 description: documentation for the specific field
                 type: string
+              inputType:
+                description: the datatype for the value given to the input field
+                enum:
+                - string
+                - enum
+                - int
+                type: string
+              inputValues:
+                description: the values for enum input types
+                items:
+                  type: string
+                type: array
               name:
                 description: Name of the configuration input field
                 type: string

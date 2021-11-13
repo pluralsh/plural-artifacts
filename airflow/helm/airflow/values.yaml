@@ -81,6 +81,20 @@ configOverlays:
     documentation: docker repository to use for airflow (default is dkr.plural.sh/airflow/apache/airflow)
     updates:
     - path: ['airflow', 'airflow', 'airflow', 'image', 'repository']
+- name: web-replicas
+  spec:
+    name: Web Replicas
+    documentation: number of replicas for the web deployment
+    updates:
+    - path: ['airflow', 'airflow', 'web', 'replicas']
+    inputType: int
+- name: worker-replicas
+  spec:
+    name: Worker Replicas
+    documentation: number of replicas for the worker deployment
+    updates:
+    - path: ['airflow', 'airflow', 'workers', 'replicas']
+    inputType: int
 
 airflow:    
   externalDatabase:

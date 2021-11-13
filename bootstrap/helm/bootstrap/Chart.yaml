@@ -4,11 +4,11 @@ description: A Helm chart for Kubernetes
 name: bootstrap
 type: application
 sources:
-- https://github.com/michaeljguarino/forge/charts/bootstrap
+- https://github.com/pluralsh/plural-artifacts/bootstrap/helm/bootstrap
 maintainers:
 - name: michaeljguarino
   email: mguarino46@gmail.com
-version: 0.8.5
+version: 0.8.6
 
 dependencies:
 - name: external-dns
