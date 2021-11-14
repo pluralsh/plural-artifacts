@@ -54,7 +54,7 @@ include:
     - $CI_COMMIT_MESSAGE =~ /pushed to plural/
 
 deploy:
-  image: gcr.io/pluralsh/plrl-base:0.1.4
+  image: gcr.io/pluralsh/plrl-base:0.1.6
   stage: deploy
   <<: *ignore-cond
   only:
