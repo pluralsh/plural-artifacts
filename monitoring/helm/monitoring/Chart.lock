@@ -11,5 +11,8 @@ dependencies:
 - name: opentelemetry-operator
   repository: https://pluralsh.github.io/plural-helm-charts
   version: 0.3.4
-digest: sha256:823647f81ea4aaec830d6b529fc696ad64d1b4a54884f25cfdc79c3f11db9dc7
-generated: "2021-10-04T13:53:03.443854285+02:00"
+- name: vpa
+  repository: https://charts.fairwinds.com/stable
+  version: 0.4.2
+digest: sha256:b7317fda851849954729c5875fbebfc023467bdda1aa2c368867e532d9c0dbb3
+generated: "2021-11-15T17:38:29.682797-05:00"
