@@ -14,7 +14,7 @@ variable "cluster_name" {
 
 variable "ami_release_version" {
   type = string
-  default = "1.21.2-20211004"
+  default = "1.21.5-20211109"
 }
 
 variable "kubeflow_serviceaccount" {
