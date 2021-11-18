@@ -78,10 +78,19 @@ data "aws_iam_policy_document" "kubeflow" {
   }
 }
 
+data "aws_eks_node_groups" "cluster" {
+  cluster_name    = var.cluster_name
+}
+
+data "aws_eks_node_group" "main" {
+  cluster_name    = var.cluster_name
+  node_group_name = tolist(data.aws_eks_node_groups.cluster.names)[0]
+}
+
 resource "aws_eks_node_group" "gpu_inf_small" {
   cluster_name    = data.aws_eks_cluster.cluster.name
   node_group_name = "${var.cluster_name}-gpu-inf-small"
-  node_role_arn   = aws_iam_role.kubeflow.arn
+  node_role_arn   = data.aws_eks_node_group.main.node_role_arn
   subnet_ids      = data.aws_eks_cluster.cluster.vpc_config[0].subnet_ids
   instance_types = var.instance_types_gpu_inf_small
   ami_type = "AL2_x86_64_GPU"
@@ -116,18 +125,12 @@ resource "aws_eks_node_group" "gpu_inf_small" {
     value = "true"
     effect = "NO_SCHEDULE"
   }
-
-  depends_on = [
-    aws_iam_role_policy_attachment.kubeflow-AmazonEKSWorkerNodePolicy,
-    aws_iam_role_policy_attachment.kubeflow-AmazonEKS_CNI_Policy,
-    aws_iam_role_policy_attachment.kubeflow-AmazonEC2ContainerRegistryReadOnly,
-  ]
 }
 
 resource "aws_eks_node_group" "gpu_inf_small_spot" {
   cluster_name    = data.aws_eks_cluster.cluster.name
   node_group_name = "${var.cluster_name}-gpu-inf-small-spot"
-  node_role_arn   = aws_iam_role.kubeflow.arn
+  node_role_arn   = data.aws_eks_node_group.main.node_role_arn
   subnet_ids      = data.aws_eks_cluster.cluster.vpc_config[0].subnet_ids
   instance_types = var.instance_types_gpu_inf_small
   ami_type = "AL2_x86_64_GPU"
@@ -169,18 +172,12 @@ resource "aws_eks_node_group" "gpu_inf_small_spot" {
     value = "SPOT"
     effect = "NO_SCHEDULE"
   }
-
-  depends_on = [
-    aws_iam_role_policy_attachment.kubeflow-AmazonEKSWorkerNodePolicy,
-    aws_iam_role_policy_attachment.kubeflow-AmazonEKS_CNI_Policy,
-    aws_iam_role_policy_attachment.kubeflow-AmazonEC2ContainerRegistryReadOnly,
-  ]
 }
 
 resource "aws_eks_node_group" "gpu_small" {
   cluster_name    = data.aws_eks_cluster.cluster.name
   node_group_name = "${var.cluster_name}-gpu-small"
-  node_role_arn   = aws_iam_role.kubeflow.arn
+  node_role_arn   = data.aws_eks_node_group.main.node_role_arn
   subnet_ids      = data.aws_eks_cluster.cluster.vpc_config[0].subnet_ids
   instance_types = var.instance_types_gpu_small
   ami_type = "AL2_x86_64_GPU"
@@ -215,18 +212,12 @@ resource "aws_eks_node_group" "gpu_small" {
     value = "true"
     effect = "NO_SCHEDULE"
   }
-
-  depends_on = [
-    aws_iam_role_policy_attachment.kubeflow-AmazonEKSWorkerNodePolicy,
-    aws_iam_role_policy_attachment.kubeflow-AmazonEKS_CNI_Policy,
-    aws_iam_role_policy_attachment.kubeflow-AmazonEC2ContainerRegistryReadOnly,
-  ]
 }
 
 resource "aws_eks_node_group" "gpu_small_spot" {
   cluster_name    = data.aws_eks_cluster.cluster.name
   node_group_name = "${var.cluster_name}-gpu-small-spot"
-  node_role_arn   = aws_iam_role.kubeflow.arn
+  node_role_arn   = data.aws_eks_node_group.main.node_role_arn
   subnet_ids      = data.aws_eks_cluster.cluster.vpc_config[0].subnet_ids
   instance_types = var.instance_types_gpu_small
   ami_type = "AL2_x86_64_GPU"
@@ -268,18 +259,12 @@ resource "aws_eks_node_group" "gpu_small_spot" {
     value = "SPOT"
     effect = "NO_SCHEDULE"
   }
-
-  depends_on = [
-    aws_iam_role_policy_attachment.kubeflow-AmazonEKSWorkerNodePolicy,
-    aws_iam_role_policy_attachment.kubeflow-AmazonEKS_CNI_Policy,
-    aws_iam_role_policy_attachment.kubeflow-AmazonEC2ContainerRegistryReadOnly,
-  ]
 }
 
 resource "aws_eks_node_group" "gpu_medium" {
   cluster_name    = data.aws_eks_cluster.cluster.name
   node_group_name = "${var.cluster_name}-gpu-medium"
-  node_role_arn   = aws_iam_role.kubeflow.arn
+  node_role_arn   = data.aws_eks_node_group.main.node_role_arn
   subnet_ids      = data.aws_eks_cluster.cluster.vpc_config[0].subnet_ids
   instance_types = var.instance_types_gpu_medium
   ami_type = "AL2_x86_64_GPU"
@@ -314,18 +299,12 @@ resource "aws_eks_node_group" "gpu_medium" {
     value = "true"
     effect = "NO_SCHEDULE"
   }
-
-  depends_on = [
-    aws_iam_role_policy_attachment.kubeflow-AmazonEKSWorkerNodePolicy,
-    aws_iam_role_policy_attachment.kubeflow-AmazonEKS_CNI_Policy,
-    aws_iam_role_policy_attachment.kubeflow-AmazonEC2ContainerRegistryReadOnly,
-  ]
 }
 
 resource "aws_eks_node_group" "gpu_medium_spot" {
   cluster_name    = data.aws_eks_cluster.cluster.name
   node_group_name = "${var.cluster_name}-gpu-medium-spot"
-  node_role_arn   = aws_iam_role.kubeflow.arn
+  node_role_arn   = data.aws_eks_node_group.main.node_role_arn
   subnet_ids      = data.aws_eks_cluster.cluster.vpc_config[0].subnet_ids
   instance_types = var.instance_types_gpu_medium
   ami_type = "AL2_x86_64_GPU"
@@ -367,18 +346,12 @@ resource "aws_eks_node_group" "gpu_medium_spot" {
     value = "SPOT"
     effect = "NO_SCHEDULE"
   }
-
-  depends_on = [
-    aws_iam_role_policy_attachment.kubeflow-AmazonEKSWorkerNodePolicy,
-    aws_iam_role_policy_attachment.kubeflow-AmazonEKS_CNI_Policy,
-    aws_iam_role_policy_attachment.kubeflow-AmazonEC2ContainerRegistryReadOnly,
-  ]
 }
 
 resource "aws_eks_node_group" "spot_small" {
   cluster_name    = data.aws_eks_cluster.cluster.name
   node_group_name = "${var.cluster_name}-small-spot"
-  node_role_arn   = aws_iam_role.kubeflow.arn
+  node_role_arn   = data.aws_eks_node_group.main.node_role_arn
   subnet_ids      = data.aws_eks_cluster.cluster.vpc_config[0].subnet_ids
   instance_types = var.instance_types_small
   ami_type = "AL2_x86_64"
@@ -408,18 +381,12 @@ resource "aws_eks_node_group" "spot_small" {
     value = "SPOT"
     effect = "NO_SCHEDULE"
   }
-
-  depends_on = [
-    aws_iam_role_policy_attachment.kubeflow-AmazonEKSWorkerNodePolicy,
-    aws_iam_role_policy_attachment.kubeflow-AmazonEKS_CNI_Policy,
-    aws_iam_role_policy_attachment.kubeflow-AmazonEC2ContainerRegistryReadOnly,
-  ]
 }
 
 resource "aws_eks_node_group" "spot_medium" {
   cluster_name    = data.aws_eks_cluster.cluster.name
   node_group_name = "${var.cluster_name}-medium-spot"
-  node_role_arn   = aws_iam_role.kubeflow.arn
+  node_role_arn   = data.aws_eks_node_group.main.node_role_arn
   subnet_ids      = data.aws_eks_cluster.cluster.vpc_config[0].subnet_ids
   instance_types = var.instance_types_medium
   ami_type = "AL2_x86_64"
@@ -449,18 +416,12 @@ resource "aws_eks_node_group" "spot_medium" {
     value = "SPOT"
     effect = "NO_SCHEDULE"
   }
-
-  depends_on = [
-    aws_iam_role_policy_attachment.kubeflow-AmazonEKSWorkerNodePolicy,
-    aws_iam_role_policy_attachment.kubeflow-AmazonEKS_CNI_Policy,
-    aws_iam_role_policy_attachment.kubeflow-AmazonEC2ContainerRegistryReadOnly,
-  ]
 }
 
 resource "aws_eks_node_group" "spot_large" {
   cluster_name    = data.aws_eks_cluster.cluster.name
   node_group_name = "${var.cluster_name}-large-spot"
-  node_role_arn   = aws_iam_role.kubeflow.arn
+  node_role_arn   = data.aws_eks_node_group.main.node_role_arn
   subnet_ids      = data.aws_eks_cluster.cluster.vpc_config[0].subnet_ids
   instance_types = var.instance_types_large
   ami_type = "AL2_x86_64"
@@ -490,40 +451,4 @@ resource "aws_eks_node_group" "spot_large" {
     value = "SPOT"
     effect = "NO_SCHEDULE"
   }
-
-  depends_on = [
-    aws_iam_role_policy_attachment.kubeflow-AmazonEKSWorkerNodePolicy,
-    aws_iam_role_policy_attachment.kubeflow-AmazonEKS_CNI_Policy,
-    aws_iam_role_policy_attachment.kubeflow-AmazonEC2ContainerRegistryReadOnly,
-  ]
-}
-
-resource "aws_iam_role" "kubeflow" {
-  name = "eks-node-group-kubeflow-${var.cluster_name}"
-
-  assume_role_policy = jsonencode({
-    Statement = [{
-      Action = "sts:AssumeRole"
-      Effect = "Allow"
-      Principal = {
-        Service = "ec2.amazonaws.com"
-      }
-    }]
-    Version = "2012-10-17"
-  })
-}
-
-resource "aws_iam_role_policy_attachment" "kubeflow-AmazonEKSWorkerNodePolicy" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
-  role       = aws_iam_role.kubeflow.name
-}
-
-resource "aws_iam_role_policy_attachment" "kubeflow-AmazonEKS_CNI_Policy" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
-  role       = aws_iam_role.kubeflow.name
-}
-
-resource "aws_iam_role_policy_attachment" "kubeflow-AmazonEC2ContainerRegistryReadOnly" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
-  role       = aws_iam_role.kubeflow.name
 }
