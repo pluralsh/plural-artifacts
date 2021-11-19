@@ -95,6 +95,66 @@ configOverlays:
     updates:
     - path: ['airflow', 'airflow', 'workers', 'replicas']
     inputType: int
+- name: web-cpu
+  labels:
+    platform.plural.sh/component: airflow-web
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: cpu
+  spec:
+    name: web cpu
+    documentation: cpu requests for web deployment
+    updates:
+    - path: ['airflow', 'airflow', 'web', 'resources', 'requests', 'cpu']
+- name: web-mem
+  labels:
+    platform.plural.sh/component: airflow-web
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: memory
+  spec:
+    name: web memory
+    documentation: memory requests for web deployment
+    updates:
+    - path: ['airflow', 'airflow', 'web', 'resources', 'requests', 'memory']
+- name: worker-cpu
+  labels:
+    platform.plural.sh/component: airflow-worker
+    platform.plural.sh/kind: statefulset
+    platform.plural.sh/resource: cpu
+  spec:
+    name: worker cpu
+    documentation: cpu requests for worker statefulset
+    updates:
+    - path: ['airflow', 'airflow', 'workers', 'resources', 'requests', 'cpu']
+- name: worker-mem
+  labels:
+    platform.plural.sh/component: airflow-worker
+    platform.plural.sh/kind: statefulset
+    platform.plural.sh/resource: memory
+  spec:
+    name: worker memory
+    documentation: memory requests for worker statefulset
+    updates:
+    - path: ['airflow', 'airflow', 'workers', 'resources', 'requests', 'memory']
+- name: scheduler-cpu
+  labels:
+    platform.plural.sh/component: airflow-scheduler
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: cpu
+  spec:
+    name: scheduler cpu
+    documentation: cpu requests for scheduler deployment
+    updates:
+    - path: ['airflow', 'airflow', 'scheduler', 'resources', 'requests', 'cpu']
+- name: scheduler-mem
+  labels:
+    platform.plural.sh/component: airflow-scheduler
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: memory
+  spec:
+    name: scheduler memory
+    documentation: memory requests for scheduler deployment
+    updates:
+    - path: ['airflow', 'airflow', 'scheduler', 'resources', 'requests', 'memory']
 
 airflow:    
   externalDatabase:
