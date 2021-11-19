@@ -13,10 +13,10 @@ global:
   jwksURI: https://oidc.plural.sh/.well-known/jwks.json
 
 image:
-  repository: davidspek/profile-controller
+  repository: ghcr.io/pluralsh/kubeflow-profile-controller
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: 0.1.18
+  tag: 0.1.1
 
 kfam:
   image:
@@ -59,6 +59,7 @@ securityContext: {}
 
 config:
   adminUserEmail: david@plural.sh
+  pipelinesBucket: pipelines-bucket
   namespaceLables:
     katib-metricscollector-injection: 'enabled'
     serving.kubeflow.org/inferenceservice: 'enabled'

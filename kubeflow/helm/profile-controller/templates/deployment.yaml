@@ -48,6 +48,8 @@ spec:
             - $(ISSUER)
             - -jwks-uri
             - $(JWKSURI)
+            - -pipeline-bucket
+            - $(PIPELINES_BUCKET)
           ports:
             - name: metrics
               containerPort: 8080

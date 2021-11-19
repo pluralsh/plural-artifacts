@@ -30,6 +30,7 @@ data:
   USERID_PREFIX: {{ .Values.global.userIDPrefix | quote }}
   ISSUER: {{ .Values.global.oidcIssuer }}
   JWKSURI: {{ .Values.global.jwksURI }}
+  PIPELINES_BUCKET: {{ .Values.config.pipelinesBucket }}
   WORKLOAD_IDENTITY: ""
   DEFAULTNAMESPACELABELSPATH: /etc/profile-controller/namespace-labels.yaml
 kind: ConfigMap
@@ -44,8 +45,6 @@ data:
 {{ .Files.Get "profile-templates/network-policy.yaml" | indent 4 }}
   test-template.yaml: |
 {{ .Files.Get "profile-templates/test-template.yaml" | indent 4 }}
-  kfp.yaml: |
-{{ .Files.Get "profile-templates/kfp.yaml" | indent 4 }}
 kind: ConfigMap
 metadata:
   labels: {{- include "profile-controller.labels" . | nindent 4 }}
