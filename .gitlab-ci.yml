@@ -47,6 +47,7 @@ include:
 - .gitlab-ci/influx.yml
 - .gitlab-ci/airflow.yml
 - .gitlab-ci/gitlab.yml
+- .gitlab-ci/superset.yml
 
 .ignore-cond: &ignore-cond
   except:

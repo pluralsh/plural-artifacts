@@ -1,0 +1,6 @@
+airflow:
+  stage: push
+  only:
+  - main
+  script:
+  - vendor_image apache/superset:master superset

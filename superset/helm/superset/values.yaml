@@ -4,7 +4,98 @@
 
 replicaCount: 1
 
+configOverlays:
+- name: dkr-repository
+  spec:
+    name: Image registry
+    documentation: the image registry uri to use for superset
+    updates:
+    - path: ['superset', 'superset', 'image', 'repository']
+- name: web-cpu
+  labels:
+    platform.plural.sh/component: superset
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: cpu
+  spec:
+    name: web cpu
+    documentation: cpu requests for web deployment
+    updates:
+    - path: ['superset', 'superset', 'web', 'resources', 'requests', 'cpu']
+- name: web-mem
+  labels:
+    platform.plural.sh/component: superset
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: memory
+  spec:
+    name: web memory
+    documentation: memory requests for web deployment
+    updates:
+    - path: ['superset', 'superset', 'web', 'resources', 'requests', 'memory']
+- name: worker-cpu
+  labels:
+    platform.plural.sh/component: superset-worker
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: cpu
+  spec:
+    name: worker cpu
+    documentation: cpu requests for worker deployment
+    updates:
+    - path: ['superset', 'superset', 'worker', 'resources', 'requests', 'cpu']
+- name: worker-mem
+  labels:
+    platform.plural.sh/component: superset-worker
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: memory
+  spec:
+    name: worker memory
+    documentation: memory requests for worker deployment
+    updates:
+    - path: ['superset', 'superset', 'worker', 'resources', 'requests', 'memory']
+- name: beat-cpu
+  labels:
+    platform.plural.sh/component: superset-celerybeat
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: cpu
+  spec:
+    name: beat cpu
+    documentation: cpu requests for celery beat deployment
+    updates:
+    - path: ['superset', 'superset', 'beat', 'resources', 'requests', 'cpu']
+- name: beat-mem
+  labels:
+    platform.plural.sh/component: superset-celerybeat
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: memory
+  spec:
+    name: beat memory
+    documentation: memory requests for celery beat deployment
+    updates:
+    - path: ['superset', 'superset', 'beat', 'resources', 'requests', 'memory']
+- name: redis-cpu
+  labels:
+    platform.plural.sh/component: superset-redis-master
+    platform.plural.sh/kind: statefulset
+    platform.plural.sh/resource: cpu
+  spec:
+    name: redis cpu
+    documentation: cpu requests for redis statefulset
+    updates:
+    - path: ['superset', 'superset', 'redis', 'master', 'resources', 'requests', 'cpu']
+- name: redis-mem
+  labels:
+    platform.plural.sh/component: superset-redis-master
+    platform.plural.sh/kind: statefulset
+    platform.plural.sh/resource: memory
+  spec:
+    name: redis memory
+    documentation: memory requests for redis statefulset
+    updates:
+    - path: ['superset', 'superset', 'redis', 'master', 'resources', 'requests', 'memory']
+
 superset:
+  image:
+    tag: master
+
   bootstrapScript: |
     #!/bin/bash
     rm -rf /var/lib/apt/lists/* && \
@@ -19,6 +110,9 @@ superset:
   
   redis:
     enabled: true
+    image:
+      registry: gcr.io/pluralsh
+      tag: 6.0.9-debian-10-r0
 
   # configOverrides:
   #   statsd_conf: |
