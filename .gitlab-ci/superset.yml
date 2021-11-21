@@ -1,4 +1,4 @@
-airflow:
+superset:
   stage: push
   only:
   - main
