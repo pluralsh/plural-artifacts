@@ -15,11 +15,11 @@ superset:
     {{ end }}
   ingress:
     hosts:
-    - {{ .Values.hostname }}
+    - {{ .Values.hostname | quote }}
     tls:
     - secretName: superset-tls
       hosts:
-      - {{ .Values.hostname }}
+      - {{ .Values.hostname | quote }}
   {{ if .OIDC }}
   configOverrides:
     plural_oidc: |
@@ -44,7 +44,7 @@ superset:
                 return {}
         oauth_user_info = _get_oauth_user_info
       
-      SECURITY_MANAGER_CLASS = PluralSecurityManager
+      CUSTOM_SECURITY_MANAGER = PluralSecurityManager
       
       AUTH_TYPE = AUTH_OAUTH
       
@@ -75,4 +75,6 @@ superset:
       
       # force users to re-auth after 30min of inactivity (to keep roles in sync)
       PERMANENT_SESSION_LIFETIME = 1800
+
+      ENABLE_PROXY_FIX = True
   {{ end }}

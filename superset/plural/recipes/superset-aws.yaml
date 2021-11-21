@@ -6,12 +6,12 @@ oidcSettings:
   uriFormat: https://{domain}/oauth-authorized/plural
   domainKey: hostname
 dependencies:
-  - repo: bootstrap
-    name: aws-k8s
-  - repo: ingress-nginx
-    name: ingress-nginx-aws
-  - repo: postgres
-    name: aws-postgres
+- repo: bootstrap
+  name: aws-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+- repo: postgres
+  name: aws-postgres
 sections:
   - name: superset
     items:
