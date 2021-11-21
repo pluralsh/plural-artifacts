@@ -1,0 +1,11 @@
+apiVersion: v2
+name: superset
+description: A Helm chart for superset on plural
+type: application
+version: 0.1.0
+appVersion: "1.16.0"
+
+dependencies:
+- name: superset
+  version: 0.3.12
+  repository: file://../../../../superset/helm/superset

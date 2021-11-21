@@ -6,11 +6,7 @@ JOBS := $(addprefix upload-,${APPS})
 help:
 	@perl -nle'print $& if m{^[a-zA-Z_-]+:.*?## .*$$}' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-all: ${JOBS} ; echo "finished updating all of ${APPS}"
-
-git-push:
-	git pull --rebase
-	git push
+all: ${JOBS} ; echo "finished updating ${APPS}"
 
 import-operator:
 	kustomize build ../plural-operator/config/crd/ -o bootstrap/helm/bootstrap/crds
@@ -152,3 +148,6 @@ upload-spark: # uploads spark artifacts
 
 upload-vaultwarden: # uploads vaultwarden artifacts
 	plural apply -f vaultwarden/Pluralfile
+
+upload-superset: # uploads superset artifacts
+	plural apply -f superset/Pluralfile

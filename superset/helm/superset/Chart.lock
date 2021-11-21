@@ -1,0 +1,6 @@
+dependencies:
+- name: superset
+  repository: file://../../../../superset/helm/superset
+  version: 0.3.12
+digest: sha256:8d67722f1fc5bc57fee484d5fc2eb2fff1aa38244365d98eb344ca5fc5589e22
+generated: "2021-11-20T21:28:14.873351-05:00"

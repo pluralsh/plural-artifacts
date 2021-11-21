@@ -1,0 +1,106 @@
+# Default values for superset.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+superset:
+  postgresql:
+    enabled: false
+
+  configOverrides:
+    statsd_conf: |
+      from superset.stats_logger import StatsdStatsLogger
+  
+      STATS_LOGGER = StatsdStatsLogger(host='statsd-exporter', port=9125, prefix='superset')
+
+  supersetCeleryBeat:
+    enabled: true
+  
+  supersetNode:
+    connection:
+      db_host: plural-superset
+
+  extraEnvRaw:
+  - name: DB_PASS
+    valueFrom:
+      secretKeyRef:
+        name: superset.plural-superset.credentials.postgresql.acid.zalan.do
+        key: password
+  
+  ingress:
+    enabled: true
+    # ingressClassName: nginx
+    annotations:
+      kubernetes.io/tls-acme: "true"
+      kubernetes.io/ingress.class: "nginx"
+      # Extend timeout to allow long running queries.
+      nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+
+postgres:
+  replicas: 1
+  storage:
+    size: 25Gi
+  resources: {}
+  default:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 100Mi
+      limits:
+        cpu: '2'
+        memory: 1Gi
+
+
+exporter:
+  image:
+    repository: gcr.io/pluralsh/prom/statsd-exporter
+    tag: v0.20.2
+    pullPolicy: IfNotPresent
+  
+  podSecurityContext: {}
+
+  securityContext: {}
+
+  replicas: 1
+
+  service:
+    type: ClusterIP
+    annotations: {}
+
+  web:
+    # The address on which to expose the web interface and generated Prometheus metrics.
+    port: 9102
+
+    # Path under which to expose metrics.
+    path: /metrics
+
+  serviceMonitor:
+    interval: 30s
+    scrapeTimeout: 10s
+    additionalLabels: {}
+
+  statsd:
+    # The UDP port on which to receive statsd metric lines.
+    udpPort: 9125
+
+    # The TCP port on which to receive statsd metric lines.
+    tcpPort: 9125
+
+    # Maximum size of your metric mapping cache.
+    # Relies on least recently used replacement policy if max size is reached.
+    cacheSize: 1000
+
+    # Size of internal queue for processing events.
+    eventQueueSize: 10000
+
+    # Number of events to hold in queue before flushing.
+    eventFlushThreshold: 1000
+
+    # Time interval before flushing events in queue.
+    eventFlushInterval: 200ms
+
+    # Metric mapping configuration
+    mappingConfig: |-
