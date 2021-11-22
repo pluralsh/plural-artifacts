@@ -12,7 +12,8 @@ sections:
     configuration:
     - name: backup_bucket
       documentation: bucket to store mysql backups in
-      type: STRING
+      type: BUCKET
+      default: mysql-backups
   - type: HELM
     name: mysql-percona
     configuration: []

@@ -36,8 +36,9 @@ sections:
     name: aws
     configuration:
     - name: pipelines_bucket
-      type: STRING
-      documentation: bucket to store the logs in
+      type: BUCKET
+      default: kubeflow-pipelines
+      documentation: bucket to store the pipeline artifacts and logs in
   - type: HELM
     name: central-dashboard
     configuration:

@@ -15,7 +15,8 @@ sections:
     name: aws
     configuration:
     - name: minio_bucket
-      type: STRING
+      type: BUCKET
+      default: minio
       documentation: bucket to store minio data
   - type: HELM
     name: minio

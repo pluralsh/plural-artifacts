@@ -15,5 +15,5 @@ sections:
     configuration:
     - name: fqdn
       documentation: FQDN to use for your dex installation
-      type: STRING
+      type: DOMAIN
   
