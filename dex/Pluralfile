@@ -1,4 +1,5 @@
 REPO dex
+ATTRIBUTES Plural repository.yaml
 
 TF terraform/*
 HELM helm/*

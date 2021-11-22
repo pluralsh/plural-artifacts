@@ -1,0 +1,8 @@
+name: oauth2-proxy
+description: easy to use oauth solution for load balancers
+category: SECURITY
+icon: plural/icons/oauth2-proxy.png
+notes: plural/notes.tpl
+tags:
+- tag: oauth
+- tag: GPU
