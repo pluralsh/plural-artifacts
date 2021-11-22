@@ -2,7 +2,7 @@ apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
   description: kafka k8s setup
-  version: 0.1.1
+  version: 0.1.2
 spec:
   dependencies:
   - name: aws-bootstrap
