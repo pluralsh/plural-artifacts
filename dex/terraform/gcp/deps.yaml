@@ -7,5 +7,5 @@ dependencies:
 providers:
 - gcp
 
-description: grafana gcp setup
+description: dex gcp setup
 version: 0.1.1

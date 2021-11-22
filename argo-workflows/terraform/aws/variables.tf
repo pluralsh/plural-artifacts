@@ -12,9 +12,9 @@ variable "cluster_name" {
   default = "plural"
 }
 
-variable "kubeflow_serviceaccount" {
+variable "argo_workflows_serviceaccount" {
   type = string
-  default = "argo-workflow"
+  default = "argo-workflows"
 }
 
 variable "role_name" {

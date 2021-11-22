@@ -7,5 +7,5 @@ dependencies:
 providers:
 - azure
 
-description: grafana azure setup
+description: dex azure setup
 version: 0.1.1

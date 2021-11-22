@@ -5,12 +5,7 @@ variable "cluster_name" {
 
 variable "namespace" {
   type = string
-  default = "console"
-}
-
-variable "console_identity" {
-  type = string
-  default = "console"
+  default = "gitlab"
 }
 
 variable "resource_group" {

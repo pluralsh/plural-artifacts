@@ -12,7 +12,7 @@ data "aws_eks_cluster" "cluster" {
   name = var.cluster_name
 }
 
-module "assumable_role_kubeflow" {
+module "assumable_role_argo_workflows" {
   source                        = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
   version                       = "3.14.0"
   create_role                   = true
@@ -21,13 +21,13 @@ module "assumable_role_kubeflow" {
   role_policy_arns              = [aws_iam_policy.argo_workflows.arn]
   oidc_subjects_with_wildcards = [
     "system:serviceaccount:${var.namespace}:argo-workflows-server",
-    "system:serviceaccount:*:${var.kubeflow_serviceaccount}"
+    "system:serviceaccount:*:${var.argo_workflows_serviceaccount}"
   ]
 }
 
 resource "aws_iam_policy" "argo_workflows" {
   name_prefix = "argo-workflows"
-  description = "policy for kubeflow operator resources"
+  description = "policy for argo workflows operator resources"
   policy      = data.aws_iam_policy_document.argo_workflows.json
 }
 
