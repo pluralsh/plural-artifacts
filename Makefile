@@ -151,3 +151,6 @@ upload-vaultwarden: # uploads vaultwarden artifacts
 
 upload-superset: # uploads superset artifacts
 	plural apply -f superset/Pluralfile
+
+upload-airbyte: # uploads airbyte artifacts
+	plural apply -f airbyte/Pluralfile

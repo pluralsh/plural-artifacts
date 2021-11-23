@@ -42,3 +42,7 @@ influxdb:
     user:
       username: admin
       password: {{ dedupe . "influx.influxdb.setDefaultUser.user.password" (randAlphaNum 25) }}
+  {{ if .Values.influxDbStorageClass }}
+  persistence:
+    storageClass: {{ .Values.influxDbStorageClass }}
+  {{ end }}

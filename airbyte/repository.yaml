@@ -1,0 +1,7 @@
+name: airbyte
+description: unified data integration platform
+category: DATA
+icon: plural/icons/airbyte.png
+notes: plural/notes.tpl
+tags:
+- tag: data-science

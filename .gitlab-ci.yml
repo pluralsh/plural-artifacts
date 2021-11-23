@@ -48,6 +48,7 @@ include:
 - .gitlab-ci/airflow.yml
 - .gitlab-ci/gitlab.yml
 - .gitlab-ci/superset.yml
+- .gitlab-ci/airbyte.yml
 
 .ignore-cond: &ignore-cond
   except:

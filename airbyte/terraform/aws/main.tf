@@ -1,11 +1,17 @@
-resource "kubernetes_namespace" "superset" {
+resource "kubernetes_namespace" "airbyte" {
   metadata {
     name = var.namespace
     labels = {
       "app.kubernetes.io/managed-by" = "plural"
-      "app.plural.sh/name" = "superset"
+      "app.plural.sh/name" = "airbyte"
     }
   }
+}
+
+resource "aws_s3_bucket" "airbyte" {
+  bucket         = var.airbyte_bucket
+  acl            = "private"
+  force_destroy  = true
 }
 
 data "aws_iam_role" "postgres" {
@@ -23,6 +29,6 @@ resource "kubernetes_service_account" "postgres" {
   }
 
   depends_on = [
-    kubernetes_namespace.superset
+    kubernetes_namespace.airbyte
   ]
 }
