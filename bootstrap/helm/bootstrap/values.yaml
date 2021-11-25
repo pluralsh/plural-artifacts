@@ -110,7 +110,7 @@ aws-ebs-csi-driver:
     provisioner:
       image:
         repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/csi-provisioner
-        tag: "v2.1.1"
+        tag: "v2.1.2"
       resources:
         requests:
           cpu: 10m
