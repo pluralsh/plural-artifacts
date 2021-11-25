@@ -26,5 +26,5 @@ dependencies:
   repository: https://helm.influxdata.com/
   condition: telegraf.enabled
 - name: influxdb
-  version: 4.10.0
+  version: 4.10.1
   repository: https://helm.influxdata.com/
