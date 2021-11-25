@@ -12,7 +12,7 @@ mysql-operator:
   replicas: 1
   image: docker.io/bitpoke/mysql-operator:v0.5.0
   sidecarImage: docker.io/bitpoke/mysql-operator-sidecar-5.7:v0.5.0
-  sidecarMysql8Image: docker.io/bitpoke/mysql-operator-sidecar-8.0:v0.5.0
+  sidecarMysql8Image: docker.io/bitpoke/mysql-operator-sidecar-8.0:v0.5.2
   imagePullPolicy: Always
 
   # Insert a pre-stop lifecycle hook and trigger a failover. NOTE: Use this when your cluster network
