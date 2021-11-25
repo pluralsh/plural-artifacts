@@ -3,4 +3,5 @@ description: a strongly consistent, distributed key-value store
 category: DATABASE
 icon: plural/icons/etcd-logo.png
 tags:
-- tag: rdbms
+- tag: raft
+- tag: cp
