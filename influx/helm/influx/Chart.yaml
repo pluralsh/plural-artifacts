@@ -14,7 +14,7 @@ dependencies:
   repository: file://../../../../influxdata-helm-charts/charts/kapacitor
   condition: kapacitor.enabled
 - name: telegraf-ds
-  version: 1.0.22
+  version: 1.0.24
   repository: https://helm.influxdata.com/
   condition: telegraf.enabled
 - name: telegraf
