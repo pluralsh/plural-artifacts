@@ -242,7 +242,7 @@ argo-cd:
 
     image:
       repository: ghcr.io/dexidp/dex
-      tag: v2.30.0
+      tag: v2.30.2
       imagePullPolicy: IfNotPresent
     initImage:
       repository:
