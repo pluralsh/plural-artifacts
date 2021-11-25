@@ -1,0 +1,27 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Proxy
+metadata:
+  name: db
+  labels:
+{{ include "gitlab-plural.labels" . | indent 4 }}
+spec:
+  type: db
+  target: service/gitlab-master
+  credentials:
+    secret: gitlab.plural-gitlab.credentials.postgresql.acid.zalan.do
+    key: password
+    user: gitlab
+  dbConfig:
+    name: gitlab
+    engine: postgres
+    port: 5432
+---
+apiVersion: platform.plural.sh/v1alpha1
+kind: Proxy
+metadata:
+  name: sh
+  labels:
+{{ include "gitlab-plural.labels" . | indent 4 }}
+spec:
+  type: sh
+  target: deployment/gitlab-webservice-default
