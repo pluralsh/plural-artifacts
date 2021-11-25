@@ -14,7 +14,7 @@ data "aws_eks_cluster" "cluster" {
 
 module "assumable_role_sentry" {
   source                        = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
-  version                       = "3.14.0"
+  version                       = "3.16.0"
   create_role                   = true
   role_name                     = "${var.cluster_name}-${var.role_name}"
   provider_url                  = replace(data.aws_eks_cluster.cluster.identity[0].oidc[0].issuer, "https://", "")

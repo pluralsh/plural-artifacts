@@ -8,7 +8,7 @@ data "aws_vpc" "cluster_vpc" {
 
 module "assumable_role_efs" {
   source                        = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
-  version                       = "3.14.0"
+  version                       = "3.16.0"
   create_role                   = true
   role_description              = "EFS CSI Driver Role"
   role_name                     = "${var.cluster_name}-efs"

@@ -1,6 +1,6 @@
 module "assumable_role_externaldns" {
   source                        = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
-  version                       = "3.14.0"
+  version                       = "3.16.0"
   create_role                   = true
   role_name                     = "${var.cluster_name}-externaldns"
   provider_url                  = replace(module.cluster.cluster_oidc_issuer_url, "https://", "")
