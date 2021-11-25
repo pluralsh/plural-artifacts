@@ -25,3 +25,6 @@ metadata:
 spec:
   type: sh
   target: deployment/gitlab-webservice-default
+  shConfig:
+    command: /bin/bash
+    args: []
