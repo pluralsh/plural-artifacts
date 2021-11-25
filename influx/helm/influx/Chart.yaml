@@ -6,7 +6,7 @@ version: 0.1.22
 appVersion: "1.16.0"
 dependencies:
 - name: chronograf
-  version: 1.1.24
+  version: 1.2.0
   repository: https://helm.influxdata.com/
   condition: chronograf.enabled
 - name: kapacitor
