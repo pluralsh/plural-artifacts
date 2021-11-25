@@ -18,5 +18,5 @@ dependencies:
   version: 0.3.4
   repository: https://pluralsh.github.io/plural-helm-charts
 - name: vpa
-  version: 0.4.2
+  version: 0.5.0
   repository: https://charts.fairwinds.com/stable
