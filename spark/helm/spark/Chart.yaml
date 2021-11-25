@@ -6,5 +6,5 @@ version: 0.1.0
 appVersion: "3.1.1"
 dependencies:
 - name: spark-operator
-  version: 1.1.9
+  version: 1.1.13
   repository: https://googlecloudplatform.github.io/spark-on-k8s-operator
