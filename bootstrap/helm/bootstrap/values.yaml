@@ -154,7 +154,7 @@ aws-ebs-csi-driver:
     resizer:
       image:
         repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/csi-resizer
-        tag: "v1.0.0"
+        tag: "v1.0.1"
       resources:
         requests:
           cpu: 10m
