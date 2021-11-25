@@ -27,7 +27,7 @@ webApp:
     repository: kfserving/models-web-app
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: v0.6.0
+    tag: v0.6.1
 
   podAnnotations:
     sidecar.istio.io/inject: "true"
