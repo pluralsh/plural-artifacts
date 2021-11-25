@@ -9,6 +9,6 @@ dependencies:
   version: 1.7.0
   repository: file://../../../../istio/manifests/charts/istio-operator
 - name: kiali-server
-  version: 1.37.0
+  version: 1.43.0
   repository: https://kiali.org/helm-charts
   condition: monitoring.kiali.enabled
