@@ -12,7 +12,7 @@ dependencies:
   version: 2.5.3
   repository: https://grafana.github.io/helm-charts
 - name: promtail
-  version: 3.6.1
+  version: 3.9.1
   repository: https://grafana.github.io/helm-charts
 - name: opentelemetry-operator
   version: 0.3.4
