@@ -28,7 +28,7 @@ webApp:
     repository: davidspek/volumes-web-app
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: 0.5.2 # newer version with snapshot support causes error due to missing snapshot class
+    tag: 0.5.4 # newer version with snapshot support causes error due to missing snapshot class
   
   podAnnotations:
     sidecar.istio.io/inject: "true"
