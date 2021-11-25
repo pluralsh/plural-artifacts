@@ -86,7 +86,7 @@ controller:
     repository: gcr.io/kfserving/kfserving-controller
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: v0.6.0
+    tag: v0.6.1
 
   service:
     metrics:
