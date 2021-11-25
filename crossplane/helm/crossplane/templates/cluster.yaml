@@ -3,7 +3,7 @@ kind: Cluster
 metadata:
   annotations:
     crossplane.io/external-name: {{ .Values.clusterName }}
-  name: plural-bootstraped
+  name: plural-bootstrapped
 spec:
   deletionPolicy: Orphan
   forProvider:
