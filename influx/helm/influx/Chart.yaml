@@ -22,7 +22,7 @@ dependencies:
   repository: https://helm.influxdata.com/
   condition: telegraf.enabled
 - name: telegraf-operator
-  version: 1.3.0
+  version: 1.3.3
   repository: https://helm.influxdata.com/
   condition: telegraf.enabled
 - name: influxdb
