@@ -12,11 +12,14 @@ postgres:
   script:
   - vendor_image bitnami/postgresql:11.7.0-debian-10-r9
 
-rabbitmq:
+dependencies:
   stage: push
   only:
   - main
   script:
+  - vendor_image influxdb:1.8
+  - vendor_image postgres:13.5
+  - vendor_image rabbitmq:3-management
   - vendor_image rabbitmq:3.8.16-management rabbitmq
 
 redis-exporter:
