@@ -143,7 +143,7 @@ aws-ebs-csi-driver:
     livenessProbe:
       image:
         repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/livenessprobe
-        tag: "v2.2.0"
+        tag: "v2.4.0"
       resources:
         requests:
           cpu: 10m
