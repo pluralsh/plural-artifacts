@@ -121,7 +121,7 @@ aws-ebs-csi-driver:
     attacher:
       image:
         repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/csi-attacher
-        tag: "v3.1.0"
+        tag: "v3.3.0"
       resources:
         requests:
           cpu: 10m
