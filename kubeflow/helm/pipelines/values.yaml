@@ -105,7 +105,7 @@ scheduledWorkflow:
     repository: gcr.io/ml-pipeline/scheduledworkflow
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: 1.6.0
+    tag: 1.7.1
 
 viewerController:
   image:
