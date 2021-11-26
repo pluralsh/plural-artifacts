@@ -165,7 +165,7 @@ aws-ebs-csi-driver:
     nodeDriverRegistrar:
       image:
         repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/csi-node-driver-registrar
-        tag: "v2.1.0"
+        tag: "v2.3.0"
       resources:
         requests:
           cpu: 10m
