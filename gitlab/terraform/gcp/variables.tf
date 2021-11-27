@@ -51,3 +51,7 @@ variable "lfs_bucket" {
 variable "runner_cache_bucket" {
   type = string
 }
+
+variable "terraform_bucket" {
+  type = string
+}

@@ -8,3 +8,4 @@ backups_tmp_bucket = {{ .Values.backupsTmpBucket | quote }}
 lfs_bucket = {{ .Values.lfsBucket | quote }}
 uploads_bucket = {{ .Values.uploadsBucket | quote }}
 runner_cache_bucket = {{ .Values.runnerCacheBucket | quote }}
+terraform_bucket = {{ .Values.terraformBucket | quote }}

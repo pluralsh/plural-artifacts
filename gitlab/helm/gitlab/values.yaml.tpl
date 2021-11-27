@@ -29,27 +29,17 @@ global:
     {{ end }}
     lfs:
       bucket: {{ .Values.lfsBucket }}
-      connection: # https://gitlab.com/gitlab-org/charts/gitlab/blob/master/doc/charts/globals.md#connection
-        secret: objectstore-connection
-        key: connection
     artifacts:
       bucket: {{ .Values.artifactsBucket }}
-      connection:
-        secret: objectstore-connection
-        key: connection
     uploads:
       bucket: {{ .Values.uploadsBucket }}
-      connection:
-        secret: objectstore-connection
-        key: connection
     packages:
       bucket: {{ .Values.packagesBucket }}
-      connection:
-        secret: objectstore-connection
-        key: connection
     backups:
       bucket: {{ .Values.backupsBucket }}
       tmpBucket: {{ .Values.backupsTmpBucket }}
+    object_store:
+      enabled: true
       connection:
         secret: objectstore-connection
         key: connection

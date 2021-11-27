@@ -83,6 +83,12 @@ resource "google_storage_bucket" "runner_cache" {
   force_destroy = true
 }
 
+resource "google_storage_bucket" "terraform_bucket" {
+  name = var.terraform_bucket
+  project = var.gcp_project_id
+  force_destroy = true
+}
+
 resource "google_storage_bucket_iam_member" "registry" {
   bucket = google_storage_bucket.registry_bucket.name
   role = "roles/storage.admin"
@@ -150,6 +156,16 @@ resource "google_storage_bucket_iam_member" "runner" {
 
   depends_on = [
     google_storage_bucket.runner_cache_bucket,
+  ]
+}
+
+resource "google_storage_bucket_iam_member" "terraform" {
+  bucket = google_storage_bucket.terraform_bucket.name
+  role = "roles/storage.admin"
+  member = "serviceAccount:${module.gitlab-runner-workflow-identity.gcp_service_account_email}"
+
+  depends_on = [
+    google_storage_bucket.terraform_bucket,
   ]
 }
 

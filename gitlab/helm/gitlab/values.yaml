@@ -105,7 +105,7 @@ gitlab:
           targetAverageValue: 50
     gitlab-shell:
       minReplicas: 1
-    task-runner:
+    toolbox:
       enabled: false
       backups:
         cron:

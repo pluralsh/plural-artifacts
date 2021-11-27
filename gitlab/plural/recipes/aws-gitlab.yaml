@@ -53,3 +53,7 @@ sections:
       documentation: bucket name for gitlab runner cache
       type: BUCKET
       default: gitlab-runner-cache
+    - name: terraformBucket
+      documentation: bucket name for gitlab managed terraform state
+      type: BUCKET
+      default: gitlab-terraform-state

@@ -86,6 +86,12 @@ resource "aws_s3_bucket" "uploads" {
   force_destroy = true
 }
 
+resource "aws_s3_bucket" "terraform_state" {
+  bucket        = var.terraform_bucket
+  acl           = "private"
+  force_destroy = true
+}
+
 resource "aws_s3_bucket" "runner_cache" {
   bucket = var.runner_cache_bucket
   acl    = "private"
