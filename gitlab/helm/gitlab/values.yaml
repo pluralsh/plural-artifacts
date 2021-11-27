@@ -148,6 +148,8 @@ gitlab:
             privileged = true
             service_account = 'gitlab-runner'
             poll_timeout = 360
+            cpu_request = 0.25
+            memory_request = 250Mi
             [runners.kubernetes.affinity]
               [runners.kubernetes.affinity.node_affinity]
                 [[runners.kubernetes.affinity.node_affinity.preferred_during_scheduling_ignored_during_execution]]
