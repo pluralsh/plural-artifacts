@@ -38,6 +38,10 @@ spec:
               documentation:
                 description: documentation for the specific field
                 type: string
+              folder:
+                description: Top level folder this overlay should live in, default
+                  is "general"
+                type: string
               inputType:
                 description: the datatype for the value given to the input field
                 enum:
@@ -52,6 +56,9 @@ spec:
                 type: array
               name:
                 description: Name of the configuration input field
+                type: string
+              subfolder:
+                description: Subfolder this overlay lives in, default is "all"
                 type: string
               type:
                 description: type of configuration value
