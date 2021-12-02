@@ -12,31 +12,28 @@ dependencies:
   name: ingress-nginx-aws
 sections:
 - name: influx
+  configuration:
+  - name: enableChronograf
+    documentation: whether to deploy the chronograf web ui
+    type: BOOL
+  - name: chronografHostname
+    documentation: Fully Qualified Domain Name for the chronograf web ui
+    type: DOMAIN
+  - name: enableKapacitor
+    documentation: whether to deploy kapacitor alerting
+    type: BOOL
+  - name: enableTelegraf
+    documentation: whether to deploy telegraf metrics collection
+    type: BOOL
+  - name: databaseName
+    documentation: name for the initial bootstrapped database
+    type: STRING
+  - name: influxdbHostname
+    documentation: external dns name for your influxdb instance (leave empty if you don't want ingress)
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: aws
-    configuration: []
   - type: HELM
     name: influx
-    configuration:
-    - name: enableChronograf
-      documentation: whether to deploy the chronograf web ui
-      type: BOOL
-    - name: chronografHostname
-      documentation: Fully Qualified Domain Name for the chronograf web ui
-      type: DOMAIN
-    - name: enableKapacitor
-      documentation: whether to deploy kapacitor alerting
-      type: BOOL
-    - name: enableTelegraf
-      documentation: whether to deploy telegraf metrics collection
-      type: BOOL
-    - name: databaseName
-      documentation: name for the initial bootstrapped database
-      type: STRING
-    - name: influxdbHostname
-      documentation: external dns name for your influxdb instance (leave empty if you don't want ingress)
-      type: DOMAIN
-    - name: influxDbStorageClass
-      documentation: Chose the storage class, should be one of [gp2, gp3, io1, io2, sc1, st1].  Throughput numbers are available here.
-      type: STRING
+    

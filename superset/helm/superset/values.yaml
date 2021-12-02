@@ -95,7 +95,7 @@ configOverlays:
 superset:
   image:
     repository: dkr.plural.sh/superset/apache/superset
-    tag: master
+    tag: 3c41ff68a43b5ab6b871226a73de9f2129d64766
     pullPolicy: Always
 
   bootstrapScript: |
