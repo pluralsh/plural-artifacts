@@ -21,6 +21,7 @@ dependencies:
   - vendor_image postgres:13.5
   - vendor_image rabbitmq:3-management
   - vendor_image rabbitmq:3.8.16-management rabbitmq
+  - vendor_image groundnuty/k8s-wait-for:v1.3 console
 
 redis-exporter:
   stage: push
