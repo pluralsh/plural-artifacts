@@ -15,34 +15,41 @@ dependencies:
 sections:
   - name: airflow
     items:
-      - type: TERRAFORM
-        name: gcp
-        configuration:
-        - name: airflowBucket
-          type: BUCKET
-          default: airflow
-          documentation: Arbitrary bucket name to store the logs in
-      - type: HELM
-        name: airflow
-        configuration:
-          - name: hostname
-            documentation: Fully Qualified Domain Name to use for your airflow installation, eg airflow.topleveldomain.com if topleveldomain.com is the domain you inputed for dns_domain above.
-            type: DOMAIN
-          - name: dagRepo
-            type: STRING
-            documentation: Arbitrary repo name for the repo your dags will be stored in. eg plural-airflow-dag
-          - name: branchName
-            type: STRING
-            documentation: The branch to sync from
-          - name: adminUsername
-            type: STRING
-            documentation: Airflow username for the admin
-          - name: adminFirst
-            type: STRING
-            documentation: First name for the admin
-          - name: adminLast
-            type: STRING
-            documentation: Last name for the admin
-          - name: adminEmail
-            type: STRING
-            documentation: Email for the admin
+    - type: TERRAFORM
+      name: gcp
+    - type: HELM
+      name: airflow
+    configuration:
+    - name: airflowBucket
+      type: BUCKET
+      default: airflow
+      documentation: Arbitrary bucket name to store the logs in
+    - name: hostname
+      documentation: Fully Qualified Domain Name to use for your airflow installation, eg airflow.topleveldomain.com if topleveldomain.com is the domain you inputed for dns_domain above.
+      type: DOMAIN
+    - name: dagRepo
+      type: STRING
+      documentation: Git Repo url for storing dags, should be a ssh url like git@github.com:pluralsh/airflow-dags.git
+    - name: branchName
+      type: STRING
+      documentation: The branch to sync from
+    - name: adminUsername
+      type: STRING
+      documentation: The airflow username for the admin
+    - name: adminFirst
+      type: STRING
+      documentation: The first name for the admin
+    - name: adminLast
+      type: STRING
+      documentation: The last name for the admin
+    - name: adminEmail
+      type: STRING
+      documentation: The email for the admin
+    - name: private_key
+      documentation: path to the private key to use for git authentication
+      type: FILE
+      default: ~/.ssh/id_rsa
+    - name: public_key
+      documentation: path to the public key to use for git authentication
+      type: FILE
+      default: ~/.ssh/id_rsa.pub
