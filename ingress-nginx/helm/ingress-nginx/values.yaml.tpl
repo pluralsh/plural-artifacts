@@ -1,7 +1,4 @@
 ingress-nginx:
-  controller:
-    metrics:
-      enabled: true
   {{- if .Configuration.gitlab }}
   tcp:
     {{- if eq .Provider "aws" }}
@@ -10,9 +7,10 @@ ingress-nginx:
     22: gitlab/gitlab-gitlab-shell:22
     {{- end }}
   {{- end }}
-  {{- if eq .Provider "aws"}}
   controller:
     service:
+      externalTrafficPolicy: Local
+    {{- if eq .Provider "aws"}}
       annotations:
         service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
         service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
@@ -21,9 +19,8 @@ ingress-nginx:
         service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
         service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
         service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: '3600'
-      externalTrafficPolicy: Local
     config:
       compute-full-forwarded-for: 'true'
       use-forwarded-headers: 'true'
       use-proxy-protocol: 'true'
-{{- end }}
+    {{- end }}
