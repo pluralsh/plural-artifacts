@@ -1,4 +1,7 @@
 ingress-nginx:
+  controller:
+    metrics:
+      enabled: true
   {{- if .Configuration.gitlab }}
   tcp:
     {{- if eq .Provider "aws" }}
