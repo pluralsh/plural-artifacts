@@ -15,7 +15,7 @@ sections:
     configuration:
     - name: hostname
       documentation: FQDN to use for your Vaultwarden installation
-      type: STRING
+      type: DOMAIN
     - name: signupDomains
       documentation: comma separated list of domains to allow for user signup
       type: STRING

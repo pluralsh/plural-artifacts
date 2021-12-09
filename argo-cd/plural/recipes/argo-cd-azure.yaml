@@ -23,7 +23,7 @@ sections:
     configuration:
     - name: hostname
       documentation: FQDN to use for your Argo CD installation
-      type: STRING
+      type: DOMAIN
     - name: adminGroup
       documentation: OIDC group that should receive admin permissions
       type: STRING

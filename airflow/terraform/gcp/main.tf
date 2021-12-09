@@ -9,6 +9,7 @@ resource "kubernetes_namespace" "airflow" {
 
     labels = {
       "app.kubernetes.io/managed-by" = "plural"
+      "app.plural.sh/name" = "airflow"
     }
   }
 }

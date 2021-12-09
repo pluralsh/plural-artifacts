@@ -1,0 +1,8 @@
+name: minio
+description: High Performance, Kubernetes Native Object Storage
+category: DEVOPS
+icon: plural/icons/minio.png
+notes: plural/notes.tpl
+tags:
+- tag: data
+- tag: multicloud

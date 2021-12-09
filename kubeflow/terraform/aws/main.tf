@@ -4,8 +4,8 @@ resource "kubernetes_namespace" "kubeflow" {
 
     labels = {
       "app.kubernetes.io/managed-by" = "plural"
-      "istio-injection" = "enabled"
       "app.plural.sh/name" = "kubeflow"
+      "istio-injection" = "enabled"
     }
   }
 }

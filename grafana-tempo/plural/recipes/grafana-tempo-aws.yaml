@@ -13,7 +13,8 @@ sections:
     name: aws
     configuration:
     - name: tempoBucket
-      type: STRING
+      type: BUCKET
+      default: grafana-tempo
       documentation: Arbitrary bucket name to store the traces in, eg plural-tempo-traces
   - type: HELM
     name: grafana-tempo

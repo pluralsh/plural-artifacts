@@ -1,0 +1,8 @@
+name: nextcloud
+description: the first completely integrated on-premises content collaboration platform
+category: DEVOPS
+icon: plural/icons/nextcloud.png
+notes: plural/notes.tpl
+tags:
+- tag: data
+- tag: productivity

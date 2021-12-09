@@ -1,4 +1,4 @@
-You can view your grafana instance at https://{{ .Values.hostname }}
+You can view your sentry instance at https://{{ .Values.hostname }}
 
 {{ if .OIDC }}
 You've enabled Plural OIDC for your sentry instance.  Be sure to add more teammates in the plural UI.
