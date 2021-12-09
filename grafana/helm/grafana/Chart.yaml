@@ -2,7 +2,7 @@ apiVersion: v2
 name: grafana
 description: A Helm chart for grafana on plural
 type: application
-version: 0.2.3
+version: 0.2.4
 appVersion: "8.3.1"
 dependencies:
 - name: grafana
