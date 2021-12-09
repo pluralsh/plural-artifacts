@@ -3,24 +3,22 @@ description: Constructs a gke cluster and installs the bootstrap chart
 provider: GCP
 dependencies: []
 sections:
-  - name: bootstrap
-    items:
-      - type: TERRAFORM
-        name: gcp-bootstrap
-        configuration:
-          - name: vpc_name
-            type: STRING
-            documentation: Arbitary name for the virtual private cloud to place your cluster in, eg "plural"
-      - type: HELM
-        name: bootstrap
-        configuration:
-          - name: txt_owner
-            documentation: Arbitary name for externaldns to use to track ownership of dns records, eg "plural"
-            type: STRING
-            default: plural
-          - name: ownerEmail
-            type: STRING
-            documentation: Email to be used for certificate renewal notifications
-      - type: HELM
-        name: plural-certmanager-webhook
-        configuration: []
+- name: bootstrap
+  configuration:
+  - name: vpc_name
+    type: STRING
+    documentation: Arbitary name for the virtual private cloud to place your cluster in, eg "plural"
+  - name: txt_owner
+    documentation: Arbitary name for externaldns to use to track ownership of dns records, eg "plural"
+    type: STRING
+    default: plural
+  - name: ownerEmail
+    type: STRING
+    documentation: Email to be used for certificate renewal notifications
+  items:
+  - type: TERRAFORM
+    name: gcp-bootstrap
+  - type: HELM
+    name: bootstrap
+  - type: HELM
+    name: plural-certmanager-webhook

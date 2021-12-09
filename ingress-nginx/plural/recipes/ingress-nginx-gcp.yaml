@@ -6,10 +6,9 @@ dependencies:
   name: gcp-kubernetes
 sections:
 - name: ingress-nginx
+  configuration: []
   items:
   - type: TERRAFORM
     name: gcp
-    configuration: []
   - type: HELM
     name: ingress-nginx
-    configuration: []

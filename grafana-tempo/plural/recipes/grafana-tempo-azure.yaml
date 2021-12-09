@@ -8,14 +8,13 @@ dependencies:
   name: azure-redis
 sections:
 - name: grafana-tempo
+  configuration:
+  - name: tempoContainer
+    type: BUCKET
+    default: grafana-tempo
+    documentation: Arbitrary storage container name to store the traces in, eg plural-tempo-traces
   items:
   - type: TERRAFORM
     name: azure
-    configuration:
-    - name: tempoContainer
-      type: BUCKET
-      default: grafana-tempo
-      documentation: Arbitrary storage container name to store the traces in, eg plural-tempo-traces
   - type: HELM
     name: grafana-tempo
-    configuration: []

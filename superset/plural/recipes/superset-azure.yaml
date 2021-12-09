@@ -13,23 +13,22 @@ dependencies:
   - repo: postgres
     name: azure-postgres
 sections:
-  - name: superset
-    items:
-      - type: TERRAFORM
-        name: azure
-        configuration: []
-      - type: HELM
-        name: superset
-        configuration:
-        - name: hostname
-          documentation: Fully Qualified Domain Name to use for your superset installation, eg airflow.topleveldomain.com if topleveldomain.com is the domain you inputed for dns_domain above.
-          type: DOMAIN
-        - name: username
-          type: STRING
-          documentation: short name/handle for the initial admin user
-        - name: name
-          type: STRING
-          documentation: full name for the initial admin user
-        - name: adminEmail
-          type: STRING
-          documentation: email for the initial admin user
+- name: superset
+  configuration:
+  - name: hostname
+    documentation: Fully Qualified Domain Name to use for your superset installation, eg airflow.topleveldomain.com if topleveldomain.com is the domain you inputed for dns_domain above.
+    type: DOMAIN
+  - name: username
+    type: STRING
+    documentation: short name/handle for the initial admin user
+  - name: name
+    type: STRING
+    documentation: full name for the initial admin user
+  - name: adminEmail
+    type: STRING
+    documentation: email for the initial admin user
+  items:
+  - type: TERRAFORM
+    name: azure
+  - type: HELM
+    name: superset

@@ -4,10 +4,9 @@ provider: AWS
 dependencies: []
 sections:
 - name: bootstrap
+  configuration: []
   items:
   - type: TERRAFORM
     name: aws-efs
-    configuration: []
   - type: HELM
     name: efs-csi-driver
-    configuration: []

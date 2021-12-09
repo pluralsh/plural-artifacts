@@ -10,17 +10,16 @@ dependencies:
   name: aws-k8s
 sections:
 - name: argo-workflows
+  configuration:
+  - name: workflowBucket
+    type: BUCKET
+    default: argo-workflows
+    documentation: bucket to workflow artifacts in
+  - name: hostname
+    documentation: FQDN to use for your Argo Workflows installation
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: aws
-    configuration:
-    - name: workflowBucket
-      type: BUCKET
-      default: argo-workflows
-      documentation: bucket to workflow artifacts in
   - type: HELM
     name: argo-workflows
-    configuration:
-    - name: hostname
-      documentation: FQDN to use for your Argo Workflows installation
-      type: DOMAIN

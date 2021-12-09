@@ -6,10 +6,9 @@ dependencies:
   name: azure-k8s
 sections:
 - name: rabbitmq
+  configuration: []
   items:
   - type: TERRAFORM
     name: kube
-    configuration: []
   - type: HELM
     name: cluster-operator
-    configuration: []

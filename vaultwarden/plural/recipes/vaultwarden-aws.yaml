@@ -10,16 +10,15 @@ dependencies:
   name: ingress-nginx-aws
 sections:
 - name: vaultwarden
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for your Vaultwarden installation
+    type: DOMAIN
+  - name: signupDomains
+    documentation: comma separated list of domains to allow for user signup
+    type: STRING
   items:
   - type: TERRAFORM
     name: aws
-    configuration: []
   - type: HELM
     name: vaultwarden
-    configuration:
-    - name: hostname
-      documentation: FQDN to use for your Vaultwarden installation
-      type: DOMAIN
-    - name: signupDomains
-      documentation: comma separated list of domains to allow for user signup
-      type: STRING

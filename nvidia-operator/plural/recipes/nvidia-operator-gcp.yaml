@@ -6,10 +6,9 @@ dependencies:
   name: gcp-kubernetes
 sections:
 - name: nvidia-operator
+  configuration: []
   items:
   - type: TERRAFORM
     name: gcp
-    configuration: []
   - type: HELM
     name: nvidia-operator
-    configuration: []

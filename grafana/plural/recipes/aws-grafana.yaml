@@ -12,13 +12,12 @@ dependencies:
   name: ingress-nginx-aws
 sections:
 - name: grafana
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for your grafana installation
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: aws
-    configuration: []
   - type: HELM
     name: grafana
-    configuration:
-    - name: hostname
-      documentation: FQDN to use for your grafana installation
-      type: DOMAIN

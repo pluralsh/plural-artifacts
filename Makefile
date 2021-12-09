@@ -19,14 +19,13 @@ create-template:
 	echo "# $$application\n\nInstalls $$application using Plural." > ./$$application/helm/$$application/README.md; \
 	echo "{}" > ./$$application/helm/$$application/values.yaml.tpl; \
 	mkdir -p ./$$application/plural/icons; \
-	mkdir -p ./$$application/plural/crds; \
 	mkdir -p ./$$application/plural/recipes; \
 	mkdir -p ./$$application/plural/tags/helm; \
 	mkdir -p ./$$application/plural/tags/terraform; \
 	echo "{}" > ./$$application/plural/notes.tpl; \
-	echo "name: $$application-aws\ndescription: Installs $$application on an aws eks cluster\nprovider: AWS\ndependencies:\n- repo: bootstrap\n  name: aws-k8s\nsections:\n- name: $$application\n  items:\n  - type: TERRAFORM\n    name: aws\n    configuration: []\n  - type: HELM\n    name: $$application\n    configuration: []" > ./$$application/plural/recipes/$$application-aws.yaml; \
-	echo "name: $$application-azure\ndescription: Installs $$application on an azure aks cluster\nprovider: AZURE\ndependencies:\n- repo: bootstrap\n  name: azure-k8s\nsections:\n- name: $$application\n  items:\n  - type: TERRAFORM\n    name: azure\n    configuration: []\n  - type: HELM\n    name: $$application\n    configuration: []" > ./$$application/plural/recipes/$$application-azure.yaml; \
-	echo "name: $$application-gcp\ndescription: Installs $$application on a gcp gke cluster\nprovider: GCP\ndependencies:\n- repo: bootstrap\n  name: gcp-kubernetes\nsections:\n- name: $$application\n  items:\n  - type: TERRAFORM\n    name: gcp\n    configuration: []\n  - type: HELM\n    name: $$application\n    configuration: []" > ./$$application/plural/recipes/$$application-gcp.yaml; \
+	echo "name: $$application-aws\ndescription: Installs $$application on an aws eks cluster\nprovider: AWS\ndependencies:\n- repo: bootstrap\n  name: aws-k8s\nsections:\n- name: $$application\n  configuration: []\n  items:\n  - type: TERRAFORM\n    name: aws\n  - type: HELM\n    name: $$application" > ./$$application/plural/recipes/$$application-aws.yaml; \
+	echo "name: $$application-azure\ndescription: Installs $$application on an azure aks cluster\nprovider: AZURE\ndependencies:\n- repo: bootstrap\n  name: azure-k8s\nsections:\n- name: $$application\n  configuration: []\n  items:\n  - type: TERRAFORM\n    name: azure\n  - type: HELM\n    name: $$application" > ./$$application/plural/recipes/$$application-azure.yaml; \
+	echo "name: $$application-gcp\ndescription: Installs $$application on a gcp gke cluster\nprovider: GCP\ndependencies:\n- repo: bootstrap\n  name: gcp-kubernetes\nsections:\n- name: $$application\n  configuration: []\n  items:\n  - type: TERRAFORM\n    name: gcp\n  - type: HELM\n    name: $$application" > ./$$application/plural/recipes/$$application-gcp.yaml; \
 	echo "spec:\n  chart: $$application\n  version: 0.1.0\ntags:\n- stable\n- warm" > ./$$application/plural/tags/helm/$$application.yaml; \
 	echo "spec:\n  terraform: aws\n  version: 0.1.0\ntags:\n- stable\n- warm" > ./$$application/plural/tags/terraform/aws.yaml; \
 	echo "spec:\n  terraform: azure\n  version: 0.1.0\ntags:\n- stable\n- warm" > ./$$application/plural/tags/terraform/azure.yaml; \

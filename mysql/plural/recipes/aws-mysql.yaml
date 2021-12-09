@@ -10,17 +10,16 @@ dependencies:
   name: aws-k8s
 sections:
 - name: mysql
+  configuration:
+  - name: backup_bucket
+    documentation: bucket to store mysql backups in
+    type: BUCKET
+    default: mysql-backups
+  - name: hostname
+    documentation: FQDN to use for your accessing the mysql orchestrator
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: aws
-    configuration:
-    - name: backup_bucket
-      documentation: bucket to store mysql backups in
-      type: BUCKET
-      default: mysql-backups
   - type: HELM
     name: mysql
-    configuration:
-    - name: hostname
-      documentation: FQDN to use for your accessing the mysql orchestrator
-      type: DOMAIN

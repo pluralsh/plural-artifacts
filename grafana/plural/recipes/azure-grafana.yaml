@@ -12,13 +12,12 @@ dependencies:
   name: ingress-nginx-azure
 sections:
 - name: grafana
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for your grafana installation
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: azure
-    configuration: []
   - type: HELM
     name: grafana
-    configuration:
-    - name: hostname
-      documentation: FQDN to use for your grafana installation
-      type: DOMAIN

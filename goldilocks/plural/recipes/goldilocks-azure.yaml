@@ -10,13 +10,12 @@ dependencies:
   name: azure-k8s
 sections:
 - name: goldilocks
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for your accessing the goldilocks dashboard
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: azure
-    configuration: []
   - type: HELM
     name: goldilocks
-    configuration:
-    - name: hostname
-      documentation: FQDN to use for your accessing the goldilocks dashboard
-      type: DOMAIN

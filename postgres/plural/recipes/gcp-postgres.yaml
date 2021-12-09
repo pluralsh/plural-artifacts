@@ -5,15 +5,14 @@ dependencies:
   - repo: bootstrap
     name: gcp-kubernetes
 sections:
-  - name: postgres
-    items:
-      - type: TERRAFORM
-        name: gcp
-        configuration:
-          - name: wal_bucket
-            documentation: Arbitrary name for google cloud storage bucket to store wal archives in, eg plural-wal-archives
-            type: BUCKET
-            default: postgres-wal
-      - type: HELM
-        name: postgres
-        configuration: []
+- name: postgres
+  configuration:
+  - name: wal_bucket
+    documentation: Arbitrary name for google cloud storage bucket to store wal archives in, eg plural-wal-archives
+    type: BUCKET
+    default: postgres-wal
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: postgres

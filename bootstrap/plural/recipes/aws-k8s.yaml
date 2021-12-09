@@ -3,28 +3,26 @@ description: Creates an eks cluster and installs the bootstrap chart
 provider: AWS
 dependencies: []
 sections:
-  - name: bootstrap
-    items:
-      - type: TERRAFORM
-        name: aws-bootstrap
-        configuration:
-          - name: vpc_name
-            documentation: Arbitary name for the virtual private cloud to place your cluster in, eg "plural"
-            type: STRING
-      - type: HELM
-        name: bootstrap
-        configuration:
-          - name: txt_owner
-            documentation: Arbitary name for externaldns to use to track ownership of dns records, eg "plural"
-            type: STRING
-            default: plural
-          - name: ownerEmail
-            type: STRING
-            documentation: Email to be used for certificate renewal notifications
-          - name: enableSnapshot
-            type: BOOL
-            documentation: Enable support for volume snapshots by deploying the external snapshotter controller
-            default: false
-      - type: HELM
-        name: plural-certmanager-webhook
-        configuration: []
+- name: bootstrap
+  configuration:
+  - name: vpc_name
+    documentation: Arbitary name for the virtual private cloud to place your cluster in, eg "plural"
+    type: STRING
+  - name: txt_owner
+    documentation: Arbitary name for externaldns to use to track ownership of dns records, eg "plural"
+    type: STRING
+    default: plural
+  - name: ownerEmail
+    type: STRING
+    documentation: Email to be used for certificate renewal notifications
+  - name: enableSnapshot
+    type: BOOL
+    documentation: Enable support for volume snapshots by deploying the external snapshotter controller
+    default: false
+  items:
+  - type: TERRAFORM
+    name: aws-bootstrap
+  - type: HELM
+    name: bootstrap
+  - type: HELM
+    name: plural-certmanager-webhook

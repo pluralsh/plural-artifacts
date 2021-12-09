@@ -12,14 +12,11 @@ dependencies:
   name: grafana-tempo-aws
 sections:
 - name: knative
+  configuration: []
   items:
   - type: TERRAFORM
     name: kube
-    configuration: []
   - type: HELM
     name: knative-serving
-    configuration: []
   # - type: HELM
   #   name: knative-eventing
-  #   configuration: []
-  

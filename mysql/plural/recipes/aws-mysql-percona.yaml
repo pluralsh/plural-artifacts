@@ -1,19 +1,18 @@
-name: aws-mysql
-description: Installs mysql operator on an EKS cluster
+name: aws-mysql-percona
+description: Installs percona mysql operator on an EKS cluster
 provider: AWS
 dependencies:
 - repo: bootstrap
   name: aws-k8s
 sections:
 - name: mysql
+  configuration:
+  - name: backup_bucket
+    documentation: bucket to store mysql backups in
+    type: BUCKET
+    default: mysql-backups
   items:
   - type: TERRAFORM
     name: aws
-    configuration:
-    - name: backup_bucket
-      documentation: bucket to store mysql backups in
-      type: BUCKET
-      default: mysql-backups
   - type: HELM
     name: mysql-percona
-    configuration: []

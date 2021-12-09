@@ -12,13 +12,12 @@ dependencies:
   name: ingress-nginx-aws
 sections:
 - name: istio
+  configuration:
+  - name: kialiHostname
+    documentation: FQDN to use for the Kiali installation
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: kube
-    configuration: []
   - type: HELM
     name: istio
-    configuration:
-    - name: kialiHostname
-      documentation: FQDN to use for the Kiali installation
-      type: DOMAIN

@@ -8,14 +8,13 @@ dependencies:
   name: gcp-redis
 sections:
 - name: grafana-tempo
+  configuration:
+  - name: tempoBucket
+    type: BUCKET
+    default: grafana-tempo
+    documentation: Arbitrary bucket name to store the traces in, eg plural-tempo-traces
   items:
   - type: TERRAFORM
     name: gcp
-    configuration:
-    - name: tempoBucket
-      type: BUCKET
-      default: grafana-tempo
-      documentation: Arbitrary bucket name to store the traces in, eg plural-tempo-traces
   - type: HELM
     name: grafana-tempo
-    configuration: []

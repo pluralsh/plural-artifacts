@@ -20,20 +20,19 @@ dependencies:
   name: gcp-kafka
 sections:
 - name: sentry
+  configuration:
+  - name: hostname
+    documentation: FQDN for your sentry instance
+    type: DOMAIN
+  - name: filestoreBucket
+    documentation: gcs bucket to store miscellaneous files to
+    type: BUCKET
+    default: sentry-firestore
+  - name: adminEmail
+    documentation: admin user email
+    type: STRING
   items:
   - type: TERRAFORM
     name: gcp
-    configuration: []
   - type: HELM
     name: sentry
-    configuration:
-    - name: hostname
-      documentation: FQDN for your sentry instance
-      type: DOMAIN
-    - name: filestoreBucket
-      documentation: gcs bucket to store miscellaneous files to
-      type: BUCKET
-      default: sentry-firestore
-    - name: adminEmail
-      documentation: admin user email
-      type: STRING

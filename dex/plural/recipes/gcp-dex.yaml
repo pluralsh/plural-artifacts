@@ -6,14 +6,12 @@ dependencies:
   name: aws-k8s
 sections:
 - name: dex
+  configuration:
+  - name: fqdn
+    documentation: FQDN to use for your dex installation
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: aws
-    configuration: []
   - type: HELM
     name: dex
-    configuration:
-    - name: fqdn
-      documentation: FQDN to use for your dex installation
-      type: DOMAIN
-  
