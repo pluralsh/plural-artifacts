@@ -4,18 +4,19 @@ provider: AZURE
 dependencies:
 - repo: bootstrap
   name: azure-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-azure
 sections:
 - name: vaultwarden
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for your Vaultwarden installation
+    type: DOMAIN
+  - name: signupDomains
+    documentation: comma separated list of domains to allow for user signup
+    type: STRING
   items:
   - type: TERRAFORM
     name: azure
-    configuration: []
   - type: HELM
     name: vaultwarden
-    configuration:
-    - name: hostname
-      documentation: FQDN to use for your Vaultwarden installation
-      type: DOMAIN
-    - name: signupDomains
-      documentation: comma separated list of domains to allow for user signup
-      type: STRING

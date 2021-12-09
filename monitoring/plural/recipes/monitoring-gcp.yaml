@@ -6,10 +6,9 @@ dependencies:
   name: gcp-kubernetes
 sections:
 - name: monitoring
+  configuration: []
   items:
   - type: TERRAFORM
     name: gcp
-    configuration: []
   - type: HELM
     name: monitoring
-    configuration: []

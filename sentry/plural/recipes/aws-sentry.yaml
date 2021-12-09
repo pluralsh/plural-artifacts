@@ -20,20 +20,19 @@ dependencies:
   name: aws-kafka
 sections:
 - name: sentry
+  configuration:
+  - name: hostname
+    documentation: hostname for your sentry instance
+    type: DOMAIN
+  - name: filestoreBucket
+    documentation: s3 bucket to store miscellaneous files to
+    type: BUCKET
+    default: sentry-firestore
+  - name: adminEmail
+    documentation: admin user email
+    type: STRING
   items:
   - type: TERRAFORM
     name: aws
-    configuration: []
   - type: HELM
     name: sentry
-    configuration:
-    - name: hostname
-      documentation: hostname for your sentry instance
-      type: DOMAIN
-    - name: filestoreBucket
-      documentation: s3 bucket to store miscellaneous files to
-      type: BUCKET
-      default: sentry-firestore
-    - name: adminEmail
-      documentation: admin user email
-      type: STRING

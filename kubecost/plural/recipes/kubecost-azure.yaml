@@ -10,13 +10,12 @@ dependencies:
   name: azure-k8s
 sections:
 - name: kubecost
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for your KubeCost installation
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: azure
-    configuration: []
   - type: HELM
     name: kubecost
-    configuration:
-    - name: hostname
-      documentation: FQDN to use for your KubeCost installation
-      type: DOMAIN

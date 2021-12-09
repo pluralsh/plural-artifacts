@@ -6,10 +6,9 @@ dependencies:
   name: gcp-kubernetes
 sections:
 - name: spark
+  configuration: []
   items:
   - type: TERRAFORM
     name: gcp
-    configuration: []
   - type: HELM
     name: spark
-    configuration: []

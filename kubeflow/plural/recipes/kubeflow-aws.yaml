@@ -31,56 +31,42 @@ dependencies:
   name: aws-redis
 sections:
 - name: kubeflow
+  configuration:
+  - name: pipelines_bucket
+    type: BUCKET
+    default: kubeflow-pipelines
+    documentation: bucket to store the pipeline artifacts and logs in
+  - name: hostname
+    documentation: FQDN to use for your Kubeflow installation
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: aws
-    configuration:
-    - name: pipelines_bucket
-      type: BUCKET
-      default: kubeflow-pipelines
-      documentation: bucket to store the pipeline artifacts and logs in
   - type: HELM
     name: central-dashboard
-    configuration:
-    - name: hostname
-      documentation: FQDN to use for your Kubeflow installation
-      type: DOMAIN
   - type: HELM
     name: katib
-    configuration: []
   - type: HELM
     name: mysql-cluster
-    configuration: []
   - type: HELM
     name: notebooks
-    configuration: []
   - type: HELM
     name: mpi
-    configuration: []
   - type: HELM
     name: mxnet
-    configuration: []
   - type: HELM
     name: pytorch
-    configuration: []
   - type: HELM
     name: tensorflow
-    configuration: []
   - type: HELM
     name: xgboost
-    configuration: []
   - type: HELM
     name: profile-controller
-    configuration: []
   - type: HELM
     name: pipelines
-    configuration: []
   - type: HELM
     name: serving
-    configuration: []
   - type: HELM
     name: tensorboards
-    configuration: []
   - type: HELM
     name: volumes
-    configuration: []

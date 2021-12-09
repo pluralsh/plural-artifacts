@@ -10,13 +10,12 @@ dependencies:
   name: gcp-kubernetes
 sections:
 - name: kubecost
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for your KubeCost installation
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: gcp
-    configuration: []
   - type: HELM
     name: kubecost
-    configuration:
-    - name: hostname
-      documentation: FQDN to use for your KubeCost installation
-      type: DOMAIN

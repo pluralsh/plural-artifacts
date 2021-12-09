@@ -10,13 +10,12 @@ dependencies:
   name: aws-k8s
 sections:
 - name: kubecost
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for your KubeCost installation
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: aws
-    configuration: []
   - type: HELM
     name: kubecost
-    configuration:
-    - name: hostname
-      documentation: FQDN to use for your KubeCost installation
-      type: DOMAIN

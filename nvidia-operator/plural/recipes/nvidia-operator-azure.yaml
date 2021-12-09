@@ -6,10 +6,9 @@ dependencies:
   name: azure-k8s
 sections:
 - name: nvidia-operator
+  configuration: []
   items:
   - type: TERRAFORM
     name: azure
-    configuration: []
   - type: HELM
     name: nvidia-operator
-    configuration: []

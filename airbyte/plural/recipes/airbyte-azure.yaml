@@ -10,17 +10,16 @@ dependencies:
   name: aws-postgres
 sections:
 - name: airbyte
+  configuration:
+  - name: airbyteBucket
+    type: BUCKET
+    default: airbyte
+    documentation: Arbitrary bucket name to store airbyte logs in
+  - name: hostname
+    type: DOMAIN
+    documentation: the fully qualified domain name your airbyte instance will be available at
   items:
   - type: TERRAFORM
     name: azure
-    configuration:
-    - name: airbyteBucket
-      type: BUCKET
-      default: airbyte
-      documentation: Arbitrary bucket name to store airbyte logs in
   - type: HELM
     name: airbyte
-    configuration:
-    - name: hostname
-      type: DOMAIN
-      documentation: the fully qualified domain name your airbyte instance will be available at

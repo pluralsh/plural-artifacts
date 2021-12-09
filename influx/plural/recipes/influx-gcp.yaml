@@ -36,4 +36,3 @@ sections:
     name: gcp
   - type: HELM
     name: influx
-    

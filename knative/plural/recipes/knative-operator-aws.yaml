@@ -6,14 +6,9 @@ dependencies:
   name: aws-k8s
 sections:
 - name: knative
+  configuration: []
   items:
   - type: TERRAFORM
     name: kube
-    configuration: []
   - type: HELM
     name: knative-operator
-    configuration: []
-  # - type: HELM
-  #   name: knative-eventing
-  #   configuration: []
-  

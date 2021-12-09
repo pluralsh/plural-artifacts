@@ -6,17 +6,16 @@ dependencies:
   name: azure-k8s
 sections:
 - name: nextcloud
+  configuration:
+  - name: nextcloud_bucket
+    type: BUCKET
+    defualt: nextcloud
+    documentation: bucket to store nextcloud data
+  - name: hostname
+    documentation: FQDN to use for your nextcloud installation
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: azure
-    configuration:
-    - name: nextcloud_bucket
-      type: BUCKET
-      defualt: nextcloud
-      documentation: bucket to store nextcloud data
   - type: HELM
     name: nextcloud
-    configuration:
-    - name: hostname
-      documentation: FQDN to use for your nextcloud installation
-      type: DOMAIN

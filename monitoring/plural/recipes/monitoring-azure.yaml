@@ -6,10 +6,9 @@ dependencies:
   name: azure-k8s
 sections:
 - name: monitoring
+  configuration: []
   items:
   - type: TERRAFORM
     name: azure
-    configuration: []
   - type: HELM
     name: monitoring
-    configuration: []

@@ -10,16 +10,15 @@ dependencies:
   name: ingress-nginx-gcp
 sections:
 - name: minio
+  configuration:
+  - name: hostname
+    documentation: Fully Qualified Domain Name to use for your minio gateway installation, eg minio.topleveldomain.com if topleveldomain.com is the domain you inputed for dns_domain above.
+    type: DOMAIN
+  - name: consoleHostname
+    documentation: Fully Qualified Domain Name to use for your minio console installation, eg minio.topleveldomain.com if topleveldomain.com is the domain you inputed for dns_domain above.
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: gcp
-    configuration: []
   - type: HELM
     name: minio
-    configuration:
-    - name: hostname
-      documentation: Fully Qualified Domain Name to use for your minio gateway installation, eg minio.topleveldomain.com if topleveldomain.com is the domain you inputed for dns_domain above.
-      type: DOMAIN
-    - name: consoleHostname
-      documentation: Fully Qualified Domain Name to use for your minio console installation, eg minio.topleveldomain.com if topleveldomain.com is the domain you inputed for dns_domain above.
-      type: DOMAIN
