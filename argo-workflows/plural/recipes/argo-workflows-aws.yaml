@@ -15,11 +15,12 @@ sections:
     name: aws
     configuration:
     - name: workflowBucket
-      type: STRING
+      type: BUCKET
+      default: argo-workflows
       documentation: bucket to workflow artifacts in
   - type: HELM
     name: argo-workflows
     configuration:
     - name: hostname
       documentation: FQDN to use for your Argo Workflows installation
-      type: STRING
+      type: DOMAIN

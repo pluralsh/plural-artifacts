@@ -1,7 +1,7 @@
 REPO crossplane
+ATTRIBUTES Plural repository.yaml
 
 TF terraform/*
 HELM helm/*
 RECIPE plural/recipes/*
 TAG plural/tags/**/*
-CRD plural/crds/crossplane/* helm/crossplane

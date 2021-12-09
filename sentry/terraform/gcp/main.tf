@@ -9,6 +9,7 @@ resource "kubernetes_namespace" "sentry" {
 
     labels = {
       "app.kubernetes.io/managed-by" = "plural"
+      "app.plural.sh/name" = "sentry"
     }
   }
 }

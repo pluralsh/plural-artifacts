@@ -4,6 +4,7 @@ resource "kubernetes_namespace" "crossplane" {
 
     labels = {
       "app.kubernetes.io/managed-by" = "plural"
+      "app.plural.sh/name" = "crossplane"
     }
   }
 }

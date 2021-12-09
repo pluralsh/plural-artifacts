@@ -5,7 +5,7 @@ variable "cluster_name" {
 
 variable "namespace" {
   type = string
-  default = "console"
+  default = "sentry"
 }
 
 variable "gcp_location" {

@@ -4,8 +4,8 @@ resource "kubernetes_namespace" "monitoring" {
 
     labels = {
       "app.kubernetes.io/managed-by" = "plural"
-      "istio-injection" = "disabled"
       "app.plural.sh/name" = "monitoring"
+      "istio-injection" = "disabled"
     }
   }
 }

@@ -1,4 +1,4 @@
 variable "namespace" {
   type = string
-  default = "airflow"
+  default = "grafana"
 }

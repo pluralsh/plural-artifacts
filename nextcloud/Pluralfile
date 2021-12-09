@@ -1,4 +1,5 @@
 REPO nextcloud
+ATTRIBUTES Plural repository.yaml
 
 TF terraform/*
 HELM helm/*

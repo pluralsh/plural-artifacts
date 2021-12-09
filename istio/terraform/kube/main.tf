@@ -4,6 +4,7 @@ resource "kubernetes_namespace" "istio-operator" {
     name = var.operator_namespace
     labels = {
       "app.kubernetes.io/managed-by" = "plural"
+      "app.plural.sh/name" = "istio"
     }
   }
 }
@@ -13,6 +14,7 @@ resource "kubernetes_namespace" "istio-system" {
     name = var.istio_namespace
     labels = {
       "app.kubernetes.io/managed-by" = "plural"
+      "app.plural.sh/name" = "istio"
       "istio-operator-managed" = "Reconcile"
       "istio-injection" = "disabled"
       "istio" = "system"

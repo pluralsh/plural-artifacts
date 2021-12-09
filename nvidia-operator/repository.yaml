@@ -1,0 +1,10 @@
+name: nvidia-operator
+description: Everything needed to schedule and monitor NVIDIA GPUs
+category: DEVOPS
+icon: plural/icons/nvidia.png
+notes: plural/notes.tpl
+tags:
+- tag: AI
+- tag: GPU
+- tag: ML
+- tag: NVIDIA

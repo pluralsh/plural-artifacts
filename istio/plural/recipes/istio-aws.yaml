@@ -21,4 +21,4 @@ sections:
     configuration:
     - name: kialiHostname
       documentation: FQDN to use for the Kiali installation
-      type: STRING
+      type: DOMAIN

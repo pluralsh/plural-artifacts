@@ -14,6 +14,3 @@ oauth2-proxy:
     whitelist-domain: ".{{ .Values.auth_whitelist_domain }}"
     oidc-issuer-url: {{ .OIDC.Configuration.Issuer }}
     user-id-claim: {{ .Values.user_id_claim }}
-  metrics:
-    servicemonitor:
-      namespace: {{ namespace "bootstrap" }}

@@ -4,7 +4,6 @@ Includes core dependencies you likely need per provider, and installs plurals ba
 
 * external-dns
 * cert-manager
-* ingress-nginx
 
 For aws, we optionally install:
 
