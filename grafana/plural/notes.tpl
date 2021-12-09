@@ -7,10 +7,10 @@ After logging in with your Plural account, you will need to login with the Grafa
 The grafana admin credentials are:
 
 username: admin
-password: {{ .Configuration.grafana.admin.password }}
+password: {{ .grafana.grafana.admin.password }}
 {{ else }}
 Your initial admin credentials are:
 
 username: admin
-password: {{ .Configuration.grafana.admin.password }}
+password: {{ .grafana.grafana.admin.password }}
 {{ end }}
