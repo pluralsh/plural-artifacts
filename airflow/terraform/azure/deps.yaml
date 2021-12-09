@@ -12,4 +12,4 @@ outputs:
   console_msi_id: console_msi_id
 
 description: airflow azure setup
-version: 0.1.2
+version: 0.1.3
