@@ -19,6 +19,8 @@ spec:
   {{ end }}
   databases:
     airbyte: airbyte  # dbname: owner
+    temporal: airbyte
+    temporal_visibility: airbyte
   postgresql:
     version: "13"
   sidecars:

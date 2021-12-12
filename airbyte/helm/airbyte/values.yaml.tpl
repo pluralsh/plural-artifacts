@@ -11,7 +11,7 @@ airbyte:
   airbyte:
   {{ if eq .Provider "aws" }}
     airbyteS3Bucket: {{ .Values.airbyteBucket }}
-    airbyteS3Region: {{ .Values.Region }}
+    airbyteS3Region: {{ .Region }}
     minio:
       accessKey:
         password: {{ importValue "Terraform" "access_key_id" }}

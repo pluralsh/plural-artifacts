@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 global:
-  imageRegistry: dkr.plural.sh
+  imageRegistry: dkr.plural.sh/airbyte
 
 replicaCount: 1
 
@@ -25,10 +25,15 @@ oidcProxy:
   enabled: false
 
 airbyte:
-  postgres:
+  postgresql:
     enabled: false
   minio:
     enabled: false
+
+  temporal:
+    extraEnv:
+    - name: SQL_TLS_ENABLED
+      value: 'true'
   
   externalDatabase:
     database: airbyte
