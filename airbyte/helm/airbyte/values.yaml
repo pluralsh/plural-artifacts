@@ -31,6 +31,8 @@ airbyte:
     enabled: false
 
   temporal:
+    image:
+      tag: 1.13.1
     extraEnv:
     - name: SQL_TLS_ENABLED
       value: 'true'
