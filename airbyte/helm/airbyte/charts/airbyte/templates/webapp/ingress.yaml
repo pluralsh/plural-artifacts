@@ -1,6 +1,6 @@
 {{- if .Values.webapp.ingress.enabled -}}
-{{- $fullName := include "airbyte.fullname" . -}}
-{{- $svcPort := .Values.webapp.service.port -}}
+{{- $fullName := .Values.webapp.ingress.service.name -}}
+{{- $svcPort := .Values.webapp.ingress.service.port -}}
 {{- if and .Values.webapp.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
   {{- if not (hasKey .Values.webapp.ingress.annotations "kubernetes.io/ingress.class") }}
   {{- $_ := set .Values.webapp.ingress.annotations "kubernetes.io/ingress.class" .Values.webapp.ingress.className}}
@@ -49,11 +49,11 @@ spec:
             backend:
               {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
               service:
-                name: {{ $fullName }}-webapp
+                name: {{ $fullName }}
                 port:
                   number: {{ $svcPort }}
               {{- else }}
-              serviceName: {{ $fullName }}-webapp
+              serviceName: {{ $fullName }}
               servicePort: {{ $svcPort }}
               {{- end }}
           {{- end }}

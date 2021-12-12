@@ -99,6 +99,9 @@ webapp:
   ## @param webapp.ingress.tls [array] Custom ingress TLS configuration
   ingress:
     enabled: false
+    service:
+      name: airbyte-webapp
+      port: 80
     className: ""
     annotations: {}
       # kubernetes.io/ingress.class: nginx

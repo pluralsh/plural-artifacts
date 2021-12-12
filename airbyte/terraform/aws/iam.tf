@@ -28,6 +28,6 @@ data "aws_iam_policy_document" "airbyte" {
 
 resource "aws_iam_policy_attachment" "airbyte-user" {
   name = "${var.cluster_name}-airbyte-policy"
-  users = [aws_iam_user.user.name]
+  users = [aws_iam_user.airbyte.name]
   policy_arn = aws_iam_policy.airbyte.arn
 }
