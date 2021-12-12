@@ -36,6 +36,10 @@ airbyte:
     extraEnv:
     - name: SQL_TLS_ENABLED
       value: 'true'
+    - name: SQL_TLS
+      value: 'true'
+    - name: SQL_TLS_DISABLE_HOST_VERIFICATION
+      value: 'true'
   
   externalDatabase:
     database: airbyte

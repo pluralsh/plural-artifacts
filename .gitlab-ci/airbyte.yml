@@ -33,3 +33,4 @@ temporal:
   script:
   - vendor_image temporalio/auto-setup:1.7.0 airbyte
   - vendor_image temporalio/auto-setup:1.13.1 airbyte
+  - vendor_image bitnami/kubectl:latest airbyte
