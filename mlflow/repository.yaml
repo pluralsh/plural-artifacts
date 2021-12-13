@@ -1,0 +1,9 @@
+name: mlflow
+description: a platform to streamline machine learning development
+category: DEVOPS
+icon: plural/icons/mlflow.png
+notes: plural/notes.tpl
+tags:
+- tag: ai
+- tag: data
+- tag: ml

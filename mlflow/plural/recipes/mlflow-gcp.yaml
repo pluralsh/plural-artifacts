@@ -1,0 +1,18 @@
+name: mlflow-gcp
+description: Installs mlflow on a gcp gke cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-kubernetes
+- repo: istio
+  name: istio-gcp
+- repo: postgres
+  name: gcp-kubernetes
+sections:
+- name: mlflow
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: mlflow
