@@ -153,3 +153,6 @@ upload-superset: # uploads superset artifacts
 
 upload-airbyte: # uploads airbyte artifacts
 	plural apply -f airbyte/Pluralfile
+
+upload-mlflow: # uploads mlflow artifacts
+	plural apply -f mlflow/Pluralfile
