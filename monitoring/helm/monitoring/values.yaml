@@ -16,7 +16,7 @@ promtail:
     prometheus.io/path: /metrics
     prometheus.io/scheme: http
   config:
-    lokiAddress: http://monitoring-loki:3100/loki/api/v1/push
+    lokiAddress: http://monitoring-loki-distributed-gateway/loki/api/v1/push
     snippets:
       pipelineStages:
         - docker:

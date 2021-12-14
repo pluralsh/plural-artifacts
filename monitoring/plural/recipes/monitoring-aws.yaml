@@ -6,7 +6,11 @@ dependencies:
   name: aws-k8s
 sections:
 - name: monitoring
-  configuration: []
+  configuration:
+  - name: loki_bucket
+    type: BUCKET
+    default: loki
+    documentation: bucket to store loki logs data
   items:
   - type: TERRAFORM
     name: aws
