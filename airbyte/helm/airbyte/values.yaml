@@ -24,6 +24,108 @@ postgres:
 oidcProxy:
   enabled: false
 
+configOverlays:
+- name: web-cpu
+  labels:
+    platform.plural.sh/component: airbyte-webapp
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: cpu
+  spec:
+    name: web cpu
+    documentation: cpu requests for webapp deployment
+    updates:
+    - path: ['airbyte', 'airbyte', 'webapp', 'resources', 'requests', 'cpu']
+- name: web-mem
+  labels:
+    platform.plural.sh/component: airbyte-webapp
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: memory
+  spec:
+    name: web memory
+    documentation: memory requests for webapp deployment
+    updates:
+    - path: ['airbyte', 'airbyte', 'webapp', 'resources', 'requests', 'memory']
+- name: worker-cpu
+  labels:
+    platform.plural.sh/component: airbyte-worker
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: cpu
+  spec:
+    name: worker cpu
+    documentation: cpu requests for worker deployment
+    updates:
+    - path: ['airbyte', 'airbyte', 'worker', 'resources', 'requests', 'cpu']
+- name: worker-mem
+  labels:
+    platform.plural.sh/component: airbyte-worker
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: memory
+  spec:
+    name: worker memory
+    documentation: memory requests for worker deployment
+    updates:
+    - path: ['airbyte', 'airbyte', 'worker', 'resources', 'requests', 'memory']
+- name: scheduler-cpu
+  labels:
+    platform.plural.sh/component: airbyte-scheduler
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: cpu
+  spec:
+    name: scheduler cpu
+    documentation: cpu requests for scheduler deployment
+    updates:
+    - path: ['airbyte', 'airbyte', 'scheduler', 'resources', 'requests', 'cpu']
+- name: scheduler-mem
+  labels:
+    platform.plural.sh/component: airbyte-scheduler
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: memory
+  spec:
+    name: scheduler memory
+    documentation: memory requests for scheduler deployment
+    updates:
+    - path: ['airbyte', 'airbyte', 'scheduler', 'resources', 'requests', 'memory']
+- name: server-cpu
+  labels:
+    platform.plural.sh/component: airbyte-server
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: cpu
+  spec:
+    name: server cpu
+    documentation: cpu requests for server deployment
+    updates:
+    - path: ['airbyte', 'airbyte', 'server', 'resources', 'requests', 'cpu']
+- name: server-mem
+  labels:
+    platform.plural.sh/component: airbyte-server
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: memory
+  spec:
+    name: server memory
+    documentation: memory requests for server deployment
+    updates:
+    - path: ['airbyte', 'airbyte', 'server', 'resources', 'requests', 'memory']
+- name: temporal-cpu
+  labels:
+    platform.plural.sh/component: airbyte-temporal
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: cpu
+  spec:
+    name: temporal cpu
+    documentation: cpu requests for temporal deployment
+    updates:
+    - path: ['airbyte', 'airbyte', 'temporal', 'resources', 'requests', 'cpu']
+- name: temporal-mem
+  labels:
+    platform.plural.sh/component: airbyte-temporal
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: memory
+  spec:
+    name: temporal memory
+    documentation: memory requests for temporal deployment
+    updates:
+    - path: ['airbyte', 'airbyte', 'temporal', 'resources', 'requests', 'memory']
+
 airbyte:
   postgresql:
     enabled: false

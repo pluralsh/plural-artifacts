@@ -7,7 +7,7 @@ dependencies:
 # - repo: istio
 #   name: istio-gcp
 - repo: postgres
-  name: gcp-kubernetes
+  name: gcp-postgres
 sections:
 - name: mlflow
   configuration: []
