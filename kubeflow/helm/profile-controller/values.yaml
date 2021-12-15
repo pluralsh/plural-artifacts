@@ -83,10 +83,10 @@ virtualService:
 resources:
   requests:
     cpu: 11m
-    memory: 37Mi
+    memory: 52Mi
   limits:
     cpu: 11m
-    memory: 37Mi
+    memory: 52Mi
 
 autoscaling:
   enabled: false
