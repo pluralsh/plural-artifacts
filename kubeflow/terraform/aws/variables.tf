@@ -17,9 +17,9 @@ variable "ami_release_version" {
   default = "1.21.5-20211109"
 }
 
-variable "kubeflow_serviceaccount" {
+variable "kubeflow_argo_serviceaccount" {
   type = string
-  default = "default-editor"
+  default = "kubeflow-pipelines-argo-workflow-controller"
 }
 
 variable "role_name" {

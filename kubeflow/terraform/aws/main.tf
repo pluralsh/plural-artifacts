@@ -22,8 +22,7 @@ module "assumable_role_kubeflow" {
   provider_url                  = replace(data.aws_eks_cluster.cluster.identity[0].oidc[0].issuer, "https://", "")
   role_policy_arns              = [aws_iam_policy.kubeflow.arn]
   oidc_subjects_with_wildcards = [
-    "system:serviceaccount:*:${var.kubeflow_serviceaccount}",
-    "system:serviceaccount:*:kubeflow-pod"
+    "system:serviceaccount:*:${var.kubeflow_argo_serviceaccount}"
   ]
 }
 

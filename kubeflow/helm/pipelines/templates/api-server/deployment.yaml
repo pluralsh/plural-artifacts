@@ -55,16 +55,6 @@ spec:
                 configMapKeyRef:
                   key: bucketName
                   name: pipeline-install-config
-            - name: OBJECTSTORECONFIG_PIPELINEFOLDER
-              valueFrom:
-                configMapKeyRef:
-                  key: bucketPipelineFolder
-                  name: pipeline-install-config
-            - name: OBJECTSTORECONFIG_PIPELINEPATH
-              valueFrom:
-                configMapKeyRef:
-                  key: bucketPipelinePath
-                  name: pipeline-install-config
             - name: OBJECTSTORECONFIG_REGION
               valueFrom:
                 configMapKeyRef:
@@ -105,10 +95,10 @@ spec:
                 configMapKeyRef:
                   key: dbPort
                   name: pipeline-install-config
-            - name: DBCONFIG_CONMAXLIFETIMESEC
+            - name: DBCONFIG_CONMAXLIFETIME
               valueFrom:
                 configMapKeyRef:
-                  key: dbConMaxLifeTimeSec
+                  key: dbConMaxLifeTime
                   name: pipeline-install-config
             - name: DBCONFIG_DRIVERNAME
               valueFrom:
