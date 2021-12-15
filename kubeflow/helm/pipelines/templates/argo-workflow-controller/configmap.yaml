@@ -1,20 +1,5 @@
 apiVersion: v1
 data:
-  artifactRepository: |
-    archiveLogs: true
-    s3:
-      bucket: {{ .Values.config.objectStore.bucketName }}
-      keyPrefix: pipelines
-      endpoint: s3.amazonaws.com
-      region: {{ .Values.config.objectStore.bucketRegion }}
-      insecure: false
-      accessKeySecret:
-        name: pipelines-s3-secret
-        key: username
-      secretKeySecret:
-        name: pipelines-s3-secret
-        key: password
-      keyFormat: {{ printf "\"pipelines/{{workflow.namespace}}/{{workflow.name}}/{{pod.name}}\"" }}
   containerRuntimeExecutor: pns
   executor: |
     imagePullPolicy: IfNotPresent
@@ -29,4 +14,23 @@ kind: ConfigMap
 metadata:
   labels: {{- include "pipelines.labels" . | nindent 4 }}
   name: {{ include "pipelines.fullname" . }}-argo-workflow-controller
+  namespace: kubeflow
+---
+apiVersion: v1
+data:
+  default-v1: |
+    archiveLogs: true
+    s3:
+      bucket: {{ .Values.config.objectStore.bucketName }}
+      keyPrefix: pipelines
+      endpoint: s3.amazonaws.com
+      region: {{ .Values.config.objectStore.bucketRegion }}
+      insecure: false
+      keyFormat: {{ printf "\"pipelines/{{workflow.namespace}}/pipelines/{{workflow.name}}/{{pod.name}}\"" }}
+kind: ConfigMap
+metadata:
+  labels: {{- include "pipelines.labels" . | nindent 4 }}
+  annotations:
+    workflows.argoproj.io/default-artifact-repository: default-v1
+  name: artifact-repositories
   namespace: kubeflow
