@@ -14,13 +14,8 @@ spec:
       {{- include "pipelines.argoWorkflowControllerSelectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
+      {{- with .Values.argoWorkflowController.podAnnotations }}
       annotations:
-        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
-        prometheus.io/port: "9090"
-        prometheus.io/scheme: http
-        prometheus.io/scrape: "true"
-        prometheus.io/path: /metrics
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
@@ -33,32 +28,43 @@ spec:
       serviceAccountName: {{ include "pipelines.serviceAccountName" . }}-argo-workflow-controller
       securityContext:
         # runAsNonRoot: true # TODO: Fix runAsNonRoot
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+        {{- toYaml .Values.argoWorkflowController.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}-argo-workflow-controller
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
+            {{- toYaml .Values.argoWorkflowController.securityContext | nindent 12 }}
           image: "{{ .Values.argoWorkflowController.image.repository }}:{{ .Values.argoWorkflowController.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.argoWorkflowController.image.pullPolicy }}
           args:
             - --configmap
             - {{ include "pipelines.fullname" . }}-argo-workflow-controller
             - --executor-image
-            - gcr.io/ml-pipeline/argoexec:v2.12.9-license-compliance
+            - gcr.io/ml-pipeline/argoexec:v3.1.14-license-compliance
           command:
             - workflow-controller
+          env:
+          - name: LEADER_ELECTION_IDENTITY
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.name
           ports:
             - name: metrics
               containerPort: 9090
               protocol: TCP
+            - name: health
+              containerPort: 6060
+              protocol: TCP
           livenessProbe:
+            failureThreshold: 3
             httpGet:
-              path: /metrics
-              port: metrics
-            initialDelaySeconds: 30
-            periodSeconds: 30
+              path: /healthz
+              port: 6060
+            initialDelaySeconds: 90
+            periodSeconds: 60
+            timeoutSeconds: 30
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.argoWorkflowController.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         kubernetes.io/os: linux
