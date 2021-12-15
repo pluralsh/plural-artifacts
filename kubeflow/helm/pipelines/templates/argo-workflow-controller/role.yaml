@@ -5,9 +5,17 @@ metadata:
   name: {{ include "pipelines.fullname" . }}-argo-workflow-controller-role
   namespace: kubeflow
 rules:
-  - apiGroups:
-      - ""
-    resources:
-      - secrets
-    verbs:
-      - get
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - create
+  - get
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - get
