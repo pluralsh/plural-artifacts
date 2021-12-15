@@ -38,6 +38,7 @@ helm.sh/chart: {{ include "pipelines.chart" . }}
 {{ include "pipelines.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
@@ -49,7 +50,6 @@ Selector labels
 app: {{ include "pipelines.name" . }}
 app.kubernetes.io/name: {{ include "pipelines.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
-version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 
 {{/*
@@ -59,7 +59,6 @@ API Server selector labels
 app: {{ include "pipelines.name" . }}-api
 app.kubernetes.io/name: {{ include "pipelines.name" . }}-api
 app.kubernetes.io/instance: {{ .Release.Name }}
-version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 
 {{/*
@@ -69,7 +68,6 @@ Argo Workflow Controller selector labels
 app: {{ include "pipelines.name" . }}-argo
 app.kubernetes.io/name: {{ include "pipelines.name" . }}-argo
 app.kubernetes.io/instance: {{ .Release.Name }}
-version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 
 {{/*
@@ -79,7 +77,6 @@ Cache Server selector labels
 app: {{ include "pipelines.name" . }}-cache-server
 app.kubernetes.io/name: {{ include "pipelines.name" . }}-cache-server
 app.kubernetes.io/instance: {{ .Release.Name }}
-version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 
 {{/*
@@ -89,7 +86,6 @@ Cache Deployer selector labels
 app: {{ include "pipelines.name" . }}-cache-deployer
 app.kubernetes.io/name: {{ include "pipelines.name" . }}-cache-deployer
 app.kubernetes.io/instance: {{ .Release.Name }}
-version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 
 {{/*
@@ -99,7 +95,6 @@ Container Builder selector labels
 app: {{ include "pipelines.name" . }}-container-builder
 app.kubernetes.io/name: {{ include "pipelines.name" . }}-container-builder
 app.kubernetes.io/instance: {{ .Release.Name }}
-version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 
 {{/*
@@ -109,7 +104,6 @@ Metadata Envoy selector labels
 app: {{ include "pipelines.name" . }}-metadata-envoy
 app.kubernetes.io/name: {{ include "pipelines.name" . }}-metadata-envoy
 app.kubernetes.io/instance: {{ .Release.Name }}
-version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 
 {{/*
@@ -119,7 +113,6 @@ Metadata Writer selector labels
 app: {{ include "pipelines.name" . }}-metadata-writer
 app.kubernetes.io/name: {{ include "pipelines.name" . }}-metadata-writer
 app.kubernetes.io/instance: {{ .Release.Name }}
-version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 
 {{/*
@@ -129,7 +122,6 @@ Viewer selector labels
 app: {{ include "pipelines.name" . }}-viewer
 app.kubernetes.io/name: {{ include "pipelines.name" . }}-viewer
 app.kubernetes.io/instance: {{ .Release.Name }}
-version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 
 {{/*
@@ -139,7 +131,6 @@ Metadata gRPC Server selector labels
 app: {{ include "pipelines.name" . }}-metadata-grpc-server
 app.kubernetes.io/name: {{ include "pipelines.name" . }}-metadata-grpc-server
 app.kubernetes.io/instance: {{ .Release.Name }}
-version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 
 {{/*
@@ -149,7 +140,6 @@ Persistence Agent  selector labels
 app: {{ include "pipelines.name" . }}-persistence-agent
 app.kubernetes.io/name: {{ include "pipelines.name" . }}-persistence-agent
 app.kubernetes.io/instance: {{ .Release.Name }}
-version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 
 {{/*
@@ -159,7 +149,6 @@ Scheduled Workflow  selector labels
 app: {{ include "pipelines.name" . }}-scheduled-workflow
 app.kubernetes.io/name: {{ include "pipelines.name" . }}-scheduled-workflow
 app.kubernetes.io/instance: {{ .Release.Name }}
-version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 
 {{/*
@@ -169,7 +158,6 @@ Viewer Controller  selector labels
 app: {{ include "pipelines.name" . }}-viewer-controller
 app.kubernetes.io/name: {{ include "pipelines.name" . }}-viewer-controller
 app.kubernetes.io/instance: {{ .Release.Name }}
-version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 
 {{/*
@@ -179,7 +167,6 @@ Visualization Server  selector labels
 app: {{ include "pipelines.name" . }}-visualization-server
 app.kubernetes.io/name: {{ include "pipelines.name" . }}-visualization-server
 app.kubernetes.io/instance: {{ .Release.Name }}
-version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 
 {{/*
@@ -189,7 +176,6 @@ Runner  selector labels
 app: {{ include "pipelines.name" . }}-runner
 app.kubernetes.io/name: {{ include "pipelines.name" . }}-runner
 app.kubernetes.io/instance: {{ .Release.Name }}
-version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 
 {{/*
