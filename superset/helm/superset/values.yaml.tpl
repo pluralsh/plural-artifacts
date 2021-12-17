@@ -72,9 +72,9 @@ superset:
               }
           }
       ]
-      
-      # force users to re-auth after 30min of inactivity (to keep roles in sync)
-      PERMANENT_SESSION_LIFETIME = 1800
+
+      # force users to re-auth after 1d
+      PERMANENT_SESSION_LIFETIME = 60 * 60 * 24
 
       ENABLE_PROXY_FIX = True
   {{ end }}
