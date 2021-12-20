@@ -19,6 +19,12 @@
       "matchPackagePatterns": ["^k8s.io/client-go"],
       "matchUpdateTypes": ["major"],
       "enabled": false
+    },
+    {
+      "description": "Group Kubeflow Pipelines update",
+      "matchPackagePatterns": ["^(kubeflow|gcr.io)\/(ml-|tfx-oss-public\/ml_metadata_store_server).?(pipeline)?.*"],
+      "groupName": "kubeflow-pipelines",
+      "additionalBranchPrefix": ""
     }
   ],
   "separateMinorPatch": true
