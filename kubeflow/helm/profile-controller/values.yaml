@@ -16,7 +16,7 @@ image:
   repository: ghcr.io/pluralsh/kubeflow-profile-controller
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: 0.1.3
+  tag: 0.1.4
 
 kfam:
   image:
