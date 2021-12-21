@@ -1,5 +1,5 @@
 name: mlflow
-description: a platform to streamline machine learning development
+description: streamlined machine learning development
 category: DEVOPS
 icon: plural/icons/mlflow.png
 notes: plural/notes.tpl
