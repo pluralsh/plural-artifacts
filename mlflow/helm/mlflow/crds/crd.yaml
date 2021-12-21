@@ -37,6 +37,10 @@ spec:
               defaultArtifactRoot:
                 default: file:///mnt/mlruns/artifacts
                 type: string
+              extraPodAnnotations:
+                additionalProperties:
+                  type: string
+                type: object
               extraPodLabels:
                 additionalProperties:
                   type: string

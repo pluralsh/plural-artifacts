@@ -8,6 +8,12 @@ spec:
   size: "5Gi"
   defaultArtifactRoot: {{ .Values.mlflow.defaultArtifactRoot }}
   serviceAccountName: {{ include "mlflow-standalone.serviceAccountName" . }}
+  {{- if .Values.oidcProxy.enabled }}
+  extraPodLabels:
+    security.plural.sh/inject-oauth-sidecar: "true"
+  extraPodAnnotations:
+    security.plural.sh/oauth-env-secret: "mlflow-oauth2-proxy-config"
+  {{- end }}
   network:
     istioEnabled: false
   postgres:
