@@ -46,7 +46,13 @@ spec:
               imagePullSecret:
                 type: string
               network:
+                description: Networking config for the tracking server instance
                 properties:
+                  istioEnabled:
+                    default: true
+                    description: Enable creating Istio Virtual Service as part of
+                      the controller
+                    type: boolean
                   istioGatewayName:
                     description: Name of the Istio Gateway to use for the VirtualService
                     type: string
@@ -55,6 +61,7 @@ spec:
                     type: string
                 type: object
               postgres:
+                description: Postgres config for the tracking server instance
                 properties:
                   instances:
                     default: 1
