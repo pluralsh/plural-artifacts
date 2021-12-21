@@ -1,3 +1,7 @@
+data "azurerm_resource_group" "group" {
+  name = var.resource_group
+}
+
 data "azurerm_dns_zone" "zone" {
   name = var.dns_zone_name
   resource_group_name = data.azurerm_resource_group.group.name

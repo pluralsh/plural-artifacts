@@ -13,7 +13,7 @@ external-dns:
   {{ else }}
   provider: {{ .Provider }}
   {{ end }}
-  txtOwnerId: {{ default "plural" .Values.txt_owner }}
+  txtOwnerId: {{ default .Cluster .Values.txt_owner }}
 {{ if eq .Provider "azure" }}
   podLabels:
     aadpodidbinding: externaldns
@@ -33,7 +33,7 @@ external-dns:
     project: {{ .Project }}
   aws:
     region: {{ .Region }}
-  {{ if eq .Provider "azure" }}
+  {{ if and (not $pluraldns) (eq .Provider "azure")}}
   azure:
     useManagedIdentityExtension: true
     resourceGroup: {{ .Project }}
@@ -48,7 +48,7 @@ external-dns:
   - istio-virtualservice
   {{ end }}
 
-{{ if eq .Provider "azure" }}
+{{ if and (not $pluraldns) (eq .Provider "azure") }}
 externalDnsIdentityId: {{ importValue "Terraform" "externaldns_msi_id" }}
 externalDnsIdentityClientId: {{ importValue "Terraform" "externaldns_msi_client_id" }}
 {{ end }}
@@ -71,7 +71,7 @@ regcreds:
       auth: {{ list .Config.Email .Config.Token | join ":" | b64enc | quote }}
 
 provider: {{ .Provider }}
-ownerEmail: {{ .Values.ownerEmail }}
+ownerEmail: {{ .Config.Email }}
 
 cluster-autoscaler:
 {{ if eq (default "google" .Provider) "aws" }}
@@ -110,15 +110,12 @@ aws-ebs-csi-driver:
         eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-ebs-csi"
 {{ end }}
 
-{{ if .Values.enableSnapshot }}
+{{ if eq .Provider "aws" }}
+metrics-server:
+  enabled: true
 snapshot-validation-webhook:
   enabled: true
 snapshot-controller:
-  enabled: true
-{{ end }}
-
-{{ if eq .Provider "aws" }}
-metrics-server:
   enabled: true
 {{ end }}
 

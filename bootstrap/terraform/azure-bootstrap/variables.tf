@@ -48,10 +48,6 @@ variable "max_nodes" {
   default = 25
 }
 
-variable "dns_zone_name" {
-  type = string
-}
-
 variable "namespace" {
   type = string
   default = "bootstrap"

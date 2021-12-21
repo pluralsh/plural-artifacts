@@ -4,14 +4,7 @@ provider: AZURE
 dependencies: []
 sections:
 - name: bootstrap
-  configuration:
-  - name: txt_owner
-    documentation: Arbitrary name for externaldns to use to track ownership of dns records, eg "plural"
-    type: STRING
-    default: plural
-  - name: ownerEmail
-    type: STRING
-    documentation: Email to be used for certificate renewal notifications
+  configuration: []
   items:
   - type: TERRAFORM
     name: azure-bootstrap
