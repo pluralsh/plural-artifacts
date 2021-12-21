@@ -9,7 +9,7 @@ variable "cluster_name" {
 
 variable "mlflow_serviceaccount" {
   type = string
-  default = "mlflow"
+  default = "mlflow-mlflow-standalone"
 }
 
 variable "role_name" {
