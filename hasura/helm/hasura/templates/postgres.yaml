@@ -1,0 +1,87 @@
+apiVersion: acid.zalan.do/v1
+kind: postgresql
+metadata:
+  name: plural-hasura
+  labels:
+  {{ include "hasura.labels" . | nindent 4 }}
+spec:
+  teamId: plural
+  volume:
+    size: {{ .Values.postgres.storage.size }}
+  numberOfInstances: {{ .Values.postgres.replicas }}
+  users:
+    hasura:  # database owner
+    - superuser
+    - createdb
+  {{ if .Values.postgres.resources }}
+  resources:
+  {{ mergeOverwrite .Values.postgres.default.resources .Values.postgres.resources | toYaml | nindent 4 }}
+  {{ end }}
+  databases:
+    hasura: hasura  # dbname: owner
+  postgresql:
+    version: "13"
+  sidecars:
+  - image: gcr.io/pluralsh/postgres-exporter:0.8.0
+    name: exporter
+    ports:
+    - containerPort: 9187
+      name: http-metrics
+      protocol: TCP
+    env:
+    - name: "DATA_SOURCE_URI"
+      value: "127.0.0.1:5432/hasura?sslmode=disable"
+    - name: "DATA_SOURCE_USER"
+      valueFrom:
+        secretKeyRef:
+          name: postgres.plural-hasura.credentials.postgresql.acid.zalan.do
+          key: username
+    - name: "DATA_SOURCE_PASS"
+      valueFrom:
+        secretKeyRef:
+          name: postgres.plural-hasura.credentials.postgresql.acid.zalan.do
+          key: password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hasura-master
+  labels:
+    spilo-role: master
+    {{ include "hasura.labels" . | nindent 4 }}
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "9187"
+spec:
+  type: ClusterIP
+  ports:
+  - name: postgres
+    port: 5432
+    targetPort: 5432
+  - name: http-metrics
+    port: 9187
+    targetPort: http-metrics
+  selector:
+    spilo-role: master
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hasura-replica
+  labels:
+    spilo-role: replica
+    {{ include "hasura.labels" . | nindent 4 }}
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "9187"
+spec:
+  type: ClusterIP
+  ports:
+  - name: postgres
+    port: 5432
+    targetPort: 5432
+  - name: http-metrics
+    port: 9187
+    targetPort: http-metrics
+  selector:
+    spilo-role: replica
