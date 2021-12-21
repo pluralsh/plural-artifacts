@@ -1,7 +1,7 @@
 {{- if .OIDC }}
 oidcProxy:
   enabled: true
-  upstream: http://localhost:9090
+  upstream: http://localhost:5000
   issuer: {{ .OIDC.Configuration.Issuer }}
   clientID: {{ .OIDC.ClientId }}
   clientSecret: {{ .OIDC.ClientSecret }}
