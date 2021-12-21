@@ -3,6 +3,9 @@ description: a platform to streamline machine learning development
 category: DEVOPS
 icon: plural/icons/mlflow.png
 notes: plural/notes.tpl
+oauthSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
 tags:
 - tag: ai
 - tag: data
