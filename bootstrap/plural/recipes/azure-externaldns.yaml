@@ -1,5 +1,5 @@
-name: azure-k8s
-description: Constructs an AKS cluster and installs the bootstrap chart
+name: azure-externaldns
+description: enable externaldns to use your own azure dns zone in this plural cluster
 provider: AZURE
 dependencies:
 - repo: bootstrap
