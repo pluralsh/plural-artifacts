@@ -4,8 +4,6 @@ provider: GCP
 dependencies:
 - repo: bootstrap
   name: gcp-kubernetes
-# - repo: istio
-#   name: istio-gcp
 - repo: postgres
   name: gcp-postgres
 sections:

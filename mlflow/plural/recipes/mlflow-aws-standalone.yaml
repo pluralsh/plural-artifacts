@@ -1,0 +1,23 @@
+name: mlflow-aws-standalone
+description: Installs mlflow on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: mlflow
+  name: mlflow-aws
+sections:
+- name: mlflow
+  configuration:
+  - name: mlflow_bucket
+    type: BUCKET
+    default: mlflow
+    documentation: bucket to store the mlflow artifacts in
+  - name: hostname
+    documentation: FQDN to use for your MLFlow installation
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: mlflow

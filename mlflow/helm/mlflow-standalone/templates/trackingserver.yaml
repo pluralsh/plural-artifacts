@@ -1,0 +1,17 @@
+apiVersion: mlflow.plural.sh/v1alpha1
+kind: TrackingServer
+metadata:
+  name: trackingserver
+spec:
+  image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+  replicas: 1
+  size: "5Gi"
+  defaultArtifactRoot: {{ .Values.mlflow.defaultArtifactRoot }}
+  serviceAccountName: {{ include "mlflow-standalone.serviceAccountName" . }}
+  network:
+    istioEnabled: false
+  postgres:
+    instances: 1
+    version: "13"
+    volume:
+      size: 10Gi

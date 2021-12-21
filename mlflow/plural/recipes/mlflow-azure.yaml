@@ -4,8 +4,6 @@ provider: AZURE
 dependencies:
 - repo: bootstrap
   name: azure-k8s
-- repo: istio
-  name: istio-azure
 - repo: postgres
   name: azure-postgres
 sections:

@@ -10,26 +10,15 @@ spec:
     repo: bootstrap
     version: '>= 0.5.1'
   - type: helm
-    name: istio
-    repo: istio
-    version: '>= 0.1.88'
-    optional: true
+    name: mlflow
+    repo: mlflow
+    version: '>= 0.1.4'
   - type: helm
     name: postgres
     repo: postgres
     version: '>= 0.1.32'
   - type: terraform
     name: aws
-    repo: mlflow
-    version: '>= 0.1.0'
-    optional: true
-  - type: terraform
-    name: azure
-    repo: mlflow
-    version: '>= 0.1.0'
-    optional: true
-  - type: terraform
-    name: gcp
-    repo: mlflow
+    repo: mlflow-standalone
     version: '>= 0.1.0'
     optional: true
