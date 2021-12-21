@@ -156,3 +156,6 @@ upload-airbyte: # uploads airbyte artifacts
 
 upload-mlflow: # uploads mlflow artifacts
 	plural apply -f mlflow/Pluralfile
+
+upload-hasura: # uploads hasura artifacts
+	plural apply -f hasura/Pluralfile
