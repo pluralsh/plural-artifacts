@@ -1,0 +1,6 @@
+nocodb:
+  stage: push
+  only:
+  - main
+  script:
+  - vendor_image nocodb/nocodb:0.83.8 nocodb

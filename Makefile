@@ -156,3 +156,6 @@ upload-airbyte: # uploads airbyte artifacts
 
 upload-mlflow: # uploads mlflow artifacts
 	plural apply -f mlflow/Pluralfile
+
+upload-nocodb: # uploads nocodb artifacts
+	plural apply -f nocodb/Pluralfile
