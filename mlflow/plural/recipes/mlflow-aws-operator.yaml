@@ -1,16 +1,16 @@
-name: mlflow-gcp
-description: Installs mlflow on a gcp gke cluster
-provider: GCP
+name: mlflow-aws-operator
+description: Installs mlflow on an aws eks cluster
+provider: AWS
 dependencies:
 - repo: bootstrap
-  name: gcp-kubernetes
+  name: aws-k8s
 - repo: postgres
-  name: gcp-postgres
+  name: aws-postgres
 sections:
 - name: mlflow
   configuration: []
   items:
   - type: TERRAFORM
-    name: gcp
+    name: aws
   - type: HELM
     name: mlflow
