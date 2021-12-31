@@ -231,7 +231,7 @@ jobs:
       id: vendor
       with:
         img: ${{ matrix.img.image }}
-        repo: ${{ inputs.img.repo }}
+        repo: ${{ matrix.img.repo }}
   deploy:
     runs-on: ubuntu-latest
     needs:
