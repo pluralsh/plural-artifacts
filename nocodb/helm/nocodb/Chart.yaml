@@ -2,5 +2,5 @@ apiVersion: v2
 name: nocodb
 description: nocodb helm chart for deployment on Plural
 type: application
-version: 0.1.2
+version: 0.1.3
 appVersion: 0.83.8
