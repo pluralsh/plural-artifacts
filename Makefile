@@ -6,7 +6,7 @@ JOBS := $(addprefix upload-,${APPS})
 help:
 	@perl -nle'print $& if m{^[a-zA-Z_-]+:.*?## .*$$}' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-all: ${JOBS} ; echo "finished updating ${APPS}"
+all: ${JOBS} ; echo "finished updating all apps"
 
 import-operator:
 	kustomize build ../plural-operator/config/crd/ -o bootstrap/helm/bootstrap/crds
