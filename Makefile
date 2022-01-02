@@ -1,7 +1,7 @@
 APPS := $(shell ls -l | egrep '^d' | awk '{ print $$9 }')
 JOBS := $(addprefix upload-,${APPS})
 
-PG_APPS := airbyte airflow gitlab sentry superset
+PG_APPS := airbyte airflow gitlab nocodb sentry superset
 PG_JOBS := $(addprefix sync-pg-runbook-,${PG_APPS})
 
 .PHONY: help
@@ -30,7 +30,7 @@ create-template:
 	mkdir -p ./$$application/plural/recipes; \
 	mkdir -p ./$$application/plural/tags/helm; \
 	mkdir -p ./$$application/plural/tags/terraform; \
-	echo "{}" > ./$$application/plural/notes.tpl; \
+	echo "" > ./$$application/plural/notes.tpl; \
 	echo "name: $$application-aws\ndescription: Installs $$application on an aws eks cluster\nprovider: AWS\ndependencies:\n- repo: bootstrap\n  name: aws-k8s\nsections:\n- name: $$application\n  configuration: []\n  items:\n  - type: TERRAFORM\n    name: aws\n  - type: HELM\n    name: $$application" > ./$$application/plural/recipes/$$application-aws.yaml; \
 	echo "name: $$application-azure\ndescription: Installs $$application on an azure aks cluster\nprovider: AZURE\ndependencies:\n- repo: bootstrap\n  name: azure-k8s\nsections:\n- name: $$application\n  configuration: []\n  items:\n  - type: TERRAFORM\n    name: azure\n  - type: HELM\n    name: $$application" > ./$$application/plural/recipes/$$application-azure.yaml; \
 	echo "name: $$application-gcp\ndescription: Installs $$application on a gcp gke cluster\nprovider: GCP\ndependencies:\n- repo: bootstrap\n  name: gcp-kubernetes\nsections:\n- name: $$application\n  configuration: []\n  items:\n  - type: TERRAFORM\n    name: gcp\n  - type: HELM\n    name: $$application" > ./$$application/plural/recipes/$$application-gcp.yaml; \
