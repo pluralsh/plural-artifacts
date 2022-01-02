@@ -4,6 +4,44 @@
 
 replicaCount: 1
 
+configOverlays:
+- name: nocodb-registry
+  spec:
+    folder: general
+    subfolder: docker
+    name: Nocodb Registry
+    documentation: docker repository to use for nocodb (default is dkr.plural.sh/nocodb/nocodb/nocodb)
+    updates:
+    - path: ['nocodb', 'image', 'repository']
+- name: nocodb-dkr-tag
+  spec:
+    folder: general
+    subfolder: docker
+    name: Nocodb Docker Tag
+    documentation: docker image tag to use for nocodb
+    updates:
+    - path: ['nocodb', 'image', 'tag']
+- name: deployment-cpu
+  labels:
+    platform.plural.sh/component: nocodb
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: cpu
+  spec:
+    name: web cpu
+    documentation: cpu requests for noco deployment
+    updates:
+    - path: ['nocodb', 'resources', 'requests', 'cpu']
+- name: deployment-mem
+  labels:
+    platform.plural.sh/component: nocodb
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: memory
+  spec:
+    name: web memory
+    documentation: memory requests for noco deployment
+    updates:
+    - path: ['nocodb', 'resources', 'requests', 'memory']
+
 image:
   repository: dkr.plural.sh/nocodb/nocodb/nocodb
   pullPolicy: IfNotPresent
