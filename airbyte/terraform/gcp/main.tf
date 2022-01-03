@@ -43,10 +43,14 @@ resource "google_service_account_key" "airbyte_key" {
 resource "kubernetes_secret" "google-application-credentials" {
   metadata {
     name = "airbyte-gcp-credentials"
-    namespace = kubernetes_namespace.airbyte.metadata.name
+    namespace = var.namespace
   }
 
   data = {
     "credentials.json" = base64decode(google_service_account_key.airbyte_key.private_key)
   }
+
+  depends_on = [
+    kubernetes_namespace.airbyte
+  ]
 }
