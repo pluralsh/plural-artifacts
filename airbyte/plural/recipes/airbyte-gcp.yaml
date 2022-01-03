@@ -9,9 +9,9 @@ dependencies:
 - repo: bootstrap
   name: gcp-kubernetes
 - repo: ingress-nginx
-  name: ingress-nginx-aws
+  name: ingress-nginx-gcp
 - repo: postgres
-  name: aws-postgres
+  name: gcp-postgres
 sections:
 - name: airbyte
   configuration:
