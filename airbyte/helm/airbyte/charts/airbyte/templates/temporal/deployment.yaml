@@ -37,7 +37,7 @@ spec:
         {{- if .Values.postgresql.enabled }}
         - name: POSTGRES_PWD
           valueFrom:
-            configMapKeyRef:
+            secretKeyRef:
               name: airbyte-env
               key: DATABASE_PASSWORD
         {{- else }}

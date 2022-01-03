@@ -9,6 +9,11 @@ oidcProxy:
 {{ end }}
 
 airbyte:
+{{ if eq .Provider "google" }}
+  gcpCredentialsSecret: airbyte-gcp-credentials
+  airbyteGCSBucket: {{ .Values.airbyteBucket }}
+  googleApplicationCredentials: /secrets/gcs-log-creds/credentials.json
+{{ end }}
 {{ if eq .Provider "aws" }}
   airbyteS3Bucket: {{ .Values.airbyteBucket }}
   airbyteS3Region: {{ .Region }}

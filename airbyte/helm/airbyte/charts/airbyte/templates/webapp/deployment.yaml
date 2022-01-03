@@ -35,32 +35,32 @@ spec:
         env:
         - name: AIRBYTE_VERSION
           valueFrom:
-            configMapKeyRef:
+            secretKeyRef:
               name: airbyte-env
               key: AIRBYTE_VERSION
         - name: API_URL
           valueFrom:
-            configMapKeyRef:
+            secretKeyRef:
               name: airbyte-env
               key: API_URL
         - name: TRACKING_STRATEGY
           valueFrom:
-            configMapKeyRef:
+            secretKeyRef:
               name: airbyte-env
               key: TRACKING_STRATEGY
         - name: FULLSTORY
           valueFrom:
-            configMapKeyRef:
+            secretKeyRef:
               name: airbyte-env
               key: FULLSTORY
         - name: IS_DEMO
           valueFrom:
-            configMapKeyRef:
+            secretKeyRef:
               name: airbyte-env
               key: IS_DEMO
         - name: INTERNAL_API_HOST
           valueFrom:
-            configMapKeyRef:
+            secretKeyRef:
               name: airbyte-env
               key: INTERNAL_API_HOST
         {{- if .Values.webapp.extraEnv }}

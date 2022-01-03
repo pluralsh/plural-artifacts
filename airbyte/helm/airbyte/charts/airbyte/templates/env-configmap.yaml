@@ -1,12 +1,12 @@
 apiVersion: v1
-kind: ConfigMap
+kind: Secret
 metadata:
   name: airbyte-env
-data:
+stringData:
   AIRBYTE_VERSION: {{ .Values.version | default .Chart.AppVersion }}
   API_URL: {{ .Values.webapp.api.url }}
-  AWS_ACCESS_KEY_ID: {{ .Values.minio.accessKey.password }}
-  AWS_SECRET_ACCESS_KEY: {{ .Values.minio.secretKey.password }}
+  AWS_ACCESS_KEY_ID: {{ .Values.minio.accessKey.password | quote }}
+  AWS_SECRET_ACCESS_KEY: {{ .Values.minio.secretKey.password | quote }}
   CONFIG_ROOT: /configs
   DATA_DOCKER_MOUNT: airbyte_data
   DATABASE_DB: {{ include "airbyte.database.name" . }}
