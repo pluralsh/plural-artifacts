@@ -1,0 +1,261 @@
+name: vendor
+
+on:
+  push:
+    branches: [ main ]
+jobs:
+  vendor:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    strategy:
+      matrix:
+        img:
+        - curlimages/curl:7.73.0
+        - amazon/aws-efs-csi-driver:v1.3.4
+        - k8s.gcr.io/provider-aws/aws-ebs-csi-driver:v1.3.0
+        - k8s.gcr.io/sig-storage/livenessprobe:v2.2.0
+        - k8s.gcr.io/sig-storage/livenessprobe:v2.3.0
+        - k8s.gcr.io/sig-storage/livenessprobe:v2.4.0
+        - k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.1.0
+        - k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.2.0
+        - k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.3.0
+        - k8s.gcr.io/sig-storage/csi-provisioner:v2.1.1
+        - k8s.gcr.io/sig-storage/csi-provisioner:v2.1.2
+        - k8s.gcr.io/sig-storage/csi-provisioner:v2.2.2
+        - k8s.gcr.io/sig-storage/csi-provisioner:v3.0.0
+        - k8s.gcr.io/sig-storage/csi-attacher:v3.1.0
+        - k8s.gcr.io/sig-storage/csi-attacher:v3.2.1
+        - k8s.gcr.io/sig-storage/csi-attacher:v3.3.0
+        - k8s.gcr.io/sig-storage/csi-snapshotter:v3.0.3
+        - k8s.gcr.io/sig-storage/csi-snapshotter:v4.0.0
+        - k8s.gcr.io/sig-storage/csi-snapshotter:v4.1.1
+        - k8s.gcr.io/sig-storage/csi-snapshotter:v4.2.1
+        - k8s.gcr.io/sig-storage/csi-resizer:v1.0.0
+        - k8s.gcr.io/sig-storage/csi-resizer:v1.0.1
+        - k8s.gcr.io/sig-storage/csi-resizer:v1.1.0
+        - k8s.gcr.io/sig-storage/csi-resizer:v1.2.0
+        - k8s.gcr.io/sig-storage/csi-resizer:v1.3.0
+        - k8s.gcr.io/sig-storage/snapshot-controller:v4.2.1
+        - k8s.gcr.io/sig-storage/snapshot-validation-webhook:v4.2.1
+        - kiwigrid/k8s-sidecar:1.1.0
+        - bitnami/kafka:2.6.0-debian-10-r78
+        - bitnami/zookeeper:3.6.2-debian-10-r58
+        - getsentry/sentry:21.5.1
+        - bitnami/postgresql:11.7.0-debian-10-r9
+        - influxdb:1.8
+        - postgres:13.5
+        - rabbitmq:3-management
+        - bitnami/redis-exporter:1.12.1-debian-10-r11
+        - docker:20.10.7-dind
+        - busybox:latest
+        - golang:1.16-stretch
+        - golang:1.15
+    steps:
+    - uses: actions/checkout@v2
+    - uses: google-github-actions/auth@v0
+      with:
+        workload_identity_provider: 'projects/${{ secrets.GOOGLE_PROJECT_ID }}/locations/global/workloadIdentityPools/github/providers/github'
+        service_account: 'terraform@pluralsh.iam.gserviceaccount.com'
+        token_format: 'access_token'
+        create_credentials_file: true
+    - uses: google-github-actions/setup-gcloud@v0.3.0
+    - name: Login to gcr
+      run: gcloud auth configure-docker -q
+    - name: Login to plural registry
+      uses: docker/login-action@v1
+      with:
+        registry: dkr.plural.sh
+        username: mjg@plural.sh
+        password: ${{ secrets.PLURAL_ACCESS_TOKEN }}
+    - name: "Vendor image"
+      uses: ./.github/actions/vendor
+      id: vendor
+      with:
+        img: ${{ matrix.img }}
+  vendor-plural:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    strategy:
+      matrix:
+        img: 
+        # airbyte images
+        - image: airbyte/webapp:0.32.5-alpha
+          repo: airbyte
+        - image: airbyte/scheduler:0.32.5-alpha
+          repo: airbyte
+        - image: airbyte/server:0.32.5-alpha
+          repo: airbyte
+        - image: airbyte/worker:0.32.5-alpha
+          repo: airbyte
+        - image: temporalio/auto-setup:1.7.0 
+          repo: airbyte
+        - image: temporalio/auto-setup:1.13.1 
+          repo: airbyte
+        - image: bitnami/kubectl:latest
+          repo: airbyte
+
+        # airflow images
+        - image: apache/airflow:2.0.1-python3.8
+          repo: airflow
+        
+        # bootstrap images
+        - image: appscode/kubed:v0.13.0-beta.0
+          repo: bootstrap
+        - image: prom/statsd-exporter:v0.20.2
+          repo: bootstrap
+        - image: bitnami/metrics-server:0.4.4-debian-10-r0
+          repo: bootstrap
+
+        # ghost images
+        - image: bitnami/ghost:4.11.0-debian-10-r0 
+          repo: ghost
+        - image: bitnami/ghost:4.12.1-debian-10-r0 
+          repo: ghost
+        - image: ghost:4-alpine 
+          repo: ghost
+        - image: ghost:4.16-alpine 
+          repo: ghost
+
+        # gitlab images
+        - image: gitlab/gitlab-runner:alpine-v14.0.0 
+          repo: gitlab
+        - image: gitlab/gitlab-runner:alpine-v14.1.0 
+          repo: gitlab
+        - image: gitlab/gitlab-runner:alpine-v14.2.0 
+          repo: gitlab
+        - image: gitlab/gitlab-runner:alpine-v14.3.0 
+          repo: gitlab
+        - image: gitlab/gitlab-runner:alpine-v14.4.0 
+          repo: gitlab
+        
+        # grafana images
+        - image: grafana/grafana:7.5.5 
+          repo: grafana
+        - image: grafana/grafana:8.0.3 
+          repo: grafana
+        - image: grafana/grafana:8.0.5 
+          repo: grafana
+        - image: grafana/grafana:8.1.5 
+          repo: grafana
+        - image: grafana/grafana:8.3.1 
+          repo: grafana
+        - image: grafana/grafana:8.3.2 
+          repo: grafana
+
+        # influxdb images
+        - image: chronograf:1.8.8 
+          repo: influx
+        - image: influxdb:1.8.6-alpine 
+          repo: influx
+        - image: kapacitor:1.5.9-alpine 
+          repo: influx
+        - image: telegraf:1.19-alpine 
+          repo: influx
+
+        # monitoring images
+        - image: grafana/promtail:1.6.0 
+          repo: monitoring
+        - image: grafana/promtail:2.2.1 
+          repo: monitoring
+        - image: grafana/loki:1.6.0 
+          repo: monitoring
+        - image: grafana/loki:2.2.1 
+          repo: monitoring
+        
+        # nocodb images
+        - image: nocodb/nocodb:0.83.8 
+          repo: nocodb
+        
+        # redis images
+        - image: bitnami/redis:6.0.9-debian-10-r0 
+          repo: redis
+        - image: bitnami/redis:6.2.1-debian-10-r0 
+          repo: redis
+        - image: bitnami/redis:6.2.4-debian-10-r0 
+          repo: redis
+        - image: bitnami/redis-exporter:1.24.0-debian-10-r17 
+          repo: redis
+        - image: bitnami/redis-exporter:1.24.0-debian-10-r11 
+          repo: redis
+        - image: bitnami/redis-sentinel-exporter:1.7.1-debian-10-r109 
+          repo: redis
+        
+        # sentry images
+        - image: yandex/clickhouse-server:20.8.9.6 
+          repo: sentry
+        - image: getsentry/snuba:21.5.1 
+          repo: sentry
+        - image: getsentry/symbolicator:0.3.3 
+          repo: sentry
+        - image: getsentry/relay:21.5.1 
+          repo: sentry
+        
+        # superset images
+        - image: apache/superset:master 
+          repo: superset
+        - image: apache/superset:3c41ff68a43b5ab6b871226a73de9f2129d64766 
+          repo: superset
+
+        # misc images
+        - image: bitnami/postgres-exporter:0.8.0-debian-10-r354 
+          repo: postgres
+        - image: rabbitmq:3.8.16-management 
+          repo: rabbitmq
+        - image: groundnuty/k8s-wait-for:v1.3 
+          repo: console
+        - image: bitnami/kubectl:1.21.7 
+          repo: bootstrap
+    steps:
+    - uses: actions/checkout@v2
+    - uses: google-github-actions/auth@v0
+      with:
+        workload_identity_provider: 'projects/${{ secrets.GOOGLE_PROJECT_ID }}/locations/global/workloadIdentityPools/github/providers/github'
+        service_account: 'terraform@pluralsh.iam.gserviceaccount.com'
+        token_format: 'access_token'
+        create_credentials_file: true
+    - uses: google-github-actions/setup-gcloud@v0.3.0
+    - name: Login to gcr
+      run: gcloud auth configure-docker -q
+    - name: Login to plural registry
+      uses: docker/login-action@v1
+      with:
+        registry: dkr.plural.sh
+        username: mjg@plural.sh
+        password: ${{ secrets.PLURAL_ACCESS_TOKEN }}
+    - name: "Vendor image"
+      uses: ./.github/actions/vendor
+      id: vendor
+      with:
+        img: ${{ matrix.img.image }}
+        repo: ${{ matrix.img.repo }}
+  deploy:
+    runs-on: ubuntu-latest
+    needs:
+    - vendor-plural
+    - vendor
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    steps:
+    - uses: actions/checkout@v2
+    - uses: hashicorp/setup-terraform@v1
+    - uses: azure/setup-helm@v1
+      with:
+        version: latest
+    - name: installing plural
+      uses: pluralsh/setup-plural@v0.1.2
+      with: 
+        config: ${{ secrets.PLURAL_CONF }}
+    - run: make all
+    - uses: 8398a7/action-slack@v3
+      with:
+        status: ${{ job.status }}
+        fields: workflow,job,repo,message,commit,author
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }} # required
+      if: always()
+        

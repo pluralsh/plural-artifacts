@@ -4,7 +4,6 @@ category: DEVOPS
 icon: plural/icons/nvidia.png
 notes: plural/notes.tpl
 tags:
-- tag: AI
-- tag: GPU
-- tag: ML
-- tag: NVIDIA
+- tag: ai
+- tag: gpu
+- tag: ml

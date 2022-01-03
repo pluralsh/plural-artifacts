@@ -2,7 +2,7 @@ const core = require('@actions/core');
 const exec = require('@actions/exec');
 
 async function run() {
-  const img = core.getInput('image');
+  const img = core.getInput('img');
   const repo = core.getInput('repo');
   await exec.exec(`docker pull ${img}`)
   await tagAndPush(img, 'gcr.io/pluralsh/')
@@ -14,6 +14,7 @@ async function run() {
 
 async function tagAndPush(img, prefix) {
   await exec.exec(`docker tag ${img} ${prefix}${img}`)
+  await exec.exec(`docker push ${prefix}${img}`)
 }
 
 run();

@@ -8,7 +8,7 @@ sources:
 maintainers:
 - name: michaeljguarino
   email: mguarino46@gmail.com
-version: 0.8.13
+version: 0.8.15
 dependencies:
 - name: external-dns
   version: 4.11.0
@@ -18,7 +18,7 @@ dependencies:
   condition: metrics-server.enabled
   repository: https://charts.bitnami.com/bitnami
 - name: cert-manager
-  version: v1.4.0
+  version: v1.6.1
   repository: https://charts.jetstack.io
 - name: cluster-autoscaler
   version: 9.9.2

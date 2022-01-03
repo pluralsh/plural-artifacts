@@ -49,6 +49,7 @@ include:
 - .gitlab-ci/gitlab.yml
 - .gitlab-ci/superset.yml
 - .gitlab-ci/airbyte.yml
+- .gitlab-ci/nocodb.yml
 
 .ignore-cond: &ignore-cond
   except:

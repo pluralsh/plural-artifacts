@@ -1,12 +1,20 @@
 APPS := $(shell ls -l | egrep '^d' | awk '{ print $$9 }')
 JOBS := $(addprefix upload-,${APPS})
 
+PG_APPS := airbyte airflow gitlab nocodb sentry superset
+PG_JOBS := $(addprefix sync-pg-runbook-,${PG_APPS})
+
 .PHONY: help
 
 help:
 	@perl -nle'print $& if m{^[a-zA-Z_-]+:.*?## .*$$}' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-all: ${JOBS} ; echo "finished updating ${APPS}"
+all: ${JOBS} ; echo "finished updating all apps"
+
+sync-pg-runbooks: ${PG_JOBS} ; echo "synced pg runbooks"
+
+sync-pg-runbook-%:
+	cp .plural/runbooks/db-scaling.xml $*/helm/$*/runbooks/db-scaling.xml
 
 import-operator:
 	kustomize build ../plural-operator/config/crd/ -o bootstrap/helm/bootstrap/crds
@@ -22,7 +30,7 @@ create-template:
 	mkdir -p ./$$application/plural/recipes; \
 	mkdir -p ./$$application/plural/tags/helm; \
 	mkdir -p ./$$application/plural/tags/terraform; \
-	echo "{}" > ./$$application/plural/notes.tpl; \
+	echo "" > ./$$application/plural/notes.tpl; \
 	echo "name: $$application-aws\ndescription: Installs $$application on an aws eks cluster\nprovider: AWS\ndependencies:\n- repo: bootstrap\n  name: aws-k8s\nsections:\n- name: $$application\n  configuration: []\n  items:\n  - type: TERRAFORM\n    name: aws\n  - type: HELM\n    name: $$application" > ./$$application/plural/recipes/$$application-aws.yaml; \
 	echo "name: $$application-azure\ndescription: Installs $$application on an azure aks cluster\nprovider: AZURE\ndependencies:\n- repo: bootstrap\n  name: azure-k8s\nsections:\n- name: $$application\n  configuration: []\n  items:\n  - type: TERRAFORM\n    name: azure\n  - type: HELM\n    name: $$application" > ./$$application/plural/recipes/$$application-azure.yaml; \
 	echo "name: $$application-gcp\ndescription: Installs $$application on a gcp gke cluster\nprovider: GCP\ndependencies:\n- repo: bootstrap\n  name: gcp-kubernetes\nsections:\n- name: $$application\n  configuration: []\n  items:\n  - type: TERRAFORM\n    name: gcp\n  - type: HELM\n    name: $$application" > ./$$application/plural/recipes/$$application-gcp.yaml; \
@@ -47,112 +55,9 @@ create-template:
 	echo "variable \"namespace\" {\n  type = string\n  default = \"$$application\"\n}" > ./$$application/terraform/gcp/variables.tf; \
 	echo "name: $$application\ndescription: PLACEHOLDER\ncategory: PLACEHOLDER\nicon: plural/icons/PLACEHOLDER\ndarkIcon: plural/icons/PLACEHOLDER\nnotes: plural/notes.tpl\noauthSettings:\n  uriFormat: PLACEHOLDER\n  authMethod: PLACEHOLDER\ntags:\n- tag: PLACEHOLDER" > ./$$application/repository.yaml; \
 	echo "REPO $$application\nATTRIBUTES Plural repository.yaml\n\nTF terraform/*\nHELM helm/*\nRECIPE plural/recipes/*\nTAG plural/tags/**/*" > ./$$application/Pluralfile; \
-	echo "\nupload-$$application: # uploads $$application artifacts\n	plural apply -f $$application/Pluralfile" >> ./Makefile
 
-upload-airflow: # uploads airflow artifacts 
-	plural apply -f airflow/Pluralfile
-
-upload-bootstrap: # uploads k8s bootstrapping artifacts
-	plural apply -f bootstrap/Pluralfile
-
-upload-plural: # uploads plural platform artifacts
-	plural apply -f plural/Pluralfile
-
-upload-console: # uploads console artifacts
-	plural apply -f console/Pluralfile
-
-upload-gitlab: # uploads gitlab artifacts
-	plural apply -f gitlab/Pluralfile
-
-upload-sentry: # uploads sentry artifacts
-	plural apply -f sentry/Pluralfile
-
-upload-grafana: # uploads grafana artifacts
-	plural apply -f grafana/Pluralfile
-
-upload-postgres: # uploads postgres artifacts
-	plural apply -f postgres/Pluralfile
-
-upload-istio: # uploads istio artifacts
-	plural apply -f istio/Pluralfile
-
-upload-knative: # uploads knative artifacts
-	plural apply -f knative/Pluralfile
-
-upload-dex: # uploads dex artifacts
-	plural apply -f dex/Pluralfile
-
-upload-redis: # uploads redis artifacts
-	plural apply -f redis/Pluralfile
-
-upload-mysql: # uploads mysql artifacts
-	plural apply -f mysql/Pluralfile
-
-upload-kafka: # uploads kafka artifacts
-	plural apply -f kafka/Pluralfile
-
-upload-oauth2-proxy: # uploads oauth2-proxy artifacts
-	plural apply -f oauth2-proxy/Pluralfile
-
-upload-monitoring: # uploads monitoring artifacts
-	plural apply -f monitoring/Pluralfile
-
-upload-ghost: # uploads ghost artifacts
-	plural apply -f ghost/Pluralfile
-
-upload-rabbitmq: # uploads rabbitmq artifacts
-	plural apply -f rabbitmq/Pluralfile
-
-upload-nvidia-operator: # uploads nvidia-operator artifacts
-	plural apply -f nvidia-operator/Pluralfile
-
-upload-argo-cd: # uploads argo-cd artifacts
-	plural apply -f argo-cd/Pluralfile
-
-upload-kubecost: # uploads kubecost artifacts
-	plural apply -f kubecost/Pluralfile
-
-upload-etcd: # uploads etcd artifacts
-	plural apply -f etcd/Pluralfile
-
-upload-influx: # uploads influx artifacts
-	plural apply -f influx/Pluralfile
-
-upload-minio: # uploads minio artifacts
-	plural apply -f minio/Pluralfile
-
-upload-kubeflow: # uploads kubeflow artifacts
-	plural apply -f kubeflow/Pluralfile
-
-upload-goldilocks: # uploads goldilocks artifacts
-	plural apply -f goldilocks/Pluralfile
-
-upload-crossplane: # uploads crossplane artifacts
-	plural apply -f crossplane/Pluralfile
-
-upload-grafana-tempo: # uploads grafana-tempo artifacts
-	plural apply -f grafana-tempo/Pluralfile
-
-upload-ingress-nginx: # uploads ingress-nginx artifacts
-	plural apply -f ingress-nginx/Pluralfile
-
-upload-nextcloud: # uploads nextcloud artifacts
-	plural apply -f nextcloud/Pluralfile
-
-upload-argo-workflows: # uploads argo-workflows artifacts
-	plural apply -f argo-workflows/Pluralfile
-
-upload-spark: # uploads spark artifacts
-	plural apply -f spark/Pluralfile
-
-upload-vaultwarden: # uploads vaultwarden artifacts
-	plural apply -f vaultwarden/Pluralfile
-
-upload-superset: # uploads superset artifacts
-	plural apply -f superset/Pluralfile
-
-upload-airbyte: # uploads airbyte artifacts
-	plural apply -f airbyte/Pluralfile
+upload-%: # uploads artifacts 
+	plural apply -f $*/Pluralfile
 
 upload-mlflow: # uploads mlflow artifacts
 	plural apply -f mlflow/Pluralfile
