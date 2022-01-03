@@ -1,10 +1,6 @@
 name: hasura-aws
 description: Installs hasura on an EKS cluster
 provider: AWS
-oidcSettings:
-  authMethod: POST
-  uriFormat: https://{domain}/oauth-authorized/plural
-  domainKey: hostname
 dependencies:
   - repo: bootstrap
     name: aws-k8s
@@ -17,19 +13,9 @@ sections:
     items:
       - type: TERRAFORM
         name: aws
-        configuration: []
       - type: HELM
         name: hasura
-        configuration:
-          - name: hostname
-            documentation: Fully Qualified Domain Name to use for your hasura installation, eg airflow.topleveldomain.com if topleveldomain.com is the domain you inputed for dns_domain above.
-            type: DOMAIN
-          - name: username
-            type: STRING
-            documentation: short name/handle for the initial admin user
-          - name: name
-            type: STRING
-            documentation: full name for the initial admin user
-          - name: adminEmail
-            type: STRING
-            documentation: email for the initial admin user
+    configuration:
+      - name: hostname
+        documentation: Fully Qualified Domain Name to use for your hasura installation, eg hasura.topleveldomain.com if topleveldomain.com is the domain you inputed for dns_domain above.
+        type: DOMAIN

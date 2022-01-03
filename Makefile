@@ -1,7 +1,7 @@
 APPS := $(shell ls -l | egrep '^d' | awk '{ print $$9 }')
 JOBS := $(addprefix upload-,${APPS})
 
-PG_APPS := airbyte airflow gitlab nocodb sentry superset
+PG_APPS := airbyte airflow gitlab nocodb sentry superset hasura
 PG_JOBS := $(addprefix sync-pg-,${PG_APPS})
 
 .PHONY: help
