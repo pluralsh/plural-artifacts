@@ -1,38 +1,72 @@
-apiVersion: monitoring.coreos.com/v1
-kind: PrometheusRule
+apiVersion: platform.plural.sh/v1alpha1
+kind: Runbook
 metadata:
-  creationTimestamp: null
+  name: db-scaling
   labels:
-    prometheus: example
-    role: alert-rules
-  name: hasura-rules
+    platform.plural.sh/pinned: 'true'
+{{ include "hasura.labels" . | indent 4 }}
 spec:
-  groups:
-    - name: hasura
-      rules:
-        - alert: hasuraPostgresCPU
-          expr: |
-            (
-              sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"plural-hasura-[0-9]+"}[5m]))
-              / sum(kube_pod_container_resource_requests{endpoint="http",namespace="{{ .Release.Namespace }}", pod=~"plural-hasura-[0-9]+", resource="cpu"})
-            )  > 0.6
-          for: 5m
-          labels:
-            severity: warning
-            namespace: { { .Release.Namespace } }
-          annotations:
-            summary: plural hasura dbs's cpu has gotten too high
-            description: the cpu utilization of your plural hasura is higher than recommended
-        - alert: hasuraPostgresMEM
-          expr: |
-            (
-              sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"plural-hasura-[0-9]+"})
-              / sum(kube_pod_container_resource_requests{endpoint="http",resource="memory",namespace="{{ .Release.Namespace }}", pod=~"plural-hasura-[0-9]+"})
-            )  > 1
-          for: 5m
-          labels:
-            severity: warning
-            namespace: { { .Release.Namespace } }
-          annotations:
-            summary: hasura db's memory has gotten too high
-            description: the memory utilization of your plural hasura db is higher than recommended
+  name: Postgres Scaling
+  description: overview of how to accurately scale hasura's postgres instance
+  alerts:
+  - name: HasuraPostgresCPU
+  - name: HasuraPostgresMEM
+  display: |-
+{{ .Files.Get "runbooks/db-scaling.xml" | indent 4 }}
+  datasources:
+  - name: cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"plural-hasura-[0-9]+"}[5m])) by (pod)
+  - name: memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"plural-hasura-[0-9]+"}) by (pod)
+  - name: statefulset
+    type: kubernetes
+    kubernetes:
+      resource: statefulset
+      name: plural-hasura
+  - name: volume
+    type: prometheus
+    prometheus:
+      format: none
+      legend: $persistentvolumeclaim
+      query: (kubelet_volume_stats_capacity_bytes{namespace="{{ .Release.Namespace }}", persistentvolumeclaim=~"pgdata-plural-hasura-.*"} - kubelet_volume_stats_available_bytes{namespace="{{ .Release.Namespace }}", persistentvolumeclaim=~"pgdata-plural-hasura-.*"}) / kubelet_volume_stats_capacity_bytes{namespace="{{ .Release.Namespace }}", persistentvolumeclaim=~"pgdata-plural-hasura-.*"}
+  - name: nodes
+    type: nodes
+  actions:
+  - name: scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+      - path:
+        - hasura
+        - postgres
+        - resources
+        - requests
+        - cpu
+        valueFrom: cpu
+      - path:
+        - hasura
+        - postgres
+        - resources
+        - requests
+        - memory
+        valueFrom: memory
+      - path:
+        - hasura
+        - postgres
+        - replicas
+        valueFrom: replicas
+      - path:
+        - hasura
+        - postgres
+        - storage
+        - size
+        valueFrom: volume
