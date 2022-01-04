@@ -44,7 +44,7 @@ configGeneral:
   # Select if setup uses endpoints (default), or configmaps to manage leader (DCS=k8s)
   # kubernetes_use_configmaps: false
   # Spilo docker image
-  docker_image: gcr.io/pluralsh/spilo:13.0
+  docker_image: gcr.io/pluralsh/spilo:13.3
   # min number of instances in Postgres cluster. -1 = no limit
   min_instances: -1
   # max number of instances in Postgres cluster. -1 = no limit
@@ -182,6 +182,7 @@ configSecret:
   AWS_SDK_LOAD_CONFIG: "1"
   USE_WALG_BACKUP: "true"
   USE_WALG_RESTORE: "true"
+  CLONE_USE_WALG_RESTORE: "true"
 
 # configure resource requests for the Postgres pods
 configPostgresPodResources:

@@ -8,3 +8,6 @@ variable "namespace" {
   default = "postgres"
 }
 
+variable "wal_bucket" {
+  type = string
+}
