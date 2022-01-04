@@ -1,5 +1,13 @@
 configAwsOrGcp:
+{{ if eq .Provider "aws" }}
   wal_s3_bucket: {{ .Values.wal_bucket }}
+{{ else if eq .Provider "google" }}
+  additional_secret_mount: postgres-gcp-creds
+  additional_secret_mount_path: "/var/secrets/google"
+
+  wal_gs_bucket: {{ .Values.wal_bucket }}
+  gcp_credentials: "/var/secrets/google/credentials.json"
+{{ end }}
 
 {{ if eq .Provider "aws" }}
 serviceAccount:
