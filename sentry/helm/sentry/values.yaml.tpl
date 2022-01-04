@@ -1,3 +1,7 @@
+{{ if eq .Provider "google" }}
+postgresNamespace: {{ namespace "postgres" }}
+{{ end }}
+
 sentry:
   system:
     secretKey: {{ dedupe . "sentry.sentry.system.secretKey" (randAlphaNum 16) }}

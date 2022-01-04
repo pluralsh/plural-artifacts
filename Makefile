@@ -2,7 +2,7 @@ APPS := $(shell ls -l | egrep '^d' | awk '{ print $$9 }')
 JOBS := $(addprefix upload-,${APPS})
 
 PG_APPS := airbyte airflow gitlab nocodb sentry superset
-PG_JOBS := $(addprefix sync-pg-runbook-,${PG_APPS})
+PG_JOBS := $(addprefix sync-pg-,${PG_APPS})
 
 .PHONY: help
 
@@ -11,10 +11,11 @@ help:
 
 all: ${JOBS} ; echo "finished updating all apps"
 
-sync-pg-runbooks: ${PG_JOBS} ; echo "synced pg runbooks"
+sync-pgs: ${PG_JOBS} ; echo "synced pg resources"
 
-sync-pg-runbook-%:
+sync-pg-%:
 	cp .plural/runbooks/db-scaling.xml $*/helm/$*/runbooks/db-scaling.xml
+	cp .plural/resources/postgres-secret-sync.yaml $*/helm/$*/templates/pgsync.yaml
 
 import-operator:
 	kustomize build ../plural-operator/config/crd/ -o bootstrap/helm/bootstrap/crds

@@ -66,6 +66,10 @@ oidc:
       redirect_uri: https://gitlab.{{ .Values.domain }}/users/auth/openid_connect/callback
 {{ end }}
 
+{{ if eq .Provider "google" }}
+postgresNamespace: {{ namespace "postgres" }}
+{{ end }}
+
 {{ if .SMTP }}
 smtpPassword: {{ .SMTP.Password }}
 {{ end }}

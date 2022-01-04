@@ -18,6 +18,10 @@ nocodb:
         rejectUnauthorized: false
       sslmode: require
 
+{{ if eq .Provider "google" }}
+postgresNamespace: {{ namespace "postgres" }}
+{{ end }}
+
 ingress:
   enabled: true
   tls:

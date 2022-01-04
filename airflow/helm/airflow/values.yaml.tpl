@@ -1,6 +1,10 @@
 secrets:
   redis_password: {{ dedupe . "airflow.secrets.redis_password" (randAlphaNum 14) }}
 
+{{ if eq .Provider "google" }}
+postgresNamespace: {{ namespace "postgres" }}
+{{ end }}
+
 sshConfig:
 {{ if .Values.hostname }}
   id_rsa: {{ ternary .Values.private_key (dedupe . "airflow.sshConfig.id_rsa" "") (hasKey .Values "private_key") | quote }}

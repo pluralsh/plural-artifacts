@@ -8,6 +8,10 @@ oidcProxy:
   cookieSecret: {{ dedupe . "airbyte.oidcProxy.cookieSecret" (randAlphaNum 32) }}
 {{ end }}
 
+{{ if eq .Provider "google" }}
+postgresNamespace: {{ namespace "postgres" }}
+{{ end }}
+
 airbyte:
 {{ if eq .Provider "google" }}
   gcpCredentialsSecret: airbyte-gcp-credentials
