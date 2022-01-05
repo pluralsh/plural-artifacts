@@ -4,18 +4,22 @@
 
 replicaCount: 1
 
-hasura:
-  ingress:
-    enabled: true
-    # ingressClassName: nginx
-    annotations:
-      kubernetes.io/tls-acme: "true"
-      kubernetes.io/ingress.class: "nginx"
-      # Extend timeout to allow long running queries.
-      nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
-      nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
-      nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+ingress:
+  ingressClassName: nginx
+  host: ''
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    kubernetes.io/ingress.class: "nginx"
+    # Extend timeout to allow long running queries.
+    nginx.ingress.kubernetes.io/affinity: cookie
+    nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+    nginx.ingress.kubernetes.io/proxy-read-timeout: '3600'
+    nginx.ingress.kubernetes.io/proxy-send-timeout: '3600'
+    nginx.ingress.kubernetes.io/session-cookie-path: /v1/graphql
 
+hasura:
+  console:
+    enabled: true
 postgres:
   password: CHANGEME
   replicas: 1

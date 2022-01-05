@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: console
+  labels:
+{{ include "hasura.labels" . | indent 4 }}
+  annotations:
+    {{ toYaml .Values.ingress.annotations | nindent 4 }}
+spec:
+  ingressClassName: {{ .Values.ingress.ingressClassName }}
+  tls:
+  - hosts:
+    - {{ .Values.ingress.host | quote }}
+    secretName: hasura-tls
+  rules:
+  - host: {{ .Values.ingress.host | quote }}
+    http:
+      paths:
+      - pathType: ImplementationSpecific
+        backend:
+          service:
+            name: hasura
+            port:
+              name: http
