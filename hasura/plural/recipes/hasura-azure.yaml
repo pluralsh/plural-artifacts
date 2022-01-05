@@ -1,0 +1,22 @@
+name: hasura-azure
+description: Installs hasura on an AKS cluster
+provider: AZURE
+dependencies:
+  - repo: bootstrap
+    name: azure-k8s
+  - repo: ingress-nginx
+    name: ingress-nginx-azure
+  - repo: postgres
+    name: azure-postgres
+sections:
+  - name: hasura
+    items:
+      - type: TERRAFORM
+        name: azure
+        configuration: []
+      - type: HELM
+        name: hasura
+    configuration:
+      - name: hostname
+        documentation: Fully Qualified Domain Name to use for your hasura installation, eg hasura.topleveldomain.com if topleveldomain.com is the domain you inputed for dns_domain above.
+        type: DOMAIN

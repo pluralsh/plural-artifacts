@@ -1,0 +1,21 @@
+name: hasura-aws
+description: Installs hasura on an EKS cluster
+provider: AWS
+dependencies:
+  - repo: bootstrap
+    name: aws-k8s
+  - repo: ingress-nginx
+    name: ingress-nginx-aws
+  - repo: postgres
+    name: aws-postgres
+sections:
+  - name: hasura
+    items:
+      - type: TERRAFORM
+        name: aws
+      - type: HELM
+        name: hasura
+    configuration:
+      - name: hostname
+        documentation: Fully Qualified Domain Name to use for your hasura installation, eg hasura.topleveldomain.com if topleveldomain.com is the domain you inputed for dns_domain above.
+        type: DOMAIN

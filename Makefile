@@ -1,7 +1,7 @@
 APPS := $(shell ls -l | egrep '^d' | awk '{ print $$9 }')
 JOBS := $(addprefix upload-,${APPS})
 
-PG_APPS := airbyte airflow gitlab nocodb sentry superset
+PG_APPS := airbyte airflow gitlab nocodb sentry superset hasura
 PG_JOBS := $(addprefix sync-pg-,${PG_APPS})
 
 .PHONY: help
@@ -57,6 +57,5 @@ create-template:
 	echo "name: $$application\ndescription: PLACEHOLDER\ncategory: PLACEHOLDER\nicon: plural/icons/PLACEHOLDER\ndarkIcon: plural/icons/PLACEHOLDER\nnotes: plural/notes.tpl\noauthSettings:\n  uriFormat: PLACEHOLDER\n  authMethod: PLACEHOLDER\ntags:\n- tag: PLACEHOLDER" > ./$$application/repository.yaml; \
 	echo "REPO $$application\nATTRIBUTES Plural repository.yaml\n\nTF terraform/*\nHELM helm/*\nRECIPE plural/recipes/*\nTAG plural/tags/**/*" > ./$$application/Pluralfile; \
 
-upload-%: # uploads artifacts 
+upload-%: # uploads artifacts
 	plural apply -f $*/Pluralfile
-
