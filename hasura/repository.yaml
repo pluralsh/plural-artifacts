@@ -3,8 +3,6 @@ description: open source instant graphql on all your data
 category: DATA
 icon: plural/icons/hasura.png
 notes: plural/notes.tpl
-oauthSettings:
-  uriFormat: PLACEHOLDER
-  authMethod: PLACEHOLDER
 tags:
-  - tag: PLACEHOLDER
+  - tag: graphql
+  - tag: api

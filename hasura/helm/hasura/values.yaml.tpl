@@ -1,4 +1,4 @@
-{{ $postgresPwd := dedupe . "hasura.hasura.pgClient.password" (randAlphaNum 25) }}
+{{ $postgresPwd := dedupe . "hasura.hasura.pgClient.external.password" (randAlphaNum 25) }}
 
 postgres:
   password: {{ $postgresPwd }}
@@ -11,9 +11,10 @@ hasura:
   jwt:
     key: {{ dedupe . "hasura.hasura.jwt.key" (randAlphaNum 26) }}
   pgClient:
-    external: true
-    host: plural-hasura
-    port: 5432
-    username: hasura
-    database: hasura
-    password: {{ $postgresPwd }}
+    external: 
+      enabled: true
+      host: plural-hasura
+      port: 5432
+      username: hasura
+      database: hasura
+      password: {{ $postgresPwd }}
