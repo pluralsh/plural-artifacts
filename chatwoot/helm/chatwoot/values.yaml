@@ -1,7 +1,7 @@
 chatwoot:
   services:
     name: chatwoot
-    internlPort: 80
+    internlPort: 3000
     targetPort: 3000
     type: ClusterIP
   postgresql:

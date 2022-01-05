@@ -1,4 +1,5 @@
 {{- $redisNamespace := namespace "redis" }}
+{{ $redisValues := .Applications.HelmValues "redis" }}
 global:
   application:
     links:
@@ -25,8 +26,8 @@ chatwoot:
     existingSecretKey: password
   redis:
     enabled: false
-    host: redis-master.{{ $redisNamespace }}:6379
-    password: {{ .Applications.redis.password }}
+    host: redis-master.{{ $redisNamespace }}
+    password: {{ $redisValues.redis.password }}
     port: 6379
   ingress:
     enabled: true
@@ -35,7 +36,7 @@ chatwoot:
       kubernetes.io/ingress.class: nginx
       kubernetes.io/tls-acme: "true"
       nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     hosts:
       - host: {{ .Values.hostname }}
         paths:
@@ -45,13 +46,14 @@ chatwoot:
               service:
                 name: chatwoot
                 port:
-                  number: 80
+                  number: 3000
     tls:
      - secretName: chatwoot-tls-certificate
        hosts:
          - {{ .Values.hostname }}
   env:
     FRONTEND_URL: "https://{{ .Values.hostname }}"
+    SECRET_KEY_BASE: {{ dedupe . "chatwoot.chatwoot.env.SECRET_KEY_BASE" (randAlphaNum 32) }}
     {{- if eq .Provider "aws" }}
     ACTIVE_STORAGE_SERVICE: amazon
     S3_BUCKET_NAME: {{ .Values.chatwootBucket }}
