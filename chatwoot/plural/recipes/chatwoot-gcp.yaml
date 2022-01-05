@@ -1,0 +1,27 @@
+name: chatwoot-gcp
+description: Installs chatwoot on a gcp gke cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-kubernetes
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+- repo: postgres
+  name: gcp-postgres
+- repo: redis
+  name: gcp-redis
+sections:
+- name: chatwoot
+  configuration:
+  - name: chatwootBucket
+    type: BUCKET
+    default: chatwoot
+    documentation: bucket to store chatwoot files in
+  - name: hostname
+    documentation: FQDN to use for your chatwoot installation
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: chatwoot

@@ -1,0 +1,8 @@
+name: chatwoot
+description: open-source, self-hosted customer engagement suite
+category: PRODUCTIVITY
+icon: plural/icons/chatwoot.png
+notes: plural/notes.tpl
+tags:
+- tag: chat
+- tag: crm

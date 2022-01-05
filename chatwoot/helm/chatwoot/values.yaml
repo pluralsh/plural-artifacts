@@ -1,0 +1,33 @@
+chatwoot:
+  services:
+    name: chatwoot
+    internlPort: 3000
+    targetPort: 3000
+    type: ClusterIP
+  postgresql:
+    enabled: false
+    postgresqlHost: chatwoot-postgres-master
+    postgresqlPort: 5432
+    postgresqlDatabase: chatwoot
+    postgresqlUsername: chatwoot
+    existingSecret: chatwoot.plural-postgres-chatwoot.credentials.postgresql.acid.zalan.do
+    existingSecretKey: password
+  redis:
+    enabled: false
+    host: redis
+    password: redis
+    port: 6379
+
+postgres:
+  replicas: 1
+  storage:
+    size: 25Gi
+  resources: {}
+  default:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 100Mi
+      limits:
+        cpu: '2'
+        memory: 1Gi

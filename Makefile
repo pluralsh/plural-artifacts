@@ -26,7 +26,7 @@ create-template:
 	helm create ./$$application/helm/$$application; \
 	echo "apiVersion: plural.sh/v1alpha1\nkind: Dependencies\nmetadata:\n  application: true\n  description: Deploys $$application crafted for the target cloud\nspec:\n  dependencies:\n  - type: helm\n    name: bootstrap\n    repo: bootstrap\n    version: '>= 0.5.1'\n  - type: terraform\n    name: aws\n    repo: $$application\n    version: '>= 0.1.0'\n    optional: true\n  - type: terraform\n    name: azure\n    repo: $$application\n    version: '>= 0.1.0'\n    optional: true\n  - type: terraform\n    name: gcp\n    repo: $$application\n    version: '>= 0.1.0'\n    optional: true" > ./$$application/helm/$$application/deps.yaml; \
 	echo "# $$application\n\nInstalls $$application using Plural." > ./$$application/helm/$$application/README.md; \
-	echo "{}" > ./$$application/helm/$$application/values.yaml.tpl; \
+	echo "global:\n  application:\n    links:\n    - description: $$application web ui\n      url: {{ .Values.hostname }}" > ./$$application/helm/$$application/values.yaml.tpl; \
 	mkdir -p ./$$application/plural/icons; \
 	mkdir -p ./$$application/plural/recipes; \
 	mkdir -p ./$$application/plural/tags/helm; \

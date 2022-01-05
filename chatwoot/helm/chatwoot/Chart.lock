@@ -1,0 +1,6 @@
+dependencies:
+- name: chatwoot
+  repository: file://../../../../chatwoot-charts/charts/chatwoot
+  version: 0.7.0
+digest: sha256:3b2d149dc11ef761f62c017368b2dd83d0a7dd51fb88c886aee345a7b2b9c647
+generated: "2022-01-05T15:26:50.421149739+01:00"
