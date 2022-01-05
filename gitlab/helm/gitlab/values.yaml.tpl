@@ -1,4 +1,11 @@
 global:
+  application:
+    links:
+    - description: gitlab web ui
+      url: gitlab.{{ .Network.Subdomain }}
+    - description: gitlab docker registry
+      url: registry.{{ .Network.Subdomain }}
+
   {{ if .Network }}
   hosts:
     domain: {{ .Network.Subdomain }}

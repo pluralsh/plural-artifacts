@@ -1,3 +1,9 @@
+global:
+  application:
+    links:
+    - description: sentry web ui
+      url: {{ .Values.hostname }}
+
 {{ if eq .Provider "google" }}
 postgresNamespace: {{ namespace "postgres" }}
 {{ end }}

@@ -1,3 +1,13 @@
+global:
+  application:
+    links:
+    - description: chronograf web ui
+      url: {{ .Values.chronografHostname }}
+    {{ if .Values.influxdbHostname }}
+    - description: influxdb public dns address
+      url: {{ .Values.influxdbHostname }}
+    {{ end }}
+
 chronograf:
   enabled: {{ .Values.enableChronograf }}
   ingress:

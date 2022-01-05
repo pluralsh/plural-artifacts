@@ -1,3 +1,9 @@
+global:
+  application:
+    links:
+    - description: airbyte web ui
+      url: {{ .Values.hostname }}
+
 {{ if .OIDC }}
 oidcProxy:
   enabled: true

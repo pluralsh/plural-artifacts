@@ -1,5 +1,11 @@
 {{ $postgresPwd := dedupe . "nocodb.postgres.password" (randAlphaNum 25) }}
 
+global:
+  application:
+    links:
+    - description: nocodb web ui
+      url: {{ .Values.hostname }}
+
 postgres:
   password: {{ $postgresPwd }}
 

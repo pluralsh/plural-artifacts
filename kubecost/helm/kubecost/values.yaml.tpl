@@ -1,6 +1,11 @@
 {{ $monitoringNamespace := namespace "monitoring" }}
 {{ $grafanaNamespace := namespace "grafana" }}
 global:
+  application:
+    links:
+    - description: kubecost web ui
+      url: {{ .Values.hostname }}
+
   {{- if .OIDC }}
   additionalLabels:
     security.plural.sh/inject-oauth-sidecar: "true"

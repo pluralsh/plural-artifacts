@@ -1,5 +1,12 @@
 {{ $hostname := .Values.hostname }}
 {{ $redisNamespace := namespace "redis" }}
+
+global:
+  application:
+    links:
+    - description: argo cd web ui
+      url: {{ .Values.hostname }}
+
 argo-cd:
   controller:
     extraArgs:

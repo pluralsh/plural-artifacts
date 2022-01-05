@@ -44,6 +44,7 @@ data "minio_iam_policy_document" "postgres" {
     ]
   }
 }
+
 resource "minio_iam_policy" "postgres" {
   name = "minio-postgres"
   policy    = data.minio_iam_policy_document.postgres.json

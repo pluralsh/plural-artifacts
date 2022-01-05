@@ -150,6 +150,26 @@ resource "google_storage_bucket_iam_member" "lfs" {
   ]
 }
 
+resource "google_storage_bucket_iam_member" "runner-gitlab" {
+  bucket = google_storage_bucket.runner_cache_bucket.name
+  role = "roles/storage.admin"
+  member = "serviceAccount:${module.gitlab-workflow-identity.gcp_service_account_email}"
+
+  depends_on = [
+    google_storage_bucket.runner_cache_bucket,
+  ]
+}
+
+resource "google_storage_bucket_iam_member" "tf-gitlab" {
+  bucket = google_storage_bucket.terraform_bucket.name
+  role = "roles/storage.admin"
+  member = "serviceAccount:${module.gitlab-workflow-identity.gcp_service_account_email}"
+
+  depends_on = [
+    google_storage_bucket.terraform_bucket,
+  ]
+}
+
 resource "google_storage_bucket_iam_member" "runner" {
   bucket = google_storage_bucket.runner_cache_bucket.name
   role = "roles/storage.admin"

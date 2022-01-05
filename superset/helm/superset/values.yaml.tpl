@@ -3,6 +3,12 @@
   {{ $splitName = regexSplit " " .Values.name 2 }}
 {{ end }}
 
+global:
+  application:
+    links:
+    - description: superset web ui
+      url: {{ .Values.hostname }}
+
 superset:
   init:
     adminUser:

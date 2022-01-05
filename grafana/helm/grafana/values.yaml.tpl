@@ -1,3 +1,9 @@
+global:
+  application:
+    links:
+    - description: grafana web ui
+      url: {{ .Values.hostname }}
+
 grafana:
   admin:
     password: {{ dedupe . "grafana.grafana.admin.password" (randAlphaNum 14) }}

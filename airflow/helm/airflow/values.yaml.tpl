@@ -1,3 +1,9 @@
+global:
+  application:
+    links:
+    - description: airbyte web ui
+      url: {{ .Values.hostname }}
+
 secrets:
   redis_password: {{ dedupe . "airflow.secrets.redis_password" (randAlphaNum 14) }}
 

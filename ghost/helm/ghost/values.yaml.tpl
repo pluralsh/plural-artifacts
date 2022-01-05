@@ -1,5 +1,12 @@
 
 {{ $dbPwd := dedupe . "ghost.db.password" (randAlphaNum 26) }}
+
+global:
+  application:
+    links:
+    - description: ghost web address
+      url: {{ .Values.ghostDomain }}
+
 ghost:
   domain: {{ .Values.ghostDomain }}
   env:
