@@ -36,6 +36,10 @@ resource "google_service_account" "airbyte" {
   display_name = "Plural Airbyte"
 }
 
+resource "google_storage_hmac_key" "airbyte" {
+  service_account_email = google_service_account.airbyte.email
+}
+
 resource "google_service_account_key" "airbyte_key" {
   service_account_id = google_service_account.airbyte.name
 }

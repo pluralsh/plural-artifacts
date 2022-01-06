@@ -20,9 +20,13 @@ postgresNamespace: {{ namespace "postgres" }}
 
 airbyte:
 {{ if eq .Provider "google" }}
-  gcpCredentialsSecret: airbyte-gcp-credentials
-  airbyteGCSBucket: {{ .Values.airbyteBucket }}
-  googleApplicationCredentials: /secrets/gcs-log-creds/credentials.json
+  airbyteS3Bucket: {{ .Values.airbyteBucket }}
+  airbyteS3Endpoint: https://storage.googleapis.com
+  minio:
+    accessKey:
+      password: {{ importValue "Terraform" "access_key_id" }}
+    secretKey:
+      password: {{ importValue "Terraform" "secret_access_key" }}
 {{ end }}
 {{ if eq .Provider "aws" }}
   airbyteS3Bucket: {{ .Values.airbyteBucket }}
