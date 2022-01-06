@@ -17,8 +17,9 @@ spec:
     metadata:
       labels:
         airbyte: server
-      {{- if .Values.server.podAnnotations }}
       annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/env-secret.yaml") . | sha256sum }}
+      {{- if .Values.server.podAnnotations }}
         {{- include "common.tplvalues.render" (dict "value" .Values.server.podAnnotations "context" $) | nindent 8 }}
       {{- end }}
     spec:

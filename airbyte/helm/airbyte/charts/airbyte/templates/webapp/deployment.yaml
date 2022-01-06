@@ -17,8 +17,9 @@ spec:
         {{ if .Values.webapp.podLabels }}
         {{ toYaml .Values.webapp.podLabels | nindent 8 }}
         {{ end }}
-      {{- if .Values.webapp.podAnnotations }}
       annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/env-secret.yaml") . | sha256sum }}
+      {{- if .Values.webapp.podAnnotations }}
         {{- include "common.tplvalues.render" (dict "value" .Values.webapp.podAnnotations "context" $) | nindent 8 }}
       {{- end }}
     spec:

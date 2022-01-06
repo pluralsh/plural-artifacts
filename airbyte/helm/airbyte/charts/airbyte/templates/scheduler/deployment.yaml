@@ -13,8 +13,9 @@ spec:
     metadata:
       labels:
         airbyte: scheduler
-      {{- if .Values.scheduler.podAnnotations }}
       annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/env-secret.yaml") . | sha256sum }}
+      {{- if .Values.scheduler.podAnnotations }}
         {{- include "common.tplvalues.render" (dict "value" .Values.scheduler.podAnnotations "context" $) | nindent 8 }}
       {{- end }}
     spec:
