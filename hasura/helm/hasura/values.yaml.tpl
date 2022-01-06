@@ -1,5 +1,11 @@
 {{ $postgresPwd := dedupe . "hasura.hasura.pgClient.external.password" (randAlphaNum 25) }}
 
+global:
+  application:
+    links:
+    - url: {{ .Values.hostname }}
+      description: hasura dns name
+
 postgres:
   password: {{ $postgresPwd }}
 

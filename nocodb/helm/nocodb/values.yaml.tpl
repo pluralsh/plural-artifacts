@@ -23,6 +23,14 @@ nocodb:
       ssl:
         rejectUnauthorized: false
       sslmode: require
+  {{ if .SMTP }}
+  smtp:
+    user: {{ .SMTP.User }}
+    password: {{ .SMTP.Password }}
+    host: {{ .SMTP.Server }}
+    port: {{ .SMTP.Port }}
+    from: {{ .SMTP.Sender }}
+  {{ end }}
 
 {{ if eq .Provider "google" }}
 postgresNamespace: {{ namespace "postgres" }}

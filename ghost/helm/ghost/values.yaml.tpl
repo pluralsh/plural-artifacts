@@ -6,6 +6,8 @@ global:
     links:
     - description: ghost web address
       url: {{ .Values.ghostDomain }}
+    - description: ghost admin interface
+      url: {{ .Values.ghostDomain }}/ghost
 
 ghost:
   domain: {{ .Values.ghostDomain }}
