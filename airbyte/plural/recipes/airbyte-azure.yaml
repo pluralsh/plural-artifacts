@@ -12,6 +12,8 @@ dependencies:
   name: ingress-nginx-azure
 - repo: postgres
   name: azure-postgres
+- repo: minio
+  name: minio-azure
 sections:
 - name: airbyte
   configuration:

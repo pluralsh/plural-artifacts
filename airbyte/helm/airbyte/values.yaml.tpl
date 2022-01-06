@@ -19,14 +19,19 @@ postgresNamespace: {{ namespace "postgres" }}
 {{ end }}
 
 airbyte:
-{{ if eq .Provider "google" }}
+{{ if or (eq .Provider "google") (eq .Provider "azure") }}
   airbyteS3Bucket: {{ .Values.airbyteBucket }}
-  airbyteS3Endpoint: https://storage.googleapis.com
   minio:
     accessKey:
       password: {{ importValue "Terraform" "access_key_id" }}
     secretKey:
       password: {{ importValue "Terraform" "secret_access_key" }}
+{{ end }}
+{{ if eq .Provider "google" }}
+  airbyteS3Endpoint: https://storage.googleapis.com
+{{ end }}
+{{ id eq .Provider "azure" }}
+  airbyteS3Endpoint: {{ .Configuration.minio.hostname }}
 {{ end }}
 {{ if eq .Provider "aws" }}
   airbyteS3Bucket: {{ .Values.airbyteBucket }}
