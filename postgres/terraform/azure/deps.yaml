@@ -9,5 +9,9 @@ spec:
     repo: bootstrap
     type: terraform
     version: '>= 0.1.1'
+  - name: azure
+    repo: minio
+    type: terraform
+    version: '>= 0.1.5'
   providers:
   - azure

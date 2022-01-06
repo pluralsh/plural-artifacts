@@ -22,12 +22,6 @@ variable "minio_server" {
   default = "minio.minio:9000"
 }
 
-variable "minio_access_key" {
-  description = "MinIO user"
-  default = "minio"
-}
-
-variable "minio_secret_key" {
-  description = "MinIO secret user"
-  default = "minio123"
+variable "minio_namespace" {
+  type = string
 }

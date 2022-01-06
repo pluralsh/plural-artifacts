@@ -30,7 +30,7 @@ airbyte:
 {{ if eq .Provider "google" }}
   airbyteS3Endpoint: https://storage.googleapis.com
 {{ end }}
-{{ id eq .Provider "azure" }}
+{{ if eq .Provider "azure" }}
   airbyteS3Endpoint: {{ .Configuration.minio.hostname }}
 {{ end }}
 {{ if eq .Provider "aws" }}

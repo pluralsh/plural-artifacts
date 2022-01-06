@@ -20,11 +20,18 @@ terraform {
   required_version = ">= 0.13"
 }
 
+data "kubernetes_secret" "minio" {
+  metadata {
+    name = "minio-root-secret"
+    namespace = var.minio_namespace
+  }
+}
+
 provider "minio" {
   minio_server = var.minio_server
   minio_region = var.minio_region
-  minio_access_key = var.minio_access_key
-  minio_secret_key = var.minio_secret_key
+  minio_access_key = data.kubernetes_secret.minio.data.rootUser
+  minio_secret_key = data.kubernetes_secret.minio.data.rootPassword
   minio_ssl = "true"
 }
 
