@@ -1,3 +1,12 @@
+terraform {
+  required_providers {
+    minio = {
+      source = "pluralsh/minio"
+      version = "1.1.3"
+    }
+  }
+}
+
 resource "kubernetes_namespace" "postgres" {
   metadata {
     name = var.namespace
@@ -7,17 +16,6 @@ resource "kubernetes_namespace" "postgres" {
       "app.plural.sh/name" = "postgres"
     }
   }
-}
-
-
-terraform {
-  required_providers {
-    minio = {
-      source = "aminueza/minio"
-      version = ">= 1.0.0"
-    }
-  }
-  required_version = ">= 0.13"
 }
 
 data "kubernetes_secret" "minio" {

@@ -10,8 +10,6 @@ spec:
   secrets:
   - /private_ssh_key
   outputs:
-    externaldns_msi_client_id: externaldns_msi_client_id
-    externaldns_msi_id: externaldns_msi_id
     kubelet_msi_id: kubelet_msi_id
     node_resource_group: node_resource_group
   provider_wirings:

@@ -1,3 +1,12 @@
+terraform {
+  required_providers {
+    minio = {
+      source = "pluralsh/minio"
+      version = "1.1.3"
+    }
+  }
+}
+
 resource "kubernetes_namespace" "airbyte" {
   metadata {
     name = var.namespace
