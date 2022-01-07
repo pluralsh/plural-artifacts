@@ -8,6 +8,8 @@ oidcSettings:
 dependencies:
 - repo: bootstrap
   name: aws-k8s
+- repo: grafana
+  name: aws-grafana
 sections:
 - name: kubecost
   configuration:

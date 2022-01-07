@@ -8,6 +8,8 @@ oidcSettings:
 dependencies:
 - repo: bootstrap
   name: azure-k8s
+- repo: grafana
+  name: azure-grafana
 sections:
 - name: kubecost
   configuration:

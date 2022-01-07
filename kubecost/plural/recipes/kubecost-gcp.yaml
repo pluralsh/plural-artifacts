@@ -8,6 +8,8 @@ oidcSettings:
 dependencies:
 - repo: bootstrap
   name: gcp-kubernetes
+- repo: grafana
+  name: gcp-grafana
 sections:
 - name: kubecost
   configuration:

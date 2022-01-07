@@ -13,6 +13,10 @@ spec:
     name: monitoring
     repo: monitoring
     version: '>= 0.1.20'
+  - type: helm
+    name: grafana
+    repo: grafana
+    version: '>= 0.2.6'
   - type: terraform
     name: aws
     repo: kubecost
