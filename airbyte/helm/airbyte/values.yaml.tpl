@@ -31,7 +31,7 @@ airbyte:
   airbyteS3Endpoint: https://storage.googleapis.com
 {{ end }}
 {{ if eq .Provider "azure" }}
-  airbyteS3Endpoint: {{ .Configuration.minio.hostname }}
+  airbyteS3Endpoint: https://{{ .Configuration.minio.hostname }}
 {{ end }}
 {{ if eq .Provider "aws" }}
   airbyteS3Bucket: {{ .Values.airbyteBucket }}
