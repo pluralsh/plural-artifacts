@@ -27,12 +27,14 @@ sections:
   - name: filestoreBucket
     documentation: s3 bucket to store miscellaneous files to
     type: BUCKET
-    default: sentry-firestore
+    default: sentry-filestore
   - name: adminEmail
     documentation: admin user email
     type: STRING
   items:
   - type: TERRAFORM
     name: aws
+  - type: TERRAFORM
+    name: secrets
   - type: HELM
     name: sentry

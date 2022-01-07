@@ -72,19 +72,15 @@ sentry:
     annotations: {}
     {{ end }}
 
-  {{ $rabbitNamespace := namespace "rabbitmq" }}
-  {{ $creds := secret $rabbitNamespace "rabbitmq-default-user" }}
   rabbitmq:
-    host: rabbitmq.{{ $rabbitNamespace }}
+    host: rabbitmq.{{ namespace "rabbitmq" }}
     auth:
-      username: {{ $creds.username }}
-      password: {{ $creds.password }}
-  
-  {{ $redisNamespace := namespace "redis" }}
-  {{ $creds := secret $redisNamespace "redis-password" }}
+      username: {{ importValue "Terraform" "rabbimq_username" }}
+      password: {{ importValue "Terraform" "rabbitmq_password" }}
+
   externalRedis:
-    host: redis-master.{{ $redisNamespace }}
-    password: {{ $creds.password | quote }}
+    host: redis-master.{{ namespace "redis" }}
+    password: {{ importValue "Terraform" "redis_password" }}
 
   {{ $kafkaNamespace := namespace "kafka" }}
   externalKafka:

@@ -1,9 +1,5 @@
-{{ $minioNamespace := namespace "minio" }}
-{{ $minioHostname := .Configuration.minio.hostname }}
-{{ $creds := secret $minioNamespace "minio-root-secret" }}
 namespace = {{ .Namespace | quote }}
 cluster_name = {{ .Cluster | quote }}
 filestore_bucket = {{ .Values.filestoreBucket | quote }}
-minio_server = {{ $minioHostname | quote }}
-minio_access_key = {{ $creds.rootUser | quote }}
-minio_secret_key = {{ $creds.rootPassword | quote }}
+minio_server = {{ .Configuration.minio.hostname | quote }}
+minio_namespace = {{ namespace "minio" | quote }}

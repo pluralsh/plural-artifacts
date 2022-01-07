@@ -8,6 +8,10 @@ variable "namespace" {
   default = "sentry"
 }
 
+variable "minio_namespace" {
+  type = string
+  default = "minio"
+}
 
 variable "filestore_bucket" {
   type = string
@@ -21,14 +25,4 @@ variable "minio_region" {
 variable "minio_server" {
   description = "Default MinIO host and port"
   default = "minio.minio:9000"
-}
-
-variable "minio_access_key" {
-  description = "MinIO user"
-  default = "minio"
-}
-
-variable "minio_secret_key" {
-  description = "MinIO secret user"
-  default = "minio123"
 }
