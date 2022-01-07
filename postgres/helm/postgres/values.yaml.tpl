@@ -1,5 +1,5 @@
 configAwsOrGcp:
-{{ if eq .Provider "aws" }}
+{{ if or (eq .Provider "aws") (eq .Provider "azure") }}
   wal_s3_bucket: {{ .Values.wal_bucket }}
 {{ else if eq .Provider "google" }}
   additional_secret_mount: postgres-gcp-creds
