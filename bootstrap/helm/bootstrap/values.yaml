@@ -175,6 +175,8 @@ aws-ebs-csi-driver:
           memory: 24Mi
 
 cert-manager:
+  serviceAccount:
+    name: certmanager
   prometheus:
     enabled: true
     serviceMonitor:

@@ -35,6 +35,7 @@ provider "minio" {
 
 resource "minio_s3_bucket" "wal" {
   bucket = var.wal_bucket
+  acl    = "private"
 }
 
 data "minio_iam_policy_document" "postgres" {

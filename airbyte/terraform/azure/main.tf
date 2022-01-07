@@ -34,6 +34,7 @@ provider "minio" {
 
 resource "minio_s3_bucket" "airbyte" {
   bucket = var.airbyte_bucket
+  acl    = "private"
 }
 
 data "minio_iam_policy_document" "airbyte" {
