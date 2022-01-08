@@ -75,7 +75,7 @@ sentry:
   rabbitmq:
     host: rabbitmq.{{ namespace "rabbitmq" }}
     auth:
-      username: {{ importValue "Terraform" "rabbimq_username" }}
+      username: {{ importValue "Terraform" "rabbitmq_username" }}
       password: {{ importValue "Terraform" "rabbitmq_password" }}
 
   externalRedis:
