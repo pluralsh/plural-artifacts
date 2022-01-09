@@ -27,3 +27,22 @@ resource "azurerm_role_assignment" "rg-reader" {
   role_definition_name = "Owner"
   principal_id         = azurerm_user_assigned_identity.gitlab.principal_id
 }
+
+module "minio_buckets" {
+  source = "github.com/pluralsh/module-library//terraform/minio-buckets"
+  minio_server = var.minio_server
+  minio_region = var.minio_region
+  minio_namespace = var.minio_namespace
+  bucket_names = [
+    var.resource_group,
+    var.registry_bucket,
+    var.artifacts_bucket,
+    var.packages_bucket,
+    var.backups_bucket,
+    var.backups_tmp_bucket,
+    var.lfs_bucket,
+    var.runner_cache_bucket,
+    var.terraform_bucket
+  ]
+  user_name = "sentry"
+}

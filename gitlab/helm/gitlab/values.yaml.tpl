@@ -82,6 +82,7 @@ smtpPassword: {{ .SMTP.Password }}
 {{ end }}
 rootPassword: {{ dedupe . "gitlab.rootPassword" (randAlphaNum 20) }}
 
+{{ $minio := .Configuration.minio.hostname | quote }}
 gitlab:
   registry:
     storage:
@@ -98,8 +99,12 @@ gitlab:
         cacheType: gcs
         gcsBucketName: {{ .Values.runnerCacheBucket }}
       {{ end }}
-          
-
+      {{ if eq .Provider "azure" }}
+        cacheType: s3
+        s3BucketName: {{ .Values.runnerCacheBucket }}
+        s3ServerAddress: {{ $minio }}
+        secretName: s3credentials
+      {{ end }}
 
 railsConnection:
 {{ if eq .Provider "google" }}
@@ -112,6 +117,13 @@ railsConnection:
   region: {{ .Region }}
   use_iam_profile: true
 {{ end }}
+{{ if eq .Provider "azure" }}
+  provider: AWS
+  endpoint: {{ $minio }}
+  aws_access_key_id: {{ importValue "Terraform" "access_key_id" }}
+  aws_secret_access_key: {{ importValue "Terraform" "secret_access_key" }}
+  aws_signature_version: 4
+{{ end }}
 
 registryConnection:
 {{ if eq .Provider "aws" }}
@@ -119,9 +131,19 @@ registryConnection:
     bucket: {{ .Values.registryBucket }}
     region: {{ .Region }}
     v4auth: true
-    
 {{ end }}
 {{ if eq .Provider "google" }}
   gcs:
     bucket: {{ .Values.registryBucket }}
+{{ end }}
+{{ if eq .Provider "azure" }}
+  s3:
+    regionendpoint: {{ $minio }}
+    bucket: {{ .Values.registryBucket }}
+    accesskey: {{ importValue "Terraform" "access_key_id" }}
+    secretkey: {{ importValue "Terraform" "secret_access_key" }}
+
+s3secret:
+  accesskey: {{ importValue "Terraform" "access_key_id" }}
+  secretkey: {{ importValue "Terraform" "secret_access_key" }}
 {{ end }}
