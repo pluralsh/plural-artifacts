@@ -10,6 +10,8 @@ providers:
 outputs:
   console_msi_client_id: console_msi_client_id
   console_msi_id: console_msi_id
+  access_key_id: access_key_id
+  secret_access_key: secret_access_key
 
 description: airflow azure setup
 version: 0.1.3

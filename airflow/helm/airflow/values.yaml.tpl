@@ -11,6 +11,12 @@ secrets:
 postgresNamespace: {{ namespace "postgres" }}
 {{ end }}
 
+{{ if eq .Provider "azure" }}
+s3access:
+  access_key_id: {{ importValue "Terraform" "access_key_id" }}
+  secret_access_key: {{ importValue "Terraform" "secret_access_key" }}
+{{ end }}
+
 sshConfig:
 {{ if .Values.hostname }}
   id_rsa: {{ ternary .Values.private_key (dedupe . "airflow.sshConfig.id_rsa" "") (hasKey .Values "private_key") | quote }}
@@ -97,8 +103,11 @@ airflow:
     {{ if eq .Provider "google" }}
       AIRFLOW__LOGGING__REMOTE_BASE_LOG_FOLDER: "gs://{{ .Values.airflowBucket }}/airflow/logs"
     {{ end }}
-    {{ if eq .Provider "aws" }}
+    {{ if or (eq .Provider "aws") (eq .Provider "azure") }}
       AIRFLOW__LOGGING__REMOTE_BASE_LOG_FOLDER: "s3://{{ .Values.airflowBucket }}/airflow/logs"
+    {{ end }}
+    {{ if eq .Provider "azure" }}
+      AIRFLOW__LOGGING__REMOTE_LOG_CONN_ID: minio
     {{ end }}
   
     {{ if eq .Provider "google" }}
@@ -109,6 +118,18 @@ airflow:
       description: my GCP connection
       extra: |-
         { "extra__google_cloud_platform__num_retries": "5" }
+    {{ end }}
+    {{ if eq .Provider "azure" }}
+    connections:
+    - id: minio
+      type: aws
+      description: connection to local minio gateway
+      extra: |-
+        {
+          "aws_access_key_id": {{ importValue "Terraform" "access_key_id" }},
+          "aws_secret_access_key": {{ importValue "Terraform" "secret_access_key" }},
+          "host": "{{ .Configuration.minio.hostname }}"
+        }
     {{ end }}
 
   serviceAccount:

@@ -4,6 +4,7 @@ resource "kubernetes_namespace" "chatwoot" {
     labels = {
       "app.kubernetes.io/managed-by" = "plural"
       "app.plural.sh/name" = "chatwoot"
+      "platform.plural.sh/sync-target" = "pg"
     }
   }
 }

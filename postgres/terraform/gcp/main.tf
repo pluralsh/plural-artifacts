@@ -39,6 +39,9 @@ resource "kubernetes_secret" "google-application-credentials" {
   metadata {
     name = "postgres-gcp-creds"
     namespace = var.namespace
+    labels = {
+      "app.plural.sh/sync" = "pg"
+    }
   }
 
   data = {

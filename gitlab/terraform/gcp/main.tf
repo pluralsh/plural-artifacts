@@ -10,6 +10,7 @@ resource "kubernetes_namespace" "gitlab" {
     labels = {
       "app.kubernetes.io/managed-by" = "plural"
       "app.plural.sh/name" = "gitlab"
+      "platform.plural.sh/sync-target" = "pg"
     }
   }
 }
