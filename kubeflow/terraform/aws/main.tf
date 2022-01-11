@@ -109,7 +109,7 @@ resource "aws_eks_node_group" "gpu_inf_small" {
     "k8s.io/cluster-autoscaler/node-template/label/plural.sh/scalingGroup" = "GPU-Inf-Small"
     # "k8s.io/cluster-autoscaler/node-template/label/instance" = "DL-gpux"
     # "k8s.io/cluster-autoscaler/node-template/taint/instance" = "DL-gpux:NoSchedule"
-    "k8s.io/cluster-autoscaler/node-template/taint/dedicated" = "nvidia.com/gpu=true"
+    "k8s.io/cluster-autoscaler/node-template/taint/nvidia.com/gpu" = "true:NoSchedule"
 
   }
 
@@ -149,8 +149,8 @@ resource "aws_eks_node_group" "gpu_inf_small_spot" {
     "k8s.io/cluster-autoscaler/node-template/label/plural.sh/scalingGroup" = "GPU-Inf-Small"
     # "k8s.io/cluster-autoscaler/node-template/label/instance" = "DL-spot-gpux"
     # "k8s.io/cluster-autoscaler/node-template/taint/instance" = "DL-spot-gpux:NoSchedule"
-    "k8s.io/cluster-autoscaler/node-template/taint/dedicated" = "nvidia.com/gpu=true"
-    "k8s.io/cluster-autoscaler/node-template/taint/dedicated" = "plural.sh/capacityType=SPOT"
+    "k8s.io/cluster-autoscaler/node-template/taint/nvidia.com/gpu" = "true:NoSchedule"
+    "k8s.io/cluster-autoscaler/node-template/taint/plural.sh/capacityType" = "SPOT:NoSchedule"
 
   }
 
@@ -196,7 +196,7 @@ resource "aws_eks_node_group" "gpu_small" {
     "k8s.io/cluster-autoscaler/node-template/label/plural.sh/scalingGroup" = "GPU-Small"
     # "k8s.io/cluster-autoscaler/node-template/label/instance" = "DL-gpux"
     # "k8s.io/cluster-autoscaler/node-template/taint/instance" = "DL-gpux:NoSchedule"
-    "k8s.io/cluster-autoscaler/node-template/taint/dedicated" = "nvidia.com/gpu=true"
+    "k8s.io/cluster-autoscaler/node-template/taint/nvidia.com/gpu" = "true:NoSchedule"
 
   }
 
@@ -236,8 +236,8 @@ resource "aws_eks_node_group" "gpu_small_spot" {
     "k8s.io/cluster-autoscaler/node-template/label/plural.sh/scalingGroup" = "GPU-Small"
     # "k8s.io/cluster-autoscaler/node-template/label/instance" = "DL-spot-gpux"
     # "k8s.io/cluster-autoscaler/node-template/taint/instance" = "DL-spot-gpux:NoSchedule"
-    "k8s.io/cluster-autoscaler/node-template/taint/dedicated" = "nvidia.com/gpu=true"
-    "k8s.io/cluster-autoscaler/node-template/taint/dedicated" = "plural.sh/capacityType=SPOT"
+    "k8s.io/cluster-autoscaler/node-template/taint/nvidia.com/gpu" = "true:NoSchedule"
+    "k8s.io/cluster-autoscaler/node-template/taint/plural.sh/capacityType" = "SPOT:NoSchedule"
 
   }
 
@@ -283,7 +283,7 @@ resource "aws_eks_node_group" "gpu_medium" {
     "k8s.io/cluster-autoscaler/node-template/label/plural.sh/scalingGroup" = "GPU-Medium"
     # "k8s.io/cluster-autoscaler/node-template/label/instance" = "DL-gpux"
     # "k8s.io/cluster-autoscaler/node-template/taint/instance" = "DL-gpux:NoSchedule"
-    "k8s.io/cluster-autoscaler/node-template/taint/dedicated" = "nvidia.com/gpu=true"
+    "k8s.io/cluster-autoscaler/node-template/taint/nvidia.com/gpu" = "true:NoSchedule"
 
   }
 
@@ -323,8 +323,8 @@ resource "aws_eks_node_group" "gpu_medium_spot" {
     "k8s.io/cluster-autoscaler/node-template/label/plural.sh/scalingGroup" = "GPU-Medium"
     # "k8s.io/cluster-autoscaler/node-template/label/instance" = "DL-spot-gpux"
     # "k8s.io/cluster-autoscaler/node-template/taint/instance" = "DL-spot-gpux:NoSchedule"
-    "k8s.io/cluster-autoscaler/node-template/taint/dedicated" = "nvidia.com/gpu=true"
-    "k8s.io/cluster-autoscaler/node-template/taint/dedicated" = "plural.sh/capacityType=SPOT"
+    "k8s.io/cluster-autoscaler/node-template/taint/nvidia.com/gpu" = "true:NoSchedule"
+    "k8s.io/cluster-autoscaler/node-template/taint/plural.sh/capacityType" = "SPOT:NoSchedule"
 
   }
 
@@ -367,7 +367,7 @@ resource "aws_eks_node_group" "spot_small" {
   tags = {
     "k8s.io/cluster-autoscaler/node-template/label/plural.sh/capacityType" = "SPOT"
     # "k8s.io/cluster-autoscaler/node-template/label/instance" = "DL-spot"
-    "k8s.io/cluster-autoscaler/node-template/taint/dedicated" = "plural.sh/capacityType=SPOT"
+    "k8s.io/cluster-autoscaler/node-template/taint/plural.sh/capacityType" = "SPOT:NoSchedule"
 
   }
 
@@ -402,7 +402,7 @@ resource "aws_eks_node_group" "spot_medium" {
   tags = {
     "k8s.io/cluster-autoscaler/node-template/label/plural.sh/capacityType" = "SPOT"
     # "k8s.io/cluster-autoscaler/node-template/label/instance" = "DL-spot"
-    "k8s.io/cluster-autoscaler/node-template/taint/dedicated" = "plural.sh/capacityType=SPOT"
+    "k8s.io/cluster-autoscaler/node-template/taint/plural.sh/capacityType" = "SPOT:NoSchedule"
 
   }
 
@@ -437,7 +437,7 @@ resource "aws_eks_node_group" "spot_large" {
   tags = {
     "k8s.io/cluster-autoscaler/node-template/label/plural.sh/capacityType" = "SPOT"
     # "k8s.io/cluster-autoscaler/node-template/label/instance" = "DL-spot"
-    "k8s.io/cluster-autoscaler/node-template/taint/dedicated" = "plural.sh/capacityType=SPOT"
+    "k8s.io/cluster-autoscaler/node-template/taint/plural.sh/capacityType" = "SPOT:NoSchedule"
 
   }
 
