@@ -10,7 +10,7 @@ resource "kubernetes_namespace" "sentry" {
   }
 }
 
-module "minio_buckets" {
+module "minio" {
   source = "github.com/pluralsh/module-library//terraform/minio-buckets"
   minio_server = var.minio_server
   minio_region = var.minio_region
