@@ -1,9 +1,0 @@
-{{ if .Values.postgresNamespace }}
-apiVersion: platform.plural.sh/v1alpha1
-kind: SecretSync
-metadata:
-  name: postgres-gcp-creds
-spec:
-  name: postgres-gcp-creds
-  namespace: {{ .Values.postgresNamespace }}
-{{ end }}

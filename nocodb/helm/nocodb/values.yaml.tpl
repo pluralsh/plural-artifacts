@@ -32,10 +32,6 @@ nocodb:
     from: {{ .SMTP.Sender }}
   {{ end }}
 
-{{ if eq .Provider "google" }}
-postgresNamespace: {{ namespace "postgres" }}
-{{ end }}
-
 ingress:
   enabled: true
   tls:

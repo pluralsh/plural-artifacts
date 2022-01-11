@@ -14,10 +14,6 @@ oidcProxy:
   cookieSecret: {{ dedupe . "airbyte.oidcProxy.cookieSecret" (randAlphaNum 32) }}
 {{ end }}
 
-{{ if eq .Provider "google" }}
-postgresNamespace: {{ namespace "postgres" }}
-{{ end }}
-
 airbyte:
 {{ if or (eq .Provider "google") (eq .Provider "azure") }}
   airbyteS3Bucket: {{ .Values.airbyteBucket }}

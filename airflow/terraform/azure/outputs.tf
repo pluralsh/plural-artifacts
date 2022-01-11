@@ -1,9 +1,9 @@
-output "console_msi_client_id" {
-  value = azurerm_user_assigned_identity.console.client_id
+output "airflow_msi_client_id" {
+  value = azurerm_user_assigned_identity.airflow.client_id
 }
 
-output "console_msi_id" {
-  value = azurerm_user_assigned_identity.console.id
+output "airflow_msi_id" {
+  value = azurerm_user_assigned_identity.airflow.id
 }
 
 output "access_key_id" {

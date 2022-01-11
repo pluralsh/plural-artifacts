@@ -7,10 +7,6 @@ global:
 secrets:
   redis_password: {{ dedupe . "airflow.secrets.redis_password" (randAlphaNum 14) }}
 
-{{ if eq .Provider "google" }}
-postgresNamespace: {{ namespace "postgres" }}
-{{ end }}
-
 {{ if eq .Provider "azure" }}
 s3access:
   access_key_id: {{ importValue "Terraform" "access_key_id" }}
