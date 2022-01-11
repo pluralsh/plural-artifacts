@@ -4,10 +4,6 @@ global:
     - description: sentry web ui
       url: {{ .Values.hostname }}
 
-{{ if eq .Provider "google" }}
-postgresNamespace: {{ namespace "postgres" }}
-{{ end }}
-
 sentry:
   system:
     secretKey: {{ dedupe . "sentry.sentry.system.secretKey" (randAlphaNum 16) }}
@@ -30,11 +26,9 @@ sentry:
     s3:
       bucketName: {{ .Values.filestoreBucket }}
       region_name: "us-east-1"
-      {{ $sentryNamespace := namespace "sentry" }}
-      {{ $sentryCreds := secret $sentryNamespace "sentry-s3-secret" }}
-      accessKey: {{ $sentryCreds.AWS_ACCESS_KEY_ID }}
-      secretKey: {{ $sentryCreds.AWS_SECRET_ACCESS_KEY }}
-      endpointUrl: {{ printf "https://%s" .Configuration.minio.hostname }}
+      accessKey: {{ importValue "Terraform" "access_key_id" }}
+      secretKey: {{ importValue "Terraform" "secret_access_key" }}
+      endpointUrl: https://{{ .Configuration.minio.hostname }}
   {{ end }}
   {{ if eq .Provider "aws" }}
     backend: s3
