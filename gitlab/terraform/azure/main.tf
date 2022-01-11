@@ -29,7 +29,7 @@ resource "azurerm_role_assignment" "rg-reader" {
   principal_id         = azurerm_user_assigned_identity.gitlab.principal_id
 }
 
-module "minio_buckets" {
+module "minio" {
   source = "github.com/pluralsh/module-library//terraform/minio-buckets"
   minio_server = var.minio_server
   minio_region = var.minio_region

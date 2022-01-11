@@ -18,6 +18,68 @@ postgres:
         cpu: '2'
         memory: 1Gi
 
+configOverlays:
+- name: web-cpu
+  labels:
+    platform.plural.sh/component: sentry-web
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: cpu
+  spec:
+    name: web cpu
+    documentation: cpu requests for web deployment
+    updates:
+    - path: ['sentry', 'sentry', 'sentry', 'web', 'resources', 'requests', 'cpu']
+- name: web-mem
+  labels:
+    platform.plural.sh/component: sentry-web
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: memory
+  spec:
+    name: web memory
+    documentation: memory requests for web deployment
+    updates:
+    - path: ['sentry', 'sentry', 'sentry', 'web', 'resources', 'requests', 'memory']
+- name: worker-cpu
+  labels:
+    platform.plural.sh/component: sentry-worker
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: cpu
+  spec:
+    name: worker cpu
+    documentation: cpu requests for worker deployment
+    updates:
+    - path: ['sentry', 'sentry', 'sentry', 'worker', 'resources', 'requests', 'cpu']
+- name: worker-mem
+  labels:
+    platform.plural.sh/component: sentry-worker
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: memory
+  spec:
+    name: worker memory
+    documentation: memory requests for worker deployment
+    updates:
+    - path: ['sentry', 'sentry', 'sentry', 'worker', 'resources', 'requests', 'memory']
+- name: clickhouse-cpu
+  labels:
+    platform.plural.sh/component: sentry-clickhouse
+    platform.plural.sh/kind: statefulset
+    platform.plural.sh/resource: cpu
+  spec:
+    name: clickhouse cpu
+    documentation: cpu requests for clickhouse statefulset
+    updates:
+    - path: ['sentry', 'sentry', 'clickhouse', 'clickhouse', 'resources', 'requests', 'cpu']
+- name: clickhouse-mem
+  labels:
+    platform.plural.sh/component: sentry-clickhouse
+    platform.plural.sh/kind: statefulset
+    platform.plural.sh/resource: memory
+  spec:
+    name: clickhouse memory
+    documentation: memory requests for clickhouse statefulset
+    updates:
+    - path: ['sentry', 'sentry', 'clickhouse', 'clickhouse', 'resources', 'requests', 'memory']
+
 sentry:
   images:
     symbolicator:
