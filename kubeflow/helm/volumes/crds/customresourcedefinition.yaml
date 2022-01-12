@@ -3,7 +3,6 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.2.5
-  labels: {{- include "volumes.labels" . | nindent 4 }}
   name: pvcviewers.pvcviewer.kubeflow.org
 spec:
   group: pvcviewer.kubeflow.org
