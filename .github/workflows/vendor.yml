@@ -52,6 +52,7 @@ jobs:
         - busybox:latest
         - golang:1.16-stretch
         - golang:1.15
+        - equinix/cloud-provider-equinix-metal:v3.2.2
     steps:
     - uses: actions/checkout@v2
     - uses: google-github-actions/auth@v0
@@ -208,6 +209,8 @@ jobs:
         - image: groundnuty/k8s-wait-for:v1.3 
           repo: console
         - image: bitnami/kubectl:1.21.7 
+          repo: bootstrap
+        - image: equinix/cloud-provider-equinix-metal:v3.2.2
           repo: bootstrap
     steps:
     - uses: actions/checkout@v2
