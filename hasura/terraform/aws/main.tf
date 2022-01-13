@@ -24,6 +24,6 @@ resource "kubernetes_service_account" "postgres" {
   }
 
   depends_on = [
-    kubernetes_namespace.superset
+    kubernetes_namespace.hasura
   ]
 }
