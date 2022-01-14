@@ -53,6 +53,12 @@ jobs:
         - golang:1.16-stretch
         - golang:1.15
         - equinix/cloud-provider-equinix-metal:v3.2.2
+        - rancher/mirrored-pause:3.4.1
+        - rancher/hyperkube:v1.21.7-rancher1
+        - rancher/rke-tools:v0.1.78
+        - rancher/mirrored-coreos-etcd:v3.4.16-rancher1
+        - rancher/mirrored-calico-node
+        - rancher/mirrored-calico-kube-controllers
     steps:
     - uses: actions/checkout@v2
     - uses: google-github-actions/auth@v0
@@ -200,6 +206,20 @@ jobs:
           repo: superset
         - image: apache/superset:3c41ff68a43b5ab6b871226a73de9f2129d64766 
           repo: superset
+
+        # rancher images
+        - image: rancher/mirrored-pause:3.4.1
+          repo: bootstrap
+        - image: rancher/hyperkube:v1.21.7-rancher1
+          repo: bootstrap
+        - image: rancher/rke-tools:v0.1.78
+          repo: bootstrap
+        - image: rancher/mirrored-coreos-etcd:v3.4.16-rancher1
+          repo: bootstrap
+        - image: rancher/mirrored-calico-node
+          repo: bootstrap
+        - image: rancher/mirrored-calico-kube-controllers
+          repo: bootstrap
 
         # misc images
         - image: bitnami/postgres-exporter:0.8.0-debian-10-r354 
