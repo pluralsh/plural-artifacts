@@ -1,3 +1,13 @@
+{{ if .Values.masterHostname }}
+global:
+  application:
+    links:
+    - description: redis master
+      url: {{ .Values.masterHostname }}
+    - description: redis replicas
+      url: {{ .Values.replicaHostname }}
+{{ end }}
+
 password: {{ dedupe . "redis.password" (randAlphaNum 26) }}
 
 {{ if .Values.masterHostname }}
