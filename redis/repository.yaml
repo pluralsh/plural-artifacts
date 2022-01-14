@@ -2,5 +2,6 @@ name: redis
 description: high performance in-memory object store
 category: DATABASE
 icon: plural/icons/redis.png
+notes: plural/notes.tpl
 tags:
 - tag: cache
