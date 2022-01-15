@@ -116,6 +116,8 @@ jobs:
           repo: bootstrap
         - image: bitnami/metrics-server:0.4.4-debian-10-r0
           repo: bootstrap
+        - image: calico/ctl:master
+          repo: bootstrap
 
         # ghost images
         - image: bitnami/ghost:4.11.0-debian-10-r0 
