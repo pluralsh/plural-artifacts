@@ -93,6 +93,13 @@ cluster-autoscaler:
     enabled: true
 
 {{ if eq .Provider "aws"}}
+tigera-operator:
+  enabled: true
+  installation:
+    kubernetesProvider: EKS
+  calioctl:
+    image: gcr.io/pluralsh/calico/ctl
+    tag: master
 aws-load-balancer-controller:
   enabled: true
   clusterName: {{ .Cluster }}

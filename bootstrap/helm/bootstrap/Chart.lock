@@ -11,9 +11,6 @@ dependencies:
 - name: cluster-autoscaler
   repository: https://kubernetes.github.io/autoscaler
   version: 9.9.2
-- name: kubed
-  repository: https://charts.appscode.com/stable
-  version: v0.13.0-beta.0
 - name: aws-load-balancer-controller
   repository: https://aws.github.io/eks-charts
   version: 1.2.3
@@ -26,5 +23,8 @@ dependencies:
 - name: snapshot-controller
   repository: https://piraeus.io/helm-charts/
   version: 1.2.1
-digest: sha256:e72566d6ee948abc6a941789d2d30b974bb8a6d7ab453ef1a940a454894843e7
-generated: "2021-12-28T12:17:09.723059-05:00"
+- name: tigera-operator
+  repository: https://docs.projectcalico.org/charts
+  version: v3.21.3
+digest: sha256:c8943d941f59cea2a7d7f4108e73cc2a62896044326d1e630322dd4f688aa2d4
+generated: "2022-01-14T21:12:10.927606-05:00"

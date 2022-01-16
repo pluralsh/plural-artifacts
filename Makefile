@@ -20,6 +20,11 @@ sync-pg-%:
 import-operator:
 	kustomize build ../plural-operator/config/crd/ -o bootstrap/helm/bootstrap/crds
 
+import-tigera:
+	cp -R ../calico/calico/_includes/charts/tigera-operator/crds/. bootstrap/helm/bootstrap/crds 
+	cp -R ../calico/calico/_includes/charts/calico/crds/kdd/. bootstrap/helm/bootstrap/crds
+	rm bootstrap/helm/bootstrap/crds/calico
+
 create-template:
 	@read -p "Enter Application Name:" application; \
 	mkdir -p ./$$application/helm; \
