@@ -37,6 +37,7 @@ resource "metal_reserved_ip_block" "api_server" {
   # facility   = var.facility != "" ? var.facility : null
   metro      = var.metro
   quantity   = 1
+  tags             = ["kubernetes", "control-plane-${var.cluster_name}", "kube-apiserver"]
 }
 
 resource "kubernetes_namespace" "bootstrap" {

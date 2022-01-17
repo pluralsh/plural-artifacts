@@ -1,0 +1,19 @@
+name: rook-equinix
+description: Installs rook on an equinix kubernetes cluster
+provider: EQUINIX
+dependencies:
+- repo: bootstrap
+  name: equinix-kubernetes
+- repo: ingress-nginx
+  name: ingress-nginx-equinix
+sections:
+- name: rook
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for your the Ceph Dashboard
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: equinix
+  - type: HELM
+    name: rook

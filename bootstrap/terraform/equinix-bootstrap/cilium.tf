@@ -1,3 +1,11 @@
+resource "kubectl_manifest" "service_monitor_crd"{
+  yaml_body = file("${path.module}/templates/monitoring.coreos.com_servicemonitors.yaml")
+
+  depends_on = [
+    rke_cluster.cluster,
+  ]
+}
+
 resource "helm_release" "cilium" {
   name       = "cilium"
   namespace = var.namespace
@@ -32,11 +40,6 @@ resource "helm_release" "cilium" {
   }
 
   set {
-    name  = "hubble.metrics.serviceMonitor.enabled"
-    value = "true"
-  }
-
-  set {
     name  = "hubble.relay.enabled"
     value = "true"
   }
@@ -46,16 +49,6 @@ resource "helm_release" "cilium" {
     value = "true"
   }
 
-  # set {
-  #   name  = "hubble.ui.ingress.enabled"
-  #   value = "true"
-  # }
-
-  # set {
-  #   name  = "hubble.ui.ingress.hosts"
-  #   value = "true"
-  # }
-
   set {
     name  = "prometheus.enabled"
     value = "true"
@@ -63,16 +56,27 @@ resource "helm_release" "cilium" {
 
   set {
     name  = "prometheus.serviceMonitor.enabled"
+    value = "false"
+  }
+
+  set {
+    name  = "operator.prometheus.enabled"
     value = "true"
   }
 
-  # set {
-  #   name  = "monitor.enabled"?
-  #   value = "true"
-  # }
+  set {
+    name  = "operator.prometheus.serviceMonitor.enabled"
+    value = "true"
+  }
+
+  set {
+    name  = "monitor.enabled"
+    value = "true"
+  }
 
   depends_on = [
     rke_cluster.cluster,
-    kubernetes_namespace.bootstrap
+    kubernetes_namespace.bootstrap,
+    kubectl_manifest.service_monitor_crd,
   ]
 }

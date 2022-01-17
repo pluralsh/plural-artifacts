@@ -1,0 +1,14 @@
+name: ingress-nginx-equinix
+description: Installs ingress-nginx on an equinix kubernetes cluster
+provider: EQUINIX
+dependencies:
+- repo: bootstrap
+  name: equinix-kubernetes
+sections:
+- name: ingress-nginx
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: equinix
+  - type: HELM
+    name: ingress-nginx

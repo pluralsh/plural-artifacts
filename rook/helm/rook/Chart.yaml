@@ -1,0 +1,14 @@
+apiVersion: v2
+name: rook
+description: A Helm chart for Kubernetes
+type: application
+version: 0.1.2
+appVersion: "1.8.2"
+dependencies:
+- name: rook-ceph
+  version: 1.8.2
+  repository: https://charts.rook.io/release
+- name: rook-ceph-cluster
+  version: 1.8.2
+  repository: https://charts.rook.io/release
+  condition: rook-ceph-cluster.enabled
