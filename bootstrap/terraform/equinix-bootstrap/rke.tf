@@ -19,7 +19,7 @@ resource "rke_cluster" "cluster" {
     provider = "none"
   }
   network {
-    plugin = "calico"
+    plugin = "none"
   }
   monitoring {
     provider = "none"
