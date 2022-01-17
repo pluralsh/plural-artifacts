@@ -1,3 +1,7 @@
+provider "metal" {
+  auth_token = var.auth_token
+}
+
 locals {
   ssh_key_name = "metal-key"
 }

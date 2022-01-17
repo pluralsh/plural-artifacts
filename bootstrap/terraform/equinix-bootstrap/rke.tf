@@ -1,5 +1,5 @@
 provider "rke" {
-  log_file = "rke_debug.log"
+  debug = false
 }
 
 # Create a new RKE cluster using arguments
