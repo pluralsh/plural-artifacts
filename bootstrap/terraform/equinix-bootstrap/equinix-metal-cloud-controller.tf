@@ -5,6 +5,12 @@ resource "helm_release" "ccm" {
   repository = "https://pluralsh.github.io/plural-helm-charts"
   chart      = "cloud-provider-equinix-metal"
 
+
+  set {
+    name = "image.repository"
+    value = "gcr.io/pluralsh/equinix/cloud-provider-equinix-metal"
+  }
+  
   set {
     name  = "image.tag"
     value = var.ccm_version

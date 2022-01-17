@@ -2,6 +2,15 @@ provider "rke" {
   debug = false
 }
 
+resource "time_sleep" "wait_60_seconds" {
+  create_duration = "60s"
+  depends_on = [
+    tls_private_key.ssh_key_pair,
+    metal_device.k8s_control_plane,
+    metal_device.k8s_worker_x86
+  ]
+}
+
 # Create a new RKE cluster using arguments
 resource "rke_cluster" "cluster" {
   cluster_name = var.cluster_name
@@ -52,9 +61,7 @@ resource "rke_cluster" "cluster" {
       }
   }
   depends_on = [
-    tls_private_key.ssh_key_pair,
-    metal_device.k8s_control_plane,
-    metal_device.k8s_worker_x86
+    time_sleep.wait_60_seconds
   ]
 }
 
