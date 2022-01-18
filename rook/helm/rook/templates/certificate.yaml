@@ -13,5 +13,3 @@ spec:
   dnsNames:
     - {{ .Values.s3Hostname }}
     - '*.{{ .Values.s3Hostname }}'
-  uris:
-    - rook-ceph-rgw-ceph-objectstore.rook.svc
