@@ -10,7 +10,8 @@ spec:
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
-  commonName: {{ .Values.s3Hostname }}
   dnsNames:
     - {{ .Values.s3Hostname }}
     - '*.{{ .Values.s3Hostname }}'
+  uris:
+    - rook-ceph-rgw-ceph-objectstore.rook.svc
