@@ -5,9 +5,6 @@ dependencies: []
 sections:
 - name: bootstrap
   configuration:
-  - name: api_token
-    documentation: Equinix Metal API token
-    type: STRING
   - name: worker_node_count_x86
     documentation: The amount of x86 worker nodes to add to the cluster
     type: INT

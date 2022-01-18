@@ -1,4 +1,4 @@
-auth_token = {{ .Values.api_token | quote }}
+auth_token = {{ .Context.ApiToken | quote }}
 namespace = {{ .Namespace | quote }}
 project_id = {{ .Project | quote }}
 metro = {{ .Region | quote }}
