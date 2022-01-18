@@ -21,3 +21,4 @@ rook-ceph-cluster:
       - secretName: ceph-dashboard-tls-certificate
         hosts:
           - {{ .Values.hostname }}
+s3Hostname: {{ .Values.s3Hostname }}

@@ -91,7 +91,20 @@ rook-ceph-cluster:
       preservePoolsOnDelete: true
       gateway:
         port: 80
-        instances: 1
+        instances: 2
+        securePort: 8443
+        sslCertificateRef: radosgw-tls-certificate
+        placement:
+          podAntiAffinity:
+            podAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+              - labelSelector:
+                  matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                    - rook-ceph-rgw
+                topologyKey: "kubernetes.io/hostname"
       healthCheck:
         bucket:
           interval: 60s
@@ -103,3 +116,5 @@ rook-ceph-cluster:
         region: us-east-1
   monitoring:
     enabled: true
+
+s3Hostname: ""

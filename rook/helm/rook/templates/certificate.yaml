@@ -1,0 +1,16 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: radosgw-tls-certificate
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "rook.labels" . | nindent 4 }}
+spec:
+  secretName: radosgw-tls-certificate
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: {{ .Values.s3Hostname }}
+  dnsNames:
+    - {{ .Values.s3Hostname }}
+    - '*.{{ .Values.s3Hostname }}'
