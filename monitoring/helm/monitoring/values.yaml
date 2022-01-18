@@ -15,6 +15,11 @@ promtail:
     prometheus.io/port: "3101"
     prometheus.io/path: /metrics
     prometheus.io/scheme: http
+  tolerations:
+  - effect: NoSchedule
+    operator: Exists
+  - effect: NoExecute
+    operator: Exists
   config:
     lokiAddress: http://monitoring-loki:3100/loki/api/v1/push
     snippets:
@@ -135,6 +140,13 @@ kube-prometheus-stack:
   alertmanager:
     alertmanagerSpec:
       logLevel: debug
+
+  prometheus-node-exporter:
+    tolerations:
+    - effect: NoSchedule
+      operator: Exists
+    - effect: NoExecute
+      operator: Exists
 
     config:
       global:
