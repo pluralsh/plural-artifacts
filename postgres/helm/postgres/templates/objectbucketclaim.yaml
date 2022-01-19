@@ -1,0 +1,11 @@
+
+{{- if eq .Values.provider "equinix" }}
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: plural-postgres-s3
+  namespace: {{ .Release.Namespace }}
+spec:
+  bucketName: {{ .Values.configAwsOrGcp.wal_s3_bucket }}
+  storageClassName: ceph-bucket
+{{- end }}

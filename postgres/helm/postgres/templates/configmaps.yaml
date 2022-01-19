@@ -1,13 +1,11 @@
-{{- if .Values.configSecret.enabled }}
 apiVersion: v1
-kind: Secret
+kind: ConfigMap
 metadata:
-  name: plural-postgres-s3
+  name: postgres-environment
   labels:
     platform.plural.sh/sync: pg
 {{ include "postgres.labels" . | indent 4 }}
   annotations:
     kubed.appscode.com/sync: ""
-stringData:
-{{ toYaml .Values.configSecret.env | indent 2 }}
-{{- end }}
+data:
+{{ toYaml .Values.configConfigMap | indent 2 }}
