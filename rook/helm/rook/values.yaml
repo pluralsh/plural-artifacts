@@ -92,8 +92,6 @@ rook-ceph-cluster:
       gateway:
         port: 80
         instances: 2
-        securePort: 8443
-        sslCertificateRef: radosgw-tls-certificate
         placement:
           podAntiAffinity:
             podAffinity:
@@ -117,4 +115,20 @@ rook-ceph-cluster:
   monitoring:
     enabled: true
 
-s3Hostname: ""
+s3:
+  ingress:
+    enabled: true
+    className: nginx
+    annotations:
+      kubernetes.io/tls-acme: "true"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+    hosts:
+      - host: radosgw.example.com
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: radosgw-host-tls
+        hosts:
+          - radosgw.example.com

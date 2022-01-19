@@ -21,4 +21,22 @@ rook-ceph-cluster:
       - secretName: ceph-dashboard-tls-certificate
         hosts:
           - {{ .Values.hostname }}
-s3Hostname: {{ .Values.s3Hostname }}
+
+s3:
+  ingress:
+    enabled: true
+    className: nginx
+    annotations:
+      kubernetes.io/tls-acme: "true"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+    hosts:
+      - host: {{ .Values.s3Hostname }}
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: radosgw-host-tls
+        hosts:
+          - {{ .Values.s3Hostname }}
+          - '*.{{ .Values.s3Hostname }}'
