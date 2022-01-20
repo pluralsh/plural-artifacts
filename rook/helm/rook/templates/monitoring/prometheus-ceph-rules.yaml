@@ -1,3 +1,4 @@
+{{- if (index .Values "rook-ceph" "monitoring" "enabled") }}
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
@@ -314,3 +315,4 @@ spec:
       for: 0s
       labels:
         severity: critical
+{{- end }}
