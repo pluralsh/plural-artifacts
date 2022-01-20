@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ceph-pool-overview-integrated
+  labels: {{- include "rook.labels" . | nindent 4 }}
+    grafana_dashboard:  "ceph-pool-overview-integrated-dashboard"
+  annotations:
+      k8s-sidecar-target-directory: "/tmp/dashboards/Ceph Dashboard Integration"
+data:
+  ceph-pool-overview-integrated.json: |-
+{{ .Files.Get "grafana-dashboards/ceph-pool-overview-integrated.json" | indent 4 }}

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ceph-rdb-overview-integrated
+  labels: {{- include "rook.labels" . | nindent 4 }}
+    grafana_dashboard:  "ceph-rdb-overview-integrated-dashboard"
+  annotations:
+      k8s-sidecar-target-directory: "/tmp/dashboards/Ceph Dashboard Integration"
+data:
+  ceph-rdb-overview-integrated.json: |-
+{{ .Files.Get "grafana-dashboards/ceph-rdb-overview-integrated.json" | indent 4 }}
