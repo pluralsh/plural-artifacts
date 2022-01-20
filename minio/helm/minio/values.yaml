@@ -21,7 +21,7 @@ minio:
   ##
   image:
     repository: quay.io/minio/minio
-    tag: RELEASE.2021-07-22T05-23-32Z
+    tag: RELEASE.2022-01-08T03-11-54Z
     pullPolicy: IfNotPresent
 
   imagePullSecrets: []
