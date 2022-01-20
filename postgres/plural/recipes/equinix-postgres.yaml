@@ -4,8 +4,8 @@ provider: EQUINIX
 dependencies:
   - repo: bootstrap
     name: equinix-kubernetes
-  - repo: rook
-    name: rook-equinix
+  - repo: minio
+    name: minio-equinix
 sections:
 - name: postgres
   configuration:

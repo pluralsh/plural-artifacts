@@ -14,6 +14,11 @@ spec:
     repo: rook
     version: '>= 0.1.4'
     optional: true
+  - type: helm
+    name: minio
+    repo: minio
+    version: '>= 0.1.4'
+    optional: true
   - type: terraform
     name: aws
     repo: postgres

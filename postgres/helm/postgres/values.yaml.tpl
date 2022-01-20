@@ -28,7 +28,7 @@ configConfigMap:
   {{- end }}
   {{- if eq .Provider "equinix" }}
   AWS_S3_FORCE_PATH_STYLE: "true"
-  AWS_ENDPOINT: {{ .Configuration.rook.s3Hostname }}
+  AWS_ENDPOINT: {{ .Configuration.minio.hostname }}
   {{- end }}
 
 {{ if or (eq .Provider "azure") (eq .Provider "equinix") }}
@@ -36,7 +36,7 @@ configKubernetes:
   pod_environment_secret: plural-postgres-s3
 {{ end }}
 
-{{ if eq .Provider "azure" }}
+{{ if or (eq .Provider "azure") (eq .Provider "equinix") }}
 configSecret:
   enabled: true
   env:
