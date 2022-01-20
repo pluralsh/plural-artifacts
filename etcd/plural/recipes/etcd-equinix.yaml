@@ -1,0 +1,14 @@
+name: etcd-equinix
+description: Installs etcd on an Equinix Kubernetes cluster
+provider: EQUINIX
+dependencies:
+- repo: bootstrap
+  name: equinix-kubernetes
+sections:
+- name: etcd
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: equinix
+  - type: HELM
+    name: etcd
