@@ -41,7 +41,6 @@ minio:
   ingress:
     enabled: true
     annotations:
-      annotations:
       kubernetes.io/tls-acme: "true"
       kubernetes.io/ingress.class: "nginx"
       cert-manager.io/cluster-issuer: letsencrypt-prod
@@ -56,7 +55,6 @@ minio:
   consoleIngress:
     enabled: true
     annotations:
-      annotations:
       kubernetes.io/tls-acme: "true"
       kubernetes.io/ingress.class: "nginx"
       cert-manager.io/cluster-issuer: letsencrypt-prod
