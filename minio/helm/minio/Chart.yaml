@@ -2,7 +2,7 @@ apiVersion: v2
 name: minio
 description: A Helm chart for Kubernetes
 type: application
-version: 0.1.42
+version: 0.1.45
 appVersion: "2021.6.17"
 dependencies:
 - name: minio

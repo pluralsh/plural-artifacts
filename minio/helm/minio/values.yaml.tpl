@@ -6,6 +6,8 @@ secret:
 storageClass: "managed-csi-premium"
 {{- else if eq .Provider "aws" }}
 storageClass: ebs-csi
+{{- else if eq .Provider "equinix" }}
+storageClass: ceph-block
 {{- end }}
 
 minio:
@@ -23,10 +25,12 @@ minio:
   envFrom:
   - secretRef:
       name: minio-s3-secret
-  {{- else if eq .Provider "aws" }}
+  {{- else if eq .Provider "equinix" }}
   mode: gateway
   gateway:
     type: "s3"
+    s3:
+      serviceEndpoint: http://rook-ceph-rgw-ceph-objectstore.{{ namespace "rook" }}.svc
   envFrom:
   - secretRef:
       name: minio-s3-secret
