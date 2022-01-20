@@ -1,3 +1,4 @@
+{{ $monitoringNamespace := namespace "monitoring" }}
 secret:
   rootUser: {{ dedupe . "minio.secret.rootUser" (randAlphaNum 20) }}
   rootPassword: {{ dedupe . "minio.secret.rootPassword" (randAlphaNum 30) }}
@@ -11,6 +12,8 @@ storageClass: ceph-block
 {{- end }}
 
 minio:
+  environment:
+    MINIO_PROMETHEUS_URL: http://monitoring-prometheus.{{ $monitoringNamespace }}.svc.cluster.local:9090
   {{- if eq .Provider "azure" }}
   mode: gateway
   gateway:
@@ -37,6 +40,13 @@ minio:
   {{- end }}
   ingress:
     enabled: true
+    annotations:
+      annotations:
+      kubernetes.io/tls-acme: "true"
+      kubernetes.io/ingress.class: "nginx"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+      nginx.ingress.kubernetes.io/use-regex: "true"
     hosts:
       - {{ .Values.hostname }}
     tls:
@@ -45,6 +55,13 @@ minio:
         - {{ .Values.hostname }}
   consoleIngress:
     enabled: true
+    annotations:
+      annotations:
+      kubernetes.io/tls-acme: "true"
+      kubernetes.io/ingress.class: "nginx"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+      nginx.ingress.kubernetes.io/use-regex: "true"
     hosts:
       - {{ .Values.consoleHostname }}
     tls:
