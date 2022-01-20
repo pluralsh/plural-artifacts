@@ -5,7 +5,7 @@ secret:
 {{- if eq .Provider "azure" }}
 storageClass: "managed-csi-premium"
 {{- else if eq .Provider "aws" }}
-storageClass: gp2
+storageClass: ebs-csi
 {{- end }}
 
 minio:
@@ -16,6 +16,13 @@ minio:
   envFrom:
   - secretRef:
       name: minio-azure-secret
+  {{- else if eq .Provider "aws" }}
+  mode: gateway
+  gateway:
+    type: "s3"
+  envFrom:
+  - secretRef:
+      name: minio-s3-secret
   {{- else if eq .Provider "aws" }}
   mode: gateway
   gateway:
