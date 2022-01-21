@@ -1,0 +1,22 @@
+name: rook-gcp
+description: Installs rook on a gcp gke cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-kubernetes
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+sections:
+- name: rook
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for your the Ceph Dashboard
+    type: DOMAIN
+  - name: s3Hostname
+    documentation: FQDN to use for your the S3 API endpoint
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: rook

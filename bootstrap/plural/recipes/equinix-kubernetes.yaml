@@ -1,0 +1,25 @@
+name: equinix-kubernetes
+description: Creates a kubernetes cluster on Equinix Metal and installs the bootstrap chart
+provider: EQUINIX
+dependencies: []
+sections:
+- name: bootstrap
+  configuration:
+  - name: worker_node_count_x86
+    documentation: The amount of x86 worker nodes to add to the cluster
+    type: INT
+    default: 3
+  - name: worker_node_plan_x86
+    documentation: The the server plan of the x86 worker nodes
+    type: STRING
+    default: c3.small.x86
+  # - name: hostname
+  #   documentation: FQDN to use for your the Cilium Hubble UI
+  #   type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: equinix-bootstrap
+  - type: HELM
+    name: bootstrap
+  - type: HELM
+    name: plural-certmanager-webhook

@@ -1,0 +1,8 @@
+name: rook
+description: open source cloud-native storage orchestrator for Kubernetes
+category: DATA
+icon: plural/icons/rook.png
+notes: plural/notes.tpl
+tags:
+- tag: data
+- tag: ceph

@@ -141,9 +141,9 @@ configKubernetes:
   # override topology key for pod anti affinity
   pod_antiaffinity_topology_key: "kubernetes.io/hostname"
   # namespaced name of the ConfigMap with environment variables to populate on every pod
-  # pod_environment_configmap: "default/my-custom-config"
+  pod_environment_configmap: "postgres/postgres-environment"
   # name of the Secret (in cluster namespace) with environment variables to populate on every pod
-  pod_environment_secret: postgres-environment
+  # pod_environment_secret: postgres-environment
 
   # specify the pod management policy of stateful sets of Postgres clusters
   pod_management_policy: "ordered_ready"
@@ -179,10 +179,12 @@ configKubernetes:
   watched_namespace: "*"  # listen to all namespaces
 
 configSecret:
-  AWS_SDK_LOAD_CONFIG: "1"
-  USE_WALG_BACKUP: "true"
-  USE_WALG_RESTORE: "true"
-  CLONE_USE_WALG_RESTORE: "true"
+  enabled: false
+  env: {}
+
+provider: ""
+
+configConfigMap: {}
 
 # configure resource requests for the Postgres pods
 configPostgresPodResources:

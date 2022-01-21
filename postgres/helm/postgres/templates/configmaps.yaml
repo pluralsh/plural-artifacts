@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-environment
+  labels:
+    platform.plural.sh/sync: pg
+{{ include "postgres.labels" . | indent 4 }}
+  annotations:
+    kubed.appscode.com/sync: ""
+data:
+{{ toYaml .Values.configConfigMap | indent 2 }}

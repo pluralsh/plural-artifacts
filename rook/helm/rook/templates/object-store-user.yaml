@@ -1,0 +1,14 @@
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStoreUser
+metadata:
+  name: s3-admin
+  namespace: {{ .Release.Namespace }}
+spec:
+  store: ceph-objectstore
+  displayName: s3-admin
+  capabilities:
+    user: "*"
+    bucket: "*"
+    usage: "*"
+    metadata: "*"
+    zone: "*"

@@ -1,0 +1,16 @@
+name: monitoring-equinix
+description: Installs monitoring on an Equinix Kubernetes cluster
+provider: EQUINIX
+dependencies:
+- repo: bootstrap
+  name: equinix-kubernetes
+- repo: rook
+  name: rook-equinix
+sections:
+- name: monitoring
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: equinix
+  - type: HELM
+    name: monitoring
