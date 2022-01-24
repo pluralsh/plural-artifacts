@@ -67,3 +67,12 @@ chatwoot:
     AZURE_STORAGE_ACCOUNT_NAME: {{ .Context.StorageAccount }}
     AZURE_STORAGE_CONTAINER: {{ .Values.chatwootContainer }}
     {{- end }}
+    {{ if .SMTP }}
+    SMTP_ADDRESS: {{ .SMTP.Server }}
+    SMTP_AUTHENTICATION: plain
+    SMTP_ENABLE_STARTTLS_AUTO: 'true'
+    SMTP_USERNAME: {{ .SMTP.User }}
+    SMTP_PASSWORD: {{ .SMTP.Password }}
+    SMTP_PORT: {{ .SMTP.Port }}
+    MAILER_SENDER_EMAIL: {{ .SMTP.Sender }}
+    {{ end }}
