@@ -8,7 +8,7 @@ sources:
 maintainers:
 - name: michaeljguarino
   email: mguarino46@gmail.com
-version: 0.8.23
+version: 0.8.24
 dependencies:
 - name: external-dns
   version: 4.11.0
@@ -21,9 +21,9 @@ dependencies:
   version: v1.6.1
   repository: https://charts.jetstack.io
 - name: cluster-autoscaler
-  version: 9.9.2
+  version: 9.11.0
   condition: cluster-autoscaler.enabled
-  repository: https://kubernetes.github.io/autoscaler
+  repository: https://pluralsh.github.io/plural-helm-charts
 - name: aws-load-balancer-controller
   condition: aws-load-balancer-controller.enabled
   version: 1.2.3

@@ -74,9 +74,15 @@ variable "alb_serviceaccount" {
 
 variable "node_groups" {
   type = any
+  default = {}
+  description = "Manually configured node groups to add to your cluster"
+}
+
+variable "base_node_groups" {
+  type = any
   default = {
-    small = {
-      name = "small"
+    small_sustained_on_demand = {
+      name = "small-sustained-on-demand"
       capacity_type = "ON_DEMAND"
       min_capacity = 0
       desired_capacity = 0
@@ -85,14 +91,9 @@ variable "node_groups" {
         "plural.sh/capacityType" = "ON_DEMAND"
         "plural.sh/performanceType" = "SUSTAINED"
       }
-      k8s_taints = [{
-        key = "plural.sh/performanceType"
-        value = "SUSTAINED"
-        effect = "NO_SCHEDULE"
-      }]
     }
-    small_spot = {
-      name = "small-spot"
+    small_sustained_spot = {
+      name = "small-sustained-spot"
       capacity_type = "SPOT"
       min_capacity = 0
       desired_capacity = 0
@@ -101,21 +102,14 @@ variable "node_groups" {
         "plural.sh/capacityType" = "SPOT"
         "plural.sh/performanceType" = "SUSTAINED"
       }
-      k8s_taints = [
-        {
-          key = "plural.sh/capacityType"
-          value = "SPOT"
-          effect = "NO_SCHEDULE"
-        },
-        {
-          key = "plural.sh/performanceType"
-          value = "SUSTAINED"
-          effect = "NO_SCHEDULE"
-        }
-      ]
+      k8s_taints = [{
+        key = "plural.sh/capacityType"
+        value = "SPOT"
+        effect = "NO_SCHEDULE"
+      }]
     }
-    small_burst = {
-      name = "small-burst"
+    small_burst_on_demand = {
+      name = "small-burst-on-demand"
       capacity_type = "ON_DEMAND"
       min_capacity = 0
       instance_types = ["t3.large", "t3a.large"]
@@ -140,8 +134,8 @@ variable "node_groups" {
         effect = "NO_SCHEDULE"
       }]
     }
-    medium = {
-      name = "medium"
+    medium_sustained_on_demand = {
+      name = "medium-sustained-on-demand"
       instance_types = ["m6i.xlarge"]
       min_capacity = 0
       desired_capacity = 0
@@ -150,14 +144,9 @@ variable "node_groups" {
         "plural.sh/capacityType" = "ON_DEMAND"
         "plural.sh/performanceType" = "SUSTAINED"
       }
-      k8s_taints = [{
-        key = "plural.sh/performanceType"
-        value = "SUSTAINED"
-        effect = "NO_SCHEDULE"
-      }]
     }
-    medium_spot = {
-      name = "medium-spot"
+    medium_sustained_spot = {
+      name = "medium-sustained-spot"
       instance_types = ["m6i.xlarge"]
       min_capacity = 0
       desired_capacity = 0
@@ -166,21 +155,14 @@ variable "node_groups" {
         "plural.sh/capacityType" = "SPOT"
         "plural.sh/performanceType" = "SUSTAINED"
       }
-      k8s_taints = [
-        {
-          key = "plural.sh/capacityType"
-          value = "SPOT"
-          effect = "NO_SCHEDULE"
-        },
-        {
-        key = "plural.sh/performanceType"
-        value = "SUSTAINED"
+      k8s_taints = [{
+        key = "plural.sh/capacityType"
+        value = "SPOT"
         effect = "NO_SCHEDULE"
-        }
-      ]
+      }]
     }
-    medium_burst = {
-      name = "medium-burst"
+    medium_burst_on_demand = {
+      name = "medium-burst-on-demand"
       instance_types = ["t3.xlarge", "t3a.xlarge"]
       min_capacity = 0
       desired_capacity = 0
@@ -206,8 +188,8 @@ variable "node_groups" {
         effect = "NO_SCHEDULE"
       }]
     }
-    large = {
-      name = "large"
+    large_sustained_on_demand = {
+      name = "large-sustained-on-demand"
       instance_types = ["m6i.2xlarge"]
       min_capacity = 0
       desired_capacity = 0
@@ -216,14 +198,9 @@ variable "node_groups" {
         "plural.sh/capacityType" = "ON_DEMAND"
         "plural.sh/performanceType" = "SUSTAINED"
       }
-      k8s_taints = [{
-        key = "plural.sh/performanceType"
-        value = "SUSTAINED"
-        effect = "NO_SCHEDULE"
-      }]
     }
-    large_spot = {
-      name = "large-spot"
+    large_sustained_spot = {
+      name = "large-sustained-spot"
       instance_types = ["m6i.2xlarge"]
       min_capacity = 0
       desired_capacity = 0
@@ -233,21 +210,14 @@ variable "node_groups" {
         "plural.sh/performanceType" = "SUSTAINED"
       }
 
-      k8s_taints = [
-        {
-          key = "plural.sh/capacityType"
-          value = "SPOT"
-          effect = "NO_SCHEDULE"
-        },
-        {
-        key = "plural.sh/performanceType"
-        value = "SUSTAINED"
+      k8s_taints = [{
+        key = "plural.sh/capacityType"
+        value = "SPOT"
         effect = "NO_SCHEDULE"
-        }
-      ]
+      }]
     }
-    large_burst = {
-      name = "large-burst"
+    large_burst_on_demand = {
+      name = "large-burst-on-demand"
       instance_types = ["t3.2xlarge", "t3a.2xlarge"]
       min_capacity = 0
       desired_capacity = 0
@@ -275,7 +245,7 @@ variable "node_groups" {
       }]
     }
   }
-  description = "Node groups for your cluster"
+  description = "Plural Base node groups for your cluster"
 }
 
 variable "map_roles" {

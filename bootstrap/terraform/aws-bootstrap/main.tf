@@ -51,7 +51,7 @@ module "cluster" {
     k8s_taints = []
   }
 
-  node_groups = var.node_groups
+  node_groups = merge(var.base_node_groups, var.node_groups)
 
   map_users = var.map_users
   map_roles = concat(var.map_roles, var.manual_roles)
