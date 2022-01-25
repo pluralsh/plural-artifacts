@@ -59,6 +59,19 @@ jobs:
         - rancher/mirrored-coreos-etcd:v3.4.16-rancher1
         - rancher/mirrored-calico-node
         - rancher/mirrored-calico-kube-controllers
+        - docker.io/grafana/tempo:1.1.0
+        - chatwoot/chatwoot:v2.0.0
+        - docker.io/calico/ctl:v3.21.3
+        - docker.io/calico/kube-controllers:v3.21.3
+        - docker.io/calico/typha:v3.21.3
+        - docker.io/calico/pod2daemon-flexvol:v3.21.3
+        - docker.io/calico/node:v3.21.3
+        - otel/opentelemetry-collector:0.33.0
+        - docker.io/bitpoke/mysql-operator-sidecar-5.7:v0.5.0
+        - docker.io/bitpoke/mysql-operator:v0.5.0
+        - docker.io/bitpoke/mysql-operator-orchestrator:v0.5.0
+        - prom/mysqld-exporter:v0.13.0
+        - vaultwarden/server:1.21.0
     steps:
     - uses: actions/checkout@v2
     - uses: google-github-actions/auth@v0
@@ -118,6 +131,22 @@ jobs:
           repo: bootstrap
         - image: calico/ctl:master
           repo: bootstrap
+        
+        # chatwoot images
+        - image: chatwoot/chatwoot:v2.0.0
+          repo: chatwoot
+
+        # calico images
+        - image: docker.io/calico/kube-controllers:v3.21.3
+          repo: bootstrap
+        - image: docker.io/calico/ctl:v3.21.3
+          repo: bootstrap
+        - image: docker.io/calico/typha:v3.21.3
+          repo: bootstrap
+        - image: docker.io/calico/pod2daemon-flexvol:v3.21.3
+          repo: bootstrap
+        - image: docker.io/calico/node:v3.21.3
+          repo: bootstrap
 
         # ghost images
         - image: bitnami/ghost:4.11.0-debian-10-r0 
@@ -154,6 +183,10 @@ jobs:
           repo: grafana
         - image: grafana/grafana:8.3.2 
           repo: grafana
+        
+        # grafana-tempo images
+        - image: docker.io/grafana/tempo:1.1.0
+          repo: grafana-tempo
 
         # influxdb images
         - image: chronograf:1.8.8 
@@ -174,6 +207,18 @@ jobs:
           repo: monitoring
         - image: grafana/loki:2.2.1 
           repo: monitoring
+        - image: otel/opentelemetry-collector:0.33.0
+          repo: monitoring
+        
+        # mysql images
+        - image: docker.io/bitpoke/mysql-operator-sidecar-5.7:v0.5.0
+          repo: mysql
+        - image: prom/mysqld-exporter:v0.13.0
+          repo: mysql
+        - image: docker.io/bitpoke/mysql-operator:v0.5.0
+          repo: mysql
+        - image: docker.io/bitpoke/mysql-operator-orchestrator:v0.5.0
+          repo: mysql
         
         # nocodb images
         - image: nocodb/nocodb:0.83.8 
@@ -208,6 +253,10 @@ jobs:
           repo: superset
         - image: apache/superset:3c41ff68a43b5ab6b871226a73de9f2129d64766 
           repo: superset
+
+        # vaultwarden images
+        - image: vaultwarden/server:1.21.0
+          repo: vaultwarden
 
         # rancher images
         - image: rancher/mirrored-pause:3.4.1
