@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         img:
-        - curlimages/curl:7.73.0
+        # efs and ebs csi
         - amazon/aws-efs-csi-driver:v1.3.4
         - k8s.gcr.io/provider-aws/aws-ebs-csi-driver:v1.3.0
         - k8s.gcr.io/sig-storage/livenessprobe:v2.2.0
@@ -39,10 +39,16 @@ jobs:
         - k8s.gcr.io/sig-storage/csi-resizer:v1.3.0
         - k8s.gcr.io/sig-storage/snapshot-controller:v4.2.1
         - k8s.gcr.io/sig-storage/snapshot-validation-webhook:v4.2.1
+
+        # cni
+        - docker.io/calico/ctl:v3.21.3
+        - docker.io/calico/kube-controllers:v3.21.3
+        - docker.io/calico/typha:v3.21.3
+        - docker.io/calico/pod2daemon-flexvol:v3.21.3
+        - docker.io/calico/node:v3.21.3
+
+        # misc
         - kiwigrid/k8s-sidecar:1.1.0
-        - bitnami/kafka:2.6.0-debian-10-r78
-        - bitnami/zookeeper:3.6.2-debian-10-r58
-        - getsentry/sentry:21.5.1
         - bitnami/postgresql:11.7.0-debian-10-r9
         - influxdb:1.8
         - postgres:13.5
@@ -50,8 +56,18 @@ jobs:
         - bitnami/redis-exporter:1.12.1-debian-10-r11
         - docker:20.10.7-dind
         - busybox:latest
+        - otel/opentelemetry-collector:0.33.0
+        - curlimages/curl:7.73.0
+
+        # kafka
+        - bitnami/kafka:2.6.0-debian-10-r78
+        - bitnami/zookeeper:3.6.2-debian-10-r58
+        
+        # build
         - golang:1.16-stretch
         - golang:1.15
+
+        # equinix/baremetal
         - equinix/cloud-provider-equinix-metal:v3.2.2
         - rancher/mirrored-pause:3.4.1
         - rancher/hyperkube:v1.21.7-rancher1
@@ -59,19 +75,6 @@ jobs:
         - rancher/mirrored-coreos-etcd:v3.4.16-rancher1
         - rancher/mirrored-calico-node
         - rancher/mirrored-calico-kube-controllers
-        - docker.io/grafana/tempo:1.1.0
-        - chatwoot/chatwoot:v2.0.0
-        - docker.io/calico/ctl:v3.21.3
-        - docker.io/calico/kube-controllers:v3.21.3
-        - docker.io/calico/typha:v3.21.3
-        - docker.io/calico/pod2daemon-flexvol:v3.21.3
-        - docker.io/calico/node:v3.21.3
-        - otel/opentelemetry-collector:0.33.0
-        - docker.io/bitpoke/mysql-operator-sidecar-5.7:v0.5.0
-        - docker.io/bitpoke/mysql-operator:v0.5.0
-        - docker.io/bitpoke/mysql-operator-orchestrator:v0.5.0
-        - prom/mysqld-exporter:v0.13.0
-        - vaultwarden/server:1.21.0
     steps:
     - uses: actions/checkout@v2
     - uses: google-github-actions/auth@v0
@@ -247,6 +250,8 @@ jobs:
           repo: sentry
         - image: getsentry/relay:21.5.1 
           repo: sentry
+        - image: getsentry/sentry:21.5.1
+          repo: sentry
         
         # superset images
         - image: apache/superset:master 
@@ -257,6 +262,22 @@ jobs:
         # vaultwarden images
         - image: vaultwarden/server:1.21.0
           repo: vaultwarden
+
+        # chatwoot images
+        - image: chatwoot/chatwoot:v2.0.0
+          repo: chatwoot
+
+        # plural images
+        - image: oryd/hydra:v1.8.5
+          repo: plural
+
+        # bootstrap images
+        - image: calico/typha:v3.21.3
+          repo: bootstrap
+        - image: calico/node:v3.21.3
+          repo: bootstrap
+        - image: calico/kube-controllers:v3.21.3
+          repo: bootstrap
 
         # rancher images
         - image: rancher/mirrored-pause:3.4.1
