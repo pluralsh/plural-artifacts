@@ -1,4 +1,7 @@
 chatwoot:
+  image:
+    repository: dkr.plural.sh/chatwoot/chatwoot/chatwoot
+    tag: v2.0.0
   services:
     name: chatwoot
     internlPort: 3000
