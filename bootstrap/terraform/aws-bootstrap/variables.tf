@@ -75,8 +75,204 @@ variable "alb_serviceaccount" {
 variable "node_groups" {
   type = any
   default = {
-    main = {
-      name = "main"
+    small = {
+      name = "small"
+      capacity_type = "ON_DEMAND"
+      min_capacity = 0
+      desired_capacity = 0
+      instance_types = ["m6i.large"]
+      k8s_labels = {
+        "plural.sh/capacityType" = "ON_DEMAND"
+        "plural.sh/performanceType" = "SUSTAINED"
+      }
+      k8s_taints = [{
+        key = "plural.sh/performanceType"
+        value = "SUSTAINED"
+        effect = "NO_SCHEDULE"
+      }]
+    }
+    small_spot = {
+      name = "small-spot"
+      capacity_type = "SPOT"
+      min_capacity = 0
+      desired_capacity = 0
+      instance_types = ["m6i.large"]
+      k8s_labels = {
+        "plural.sh/capacityType" = "SPOT"
+        "plural.sh/performanceType" = "SUSTAINED"
+      }
+      k8s_taints = [
+        {
+          key = "plural.sh/capacityType"
+          value = "SPOT"
+          effect = "NO_SCHEDULE"
+        },
+        {
+          key = "plural.sh/performanceType"
+          value = "SUSTAINED"
+          effect = "NO_SCHEDULE"
+        }
+      ]
+    }
+    small_burst = {
+      name = "small-burst"
+      capacity_type = "ON_DEMAND"
+      min_capacity = 0
+      instance_types = ["t3.large", "t3a.large"]
+      k8s_labels = {
+        "plural.sh/capacityType" = "ON_DEMAND"
+        "plural.sh/performanceType" = "BURST"
+      }
+    }
+    small_burst_spot = {
+      name = "small-burst-spot"
+      capacity_type = "SPOT"
+      min_capacity = 0
+      desired_capacity = 0
+      instance_types = ["t3.large", "t3a.large"]
+      k8s_labels = {
+        "plural.sh/capacityType" = "SPOT"
+        "plural.sh/performanceType" = "BURST"
+      }
+      k8s_taints = [{
+        key = "plural.sh/capacityType"
+        value = "SPOT"
+        effect = "NO_SCHEDULE"
+      }]
+    }
+    medium = {
+      name = "medium"
+      instance_types = ["m6i.xlarge"]
+      min_capacity = 0
+      desired_capacity = 0
+      capacity_type = "ON_DEMAND"
+      k8s_labels = {
+        "plural.sh/capacityType" = "ON_DEMAND"
+        "plural.sh/performanceType" = "SUSTAINED"
+      }
+      k8s_taints = [{
+        key = "plural.sh/performanceType"
+        value = "SUSTAINED"
+        effect = "NO_SCHEDULE"
+      }]
+    }
+    medium_spot = {
+      name = "medium-spot"
+      instance_types = ["m6i.xlarge"]
+      min_capacity = 0
+      desired_capacity = 0
+      capacity_type = "SPOT"
+      k8s_labels = {
+        "plural.sh/capacityType" = "SPOT"
+        "plural.sh/performanceType" = "SUSTAINED"
+      }
+      k8s_taints = [
+        {
+          key = "plural.sh/capacityType"
+          value = "SPOT"
+          effect = "NO_SCHEDULE"
+        },
+        {
+        key = "plural.sh/performanceType"
+        value = "SUSTAINED"
+        effect = "NO_SCHEDULE"
+        }
+      ]
+    }
+    medium_burst = {
+      name = "medium-burst"
+      instance_types = ["t3.xlarge", "t3a.xlarge"]
+      min_capacity = 0
+      desired_capacity = 0
+      capacity_type = "ON_DEMAND"
+      k8s_labels = {
+        "plural.sh/capacityType" = "ON_DEMAND"
+        "plural.sh/performanceType" = "BURST"
+      }
+    }
+    medium_burst_spot = {
+      name = "medium-burst-spot"
+      instance_types = ["t3.xlarge", "t3a.xlarge"]
+      min_capacity = 0
+      desired_capacity = 0
+      capacity_type = "SPOT"
+      k8s_labels = {
+        "plural.sh/capacityType" = "SPOT"
+        "plural.sh/performanceType" = "BURST"
+      }
+      k8s_taints = [{
+        key = "plural.sh/capacityType"
+        value = "SPOT"
+        effect = "NO_SCHEDULE"
+      }]
+    }
+    large = {
+      name = "large"
+      instance_types = ["m6i.2xlarge"]
+      min_capacity = 0
+      desired_capacity = 0
+      capacity_type = "ON_DEMAND"
+      k8s_labels = {
+        "plural.sh/capacityType" = "ON_DEMAND"
+        "plural.sh/performanceType" = "SUSTAINED"
+      }
+      k8s_taints = [{
+        key = "plural.sh/performanceType"
+        value = "SUSTAINED"
+        effect = "NO_SCHEDULE"
+      }]
+    }
+    large_spot = {
+      name = "large-spot"
+      instance_types = ["m6i.2xlarge"]
+      min_capacity = 0
+      desired_capacity = 0
+      capacity_type = "SPOT"
+      k8s_labels = {
+        "plural.sh/capacityType" = "SPOT"
+        "plural.sh/performanceType" = "SUSTAINED"
+      }
+
+      k8s_taints = [
+        {
+          key = "plural.sh/capacityType"
+          value = "SPOT"
+          effect = "NO_SCHEDULE"
+        },
+        {
+        key = "plural.sh/performanceType"
+        value = "SUSTAINED"
+        effect = "NO_SCHEDULE"
+        }
+      ]
+    }
+    large_burst = {
+      name = "large-burst"
+      instance_types = ["t3.2xlarge", "t3a.2xlarge"]
+      min_capacity = 0
+      desired_capacity = 0
+      capacity_type = "ON_DEMAND"
+      k8s_labels = {
+        "plural.sh/capacityType" = "ON_DEMAND"
+        "plural.sh/performanceType" = "BURST"
+      }
+    }
+    large_burst_spot = {
+      name = "large-burst-spot"
+      instance_types = ["t3.2xlarge", "t3a.2xlarge"]
+      min_capacity = 0
+      desired_capacity = 0
+      capacity_type = "SPOT"
+      k8s_labels = {
+        "plural.sh/capacityType" = "SPOT"
+        "plural.sh/performanceType" = "BURST"
+      }
+
+      k8s_taints = [{
+        key = "plural.sh/capacityType"
+        value = "SPOT"
+        effect = "NO_SCHEDULE"
+      }]
     }
   }
   description = "Node groups for your cluster"

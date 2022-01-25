@@ -47,6 +47,8 @@ module "cluster" {
     ami_release_version = "1.21.2-20210813"
     force_update_version = true
     ami_type = "AL2_x86_64"
+    k8s_labels = {}
+    k8s_taints = []
   }
 
   node_groups = var.node_groups
@@ -58,11 +60,14 @@ module "cluster" {
 resource "aws_eks_addon" "vpc_cni" {
   cluster_name = module.cluster.cluster_id
   addon_name   = "vpc-cni"
-  addon_version     = "v1.9.1-eksbuild.1"
+  addon_version     = "v1.10.1-eksbuild.1"
   resolve_conflicts = "OVERWRITE"
   tags = {
       "eks_addon" = "vpc-cni"
   }
+  depends_on = [
+    module.cluster.node_groups
+  ]
 }
 
 resource "aws_eks_addon" "core_dns" {
@@ -73,6 +78,9 @@ resource "aws_eks_addon" "core_dns" {
   tags = {
       "eks_addon" = "coredns"
   }
+  depends_on = [
+    module.cluster.node_groups
+  ]
 }
 
 resource "aws_eks_addon" "kube_proxy" {
@@ -83,6 +91,9 @@ resource "aws_eks_addon" "kube_proxy" {
   tags = {
       "eks_addon" = "kube-proxy"
   }
+  depends_on = [
+    module.cluster.node_groups
+  ]
 }
 
 resource "kubernetes_namespace" "bootstrap" {
