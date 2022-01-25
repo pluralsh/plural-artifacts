@@ -125,9 +125,27 @@ superset:
   supersetCeleryBeat:
     enabled: true
   
+  supersetWorker:
+    initContainers:
+    - name: wait-for-postgres
+      image: gcr.io/pluralsh/busybox:latest
+      imagePullPolicy: IfNotPresent
+      envFrom:
+        - secretRef:
+            name: '{{ tpl .Values.envFromSecret . }}'
+      command: [ "/bin/sh", "-c", "until nc -zv $DB_HOST $DB_PORT -w1; do echo 'waiting for db'; sleep 1; done" ]
+  
   supersetNode:
     connections:
       db_host: plural-superset
+    initContainers:
+    - name: wait-for-postgres
+      image: gcr.io/pluralsh/busybox:latest
+      imagePullPolicy: IfNotPresent
+      envFrom:
+        - secretRef:
+            name: '{{ tpl .Values.envFromSecret . }}'
+      command: [ "/bin/sh", "-c", "until nc -zv $DB_HOST $DB_PORT -w1; do echo 'waiting for db'; sleep 1; done" ]
 
   extraEnvRaw:
   - name: DB_PASS
