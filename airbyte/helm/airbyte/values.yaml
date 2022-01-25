@@ -8,6 +8,7 @@ global:
 replicaCount: 1
 
 postgres:
+  clone: null
   replicas: 1
   storage:
     size: 25Gi

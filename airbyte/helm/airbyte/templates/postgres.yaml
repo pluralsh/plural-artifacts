@@ -6,7 +6,7 @@ metadata:
   {{ include "airbyte.labels" . | nindent 4 }}
 spec:
   teamId: plural
-  {{ .Values.postgres.clone }}
+  {{ if .Values.postgres.clone }}
   clone:
   {{ toYaml .Values.postgres.clone | nindent 4 }}
   {{ end }}
