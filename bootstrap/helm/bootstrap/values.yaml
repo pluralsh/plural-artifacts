@@ -199,9 +199,21 @@ kubed:
 
 cluster-autoscaler:
   enabled: false
+  image:
+    tag: v1.23.0
+  expanderPriorities: |
+    10:
+    - .*sustained-on-demand.*
+    20:
+    - .*burst-on-demand.*
+    30:
+    - .*sustained-spot.*
+    40:
+    - .*burst-spot.*
   extraArgs:
-    "scale-down-utilization-threshold": 0.4
-    "skip-nodes-with-local-storage": false
+    scale-down-utilization-threshold: 0.4
+    skip-nodes-with-local-storage: false
+    expander: "priority,least-waste"
   serviceMonitor:
     enabled: true
     namespace: ""

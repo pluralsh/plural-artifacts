@@ -28,7 +28,7 @@ module "vpc" {
 }
 
 module "cluster" {
-  source          = "github.com/pluralsh/terraform-aws-eks?ref=plural-eks"
+  source          = "github.com/pluralsh/terraform-aws-eks?ref=asg-tags"
   cluster_name    = var.cluster_name
   cluster_version = "1.21"
   subnets         = concat(module.vpc.public_subnets, module.vpc.private_subnets)
@@ -47,9 +47,11 @@ module "cluster" {
     ami_release_version = "1.21.2-20210813"
     force_update_version = true
     ami_type = "AL2_x86_64"
+    k8s_labels = {}
+    k8s_taints = []
   }
 
-  node_groups = var.node_groups
+  node_groups = merge(var.base_node_groups, var.node_groups)
 
   map_users = var.map_users
   map_roles = concat(var.map_roles, var.manual_roles)
@@ -58,11 +60,14 @@ module "cluster" {
 resource "aws_eks_addon" "vpc_cni" {
   cluster_name = module.cluster.cluster_id
   addon_name   = "vpc-cni"
-  addon_version     = "v1.9.1-eksbuild.1"
+  addon_version     = "v1.10.1-eksbuild.1"
   resolve_conflicts = "OVERWRITE"
   tags = {
       "eks_addon" = "vpc-cni"
   }
+  depends_on = [
+    module.cluster.node_groups
+  ]
 }
 
 resource "aws_eks_addon" "core_dns" {
@@ -73,6 +78,9 @@ resource "aws_eks_addon" "core_dns" {
   tags = {
       "eks_addon" = "coredns"
   }
+  depends_on = [
+    module.cluster.node_groups
+  ]
 }
 
 resource "aws_eks_addon" "kube_proxy" {
@@ -83,6 +91,9 @@ resource "aws_eks_addon" "kube_proxy" {
   tags = {
       "eks_addon" = "kube-proxy"
   }
+  depends_on = [
+    module.cluster.node_groups
+  ]
 }
 
 resource "kubernetes_namespace" "bootstrap" {
