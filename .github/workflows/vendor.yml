@@ -214,13 +214,13 @@ jobs:
           repo: monitoring
         
         # mysql images
-        - image: docker.io/bitpoke/mysql-operator-sidecar-5.7:v0.5.0
+        - image: bitpoke/mysql-operator-sidecar-5.7:v0.5.0
           repo: mysql
         - image: prom/mysqld-exporter:v0.13.0
           repo: mysql
-        - image: docker.io/bitpoke/mysql-operator:v0.5.0
+        - image: bitpoke/mysql-operator:v0.5.0
           repo: mysql
-        - image: docker.io/bitpoke/mysql-operator-orchestrator:v0.5.0
+        - image: bitpoke/mysql-operator-orchestrator:v0.5.0
           repo: mysql
         
         # nocodb images

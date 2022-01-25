@@ -10,9 +10,9 @@ oidcProxy:
 
 mysql-operator:
   replicas: 1
-  image: docker.io/bitpoke/mysql-operator:v0.5.0
-  sidecarImage: docker.io/bitpoke/mysql-operator-sidecar-5.7:v0.5.0
-  sidecarMysql8Image: docker.io/bitpoke/mysql-operator-sidecar-8.0:v0.5.0
+  image: gcr.io/pluralsh/bitpoke/mysql-operator:v0.5.0
+  sidecarImage: gcr.io/pluralsh/bitpoke/mysql-operator-sidecar-5.7:v0.5.0
+  sidecarMysql8Image: gcr.io/pluralsh/bitpoke/mysql-operator-sidecar-8.0:v0.5.0
   imagePullPolicy: Always
 
   # Insert a pre-stop lifecycle hook and trigger a failover. NOTE: Use this when your cluster network
@@ -94,7 +94,7 @@ mysql-operator:
     serviceAccountName: default
 
   orchestrator:
-    image: docker.io/bitpoke/mysql-operator-orchestrator:v0.5.0
+    image: gcr.io/pluralsh/bitpoke/mysql-operator-orchestrator:v0.5.0
 
     # orchestrator user and password to manage MySQL clusters
     topologyUser: orchestrator
