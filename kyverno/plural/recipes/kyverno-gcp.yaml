@@ -1,0 +1,14 @@
+name: kyverno-gcp
+description: Installs kyverno on a gcp gke cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-kubernetes
+sections:
+- name: kyverno
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: kyverno
