@@ -1,7 +1,7 @@
 aws-efs-csi-driver:
   image:
     repository: gcr.io/pluralsh/amazon/aws-efs-csi-driver
-    tag: v1.3.4
+    tag: v1.3.6
   sidecars:
     livenessProbe:
       image:
