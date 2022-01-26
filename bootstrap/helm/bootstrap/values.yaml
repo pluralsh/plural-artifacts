@@ -95,9 +95,6 @@ aws-ebs-csi-driver:
       reclaimPolicy: Delete
       volumeBindingMode: WaitForFirstConsumer
       allowVolumeExpansion: true
-  image:
-    repository: gcr.io/pluralsh/k8s.gcr.io/provider-aws/aws-ebs-csi-driver
-    tag: v1.3.0
   controller:
     resources:
       requests:
@@ -108,9 +105,6 @@ aws-ebs-csi-driver:
         memory: 24Mi
   sidecars:
     provisioner:
-      image:
-        repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/csi-provisioner
-        tag: "v2.1.1"
       resources:
         requests:
           cpu: 10m
@@ -119,9 +113,6 @@ aws-ebs-csi-driver:
           cpu: 10m
           memory: 24Mi
     attacher:
-      image:
-        repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/csi-attacher
-        tag: "v3.1.0"
       resources:
         requests:
           cpu: 10m
@@ -130,9 +121,6 @@ aws-ebs-csi-driver:
           cpu: 10m
           memory: 24Mi
     snapshotter:
-      image:
-        repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/csi-snapshotter
-        tag: "v3.0.3"
       resources:
         requests:
           cpu: 10m
@@ -149,9 +137,6 @@ aws-ebs-csi-driver:
           cpu: 10m
           memory: 145Mi
     resizer:
-      image:
-        repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/csi-resizer
-        tag: "v1.0.0"
       resources:
         requests:
           cpu: 10m
@@ -160,9 +145,6 @@ aws-ebs-csi-driver:
           cpu: 10m
           memory: 37Mi
     nodeDriverRegistrar:
-      image:
-        repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/csi-node-driver-registrar
-        tag: "v2.1.0"
       resources:
         requests:
           cpu: 10m
