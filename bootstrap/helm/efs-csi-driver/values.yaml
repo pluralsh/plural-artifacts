@@ -5,8 +5,8 @@ aws-efs-csi-driver:
   sidecars:
     livenessProbe:
       image:
-        repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/livenessprobe
-        tag: v2.2.0
+        repository: k8s.gcr.io/sig-storage/livenessprobe
+        tag: v2.4.0
     nodeDriverRegistrar:
       image:
         repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/csi-node-driver-registrar
