@@ -141,9 +141,6 @@ aws-ebs-csi-driver:
           cpu: 10m
           memory: 24Mi
     livenessProbe:
-      image:
-        repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/livenessprobe
-        tag: "v2.2.0"
       resources:
         requests:
           cpu: 10m
