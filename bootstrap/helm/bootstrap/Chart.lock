@@ -16,7 +16,7 @@ dependencies:
   version: 1.2.3
 - name: aws-ebs-csi-driver
   repository: https://kubernetes-sigs.github.io/aws-ebs-csi-driver
-  version: 2.5.1
+  version: 2.6.2
 - name: snapshot-validation-webhook
   repository: https://piraeus.io/helm-charts/
   version: 1.2.1
@@ -26,5 +26,5 @@ dependencies:
 - name: tigera-operator
   repository: https://docs.projectcalico.org/charts
   version: v3.21.3
-digest: sha256:65c8a7bca028a4f518603b42f45e8fe53857f4d806a18943ce0b6a21fafc89af
-generated: "2022-01-25T22:05:15.199513-05:00"
+digest: sha256:c72caed2af528b4929374200d60beddc7f755dff3016f7460acaade071a2230e
+generated: "2022-01-25T22:21:36.277719-05:00"
