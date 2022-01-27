@@ -40,7 +40,7 @@ resource "kubernetes_secret" "google-application-credentials" {
     name = "postgres-gcp-creds"
     namespace = var.namespace
     labels = {
-      "app.plural.sh/sync" = "pg"
+      "platform.plural.sh/sync" = "pg"
     }
   }
 
