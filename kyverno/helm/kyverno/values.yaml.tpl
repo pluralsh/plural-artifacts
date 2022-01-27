@@ -1,5 +1,7 @@
 global:
   application:
-    links:
-    - description: kyverno web ui
-      url: {{ .Values.hostname }}
+    links: []
+{{ if .Values.enablePolicies }}
+kyverno-policies:
+  enabled: true
+{{ end }}

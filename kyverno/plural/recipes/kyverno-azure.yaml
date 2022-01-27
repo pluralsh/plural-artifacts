@@ -6,7 +6,11 @@ dependencies:
   name: azure-k8s
 sections:
 - name: kyverno
-  configuration: []
+  configuration:
+  - name: enablePolicies
+    type: BOOL
+    documentation: Deploy Kyverno policies
+    default: false
   items:
   - type: TERRAFORM
     name: azure
