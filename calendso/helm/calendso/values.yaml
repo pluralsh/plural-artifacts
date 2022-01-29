@@ -37,7 +37,7 @@ configOverlays:
     - path: ['calendso', 'secrets', 'zoomClientSecret']
 
 image:
-  repository: dkr.plural.sh/calendso/calendso/calendso
+  repository: dkr.plural.sh/calendso/calendso
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: latest
