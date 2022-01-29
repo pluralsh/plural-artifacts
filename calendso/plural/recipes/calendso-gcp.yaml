@@ -1,0 +1,20 @@
+name: calendso-gcp
+description: Installs calendso on a gcp gke cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-kubernetes
+sections:
+- name: calendso
+  configuration:
+  - name: hostname
+    type: DOMAIN
+    documentation: fqdn you'll be deploying cal.com to
+  - name: googleApiCredentials
+    type: STRING
+    documentation: the json credentials for accessing the google calendar api, follow directions here https://github.com/calendso/calendso#obtaining-the-google-api-credentials
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: calendso

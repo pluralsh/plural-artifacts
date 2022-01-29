@@ -292,6 +292,10 @@ jobs:
           repo: bootstrap
         - image: rancher/mirrored-calico-kube-controllers
           repo: bootstrap
+        
+        # calendso
+        - image: calendso/calendso:latest
+          repo: calendso
 
         # misc images
         - image: bitnami/postgres-exporter:0.8.0-debian-10-r354 

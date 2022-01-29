@@ -1,0 +1,7 @@
+name: calendso
+description: open source calendly alternative
+category: PRODUCTIVITY
+icon: plural/icons/cal.png
+notes: plural/notes.tpl
+tags:
+- tag: calendar
