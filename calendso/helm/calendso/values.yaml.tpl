@@ -23,6 +23,5 @@ ingress:
 secrets:
   databaseUrl: postgres://calendso:{{ $postgresPwd }}@plural-calendso:5432/calendso?sslmode=require
   baseUrl: https://{{ .Values.hostname }}
-  googleApiCredentials: {{ .Values.googleApiCredentials }}
   jwtSecret: {{ randAlphaNum 32 }}
   calendsoEncryptionKey: {{ randAlphaNum 32 }}
