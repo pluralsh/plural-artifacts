@@ -10,6 +10,32 @@ postgres:
   dbName: calendso
   ownerChart: calendso
 
+configOverlays:
+- name: google-client-id
+  spec:
+    folder: secrets
+    subfolder: google
+    name: Google Api Credentials
+    documentation: oauth credentials for gcal meetings, see instructions https://github.com/calendso/calendso#obtaining-the-google-api-credentials
+    updates:
+    - path: ['calendso', 'secrets', 'googleApiCredentials']
+- name: zoom-client-id
+  spec:
+    folder: secrets
+    subfolder: zoom
+    name: Zoom Client ID
+    documentation: oauth credential for generating zoom meetings, see instructions https://github.com/calendso/calendso#obtaining-zoom-client-id-and-secret
+    updates:
+    - path: ['calendso', 'secrets', 'zoomClientId']
+- name: zoom-client-secret
+  spec:
+    folder: secrets
+    subfolder: zoom
+    name: Zoom Client Secret
+    documentation: oauth credential for generating zoom meetings, see instructions https://github.com/calendso/calendso#obtaining-zoom-client-id-and-secret
+    updates:
+    - path: ['calendso', 'secrets', 'zoomClientSecret']
+
 image:
   repository: dkr.plural.sh/calendso/calendso/calendso
   pullPolicy: Always
