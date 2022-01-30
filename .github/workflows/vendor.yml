@@ -296,6 +296,10 @@ jobs:
         # calendso
         - image: calendso/calendso:latest
           repo: calendso
+        
+        # dagster
+        - image: dagster/dagster-celery-k8s:0.13.17
+          repo: dagster
 
         # misc images
         - image: bitnami/postgres-exporter:0.8.0-debian-10-r354 

@@ -1,0 +1,56 @@
+global:
+  serviceAccountName: dagster
+
+postgres:
+  team: plural
+  user: dagster
+  dbName: dagster
+  ownerChart: dagster
+  password: REPLACE_ME
+
+dagster:
+  dagit:
+    image:
+      repository: dkr.plural.sh/dagster/dagster/dagster-celery-k8s
+
+  ingress:
+    enabled: true
+    dagit:
+      tls:
+        enabled: true
+        secret: dagster-tls
+    annotations:
+      kubernetes.io/tls-acme: "true"
+      kubernetes.io/ingress.class: "nginx"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      # Extend timeout to allow long running queries.
+      nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+      nginx.ingress.kubernetes.io/use-regex: "true"
+
+  runLauncher:
+    type: K8sRunLauncher
+
+  postgresql:
+    enabled: false
+    postgresqlHost: plural-dagster
+    postgresqlUsername: dagster
+    postgresqlDatabase: dagster
+    postgresqlParams:
+      sslmode: require
+
+  dagster-user-deployments:
+    enabled: true
+    deployments:
+      - name: "k8s-example-user-code-1"
+        image:
+          repository: "docker.io/dagster/user-code-example"
+          tag: latest
+          pullPolicy: Always
+        dagsterApiGrpcArgs:
+          - "--python-file"
+          - "/example_project/example_repo/repo.py"
+        port: 3030
+        envSecrets:
+          - name: dagster-aws-env

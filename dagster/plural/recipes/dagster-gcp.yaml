@@ -1,0 +1,21 @@
+name: dagster-gcp
+description: Installs dagster on a gcp gke cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-kubernetes
+sections:
+- name: dagster
+  configuration:
+  - name: dagsterBucket
+    type: BUCKET
+    documentation: gcs bucket for storing dagster logs
+    default: dagster
+  - name: hostname
+    type: DOMAIN
+    documentation: fqdn on which to deploy your dagster instance
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: dagster

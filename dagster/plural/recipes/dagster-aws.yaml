@@ -1,0 +1,21 @@
+name: dagster-aws
+description: Installs dagster on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+sections:
+- name: dagster
+  configuration:
+  - name: dagsterBucket
+    type: BUCKET
+    documentation: s3 bucket for storing dagster logs
+    default: dagster
+  - name: hostname
+    type: DOMAIN
+    documentation: fqdn on which to deploy your dagster instance
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: dagster

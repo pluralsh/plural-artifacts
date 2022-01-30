@@ -1,5 +1,6 @@
 name: calendso
 description: open source calendly alternative
+private: true
 category: PRODUCTIVITY
 icon: plural/icons/cal.png
 notes: plural/notes.tpl
