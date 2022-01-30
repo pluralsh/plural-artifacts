@@ -4,7 +4,7 @@ module "assumable_role_airflow" {
   create_role                   = true
   role_name                     = "${var.cluster_name}-${var.role_name}"
   provider_url                  = replace(data.aws_eks_cluster.cluster.identity[0].oidc[0].issuer, "https://", "")
-  role_policy_arns              = [s3_buckets.policy_arn]
+  role_policy_arns              = [module.s3_buckets.policy_arn]
   oidc_fully_qualified_subjects = ["system:serviceaccount:${var.namespace}:${var.dagster_serviceaccount}"]
 }
 
@@ -22,10 +22,10 @@ resource "aws_iam_policy_attachment" "dagster-user" {
   policy_arn = module.s3_buckets.policy_arn
 }
 
-resource "kubernetes_secret" "pipelines_s3_secret" {
+resource "kubernetes_secret" "dagster_s3_secret" {
   metadata {
     name = "dagster-aws-env"
-    namespace = kubernetes_namespace.kubeflow.id
+    namespace = kubernetes_namespace.dagster.id
   }
 
   data = {

@@ -33,6 +33,7 @@ dagster:
     type: K8sRunLauncher
 
   postgresql:
+    enabled: false
     postgresqlHost: plural-dagster
     postgresqlUsername: dagster
     postgresqlDatabase: dagster

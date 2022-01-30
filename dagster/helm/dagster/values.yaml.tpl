@@ -21,8 +21,9 @@ dagster:
   {{ if eq .Provider "aws" }}
   computeLogManager:
     type: S3ComputeLogManager
-    s3:
-      bucket: {{ .Values.dagsterBucket }}
+    config:
+      s3ComputeLogManager:
+        bucket: {{ .Values.dagsterBucket }}
   {{ end }}
 
   {{ if eq .Provider "aws" }}
