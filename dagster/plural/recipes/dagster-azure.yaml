@@ -1,0 +1,21 @@
+name: dagster-azure
+description: Installs dagster on an azure aks cluster
+provider: AZURE
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+sections:
+- name: dagster
+  configuration:
+  - name: dagsterBucket
+    type: BUCKET
+    documentation: azure blob storage bucket for storing dagster logs
+    default: dagster
+  - name: hostname
+    type: DOMAIN
+    documentation: fqdn on which to deploy your dagster instance
+  items:
+  - type: TERRAFORM
+    name: azure
+  - type: HELM
+    name: dagster

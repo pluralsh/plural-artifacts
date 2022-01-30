@@ -1,0 +1,10 @@
+name: dagster
+description: beautiful data processing workflows
+category: DATA
+private: true
+icon: plural/icons/dagster.png
+notes: plural/notes.tpl
+tags:
+- tag: dag
+- tag: data
+- tag: data-pipelines

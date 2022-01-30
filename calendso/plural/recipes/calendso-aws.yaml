@@ -13,5 +13,7 @@ sections:
   items:
   - type: TERRAFORM
     name: kube
+  - type: TERRAFORM
+    name: aws
   - type: HELM
     name: calendso

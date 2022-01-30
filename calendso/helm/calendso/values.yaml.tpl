@@ -4,7 +4,7 @@ global:
     - description: calendso web ui
       url: {{ .Values.hostname }}
 
-{{ $postgresPwd := dedupe . "nocodb.postgres.password" (randAlphaNum 25) }}
+{{ $postgresPwd := dedupe . "calendso.postgres.password" (randAlphaNum 25) }}
 
 postgres:
   password: {{ $postgresPwd }}
