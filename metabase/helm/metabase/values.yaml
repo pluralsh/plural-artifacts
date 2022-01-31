@@ -58,6 +58,7 @@ session:
 #
 # log4jProperties:
 
+internalPort: 3000
 
 extraVolumeMounts: []
 extraVolumes: []

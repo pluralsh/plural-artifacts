@@ -66,6 +66,13 @@ spec:
               secretKeyRef:
                 name: {{ .Values.database.secret }}
                 key: password
+          {{- if .Values.database.encryptionKey }}
+          - name: MB_ENCRYPTION_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: database-encryption
+                key: key
+          {{- end }}
           - name: MB_PASSWORD_COMPLEXITY
             value: {{ .Values.password.complexity }}
           - name: MB_PASSWORD_LENGTH
@@ -107,7 +114,7 @@ spec:
           {{- end }}
           ports:
             - name: http
-              containerPort: 80
+              containerPort: {{ .Values.internalPort }}
               protocol: TCP
           livenessProbe:
             httpGet:
