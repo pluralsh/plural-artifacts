@@ -3,7 +3,7 @@ description: Installs calendso on a gcp gke cluster
 provider: GCP
 dependencies:
 - repo: bootstrap
-  name: gcp-k8s
+  name: gcp-kubernetes
 - repo: ingress-nginx
   name: ingress-nginx-gcp
 - repo: postgres
