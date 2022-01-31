@@ -9,6 +9,16 @@ global:
 postgres:
   password: {{ $postgresPwd }}
 
+{{ if .OIDC }}
+oidcProxy:
+  enabled: true
+  upstream: http://localhost:80
+  issuer: {{ .OIDC.Configuration.Issuer }}
+  clientID: {{ .OIDC.ClientId }}
+  clientSecret: {{ .OIDC.ClientSecret }}
+  cookieSecret: {{ dedupe . "dagster.oidcProxy.cookieSecret" (randAlphaNum 32) }}
+{{ end }}
+
 dagster:
   ingress:
     dagit:
