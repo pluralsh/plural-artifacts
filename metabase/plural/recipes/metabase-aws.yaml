@@ -1,5 +1,5 @@
-name: calendso-aws
-description: Installs calendso on an aws eks cluster
+name: metabase-aws
+description: Installs metabase on an aws eks cluster
 provider: AWS
 dependencies:
 - repo: bootstrap
@@ -9,15 +9,13 @@ dependencies:
 - repo: postgres
   name: aws-postgres
 sections:
-- name: calendso
+- name: metabase
   configuration:
   - name: hostname
+    documentation: fqdn for your metabase instance
     type: DOMAIN
-    documentation: fqdn you'll be deploying cal.com to
   items:
-  - type: TERRAFORM
-    name: kube
   - type: TERRAFORM
     name: aws
   - type: HELM
-    name: calendso
+    name: metabase

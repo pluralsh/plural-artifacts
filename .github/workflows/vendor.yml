@@ -301,6 +301,10 @@ jobs:
         - image: dagster/dagster-celery-k8s:0.13.17
           repo: dagster
 
+        # metabase
+        - image: metabase/metabase:v0.41.5
+          repo: metabase
+
         # misc images
         - image: bitnami/postgres-exporter:0.8.0-debian-10-r354 
           repo: postgres

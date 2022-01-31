@@ -1,21 +1,21 @@
-name: calendso-gcp
-description: Installs calendso on a gcp gke cluster
+name: metabase-gcp
+description: Installs metabase on a gcp gke cluster
 provider: GCP
 dependencies:
 - repo: bootstrap
-  name: gcp-k8s
+  name: gcp-kubernetes
 - repo: ingress-nginx
   name: ingress-nginx-gcp
 - repo: postgres
   name: gcp-postgres
 sections:
-- name: calendso
+- name: metabase
   configuration:
   - name: hostname
+    documentation: fqdn for your metabase instance
     type: DOMAIN
-    documentation: fqdn you'll be deploying cal.com to
   items:
   - type: TERRAFORM
-    name: kube
+    name: gcp
   - type: HELM
-    name: calendso
+    name: metabase

@@ -1,0 +1,153 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "metabase.fullname" . }}
+  labels:
+    {{- include "metabase.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "metabase.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "metabase.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "metabase.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if .Values.initContainers }}
+      initContainers:
+        {{ toYaml .Values.initContainers | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+          - name: MB_JETTY_HOST
+            value: {{ .Values.listen.host | quote }}
+          - name: MB_JETTY_PORT
+            value: {{ .Values.listen.port | quote }}
+          {{- if .Values.jetty }}
+            {{- range $key, $value := .Values.jetty }}
+          - name: MB_JETTY_{{ $key | upper }}
+            value: {{ $value | quote }}
+            {{- end }}
+          {{- end }}
+          - name: MB_DB_TYPE
+            value: postgres
+          - name: MB_DB_HOST
+            value: {{ .Values.database.host | quote }}
+          - name: MB_DB_PORT
+            value: {{ .Values.database.port | quote }}
+          - name: MB_DB_DBNAME
+            value: {{ .Values.database.dbname | quote }}
+          - name: MB_DB_USER
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.database.secret }}
+                key: username
+          - name: MB_DB_PASS
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.database.secret }}
+                key: password
+          - name: MB_PASSWORD_COMPLEXITY
+            value: {{ .Values.password.complexity }}
+          - name: MB_PASSWORD_LENGTH
+            value: {{ .Values.password.length | quote }}
+          - name: JAVA_TIMEZONE
+            value: {{ .Values.timeZone }}
+          {{- if .Values.javaOpts }}
+          - name: JAVA_OPTS
+            value: {{ .Values.javaOpts | quote }}
+          {{- else }}
+            {{- if .Values.log4jProperties }}
+          - name: JAVA_OPTS
+            value: "-Dlog4j.configuration=file:/tmp/conf/log4j.properties"
+            {{- end }}
+          {{- end }}
+          {{- if .Values.pluginsDirectory }}
+          - name: MB_PLUGINS_DIR
+            value: {{ .Values.pluginsDirectory | quote }}
+          {{- end }}
+          - name: MB_EMOJI_IN_LOGS
+            value: {{ .Values.emojiLogging | quote }}
+          - name: MB_COLORIZE_LOGS
+            value: {{ .Values.colorLogging | quote }}
+          {{- if .Values.siteUrl }}
+          - name: MB_SITE_URL
+            value: {{ .Values.siteUrl | quote }}
+          {{- end }}
+          {{- if .Values.session.maxSessionAge }}
+          - name: MAX_SESSION_AGE
+            value: {{ .Values.session.maxSessionAge | quote }}
+          {{- end }}
+          {{- if .Values.session.sessionCookies }}
+          - name: MB_SESSION_COOKIES
+            value: {{ .Values.session.sessionCookies | quote }}
+          {{- end }}
+          {{- if .Values.session.cookieSameSite }}
+          - name: MB_COOKIE_SAMESITE
+            value: {{ .Values.session.cookieSameSite | quote }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+          {{- if .Values.log4jProperties }}
+          - name: config
+            mountPath: /tmp/conf/
+          {{- end }}
+          {{- if ne (len .Values.extraVolumeMounts) 0 }}
+            {{ toYaml .Values.extraVolumeMounts | nindent 12 }}
+          {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        {{- if .Values.log4jProperties}}
+        - name: config
+          configMap:
+            name: {{ template "metabase.fullname" . }}-config
+            items:
+            - key: log4j.properties
+              path: log4j.properties
+        {{- end }}
+        {{- if ne (len .Values.extraVolumes) 0 }}
+          {{ toYaml .Values.extraVolumes | nindent 8 }}
+        {{- end }}

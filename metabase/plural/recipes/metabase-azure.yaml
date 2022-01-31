@@ -1,5 +1,5 @@
-name: calendso-azure
-description: Installs calendso on an azure aks cluster
+name: metabase-azure
+description: Installs metabase on an azure aks cluster
 provider: AZURE
 dependencies:
 - repo: bootstrap
@@ -9,13 +9,13 @@ dependencies:
 - repo: postgres
   name: azure-postgres
 sections:
-- name: calendso
+- name: metabase
   configuration:
   - name: hostname
+    documentation: fqdn for your metabase instance
     type: DOMAIN
-    documentation: fqdn you'll be deploying cal.com to
   items:
   - type: TERRAFORM
-    name: kube
+    name: azure
   - type: HELM
-    name: calendso
+    name: metabase

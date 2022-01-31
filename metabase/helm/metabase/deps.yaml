@@ -2,7 +2,7 @@ apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
   application: true
-  description: Deploys dagster crafted for the target cloud
+  description: Deploys metabase crafted for the target cloud
 spec:
   dependencies:
   - type: helm
@@ -19,16 +19,16 @@ spec:
     version: ">= 0.1.6"
   - type: terraform
     name: aws
-    repo: dagster
+    repo: metabase
     version: '>= 0.1.0'
     optional: true
   - type: terraform
     name: azure
-    repo: dagster
+    repo: metabase
     version: '>= 0.1.0'
     optional: true
   - type: terraform
     name: gcp
-    repo: dagster
+    repo: metabase
     version: '>= 0.1.0'
     optional: true
