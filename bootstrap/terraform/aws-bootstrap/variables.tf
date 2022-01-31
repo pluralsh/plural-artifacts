@@ -42,6 +42,20 @@ variable "max_capacity" {
   description = "the maximum number of nodes in a nodegroup"
 }
 
+variable "max_managed_node_groups" {
+  type = number
+  default = 100
+
+  description = "the maximum number of managed node groups per cluster in the region"
+}
+
+variable "max_auto_scaling_groups" {
+  type = number
+  default = 1000
+
+  description = "the maximum number of auto scaling groups in the region"
+}
+
 variable "autoscaler_serviceaccount" {
   type = string
   default = "cluster-autoscaler"
@@ -85,6 +99,7 @@ variable "base_node_groups" {
       name = "small-sustained-on-demand"
       capacity_type = "ON_DEMAND"
       min_capacity = 0
+      max_capacity = 25
       desired_capacity = 0
       instance_types = ["m6i.large"]
       k8s_labels = {
@@ -96,6 +111,7 @@ variable "base_node_groups" {
       name = "small-sustained-spot"
       capacity_type = "SPOT"
       min_capacity = 0
+      max_capacity = 25
       desired_capacity = 0
       instance_types = ["m6i.large"]
       k8s_labels = {
@@ -112,6 +128,8 @@ variable "base_node_groups" {
       name = "small-burst-on-demand"
       capacity_type = "ON_DEMAND"
       min_capacity = 0
+      max_capacity = 25
+      desired_capacity = 3
       instance_types = ["t3.large", "t3a.large"]
       k8s_labels = {
         "plural.sh/capacityType" = "ON_DEMAND"
@@ -122,6 +140,7 @@ variable "base_node_groups" {
       name = "small-burst-spot"
       capacity_type = "SPOT"
       min_capacity = 0
+      max_capacity = 25
       desired_capacity = 0
       instance_types = ["t3.large", "t3a.large"]
       k8s_labels = {
@@ -138,6 +157,7 @@ variable "base_node_groups" {
       name = "medium-sustained-on-demand"
       instance_types = ["m6i.xlarge"]
       min_capacity = 0
+      max_capacity = 25
       desired_capacity = 0
       capacity_type = "ON_DEMAND"
       k8s_labels = {
@@ -149,6 +169,7 @@ variable "base_node_groups" {
       name = "medium-sustained-spot"
       instance_types = ["m6i.xlarge"]
       min_capacity = 0
+      max_capacity = 25
       desired_capacity = 0
       capacity_type = "SPOT"
       k8s_labels = {
@@ -165,6 +186,7 @@ variable "base_node_groups" {
       name = "medium-burst-on-demand"
       instance_types = ["t3.xlarge", "t3a.xlarge"]
       min_capacity = 0
+      max_capacity = 25
       desired_capacity = 0
       capacity_type = "ON_DEMAND"
       k8s_labels = {
@@ -176,6 +198,7 @@ variable "base_node_groups" {
       name = "medium-burst-spot"
       instance_types = ["t3.xlarge", "t3a.xlarge"]
       min_capacity = 0
+      max_capacity = 25
       desired_capacity = 0
       capacity_type = "SPOT"
       k8s_labels = {
@@ -192,6 +215,7 @@ variable "base_node_groups" {
       name = "large-sustained-on-demand"
       instance_types = ["m6i.2xlarge"]
       min_capacity = 0
+      max_capacity = 25
       desired_capacity = 0
       capacity_type = "ON_DEMAND"
       k8s_labels = {
@@ -203,6 +227,7 @@ variable "base_node_groups" {
       name = "large-sustained-spot"
       instance_types = ["m6i.2xlarge"]
       min_capacity = 0
+      max_capacity = 25
       desired_capacity = 0
       capacity_type = "SPOT"
       k8s_labels = {
@@ -220,6 +245,7 @@ variable "base_node_groups" {
       name = "large-burst-on-demand"
       instance_types = ["t3.2xlarge", "t3a.2xlarge"]
       min_capacity = 0
+      max_capacity = 25
       desired_capacity = 0
       capacity_type = "ON_DEMAND"
       k8s_labels = {
@@ -231,6 +257,7 @@ variable "base_node_groups" {
       name = "large-burst-spot"
       instance_types = ["t3.2xlarge", "t3a.2xlarge"]
       min_capacity = 0
+      max_capacity = 25
       desired_capacity = 0
       capacity_type = "SPOT"
       k8s_labels = {
