@@ -1,6 +1,7 @@
 name: metabase
 description: democratized data investigation
 category: DATA
+private: true
 icon: plural/icons/metabase.png
 notes: plural/notes.tpl
 tags:

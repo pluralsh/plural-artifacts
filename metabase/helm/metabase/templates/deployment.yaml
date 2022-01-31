@@ -120,13 +120,12 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
-            {{- if .Values.log4jProperties }}
-            - name: config
-              mountPath: /tmp/conf/
-            {{- end }}
-            {{- if ne (len .Values.extraVolumeMounts) 0 }}
-              {{ toYaml .Values.extraVolumeMounts | nindent 12 }}
-            {{- end }}
+          {{- if .Values.log4jProperties }}
+          - name: config
+            mountPath: /tmp/conf/
+          {{- end }}
+          {{- if ne (len .Values.extraVolumeMounts) 0 }}
+            {{ toYaml .Values.extraVolumeMounts | nindent 12 }}
           {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
