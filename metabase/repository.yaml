@@ -1,0 +1,9 @@
+name: metabase
+description: democratized data investigation
+category: DATA
+icon: plural/icons/metabase.png
+notes: plural/notes.tpl
+tags:
+- tag: data
+- tag: dataviz
+- tag: nocode

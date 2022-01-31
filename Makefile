@@ -62,5 +62,11 @@ create-template:
 	echo "name: $$application\ndescription: PLACEHOLDER\ncategory: PLACEHOLDER\nicon: plural/icons/PLACEHOLDER\ndarkIcon: plural/icons/PLACEHOLDER\nnotes: plural/notes.tpl\noauthSettings:\n  uriFormat: PLACEHOLDER\n  authMethod: PLACEHOLDER\ntags:\n- tag: PLACEHOLDER" > ./$$application/repository.yaml; \
 	echo "REPO $$application\nATTRIBUTES Plural repository.yaml\n\nTF terraform/*\nHELM helm/*\nRECIPE plural/recipes/*\nTAG plural/tags/**/*" > ./$$application/Pluralfile; \
 
+helm-dependencies-%: # syncs helm dependencies for a chart
+	dir=pwd
+	for D in ./$*/helm/* ; do \
+		cd $$dir$$D && helm dependency update && cd - ; \
+	done
+
 upload-%: # uploads artifacts
 	plural apply -f $*/Pluralfile

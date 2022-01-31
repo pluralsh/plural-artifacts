@@ -4,6 +4,10 @@ provider: GCP
 dependencies:
 - repo: bootstrap
   name: gcp-kubernetes
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+- repo: postgres
+  name: gcp-postgres
 sections:
 - name: dagster
   configuration:
