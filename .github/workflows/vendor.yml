@@ -75,6 +75,9 @@ jobs:
         - rancher/mirrored-coreos-etcd:v3.4.16-rancher1
         - rancher/mirrored-calico-node
         - rancher/mirrored-calico-kube-controllers
+
+        # misc
+        - nginx:1.21.6
     steps:
     - uses: actions/checkout@v2
     - uses: google-github-actions/auth@v0
@@ -316,6 +319,8 @@ jobs:
           repo: bootstrap
         - image: equinix/cloud-provider-equinix-metal:v3.2.2
           repo: bootstrap
+        - image: nginx:1.21.6
+          repo: istio
     steps:
     - uses: actions/checkout@v2
     - uses: google-github-actions/auth@v0
