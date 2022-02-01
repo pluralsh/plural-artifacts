@@ -91,18 +91,18 @@ module "cluster" {
   map_roles = concat(var.map_roles, var.manual_roles)
 }
 
-resource "aws_eks_addon" "vpc_cni" {
-  cluster_name = module.cluster.cluster_id
-  addon_name   = "vpc-cni"
-  addon_version     = "v1.10.1-eksbuild.1"
-  resolve_conflicts = "OVERWRITE"
-  tags = {
-      "eks_addon" = "vpc-cni"
-  }
-  depends_on = [
-    module.cluster.node_groups
-  ]
-}
+# resource "aws_eks_addon" "vpc_cni" {
+#   cluster_name = module.cluster.cluster_id
+#   addon_name   = "vpc-cni"
+#   addon_version     = "v1.10.1-eksbuild.1"
+#   resolve_conflicts = "OVERWRITE"
+#   tags = {
+#       "eks_addon" = "vpc-cni"
+#   }
+#   depends_on = [
+#     module.cluster.node_groups
+#   ]
+# }
 
 resource "aws_eks_addon" "core_dns" {
   cluster_name      = module.cluster.cluster_id
@@ -113,22 +113,23 @@ resource "aws_eks_addon" "core_dns" {
       "eks_addon" = "coredns"
   }
   depends_on = [
-    module.cluster.node_groups
+    module.cluster.node_groups,
+    helm_release.cilium
   ]
 }
 
-resource "aws_eks_addon" "kube_proxy" {
-  cluster_name      = module.cluster.cluster_id
-  addon_name        = "kube-proxy"
-  addon_version     = "v1.21.2-eksbuild.2"
-  resolve_conflicts = "OVERWRITE"
-  tags = {
-      "eks_addon" = "kube-proxy"
-  }
-  depends_on = [
-    module.cluster.node_groups
-  ]
-}
+# resource "aws_eks_addon" "kube_proxy" {
+#   cluster_name      = module.cluster.cluster_id
+#   addon_name        = "kube-proxy"
+#   addon_version     = "v1.21.2-eksbuild.2"
+#   resolve_conflicts = "OVERWRITE"
+#   tags = {
+#       "eks_addon" = "kube-proxy"
+#   }
+#   depends_on = [
+#     module.cluster.node_groups
+#   ]
+# }
 
 resource "kubernetes_namespace" "bootstrap" {
   metadata {
