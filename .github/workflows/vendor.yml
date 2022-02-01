@@ -193,6 +193,8 @@ jobs:
         # grafana-tempo images
         - image: docker.io/grafana/tempo:1.1.0
           repo: grafana-tempo
+        - image: docker.io/grafana/tempo-query:1.1.0
+          repo: grafana-tempo
 
         # influxdb images
         - image: chronograf:1.8.8 
