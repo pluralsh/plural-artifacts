@@ -23,6 +23,10 @@ ingress-nginx:
       GeoIP-Postal-Code: "$geoip_postal_code"
       GeoIP-Isp: "$geoip_org"
       GeoIP-Organization: "$geoip_org"
+    resources:
+      requests:
+        cpu: 100m
+        memory: 120Mi
     topologySpreadConstraints:
     - maxSkew: 1
       topologyKey: topology.kubernetes.io/zone
@@ -35,7 +39,7 @@ ingress-nginx:
       minReplicas: 2
       maxReplicas: 11
       targetCPUUtilizationPercentage: 50
-      targetMemoryUtilizationPercentage: 50
+      targetMemoryUtilizationPercentage: 95
       behavior:
         scaleDown:
           stabilizationWindowSeconds: 300
