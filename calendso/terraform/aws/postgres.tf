@@ -11,8 +11,4 @@ resource "kubernetes_service_account" "postgres" {
       "eks.amazonaws.com/role-arn" = data.aws_iam_role.postgres.arn
     }
   }
-
-  depends_on = [
-    kubernetes_namespace.dagster
-  ]
 }
