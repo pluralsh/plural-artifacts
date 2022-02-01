@@ -80,15 +80,16 @@ module "cluster" {
     ami_type = "AL2_x86_64"
     k8s_labels = {}
     k8s_taints = []
-    depends_on = [
-      aws_servicequotas_service_quota.managed_node_groups
-    ]
   }
 
   node_groups = merge(var.base_node_groups, var.node_groups)
 
   map_users = var.map_users
   map_roles = concat(var.map_roles, var.manual_roles)
+
+  depends_on = [
+    aws_servicequotas_service_quota.managed_node_groups
+  ]
 }
 
 # resource "aws_eks_addon" "vpc_cni" {
