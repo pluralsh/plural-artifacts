@@ -24,7 +24,7 @@ resource "helm_release" "cilium" {
     value = "auto"
   }
 
-  # AWS related configs
+  ## AWS related configs
   set {
     name  = "eni.enabled"
     value = "true"
@@ -55,29 +55,30 @@ resource "helm_release" "cilium" {
     value = "disabled"
   }
 
-  # kube-proxy related configs
-  set {
-    name  = "kubeProxyReplacement"
-    value = "strict"
-  }
+  ## kube-proxy related configs
+  # set {
+  #   name  = "kubeProxyReplacement"
+  #   value = "strict"
+  # }
 
-  set {
-    name  = "k8sServiceHost"
-    value = trimprefix(module.cluster.cluster_endpoint, "https://")
-  }
+  # set {
+  #   name  = "k8sServiceHost"
+  #   value = trimprefix(module.cluster.cluster_endpoint, "https://")
+  # }
 
-  set {
-    name  = "k8sServicePort"
-    value = 443
-  }
+  # set {
+  #   name  = "k8sServicePort"
+  #   value = 443
+  # }
 
-  # Needed for Istio when using kube-proxy replacement
-  set {
-    name  = "hostServices.hostNamespaceOnly"
-    value = "true"
-  }
+  ## Needed for Istio when using kube-proxy replacement
+  ## Using kube-proxy replacement with Istio is limited by https://github.com/cilium/cilium/issues/17738
+  # set {
+  #   name  = "hostServices.hostNamespaceOnly"
+  #   value = "true"
+  # }
 
-  # Hubble settings
+  ## Hubble settings
   set {
     name  = "hubble.listenAddress"
     value = ":4244"

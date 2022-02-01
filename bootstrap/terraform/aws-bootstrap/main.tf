@@ -118,18 +118,18 @@ resource "aws_eks_addon" "core_dns" {
   ]
 }
 
-# resource "aws_eks_addon" "kube_proxy" {
-#   cluster_name      = module.cluster.cluster_id
-#   addon_name        = "kube-proxy"
-#   addon_version     = "v1.21.2-eksbuild.2"
-#   resolve_conflicts = "OVERWRITE"
-#   tags = {
-#       "eks_addon" = "kube-proxy"
-#   }
-#   depends_on = [
-#     module.cluster.node_groups
-#   ]
-# }
+resource "aws_eks_addon" "kube_proxy" {
+  cluster_name      = module.cluster.cluster_id
+  addon_name        = "kube-proxy"
+  addon_version     = "v1.21.2-eksbuild.2"
+  resolve_conflicts = "OVERWRITE"
+  tags = {
+      "eks_addon" = "kube-proxy"
+  }
+  depends_on = [
+    module.cluster.node_groups
+  ]
+}
 
 resource "kubernetes_namespace" "bootstrap" {
   metadata {
