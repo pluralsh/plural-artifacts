@@ -72,7 +72,7 @@ istio:
           - path: spec.template.spec.containers[-1]
             value: |
               name: sni-proxy
-              image: nginx
+              image: dkr.plural.sh/istio/nginx:1.21.6
               volumeMounts:
               - name: sni-proxy-config
                 mountPath: /etc/nginx
