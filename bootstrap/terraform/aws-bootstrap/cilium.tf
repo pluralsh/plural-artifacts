@@ -77,6 +77,7 @@ resource "helm_release" "cilium" {
     value = "true"
   }
 
+  # Hubble settings
   set {
     name  = "hubble.listenAddress"
     value = ":4244"
