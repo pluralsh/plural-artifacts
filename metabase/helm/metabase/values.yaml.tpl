@@ -7,6 +7,8 @@ global:
 database:
   encryptionKey: {{ dedupe . "metabase.database.encryptionKey" (randAlphaNum 32) }}
 
+siteUrl: https://{{ .Values.hostname }}
+
 ingress:
   hosts:
   - host: {{ .Values.hostname}}
