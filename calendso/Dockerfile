@@ -12,7 +12,7 @@ RUN git clone https://github.com/calendso/calendso.git
 
 WORKDIR /home/cal/calendso
 RUN git checkout 11e7779a585a0fcded5a02619332333a85d2cdc4
-
+COPY seed.ts prisma/seed.ts 
 RUN yarn install
 
 RUN NEXT_PUBLIC_APP_URL=APP_NEXT_PUBLIC_APP_URL_VAR \

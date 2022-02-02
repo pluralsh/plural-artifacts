@@ -9,6 +9,21 @@ global:
 postgres:
   password: {{ $postgresPwd }}
 
+user:
+  USER_EMAIL: {{ .Values.email }}
+  USER_NAME: {{ .Values.name }}
+  USER_HANDLE: {{ .Values.handle }}
+  USER_PASSWORD: {{ dedupe . "calendso.user.USER_PASSWORD" (randAlphaNum 25) }}
+
+{{ if .SMTP }}
+smtp:
+  EMAIL_SERVER_HOST: {{ .SMTP.Server }}
+  EMAIL_SERVER_USER: {{ .SMTP.User }}
+  EMAIL_SERVER_PASSWORD: {{ .SMTP.Password }}
+  EMAIL_SERVER_PORT: {{ .SMTP.Port }}
+  EMAIL_FROM: {{ .SMTP.Sender }}
+{{ end }}
+
 ingress:
   tls:
   - hosts:

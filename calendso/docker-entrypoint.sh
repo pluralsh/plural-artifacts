@@ -18,4 +18,9 @@ apply_app_url
 
 yarn run db-migrate
 
-yarn start
+if [ "$1" = "seed" ]; then
+    cat /home/cal/calendso/prisma/seed.ts
+    yarn db-seed
+else
+    yarn start
+fi
