@@ -1,31 +1,41 @@
-FROM node:14
+FROM node:14 as deps
 
-RUN apt-get update && apt-get install -y jq
+WORKDIR /app
+COPY calendso/package.json calendso/yarn.lock ./
+COPY calendso/prisma prisma
+RUN yarn install --frozen-lockfile
 
-RUN useradd --create-home --shell /bin/bash cal
+FROM node:14 as builder
 
-USER cal
-
-WORKDIR /home/cal
-
-RUN git clone https://github.com/calendso/calendso.git
-
-WORKDIR /home/cal/calendso
-RUN git checkout 11e7779a585a0fcded5a02619332333a85d2cdc4
-COPY seed.ts seed.ts
-RUN mv seed.ts prisma/seed.ts
-RUN yarn install
-
-RUN NEXT_PUBLIC_APP_URL=APP_NEXT_PUBLIC_APP_URL_VAR \
+WORKDIR /app
+ARG BASE_URL
+ARG NEXT_PUBLIC_APP_URL=https://dummy.example.com
+ENV BASE_URL=${NEXT_PUBLIC_APP_URL} \
+    NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL \
     NEXT_PUBLIC_LICENSE_CONSENT=agree \
-    yarn build
+    DATABASE_URL=postgresql://calendso:calendso@calendso/calendso
+    
+COPY calendso .
+COPY seed.ts prisma/seed.ts
+COPY --from=deps /app/node_modules ./node_modules
+RUN yarn build && yarn install --production --ignore-scripts --prefer-offline
 
-USER root
+FROM node:14 as runner
+WORKDIR /app
+ENV NODE_ENV production
+
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/scripts ./scripts
+COPY --from=builder /app/next.config.js ./
+COPY --from=builder /app/next-i18next.config.js ./
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/package.json ./package.json
 
 COPY docker-entrypoint.sh docker-entrypoint.sh
 
 RUN chmod +x docker-entrypoint.sh
 
-USER cal
-
+EXPOSE 3000
 ENTRYPOINT ["./docker-entrypoint.sh"]
