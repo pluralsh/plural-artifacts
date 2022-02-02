@@ -12,14 +12,14 @@ export NEXT_PUBLIC_APP_URL=$BASE_URL
 function apply_app_url() {
     echo "Check that we have NEXT_PUBLIC_APP_URL vars"
     test -n "NEXT_PUBLIC_APP_URL"
-    find /home/cal/calendso/.next \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i "s#https://dummy.example.com#$NEXT_PUBLIC_APP_URL#g"
+    find /app/.next \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i "s#https://dummy.example.com#$NEXT_PUBLIC_APP_URL#g"
 }
 apply_app_url
 
-yarn run db-migrate
+npx prisma migrate deploy
 
 if [ "$1" = "seed" ]; then
-    cat /home/cal/calendso/prisma/seed.ts
+    cat /app/prisma/seed.ts
     yarn db-seed
 else
     yarn start

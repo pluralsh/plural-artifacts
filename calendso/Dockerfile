@@ -18,7 +18,7 @@ ENV BASE_URL=${NEXT_PUBLIC_APP_URL} \
 COPY calendso .
 COPY seed.ts prisma/seed.ts
 COPY --from=deps /app/node_modules ./node_modules
-RUN yarn build && yarn install --production --ignore-scripts --prefer-offline
+RUN yarn build && yarn install --ignore-scripts --prefer-offline
 
 FROM node:14 as runner
 WORKDIR /app
@@ -31,6 +31,7 @@ COPY --from=builder /app/next.config.js ./
 COPY --from=builder /app/next-i18next.config.js ./
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/lib ./lib
 COPY --from=builder /app/package.json ./package.json
 
 COPY docker-entrypoint.sh docker-entrypoint.sh
