@@ -107,10 +107,10 @@ resource "aws_efs_file_system" "efs_main" {
 
 resource "aws_efs_mount_target" "efs_mount_target" {
 
-  count = length(var.cluster_private_subnets)
+  count = length(var.cluster_worker_private_subnets)
 
   file_system_id = aws_efs_file_system.efs_main.id
-  subnet_id      = var.cluster_private_subnet_ids[count.index]
+  subnet_id      = var.cluster_worker_private_subnet_ids[count.index]
   security_groups = [aws_security_group.allow_nfs.id]
 }
 

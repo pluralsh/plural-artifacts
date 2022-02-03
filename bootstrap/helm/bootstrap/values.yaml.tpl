@@ -94,7 +94,7 @@ cluster-autoscaler:
 
 {{ if eq .Provider "aws"}}
 tigera-operator:
-  enabled: true
+  enabled: false
   installation:
     kubernetesProvider: EKS
   calioctl:
