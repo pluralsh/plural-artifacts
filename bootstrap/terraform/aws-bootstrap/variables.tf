@@ -86,10 +86,29 @@ variable "alb_serviceaccount" {
   description = "name of the nlb operator's service account"
 }
 
+variable "multi_az_node_groups" {
+  type = any
+  default = {
+    small_manual_test = {
+      name = "small-manual-test"
+      capacity_type = "ON_DEMAND"
+      min_capacity = 0
+      max_capacity = 25
+      desired_capacity = 0
+      instance_types = ["t3.large", "t3a.large"]
+      k8s_labels = {
+        "plural.sh/capacityType" = "ON_DEMAND"
+        "plural.sh/performanceType" = "SUSTAINED"
+      }
+    }
+  }
+  description = "Manually configured node groups to add to your cluster. A single multi-az managed node group will be created."
+}
+
 variable "node_groups" {
   type = any
   default = {}
-  description = "Manually configured node groups to add to your cluster"
+  description = "Manually configured node groups to add to your cluster. A node group will be created in each availability zone and the capacities will be split."
 }
 
 variable "base_node_groups" {
