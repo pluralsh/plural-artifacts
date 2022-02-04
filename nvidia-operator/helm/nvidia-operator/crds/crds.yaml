@@ -397,8 +397,6 @@ spec:
                   version:
                     description: DCGM image tag
                     type: string
-                required:
-                - image
                 type: object
               dcgmExporter:
                 description: DCGMExporter spec
@@ -716,8 +714,6 @@ spec:
                   version:
                     description: DCGM image tag
                     type: string
-                required:
-                - image
                 type: object
               devicePlugin:
                 description: DevicePlugin component spec
@@ -1026,8 +1022,6 @@ spec:
                   version:
                     description: DevicePlugin image tag
                     type: string
-                required:
-                - image
                 type: object
               driver:
                 description: Driver component spec
@@ -1037,6 +1031,13 @@ spec:
                     items:
                       type: string
                     type: array
+                  certConfig:
+                    description: 'Optional: Custom certificates configuration for
+                      driver container'
+                    properties:
+                      name:
+                        type: string
+                    type: object
                   enabled:
                     description: Enabled indicates if deployment of driver through
                       operator is enabled
@@ -1316,13 +1317,15 @@ spec:
                         description: Enabled indicates if GPUDirect RDMA is enabled
                           through GPU operator
                         type: boolean
+                      useHostMofed:
+                        description: UseHostMOFED indicates to use MOFED drivers directly
+                          installed on the host to enable GPUDirect RDMA
+                        type: boolean
                     type: object
                   repoConfig:
                     description: 'Optional: Custom repo configuration for driver container'
                     properties:
                       configMapName:
-                        type: string
-                      destinationDir:
                         type: string
                     type: object
                   repository:
@@ -1500,6 +1503,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  use_ocp_driver_toolkit:
+                    description: UseOpenShiftDriverToolkit indicates if DriverToolkit
+                      image should be used on OpenShift to build and install driver
+                      modules
+                    type: boolean
                   version:
                     description: Driver image tag
                     type: string
@@ -1512,8 +1520,6 @@ spec:
                           daemon configuration file nvidia-topologyd.conf'
                         type: string
                     type: object
-                required:
-                - image
                 type: object
               gfd:
                 description: GPUFeatureDiscovery spec
@@ -1822,8 +1828,6 @@ spec:
                   version:
                     description: GFD image tag
                     type: string
-                required:
-                - image
                 type: object
               mig:
                 description: MIG spec
@@ -1965,6 +1969,14 @@ spec:
                       - name
                       type: object
                     type: array
+                  gpuClientsConfig:
+                    description: 'Optional: Custom gpu-clients configuration for MIG
+                      Manager container'
+                    properties:
+                      name:
+                        description: ConfigMap name
+                        type: string
+                    type: object
                   image:
                     description: mig-manager image name
                     pattern: '[a-zA-Z0-9\-]+'
@@ -2155,8 +2167,6 @@ spec:
                   version:
                     description: mig-manager image tag
                     type: string
-                required:
-                - image
                 type: object
               nodeStatusExporter:
                 description: NodeStatusExporter spec
@@ -2469,8 +2479,6 @@ spec:
                   version:
                     description: node-status-exporter image tag
                     type: string
-                required:
-                - image
                 type: object
               operator:
                 description: Operator component spec
@@ -2831,8 +2839,6 @@ spec:
                   version:
                     description: Toolkit image tag
                     type: string
-                required:
-                - image
                 type: object
               validator:
                 description: Validator defines the spec for operator-validator daemonset
@@ -3609,8 +3615,6 @@ spec:
                   version:
                     description: Validator image tag
                     type: string
-                required:
-                - image
                 type: object
             required:
             - daemonsets
