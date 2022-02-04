@@ -95,6 +95,8 @@ aws-ebs-csi-driver:
       reclaimPolicy: Delete
       volumeBindingMode: WaitForFirstConsumer
       allowVolumeExpansion: true
+  node:
+    tolerateAllTaints: true
   controller:
     resources:
       requests:
