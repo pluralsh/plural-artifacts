@@ -111,7 +111,7 @@ variable "base_node_groups" {
     small_burst_on_demand = {
       name = "small-burst-on-demand"
       capacity_type = "ON_DEMAND"
-      min_capacity = 0
+      min_capacity = 2
       instance_types = ["t3.large", "t3a.large"]
       k8s_labels = {
         "plural.sh/capacityType" = "ON_DEMAND"
