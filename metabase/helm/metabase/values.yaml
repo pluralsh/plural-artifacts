@@ -14,6 +14,28 @@ listen:
   host: "0.0.0.0"
   port: 3000
 
+configOverlays:
+- name: web-cpu
+  labels:
+    platform.plural.sh/component: metabase
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: cpu
+  spec:
+    name: web cpu
+    documentation: cpu requests for metabase webapp deployment
+    updates:
+    - path: ['metabase', 'resources', 'requests', 'cpu']
+- name: web-mem
+  labels:
+    platform.plural.sh/component: metabase
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: memory
+  spec:
+    name: web memory
+    documentation: memory requests for metabase webapp deployment
+    updates:
+    - path: ['metabase', 'resources', 'requests', 'memory']
+
 jetty:
 #  maxThreads: 254
 #  minThreads: 8
