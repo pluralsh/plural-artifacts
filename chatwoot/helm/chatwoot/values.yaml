@@ -21,6 +21,80 @@ chatwoot:
     password: redis
     port: 6379
 
+configOverlays:
+- name: fb-app-id
+  spec:
+    folder: oauth
+    subfolder: facebook
+    name: FB App ID
+    documentation: app id for facebook oauth
+    updates:
+    - path: ['chatwoot', 'chatwoot', 'env', 'FB_APP_ID']
+- name: fb-app-secret
+  spec:
+    folder: oauth
+    subfolder: facebook
+    name: FB App Secret
+    documentation: app secret for facebook oauth
+    updates:
+    - path: ['chatwoot', 'chatwoot', 'env', 'FB_APP_SECRET']
+- name: fb-verify-token
+  spec:
+    folder: oauth
+    subfolder: facebook
+    name: FB Verify Token
+    documentation: verify token for configuring facebook oauth
+    updates:
+    - path: ['chatwoot', 'chatwoot', 'env', 'FB_VERIFY_TOKEN']
+- name: slack-client-id
+  spec:
+    folder: oauth
+    subfolder: slack
+    name: Slack Client Id
+    documentation: client id for slack oauth
+    updates:
+    - path: ['chatwoot', 'chatwoot', 'env', 'SLACK_CLIENT_ID']
+- name: slack-client-secret
+  spec:
+    folder: oauth
+    subfolder: slack
+    name: Slack Client Secret
+    documentation: client secret for slack oauth
+    updates:
+    - path: ['chatwoot', 'chatwoot', 'env', 'SLACK_CLIENT_SECRET']
+- name: twitter-app-id
+  spec:
+    folder: oauth
+    subfolder: twitter
+    name: Twitter App Id
+    documentation: app id for twitter oauth
+    updates:
+    - path: ['chatwoot', 'chatwoot', 'env', 'TWITTER_APP_ID']
+- name: twitter-consumer-key
+  spec:
+    folder: oauth
+    subfolder: twitter
+    name: Twitter Consumer Key
+    documentation: consumer key for twitter oauth
+    updates:
+    - path: ['chatwoot', 'chatwoot', 'env', 'TWITTER_CONSUMER_KEY']
+- name: twitter-consumer-secret
+  spec:
+    folder: oauth
+    subfolder: twitter
+    name: Twitter Consumer Secret
+    documentation: consumer secret for twitter oauth
+    updates:
+    - path: ['chatwoot', 'chatwoot', 'env', 'TWITTER_CONSUMER_SECRET']
+- name: twitter-environment
+  spec:
+    folder: oauth
+    subfolder: twitter
+    name: Twitter Environment
+    documentation: environment for twitter oauth
+    updates:
+    - path: ['chatwoot', 'chatwoot', 'env', 'TWITTER_ENVIRONMENT']
+    
 postgres:
   replicas: 1
   storage:
