@@ -113,17 +113,23 @@ spec:
             value: {{ .Values.session.cookieSameSite | quote }}
           {{- end }}
           ports:
-            - name: http
-              containerPort: {{ .Values.internalPort }}
-              protocol: TCP
+          - name: http
+            containerPort: {{ .Values.listen.port }}
+            protocol: TCP
           livenessProbe:
             httpGet:
               path: /
               port: http
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
           readinessProbe:
             httpGet:
               path: /
               port: http
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
