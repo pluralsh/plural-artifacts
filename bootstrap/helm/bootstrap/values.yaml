@@ -180,6 +180,7 @@ kubed:
 
 cluster-autoscaler:
   enabled: false
+  replicaCount: 2
   image:
     tag: v1.23.0
   expanderPriorities: |
