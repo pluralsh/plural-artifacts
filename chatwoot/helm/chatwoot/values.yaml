@@ -9,7 +9,7 @@ chatwoot:
     type: ClusterIP
   postgresql:
     enabled: false
-    postgresqlHost: chatwoot-postgres-master
+    postgresqlHost: plural-postgres-chatwoot
     postgresqlPort: 5432
     postgresqlDatabase: chatwoot
     postgresqlUsername: chatwoot
@@ -96,15 +96,8 @@ configOverlays:
     - path: ['chatwoot', 'chatwoot', 'env', 'TWITTER_ENVIRONMENT']
     
 postgres:
-  replicas: 1
-  storage:
-    size: 25Gi
-  resources: {}
-  default:
-    resources:
-      requests:
-        cpu: 100m
-        memory: 100Mi
-      limits:
-        cpu: '2'
-        memory: 1Gi
+  dbName: chatwoot
+  team: plural
+  user: chatwoot
+  infix: '-postgres'
+  ownerChart: chatwoot
