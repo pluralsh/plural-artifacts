@@ -76,6 +76,9 @@ jobs:
         - rancher/mirrored-calico-node
         - rancher/mirrored-calico-kube-controllers
 
+        # filecoin
+        - filecoin/lotus-all-in-one:v1.13.2
+
         # misc
         - nginx:1.21.6
     steps:
@@ -153,6 +156,10 @@ jobs:
           repo: bootstrap
         - image: docker.io/calico/node:v3.21.3
           repo: bootstrap
+
+        # filecoin images
+        - image: filecoin/lotus-all-in-one:v1.13.2
+          repo: filecoin
 
         # ghost images
         - image: bitnami/ghost:4.11.0-debian-10-r0 
