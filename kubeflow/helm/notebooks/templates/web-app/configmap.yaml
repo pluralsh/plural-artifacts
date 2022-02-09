@@ -161,7 +161,8 @@ data:
                         - key: "plural.sh/scalingGroup"
                           operator: "In"
                           values:
-                            - "GPU-Inf-Small"
+                            - "gpu-inf-small-on-demand"
+                            - "gpu-inf-small-spot"
               podAntiAffinity:
                 requiredDuringSchedulingIgnoredDuringExecution:
                   - labelSelector:
@@ -180,26 +181,8 @@ data:
                         - key: "plural.sh/scalingGroup"
                           operator: "In"
                           values:
-                            - "GPU-Small"
-              podAntiAffinity:
-                requiredDuringSchedulingIgnoredDuringExecution:
-                  - labelSelector:
-                      matchExpressions:
-                        - key: "notebook-name"
-                          operator: "Exists"
-                    namespaces: []
-                    topologyKey: "kubernetes.io/hostname"
-          - configKey: "GPU-Medium"
-            displayName: "GPU Medium"
-            affinity:
-              nodeAffinity:
-                requiredDuringSchedulingIgnoredDuringExecution:
-                  nodeSelectorTerms:
-                    - matchExpressions:
-                        - key: "plural.sh/scalingGroup"
-                          operator: "In"
-                          values:
-                            - "GPU-Medium"
+                            - "gpu-small-on-demand"
+                            - "gpu-small-spot"
               podAntiAffinity:
                 requiredDuringSchedulingIgnoredDuringExecution:
                   - labelSelector:
