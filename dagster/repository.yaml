@@ -4,6 +4,9 @@ category: DATA
 private: true
 icon: plural/icons/dagster.png
 notes: plural/notes.tpl
+oauthSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
 tags:
 - tag: dag
 - tag: data

@@ -9,10 +9,33 @@ global:
 postgres:
   password: {{ $postgresPwd }}
 
+{{ if .OIDC }}
+oidcProxy:
+  enabled: true
+  upstream: http://localhost:80
+  issuer: {{ .OIDC.Configuration.Issuer }}
+  clientID: {{ .OIDC.ClientId }}
+  clientSecret: {{ .OIDC.ClientSecret }}
+  cookieSecret: {{ dedupe . "dagster.oidcProxy.cookieSecret" (randAlphaNum 32) }}
+{{ end }}
+
 dagster:
+  {{ if .OIDC }}
+  dagit:
+    podLabels:
+      security.plural.sh/inject-oauth-sidecar: "true"
+    annotations:
+      security.plural.sh/oauth-env-secret: "dagster-proxy-config"
+  {{ end }}
   ingress:
     dagit:
       host: {{ .Values.hostname }}
+      {{ if .OIDC }}
+      precedingPaths:
+      - path: /.*
+        serviceName: dagster-oauth2-proxy
+        servicePort: http-oauth
+      {{ end }}
 
   generatePostgresqlPasswordSecret: true
   postgresql:

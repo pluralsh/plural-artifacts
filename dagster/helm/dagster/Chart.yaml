@@ -9,5 +9,5 @@ dependencies:
   version: 0.1.4
   repository: https://pluralsh.github.io/module-library
 - name: dagster
-  version: 0.13.17
+  version: 0.13.18
   repository: https://dagster-io.github.io/helm

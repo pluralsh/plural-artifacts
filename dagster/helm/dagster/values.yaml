@@ -8,6 +8,9 @@ postgres:
   ownerChart: dagster
   password: REPLACE_ME
 
+oidcProxy:
+  enabled: false
+
 dagster:
   dagit:
     image:

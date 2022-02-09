@@ -8,6 +8,10 @@ dependencies:
   name: ingress-nginx-aws
 - repo: postgres
   name: aws-postgres
+oidcSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
+  domainKey: hostname
 sections:
 - name: dagster
   configuration:
