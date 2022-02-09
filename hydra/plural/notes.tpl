@@ -1,0 +1,1 @@
+Use `plural watch hydra` to track the status of your application

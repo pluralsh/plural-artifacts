@@ -1,0 +1,6 @@
+name: hydra
+description: hydra deployed on plural
+category: SECURITY
+private: false
+icon: plural/icons/hydra.png
+notes: plural/notes.tpl

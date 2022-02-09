@@ -1,0 +1,57 @@
+postgres:
+  team: plural
+  user: hydra
+  dbName: hydra
+  ownerChart: hydra
+  infix: '-postgres'
+  password: REPLACE_ME
+
+hydra:
+  replicaCount: 2
+
+  image:
+    repository: gcr.io/pluralsh/oryd/hydra
+
+  maester:
+    enabled: false
+  hydra:
+    dangerousForceHttp: true
+    existingSecret: false
+    autoMigrate: false
+    secrets:
+      system: [CHANGEME]
+      cookie: CHANGEME
+    urls:
+        self:
+          issuer: CHANGEME
+        login: CHANGEME
+        consent: CHANGEME
+    config:
+      ttl:
+        id_token: 12h
+        access_token: 12h
+        refresh_token: 96h
+
+  pdb:
+    enabled: true
+  deployment:
+    autoscaling:
+      enabled: false
+    
+  ingress:
+    public:
+      enabled: true
+      annotations:
+        kubernetes.io/tls-acme: "true"
+        kubernetes.io/ingress.class: "nginx"
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+        nginx.ingress.kubernetes.io/use-regex: "true"
+    admin:
+      enabled: false
+      annotations:
+        kubernetes.io/tls-acme: "true"
+        kubernetes.io/ingress.class: "internal-nginx"
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+        nginx.ingress.kubernetes.io/use-regex: "true"
