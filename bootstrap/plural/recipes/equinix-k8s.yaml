@@ -1,4 +1,4 @@
-name: equinix-kubernetes
+name: equinix-k8s
 description: Creates a kubernetes cluster on Equinix Metal and installs the bootstrap chart
 provider: EQUINIX
 dependencies: []
