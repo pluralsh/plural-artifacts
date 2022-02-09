@@ -1,4 +1,9 @@
 gpu-operator:
+  validator:
+    plugin:
+      env:
+      - name: WITH_WORKLOAD
+        value: "false"
   daemonsets:
     tolerations:
     - key: nvidia.com/gpu
