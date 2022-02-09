@@ -162,7 +162,6 @@ data:
                           operator: "In"
                           values:
                             - "gpu-inf-small-on-demand"
-                            - "gpu-inf-small-spot"
               podAntiAffinity:
                 requiredDuringSchedulingIgnoredDuringExecution:
                   - labelSelector:
@@ -182,6 +181,43 @@ data:
                           operator: "In"
                           values:
                             - "gpu-small-on-demand"
+              podAntiAffinity:
+                requiredDuringSchedulingIgnoredDuringExecution:
+                  - labelSelector:
+                      matchExpressions:
+                        - key: "notebook-name"
+                          operator: "Exists"
+                    namespaces: []
+                    topologyKey: "kubernetes.io/hostname"
+          - configKey: "GPU-Inf-Small-Spot"
+            displayName: "GPU Inference Small Spot"
+            affinity:
+              nodeAffinity:
+                requiredDuringSchedulingIgnoredDuringExecution:
+                  nodeSelectorTerms:
+                    - matchExpressions:
+                        - key: "plural.sh/scalingGroup"
+                          operator: "In"
+                          values:
+                            - "gpu-inf-small-spot"
+              podAntiAffinity:
+                requiredDuringSchedulingIgnoredDuringExecution:
+                  - labelSelector:
+                      matchExpressions:
+                        - key: "notebook-name"
+                          operator: "Exists"
+                    namespaces: []
+                    topologyKey: "kubernetes.io/hostname"
+          - configKey: "GPU-Small-Spot"
+            displayName: "GPU Small Spot"
+            affinity:
+              nodeAffinity:
+                requiredDuringSchedulingIgnoredDuringExecution:
+                  nodeSelectorTerms:
+                    - matchExpressions:
+                        - key: "plural.sh/scalingGroup"
+                          operator: "In"
+                          values:
                             - "gpu-small-spot"
               podAntiAffinity:
                 requiredDuringSchedulingIgnoredDuringExecution:
