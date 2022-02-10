@@ -62,6 +62,30 @@ module "cluster" {
   map_roles = concat(var.map_roles, var.manual_roles)
 }
 
+module "single_az_node_groups" {
+  source                 = "github.com/pluralsh/module-library//terraform/eks-node-groups/single-az-node-groups?ref=7b6d3b1d1602e4265d6d3b172c38fe67d9a2c7fc"
+  cluster_name           = var.cluster_name
+  default_iam_role_arn   = module.cluster.worker_iam_role_arn
+  tags                   = {}
+  node_groups_defaults   = var.node_groups_defaults
+
+  node_groups            = var.single_az_node_groups
+  set_desired_size       = false
+  private_subnets        = module.vpc.worker_private_subnets
+}
+
+# module "multi_az_node_groups" {
+#   source                 = "github.com/pluralsh/module-library//terraform/eks-node-groups/multi-az-node-groups?ref=aws-multi-az"
+#   cluster_name           = var.cluster_name
+#   default_iam_role_arn   = module.cluster.worker_iam_role_arn
+#   tags                   = {}
+#   node_groups_defaults   = var.node_groups_defaults
+
+#   node_groups            = var.multi_az_node_groups
+#   set_desired_size       = false
+#   private_subnet_ids        = module.vpc.worker_private_subnets
+# }
+
 resource "aws_eks_addon" "vpc_cni" {
   cluster_name = module.cluster.cluster_id
   addon_name   = "vpc-cni"
