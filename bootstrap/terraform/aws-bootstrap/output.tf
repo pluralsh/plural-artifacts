@@ -32,5 +32,5 @@ output "cluster_public_subnet_ids" {
 }
 
 output "node_groups" {
-  value = [for d in module.cluster.node_groups: d]
+  value = [for d in merge(module.cluster.node_groups, module.single_az_node_groups.node_groups): d]
 }
