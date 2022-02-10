@@ -195,6 +195,7 @@ cluster-autoscaler:
   extraArgs:
     scale-down-utilization-threshold: 0.4
     skip-nodes-with-local-storage: false
+    balance-similar-node-groups: true
     expander: "priority,least-waste"
   serviceMonitor:
     enabled: true
