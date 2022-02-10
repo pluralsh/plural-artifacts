@@ -1,4 +1,10 @@
+global:
+  rbac:
+    pspEnabled: false
+
 loki:
+  rbac:
+    pspEnabled: false
   image:
     repository: gcr.io/pluralsh/grafana/loki
   podAnnotations:
@@ -117,6 +123,10 @@ promtail:
             #     source: request_id
 
 kube-prometheus-stack:
+  global:
+    rbac:
+      pspEnabled: false
+
   fullnameOverride: "monitoring"
 
   kubeControllerManager:
@@ -140,8 +150,14 @@ kube-prometheus-stack:
   alertmanager:
     alertmanagerSpec:
       logLevel: debug
+  
+  kube-state-metrics:
+    podSecurityPolicy:
+      enabled: false
 
   prometheus-node-exporter:
+    rbac:
+      pspEnabled: false
     tolerations:
     - effect: NoSchedule
       operator: Exists
