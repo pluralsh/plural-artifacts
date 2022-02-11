@@ -2,7 +2,7 @@ vaultwarden:
   replicaCount: 1
 
   image:
-    repository: vaultwarden/server
+    repository: dkr.plural.sh/vaultwarden/vaultwarden/server
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: 1.21.0
