@@ -41,11 +41,12 @@ jobs:
         - k8s.gcr.io/sig-storage/snapshot-validation-webhook:v4.2.1
 
         # cni
-        - docker.io/calico/ctl:v3.21.3
-        - docker.io/calico/kube-controllers:v3.21.3
-        - docker.io/calico/typha:v3.21.3
-        - docker.io/calico/pod2daemon-flexvol:v3.21.3
-        - docker.io/calico/node:v3.21.3
+        - quay.io/tigera/operator:v1.23.4
+        - calico/ctl:v3.21.3
+        - calico/kube-controllers:v3.21.3
+        - calico/typha:v3.21.3
+        - calico/pod2daemon-flexvol:v3.21.3
+        - calico/node:v3.21.3
 
         # misc
         - kiwigrid/k8s-sidecar:1.1.0
@@ -146,15 +147,17 @@ jobs:
           repo: chatwoot
 
         # calico images
-        - image: docker.io/calico/kube-controllers:v3.21.3
+        - image: quay.io/tigera/operator:v1.23.4
           repo: bootstrap
-        - image: docker.io/calico/ctl:v3.21.3
+        - image: calico/kube-controllers:v3.21.3
           repo: bootstrap
-        - image: docker.io/calico/typha:v3.21.3
+        - image: calico/ctl:v3.21.3
           repo: bootstrap
-        - image: docker.io/calico/pod2daemon-flexvol:v3.21.3
+        - image: calico/typha:v3.21.3
           repo: bootstrap
-        - image: docker.io/calico/node:v3.21.3
+        - image: calico/pod2daemon-flexvol:v3.21.3
+          repo: bootstrap
+        - image: calico/node:v3.21.3
           repo: bootstrap
 
         # filecoin images
@@ -288,14 +291,6 @@ jobs:
         # plural images
         - image: oryd/hydra:v1.8.5
           repo: plural
-
-        # bootstrap images
-        - image: calico/typha:v3.21.3
-          repo: bootstrap
-        - image: calico/node:v3.21.3
-          repo: bootstrap
-        - image: calico/kube-controllers:v3.21.3
-          repo: bootstrap
 
         # rancher images
         - image: rancher/mirrored-pause:3.4.1
