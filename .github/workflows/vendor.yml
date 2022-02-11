@@ -204,13 +204,15 @@ jobs:
           repo: grafana-tempo
 
         # influxdb images
-        - image: chronograf:1.8.8 
+        - image: chronograf:1.8.8
           repo: influx
-        - image: influxdb:1.8.6-alpine 
+        - image: influxdb:1.8.6-alpine
           repo: influx
-        - image: kapacitor:1.5.9-alpine 
+        - image: kapacitor:1.5.9-alpine
           repo: influx
-        - image: telegraf:1.19-alpine 
+        - image: telegraf:1.19-alpine
+          repo: influx
+        - image: quay.io/influxdb/telegraf-operator:v1.3.0
           repo: influx
 
         # monitoring images
