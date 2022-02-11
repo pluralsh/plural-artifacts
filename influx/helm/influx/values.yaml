@@ -46,6 +46,9 @@ telegraf-ds:
         database: telegraf
   
 telegraf-operator:
+  image:
+    repository: dkr.plural.sh/influx/quay.io/influxdb/telegraf-operator
+    sidecarImage: dkr.plural.sh/influx/telegraf:1.19-alpine
   certManager:
     enable: true
   classes:
