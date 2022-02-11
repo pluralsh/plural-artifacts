@@ -1,4 +1,6 @@
 kapacitor:
+  image:
+    repository: dkr.plural.sh/influx/kapacitor
   influxURL: http://influxdb:8086
   existingSecret: influxdb-auth
 
@@ -25,7 +27,7 @@ chronograf:
   
 telegraf:
   image:
-    repository: dkr.plural.sh/influx/telegraf
+    repo: dkr.plural.sh/influx/telegraf
   config:
     outputs:
     - influxdb:
@@ -35,7 +37,7 @@ telegraf:
         
 telegraf-ds:
   image:
-    repository: dkr.plural.sh/influx/telegraf
+    repo: dkr.plural.sh/influx/telegraf
   config:
     outputs:
     - influxdb:
