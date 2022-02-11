@@ -95,8 +95,12 @@ cluster-autoscaler:
 {{ if eq .Provider "aws"}}
 tigera-operator:
   enabled: true
+  tigeraOperator:
+    image: pluralsh/quay.io/tigera/operator
+    registry: gcr.io
   installation:
     kubernetesProvider: EKS
+    registry: gcr.io/pluralsh/
   calioctl:
     image: gcr.io/pluralsh/calico/ctl
     tag: master
