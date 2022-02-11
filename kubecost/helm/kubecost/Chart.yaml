@@ -2,7 +2,7 @@ apiVersion: v2
 name: kubecost
 description: chart for deploy kubecost
 type: application
-version: 0.1.18
+version: 0.1.19
 appVersion: "1.85.1"
 dependencies:
 - name: cost-analyzer
