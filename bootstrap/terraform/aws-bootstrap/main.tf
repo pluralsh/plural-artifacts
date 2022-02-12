@@ -75,6 +75,10 @@ module "multi_az_node_groups" {
   node_groups            = var.multi_az_node_groups
   set_desired_size       = false
   private_subnet_ids     = module.vpc.worker_private_subnets_ids
+
+  ng_depends_on = [
+    module.cluster.config_map_aws_auth
+  ]
 }
 
 resource "aws_eks_addon" "vpc_cni" {
