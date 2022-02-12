@@ -41,22 +41,9 @@ module "cluster" {
   enable_irsa     = true
   write_kubeconfig = false
 
-  node_groups_defaults = {
-    desired_capacity = var.desired_capacity
-    min_capacity = var.min_capacity
-    max_capacity = var.max_capacity
+  node_groups_defaults = {}
 
-    instance_types = var.instance_types
-    disk_size = 50
-    subnets = module.vpc.private_subnets_ids
-    ami_release_version = "1.21.2-20210813"
-    force_update_version = true
-    ami_type = "AL2_x86_64"
-    k8s_labels = {}
-    k8s_taints = []
-  }
-
-  node_groups = merge(var.base_node_groups, var.node_groups)
+  node_groups = {}
 
   map_users = var.map_users
   map_roles = concat(var.map_roles, var.manual_roles)
@@ -78,17 +65,17 @@ module "single_az_node_groups" {
   ]
 }
 
-# module "multi_az_node_groups" {
-#   source                 = "github.com/pluralsh/module-library//terraform/eks-node-groups/multi-az-node-groups?ref=aws-multi-az"
-#   cluster_name           = var.cluster_name
-#   default_iam_role_arn   = module.cluster.worker_iam_role_arn
-#   tags                   = {}
-#   node_groups_defaults   = var.node_groups_defaults
+module "multi_az_node_groups" {
+  source                 = "github.com/pluralsh/module-library//terraform/eks-node-groups/multi-az-node-groups?ref=aws-multi-az"
+  cluster_name           = var.cluster_name
+  default_iam_role_arn   = module.cluster.worker_iam_role_arn
+  tags                   = {}
+  node_groups_defaults   = var.node_groups_defaults
 
-#   node_groups            = var.multi_az_node_groups
-#   set_desired_size       = false
-#   private_subnet_ids        = module.vpc.worker_private_subnets
-# }
+  node_groups            = var.multi_az_node_groups
+  set_desired_size       = false
+  private_subnet_ids     = module.vpc.worker_private_subnets_ids
+}
 
 resource "aws_eks_addon" "vpc_cni" {
   cluster_name = module.cluster.cluster_id
