@@ -72,6 +72,10 @@ module "single_az_node_groups" {
   node_groups            = var.single_az_node_groups
   set_desired_size       = false
   private_subnets        = module.vpc.worker_private_subnets
+
+  ng_depends_on = [
+    module.cluster.config_map_aws_auth
+  ]
 }
 
 # module "multi_az_node_groups" {
