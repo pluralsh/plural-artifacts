@@ -3,6 +3,9 @@
 # Declare variables to be passed into your templates.
 
 grafana:
+  rbac:
+    pspEnabled: false
+
   image:
     repository: gcr.io/pluralsh/grafana/grafana
   initChownData:

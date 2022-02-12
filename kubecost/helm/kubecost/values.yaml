@@ -29,6 +29,10 @@ cost-analyzer:
   prometheus:
     kube-state-metrics:
       disabled: true
+  
+  networkCosts:
+    podSecurityPolicy:
+      enabled: false
 
   kubecostProductConfigs:
     grafanaURL: https://grafana.example.com
