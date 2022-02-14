@@ -10,6 +10,12 @@ loki-distributed:
     enabled: true
   serviceAccount:
     name: loki
+  ruler:
+    enabled: true
+  indexGateway:
+    enabled: true
+    persistence:
+      enabled: true
   loki:
     structuredConfig:
       ingester:
