@@ -141,7 +141,6 @@ kube-prometheus-stack:
 
   grafana:
     enabled: false
-    namespaceOverride: grafana
     forceDeployDashboards: true
     sidecar:
       dashboards:
