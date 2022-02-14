@@ -2,7 +2,14 @@ global:
   rbac:
     pspEnabled: false
 
-{{ $grafanaNamespace := namespace "grafana" }}
+loki-distributed:
+  loki:
+    structuredConfig:
+      storage_config:
+        aws:
+          s3: s3://{{ .Region }}
+          bucketnames: {{ .Values.lokiBucket }}
+
 kube-prometheus-stack:
   prometheus:
     prometheusSpec:
