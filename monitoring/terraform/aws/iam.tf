@@ -1,4 +1,4 @@
-module "assumable_role_airflow" {
+module "assumable_role_loki" {
   source                        = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
   version                       = "3.14.0"
   create_role                   = true

@@ -3,6 +3,9 @@ global:
     pspEnabled: false
 
 loki-distributed:
+  serviceAccount:
+    annotations:
+      eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-loki"
   loki:
     structuredConfig:
       storage_config:
