@@ -33,10 +33,12 @@ module "vpc" {
 }
 
 module "cluster" {
-  source          = "github.com/pluralsh/terraform-aws-eks?ref=asg-tags"
+  source          = "github.com/pluralsh/terraform-aws-eks?ref=always-create-auth-cm"
   cluster_name    = var.cluster_name
   cluster_version = "1.21"
-  subnets         = concat(module.vpc.public_subnets_ids, module.vpc.private_subnets_ids)
+  private_subnets = module.vpc.private_subnets_ids
+  public_subnets  = module.vpc.public_subnets_ids
+  worker_private_subnets = module.vpc.worker_private_subnets
   vpc_id          = module.vpc.vpc_id
   enable_irsa     = true
   write_kubeconfig = false
@@ -90,7 +92,8 @@ resource "aws_eks_addon" "vpc_cni" {
       "eks_addon" = "vpc-cni"
   }
   depends_on = [
-    module.cluster.node_groups
+    module.single_az_node_groups.node_groups,
+    module.multi_az_node_groups.node_groups,
   ]
 }
 
@@ -103,7 +106,8 @@ resource "aws_eks_addon" "core_dns" {
       "eks_addon" = "coredns"
   }
   depends_on = [
-    module.cluster.node_groups
+    module.single_az_node_groups.node_groups,
+    module.multi_az_node_groups.node_groups,
   ]
 }
 
@@ -116,7 +120,8 @@ resource "aws_eks_addon" "kube_proxy" {
       "eks_addon" = "kube-proxy"
   }
   depends_on = [
-    module.cluster.node_groups
+    module.single_az_node_groups.node_groups,
+    module.multi_az_node_groups.node_groups,
   ]
 }
 
