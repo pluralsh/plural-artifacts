@@ -1,6 +1,7 @@
 {{ $redisNamespace := namespace "redis" }}
+{{ $redisValues := .Applications.HelmValues "redis" }}
 {{ $monitoringNamespace := namespace "monitoring" }}
-redisPassword: {{ .Configuration.redis.password }}
+redisPassword: {{ $redisValues.redis.password }}
 loki-distributed:
   serviceAccount:
     {{- if eq .Provider "google" }}
@@ -12,7 +13,7 @@ loki-distributed:
     {{- end }}
   loki:
     structuredConfig:
-      common_config:
+      common:
         storage:
           {{- if eq .Provider "aws" }}
           s3:
@@ -118,67 +119,67 @@ loki-distributed:
     - -config.expand-env=true
     extraEnvFrom:
     - secretRef:
-      name: redis-password
+        name: redis-password
     - secretRef:
-      name: loki-azure-secret
+        name: loki-azure-secret
   distributor:
     extraArgs:
     - -config.expand-env=true
     extraEnvFrom:
     - secretRef:
-      name: redis-password
+        name: redis-password
     - secretRef:
-      name: loki-azure-secret
+        name: loki-azure-secret
   querier:
     extraArgs:
     - -config.expand-env=true
     extraEnvFrom:
     - secretRef:
-      name: redis-password
+        name: redis-password
     - secretRef:
-      name: loki-azure-secret
+        name: loki-azure-secret
   queryFrontend:
     extraArgs:
     - -config.expand-env=true
     extraEnvFrom:
     - secretRef:
-      name: redis-password
+        name: redis-password
     - secretRef:
-      name: loki-azure-secret
+        name: loki-azure-secret
   tableManager:
     enabled: false
     extraArgs:
     - -config.expand-env=true
     extraEnvFrom:
     - secretRef:
-      name: redis-password
+        name: redis-password
     - secretRef:
-      name: loki-azure-secret
+        name: loki-azure-secret
   compactor:
     enabled: true
     extraArgs:
     - -config.expand-env=true
     extraEnvFrom:
     - secretRef:
-      name: redis-password
+        name: redis-password
     - secretRef:
-      name: loki-azure-secret
+        name: loki-azure-secret
   ruler:
     enabled: true
     extraArgs:
     - -config.expand-env=true
     extraEnvFrom:
     - secretRef:
-      name: redis-password
+        name: redis-password
     - secretRef:
-      name: loki-azure-secret
+        name: loki-azure-secret
   indexGateway:
     enabled: true
     extraArgs:
     - -config.expand-env=true
     extraEnvFrom:
     - secretRef:
-      name: redis-password
+        name: redis-password
     - secretRef:
-      name: loki-azure-secret
+        name: loki-azure-secret
   {{- end }}

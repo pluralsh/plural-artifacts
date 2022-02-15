@@ -16,32 +16,34 @@ loki-distributed:
     - -config.expand-env=true
     extraEnvFrom:
     - secretRef:
-      name: redis-password
+        name: redis-password
+    persistence:
+      enabled: true
   distributor:
     extraArgs:
     - -config.expand-env=true
     extraEnvFrom:
     - secretRef:
-      name: redis-password
+        name: redis-password
   querier:
     extraArgs:
     - -config.expand-env=true
     extraEnvFrom:
     - secretRef:
-      name: redis-password
+        name: redis-password
   queryFrontend:
     extraArgs:
     - -config.expand-env=true
     extraEnvFrom:
     - secretRef:
-      name: redis-password
+        name: redis-password
   tableManager:
     enabled: false
     extraArgs:
     - -config.expand-env=true
     extraEnvFrom:
     - secretRef:
-      name: redis-password
+        name: redis-password
   gateway:
     enabled: true
   compactor:
@@ -50,21 +52,54 @@ loki-distributed:
     - -config.expand-env=true
     extraEnvFrom:
     - secretRef:
-      name: redis-password
+        name: redis-password
   ruler:
     enabled: true
     extraArgs:
     - -config.expand-env=true
     extraEnvFrom:
     - secretRef:
-      name: redis-password
+        name: redis-password
+    directories:
+      fake:
+        rules1.txt: |
+          groups:
+            - name: should_fire
+              rules:
+                - alert: HighPercentageError
+                  expr: |
+                    sum(rate({app="foo", env="production"} |= "error" [5m])) by (job)
+                      /
+                    sum(rate({app="foo", env="production"}[5m])) by (job)
+                      > 0.05
+                  for: 10m
+                  labels:
+                    severity: warning
+                  annotations:
+                    summary: High error rate
+            - name: credentials_leak
+              rules:
+                - alert: http-credentials-leaked
+                  annotations:
+                    message: "{{ $labels.job }} is leaking http basic auth credentials."
+                  expr: 'sum by (cluster, job, pod) (count_over_time({namespace="prod"} |~ "http(s?)://(\\w+):(\\w+)@" [5m]) > 0)'
+                  for: 10m
+                  labels:
+                    severity: critical
+        rules2.txt: |
+          groups:
+            - name: example
+              rules:
+              - alert: HighThroughputLogStreams
+                expr: sum by(container) (rate({job=~"loki-dev/.*"}[1m])) > 1000
+                for: 2m
   indexGateway:
     enabled: true
     extraArgs:
     - -config.expand-env=true
     extraEnvFrom:
     - secretRef:
-      name: redis-password
+        name: redis-password
     persistence:
       enabled: true
   loki:
