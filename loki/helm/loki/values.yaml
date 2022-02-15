@@ -112,6 +112,9 @@ loki-distributed:
     persistence:
       enabled: true
   loki:
+    image:
+      registry: gcr.io
+      repository: pluralsh/grafana/loki
     config: ""
     structuredConfig:
       auth_enabled: false
