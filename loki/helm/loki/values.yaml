@@ -174,10 +174,6 @@ loki-distributed:
         compress_responses: true
         tail_proxy_url: http://{{ include "loki.querierFullname" . }}:3100
       ruler:
-        storage:
-          type: local
-          local:
-            directory: /etc/loki/rules
         ring:
           kvstore:
             store: memberlist
@@ -194,9 +190,14 @@ loki-distributed:
           s3: s3://eu-central-1
           bucketnames: my-loki-s3-bucket
         boltdb_shipper:
-          shared_store: s3
+          shared_store: filesystem
+          active_index_directory: /var/loki/index
+          cache_location: /var/loki/cache
+          cache_ttl: 168h
           index_gateway_client:
             server_address: dns:///{{ include "loki.indexGatewayFullname" . }}:9095
+        filesystem:
+          directory: /var/loki/chunks
       schema_config:
         configs:
           - from: 2020-09-07
@@ -222,7 +223,7 @@ promtail:
   - effect: NoExecute
     operator: Exists
   config:
-    lokiAddress: http://monitoring-loki-distributed-gateway/loki/api/v1/push
+    lokiAddress: http://loki-loki-distributed-gateway/loki/api/v1/push
     snippets:
       pipelineStages:
         - docker:
@@ -232,87 +233,3 @@ promtail:
               - replace:
                   expression: '(?:[0-9]{1,3}\.){3}([0-9]{1,3})'
                   replace: '***'
-        #     - docker:
-            # - json:
-            #     expressions:
-            #       msec: msec
-            #       connection: connection
-            #       connection_requests: connection_requests
-            #       pid: pid
-            #       request_id: request_id
-            #       request_length: request_length
-            #       remote_addr: remote_addr
-            #       remote_user: remote_user
-            #       remote_port: remote_port
-            #       time_local: time_local
-            #       time_iso8601: time_iso8601
-            #       request: request
-            #       request_uri: request_uri
-            #       args: args
-            #       status: status
-            #       body_bytes_sent: body_bytes_sent
-            #       bytes_sent: bytes_sent
-            #       http_referer: http_referer
-            #       http_user_agent: http_user_agent
-            #       http_x_forwarded_for: http_x_forwarded_for
-            #       http_host: http_host
-            #       server_name: server_name
-            #       request_time: request_time
-            #       upstream: upstream_addr
-            #       upstream_connect_time: upstream_connect_time
-            #       upstream_header_time: upstream_header_time
-            #       upstream_response_time: upstream_response_time
-            #       upstream_response_length: upstream_response_length
-            #       upstream_cache_status: upstream_cache_status
-            #       ssl_protocol: ssl_protocol
-            #       ssl_cipher: ssl_cipher
-            #       scheme: scheme
-            #       request_method: request_method
-            #       server_protocol: server_protocol
-            #       pipe: pipe
-            #       gzip_ratio: gzip_ratio
-            #       http_cf_ray: http_cf_ray
-            #       geoip_country_code: geoip_country_code
-            # - timestamp:
-            #     source: timetime_iso8601
-            #     format: RFC3339
-            # - labels:
-            #     msec:
-            #     connection:
-            #     connection_requests:
-            #     pid:
-            #     request_id:
-            #     request_length:
-            #     remote_addr:
-            #     remote_user:
-            #     remote_port:
-            #     time_local:
-            #     request:
-            #     request_uri:
-            #     args:
-            #     status:
-            #     body_bytes_sent:
-            #     bytes_sent:
-            #     http_referer:
-            #     http_user_agent:
-            #     http_x_forwarded_for:
-            #     http_host:
-            #     server_name:
-            #     request_time:
-            #     upstream:
-            #     upstream_connect_time:
-            #     upstream_header_time:
-            #     upstream_response_time:
-            #     upstream_response_length:
-            #     upstream_cache_status:
-            #     ssl_protocol:
-            #     ssl_cipher:
-            #     scheme:
-            #     request_method:
-            #     server_protocol:
-            #     pipe:
-            #     gzip_ratio:
-            #     http_cf_ray:
-            #     geoip_country_code:
-            # - output:
-            #     source: request_id
