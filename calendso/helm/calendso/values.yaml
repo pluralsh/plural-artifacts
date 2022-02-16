@@ -57,6 +57,14 @@ configOverlays:
     documentation: oauth credential for generating zoom meetings, see instructions https://github.com/calendso/calendso#obtaining-zoom-client-id-and-secret
     updates:
     - path: ['calendso', 'secrets', 'zoomClientSecret']
+- name: daily-api-key
+  spec:
+    folder: secrets
+    subfolder: daily
+    name: Daily API Key
+    documentation: api key for scheduling videos with daily.co
+    updates:
+    - path: ['calendso', 'secrets', 'dailyKey']
 
 image:
   repository: dkr.plural.sh/calendso/calendso

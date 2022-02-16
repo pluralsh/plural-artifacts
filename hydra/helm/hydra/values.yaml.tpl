@@ -1,6 +1,7 @@
 {{ $hydraHost := .Values.hostname }}
 {{ $adminHost := .Values.adminHostname }}
 {{ $hydraPassword := dedupe . "hydra.postgres.password" (randAlphaNum 20) }}
+{{ $hydraDsn := default (printf "postgres://hydra:%s@plural-postgres-hydra:5432/hydra" $hydraPassword) .Values.postgresDsn }}
 
 global:
   application:
@@ -14,14 +15,14 @@ global:
 
 postgres:
   password: {{ $hydraPassword }}
-  dsn: "postgres://hydra:{{ $hydraPassword }}@plural-postgres-hydra:5432/hydra"
+  dsn: {{ $hydraDsn }}
 
 {{ $systemSecret := dig "hydra" "hydra" "hydra" "config" "secrets" "system" (list ) . }}
 
 hydra:
   hydra:
     config:
-      dsn: "postgres://hydra:{{ $hydraPassword }}@plural-postgres-hydra:5432/hydra"
+      dsn: {{ $hydraDsn }}
       secrets:
       {{ if not $systemSecret }}
         system: [{{ (randAlphaNum 20 )}}]
