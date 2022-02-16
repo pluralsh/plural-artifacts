@@ -15,13 +15,20 @@ global:
 postgres:
   password: {{ $hydraPassword }}
 
+{{ $systemSecret := dig "hydra" "hydra" "hydra" "config" "secrets" "system" (list ) . }}
+
 hydra:
   hydra:
     config:
       dsn: "postgres://hydra:{{ $hydraPassword }}@plural-postgres-hydra:5432/hydra"
       secrets:
-        system: [{{ dedupe . "hydra.hydra.secrets.system" (randAlphaNum 20) }}]
-        cookie: {{ dedupe . "hydra.hydra.secrets.cookie" (randAlphaNum 20) }}
+      {{ if not $systemSecret }}
+        system: [{{ (randAlphaNum 20 )}}]
+      {{ else }}
+        system: 
+        {{ toYaml $systemSecret | nindent 8 }}
+      {{ end }}
+        cookie: {{ dedupe . "hydra.hydra.hydra.config.secrets.cookie" (randAlphaNum 20) }}
       urls:
         self:
           issuer: https://{{ $hydraHost }}/

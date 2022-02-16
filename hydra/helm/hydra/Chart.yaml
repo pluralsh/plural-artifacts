@@ -2,7 +2,7 @@ apiVersion: v2
 name: hydra
 description: helm chart for hydra
 type: application
-version: 0.1.1
+version: 0.1.6
 appVersion: "v1.0.0"
 dependencies:
 - name: postgres
