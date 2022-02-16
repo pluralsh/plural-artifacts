@@ -14,6 +14,7 @@ global:
 
 postgres:
   password: {{ $hydraPassword }}
+  dsn: "postgres://hydra:{{ $hydraPassword }}@plural-postgres-hydra:5432/hydra"
 
 {{ $systemSecret := dig "hydra" "hydra" "hydra" "config" "secrets" "system" (list ) . }}
 
