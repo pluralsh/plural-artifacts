@@ -109,6 +109,119 @@ webApp:
       # if no limit is set, to disable set "none"
       limitFactor: "1.2"
       readOnly: false
+    affinityConfig:
+      # If readonly, the default value will be the only option
+      # value is a list of `configKey`s that we want to be selected by default
+      value: ""
+      # The list of available affinity configs
+      options:
+        - configKey: "GPU-Inf-Small"
+          displayName: "GPU Inference Small"
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: "plural.sh/scalingGroup"
+                        operator: "In"
+                        values:
+                          - "gpu-inf-small-on-demand"
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchExpressions:
+                      - key: "notebook-name"
+                        operator: "Exists"
+                  namespaces: []
+                  topologyKey: "kubernetes.io/hostname"
+        - configKey: "GPU-Small"
+          displayName: "GPU Small"
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: "plural.sh/scalingGroup"
+                        operator: "In"
+                        values:
+                          - "gpu-small-on-demand"
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchExpressions:
+                      - key: "notebook-name"
+                        operator: "Exists"
+                  namespaces: []
+                  topologyKey: "kubernetes.io/hostname"
+        - configKey: "GPU-Inf-Small-Spot"
+          displayName: "GPU Inference Small Spot"
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: "plural.sh/scalingGroup"
+                        operator: "In"
+                        values:
+                          - "gpu-inf-small-spot"
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchExpressions:
+                      - key: "notebook-name"
+                        operator: "Exists"
+                  namespaces: []
+                  topologyKey: "kubernetes.io/hostname"
+        - configKey: "GPU-Small-Spot"
+          displayName: "GPU Small Spot"
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: "plural.sh/scalingGroup"
+                        operator: "In"
+                        values:
+                          - "gpu-small-spot"
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchExpressions:
+                      - key: "notebook-name"
+                        operator: "Exists"
+                  namespaces: []
+                  topologyKey: "kubernetes.io/hostname"
+      readOnly: false
+    tolerationGroup:
+      # The default `groupKey` from the options list
+      # If readonly, the default value will be the only option
+      value: ""
+      # The list of available tolerationGroup configs
+      options:
+        - groupKey: "spot"
+          displayName: "Spot Pool"
+          tolerations:
+            - key: "plural.sh/capacityType"
+              operator: "Equal"
+              value: "SPOT"
+              effect: "NoSchedule"
+        - groupKey: "gpu"
+          displayName: "GPU Pool"
+          tolerations:
+            - key: "nvidia.com/gpu"
+              operator: "Exists"
+              effect: "NoSchedule"
+        - groupKey: "spot-gpu"
+          displayName: "GPU Spot Pool"
+          tolerations:
+            - key: "nvidia.com/gpu"
+              operator: "Exists"
+              effect: "NoSchedule"
+            - key: "plural.sh/capacityType"
+              operator: "Equal"
+              value: "SPOT"
+              effect: "NoSchedule"
+      readOnly: false
 
 controller:
   replicaCount: 1
@@ -154,10 +267,10 @@ controller:
   resources:
     requests:
       cpu: 100m
-      memory: 50Mi
+      memory: 70Mi
     limits:
       cpu: 100m
-      memory: 50Mi
+      memory: 70Mi
 
   autoscaling:
     enabled: false
