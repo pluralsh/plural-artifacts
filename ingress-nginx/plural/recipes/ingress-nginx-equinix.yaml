@@ -12,3 +12,5 @@ sections:
     name: equinix
   - type: HELM
     name: ingress-nginx
+  - type: HELM
+    name: ingress-nginx-private

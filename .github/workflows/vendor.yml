@@ -318,6 +318,10 @@ jobs:
         - image: metabase/metabase:v0.41.5
           repo: metabase
 
+        # hydra
+        - image: oryd/hydra:v1.10.5
+          repo: hydra
+
         # misc images
         - image: bitnami/postgres-exporter:0.8.0-debian-10-r354 
           repo: postgres
