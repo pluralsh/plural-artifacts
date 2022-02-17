@@ -65,6 +65,22 @@ configOverlays:
     documentation: api key for scheduling videos with daily.co
     updates:
     - path: ['calendso', 'secrets', 'dailyKey']
+- name: ms-client-id
+  spec:
+    folder: secrets
+    subfolder: microsoft
+    name: Microsoft Graph Client ID
+    documentation: client id for access to microsoft outlook calendars
+    updates:
+    - path: ['calendso', 'secrets', 'msGraphClientId']
+- name: ms-client-secret
+  spec:
+    folder: secrets
+    subfolder: microsoft
+    name: Microsoft Graph Client ID
+    documentation: client secret for access to microsoft outlook calendars
+    updates:
+    - path: ['calendso', 'secrets', 'msGraphClientSecret']
 
 image:
   repository: dkr.plural.sh/calendso/calendso
