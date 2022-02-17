@@ -1,3 +1,11 @@
+global:
+  application:
+    links:
+    - description: minio url
+      url: {{ .Values.hostname }}
+    - description: minio object browser
+      url: {{ .Values.consoleHostname }}
+
 {{ $monitoringNamespace := namespace "monitoring" }}
 secret:
   rootUser: {{ dedupe . "minio.secret.rootUser" (randAlphaNum 20) }}
