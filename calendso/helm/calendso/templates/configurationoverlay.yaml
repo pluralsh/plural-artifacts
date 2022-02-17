@@ -14,7 +14,7 @@ spec:
 
 {{ $context := . }}
 {{ range $index, $overlay := .Values.configOverlays }}
-  {{- $args := mergeOverwrite $context $overlay }}
+  {{- $args := deepCopy $context | mergeOverwrite $overlay }}
   {{ if $index }}
 ---
   {{ end }}
