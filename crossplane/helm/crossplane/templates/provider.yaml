@@ -3,6 +3,6 @@ kind: Provider
 metadata:
   name: provider-aws
 spec:
-  package: crossplane/provider-aws:alpha
+  package: crossplane/provider-aws:v0.24.1
   controllerConfigRef:
     name: aws-config
