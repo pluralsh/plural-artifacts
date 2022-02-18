@@ -7,6 +7,10 @@ output "cluster_endpoint" {
   value = module.cluster.cluster_endpoint
 }
 
+output "cluster_oidc_issuer_url" {
+  value = module.cluster.cluster_oidc_issuer_url
+}
+
 output "cluster_private_subnets" {
   value = module.vpc.private_subnets
 }
