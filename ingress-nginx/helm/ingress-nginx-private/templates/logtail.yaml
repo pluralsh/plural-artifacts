@@ -1,7 +1,7 @@
 apiVersion: platform.plural.sh/v1alpha1
 kind: LogTail
 metadata:
-  name: public
+  name: private
   labels:
 {{ include "ingress-nginx-plural.labels" . | indent 4 }}
 spec:
