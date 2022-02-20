@@ -2,6 +2,7 @@ ingress-nginx:
   nameOverride: internal-ingress-nginx
   fullnameOverride: internal-ingress-nginx
   controller:
+    ingressClass: k8s.io/internal-nginx
     ingressClassResource:
       name: internal-nginx  # default: nginx
       enabled: true
