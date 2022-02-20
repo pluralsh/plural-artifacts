@@ -8,6 +8,10 @@ sections:
   - name: vpc_name
     type: STRING
     documentation: Arbitary name for the virtual private cloud to place your cluster in, eg "plural"
+    validation:
+      type: REGEX
+      regex: '[a-z][\-a-z0-9]{0,61}[a-z0-9]'
+      message: must begin with a lowercase letter, and can only contain lowercase letters, numbers or hyphens after
   items:
   - type: TERRAFORM
     name: gcp-bootstrap
