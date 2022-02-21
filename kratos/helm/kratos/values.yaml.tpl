@@ -18,6 +18,7 @@ postgres:
   dsn: {{ $kratosDsn }}
 
 {{ $defaultSecret := dig "kratos" "kratos" "kratos" "config" "secrets" "default" (list ) . }}
+{{ $cookieSecret := dig "kratos" "kratos" "kratos" "config" "secrets" "cookis" (list ) . }}
 
 kratos:
   kratos:
@@ -36,7 +37,12 @@ kratos:
         default: 
         {{ toYaml $defaultSecret | nindent 8 }}
       {{ end }}
-        cookie: {{ dedupe . "kratos.kratos.kratos.config.secrets.cookie" (randAlphaNum 20) }}
+      {{ if not $cookieSecret }}
+        cookie: [{{ (randAlphaNum 20 )}}]
+      {{ else }}
+        cookie:
+        {{ toYaml $cookieSecret | nindent 8 }}
+      {{ end }}
   ingress:
     public:
       hosts:
