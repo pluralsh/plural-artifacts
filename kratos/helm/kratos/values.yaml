@@ -1,0 +1,24 @@
+# Default values for kratos.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+postgres:
+  team: plural
+  user: hydra
+  dbName: hydra
+  ownerChart: hydra
+  infix: '-postgres'
+  password: REPLACE_ME
+
+image:
+  repository: gcr.io/pluralsh/oryd/kratos
+  tag: v0.8.0-alpha.3
+  pullPolicy: Always
+
+kratos:
+  image:
+    repository: gcr.io/pluralsh/oryd/kratos
+    tag: v0.8.0-alpha.3
+
+  kratos:
+    autoMigrate: false
