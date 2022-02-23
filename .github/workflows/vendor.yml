@@ -323,7 +323,7 @@ jobs:
           repo: hydra
         
         # kratos
-        - image: oryd/kratos:v0.8.0-alpha.3
+        - image: oryd/kratos:v0.8.2-alpha.1
           repo: kratos
 
         # misc images

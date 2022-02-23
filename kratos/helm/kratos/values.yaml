@@ -12,13 +12,55 @@ postgres:
 
 image:
   repository: gcr.io/pluralsh/oryd/kratos
-  tag: v0.8.0-alpha.3
+  tag: v0.8.2-alpha.1
   pullPolicy: Always
 
 kratos:
   image:
     repository: gcr.io/pluralsh/oryd/kratos
-    tag: v0.8.0-alpha.3
+    tag: v0.8.2-alpha.1
 
   kratos:
     autoMigrate: false
+    config:
+      identity:
+        default_schema_id: user
+        schemas:
+        - id: user
+          url: file://etc/config/user.traits.schema.json
+
+  identitySchemas:
+    user.traits.schema.json: |
+      {
+        "$id": "http://plural.sh/schemas/v1/user.json",
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "title": "A user (v1)",
+        "type": "object",
+        "properties": {
+          "traits": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "title": "email",
+                "type": "string",
+                "format": "Email",
+
+                // This tells Ory Kratos that the field should be used as the "username" for the Username and Password Flow.
+                "ory.sh/kratos": {
+                  "credentials": {
+                    "password": {
+                      "identifier": true
+                    }
+                  }
+                }
+              },
+              "name": {
+                "type": "string",
+                "title": "Name"
+              },
+            },
+            "required": ["email", "name"],
+            "additionalProperties": false
+          }
+        }
+      }

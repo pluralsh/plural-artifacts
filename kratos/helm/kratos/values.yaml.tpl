@@ -24,6 +24,8 @@ kratos:
   kratos:
     config:
       dsn: {{ $kratosDsn }}
+      selfservice:
+        default_browser_return_url: {{ .Values.returnUrl }}
       {{ if .SMTP }}
       courier:
         smtp:
