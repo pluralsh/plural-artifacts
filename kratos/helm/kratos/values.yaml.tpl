@@ -29,7 +29,7 @@ kratos:
       {{ if .SMTP }}
       courier:
         smtp:
-          connection_uri: smtps://{{ .SMTP.User}}:{{ .SMTP.Password }}@{{ .SMTP.Server }}}:{{ .SMTP.Port }}/?skip_ssl_verify=true
+          connection_uri: smtps://{{ .SMTP.User}}:{{ .SMTP.Password }}@{{ .SMTP.Server }}:{{ .SMTP.Port }}/?skip_ssl_verify=true
           from_address: {{ .SMTP.Sender }}
       {{ end }}
       secrets:

@@ -4,11 +4,106 @@
 
 postgres:
   team: plural
-  user: hydra
-  dbName: hydra
-  ownerChart: hydra
+  user: kratos
+  dbName: kratos
+  ownerChart: kratos
   infix: '-postgres'
   password: REPLACE_ME
+
+
+configOverlays:
+- name: kratos-cpu
+  labels:
+    platform.plural.sh/component: kratos
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: cpu
+  spec:
+    name: kratos cpu
+    documentation: cpu requests for kratos deployment
+    updates:
+    - path: ['kratos', 'kratos', 'resources', 'requests', 'cpu']
+- name: kratos-mem
+  labels:
+    platform.plural.sh/component: kratos
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: memory
+  spec:
+    name: kratos memory
+    documentation: memory requests for kratos deployment
+    updates:
+    - path: ['kratos', 'kratos', 'resources', 'requests', 'memory']
+- name: reg-url
+  spec:
+    name: Registration Url
+    documentation: url to redirect
+    folder: kratos core
+    subfolder: redirect
+    updates:
+    - path: ['kratos', 'kratos', 'kratos', 'config', 'selfservice', 'flows', 'registration', 'ui_url']
+- name: reg-lifespan
+  spec:
+    name: Registration Lifespan
+    documentation: time a session lives (uses go duration syntax, ie 1h, 1m, 1s)
+    folder: kratos core
+    subfolder: redirect
+    updates:
+    - path: ['kratos', 'kratos', 'kratos', 'config', 'selfservice', 'flows', 'registration', 'lifespan']
+- name: login-url
+  spec:
+    name: Login Url
+    documentation: Url to perform logins
+    folder: kratos core
+    subfolder: login
+    updates:
+    - path: ['kratos', 'kratos', 'kratos', 'config', 'selfservice', 'flows', 'login', 'ui_url']
+- name: login-lifespan
+  spec:
+    name: Login Lifespan
+    documentation: time a login session lives (uses go duration syntax, ie 1h, 1m, 1s)
+    folder: kratos core
+    subfolder: login
+    updates:
+    - path: ['kratos', 'kratos', 'kratos', 'config', 'selfservice', 'flows', 'login', 'lifespan']
+- name: verification-url
+  spec:
+    name: Verification Url
+    documentation: Url to perform verifications
+    folder: kratos core
+    subfolder: verification
+    updates:
+    - path: ['kratos', 'kratos', 'kratos', 'config', 'selfservice', 'flows', 'verification', 'ui_url']
+- name: verification-lifespan
+  spec:
+    name: Verification Lifespan
+    documentation: time a verification session lives (uses go duration syntax, ie 1h, 1m, 1s)
+    folder: kratos core
+    subfolder: verification
+    updates:
+    - path: ['kratos', 'kratos', 'kratos', 'config', 'selfservice', 'flows', 'verification', 'lifespan']
+- name: recovery-url
+  spec:
+    name: Recovery Url
+    documentation: Url to perform recovery
+    folder: kratos core
+    subfolder: recovery
+    updates:
+    - path: ['kratos', 'kratos', 'kratos', 'config', 'selfservice', 'flows', 'recovery', 'ui_url']
+- name: recovery-lifespan
+  spec:
+    name: Recovery Lifespan
+    documentation: time a recovery session lives (uses go duration syntax, ie 1h, 1m, 1s)
+    folder: kratos core
+    subfolder: recovery
+    updates:
+    - path: ['kratos', 'kratos', 'kratos', 'config', 'selfservice', 'flows', 'recovery', 'lifespan']
+- name: error-url
+  spec:
+    name: Error Url
+    documentation: Url for displaying authentication error
+    folder: kratos core
+    subfolder: error
+    updates:
+    - path: ['kratos', 'kratos', 'kratos', 'config', 'selfservice', 'flows', 'error', 'ui_url']
 
 image:
   repository: gcr.io/pluralsh/oryd/kratos
@@ -24,43 +119,41 @@ kratos:
     autoMigrate: false
     config:
       identity:
-        default_schema_id: user
+        default_schema_url: file:///etc/config/user.traits.schema.json
         schemas:
         - id: user
-          url: file://etc/config/user.traits.schema.json
+          url: file:///etc/config/user.traits.schema.json
 
-  identitySchemas:
-    user.traits.schema.json: |
-      {
-        "$id": "http://plural.sh/schemas/v1/user.json",
-        "$schema": "http://json-schema.org/draft-07/schema#",
-        "title": "A user (v1)",
-        "type": "object",
-        "properties": {
-          "traits": {
-            "type": "object",
-            "properties": {
-              "email": {
-                "title": "email",
-                "type": "string",
-                "format": "Email",
-
-                // This tells Ory Kratos that the field should be used as the "username" for the Username and Password Flow.
-                "ory.sh/kratos": {
-                  "credentials": {
-                    "password": {
-                      "identifier": true
+    identitySchemas:
+      user.traits.schema.json: |
+        {
+          "$id": "http://plural.sh/schemas/v1/user.json",
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "title": "A user (v1)",
+          "type": "object",
+          "properties": {
+            "traits": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "title": "email",
+                  "type": "string",
+                  "format": "Email",
+                  "ory.sh/kratos": {
+                    "credentials": {
+                      "password": {
+                        "identifier": true
+                      }
                     }
                   }
+                },
+                "name": {
+                  "type": "string",
+                  "title": "Name"
                 }
               },
-              "name": {
-                "type": "string",
-                "title": "Name"
-              },
-            },
-            "required": ["email", "name"],
-            "additionalProperties": false
+              "required": ["email", "name"],
+              "additionalProperties": false
+            }
           }
         }
-      }
