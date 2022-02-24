@@ -1,4 +1,4 @@
-{{- define "kratos.config-overlay" -}}
+{{- define "kratos-plural.config-overlay" -}}
 apiVersion: platform.plural.sh/v1alpha1
 kind: ConfigurationOverlay
 metadata:
@@ -13,10 +13,14 @@ spec:
 {{- end -}}
 
 {{ $context := . }}
-{{ range $index, $overlay := .Values.configOverlays }}
-  {{- $args := deepCopy $context | mergeOverwrite $overlay }}
-  {{ if $index }}
+{{ $rendered := false }}
+{{ range $key, $overlay := .Values.configOverlays }}
+  {{- $_ := set $context "name" $key -}}
+  {{- $_ := set $context "labels" $overlay.labels -}}
+  {{- $_ := set $context "annotations" $overlay.annotations -}}
+  {{ if $rendered }}
 ---
   {{ end }}
-  {{ include "kratos.config-overlay" $args | nindent 0 }}
+  {{ include "kratos-plural.config-overlay" $context | nindent 0 }}
+  {{- $rendered = true -}}
 {{- end -}}

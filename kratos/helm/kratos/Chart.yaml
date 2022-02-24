@@ -2,7 +2,7 @@ apiVersion: v2
 name: kratos
 description: helm chart for kratos
 type: application
-version: 0.1.12
+version: 0.1.13
 appVersion: "v1.0.0"
 dependencies:
 - name: postgres

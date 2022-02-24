@@ -12,98 +12,98 @@ postgres:
 
 
 configOverlays:
-- name: kratos-cpu
-  labels:
-    platform.plural.sh/component: kratos
-    platform.plural.sh/kind: deployment
-    platform.plural.sh/resource: cpu
-  spec:
-    name: kratos cpu
-    documentation: cpu requests for kratos deployment
-    updates:
-    - path: ['kratos', 'kratos', 'resources', 'requests', 'cpu']
-- name: kratos-mem
-  labels:
-    platform.plural.sh/component: kratos
-    platform.plural.sh/kind: deployment
-    platform.plural.sh/resource: memory
-  spec:
-    name: kratos memory
-    documentation: memory requests for kratos deployment
-    updates:
-    - path: ['kratos', 'kratos', 'resources', 'requests', 'memory']
-- name: reg-url
-  spec:
-    name: Registration Url
-    documentation: url to redirect
-    folder: kratos core
-    subfolder: redirect
-    updates:
-    - path: ['kratos', 'kratos', 'kratos', 'config', 'selfservice', 'flows', 'registration', 'ui_url']
-- name: reg-lifespan
-  spec:
-    name: Registration Lifespan
-    documentation: time a session lives (uses go duration syntax, ie 1h, 1m, 1s)
-    folder: kratos core
-    subfolder: redirect
-    updates:
-    - path: ['kratos', 'kratos', 'kratos', 'config', 'selfservice', 'flows', 'registration', 'lifespan']
-- name: login-url
-  spec:
-    name: Login Url
-    documentation: Url to perform logins
-    folder: kratos core
-    subfolder: login
-    updates:
-    - path: ['kratos', 'kratos', 'kratos', 'config', 'selfservice', 'flows', 'login', 'ui_url']
-- name: login-lifespan
-  spec:
-    name: Login Lifespan
-    documentation: time a login session lives (uses go duration syntax, ie 1h, 1m, 1s)
-    folder: kratos core
-    subfolder: login
-    updates:
-    - path: ['kratos', 'kratos', 'kratos', 'config', 'selfservice', 'flows', 'login', 'lifespan']
-- name: verification-url
-  spec:
-    name: Verification Url
-    documentation: Url to perform verifications
-    folder: kratos core
-    subfolder: verification
-    updates:
-    - path: ['kratos', 'kratos', 'kratos', 'config', 'selfservice', 'flows', 'verification', 'ui_url']
-- name: verification-lifespan
-  spec:
-    name: Verification Lifespan
-    documentation: time a verification session lives (uses go duration syntax, ie 1h, 1m, 1s)
-    folder: kratos core
-    subfolder: verification
-    updates:
-    - path: ['kratos', 'kratos', 'kratos', 'config', 'selfservice', 'flows', 'verification', 'lifespan']
-- name: recovery-url
-  spec:
-    name: Recovery Url
-    documentation: Url to perform recovery
-    folder: kratos core
-    subfolder: recovery
-    updates:
-    - path: ['kratos', 'kratos', 'kratos', 'config', 'selfservice', 'flows', 'recovery', 'ui_url']
-- name: recovery-lifespan
-  spec:
-    name: Recovery Lifespan
-    documentation: time a recovery session lives (uses go duration syntax, ie 1h, 1m, 1s)
-    folder: kratos core
-    subfolder: recovery
-    updates:
-    - path: ['kratos', 'kratos', 'kratos', 'config', 'selfservice', 'flows', 'recovery', 'lifespan']
-- name: error-url
-  spec:
-    name: Error Url
-    documentation: Url for displaying authentication error
-    folder: kratos core
-    subfolder: error
-    updates:
-    - path: ['kratos', 'kratos', 'kratos', 'config', 'selfservice', 'flows', 'error', 'ui_url']
+  kratos-cpu:
+    labels:
+      platform.plural.sh/component: kratos
+      platform.plural.sh/kind: deployment
+      platform.plural.sh/resource: cpu
+    spec:
+      name: kratos cpu
+      documentation: cpu requests for kratos deployment
+      updates:
+      - path: ['kratos', 'kratos', 'resources', 'requests', 'cpu']
+  kratos-mem:
+    labels:
+      platform.plural.sh/component: kratos
+      platform.plural.sh/kind: deployment
+      platform.plural.sh/resource: memory
+    spec:
+      name: kratos memory
+      documentation: memory requests for kratos deployment
+      updates:
+      - path: ['kratos', 'kratos', 'resources', 'requests', 'memory']
+  reg-url:
+    spec:
+      name: Registration Url
+      documentation: url to redirect
+      folder: kratos core
+      subfolder: redirect
+      updates:
+      - path: ['kratos', 'kratos', 'kratos', 'config', 'selfservice', 'flows', 'registration', 'ui_url']
+  reg-lifespan:
+    spec:
+      name: Registration Lifespan
+      documentation: time a session lives (uses go duration syntax, ie 1h, 1m, 1s)
+      folder: kratos core
+      subfolder: redirect
+      updates:
+      - path: ['kratos', 'kratos', 'kratos', 'config', 'selfservice', 'flows', 'registration', 'lifespan']
+  login-url:
+    spec:
+      name: Login Url
+      documentation: Url to perform logins
+      folder: kratos core
+      subfolder: login
+      updates:
+      - path: ['kratos', 'kratos', 'kratos', 'config', 'selfservice', 'flows', 'login', 'ui_url']
+  login-lifespan:
+    spec:
+      name: Login Lifespan
+      documentation: time a login session lives (uses go duration syntax, ie 1h, 1m, 1s)
+      folder: kratos core
+      subfolder: login
+      updates:
+      - path: ['kratos', 'kratos', 'kratos', 'config', 'selfservice', 'flows', 'login', 'lifespan']
+  verification-url:
+    spec:
+      name: Verification Url
+      documentation: Url to perform verifications
+      folder: kratos core
+      subfolder: verification
+      updates:
+      - path: ['kratos', 'kratos', 'kratos', 'config', 'selfservice', 'flows', 'verification', 'ui_url']
+  verification-lifespan:
+    spec:
+      name: Verification Lifespan
+      documentation: time a verification session lives (uses go duration syntax, ie 1h, 1m, 1s)
+      folder: kratos core
+      subfolder: verification
+      updates:
+      - path: ['kratos', 'kratos', 'kratos', 'config', 'selfservice', 'flows', 'verification', 'lifespan']
+  recovery-url:
+    spec:
+      name: Recovery Url
+      documentation: Url to perform recovery
+      folder: kratos core
+      subfolder: recovery
+      updates:
+      - path: ['kratos', 'kratos', 'kratos', 'config', 'selfservice', 'flows', 'recovery', 'ui_url']
+  recovery-lifespan:
+    spec:
+      name: Recovery Lifespan
+      documentation: time a recovery session lives (uses go duration syntax, ie 1h, 1m, 1s)
+      folder: kratos core
+      subfolder: recovery
+      updates:
+      - path: ['kratos', 'kratos', 'kratos', 'config', 'selfservice', 'flows', 'recovery', 'lifespan']
+  error-url:
+    spec:
+      name: Error Url
+      documentation: Url for displaying authentication error
+      folder: kratos core
+      subfolder: error
+      updates:
+      - path: ['kratos', 'kratos', 'kratos', 'config', 'selfservice', 'flows', 'error', 'ui_url']
 
 image:
   repository: gcr.io/pluralsh/oryd/kratos
