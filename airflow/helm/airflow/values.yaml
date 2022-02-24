@@ -184,6 +184,9 @@ airflow:
       serviceMonitor:
         enabled: true
     existingSecret: airflow-postgres-password
+  
+  pgbouncer:
+    enabled: false
 
   prometheusRule:
     enabled: true
@@ -241,7 +244,7 @@ airflow:
     executor: CeleryExecutor
     image:
       repository: dkr.plural.sh/airflow/apache/airflow
-      tag: 2.0.1-python3.8
+      tag: 2.1.4-python3.8
 
     config:
       ## security

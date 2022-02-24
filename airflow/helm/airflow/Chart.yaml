@@ -2,7 +2,7 @@ apiVersion: v2
 name: airflow
 description: A Helm chart for airflow deployable on plural
 type: application
-version: 0.3.8
+version: 0.3.9
 appVersion: "1.16.0"
 sources:
 - https://github.com/pluralsh/plural-artifacts/airflow/helm/airflow
@@ -11,5 +11,5 @@ maintainers:
   email: mjg@plural.sh
 dependencies:
 - name: airflow
-  version: 8.1.1
+  version: 8.5.2
   repository: https://airflow-helm.github.io/charts
