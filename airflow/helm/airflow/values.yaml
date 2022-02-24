@@ -283,6 +283,7 @@ airflow:
 
   ingress:
     enabled: true
+    apiVersion: networking.k8s.io/v1
     web:
       tls:
         enabled: true

@@ -129,7 +129,7 @@ jobs:
           repo: airbyte
 
         # airflow images
-        - image: apache/airflow:2.0.1-python3.8
+        - image: apache/airflow:2.1.4-python3.8
           repo: airflow
         
         # bootstrap images
