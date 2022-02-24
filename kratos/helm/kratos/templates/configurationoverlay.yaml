@@ -12,12 +12,13 @@ spec:
 {{ toYaml .spec | nindent 2 }}
 {{- end -}}
 
-{{ $context := . }}
+{{ $context := deepCopy . }}
 {{ $rendered := false }}
 {{ range $key, $overlay := .Values.configOverlays }}
   {{- $_ := set $context "name" $key -}}
   {{- $_ := set $context "labels" $overlay.labels -}}
   {{- $_ := set $context "annotations" $overlay.annotations -}}
+  {{- $_ := set $context "spec" $overlay.spec -}}
   {{ if $rendered }}
 ---
   {{ end }}
