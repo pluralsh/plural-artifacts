@@ -94,6 +94,12 @@ airflow:
   fernetKey: {{ dedupe . "airflow.airflow.fernetKey" (randAlphaNum 20)}}
 
   airflow:
+    extraPipPackages:
+    - airflow-exporter
+    - "Flask-AppBuilder~=3.2.0"
+    - "Authlib~=0.15.3"
+    - pyjwt
+
     config:
       AIRFLOW__WEBSERVER__BASE_URL: https://{{ $hostname }}/
     {{ if eq .Provider "google" }}
