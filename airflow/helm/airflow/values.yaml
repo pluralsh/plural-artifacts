@@ -268,7 +268,7 @@ airflow:
 
     extraPipPackages:
     - airflow-exporter
-    - "Flask-AppBuilder~=3.2.0"
+    # - "Flask-AppBuilder~=3.3.0"
     - "Authlib~=0.15.3"
     - pyjwt
 
