@@ -325,8 +325,8 @@ airflow:
     ##
     resources:
       requests:
-        cpu: "1000m"
-        memory: "2Gi"
+        cpu: "200m"
+        memory: "1Gi"
 
     podDisruptionBudget:
       enabled: true
