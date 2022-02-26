@@ -1,6 +1,9 @@
 dependencies:
+- name: config-overlays
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.1
 - name: airflow
   repository: https://airflow-helm.github.io/charts
   version: 8.5.2
-digest: sha256:e5f7688d954492a3c9c86ba59b15d13432a341161276d2af9702fd81637d72d3
-generated: "2022-02-24T16:42:58.199276-05:00"
+digest: sha256:a305e416f48e47a7b0e1638c7d5b485036558c9c7ac94768f5edada15a683575
+generated: "2022-02-26T14:35:50.146363-05:00"

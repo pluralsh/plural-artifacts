@@ -109,11 +109,17 @@ airflow:
     {{ if eq .Provider "google" }}
     connections:
     ## see docs: https://airflow.apache.org/docs/apache-airflow-providers-google/stable/connections/gcp.html
-    - id: my_gcp
+    - id: plural
       type: google_cloud_platform
       description: my GCP connection
       extra: |-
         { "extra__google_cloud_platform__num_retries": "5" }
+    {{ end }}
+    {{ if eq .Provider "aws" }}
+    connections:
+    - id: plural
+      type: aws
+      description: connection to aws s3 logs (via workflow identity)
     {{ end }}
     {{ if eq .Provider "azure" }}
     connections:

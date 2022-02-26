@@ -80,6 +80,9 @@ jobs:
         # filecoin
         - filecoin/lotus-all-in-one:v1.13.2
 
+        # airflow
+        - apache/airflow:2.1.4-python3.8
+    
         # misc
         - nginx:1.21.6
     steps:
@@ -127,10 +130,6 @@ jobs:
           repo: airbyte
         - image: bitnami/kubectl:latest
           repo: airbyte
-
-        # airflow images
-        - image: apache/airflow:2.1.4-python3.8
-          repo: airflow
         
         # bootstrap images
         - image: appscode/kubed:v0.13.0-beta.0

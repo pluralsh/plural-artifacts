@@ -74,89 +74,90 @@ exporter:
     # Metric mapping configuration
     mappingConfig: |-
 
-configOverlays:
-- name: airflow-registry
-  spec:
-    name: Airflow Registry
-    documentation: docker repository to use for airflow (default is dkr.plural.sh/airflow/apache/airflow)
-    updates:
-    - path: ['airflow', 'airflow', 'airflow', 'image', 'repository']
-- name: web-replicas
-  spec:
-    name: Web Replicas
-    documentation: number of replicas for the web deployment
-    updates:
-    - path: ['airflow', 'airflow', 'web', 'replicas']
-    inputType: int
-- name: worker-replicas
-  spec:
-    name: Worker Replicas
-    documentation: number of replicas for the worker deployment
-    updates:
-    - path: ['airflow', 'airflow', 'workers', 'replicas']
-    inputType: int
-- name: web-cpu
-  labels:
-    platform.plural.sh/component: airflow-web
-    platform.plural.sh/kind: deployment
-    platform.plural.sh/resource: cpu
-  spec:
-    name: web cpu
-    documentation: cpu requests for web deployment
-    updates:
-    - path: ['airflow', 'airflow', 'web', 'resources', 'requests', 'cpu']
-- name: web-mem
-  labels:
-    platform.plural.sh/component: airflow-web
-    platform.plural.sh/kind: deployment
-    platform.plural.sh/resource: memory
-  spec:
-    name: web memory
-    documentation: memory requests for web deployment
-    updates:
-    - path: ['airflow', 'airflow', 'web', 'resources', 'requests', 'memory']
-- name: worker-cpu
-  labels:
-    platform.plural.sh/component: airflow-worker
-    platform.plural.sh/kind: statefulset
-    platform.plural.sh/resource: cpu
-  spec:
-    name: worker cpu
-    documentation: cpu requests for worker statefulset
-    updates:
-    - path: ['airflow', 'airflow', 'workers', 'resources', 'requests', 'cpu']
-- name: worker-mem
-  labels:
-    platform.plural.sh/component: airflow-worker
-    platform.plural.sh/kind: statefulset
-    platform.plural.sh/resource: memory
-  spec:
-    name: worker memory
-    documentation: memory requests for worker statefulset
-    updates:
-    - path: ['airflow', 'airflow', 'workers', 'resources', 'requests', 'memory']
-- name: scheduler-cpu
-  labels:
-    platform.plural.sh/component: airflow-scheduler
-    platform.plural.sh/kind: deployment
-    platform.plural.sh/resource: cpu
-  spec:
-    name: scheduler cpu
-    documentation: cpu requests for scheduler deployment
-    updates:
-    - path: ['airflow', 'airflow', 'scheduler', 'resources', 'requests', 'cpu']
-- name: scheduler-mem
-  labels:
-    platform.plural.sh/component: airflow-scheduler
-    platform.plural.sh/kind: deployment
-    platform.plural.sh/resource: memory
-  spec:
-    name: scheduler memory
-    documentation: memory requests for scheduler deployment
-    updates:
-    - path: ['airflow', 'airflow', 'scheduler', 'resources', 'requests', 'memory']
+config-overlays:
+  configOverlays:
+    airflow-registry:
+      spec:
+        name: Airflow Registry
+        documentation: docker repository to use for airflow (default is dkr.plural.sh/airflow/apache/airflow)
+        updates:
+        - path: ['airflow', 'airflow', 'airflow', 'image', 'repository']
+    web-replicas:
+      spec:
+        name: Web Replicas
+        documentation: number of replicas for the web deployment
+        updates:
+        - path: ['airflow', 'airflow', 'web', 'replicas']
+        inputType: int
+    worker-replicas:
+      spec:
+        name: Worker Replicas
+        documentation: number of replicas for the worker deployment
+        updates:
+        - path: ['airflow', 'airflow', 'workers', 'replicas']
+        inputType: int
+    web-cpu:
+      labels:
+        platform.plural.sh/component: airflow-web
+        platform.plural.sh/kind: deployment
+        platform.plural.sh/resource: cpu
+      spec:
+        name: web cpu
+        documentation: cpu requests for web deployment
+        updates:
+        - path: ['airflow', 'airflow', 'web', 'resources', 'requests', 'cpu']
+    web-mem:
+      labels:
+        platform.plural.sh/component: airflow-web
+        platform.plural.sh/kind: deployment
+        platform.plural.sh/resource: memory
+      spec:
+        name: web memory
+        documentation: memory requests for web deployment
+        updates:
+        - path: ['airflow', 'airflow', 'web', 'resources', 'requests', 'memory']
+    worker-cpu:
+      labels:
+        platform.plural.sh/component: airflow-worker
+        platform.plural.sh/kind: statefulset
+        platform.plural.sh/resource: cpu
+      spec:
+        name: worker cpu
+        documentation: cpu requests for worker statefulset
+        updates:
+        - path: ['airflow', 'airflow', 'workers', 'resources', 'requests', 'cpu']
+    worker-mem:
+      labels:
+        platform.plural.sh/component: airflow-worker
+        platform.plural.sh/kind: statefulset
+        platform.plural.sh/resource: memory
+      spec:
+        name: worker memory
+        documentation: memory requests for worker statefulset
+        updates:
+        - path: ['airflow', 'airflow', 'workers', 'resources', 'requests', 'memory']
+    scheduler-cpu:
+      labels:
+        platform.plural.sh/component: airflow-scheduler
+        platform.plural.sh/kind: deployment
+        platform.plural.sh/resource: cpu
+      spec:
+        name: scheduler cpu
+        documentation: cpu requests for scheduler deployment
+        updates:
+        - path: ['airflow', 'airflow', 'scheduler', 'resources', 'requests', 'cpu']
+    scheduler-mem:
+      labels:
+        platform.plural.sh/component: airflow-scheduler
+        platform.plural.sh/kind: deployment
+        platform.plural.sh/resource: memory
+      spec:
+        name: scheduler memory
+        documentation: memory requests for scheduler deployment
+        updates:
+        - path: ['airflow', 'airflow', 'scheduler', 'resources', 'requests', 'memory']
 
-airflow:    
+airflow:
   externalDatabase:
     type: postgres
     host: plural-airflow
@@ -266,12 +267,6 @@ airflow:
     
     usersUpdate: false
 
-    extraPipPackages:
-    - airflow-exporter
-    # - "Flask-AppBuilder~=3.3.0"
-    - "Authlib~=0.15.3"
-    - pyjwt
-
     variables:
     - key: "environment"
       value: "prod"
@@ -297,7 +292,6 @@ airflow:
         cert-manager.io/cluster-issuer: letsencrypt-prod
         nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
         nginx.ingress.kubernetes.io/use-regex: "true"
-
   web:
     replicas: 1
 
