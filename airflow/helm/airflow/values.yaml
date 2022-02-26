@@ -313,6 +313,10 @@ airflow:
       requests:
         cpu: "500m"
         memory: "1Gi"
+
+  scheduler:
+    livenessProbe: 
+      timeoutSeconds: 60
   
   workers:
     ## if the airflow workers StatefulSet should be deployed
