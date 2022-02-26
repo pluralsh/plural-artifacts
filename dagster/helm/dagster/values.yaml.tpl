@@ -24,6 +24,8 @@ dagster:
   dagit:
     labels:
       security.plural.sh/inject-oauth-sidecar: "true"
+    deploymentLabels:
+      security.plural.sh/inject-oauth-sidecar: "true"
     annotations:
       security.plural.sh/oauth-env-secret: "dagster-proxy-config"
   {{ end }}
