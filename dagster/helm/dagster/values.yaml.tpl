@@ -35,6 +35,7 @@ dagster:
       {{ if .OIDC }}
       precedingPaths:
       - path: /.*
+        pathType: ImplementationSpecific
         serviceName: dagster-oauth2-proxy
         servicePort: http-oauth
       {{ end }}
