@@ -1,3 +1,8 @@
+variable "k8s_version" {
+  type = string
+  default = "1.21.2"
+}
+
 variable "subnet_name" {
   type = string
   default = "plural-subnet"

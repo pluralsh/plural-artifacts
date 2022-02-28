@@ -13,7 +13,7 @@ module "network" {
 module "aks" {
   source                           = "github.com/pluralsh/terraform-azurerm-aks?ref=plural"
   resource_group_name              = data.azurerm_resource_group.group.name
-  kubernetes_version               = "1.21.2"
+  kubernetes_version               = var.k8s_version
   orchestrator_version             = "1.21.2"
   prefix                           = var.name
   cluster_name                     = var.name

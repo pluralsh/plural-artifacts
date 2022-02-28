@@ -35,7 +35,7 @@ module "vpc" {
 module "cluster" {
   source          = "github.com/pluralsh/terraform-aws-eks?ref=always-create-auth-cm"
   cluster_name    = var.cluster_name
-  cluster_version = "1.21"
+  cluster_version = var.k8s_version
   private_subnets = module.vpc.private_subnets_ids
   public_subnets  = module.vpc.public_subnets_ids
   worker_private_subnets = module.vpc.worker_private_subnets

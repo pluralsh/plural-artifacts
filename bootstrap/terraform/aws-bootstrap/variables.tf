@@ -1,3 +1,8 @@
+variable "k8s_version" {
+  type = string
+  default = "1.21"
+}
+
 variable "vpc_name" {
   type = string
   default = "forge"

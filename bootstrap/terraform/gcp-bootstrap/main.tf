@@ -31,6 +31,7 @@ module "gke" {
   source                     = "github.com/pluralsh/terraform-google-kubernetes-engine?ref=rm-k8s-provider"
   project_id                 = var.gcp_project_id
   name                       = var.cluster_name
+  kubernetes_version         = var.k8s_version
   region                     = local.gcp_region
   network                    = google_compute_network.vpc_network.name
   subnetwork                 = google_compute_subnetwork.vpc_subnetwork.name

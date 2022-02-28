@@ -1,3 +1,8 @@
+variable "k8s_version" {
+  type = string
+  default = "1.21.2"
+}
+
 variable "gcp_project_id" {
   type = string
 
