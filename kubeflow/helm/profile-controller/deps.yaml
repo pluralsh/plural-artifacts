@@ -12,7 +12,7 @@ spec:
   - type: helm
     name: aws-iam-controller
     repo: kubeflow
-    version: '>= 0.1.4'
+    version: '>= 0.0.6'
   - type: terraform
     name: aws
     repo: kubeflow

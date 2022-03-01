@@ -2,7 +2,7 @@ apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
   application: true
-  description: deploys crossplane
+  description: deploys ack iam controller
 spec:
   dependencies:
   - type: helm
