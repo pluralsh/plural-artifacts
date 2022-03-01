@@ -1,0 +1,6 @@
+apiVersion: platform.kubeflow.org/v1alpha1
+kind: Config
+metadata:
+  name: config
+spec:
+{{- toYaml .Values.global.config | nindent 2 }}

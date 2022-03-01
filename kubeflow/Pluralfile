@@ -2,6 +2,7 @@ REPO kubeflow
 ATTRIBUTES Plural repository.yaml
 
 TF terraform/*
+HELM helm/aws-iam-controller
 HELM helm/central-dashboard
 HELM helm/katib
 HELM helm/mysql-cluster

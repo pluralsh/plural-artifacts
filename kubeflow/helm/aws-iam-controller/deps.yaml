@@ -2,19 +2,14 @@ apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
   application: true
-  description: Deploys kubeflow crafted for the target cloud
+  description: deploys crossplane
 spec:
   dependencies:
   - type: helm
     name: bootstrap
     repo: bootstrap
     version: '>= 0.5.1'
-  - type: helm
-    name: aws-iam-controller
-    repo: kubeflow
-    version: '>= 0.1.4'
   - type: terraform
     name: aws
     repo: kubeflow
     version: '>= 0.1.54'
-    optional: true

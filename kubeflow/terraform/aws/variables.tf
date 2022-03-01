@@ -160,3 +160,13 @@ variable "role_name" {
   type = string
   default = "kubeflow"
 }
+
+variable "ack_iam_role_name" {
+  type = string
+  default = "aws-ack-iam"
+}
+
+variable "ack_iam_sa_name" {
+  type = string
+  default = "ack-iam-controller"
+}
