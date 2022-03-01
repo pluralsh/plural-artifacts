@@ -5,35 +5,12 @@
 replicaCount: 1
 
 global:
-  config:
-    infrastructure:
-      clusterName: kubeflow-dev
-      provider: AWS
-      providerConfig:
-        accountID: "332124921534"
-        region: us-east-2
-        clusterOIDCIssuer: "https://oidc.eks.us-east-2.amazonaws.com/id/50C07702B65D541BF8CA91958886A04A"
-      storage:
-        provider: S3
-        bucketName: kubeflow-dev-pipelines-new
-    namespace:
-      defaultLabels:
-        katib-metricscollector-injection:      'enabled'
-        serving.kubeflow.org/inferenceservice: 'enabled'
-        pipelines.kubeflow.org/enabled:        'true'
-    network:
-      hostname: kubeflow.kubeflow-aws.com
-      clusterDomain: cluster.local
-      istio:
-        clusterGateway:
-          name: kubeflow-gateway
-          namespace: kubeflow
-    security:
-      oidc:
-        issuer: https://oidc.plural.sh/
-        jwksURI: https://oidc.plural.sh/.well-known/jwks.json
-    identity:
-      userIdPrefix: ""
+  istioNamespace: istio
+  clusterDomain: cluster.local
+  userIDHeader: kubeflow-userid
+  userIDPrefix: ""
+  oidcIssuer: https://oidc.plural.sh/
+  jwksURI: https://oidc.plural.sh/.well-known/jwks.json
 
 image:
   repository: ghcr.io/pluralsh/kubeflow-profile-controller
@@ -79,6 +56,36 @@ securityContext: {}
   # readOnlyRootFilesystem: true
   # runAsNonRoot: true
   # runAsUser: 1000
+
+config:
+  infrastructure:
+    clusterName: kubeflow-dev
+    provider: AWS
+    providerConfig:
+      accountID: "332124921534"
+      region: us-east-2
+      clusterOIDCIssuer: "https://oidc.eks.us-east-2.amazonaws.com/id/50C07702B65D541BF8CA91958886A04A"
+    storage:
+      provider: S3
+      bucketName: kubeflow-dev-pipelines-new
+  namespace:
+    defaultLabels:
+      katib-metricscollector-injection:      'enabled'
+      serving.kubeflow.org/inferenceservice: 'enabled'
+      pipelines.kubeflow.org/enabled:        'true'
+  network:
+    hostname: kubeflow.kubeflow-aws.com
+    clusterDomain: cluster.local
+    istio:
+      clusterGateway:
+        name: kubeflow-gateway
+        namespace: kubeflow
+  security:
+    oidc:
+      issuer: https://oidc.plural.sh/
+      jwksURI: https://oidc.plural.sh/.well-known/jwks.json
+  identity:
+    userIdPrefix: ""
 
 service:
   controller:

@@ -3,4 +3,4 @@ kind: Config
 metadata:
   name: config
 spec:
-{{- toYaml .Values.global.config | nindent 2 }}
+{{- toYaml .Values.config | nindent 2 }}
