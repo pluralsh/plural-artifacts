@@ -14,8 +14,6 @@ dependencies:
   name: aws-mysql
 - repo: knative
   name: knative-aws
-- repo: crossplane
-  name: crossplane-aws
 - repo: istio
   name: istio-aws
 - repo: nvidia-operator
@@ -42,6 +40,8 @@ sections:
   items:
   - type: TERRAFORM
     name: aws
+  - type: HELM
+    name: aws-iam-controller
   - type: HELM
     name: central-dashboard
   - type: HELM
