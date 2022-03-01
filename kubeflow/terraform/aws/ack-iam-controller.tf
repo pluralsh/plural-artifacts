@@ -27,6 +27,7 @@ data "aws_iam_policy_document" "ack_iam_controller" {
         "iam:CreatePolicy",
         "iam:DeletePolicy",
         "iam:ListAttachedRolePolicies",
+        "iam:ListPolicyTags",
         "iam:AttachRolePolicy",
         "iam:DetachRolePolicy",
         "iam:ListRoleTags",
