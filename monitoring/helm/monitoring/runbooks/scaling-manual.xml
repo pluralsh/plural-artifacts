@@ -56,6 +56,21 @@
       </input>
     </box>
   </box>
+  <box direction='row' align='center' gap='small'>
+    <box gap='small' align='center'>
+      <timeseries datasource="volume" label="Volume Usage" />
+      <text size='small'>You should resize at most 80% utilization (or based on dataset growth)</text>
+    </box>
+    <box gap='small'>
+      <input placeholder="25Gi" label='Volume Size' name='volume'>
+        <valueFrom 
+          datasource="prometheus" 
+          doc="kubernetes.raw" 
+          path="spec.volumeClaimTemplates[0].spec.resources.requests.storage" />
+      </input>
+      <button label='Expand' action='volume-scale' primary='true' />
+    </box>
+  </box>
   <box width='100%' gap='small'>
     <text size='small'>Be sure to scale your prometheus components within your node's capacity, listed here:</text>
     <table width='100%' datasource='nodes' path='nodes'>
