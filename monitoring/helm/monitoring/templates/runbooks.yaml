@@ -73,6 +73,7 @@ spec:
         - kube-prometheus-stack
         - prometheus
         - prometheusSpec
+        - storageSpec
         - volumeClaimTemplate
         - spec
         - resources
