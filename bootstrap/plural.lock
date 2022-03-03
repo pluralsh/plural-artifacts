@@ -14,7 +14,7 @@ recipe:
   plural/recipes/aws-efs.yaml: 0a38f5e3e5ce0b725bd58f4e7cb8bf3670071a411f3bbf1996459fa58336562f
   plural/recipes/aws-k8s.yaml: ba85d2639098c651c584700faa3f8fbb10df542646db512b1d6d9331daf636cc
   plural/recipes/azure-k8s.yaml: 752776b0c22978866a11dca225d67dda9e7d59770a038ad33b5309a1fe37220a
-  plural/recipes/gcp-kubernetes.yaml: eeaaa6a050e6592b70234bb5fce50dca80480b5be517d72c7dad8c3d4e798da4
+  plural/recipes/gcp-k8s.yaml: eeaaa6a050e6592b70234bb5fce50dca80480b5be517d72c7dad8c3d4e798da4
 integration: {}
 crd:
   plural/crds/application.yaml: c40bde3ad70c0d5aa3970a366ff742ba4a31ae40e0d256baf093d164c292abcf:h1:dBJSd9fVUBI9x6u6mzbALI3YjPkUOCuZ59EyJeTNH+o=

@@ -7,7 +7,7 @@ oidcSettings:
   domainKey: hostname
 dependencies:
 - repo: bootstrap
-  name: gcp-kubernetes
+  name: gcp-k8s
 - repo: ingress-nginx
   name: ingress-nginx-gcp
 - repo: postgres

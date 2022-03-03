@@ -3,7 +3,7 @@ description: Installs ingress-nginx on a gcp gke cluster
 provider: GCP
 dependencies:
 - repo: bootstrap
-  name: gcp-kubernetes
+  name: gcp-k8s
 sections:
 - name: ingress-nginx
   configuration: []
