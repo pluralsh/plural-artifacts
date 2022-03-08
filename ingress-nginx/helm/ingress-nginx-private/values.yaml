@@ -3,7 +3,7 @@ ingress-nginx:
   fullnameOverride: internal-ingress-nginx
   controller:
     ingressClass: k8s.io/internal-nginx
-    electionId: internal-ingress-controller-leader
+    electionID: internal-ingress-controller-leader
     ingressClassResource:
       name: internal-nginx  # default: nginx
       enabled: true
