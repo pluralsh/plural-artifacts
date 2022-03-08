@@ -8,6 +8,7 @@ ingress-nginx:
     {{- end }}
   {{- end }}
   controller:
+    electionId: internal-ingress-controller-leader
     service:
       externalTrafficPolicy: Local
     {{- if eq .Provider "aws"}}
