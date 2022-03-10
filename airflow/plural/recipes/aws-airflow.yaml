@@ -12,6 +12,16 @@ dependencies:
     name: ingress-nginx-aws
   - repo: postgres
     name: aws-postgres
+tests:
+- name: git access
+  type: GIT
+  args:
+  - name: private_key
+    repo: airflow
+    key: private_key
+  - name: url
+    repo: airflow
+    key: dagRepo
 sections:
 - name: airflow
   configuration:

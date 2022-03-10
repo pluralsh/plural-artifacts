@@ -25,6 +25,23 @@ postgres:
 oidcProxy:
   enabled: false
 
+private:
+  ingress:
+    enabled: false
+    className: internal-nginx
+    annotations:
+      kubernetes.io/tls-acme: "true"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      # Extend timeout to allow long running queries.
+      nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+      nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+      nginx.ingress.kubernetes.io/use-regex: "true"
+    service:
+      name: airbyte-webapp
+      port: 80
+
 configOverlays:
 - name: web-cpu
   labels:
