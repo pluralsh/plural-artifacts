@@ -28,7 +28,7 @@ resource "google_compute_subnetwork" "vpc_subnetwork" {
 }
 
 module "gke" {
-  source                     = "github.com/pluralsh/terraform-google-kubernetes-engine?ref=rm-k8s-provider"
+  source                     = "github.com/pluralsh/terraform-google-kubernetes-engine?ref=filestore-csi-driver"
   project_id                 = var.gcp_project_id
   name                       = var.cluster_name
   region                     = local.gcp_region
@@ -41,6 +41,7 @@ module "gke" {
   remove_default_node_pool   = true
   add_cluster_firewall_rules = true
   network_policy             = true
+  filestore_csi_driver       = true
 
   node_pools = var.node_pools
 
