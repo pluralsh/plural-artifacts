@@ -14,6 +14,21 @@ oidcProxy:
   cookieSecret: {{ dedupe . "airbyte.oidcProxy.cookieSecret" (randAlphaNum 32) }}
 {{ end }}
 
+{{ if .Values.privateHostname }}
+private:
+  ingress:
+    enabled: true
+    tls:
+    - hosts:
+      - {{ .Values.privateHostname }}
+      secretName: airbyte-private-tls
+    hosts:
+    - host: {{ .Values.privateHostname }}
+      paths:
+      - path: '/.*'
+        pathType: ImplementationSpecific
+{{ end }}
+
 airbyte:
 {{ if or (eq .Provider "google") (eq .Provider "azure") }}
   airbyteS3Bucket: {{ .Values.airbyteBucket }}
