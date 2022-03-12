@@ -1,5 +1,5 @@
 name: airbyte-aws
-description: Installs airbyte on an aws eks cluster
+description: Installs airbyte on an eks cluster
 provider: AWS
 oidcSettings:
   uriFormat: https://{domain}/oauth2/callback

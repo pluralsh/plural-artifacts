@@ -55,9 +55,6 @@ mysql-operator:
     requests:
      cpu: 10m
      memory: 72Mi
-    limits:
-     cpu: 10m
-     memory: 72Mi
 
   ## nodeAffinity settings
   # nodeAffinity:
@@ -103,11 +100,8 @@ mysql-operator:
 
     resources:
       requests:
-       cpu: 50m
-       memory: 30Mi
-      limits:
-       cpu: 100m
-       memory: 30Mi
+        cpu: 50m
+        memory: 30Mi
 
     service:
       type: ClusterIP
