@@ -7,6 +7,9 @@ global:
 
 replicaCount: 1
 
+oidc-config:
+  enabled: false
+
 postgres:
   clone: null
   replicas: 1

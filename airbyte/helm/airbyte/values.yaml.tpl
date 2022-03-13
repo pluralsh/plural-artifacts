@@ -5,13 +5,23 @@ global:
       url: {{ .Values.hostname }}
 
 {{ if .OIDC }}
-oidcProxy:
+{{ $prevSecret := dedupe . "airbyte.oidcProxy.cookieSecret" (randAlphaNum 32) }}
+oidc-config:
   enabled: true
-  upstream: http://localhost:80
-  issuer: {{ .OIDC.Configuration.Issuer }}
-  clientID: {{ .OIDC.ClientId }}
-  clientSecret: {{ .OIDC.ClientSecret }}
-  cookieSecret: {{ dedupe . "airbyte.oidcProxy.cookieSecret" (randAlphaNum 32) }}
+  secret:
+    name: airbyte-proxy-config
+    issuer: {{ .OIDC.Configuration.Issuer }}
+    clientID: {{ .OIDC.ClientId }}
+    clientSecret: {{ .OIDC.ClientSecret }}
+    cookieSecret: {{ dedupe . "airbyte.oidc-config.secret.cookieSecret" $prevSecret }}
+  service:
+    name: airbyte-oauth2-proxy
+    selector:
+      airbyte: webapp
+  {{ if .Values.users }}
+  users:
+  {{ toYaml .Values.users | nindent 4 }}
+  {{ end }}
 {{ end }}
 
 {{ if .Values.privateHostname }}
@@ -59,6 +69,9 @@ airbyte:
       security.plural.sh/inject-oauth-sidecar: "true"
     podAnnotations:
       security.plural.sh/oauth-env-secret: "airbyte-proxy-config"
+    {{ if .Values.users }}
+      security.plural.sh/htpasswd-secret: httpaswd-users
+    {{ end }}
     {{ end }}
     ingress:
       tls:
