@@ -13,6 +13,7 @@ resource "google_storage_bucket" "postgres_bucket" {
   name = var.wal_bucket
   project = var.project_id
   force_destroy = true
+  location = var.bucket_location
 }
 
 resource "google_storage_bucket_iam_member" "postgres" {

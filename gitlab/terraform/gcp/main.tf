@@ -1,8 +1,3 @@
-locals {
-  gcp_location_parts = split("-", var.gcp_location)
-  gcp_region         = "${local.gcp_location_parts[0]}-${local.gcp_location_parts[1]}"
-}
-
 resource "kubernetes_namespace" "gitlab" {
   metadata {
     name = var.namespace
@@ -47,48 +42,56 @@ resource "google_storage_bucket" "registry_bucket" {
   name = var.registry_bucket
   project = var.gcp_project_id
   force_destroy = true
+  location = var.bucket_location
 }
 
 resource "google_storage_bucket" "packages_bucket" {
   name = var.packages_bucket
   project = var.gcp_project_id
   force_destroy = true
+  location = var.bucket_location
 }
 
 resource "google_storage_bucket" "artifacts_bucket" {
   name = var.artifacts_bucket
   project = var.gcp_project_id
   force_destroy = true
+  location = var.bucket_location
 }
 
 resource "google_storage_bucket" "backups_bucket" {
   name = var.backups_bucket
   project = var.gcp_project_id
   force_destroy = true
+  location = var.bucket_location
 }
 
 resource "google_storage_bucket" "backups_tmp_bucket" {
   name = var.backups_tmp_bucket
   project = var.gcp_project_id
   force_destroy = true
+  location = var.bucket_location
 }
 
 resource "google_storage_bucket" "lfs_bucket" {
   name = var.lfs_bucket
   project = var.gcp_project_id
   force_destroy = true
+  location = var.bucket_location
 }
 
 resource "google_storage_bucket" "runner_cache" {
   name = var.runner_cache_bucket
   project = var.gcp_project_id
   force_destroy = true
+  location = var.bucket_location
 }
 
 resource "google_storage_bucket" "terraform_bucket" {
   name = var.terraform_bucket
   project = var.gcp_project_id
   force_destroy = true
+  location = var.bucket_location
 }
 
 resource "google_storage_bucket_iam_member" "registry" {

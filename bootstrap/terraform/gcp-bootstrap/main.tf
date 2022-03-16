@@ -31,7 +31,7 @@ module "gke" {
   source                     = "github.com/pluralsh/terraform-google-kubernetes-engine?ref=filestore-csi-driver"
   project_id                 = var.gcp_project_id
   name                       = var.cluster_name
-  region                     = local.gcp_region
+  region                     = var.gcp_region
   network                    = google_compute_network.vpc_network.name
   subnetwork                 = google_compute_subnetwork.vpc_subnetwork.name
   ip_range_pods              = local.pods_cidr_name
