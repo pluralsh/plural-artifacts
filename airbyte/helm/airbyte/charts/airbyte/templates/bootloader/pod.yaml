@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: {{ include "common.names.fullname" . }}-bootloader-{{ randAlphaNum 6 }}
+  name: {{ include "common.names.fullname" . }}-bootloader-{{ randAlphaNum 6 | lower }}
   labels:
     {{- include "airbyte.labels" . | nindent 4 }}
   {{- if .Values.bootloader.podAnnotations }}
