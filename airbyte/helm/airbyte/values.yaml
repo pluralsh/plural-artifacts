@@ -188,7 +188,7 @@ airbyte:
       tag: 0.35.5-alpha
 
     ingress:
-      enabled: true
+      enabled: false
       className: nginx
       annotations:
         kubernetes.io/tls-acme: "true"

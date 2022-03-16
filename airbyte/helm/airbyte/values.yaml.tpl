@@ -74,6 +74,7 @@ airbyte:
     {{ end }}
     {{ end }}
     ingress:
+      enabled: true
       tls:
       - hosts:
         - {{ .Values.hostname }}
