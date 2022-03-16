@@ -171,7 +171,22 @@ airbyte:
     existingSecretPasswordKey: password
     user: airbyte
 
+  worker:
+    image:
+      tag: 0.35.5-alpha
+  
+  scheduler:
+    image:
+      tag: 0.35.5-alpha
+  
+  server:
+    image:
+      tag: 0.35.5-alpha
+
   webapp:
+    image:
+      tag: 0.35.5-alpha
+
     ingress:
       enabled: true
       className: nginx

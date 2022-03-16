@@ -135,6 +135,21 @@ webapp:
   ##   value: "key=sample-value"
   extraEnv: []
 
+## @section Bootloader Parameters
+
+bootloader:
+  ## @param bootloader.image.repository The repository to use for the airbyte bootloader image.
+  ## @param bootloader.image.pullPolicy the pull policy to use for the airbyte bootloader image
+  ## @param bootloader.image.tag The airbyte bootloader image tag. Defaults to the chart's AppVersion
+  image:
+    repository: airbyte/bootloader
+    pullPolicy: IfNotPresent
+    tag: 0.35.5-alpha
+  
+  ## @param bootloader.podAnnotations [object] Add extra annotations to the bootloader pod
+  ##
+  podAnnotations: {}
+
 ## @section Scheduler Parameters
 
 scheduler:
@@ -286,7 +301,7 @@ server:
   ##
   readinessProbe:
     enabled: true
-    initialDelaySeconds: 10
+    initialDelaySeconds: 30
     periodSeconds: 10
     timeoutSeconds: 1
     failureThreshold: 3

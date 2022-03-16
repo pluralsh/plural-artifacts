@@ -176,6 +176,13 @@ Add environment variables to configure minio
 {{- end -}}
 
 {{/*
+Returns the Airbyte Bootloader Image
+*/}}
+{{- define "airbyte.bootloaderImage" -}}
+{{- include "common.images.image" (dict "imageRoot" .Values.bootloader.image "global" .Values.global) -}}
+{{- end -}}
+
+{{/*
 Returns the Airbyte Scheduler Image
 */}}
 {{- define "airbyte.schedulerImage" -}}
