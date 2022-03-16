@@ -124,6 +124,8 @@ jobs:
           repo: airbyte
         - image: airbyte/worker:0.35.5-alpha
           repo: airbyte
+        - image: airbyte/bootloader:0.35.5-alpha
+          repo: airbyte
         - image: temporalio/auto-setup:1.7.0 
           repo: airbyte
         - image: temporalio/auto-setup:1.13.1 
