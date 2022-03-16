@@ -6,8 +6,6 @@ dependencies:
   name: azure-k8s
 - repo: ingress-nginx
   name: ingress-nginx-azure
-- repo: mysql
-  name: azure-mysql
 sections:
 - name: ghost
   configuration:
