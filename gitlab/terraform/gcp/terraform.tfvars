@@ -10,4 +10,4 @@ lfs_bucket = {{ .Values.lfsBucket | quote }}
 runner_cache_bucket = {{ .Values.runnerCacheBucket | quote }}
 terraform_bucket = {{ .Values.terraformBucket | quote }}
 gcp_region = {{ .Region | quote }}
-bucket_location = {{ .Context.BucketLocation | quote }}
+bucket_location = {{ default "US" .Context.BucketLocation | quote }}

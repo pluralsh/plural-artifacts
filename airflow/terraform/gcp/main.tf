@@ -29,6 +29,9 @@ resource "google_storage_bucket" "airflow_bucket" {
   project = var.project_id
   force_destroy = true
   location = var.bucket_location
+  ignore_changes = [
+    location,
+  ]
 }
 
 resource "google_storage_bucket_iam_member" "airflow" {
