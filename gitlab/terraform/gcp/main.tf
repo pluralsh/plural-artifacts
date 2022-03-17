@@ -43,9 +43,12 @@ resource "google_storage_bucket" "registry_bucket" {
   project = var.gcp_project_id
   force_destroy = true
   location = var.bucket_location
-  ignore_changes = [
-    location,
-  ]
+  
+  lifecycle {
+    ignore_changes = [
+      location,
+    ]
+  }
 }
 
 resource "google_storage_bucket" "packages_bucket" {
@@ -53,9 +56,12 @@ resource "google_storage_bucket" "packages_bucket" {
   project = var.gcp_project_id
   force_destroy = true
   location = var.bucket_location
-  ignore_changes = [
-    location,
-  ]
+  
+  lifecycle {
+    ignore_changes = [
+      location,
+    ]
+  }
 }
 
 resource "google_storage_bucket" "artifacts_bucket" {
@@ -63,9 +69,12 @@ resource "google_storage_bucket" "artifacts_bucket" {
   project = var.gcp_project_id
   force_destroy = true
   location = var.bucket_location
-  ignore_changes = [
-    location,
-  ]
+  
+  lifecycle {
+    ignore_changes = [
+      location,
+    ]
+  }
 }
 
 resource "google_storage_bucket" "backups_bucket" {
@@ -73,9 +82,12 @@ resource "google_storage_bucket" "backups_bucket" {
   project = var.gcp_project_id
   force_destroy = true
   location = var.bucket_location
-  ignore_changes = [
-    location,
-  ]
+  
+  lifecycle {
+    ignore_changes = [
+      location,
+    ]
+  }
 }
 
 resource "google_storage_bucket" "backups_tmp_bucket" {
@@ -83,9 +95,12 @@ resource "google_storage_bucket" "backups_tmp_bucket" {
   project = var.gcp_project_id
   force_destroy = true
   location = var.bucket_location
-  ignore_changes = [
-    location,
-  ]
+  
+  lifecycle {
+    ignore_changes = [
+      location,
+    ]
+  }
 }
 
 resource "google_storage_bucket" "lfs_bucket" {
@@ -93,9 +108,12 @@ resource "google_storage_bucket" "lfs_bucket" {
   project = var.gcp_project_id
   force_destroy = true
   location = var.bucket_location
-  ignore_changes = [
-    location,
-  ]
+  
+  lifecycle {
+    ignore_changes = [
+      location,
+    ]
+  }
 }
 
 resource "google_storage_bucket" "runner_cache" {
@@ -103,9 +121,12 @@ resource "google_storage_bucket" "runner_cache" {
   project = var.gcp_project_id
   force_destroy = true
   location = var.bucket_location
-  ignore_changes = [
-    location,
-  ]
+  
+  lifecycle {
+    ignore_changes = [
+      location,
+    ]
+  }
 }
 
 resource "google_storage_bucket" "terraform_bucket" {
@@ -113,9 +134,12 @@ resource "google_storage_bucket" "terraform_bucket" {
   project = var.gcp_project_id
   force_destroy = true
   location = var.bucket_location
-  ignore_changes = [
-    location,
-  ]
+  
+  lifecycle {
+    ignore_changes = [
+      location,
+    ]
+  }
 }
 
 resource "google_storage_bucket_iam_member" "registry" {

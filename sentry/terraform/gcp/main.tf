@@ -29,9 +29,12 @@ resource "google_storage_bucket" "filestore_bucket" {
   project = var.gcp_project_id
   force_destroy = true
   location = var.bucket_location
-  ignore_changes = [
-    location,
-  ]
+  
+  lifecycle {
+    ignore_changes = [
+      location,
+    ]
+  }
 }
 
 resource "google_storage_bucket_iam_member" "filestore" {
