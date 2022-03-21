@@ -10,6 +10,7 @@ ingress:
   annotations:
     kubernetes.io/tls-acme: "true"
     # Extend timeout to allow long running queries.
+    cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/affinity: cookie
     nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
     nginx.ingress.kubernetes.io/proxy-read-timeout: '3600'
@@ -19,6 +20,14 @@ ingress:
 hasura:
   console:
     enabled: true
+  postgresql:
+    enabled: false
+    postgresqlUsername: hasura
+  extraEnv:
+  - name: PGSSLMODE
+    value: require
+  ingress:
+    enabled: false
 postgres:
   password: CHANGEME
   replicas: 1
