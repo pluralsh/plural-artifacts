@@ -1,4 +1,5 @@
-apiVersion: networking.istio.io/v1alpha3
+{{- if .Values.istio.egressGateway.enabled }}
+apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
   name: disable-mtls-for-sni-proxy
@@ -9,7 +10,7 @@ spec:
     tls:
       mode: DISABLE
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
   name: egressgateway-for-allowed-tlds
@@ -26,3 +27,4 @@ spec:
             number: 443
           tls:
             mode: ISTIO_MUTUAL
+{{- end }}
