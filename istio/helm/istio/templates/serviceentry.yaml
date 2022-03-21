@@ -1,4 +1,5 @@
-apiVersion: networking.istio.io/v1alpha3
+{{- if .Values.istio.egressGateway.enabled }}
+apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
   name: sni-proxy
@@ -15,7 +16,7 @@ spec:
   endpoints:
   - address: 127.0.0.1
 ---
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: ServiceEntry
 metadata:
   name: allowed-tlds
@@ -29,3 +30,4 @@ spec:
   - number: 443
     name: tls
     protocol: TLS
+{{- end }}

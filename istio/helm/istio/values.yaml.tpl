@@ -2,6 +2,10 @@ istio-operator:
   watchedNamespaces: {{ namespace "istio" }}
 istio:
   namespace: {{ namespace "istio" }}
+  {{- if .Values.enableEgressGateway }}
+  egressGateway:
+   enabled: true
+   {{- end }}
   istioComponents:
     ingressGateways:
     - name: istio-ingressgateway
@@ -56,6 +60,7 @@ istio:
     #        port: 80
     #        targetPort: 8080
     #{{ end }}
+    {{- if .Values.enableEgressGateway }}
     egressGateways:
     - name: istio-egressgateway
       enabled: true
@@ -86,6 +91,7 @@ istio:
               configMap:
                 name: egress-sni-proxy-configmap
                 defaultMode: 292 # 0444
+    {{- end }}
 
 provider: {{ .Provider }}
 
