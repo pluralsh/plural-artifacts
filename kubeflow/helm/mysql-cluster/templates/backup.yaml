@@ -1,0 +1,9 @@
+
+apiVersion: mysql.presslabs.org/v1alpha1
+kind: MysqlBackup
+metadata:
+  name: my-cluster-backup3
+  namespace: kubeflow
+spec:
+  # this field is required
+  clusterName: kubeflow-mysql-cluster

@@ -6,6 +6,11 @@ metadata:
 spec:
   replicas: 2
   secretName: kubeflow-mysql-cluster-root
+  # backupSchedule:
+  backupURL: s3://kubeflow-dev-mysql-backups/kubeflow-mysql-cluster/
+  # backupSecretName:
+  # backupScheduleJobsHistoryLimit:
+  # backupRemoteDeletePolicy:
   volumeSpec:
     persistentVolumeClaim:
       accessModes: ["ReadWriteOnce"]

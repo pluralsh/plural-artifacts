@@ -2,6 +2,8 @@ secret:
   rootPassword: root_password
 
 serviceAccount:
+  create: true
+  name: mysql-pod
   annotations: {}
 
 resources:
