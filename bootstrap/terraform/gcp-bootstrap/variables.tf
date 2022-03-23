@@ -15,9 +15,9 @@ The name of the cluster, unique within the project and zone.
 EOF
 }
 
-variable "gcp_location" {
+variable "gcp_region" {
   type = string
-  default = "us-east1-b"
+  default = "us-east1"
 
   description = <<EOF
 The location (region or zone) in which the cluster master will be created,

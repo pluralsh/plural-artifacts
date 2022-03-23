@@ -22,6 +22,13 @@ resource "google_compute_subnetwork" "vpc_subnetwork" {
 
   private_ip_google_access = true
 
+  lifecycle {
+    ignore_changes = [
+      secondary_ip_range[0].range_name,
+      secondary_ip_range[1].range_name,
+    ]
+  }
+
   depends_on = [
     google_compute_network.vpc_network,
   ]
@@ -34,8 +41,8 @@ module "gke" {
   region                     = local.gcp_region
   network                    = google_compute_network.vpc_network.name
   subnetwork                 = google_compute_subnetwork.vpc_subnetwork.name
-  ip_range_pods              = local.pods_cidr_name
-  ip_range_services          = local.services_cidr_name
+  ip_range_pods              = google_compute_subnetwork.vpc_subnetwork.secondary_ip_range[0].range_name
+  ip_range_services          = google_compute_subnetwork.vpc_subnetwork.secondary_ip_range[1].range_name
   horizontal_pod_autoscaling = true
   http_load_balancing        = true
   remove_default_node_pool   = true

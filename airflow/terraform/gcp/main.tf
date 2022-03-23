@@ -1,8 +1,3 @@
-locals {
-  gcp_location_parts = split("-", var.gcp_location)
-  gcp_region         = "${local.gcp_location_parts[0]}-${local.gcp_location_parts[1]}"
-}
-
 resource "kubernetes_namespace" "airflow" {
   metadata {
     name = var.namespace
@@ -33,6 +28,13 @@ resource "google_storage_bucket" "airflow_bucket" {
   name = var.airflow_bucket
   project = var.project_id
   force_destroy = true
+  location = var.bucket_location
+  
+  lifecycle {
+    ignore_changes = [
+      location,
+    ]
+  }
 }
 
 resource "google_storage_bucket_iam_member" "airflow" {
