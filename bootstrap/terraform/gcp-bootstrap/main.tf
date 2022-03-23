@@ -34,11 +34,16 @@ resource "google_compute_subnetwork" "vpc_subnetwork" {
   ]
 }
 
+locals {
+  # required for backwards compatibility
+  gcp_region         = "${split("-", var.gcp_region)[0]}-${split("-", var.gcp_region)[1]}"
+}
+
 module "gke" {
   source                     = "github.com/pluralsh/terraform-google-kubernetes-engine?ref=filestore-csi-driver"
   project_id                 = var.gcp_project_id
   name                       = var.cluster_name
-  region                     = var.gcp_region
+  region                     = local.gcp_region
   network                    = google_compute_network.vpc_network.name
   subnetwork                 = google_compute_subnetwork.vpc_subnetwork.name
   ip_range_pods              = google_compute_subnetwork.vpc_subnetwork.secondary_ip_range[0].range_name
