@@ -34,11 +34,6 @@ resource "google_compute_subnetwork" "vpc_subnetwork" {
   ]
 }
 
-locals {
-  # required for backwards compatibility
-  gcp_region         = "${split("-", var.gcp_region)[0]}-${split("-", var.gcp_region)[1]}"
-}
-
 module "gke" {
   source                     = "github.com/pluralsh/terraform-google-kubernetes-engine?ref=filestore-csi-driver"
   project_id                 = var.gcp_project_id
