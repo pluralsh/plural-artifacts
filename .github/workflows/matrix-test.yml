@@ -21,20 +21,20 @@ jobs:
       id: generate-matrix
       # run: echo "::set-output name=matrix::{\"include\":[$(for changed_folder in $(dirname $(git diff --name-only ${{ github.event.before }}..${{ github.event.after }}) | sort -u); do find $changed_folder -name "*Dockerfile"; done | sed 's/^\|$/"/g'|paste -sd, -)]}"
       run: |
-          # if [ ${{ github.event_name }} != 'pull_request' ];
-          # then
-          #   CHANGED_DIRS=$(git diff-tree --no-commit-id --name-only -r ${{ github.event.pull_request.head.sha }} | xargs -I {} dirname {})
-          # else
-          #   CHANGED_DIRS=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | xargs -I {} dirname {})
-          # fi
-          # if [ -z "${CHANGED_DIRS}" ];
-          # then
-          CHANGED_DIRS=$(dirname $(git diff --name-only ${{ github.event.before }}..${{ github.event.after }}))
-          if [ "${CHANGED_DIRS}" == "." ];
+          if [ ${{ github.event_name }} != 'pull_request' ];
           then
-            CHANGED_DIRS=
+            CHANGED_DIRS=$(git diff --name-only ${{github.event.pull_request.base.sha}}..${{ github.event.pull_request.head.sha }} | xargs -I {} dirname {})
+          else
+            CHANGED_DIRS=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | xargs -I {} dirname {})
           fi
-          # fi
+          if [ -z "${CHANGED_DIRS}" ];
+          then
+            CHANGED_DIRS=$(dirname $(git diff --name-only ${{ github.event.before }}..${{ github.event.after }}))
+            if [ "${CHANGED_DIRS}" == "." ];
+            then
+              CHANGED_DIRS=
+            fi
+          fi
           echo "${CHANGED_DIRS}"
           APPS_FOLDERS=$(for CHANGED_DIR in ${CHANGED_DIRS}; do echo ${CHANGED_DIR} | awk -F "/" '{print $1}'; done | sort -u)
           echo "${APPS_FOLDERS}"
