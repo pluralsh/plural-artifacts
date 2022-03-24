@@ -39,23 +39,31 @@ jobs:
           APPS=$(for CHANGED_DIR in ${CHANGED_DIRS}; do find ${CHANGED_DIR} -name "Pluralfile"; done | sort -u)
           echo "${APPS}"
           DOCKERFILES=$(for CHANGED_DIR in ${CHANGED_DIRS}; do find ${CHANGED_DIR} -name "*Dockerfile"; done | sort -u)
-          echo "${DOCKERFILES}"
+          # echo "${DOCKERFILES}"
           MATRIX_PROJECTS_JSON="["
           MATRIX_INCLUDE_JSON="["
-          for DOCKERFILE in ${DOCKERFILES}; do
-              DIR=$(dirname ${DOCKERFILE})
-              if [[ "$(basename ${DOCKERFILE})" == *"cuda"* ]]
-              then 
-                MATRIX_PROJECTS_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${DIR}"-cuda)
-                PROJECT="${DIR}"-cuda
-              else
-                MATRIX_PROJECTS_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${DIR}")
-                PROJECT="${DIR}"
-              fi
+          for APP in ${APPS}; do
+              DIR=${APP}
+              MATRIX_PROJECTS_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${DIR}")
+              PROJECT="${DIR}"
               echo "{$MATRIX_PROJECTS_JSON}"
               MATRIX_INCLUDE_JSON+="{\"path\": \"${DIR}\", \"project\": \"${PROJECT}\", \"dockerfile\": \"${DOCKERFILE}\", \"version\": \"${RELEASE}\"}"
               echo "${MATRIC_INCLUDE_JSON}"
           done
+          # for DOCKERFILE in ${DOCKERFILES}; do
+          #     DIR=$(dirname ${DOCKERFILE})
+          #     if [[ "$(basename ${DOCKERFILE})" == *"cuda"* ]]
+          #     then 
+          #       MATRIX_PROJECTS_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${DIR}"-cuda)
+          #       PROJECT="${DIR}"-cuda
+          #     else
+          #       MATRIX_PROJECTS_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${DIR}")
+          #       PROJECT="${DIR}"
+          #     fi
+          #     echo "{$MATRIX_PROJECTS_JSON}"
+          #     MATRIX_INCLUDE_JSON+="{\"path\": \"${DIR}\", \"project\": \"${PROJECT}\", \"dockerfile\": \"${DOCKERFILE}\", \"version\": \"${RELEASE}\"}"
+          #     echo "${MATRIC_INCLUDE_JSON}"
+          # done
           echo "{$MATRIX_PROJECTS_JSON}"
           echo "${MATRIC_INCLUDE_JSON}"
           MATRIX_INCLUDE_JSON="${MATRIX_INCLUDE_JSON//\}\{/\}, \{}"
