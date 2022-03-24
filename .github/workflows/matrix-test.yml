@@ -35,7 +35,7 @@ jobs:
             fi
           fi
           echo "${CHANGED_DIRS}"
-          APPS=$(for CHANGED_DIR in ${CHANGED_DIRS}; do find ${CHANGED_DIR} -name "repository.yaml"; done | sort -u)
+          APPS=$(for CHANGED_DIR in ${CHANGED_DIRS}; do find ${CHANGED_DIR} -name "Pluralfile"; done | sort -u)
           echo "${APPS}"
           DOCKERFILES=$(for CHANGED_DIR in ${CHANGED_DIRS}; do find ${CHANGED_DIR} -name "*Dockerfile"; done | sort -u)
           echo "${DOCKERFILES}"
