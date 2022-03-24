@@ -23,11 +23,13 @@ jobs:
       run: |
           if [ ${{ github.event_name }} == 'pull_request' ];
           then
+            echo "running because of PR"
             CHANGED_DIRS=$(git diff-tree --no-commit-id --name-only -r ${{ github.event.pull_request.head.sha }} | xargs -I {} dirname {})
           else
             CHANGED_DIRS=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | xargs -I {} dirname {})
           fi
           if [ -z "${CHANGED_DIRS}" ];
+          echo "initial search for changed dirs failed"
           then
             CHANGED_DIRS=$(dirname $(git diff --name-only ${{ github.event.before }}..${{ github.event.after }}))
             if [ "${CHANGED_DIRS}" == "." ];
