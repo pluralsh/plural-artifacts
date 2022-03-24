@@ -1,0 +1,78 @@
+name: matrix-test
+
+on:
+  push:
+    branches: [ main, ci-cleanup ]
+  pull_request:
+    branches:
+      - ci-cleanup
+jobs:
+  build-matrix:
+    name: Create Build Matrix
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      id: set-matrix
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0 # No shallow clone, we need all history
+    - name: generate matrix
+      id: generate-matrix
+      # run: echo "::set-output name=matrix::{\"include\":[$(for changed_folder in $(dirname $(git diff --name-only ${{ github.event.before }}..${{ github.event.after }}) | sort -u); do find $changed_folder -name "*Dockerfile"; done | sed 's/^\|$/"/g'|paste -sd, -)]}"
+      run: |
+          if [ ${{ github.event_name != 'pull_request' }} ];
+          then
+            CHANGED_DIRS=$(git diff-tree --no-commit-id --name-only -r ${{ github.event.pull_request.head.sha }} | xargs -I {} dirname {})
+          else
+            CHANGED_DIRS=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | xargs -I {} dirname {})
+          fi
+          if [ -z "${CHANGED_DIRS}" ];
+          then
+            CHANGED_DIRS=$(dirname $(git diff --name-only ${{ github.event.before }}..${{ github.event.after }}))
+            if [ "${CHANGED_DIRS}" == "." ];
+            then
+              CHANGED_DIRS=
+            fi
+          fi
+          echo "${CHANGED_DIRS}"
+          APPS=$(for CHANGED_DIR in ${CHANGED_DIRS}; do find ${CHANGED_DIR} -name "repository.yaml"; done | sort -u)
+          echo "${APPS}"
+          DOCKERFILES=$(for CHANGED_DIR in ${CHANGED_DIRS}; do find ${CHANGED_DIR} -name "*Dockerfile"; done | sort -u)
+          echo "${DOCKERFILES}"
+          MATRIX_PROJECTS_JSON="["
+          MATRIX_INCLUDE_JSON="["
+          for DOCKERFILE in ${DOCKERFILES}; do
+              DIR=$(dirname ${DOCKERFILE})
+              if [[ "$(basename ${DOCKERFILE})" == *"cuda"* ]]
+              then 
+                MATRIX_PROJECTS_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${DIR}"-cuda)
+                PROJECT="${DIR}"-cuda
+              else
+                MATRIX_PROJECTS_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${DIR}")
+                PROJECT="${DIR}"
+              fi
+              echo "{$MATRIX_PROJECTS_JSON}"
+              MATRIX_INCLUDE_JSON+="{\"path\": \"${DIR}\", \"project\": \"${PROJECT}\", \"dockerfile\": \"${DOCKERFILE}\", \"version\": \"${RELEASE}\"}"
+              echo "${MATRIC_INCLUDE_JSON}"
+          done
+          echo "{$MATRIX_PROJECTS_JSON}"
+          echo "${MATRIC_INCLUDE_JSON}"
+          MATRIX_INCLUDE_JSON="${MATRIX_INCLUDE_JSON//\}\{/\}, \{}"
+          MATRIX_INCLUDE_JSON+="]"
+          MATRIX_PROJECTS_JSON="${MATRIX_PROJECTS_JSON//\"\"/\", \"}"
+          MATRIX_PROJECTS_JSON+="]"
+          MATRIX_JSON="{\"include\": ${MATRIX_INCLUDE_JSON}}"
+          echo "${MATRIX_JSON}"
+          
+          CONTINUE_DOCKER_JOB="no"
+          if [[ "${MATRIX_PROJECTS_JSON}" != "[]" ]]; then
+            CONTINUE_DOCKER_JOB="yes"
+          fi
+
+          echo "${CONTINUE_DOCKER_JOB}"
+
+          echo "::set-output name=continue::${CONTINUE_DOCKER_JOB}"
+          echo "::set-output name=matrix::${MATRIX_JSON}"
+    outputs:
+      matrix: ${{ steps.generate-matrix.outputs.matrix }}
+      continue: ${{ steps.generate-matrix.outputs.continue }}
