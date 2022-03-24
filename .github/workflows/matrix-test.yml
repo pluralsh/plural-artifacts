@@ -38,19 +38,21 @@ jobs:
             fi
           fi
           echo "${CHANGED_DIRS}"
-          APPS_FOLDERS=$(for CHANGED_DIR in ${CHANGED_DIRS}; do echo ${CHANGED_DIR} | awk -F "/" '{print $1}'; done | sort -u)
-          echo "${APPS_FOLDERS}"
+          APP_FOLDERS=$(for CHANGED_DIR in ${CHANGED_DIRS}; do echo ${CHANGED_DIR} | awk -F "/" '{print $1}'; done | sort -u)
+          echo "${APP_FOLDERS}"
           DOCKERFILES=$(for CHANGED_DIR in ${CHANGED_DIRS}; do find ${CHANGED_DIR} -name "*Dockerfile"; done | sort -u)
           # echo "${DOCKERFILES}"
           MATRIX_PROJECTS_JSON="["
           MATRIX_INCLUDE_JSON="["
-          for APP in ${APPS_FOLDERS}; do
-              DIR=${APP}
+          for APP_FOLDER in ${APP_FOLDERS}; do
+            if [[ "${APP_FOLDER}" != "." ]] || [[ "${APP_FOLDER}" != "."* ]] ; then
+              DIR=${APP_FOLDER}
               MATRIX_PROJECTS_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${DIR}")
               PROJECT="${DIR}"
               echo "{$MATRIX_PROJECTS_JSON}"
               MATRIX_INCLUDE_JSON+="{\"path\": \"${DIR}\", \"project\": \"${PROJECT}\", \"dockerfile\": \"${DOCKERFILE}\", \"version\": \"${RELEASE}\"}"
               echo "${MATRIC_INCLUDE_JSON}"
+            fi
           done
           # for DOCKERFILE in ${DOCKERFILES}; do
           #     DIR=$(dirname ${DOCKERFILE})
