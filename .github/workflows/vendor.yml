@@ -2,464 +2,393 @@ name: vendor
 
 on:
   push:
-    branches: [ main, ci-cleanup ]
-  pull_request:
-    branches:
-      - ci-cleanup
+    branches: [ main ]
 jobs:
-  build-matrix:
-    name: Create Build Matrix
+  vendor:
     runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      id: set-matrix
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 0 # No shallow clone, we need all history
-    - name: generate matrix
-      id: generate-matrix
-      # run: echo "::set-output name=matrix::{\"include\":[$(for changed_folder in $(dirname $(git diff --name-only ${{ github.event.before }}..${{ github.event.after }}) | sort -u); do find $changed_folder -name "*Dockerfile"; done | sed 's/^\|$/"/g'|paste -sd, -)]}"
-      run: |
-          if [ ${{ github.event_name != 'pull_request' }} ];
-          then
-            CHANGED_DIRS=$(git diff-tree --no-commit-id --name-only -r ${{ github.event.pull_request.head.sha }} | xargs -I {} dirname {})
-          else
-            CHANGED_DIRS=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | xargs -I {} dirname {})
-          fi
-          if [ -z "${CHANGED_DIRS}" ];
-          then
-            CHANGED_DIRS=$(dirname $(git diff --name-only ${{ github.event.before }}..${{ github.event.after }}))
-            if [ "${CHANGED_DIRS}" == "." ];
-            then
-              CHANGED_DIRS=
-            fi
-          fi
-          echo "${CHANGED_DIRS}"
-          APPS=$(for CHANGED_DIR in ${CHANGED_DIRS}; do find ${CHANGED_DIR} -name "repository.yaml"; done | sort -u)
-          echo "${APPS}"
-          DOCKERFILES=$(for CHANGED_DIR in ${CHANGED_DIRS}; do find ${CHANGED_DIR} -name "*Dockerfile"; done | sort -u)
-          echo "${DOCKERFILES}"
-          MATRIX_PROJECTS_JSON="["
-          MATRIX_INCLUDE_JSON="["
-          for DOCKERFILE in ${DOCKERFILES}; do
-              DIR=$(dirname ${DOCKERFILE})
-              if [[ "$(basename ${DOCKERFILE})" == *"cuda"* ]]
-              then 
-                MATRIX_PROJECTS_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${DIR}"-cuda)
-                PROJECT="${DIR}"-cuda
-              else
-                MATRIX_PROJECTS_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${DIR}")
-                PROJECT="${DIR}"
-              fi
-              echo "{$MATRIX_PROJECTS_JSON}"
-              MATRIX_INCLUDE_JSON+="{\"path\": \"${DIR}\", \"project\": \"${PROJECT}\", \"dockerfile\": \"${DOCKERFILE}\", \"version\": \"${RELEASE}\"}"
-              echo "${MATRIC_INCLUDE_JSON}"
-          done
-          echo "{$MATRIX_PROJECTS_JSON}"
-          echo "${MATRIC_INCLUDE_JSON}"
-          MATRIX_INCLUDE_JSON="${MATRIX_INCLUDE_JSON//\}\{/\}, \{}"
-          MATRIX_INCLUDE_JSON+="]"
-          MATRIX_PROJECTS_JSON="${MATRIX_PROJECTS_JSON//\"\"/\", \"}"
-          MATRIX_PROJECTS_JSON+="]"
-          MATRIX_JSON="{\"include\": ${MATRIX_INCLUDE_JSON}}"
-          echo "${MATRIX_JSON}"
-          
-          CONTINUE_DOCKER_JOB="no"
-          if [[ "${MATRIX_PROJECTS_JSON}" != "[]" ]]; then
-            CONTINUE_DOCKER_JOB="yes"
-          fi
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    strategy:
+      matrix:
+        img:
+        # efs and ebs csi
+        - amazon/aws-efs-csi-driver:v1.3.6
+        - k8s.gcr.io/provider-aws/aws-ebs-csi-driver:v1.3.0
+        - k8s.gcr.io/sig-storage/livenessprobe:v2.2.0
+        - k8s.gcr.io/sig-storage/livenessprobe:v2.3.0
+        - k8s.gcr.io/sig-storage/livenessprobe:v2.4.0
+        - k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.1.0
+        - k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.2.0
+        - k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.3.0
+        - k8s.gcr.io/sig-storage/csi-provisioner:v2.1.1
+        - k8s.gcr.io/sig-storage/csi-provisioner:v2.1.2
+        - k8s.gcr.io/sig-storage/csi-provisioner:v2.2.2
+        - k8s.gcr.io/sig-storage/csi-provisioner:v3.0.0
+        - k8s.gcr.io/sig-storage/csi-attacher:v3.1.0
+        - k8s.gcr.io/sig-storage/csi-attacher:v3.2.1
+        - k8s.gcr.io/sig-storage/csi-attacher:v3.3.0
+        - k8s.gcr.io/sig-storage/csi-snapshotter:v3.0.3
+        - k8s.gcr.io/sig-storage/csi-snapshotter:v4.0.0
+        - k8s.gcr.io/sig-storage/csi-snapshotter:v4.1.1
+        - k8s.gcr.io/sig-storage/csi-snapshotter:v4.2.1
+        - k8s.gcr.io/sig-storage/csi-resizer:v1.0.0
+        - k8s.gcr.io/sig-storage/csi-resizer:v1.0.1
+        - k8s.gcr.io/sig-storage/csi-resizer:v1.1.0
+        - k8s.gcr.io/sig-storage/csi-resizer:v1.2.0
+        - k8s.gcr.io/sig-storage/csi-resizer:v1.3.0
+        - k8s.gcr.io/sig-storage/snapshot-controller:v4.2.1
+        - k8s.gcr.io/sig-storage/snapshot-validation-webhook:v4.2.1
 
-          echo "${CONTINUE_DOCKER_JOB}"
+        # cni
+        - quay.io/tigera/operator:v1.23.4
+        - calico/ctl:v3.21.3
+        - calico/kube-controllers:v3.21.3
+        - calico/typha:v3.21.3
+        - calico/pod2daemon-flexvol:v3.21.3
+        - calico/node:v3.21.3
 
-          echo "::set-output name=continue::${CONTINUE_DOCKER_JOB}"
-          echo "::set-output name=matrix::${MATRIX_JSON}"
-    outputs:
-      matrix: ${{ steps.generate-matrix.outputs.matrix }}
-      continue: ${{ steps.generate-matrix.outputs.continue }}
-  # vendor:
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     contents: 'read'
-  #     id-token: 'write'
-  #   strategy:
-  #     matrix:
-  #       img:
-  #       # efs and ebs csi
-  #       - amazon/aws-efs-csi-driver:v1.3.6
-  #       - k8s.gcr.io/provider-aws/aws-ebs-csi-driver:v1.3.0
-  #       - k8s.gcr.io/sig-storage/livenessprobe:v2.2.0
-  #       - k8s.gcr.io/sig-storage/livenessprobe:v2.3.0
-  #       - k8s.gcr.io/sig-storage/livenessprobe:v2.4.0
-  #       - k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.1.0
-  #       - k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.2.0
-  #       - k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.3.0
-  #       - k8s.gcr.io/sig-storage/csi-provisioner:v2.1.1
-  #       - k8s.gcr.io/sig-storage/csi-provisioner:v2.1.2
-  #       - k8s.gcr.io/sig-storage/csi-provisioner:v2.2.2
-  #       - k8s.gcr.io/sig-storage/csi-provisioner:v3.0.0
-  #       - k8s.gcr.io/sig-storage/csi-attacher:v3.1.0
-  #       - k8s.gcr.io/sig-storage/csi-attacher:v3.2.1
-  #       - k8s.gcr.io/sig-storage/csi-attacher:v3.3.0
-  #       - k8s.gcr.io/sig-storage/csi-snapshotter:v3.0.3
-  #       - k8s.gcr.io/sig-storage/csi-snapshotter:v4.0.0
-  #       - k8s.gcr.io/sig-storage/csi-snapshotter:v4.1.1
-  #       - k8s.gcr.io/sig-storage/csi-snapshotter:v4.2.1
-  #       - k8s.gcr.io/sig-storage/csi-resizer:v1.0.0
-  #       - k8s.gcr.io/sig-storage/csi-resizer:v1.0.1
-  #       - k8s.gcr.io/sig-storage/csi-resizer:v1.1.0
-  #       - k8s.gcr.io/sig-storage/csi-resizer:v1.2.0
-  #       - k8s.gcr.io/sig-storage/csi-resizer:v1.3.0
-  #       - k8s.gcr.io/sig-storage/snapshot-controller:v4.2.1
-  #       - k8s.gcr.io/sig-storage/snapshot-validation-webhook:v4.2.1
+        # misc
+        - kiwigrid/k8s-sidecar:1.1.0
+        - bitnami/postgresql:11.7.0-debian-10-r9
+        - influxdb:1.8
+        - postgres:13.5
+        - rabbitmq:3-management
+        - bitnami/redis-exporter:1.12.1-debian-10-r11
+        - docker:20.10.7-dind
+        - busybox:latest
+        - otel/opentelemetry-collector:0.33.0
+        - curlimages/curl:7.73.0
 
-  #       # cni
-  #       - quay.io/tigera/operator:v1.23.4
-  #       - calico/ctl:v3.21.3
-  #       - calico/kube-controllers:v3.21.3
-  #       - calico/typha:v3.21.3
-  #       - calico/pod2daemon-flexvol:v3.21.3
-  #       - calico/node:v3.21.3
-
-  #       # misc
-  #       - kiwigrid/k8s-sidecar:1.1.0
-  #       - bitnami/postgresql:11.7.0-debian-10-r9
-  #       - influxdb:1.8
-  #       - postgres:13.5
-  #       - rabbitmq:3-management
-  #       - bitnami/redis-exporter:1.12.1-debian-10-r11
-  #       - docker:20.10.7-dind
-  #       - busybox:latest
-  #       - otel/opentelemetry-collector:0.33.0
-  #       - curlimages/curl:7.73.0
-
-  #       # kafka
-  #       - bitnami/kafka:2.6.0-debian-10-r78
-  #       - bitnami/zookeeper:3.6.2-debian-10-r58
+        # kafka
+        - bitnami/kafka:2.6.0-debian-10-r78
+        - bitnami/zookeeper:3.6.2-debian-10-r58
         
-  #       # build
-  #       - golang:1.16-stretch
-  #       - golang:1.15
+        # build
+        - golang:1.16-stretch
+        - golang:1.15
 
-  #       # equinix/baremetal
-  #       - equinix/cloud-provider-equinix-metal:v3.2.2
-  #       - rancher/mirrored-pause:3.4.1
-  #       - rancher/hyperkube:v1.21.7-rancher1
-  #       - rancher/rke-tools:v0.1.78
-  #       - rancher/mirrored-coreos-etcd:v3.4.16-rancher1
-  #       - rancher/mirrored-calico-node
-  #       - rancher/mirrored-calico-kube-controllers
+        # equinix/baremetal
+        - equinix/cloud-provider-equinix-metal:v3.2.2
+        - rancher/mirrored-pause:3.4.1
+        - rancher/hyperkube:v1.21.7-rancher1
+        - rancher/rke-tools:v0.1.78
+        - rancher/mirrored-coreos-etcd:v3.4.16-rancher1
+        - rancher/mirrored-calico-node
+        - rancher/mirrored-calico-kube-controllers
 
-  #       # filecoin
-  #       - filecoin/lotus-all-in-one:v1.13.2
+        # filecoin
+        - filecoin/lotus-all-in-one:v1.13.2
 
-  #       # airflow
-  #       - apache/airflow:2.1.4-python3.8
+        # airflow
+        - apache/airflow:2.1.4-python3.8
     
-  #       # misc
-  #       - nginx:1.21.6
-  #   steps:
-  #   - uses: actions/checkout@v2
-  #   - uses: google-github-actions/auth@v0
-  #     with:
-  #       workload_identity_provider: 'projects/${{ secrets.GOOGLE_PROJECT_ID }}/locations/global/workloadIdentityPools/github/providers/github'
-  #       service_account: 'terraform@pluralsh.iam.gserviceaccount.com'
-  #       token_format: 'access_token'
-  #       create_credentials_file: true
-  #   - uses: google-github-actions/setup-gcloud@v0.3.0
-  #   - name: Login to gcr
-  #     run: gcloud auth configure-docker -q
-  #   - name: Login to plural registry
-  #     uses: docker/login-action@v1
-  #     with:
-  #       registry: dkr.plural.sh
-  #       username: mjg@plural.sh
-  #       password: ${{ secrets.PLURAL_ACCESS_TOKEN }}
-  #   - name: "Vendor image"
-  #     uses: ./.github/actions/vendor
-  #     id: vendor
-  #     with:
-  #       img: ${{ matrix.img }}
-  # vendor-plural:
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     contents: 'read'
-  #     id-token: 'write'
-  #   strategy:
-  #     matrix:
-  #       img: 
-  #       # airbyte images
-  #       - image: airbyte/webapp:0.35.5-alpha
-  #         repo: airbyte
-  #       - image: airbyte/scheduler:0.35.5-alpha
-  #         repo: airbyte
-  #       - image: airbyte/server:0.35.5-alpha
-  #         repo: airbyte
-  #       - image: airbyte/worker:0.35.5-alpha
-  #         repo: airbyte
-  #       - image: airbyte/bootloader:0.35.5-alpha
-  #         repo: airbyte
-  #       - image: temporalio/auto-setup:1.7.0 
-  #         repo: airbyte
-  #       - image: temporalio/auto-setup:1.13.1 
-  #         repo: airbyte
-  #       - image: bitnami/kubectl:latest
-  #         repo: airbyte
+        # misc
+        - nginx:1.21.6
+    steps:
+    - uses: actions/checkout@v2
+    - uses: google-github-actions/auth@v0
+      with:
+        workload_identity_provider: 'projects/${{ secrets.GOOGLE_PROJECT_ID }}/locations/global/workloadIdentityPools/github/providers/github'
+        service_account: 'terraform@pluralsh.iam.gserviceaccount.com'
+        token_format: 'access_token'
+        create_credentials_file: true
+    - uses: google-github-actions/setup-gcloud@v0.3.0
+    - name: Login to gcr
+      run: gcloud auth configure-docker -q
+    - name: Login to plural registry
+      uses: docker/login-action@v1
+      with:
+        registry: dkr.plural.sh
+        username: mjg@plural.sh
+        password: ${{ secrets.PLURAL_ACCESS_TOKEN }}
+    - name: "Vendor image"
+      uses: ./.github/actions/vendor
+      id: vendor
+      with:
+        img: ${{ matrix.img }}
+  vendor-plural:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    strategy:
+      matrix:
+        img: 
+        # airbyte images
+        - image: airbyte/webapp:0.35.5-alpha
+          repo: airbyte
+        - image: airbyte/scheduler:0.35.5-alpha
+          repo: airbyte
+        - image: airbyte/server:0.35.5-alpha
+          repo: airbyte
+        - image: airbyte/worker:0.35.5-alpha
+          repo: airbyte
+        - image: airbyte/bootloader:0.35.5-alpha
+          repo: airbyte
+        - image: temporalio/auto-setup:1.7.0 
+          repo: airbyte
+        - image: temporalio/auto-setup:1.13.1 
+          repo: airbyte
+        - image: bitnami/kubectl:latest
+          repo: airbyte
         
-  #       # bootstrap images
-  #       - image: appscode/kubed:v0.13.0-beta.0
-  #         repo: bootstrap
-  #       - image: prom/statsd-exporter:v0.20.2
-  #         repo: bootstrap
-  #       - image: bitnami/metrics-server:0.4.4-debian-10-r0
-  #         repo: bootstrap
-  #       - image: calico/ctl:master
-  #         repo: bootstrap
+        # bootstrap images
+        - image: appscode/kubed:v0.13.0-beta.0
+          repo: bootstrap
+        - image: prom/statsd-exporter:v0.20.2
+          repo: bootstrap
+        - image: bitnami/metrics-server:0.4.4-debian-10-r0
+          repo: bootstrap
+        - image: calico/ctl:master
+          repo: bootstrap
         
-  #       # chatwoot images
-  #       - image: chatwoot/chatwoot:v2.0.0
-  #         repo: chatwoot
+        # chatwoot images
+        - image: chatwoot/chatwoot:v2.0.0
+          repo: chatwoot
 
-  #       # calico images
-  #       - image: quay.io/tigera/operator:v1.23.4
-  #         repo: bootstrap
-  #       - image: calico/kube-controllers:v3.21.3
-  #         repo: bootstrap
-  #       - image: calico/ctl:v3.21.3
-  #         repo: bootstrap
-  #       - image: calico/typha:v3.21.3
-  #         repo: bootstrap
-  #       - image: calico/pod2daemon-flexvol:v3.21.3
-  #         repo: bootstrap
-  #       - image: calico/node:v3.21.3
-  #         repo: bootstrap
+        # calico images
+        - image: quay.io/tigera/operator:v1.23.4
+          repo: bootstrap
+        - image: calico/kube-controllers:v3.21.3
+          repo: bootstrap
+        - image: calico/ctl:v3.21.3
+          repo: bootstrap
+        - image: calico/typha:v3.21.3
+          repo: bootstrap
+        - image: calico/pod2daemon-flexvol:v3.21.3
+          repo: bootstrap
+        - image: calico/node:v3.21.3
+          repo: bootstrap
 
-  #       # filecoin images
-  #       - image: filecoin/lotus-all-in-one:v1.13.2
-  #         repo: filecoin
+        # filecoin images
+        - image: filecoin/lotus-all-in-one:v1.13.2
+          repo: filecoin
 
-  #       # ghost images
-  #       - image: bitnami/ghost:4.11.0-debian-10-r0 
-  #         repo: ghost
-  #       - image: bitnami/ghost:4.12.1-debian-10-r0 
-  #         repo: ghost
-  #       - image: ghost:4-alpine 
-  #         repo: ghost
-  #       - image: ghost:4.16-alpine 
-  #         repo: ghost
+        # ghost images
+        - image: bitnami/ghost:4.11.0-debian-10-r0 
+          repo: ghost
+        - image: bitnami/ghost:4.12.1-debian-10-r0 
+          repo: ghost
+        - image: ghost:4-alpine 
+          repo: ghost
+        - image: ghost:4.16-alpine 
+          repo: ghost
 
-  #       # gitlab images
-  #       - image: gitlab/gitlab-runner:alpine-v14.0.0 
-  #         repo: gitlab
-  #       - image: gitlab/gitlab-runner:alpine-v14.1.0 
-  #         repo: gitlab
-  #       - image: gitlab/gitlab-runner:alpine-v14.2.0 
-  #         repo: gitlab
-  #       - image: gitlab/gitlab-runner:alpine-v14.3.0 
-  #         repo: gitlab
-  #       - image: gitlab/gitlab-runner:alpine-v14.4.0 
-  #         repo: gitlab
+        # gitlab images
+        - image: gitlab/gitlab-runner:alpine-v14.0.0 
+          repo: gitlab
+        - image: gitlab/gitlab-runner:alpine-v14.1.0 
+          repo: gitlab
+        - image: gitlab/gitlab-runner:alpine-v14.2.0 
+          repo: gitlab
+        - image: gitlab/gitlab-runner:alpine-v14.3.0 
+          repo: gitlab
+        - image: gitlab/gitlab-runner:alpine-v14.4.0 
+          repo: gitlab
         
-  #       # grafana images
-  #       - image: grafana/grafana:7.5.5 
-  #         repo: grafana
-  #       - image: grafana/grafana:8.0.3 
-  #         repo: grafana
-  #       - image: grafana/grafana:8.0.5 
-  #         repo: grafana
-  #       - image: grafana/grafana:8.1.5 
-  #         repo: grafana
-  #       - image: grafana/grafana:8.3.1 
-  #         repo: grafana
-  #       - image: grafana/grafana:8.3.2 
-  #         repo: grafana
+        # grafana images
+        - image: grafana/grafana:7.5.5 
+          repo: grafana
+        - image: grafana/grafana:8.0.3 
+          repo: grafana
+        - image: grafana/grafana:8.0.5 
+          repo: grafana
+        - image: grafana/grafana:8.1.5 
+          repo: grafana
+        - image: grafana/grafana:8.3.1 
+          repo: grafana
+        - image: grafana/grafana:8.3.2 
+          repo: grafana
         
-  #       # grafana-tempo images
-  #       - image: docker.io/grafana/tempo:1.1.0
-  #         repo: grafana-tempo
-  #       - image: docker.io/grafana/tempo-query:1.1.0
-  #         repo: grafana-tempo
+        # grafana-tempo images
+        - image: docker.io/grafana/tempo:1.1.0
+          repo: grafana-tempo
+        - image: docker.io/grafana/tempo-query:1.1.0
+          repo: grafana-tempo
 
-  #       # influxdb images
-  #       - image: chronograf:1.8.8
-  #         repo: influx
-  #       - image: influxdb:1.8.6-alpine
-  #         repo: influx
-  #       - image: kapacitor:1.5.9-alpine
-  #         repo: influx
-  #       - image: telegraf:1.19-alpine
-  #         repo: influx
-  #       - image: quay.io/influxdb/telegraf-operator:v1.3.0
-  #         repo: influx
+        # influxdb images
+        - image: chronograf:1.8.8
+          repo: influx
+        - image: influxdb:1.8.6-alpine
+          repo: influx
+        - image: kapacitor:1.5.9-alpine
+          repo: influx
+        - image: telegraf:1.19-alpine
+          repo: influx
+        - image: quay.io/influxdb/telegraf-operator:v1.3.0
+          repo: influx
 
-  #       # monitoring images
-  #       - image: grafana/promtail:1.6.0 
-  #         repo: monitoring
-  #       - image: grafana/promtail:2.2.1 
-  #         repo: monitoring
-  #       - image: grafana/promtail:2.4.2 
-  #         repo: monitoring
-  #       - image: grafana/loki:1.6.0 
-  #         repo: monitoring
-  #       - image: grafana/loki:2.2.1 
-  #         repo: monitoring
-  #       - image: grafana/loki:2.4.2
-  #         repo: monitoring
-  #       - image: otel/opentelemetry-collector:0.33.0
-  #         repo: monitoring
+        # monitoring images
+        - image: grafana/promtail:1.6.0 
+          repo: monitoring
+        - image: grafana/promtail:2.2.1 
+          repo: monitoring
+        - image: grafana/promtail:2.4.2 
+          repo: monitoring
+        - image: grafana/loki:1.6.0 
+          repo: monitoring
+        - image: grafana/loki:2.2.1 
+          repo: monitoring
+        - image: grafana/loki:2.4.2
+          repo: monitoring
+        - image: otel/opentelemetry-collector:0.33.0
+          repo: monitoring
         
-  #       # mysql images
-  #       - image: bitpoke/mysql-operator-sidecar-5.7:v0.6.1
-  #         repo: mysql
-  #       - image: bitpoke/mysql-operator-sidecar-8.0:v0.6.1
-  #         repo: mysql
-  #       - image: prom/mysqld-exporter:v0.13.0
-  #         repo: mysql
-  #       - image: bitpoke/mysql-operator:v0.6.1
-  #         repo: mysql
-  #       - image: bitpoke/mysql-operator-orchestrator:v0.6.1
-  #         repo: mysql
+        # mysql images
+        - image: bitpoke/mysql-operator-sidecar-5.7:v0.6.1
+          repo: mysql
+        - image: bitpoke/mysql-operator-sidecar-8.0:v0.6.1
+          repo: mysql
+        - image: prom/mysqld-exporter:v0.13.0
+          repo: mysql
+        - image: bitpoke/mysql-operator:v0.6.1
+          repo: mysql
+        - image: bitpoke/mysql-operator-orchestrator:v0.6.1
+          repo: mysql
         
-  #       # nocodb images
-  #       - image: nocodb/nocodb:0.83.8 
-  #         repo: nocodb
+        # nocodb images
+        - image: nocodb/nocodb:0.83.8 
+          repo: nocodb
         
-  #       # redis images
-  #       - image: bitnami/redis:6.0.9-debian-10-r0 
-  #         repo: redis
-  #       - image: bitnami/redis:6.2.1-debian-10-r0 
-  #         repo: redis
-  #       - image: bitnami/redis:6.2.4-debian-10-r0 
-  #         repo: redis
-  #       - image: bitnami/redis-exporter:1.24.0-debian-10-r17 
-  #         repo: redis
-  #       - image: bitnami/redis-exporter:1.24.0-debian-10-r11 
-  #         repo: redis
-  #       - image: bitnami/redis-sentinel-exporter:1.7.1-debian-10-r109 
-  #         repo: redis
+        # redis images
+        - image: bitnami/redis:6.0.9-debian-10-r0 
+          repo: redis
+        - image: bitnami/redis:6.2.1-debian-10-r0 
+          repo: redis
+        - image: bitnami/redis:6.2.4-debian-10-r0 
+          repo: redis
+        - image: bitnami/redis-exporter:1.24.0-debian-10-r17 
+          repo: redis
+        - image: bitnami/redis-exporter:1.24.0-debian-10-r11 
+          repo: redis
+        - image: bitnami/redis-sentinel-exporter:1.7.1-debian-10-r109 
+          repo: redis
         
-  #       # sentry images
-  #       - image: yandex/clickhouse-server:20.8.9.6 
-  #         repo: sentry
-  #       - image: getsentry/snuba:21.5.1 
-  #         repo: sentry
-  #       - image: getsentry/symbolicator:0.3.3 
-  #         repo: sentry
-  #       - image: getsentry/relay:21.5.1 
-  #         repo: sentry
-  #       - image: getsentry/sentry:21.5.1
-  #         repo: sentry
+        # sentry images
+        - image: yandex/clickhouse-server:20.8.9.6 
+          repo: sentry
+        - image: getsentry/snuba:21.5.1 
+          repo: sentry
+        - image: getsentry/symbolicator:0.3.3 
+          repo: sentry
+        - image: getsentry/relay:21.5.1 
+          repo: sentry
+        - image: getsentry/sentry:21.5.1
+          repo: sentry
         
-  #       # superset images
-  #       - image: apache/superset:master 
-  #         repo: superset
-  #       - image: apache/superset:3c41ff68a43b5ab6b871226a73de9f2129d64766 
-  #         repo: superset
+        # superset images
+        - image: apache/superset:master 
+          repo: superset
+        - image: apache/superset:3c41ff68a43b5ab6b871226a73de9f2129d64766 
+          repo: superset
 
-  #       # vaultwarden images
-  #       - image: vaultwarden/server:1.21.0
-  #         repo: vaultwarden
+        # vaultwarden images
+        - image: vaultwarden/server:1.21.0
+          repo: vaultwarden
 
-  #       # chatwoot images
-  #       - image: chatwoot/chatwoot:v2.0.0
-  #         repo: chatwoot
+        # chatwoot images
+        - image: chatwoot/chatwoot:v2.0.0
+          repo: chatwoot
 
-  #       # plural images
-  #       - image: oryd/hydra:v1.8.5
-  #         repo: plural
+        # plural images
+        - image: oryd/hydra:v1.8.5
+          repo: plural
 
-  #       # rancher images
-  #       - image: rancher/mirrored-pause:3.4.1
-  #         repo: bootstrap
-  #       - image: rancher/hyperkube:v1.21.7-rancher1
-  #         repo: bootstrap
-  #       - image: rancher/rke-tools:v0.1.78
-  #         repo: bootstrap
-  #       - image: rancher/mirrored-coreos-etcd:v3.4.16-rancher1
-  #         repo: bootstrap
-  #       - image: rancher/mirrored-calico-node
-  #         repo: bootstrap
-  #       - image: rancher/mirrored-calico-kube-controllers
-  #         repo: bootstrap
+        # rancher images
+        - image: rancher/mirrored-pause:3.4.1
+          repo: bootstrap
+        - image: rancher/hyperkube:v1.21.7-rancher1
+          repo: bootstrap
+        - image: rancher/rke-tools:v0.1.78
+          repo: bootstrap
+        - image: rancher/mirrored-coreos-etcd:v3.4.16-rancher1
+          repo: bootstrap
+        - image: rancher/mirrored-calico-node
+          repo: bootstrap
+        - image: rancher/mirrored-calico-kube-controllers
+          repo: bootstrap
         
-  #       # calendso
-  #       - image: calendso/calendso:latest
-  #         repo: calendso
+        # calendso
+        - image: calendso/calendso:latest
+          repo: calendso
         
-  #       # dagster
-  #       - image: dagster/dagster-celery-k8s:0.14.2
-  #         repo: dagster
+        # dagster
+        - image: dagster/dagster-celery-k8s:0.14.2
+          repo: dagster
 
-  #       # metabase
-  #       - image: metabase/metabase:v0.41.5
-  #         repo: metabase
+        # metabase
+        - image: metabase/metabase:v0.41.5
+          repo: metabase
 
-  #       # hydra
-  #       - image: oryd/hydra:v1.10.5
-  #         repo: hydra
+        # hydra
+        - image: oryd/hydra:v1.10.5
+          repo: hydra
         
-  #       # kratos
-  #       - image: oryd/kratos:v0.8.2-alpha.1
-  #         repo: kratos
+        # kratos
+        - image: oryd/kratos:v0.8.2-alpha.1
+          repo: kratos
 
-  #       # misc images
-  #       - image: bitnami/postgres-exporter:0.8.0-debian-10-r354 
-  #         repo: postgres
-  #       - image: rabbitmq:3.8.16-management 
-  #         repo: rabbitmq
-  #       - image: groundnuty/k8s-wait-for:v1.3 
-  #         repo: console
-  #       - image: bitnami/kubectl:1.21.7 
-  #         repo: bootstrap
-  #       - image: equinix/cloud-provider-equinix-metal:v3.2.2
-  #         repo: bootstrap
-  #       - image: nginx:1.21.6
-  #         repo: istio
-  #   steps:
-  #   - uses: actions/checkout@v2
-  #   - uses: google-github-actions/auth@v0
-  #     with:
-  #       workload_identity_provider: 'projects/${{ secrets.GOOGLE_PROJECT_ID }}/locations/global/workloadIdentityPools/github/providers/github'
-  #       service_account: 'terraform@pluralsh.iam.gserviceaccount.com'
-  #       token_format: 'access_token'
-  #       create_credentials_file: true
-  #   - uses: google-github-actions/setup-gcloud@v0.3.0
-  #   - name: Login to gcr
-  #     run: gcloud auth configure-docker -q
-  #   - name: Login to plural registry
-  #     uses: docker/login-action@v1
-  #     with:
-  #       registry: dkr.plural.sh
-  #       username: mjg@plural.sh
-  #       password: ${{ secrets.PLURAL_ACCESS_TOKEN }}
-  #   - name: "Vendor image"
-  #     uses: ./.github/actions/vendor
-  #     id: vendor
-  #     with:
-  #       img: ${{ matrix.img.image }}
-  #       repo: ${{ matrix.img.repo }}
-  # deploy:
-  #   runs-on: ubuntu-latest
-  #   needs:
-  #   - vendor-plural
-  #   - vendor
-  #   permissions:
-  #     contents: 'read'
-  #     id-token: 'write'
-  #   steps:
-  #   - uses: actions/checkout@v2
-  #   - uses: hashicorp/setup-terraform@v1
-  #   - uses: azure/setup-helm@v1
-  #     with:
-  #       version: latest
-  #   - name: installing plural
-  #     uses: pluralsh/setup-plural@v0.1.2
-  #     with: 
-  #       config: ${{ secrets.PLURAL_CONF }}
-  #   - run: make all
-  #   - uses: 8398a7/action-slack@v3
-  #     with:
-  #       status: ${{ job.status }}
-  #       fields: workflow,job,repo,message,commit,author
-  #     env:
-  #       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }} # required
-  #     if: always()
+        # misc images
+        - image: bitnami/postgres-exporter:0.8.0-debian-10-r354 
+          repo: postgres
+        - image: rabbitmq:3.8.16-management 
+          repo: rabbitmq
+        - image: groundnuty/k8s-wait-for:v1.3 
+          repo: console
+        - image: bitnami/kubectl:1.21.7 
+          repo: bootstrap
+        - image: equinix/cloud-provider-equinix-metal:v3.2.2
+          repo: bootstrap
+        - image: nginx:1.21.6
+          repo: istio
+    steps:
+    - uses: actions/checkout@v2
+    - uses: google-github-actions/auth@v0
+      with:
+        workload_identity_provider: 'projects/${{ secrets.GOOGLE_PROJECT_ID }}/locations/global/workloadIdentityPools/github/providers/github'
+        service_account: 'terraform@pluralsh.iam.gserviceaccount.com'
+        token_format: 'access_token'
+        create_credentials_file: true
+    - uses: google-github-actions/setup-gcloud@v0.3.0
+    - name: Login to gcr
+      run: gcloud auth configure-docker -q
+    - name: Login to plural registry
+      uses: docker/login-action@v1
+      with:
+        registry: dkr.plural.sh
+        username: mjg@plural.sh
+        password: ${{ secrets.PLURAL_ACCESS_TOKEN }}
+    - name: "Vendor image"
+      uses: ./.github/actions/vendor
+      id: vendor
+      with:
+        img: ${{ matrix.img.image }}
+        repo: ${{ matrix.img.repo }}
+  deploy:
+    runs-on: ubuntu-latest
+    needs:
+    - vendor-plural
+    - vendor
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    steps:
+    - uses: actions/checkout@v2
+    - uses: hashicorp/setup-terraform@v1
+    - uses: azure/setup-helm@v1
+      with:
+        version: latest
+    - name: installing plural
+      uses: pluralsh/setup-plural@v0.1.2
+      with: 
+        config: ${{ secrets.PLURAL_CONF }}
+    - run: make all
+    - uses: 8398a7/action-slack@v3
+      with:
+        status: ${{ job.status }}
+        fields: workflow,job,repo,message,commit,author
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }} # required
+      if: always()
+        
