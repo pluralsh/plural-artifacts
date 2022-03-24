@@ -36,13 +36,13 @@ jobs:
             fi
           fi
           echo "${CHANGED_DIRS}"
-          APPS=$(for CHANGED_DIR in ${CHANGED_DIRS}; do find ${CHANGED_DIR} -name "Pluralfile"; done | sort -u)
-          echo "${APPS}"
+          APPS_FOLDERS=$(for CHANGED_DIR in ${CHANGED_DIRS}; do echo ${CHANGED_DIR} | awk -F "/" '{print $1}'; done | sort -u)
+          echo "${APPS_FOLDERS}"
           DOCKERFILES=$(for CHANGED_DIR in ${CHANGED_DIRS}; do find ${CHANGED_DIR} -name "*Dockerfile"; done | sort -u)
           # echo "${DOCKERFILES}"
           MATRIX_PROJECTS_JSON="["
           MATRIX_INCLUDE_JSON="["
-          for APP in ${APPS}; do
+          for APP in ${APPS_FOLDERS}; do
               DIR=${APP}
               MATRIX_PROJECTS_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${DIR}")
               PROJECT="${DIR}"
