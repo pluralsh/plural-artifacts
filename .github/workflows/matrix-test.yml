@@ -45,7 +45,7 @@ jobs:
           MATRIX_PROJECTS_JSON="["
           MATRIX_INCLUDE_JSON="["
           for APP_FOLDER in ${APP_FOLDERS}; do
-            if [[ "${APP_FOLDER}" != "." ]] || [[ "${APP_FOLDER}" != "."* ]] ; then
+            if [[ "${APP_FOLDER}" != "."* ]]; then
               DIR=${APP_FOLDER}
               MATRIX_PROJECTS_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${DIR}")
               PROJECT="${DIR}"
