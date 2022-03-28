@@ -4,6 +4,12 @@ variable "cluster_name" {
   default     = "kind"
 }
 
+variable "namespace" {
+  type        = string
+  description = "The kubernetes namespace for the bootstrap deployment"
+  default     = "bootstrap"
+}
+
 variable "kubernetes_version" {
   type        = string
   description = "Kubernetes version to use"
