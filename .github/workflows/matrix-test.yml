@@ -101,7 +101,8 @@ jobs:
           echo "${VENDOR_MATRIX_JSON}"
           
           CONTINUE_VENDOR_JOB="no"
-          if [[ "${VENDOR_MATRIX_PROJECTS_JSON}" != "[]" ]]; then
+          if [[ "${VENDOR_MATRIX_PROJECTS_JSON}" != "[]" && ${{ github.event_name }} != 'pull_request' ]]
+          then
             CONTINUE_VENDOR_JOB="yes"
           fi
 
