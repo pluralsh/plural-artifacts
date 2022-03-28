@@ -39,8 +39,10 @@ private:
         pathType: ImplementationSpecific
 {{ end }}
 
+{{ $minioNamespace := namespace "minio" }}
+
 airbyte:
-{{ if or (eq .Provider "google") (eq .Provider "azure") }}
+{{ if or (eq .Provider "google") (eq .Provider "azure") (eq .Provider "kind") }}
   airbyteS3Bucket: {{ .Values.airbyteBucket }}
   minio:
     accessKey:
@@ -53,6 +55,9 @@ airbyte:
 {{ end }}
 {{ if eq .Provider "azure" }}
   airbyteS3Endpoint: https://{{ .Configuration.minio.hostname }}
+{{ end }}
+{{ if eq .Provider "kind" }}
+  airbyteS3Endpoint: http://minio.{{ $minioNamespace }}:9000
 {{ end }}
 {{ if eq .Provider "aws" }}
   airbyteS3Bucket: {{ .Values.airbyteBucket }}
@@ -75,6 +80,10 @@ airbyte:
     {{ end }}
     ingress:
       enabled: true
+      {{- if eq .Provider "kind" }}
+      annotations:
+        external-dns.alpha.kubernetes.io/target: "127.0.0.1"
+      {{- end }}
       tls:
       - hosts:
         - {{ .Values.hostname }}
