@@ -17,6 +17,8 @@ serviceAccount:
 
 provider: {{ .Provider }}
 
+{{ $minioNamespace := namespace "minio" }}
+
 configConfigMap:
   AWS_SDK_LOAD_CONFIG: "1"
   USE_WALG_BACKUP: "true"
@@ -32,7 +34,7 @@ configConfigMap:
   {{- end }}
   {{- if eq .Provider "kind" }}
   AWS_S3_FORCE_PATH_STYLE: "true"
-  AWS_ENDPOINT: {{ .Configuration.minio.hostname }}
+  AWS_ENDPOINT: http://minio.{{ $minioNamespace }}:9000
   {{- end }}
 
 {{ if or (eq .Provider "azure") (eq .Provider "equinix") (eq .Provider "kind") }}
