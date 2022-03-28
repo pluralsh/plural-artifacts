@@ -5,7 +5,7 @@ metadata:
   version: 0.1.0
 spec:
   dependencies:
-  - name: kind-k8s
+  - name: kind-bootstrap
     repo: bootstrap
     type: terraform
     version: '>= 0.1.0'
