@@ -9,6 +9,12 @@ ingress-nginx:
   {{- end }}
   controller:
     service:
+      {{- if eq .Provider "kind" }}
+      type: NodePort
+      nodePorts:
+        http: 30080
+        https: 3443
+      {{- end }}
       externalTrafficPolicy: Local
     {{- if eq .Provider "aws"}}
       annotations:

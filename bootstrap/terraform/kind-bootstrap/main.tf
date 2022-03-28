@@ -16,11 +16,11 @@ resource "kind_cluster" "cluster" {
           role = "worker"
 
           extra_port_mappings {
-              container_port = 80
+              container_port = 30080
               host_port      = 80
           }
           extra_port_mappings {
-              container_port = 443
+              container_port = 3443
               host_port      = 443
           }
       }
