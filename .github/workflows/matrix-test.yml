@@ -38,61 +38,68 @@ jobs:
             fi
           fi
           echo "${CHANGED_DIRS}"
+
+          ############################
+          ### Plural apply section ###
+          ############################
+
           APP_FOLDERS=$(for CHANGED_DIR in ${CHANGED_DIRS}; do echo ${CHANGED_DIR} | awk -F "/" '{print $1}'; done | sort -u)
           echo "${APP_FOLDERS}"
-          DOCKERFILES=$(for CHANGED_DIR in ${CHANGED_DIRS}; do find ${CHANGED_DIR} -name "*Dockerfile"; done | sort -u)
+          APP_APPLY_MATRIX_PROJECTS_JSON="["
+          APP_APPLY_MATRIX_INCLUDE_JSON="["
+
+          for APP_FOLDER in ${APP_FOLDERS}; do
+            if [[ "${APP_FOLDER}" != "."* ]]; then
+              REPO=${APP_FOLDER}
+              PLURALFILE=$(find ${REPO} -name "Pluralfile")
+              APP_APPLY_MATRIX_PROJECTS_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${REPO}")
+              echo "{$APP_APPLY_MATRIX_PROJECTS_JSON}"
+
+              APP_APPLY_MATRIX_INCLUDE_JSON+="{\"repository\": \"${REPO}\", \"pluralfile\": \"${PLURALFILE}\"}"
+              echo "${APP_APPLY_MATRIX_INCLUDE_JSON}"
+            fi
+          done
+
+          echo "{$APP_APPLY_MATRIX_PROJECTS_JSON}"
+          echo "${APP_APPLY_MATRIX_INCLUDE_JSON}"
+          APP_APPLY_MATRIX_INCLUDE_JSON="${APP_APPLY_MATRIX_INCLUDE_JSON//\}\{/\}, \{}"
+          APP_APPLY_MATRIX_INCLUDE_JSON+="]"
+          APP_APPLY_MATRIX_PROJECTS_JSON="${APP_APPLY_MATRIX_PROJECTS_JSON//\"\"/\", \"}"
+          APP_APPLY_MATRIX_PROJECTS_JSON+="]"
+          APP_APPLY_MATRIX_JSON="{\"include\": ${APP_APPLY_MATRIX_INCLUDE_JSON}}"
+          echo "${APP_APPLY_MATRIX_JSON}"
+          
+          CONTINUE_APP_APPLY_JOB="no"
+          if [[ "${APP_APPLY_MATRIX_PROJECTS_JSON}" != "[]" && ${{ github.event_name }} != 'pull_request' ]]
+          then
+            CONTINUE_APP_APPLY_JOB="yes"
+          fi
+
+          echo "${CONTINUE_APP_APPLY_JOB}"
+
+          ###############################
+          ### Image vendoring section ###
+          ###############################
+
           IMAGE_VENDOR_FILES=$(for CHANGED_DIR in ${CHANGED_DIRS}; do find ${CHANGED_DIR} -name "vendor_images"; done | sort -u)
-          echo "${DOCKERFILES}"
           echo "${IMAGE_VENDOR_FILES}"
           VENDOR_MATRIX_PROJECTS_JSON="["
           VENDOR_MATRIX_INCLUDE_JSON="["
 
           for IMAGE_VENDOR_FILE in ${IMAGE_VENDOR_FILES}; do
-              REPO=$(dirname ${IMAGE_VENDOR_FILE})
+            REPO=$(dirname ${IMAGE_VENDOR_FILE})
 
-              VENDOR_MATRIX_PROJECTS_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${REPO}")
-              echo "{$VENDOR_MATRIX_PROJECTS_JSON}"
+            VENDOR_MATRIX_PROJECTS_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${REPO}")
+            echo "{$VENDOR_MATRIX_PROJECTS_JSON}"
 
-              while IFS="" read -r IMAGE || [ -n "${IMAGE}" ]
-              do
-                VENDOR_MATRIX_INCLUDE_JSON+="{\"repository\": \"${REPO}\", \"image\": \"${IMAGE}\"}"
-                echo "${MATRIC_INCLUDE_JSON}"
-              done < ${IMAGE_VENDOR_FILE}
+            while IFS="" read -r IMAGE || [ -n "${IMAGE}" ]
+            do
+              VENDOR_MATRIX_INCLUDE_JSON+="{\"repository\": \"${REPO}\", \"image\": \"${IMAGE}\"}"
+              echo "${VENDOR_MATRIX_INCLUDE_JSON}"
+            done < ${IMAGE_VENDOR_FILE}
           done
-
-          # for CHANGED_DIR in ${CHANGED_DIRS}; do
-          #   if [[ "${CHANGED_DIR}" != "."* ]]; then
-          #     APP_FOLDER=$(echo ${CHANGED_DIR} | awk -F "/" '{print $1}')
-          #     TOOL=$(echo ${CHANGED_DIR} | awk -F "/" '{print $2}')
-          #   fi
-          # done
-
-          # for APP_FOLDER in ${APP_FOLDERS}; do
-          #   if [[ "${APP_FOLDER}" != "."* ]]; then
-          #     DIR=${APP_FOLDER}
-          #     VENDOR_MATRIX_PROJECTS_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${DIR}")
-          #     PROJECT="${DIR}"
-          #     echo "{$VENDOR_MATRIX_PROJECTS_JSON}"
-          #     VENDOR_MATRIX_INCLUDE_JSON+="{\"path\": \"${DIR}\", \"project\": \"${PROJECT}\", \"dockerfile\": \"${DOCKERFILE}\", \"version\": \"${RELEASE}\"}"
-          #     echo "${MATRIC_INCLUDE_JSON}"
-          #   fi
-          # done
-          # for DOCKERFILE in ${DOCKERFILES}; do
-          #     DIR=$(dirname ${DOCKERFILE})
-          #     if [[ "$(basename ${DOCKERFILE})" == *"cuda"* ]]
-          #     then 
-          #       VENDOR_MATRIX_PROJECTS_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${DIR}"-cuda)
-          #       PROJECT="${DIR}"-cuda
-          #     else
-          #       VENDOR_MATRIX_PROJECTS_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${DIR}")
-          #       PROJECT="${DIR}"
-          #     fi
-          #     echo "{$VENDOR_MATRIX_PROJECTS_JSON}"
-          #     VENDOR_MATRIX_INCLUDE_JSON+="{\"path\": \"${DIR}\", \"project\": \"${PROJECT}\", \"dockerfile\": \"${DOCKERFILE}\", \"version\": \"${RELEASE}\"}"
-          #     echo "${MATRIC_INCLUDE_JSON}"
-          # done
           echo "{$VENDOR_MATRIX_PROJECTS_JSON}"
-          echo "${MATRIC_INCLUDE_JSON}"
+          echo "${VENDOR_MATRIX_INCLUDE_JSON}"
           VENDOR_MATRIX_INCLUDE_JSON="${VENDOR_MATRIX_INCLUDE_JSON//\}\{/\}, \{}"
           VENDOR_MATRIX_INCLUDE_JSON+="]"
           VENDOR_MATRIX_PROJECTS_JSON="${VENDOR_MATRIX_PROJECTS_JSON//\"\"/\", \"}"
@@ -108,11 +115,19 @@ jobs:
 
           echo "${CONTINUE_VENDOR_JOB}"
 
+          ######################
+          ### Output section ###
+          ######################
+
           echo "::set-output name=continue_vendor::${CONTINUE_VENDOR_JOB}"
           echo "::set-output name=vendor_matrix::${VENDOR_MATRIX_JSON}"
+          echo "::set-output name=continue_app_apply::${CONTINUE_APP_APPLY_JOB}"
+          echo "::set-output name=app_apply_matrix::${APP_APPLY_MATRIX_JSON}"
     outputs:
       vendor_matrix: ${{ steps.generate-matrix.outputs.vendor_matrix }}
       continue_vendor: ${{ steps.generate-matrix.outputs.continue_vendor }}
+      app_apply_matrix: ${{ steps.generate-matrix.outputs.app_apply_matrix }}
+      continue_app_apply: ${{ steps.generate-matrix.outputs.continue_app_apply }}
   vendor-plural:
     if: needs.build-matrix.outputs.continue_vendor == 'yes'
     name: Vendor application images
