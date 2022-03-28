@@ -20,7 +20,7 @@ resource "kind_cluster" "cluster" {
               host_port      = 80
           }
           extra_port_mappings {
-              container_port = 3443
+              container_port = 30443
               host_port      = 443
           }
       }

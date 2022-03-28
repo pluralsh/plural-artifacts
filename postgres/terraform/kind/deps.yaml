@@ -1,0 +1,20 @@
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  description: postgres kind setup
+  version: 0.1.0
+spec:
+  dependencies:
+  - name: kind-k8s
+    repo: bootstrap
+    type: terraform
+    version: '>= 0.1.0'
+  - name: kind
+    repo: minio
+    type: terraform
+    version: '>= 0.1.0'
+  providers:
+  - kind
+  outputs:
+    access_key_id: access_key_id
+    secret_access_key: secret_access_key
