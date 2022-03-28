@@ -110,8 +110,8 @@ jobs:
           echo "::set-output name=continue_vendor::${CONTINUE_VENDOR_JOB}"
           echo "::set-output name=vendor_matrix::${VENDOR_MATRIX_JSON}"
     outputs:
-      matrix: ${{ steps.generate-matrix.outputs.vendor_matrix }}
-      continue: ${{ steps.generate-matrix.outputs.continue_vendor }}
+      vendor_matrix: ${{ steps.generate-matrix.outputs.vendor_matrix }}
+      continue_vendor: ${{ steps.generate-matrix.outputs.continue_vendor }}
   vendor-plural:
     if: needs.build-matrix.outputs.continue_vendor == 'yes'
     name: Vendor application images
