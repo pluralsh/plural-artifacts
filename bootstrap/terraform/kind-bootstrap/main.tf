@@ -1,5 +1,3 @@
-provider "kind" {}
-
 resource "kind_cluster" "cluster" {
     name            = var.cluster_name
     node_image      = "kindest/node:${var.kubernetes_version}"
@@ -12,10 +10,10 @@ resource "kind_cluster" "cluster" {
 
       node {
           role = "control-plane"
+      }
 
-          kubeadm_config_patches = [
-              "kind: InitConfiguration\nnodeRegistration:\n  kubeletExtraArgs:\n    node-labels: \"ingress-ready=true\"\n"
-          ]
+      node {
+          role = "worker"
 
           extra_port_mappings {
               container_port = 80
@@ -25,10 +23,6 @@ resource "kind_cluster" "cluster" {
               container_port = 443
               host_port      = 443
           }
-      }
-
-      node {
-          role = "worker"
       }
   }
 }
