@@ -1,0 +1,14 @@
+name: etcd-kind
+description: Installs etcd on an kind eks cluster
+provider: KIND
+dependencies:
+- repo: bootstrap
+  name: kind-k8s
+sections:
+- name: etcd
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: kind
+  - type: HELM
+    name: etcd
