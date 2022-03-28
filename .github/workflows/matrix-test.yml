@@ -41,9 +41,17 @@ jobs:
           APP_FOLDERS=$(for CHANGED_DIR in ${CHANGED_DIRS}; do echo ${CHANGED_DIR} | awk -F "/" '{print $1}'; done | sort -u)
           echo "${APP_FOLDERS}"
           DOCKERFILES=$(for CHANGED_DIR in ${CHANGED_DIRS}; do find ${CHANGED_DIR} -name "*Dockerfile"; done | sort -u)
-          # echo "${DOCKERFILES}"
+          echo "${DOCKERFILES}"
           MATRIX_PROJECTS_JSON="["
           MATRIX_INCLUDE_JSON="["
+
+          # for CHANGED_DIR in ${CHANGED_DIRS}; do
+          #   if [[ "${CHANGED_DIR}" != "."* ]]; then
+          #     APP_FOLDER=$(echo ${CHANGED_DIR} | awk -F "/" '{print $1}')
+          #     TOOL=$(echo ${CHANGED_DIR} | awk -F "/" '{print $2}')
+          #   fi
+          # done
+
           for APP_FOLDER in ${APP_FOLDERS}; do
             if [[ "${APP_FOLDER}" != "."* ]]; then
               DIR=${APP_FOLDER}
