@@ -47,39 +47,167 @@ variable "node_pools" {
   type = list
   default = [
     {
-      name               = "default-node-pool"
-      machine_type       = "n2d-standard-2"
+      name               = "small-burst-on-demand"
+      machine_type       = "e2-standard-2"
       min_count          = 1
-      max_count          = 5
-      disk_size_gb       = 100
+      max_count          = 9
+      disk_size_gb       = 50
       disk_type          = "pd-standard"
       image_type         = "COS_CONTAINERD"
+      spot               = false
       auto_repair        = true
       auto_upgrade       = true
       preemptible        = false
       initial_node_count = 1
       autoscaling        = true
     },
+    # {
+    #   name               = "small-burst-spot"
+    #   machine_type       = "e2-standard-2"
+    #   min_count          = 0
+    #   max_count          = 9
+    #   disk_size_gb       = 50
+    #   disk_type          = "pd-standard"
+    #   image_type         = "COS_CONTAINERD"
+    #   spot               = true
+    #   auto_repair        = true
+    #   auto_upgrade       = true
+    #   preemptible        = false
+    #   initial_node_count = 0
+    #   autoscaling        = true
+    # },
     {
-      name               = "default-node-pool-spot"
-      machine_type       = "n2d-standard-2"
+      name               = "medium-burst-on-demand"
+      machine_type       = "e2-standard-4"
       min_count          = 0
-      max_count          = 5
-      disk_size_gb       = 100
+      max_count          = 9
+      disk_size_gb       = 50
       disk_type          = "pd-standard"
       image_type         = "COS_CONTAINERD"
-      spot               = true
+      spot               = false
       auto_repair        = true
       auto_upgrade       = true
       preemptible        = false
-      initial_node_count = 1
+      initial_node_count = 0
       autoscaling        = true
     },
+    # {
+    #   name               = "medium-burst-spot"
+    #   machine_type       = "e2-standard-4"
+    #   min_count          = 0
+    #   max_count          = 9
+    #   disk_size_gb       = 50
+    #   disk_type          = "pd-standard"
+    #   image_type         = "COS_CONTAINERD"
+    #   spot               = true
+    #   auto_repair        = true
+    #   auto_upgrade       = true
+    #   preemptible        = false
+    #   initial_node_count = 0
+    #   autoscaling        = true
+    # },
+
+    {
+      name               = "large-burst-on-demand"
+      machine_type       = "e2-standard-8"
+      min_count          = 0
+      max_count          = 9
+      disk_size_gb       = 50
+      disk_type          = "pd-standard"
+      image_type         = "COS_CONTAINERD"
+      spot               = false
+      auto_repair        = true
+      auto_upgrade       = true
+      preemptible        = false
+      initial_node_count = 0
+      autoscaling        = true
+    },
+    # {
+    #   name               = "large-burst-spot"
+    #   machine_type       = "e2-standard-8"
+    #   min_count          = 0
+    #   max_count          = 9
+    #   disk_size_gb       = 50
+    #   disk_type          = "pd-standard"
+    #   image_type         = "COS_CONTAINERD"
+    #   spot               = true
+    #   auto_repair        = true
+    #   auto_upgrade       = true
+    #   preemptible        = false
+    #   initial_node_count = 0
+    #   autoscaling        = true
+    # },
   ]
 
   description = <<EOF
   The node pools for your cluster
 EOF
+}
+
+variable "node_pools_labels" {
+  type = map(map(string))
+  default = {
+
+    all = {}
+    "small-burst-on-demand" = {
+      "plural.sh/capacityType" = "ON_DEMAND"
+      "plural.sh/performanceType" = "BURST"
+      "plural.sh/scalingGroup" = "small-burst-on-demand"
+    }
+    # "small-burst-spot" = {
+    #   "plural.sh/capacityType" = "SPOT"
+    #   "plural.sh/performanceType" = "BURST"
+    #   "plural.sh/scalingGroup" = "small-burst-spot"
+    # }
+    medium-burst-on-demand = {
+      "plural.sh/capacityType" = "ON_DEMAND"
+      "plural.sh/performanceType" = "BURST"
+      "plural.sh/scalingGroup" = "medium-burst-on-demand"
+    }
+    # medium-burst-spot = {
+    #   "plural.sh/capacityType" = "SPOT"
+    #   "plural.sh/performanceType" = "BURST"
+    #   "plural.sh/scalingGroup" = "medium-burst-spot"
+    # }
+    large-burst-on-demand = {
+      "plural.sh/capacityType" = "ON_DEMAND"
+      "plural.sh/performanceType" = "BURST"
+      "plural.sh/scalingGroup" = "large-burst-on-demand"
+    }
+    # large-burst-spot = {
+    #   "plural.sh/capacityType" = "SPOT"
+    #   "plural.sh/performanceType" = "BURST"
+    #   "plural.sh/scalingGroup" = "large-burst-spot"
+    # }
+  }
+}
+
+variable "node_pools_taints" {
+  type = map(list(object({ key = string, value = string, effect = string })))
+  default = {
+    all = [],
+    # small-burst-spot = [
+    #   {
+    #     key    = "plural.sh/capacityType"
+    #     value  = "SPOT"
+    #     effect = "NO_SCHEDULE"
+    #   },
+    # ],
+    # meium-burst-spot = [
+    #   {
+    #     key    = "plural.sh/capacityType"
+    #     value  = "SPOT"
+    #     effect = "NO_SCHEDULE"
+    #   },
+    # ],
+    # large-burst-spot = [
+    #   {
+    #     key    = "plural.sh/capacityType"
+    #     value  = "SPOT"
+    #     effect = "NO_SCHEDULE"
+    #   },
+    # ]
+  }
 }
 
 variable "vpc_network_name" {
@@ -109,6 +237,11 @@ variable "vpc_subnetwork_name" {
 The name of the Google Compute Engine subnetwork in which the cluster's
 instances are launched.
 EOF
+}
+
+variable "k8s_version" {
+  type = string
+  default = "1.22.6-gke.300"
 }
 
 variable "vpc_subnetwork_cidr_range" {
