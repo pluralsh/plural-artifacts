@@ -241,7 +241,7 @@ EOF
 
 variable "k8s_version" {
   type = string
-  default = "1.22.6-gke.300"
+  default = "1.22.7-gke.900"
 }
 
 variable "vpc_subnetwork_cidr_range" {
