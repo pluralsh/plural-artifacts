@@ -48,12 +48,27 @@ variable "node_pools" {
   default = [
     {
       name               = "default-node-pool"
-      machine_type       = "n1-standard-2"
+      machine_type       = "n2d-standard-2"
       min_count          = 1
       max_count          = 5
       disk_size_gb       = 100
       disk_type          = "pd-standard"
-      image_type         = "COS"
+      image_type         = "COS_CONTAINERD"
+      auto_repair        = true
+      auto_upgrade       = true
+      preemptible        = false
+      initial_node_count = 1
+      autoscaling        = true
+    },
+    {
+      name               = "default-node-pool-spot"
+      machine_type       = "n2d-standard-2"
+      min_count          = 0
+      max_count          = 5
+      disk_size_gb       = 100
+      disk_type          = "pd-standard"
+      image_type         = "COS_CONTAINERD"
+      spot               = true
       auto_repair        = true
       auto_upgrade       = true
       preemptible        = false

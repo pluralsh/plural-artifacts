@@ -47,7 +47,9 @@ module "gke" {
   http_load_balancing        = true
   remove_default_node_pool   = true
   add_cluster_firewall_rules = true
-  network_policy             = true
+  network_policy             = false
+  datapath_provider          = "ADVANCED_DATAPATH"
+  kubernetes_version         = "1.22.6-gke.300"
   filestore_csi_driver       = true
 
   node_pools = var.node_pools
