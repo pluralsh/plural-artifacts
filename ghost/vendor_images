@@ -1,0 +1,4 @@
+bitnami/ghost:4.11.0-debian-10-r0
+bitnami/ghost:4.12.1-debian-10-r0
+ghost:4-alpine
+ghost:4.16-alpine
