@@ -43,19 +43,15 @@ jobs:
               REPO=${APP_FOLDER}
               PLURALFILE=$(find ${REPO} -name "Pluralfile")
               APP_APPLY_MATRIX_PROJECTS_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${REPO}")
-              echo "{$APP_APPLY_MATRIX_PROJECTS_JSON}"
-
               APP_APPLY_MATRIX_INCLUDE_JSON+="{\"repository\": \"${REPO}\", \"pluralfile\": \"${PLURALFILE}\"}"
-              echo "${APP_APPLY_MATRIX_INCLUDE_JSON}"
             fi
           done
 
-          echo "{$APP_APPLY_MATRIX_PROJECTS_JSON}"
-          echo "${APP_APPLY_MATRIX_INCLUDE_JSON}"
           APP_APPLY_MATRIX_INCLUDE_JSON="${APP_APPLY_MATRIX_INCLUDE_JSON//\}\{/\}, \{}"
           APP_APPLY_MATRIX_INCLUDE_JSON+="]"
           APP_APPLY_MATRIX_PROJECTS_JSON="${APP_APPLY_MATRIX_PROJECTS_JSON//\"\"/\", \"}"
           APP_APPLY_MATRIX_PROJECTS_JSON+="]"
+          echo "{$APP_APPLY_MATRIX_PROJECTS_JSON}"
           APP_APPLY_MATRIX_JSON="{\"include\": ${APP_APPLY_MATRIX_INCLUDE_JSON}}"
           echo "${APP_APPLY_MATRIX_JSON}"
           
@@ -78,22 +74,19 @@ jobs:
 
           for IMAGE_VENDOR_FILE in ${IMAGE_VENDOR_FILES}; do
             REPO=$(dirname ${IMAGE_VENDOR_FILE})
-
             VENDOR_MATRIX_PROJECTS_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${REPO}")
-            echo "{$VENDOR_MATRIX_PROJECTS_JSON}"
 
             while IFS="" read -r IMAGE || [ -n "${IMAGE}" ]
             do
               VENDOR_MATRIX_INCLUDE_JSON+="{\"repository\": \"${REPO}\", \"image\": \"${IMAGE}\"}"
-              echo "${VENDOR_MATRIX_INCLUDE_JSON}"
             done < ${IMAGE_VENDOR_FILE}
           done
-          echo "{$VENDOR_MATRIX_PROJECTS_JSON}"
-          echo "${VENDOR_MATRIX_INCLUDE_JSON}"
+
           VENDOR_MATRIX_INCLUDE_JSON="${VENDOR_MATRIX_INCLUDE_JSON//\}\{/\}, \{}"
           VENDOR_MATRIX_INCLUDE_JSON+="]"
           VENDOR_MATRIX_PROJECTS_JSON="${VENDOR_MATRIX_PROJECTS_JSON//\"\"/\", \"}"
           VENDOR_MATRIX_PROJECTS_JSON+="]"
+          echo "{$VENDOR_MATRIX_PROJECTS_JSON}"
           VENDOR_MATRIX_JSON="{\"include\": ${VENDOR_MATRIX_INCLUDE_JSON}}"
           echo "${VENDOR_MATRIX_JSON}"
           
