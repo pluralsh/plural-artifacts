@@ -137,7 +137,7 @@ jobs:
       contents: 'read'
       id-token: 'write'
     strategy:
-     matrix: ${{ fromJson(needs.build-matrix.outputs.vendor_matrix) }}
+      matrix: ${{ fromJson(needs.build-matrix.outputs.vendor_matrix) }}
     steps:
     - uses: actions/checkout@v2
     - uses: google-github-actions/auth@v0
@@ -161,3 +161,33 @@ jobs:
       with:
         img: ${{ matrix.image }}
         repo: ${{ matrix.repository }}
+  deploy:
+    if: needs.build-matrix.outputs.continue_app_apply == 'yes'
+    name: Upload Plural artifacts
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.build-matrix.outputs.app_apply_matrix) }}
+    needs:
+    - build-matrix
+    - vendor-plural
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    steps:
+    - uses: actions/checkout@v2
+    - uses: hashicorp/setup-terraform@v1
+    - uses: azure/setup-helm@v1
+      with:
+        version: latest
+    - name: installing plural
+      uses: pluralsh/setup-plural@v0.1.2
+      with: 
+        config: ${{ secrets.PLURAL_CONF }}
+    - run: plural apply -f ${{ matrix.pluralfile }}
+    - uses: 8398a7/action-slack@v3
+      with:
+        status: ${{ job.status }}
+        fields: workflow,job,repo,message,commit,author
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }} # required
+      if: always()
