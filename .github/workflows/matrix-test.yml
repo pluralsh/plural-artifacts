@@ -29,7 +29,7 @@ jobs:
           if [ -z "${CHANGED_DIRS}" ];
           echo "initial search for changed dirs failed"
           then
-            CHANGED_DIRS=$(dirname $(git diff --name-only ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}))
+            CHANGED_DIRS=$(dirname $(git diff --name-only ${{ github.event.before }}..${{ github.event.after }}))
             if [ "${CHANGED_DIRS}" == "." ];
             then
               CHANGED_DIRS=
