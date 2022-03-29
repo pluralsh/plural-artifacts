@@ -4,6 +4,7 @@ metadata:
   description: Creates a GKE cluster and adds initial configuration
   version: 0.1.4
 spec:
+  breaking: true
   dependencies: []
   providers:
   - gcp
