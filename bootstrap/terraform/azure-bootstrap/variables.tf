@@ -7,6 +7,10 @@ variable "resource_group" {
   type = string
 }
 
+variable "k8s_version" {
+  type = string
+  default = "1.21.9"
+}
 
 variable "address_space" {
   type = string
