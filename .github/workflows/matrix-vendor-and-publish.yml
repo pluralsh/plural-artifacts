@@ -19,23 +19,15 @@ jobs:
     - name: generate matrix
       id: generate-matrix
       run: |
-          if [ ${{ github.event_name }} != 'pull_request' ];
+          if [ ${{ github.event_name }} == 'pull_request' ];
           then
-            CHANGED_DIRS=$(git diff-tree --no-commit-id --name-only -r ${{ github.event.pull_request.head.sha }} | xargs -I {} dirname {})
-          else
             echo "running because of PR"
-            CHANGED_DIRS=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | xargs -I {} dirname {})
+            CHANGED_DIRS=$(git diff --name-only ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }} | xargs -I {} dirname {})
+            echo "${CHANGED_DIRS}"
+          else
+            CHANGED_DIRS=$(git diff --name-only ${{ github.event.before }}..${{ github.event.after }} | xargs -I {} dirname {})
+            echo "${CHANGED_DIRS}"
           fi
-          if [ -z "${CHANGED_DIRS}" ];
-          echo "initial search for changed dirs failed"
-          then
-            CHANGED_DIRS=$(dirname $(git diff --name-only ${{ github.event.before }}..${{ github.event.after }}))
-            if [ "${CHANGED_DIRS}" == "." ];
-            then
-              CHANGED_DIRS=
-            fi
-          fi
-          echo "${CHANGED_DIRS}"
 
           ############################
           ### Plural apply section ###
