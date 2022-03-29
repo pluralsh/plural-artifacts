@@ -49,7 +49,7 @@ module "gke" {
   add_cluster_firewall_rules = true
   network_policy             = var.network_policy_enabled
   datapath_provider          = var.datapath_provider
-  kubernetes_version         = var.k8s_version
+  kubernetes_version         = var.kubernetes_version
   filestore_csi_driver       = true
 
   node_pools = var.node_pools

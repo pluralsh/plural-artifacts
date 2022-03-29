@@ -239,7 +239,7 @@ instances are launched.
 EOF
 }
 
-variable "k8s_version" {
+variable "kubernetes_version" {
   type = string
   default = "1.22.7-gke.1300"
 }
