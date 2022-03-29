@@ -1,4 +1,4 @@
-name: matrix-test
+name: vendor-and-publish
 
 on:
   push:
@@ -6,7 +6,6 @@ on:
   pull_request:
     branches:
       - main
-      - ci-cleanup
 jobs:
   build-matrix:
     name: Create Build Matrix
@@ -19,7 +18,6 @@ jobs:
         fetch-depth: 0 # No shallow clone, we need all history
     - name: generate matrix
       id: generate-matrix
-      # run: echo "::set-output name=matrix::{\"include\":[$(for changed_folder in $(dirname $(git diff --name-only ${{ github.event.before }}..${{ github.event.after }}) | sort -u); do find $changed_folder -name "*Dockerfile"; done | sed 's/^\|$/"/g'|paste -sd, -)]}"
       run: |
           if [ ${{ github.event_name }} != 'pull_request' ];
           then
