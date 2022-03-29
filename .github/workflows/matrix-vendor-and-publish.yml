@@ -145,7 +145,7 @@ jobs:
         img: ${{ matrix.image }}
         repo: ${{ matrix.repository }}
   deploy:
-    if: needs.build-matrix.outputs.continue_app_apply == 'yes'
+    if: always() && (needs.build-matrix.outputs.continue_app_apply == 'yes')
     name: Upload Plural artifacts
     runs-on: ubuntu-latest
     strategy:
