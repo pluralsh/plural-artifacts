@@ -7,7 +7,7 @@ variable "resource_group" {
   type = string
 }
 
-variable "k8s_version" {
+variable "kubernetes_version" {
   type = string
   default = "1.21.9"
 }
