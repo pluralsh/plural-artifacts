@@ -1,11 +1,11 @@
-name: matrix-test
+name: vendor-and-publish
 
 on:
   push:
     branches: [ main ]
   pull_request:
     branches:
-      - ci-cleanup
+      - main
 jobs:
   build-matrix:
     name: Create Build Matrix
@@ -18,15 +18,16 @@ jobs:
         fetch-depth: 0 # No shallow clone, we need all history
     - name: generate matrix
       id: generate-matrix
-      # run: echo "::set-output name=matrix::{\"include\":[$(for changed_folder in $(dirname $(git diff --name-only ${{ github.event.before }}..${{ github.event.after }}) | sort -u); do find $changed_folder -name "*Dockerfile"; done | sed 's/^\|$/"/g'|paste -sd, -)]}"
       run: |
           if [ ${{ github.event_name }} != 'pull_request' ];
           then
             CHANGED_DIRS=$(git diff-tree --no-commit-id --name-only -r ${{ github.event.pull_request.head.sha }} | xargs -I {} dirname {})
           else
+            echo "running because of PR"
             CHANGED_DIRS=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | xargs -I {} dirname {})
           fi
           if [ -z "${CHANGED_DIRS}" ];
+          echo "initial search for changed dirs failed"
           then
             CHANGED_DIRS=$(dirname $(git diff --name-only ${{ github.event.before }}..${{ github.event.after }}))
             if [ "${CHANGED_DIRS}" == "." ];
@@ -35,44 +36,156 @@ jobs:
             fi
           fi
           echo "${CHANGED_DIRS}"
-          APPS=$(for CHANGED_DIR in ${CHANGED_DIRS}; do find ${CHANGED_DIR} -name "repository.yaml"; done | sort -u)
-          echo "${APPS}"
-          DOCKERFILES=$(for CHANGED_DIR in ${CHANGED_DIRS}; do find ${CHANGED_DIR} -name "*Dockerfile"; done | sort -u)
-          echo "${DOCKERFILES}"
-          MATRIX_PROJECTS_JSON="["
-          MATRIX_INCLUDE_JSON="["
-          for DOCKERFILE in ${DOCKERFILES}; do
-              DIR=$(dirname ${DOCKERFILE})
-              if [[ "$(basename ${DOCKERFILE})" == *"cuda"* ]]
-              then 
-                MATRIX_PROJECTS_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${DIR}"-cuda)
-                PROJECT="${DIR}"-cuda
-              else
-                MATRIX_PROJECTS_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${DIR}")
-                PROJECT="${DIR}"
-              fi
-              echo "{$MATRIX_PROJECTS_JSON}"
-              MATRIX_INCLUDE_JSON+="{\"path\": \"${DIR}\", \"project\": \"${PROJECT}\", \"dockerfile\": \"${DOCKERFILE}\", \"version\": \"${RELEASE}\"}"
-              echo "${MATRIC_INCLUDE_JSON}"
+
+          ############################
+          ### Plural apply section ###
+          ############################
+
+          APP_FOLDERS=$(for CHANGED_DIR in ${CHANGED_DIRS}; do echo ${CHANGED_DIR} | awk -F "/" '{print $1}'; done | sort -u)
+          echo "${APP_FOLDERS}"
+          APP_APPLY_MATRIX_PROJECTS_JSON="["
+          APP_APPLY_MATRIX_INCLUDE_JSON="["
+
+          for APP_FOLDER in ${APP_FOLDERS}; do
+            if [[ "${APP_FOLDER}" != "."* ]]; then
+              REPO=${APP_FOLDER}
+              PLURALFILE=$(find ${REPO} -name "Pluralfile")
+              APP_APPLY_MATRIX_PROJECTS_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${REPO}")
+              echo "{$APP_APPLY_MATRIX_PROJECTS_JSON}"
+
+              APP_APPLY_MATRIX_INCLUDE_JSON+="{\"repository\": \"${REPO}\", \"pluralfile\": \"${PLURALFILE}\"}"
+              echo "${APP_APPLY_MATRIX_INCLUDE_JSON}"
+            fi
           done
-          echo "{$MATRIX_PROJECTS_JSON}"
-          echo "${MATRIC_INCLUDE_JSON}"
-          MATRIX_INCLUDE_JSON="${MATRIX_INCLUDE_JSON//\}\{/\}, \{}"
-          MATRIX_INCLUDE_JSON+="]"
-          MATRIX_PROJECTS_JSON="${MATRIX_PROJECTS_JSON//\"\"/\", \"}"
-          MATRIX_PROJECTS_JSON+="]"
-          MATRIX_JSON="{\"include\": ${MATRIX_INCLUDE_JSON}}"
-          echo "${MATRIX_JSON}"
+
+          echo "{$APP_APPLY_MATRIX_PROJECTS_JSON}"
+          echo "${APP_APPLY_MATRIX_INCLUDE_JSON}"
+          APP_APPLY_MATRIX_INCLUDE_JSON="${APP_APPLY_MATRIX_INCLUDE_JSON//\}\{/\}, \{}"
+          APP_APPLY_MATRIX_INCLUDE_JSON+="]"
+          APP_APPLY_MATRIX_PROJECTS_JSON="${APP_APPLY_MATRIX_PROJECTS_JSON//\"\"/\", \"}"
+          APP_APPLY_MATRIX_PROJECTS_JSON+="]"
+          APP_APPLY_MATRIX_JSON="{\"include\": ${APP_APPLY_MATRIX_INCLUDE_JSON}}"
+          echo "${APP_APPLY_MATRIX_JSON}"
           
-          CONTINUE_DOCKER_JOB="no"
-          if [[ "${MATRIX_PROJECTS_JSON}" != "[]" ]]; then
-            CONTINUE_DOCKER_JOB="yes"
+          CONTINUE_APP_APPLY_JOB="no"
+          if [[ "${APP_APPLY_MATRIX_PROJECTS_JSON}" != "[]" && ${{ github.event_name }} != 'pull_request' ]]
+          then
+            CONTINUE_APP_APPLY_JOB="yes"
           fi
 
-          echo "${CONTINUE_DOCKER_JOB}"
+          echo "${CONTINUE_APP_APPLY_JOB}"
 
-          echo "::set-output name=continue::${CONTINUE_DOCKER_JOB}"
-          echo "::set-output name=matrix::${MATRIX_JSON}"
+          ###############################
+          ### Image vendoring section ###
+          ###############################
+
+          IMAGE_VENDOR_FILES=$(for CHANGED_DIR in ${CHANGED_DIRS}; do find ${CHANGED_DIR} -name "vendor_images"; done | sort -u)
+          echo "${IMAGE_VENDOR_FILES}"
+          VENDOR_MATRIX_PROJECTS_JSON="["
+          VENDOR_MATRIX_INCLUDE_JSON="["
+
+          for IMAGE_VENDOR_FILE in ${IMAGE_VENDOR_FILES}; do
+            REPO=$(dirname ${IMAGE_VENDOR_FILE})
+
+            VENDOR_MATRIX_PROJECTS_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${REPO}")
+            echo "{$VENDOR_MATRIX_PROJECTS_JSON}"
+
+            while IFS="" read -r IMAGE || [ -n "${IMAGE}" ]
+            do
+              VENDOR_MATRIX_INCLUDE_JSON+="{\"repository\": \"${REPO}\", \"image\": \"${IMAGE}\"}"
+              echo "${VENDOR_MATRIX_INCLUDE_JSON}"
+            done < ${IMAGE_VENDOR_FILE}
+          done
+          echo "{$VENDOR_MATRIX_PROJECTS_JSON}"
+          echo "${VENDOR_MATRIX_INCLUDE_JSON}"
+          VENDOR_MATRIX_INCLUDE_JSON="${VENDOR_MATRIX_INCLUDE_JSON//\}\{/\}, \{}"
+          VENDOR_MATRIX_INCLUDE_JSON+="]"
+          VENDOR_MATRIX_PROJECTS_JSON="${VENDOR_MATRIX_PROJECTS_JSON//\"\"/\", \"}"
+          VENDOR_MATRIX_PROJECTS_JSON+="]"
+          VENDOR_MATRIX_JSON="{\"include\": ${VENDOR_MATRIX_INCLUDE_JSON}}"
+          echo "${VENDOR_MATRIX_JSON}"
+          
+          CONTINUE_VENDOR_JOB="no"
+          if [[ "${VENDOR_MATRIX_PROJECTS_JSON}" != "[]" && ${{ github.event_name }} != 'pull_request' ]]
+          then
+            CONTINUE_VENDOR_JOB="yes"
+          fi
+
+          echo "${CONTINUE_VENDOR_JOB}"
+
+          ######################
+          ### Output section ###
+          ######################
+
+          echo "::set-output name=continue_vendor::${CONTINUE_VENDOR_JOB}"
+          echo "::set-output name=vendor_matrix::${VENDOR_MATRIX_JSON}"
+          echo "::set-output name=continue_app_apply::${CONTINUE_APP_APPLY_JOB}"
+          echo "::set-output name=app_apply_matrix::${APP_APPLY_MATRIX_JSON}"
     outputs:
-      matrix: ${{ steps.generate-matrix.outputs.matrix }}
-      continue: ${{ steps.generate-matrix.outputs.continue }}
+      vendor_matrix: ${{ steps.generate-matrix.outputs.vendor_matrix }}
+      continue_vendor: ${{ steps.generate-matrix.outputs.continue_vendor }}
+      app_apply_matrix: ${{ steps.generate-matrix.outputs.app_apply_matrix }}
+      continue_app_apply: ${{ steps.generate-matrix.outputs.continue_app_apply }}
+  vendor-plural:
+    if: needs.build-matrix.outputs.continue_vendor == 'yes'
+    name: Vendor application images
+    needs: build-matrix
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    strategy:
+      matrix: ${{ fromJson(needs.build-matrix.outputs.vendor_matrix) }}
+    steps:
+    - uses: actions/checkout@v2
+    - uses: google-github-actions/auth@v0
+      with:
+        workload_identity_provider: 'projects/${{ secrets.GOOGLE_PROJECT_ID }}/locations/global/workloadIdentityPools/github/providers/github'
+        service_account: 'terraform@pluralsh.iam.gserviceaccount.com'
+        token_format: 'access_token'
+        create_credentials_file: true
+    - uses: google-github-actions/setup-gcloud@v0.3.0
+    - name: Login to gcr
+      run: gcloud auth configure-docker -q
+    - name: Login to plural registry
+      uses: docker/login-action@v1
+      with:
+        registry: dkr.plural.sh
+        username: mjg@plural.sh
+        password: ${{ secrets.PLURAL_ACCESS_TOKEN }}
+    - name: "Vendor image"
+      uses: ./.github/actions/vendor
+      id: vendor
+      with:
+        img: ${{ matrix.image }}
+        repo: ${{ matrix.repository }}
+  deploy:
+    if: needs.build-matrix.outputs.continue_app_apply == 'yes'
+    name: Upload Plural artifacts
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.build-matrix.outputs.app_apply_matrix) }}
+    needs:
+    - build-matrix
+    - vendor-plural
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    steps:
+    - uses: actions/checkout@v2
+    - uses: hashicorp/setup-terraform@v1
+    - uses: azure/setup-helm@v1
+      with:
+        version: latest
+    - name: installing plural
+      uses: pluralsh/setup-plural@v0.1.2
+      with: 
+        config: ${{ secrets.PLURAL_CONF }}
+    - run: plural apply -f ${{ matrix.pluralfile }}
+    - uses: 8398a7/action-slack@v3
+      with:
+        status: ${{ job.status }}
+        fields: workflow,job,repo,message,commit,author
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }} # required
+      if: always()
