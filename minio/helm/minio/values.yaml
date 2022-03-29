@@ -12,7 +12,7 @@ minio:
 
   mcImage:
     repository: quay.io/minio/mc
-    tag: RELEASE.2021-12-29T06-52-55Z
+    tag: RELEASE.2022-03-17T20-25-06Z
     pullPolicy: IfNotPresent
 
   mode: gateway
