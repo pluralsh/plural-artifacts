@@ -306,3 +306,15 @@ variable "firewall_inbound_ports" {
   description = "List of TCP ports for admission/webhook controllers"
   default     = ["8443", "9443", "15017"]
 }
+
+variable "network_policy_enabled" {
+  type = bool
+  default = false
+  description = "Enable network policy addon. Cannot be used with ADVANCED_DATAPATH."
+}
+
+variable "datapath_provider" {
+  type        = string
+  description = "The desired datapath provider for this cluster. By default, `DATAPATH_PROVIDER_UNSPECIFIED` enables the IPTables-based kube-proxy implementation. `ADVANCED_DATAPATH` enables Dataplane-V2 feature."
+  default     = "ADVANCED_DATAPATH"
+}
