@@ -7,12 +7,12 @@ storageClass: ""
 minio:
   image:
     repository: quay.io/minio/minio
-    tag: RELEASE.2022-01-08T03-11-54Z
+    tag: RELEASE.2022-03-26T06-49-28Z
     pullPolicy: IfNotPresent
 
   mcImage:
     repository: quay.io/minio/mc
-    tag: RELEASE.2021-12-29T06-52-55Z
+    tag: RELEASE.2022-03-17T20-25-06Z
     pullPolicy: IfNotPresent
 
   mode: gateway
@@ -49,6 +49,7 @@ minio:
   ## when Chart is deployed
   environment:
     MINIO_PROMETHEUS_URL: http://monitoring-prometheus.monitoring.svc.cluster.local:9090
+    MINIO_PROMETHEUS_JOB_ID: minio
     ## Please refer for comprehensive list https://docs.min.io/minio/baremetal/reference/minio-server/minio-server.html
     ## MINIO_SUBNET_LICENSE: "License key obtained from https://subnet.min.io"
     ## MINIO_BROWSER: "off"

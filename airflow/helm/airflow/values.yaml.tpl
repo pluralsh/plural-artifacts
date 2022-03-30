@@ -25,6 +25,7 @@ sshConfig:
 postgresqlPassword: {{ dedupe . "airflow.postgresqlPassword" (randAlphaNum 20) }}
 
 {{ $hostname := default "example.com" .Values.hostname }}
+{{ $minioNamespace := namespace "minio" }}
 airflow:
   web:
     baseUrl: {{ $hostname }}
@@ -90,6 +91,10 @@ airflow:
   ingress:
     web:
       host: {{ $hostname }}
+      {{- if eq .Provider "kind" }}
+      annotations:
+        external-dns.alpha.kubernetes.io/target: "127.0.0.1"
+      {{- end }}
 
   fernetKey: {{ dedupe . "airflow.airflow.fernetKey" (randAlphaNum 20)}}
 
@@ -99,10 +104,10 @@ airflow:
     {{ if eq .Provider "google" }}
       AIRFLOW__LOGGING__REMOTE_BASE_LOG_FOLDER: "gs://{{ .Values.airflowBucket }}/airflow/logs"
     {{ end }}
-    {{ if or (eq .Provider "aws") (eq .Provider "azure") }}
+    {{ if or (eq .Provider "aws") (eq .Provider "azure") (eq .Provider "kind") }}
       AIRFLOW__LOGGING__REMOTE_BASE_LOG_FOLDER: "s3://{{ .Values.airflowBucket }}/airflow/logs"
     {{ end }}
-    {{ if eq .Provider "azure" }}
+    {{ if or (eq .Provider "azure") (eq .Provider "kind") }}
       AIRFLOW__LOGGING__REMOTE_LOG_CONN_ID: minio
     {{ end }}
   
@@ -131,6 +136,18 @@ airflow:
           "aws_access_key_id": {{ importValue "Terraform" "access_key_id" }},
           "aws_secret_access_key": {{ importValue "Terraform" "secret_access_key" }},
           "host": "{{ .Configuration.minio.hostname }}"
+        }
+    {{ end }}
+    {{ if eq .Provider "kind" }}
+    connections:
+    - id: minio
+      type: aws
+      description: connection to local minio gateway
+      extra: |-
+        {
+          "aws_access_key_id": {{ importValue "Terraform" "access_key_id" }},
+          "aws_secret_access_key": {{ importValue "Terraform" "secret_access_key" }},
+          "host": "http://minio.{{ $minioNamespace }}:9000"
         }
     {{ end }}
 

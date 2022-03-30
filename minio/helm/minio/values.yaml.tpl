@@ -17,6 +17,8 @@ storageClass: "managed-csi-premium"
 storageClass: ebs-csi
 {{- else if eq .Provider "equinix" }}
 storageClass: ceph-block
+{{- else if eq .Provider "kind" }}
+storageClass: standard
 {{- end }}
 
 minio:
@@ -45,6 +47,11 @@ minio:
   envFrom:
   - secretRef:
       name: minio-s3-secret
+  {{- else if eq .Provider "kind" }}
+  persistence:
+    enabled: true
+    size: 20Gi
+  mode: standalone
   {{- end }}
   ingress:
     enabled: true
@@ -54,6 +61,9 @@ minio:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
       nginx.ingress.kubernetes.io/use-regex: "true"
+      {{- if eq .Provider "kind" }}
+      external-dns.alpha.kubernetes.io/target: "127.0.0.1"
+      {{- end }}
     hosts:
       - {{ .Values.hostname }}
     tls:
@@ -68,6 +78,9 @@ minio:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
       nginx.ingress.kubernetes.io/use-regex: "true"
+      {{- if eq .Provider "kind" }}
+      external-dns.alpha.kubernetes.io/target: "127.0.0.1"
+      {{- end }}
     hosts:
       - {{ .Values.consoleHostname }}
     tls:
