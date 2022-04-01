@@ -1,4 +1,5 @@
 kyverno:
+  installCRDs: false
   image:
     tag: v1.5.7
   serviceAccount:
