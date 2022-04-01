@@ -1,0 +1,10 @@
+kyverno:
+  installCRDs: false
+  image:
+    tag: v1.5.7
+  serviceAccount:
+    create: true
+  serviceMonitor:
+    enabled: true
+kyverno-policies:
+  enabled: false
