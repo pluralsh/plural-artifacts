@@ -2,13 +2,13 @@ apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
   description: Creates a AKS cluster and prepares it for bootstrapping
-  version: 0.1.10
+  version: 0.1.11
 spec:
   dependencies: 
   - name: azure-bootstrap
     repo: bootstrap
     type: terraform
-    version: '>= 0.10.0'
+    version: '>= 0.1.10'
   providers:
   - azure
   outputs:
