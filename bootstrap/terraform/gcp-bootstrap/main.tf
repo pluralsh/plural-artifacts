@@ -47,10 +47,16 @@ module "gke" {
   http_load_balancing        = true
   remove_default_node_pool   = true
   add_cluster_firewall_rules = true
-  network_policy             = true
+  network_policy             = var.network_policy_enabled
+  datapath_provider          = var.datapath_provider
+  kubernetes_version         = var.kubernetes_version
   filestore_csi_driver       = true
 
   node_pools = var.node_pools
+
+  node_pools_labels = var.node_pools_labels
+
+  node_pools_taints = var.node_pools_taints
 
   depends_on = [google_compute_subnetwork.vpc_subnetwork]
 }
