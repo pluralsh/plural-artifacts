@@ -1,0 +1,6 @@
+name: renovate
+description: renovate deployed on plural
+category: DEVOPS
+private: true
+icon: plural/icons/renovate.png
+notes: plural/notes.tpl

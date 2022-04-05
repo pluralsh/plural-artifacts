@@ -1,0 +1,1 @@
+Use `plural watch renovate` to track the status of your application

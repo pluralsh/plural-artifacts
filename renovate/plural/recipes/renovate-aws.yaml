@@ -1,0 +1,36 @@
+name: renovate-aws
+description: Installs renovate on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+sections:
+- name: renovate
+  configuration:
+  - name: private_key
+    documentation: path to the private key to use for git authentication
+    type: FILE
+    default: ~/.ssh/id_rsa
+  - name: public_key
+    documentation: path to the public key to use for git authentication
+    type: FILE
+    default: ~/.ssh/id_rsa.pub
+  - name: github_pat
+    documentation: Read-only Github Personal Access Token to authenticate requests to GitHub
+    type: STRING
+  - name: renovate_platform
+    documentation: the platform the repositories are hosted on. Valid values are azure,bitbucket,bitbucket-server,gitea,github,gitlab
+    type: STRING
+    default: github
+  - name: autodiscover_filter
+    documentation: Filter the list of autodiscovered repositories. Takes a minimatch glob-style or regex pattern. See https://www.npmjs.com/package/minimatch
+    type: STRING
+  - name: dry_run
+    documentation: If enabled, perform a dry run by logging messages instead of creating/updating/deleting branches and PRs.
+    type: BOOL
+    default: true
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: renovate

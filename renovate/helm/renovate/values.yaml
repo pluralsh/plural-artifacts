@@ -1,0 +1,18 @@
+renovate:
+  cronjob:
+    # Every 15 minutes
+    schedule: '*/15 * * * *'
+  ssh_config:
+    enabled: true
+  serviceAccount:
+    create: true
+  apiVersionOverrides:
+    cronjob: 'batch/v1'
+  renovate:
+    config: |
+      {
+        "platform": "github,
+        "autodiscover": "true",
+        "dryRun": "true",
+        "printConfig": true
+      }
