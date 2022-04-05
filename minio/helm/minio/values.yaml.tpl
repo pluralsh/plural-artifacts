@@ -32,9 +32,14 @@ minio:
   - secretRef:
       name: minio-azure-secret
   {{- else if eq .Provider "aws" }}
-  mode: gateway
-  gateway:
-    type: "s3"
+  mode: distributed
+  drivesPerNode: 4
+  replicas: 4
+  pools: 1
+  persistence:
+    enabled: true
+    storageClass: ebs-csi
+    size: 50Gi
   envFrom:
   - secretRef:
       name: minio-s3-secret
