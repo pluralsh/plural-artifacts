@@ -83,7 +83,7 @@ controller:
     repository: docker.io/kubeflowkatib/katib-controller
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: v0.11.1
+    tag: v0.13.0
 
   replicaCount: 1
 
