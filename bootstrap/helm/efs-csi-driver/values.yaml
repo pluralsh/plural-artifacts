@@ -14,7 +14,7 @@ aws-efs-csi-driver:
     csiProvisioner:
       image:
         repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/csi-provisioner
-        tag: v2.1.2
+        tag: v2.2.2
   controller:
     serviceAccount:
       name: efs-csi-controller
