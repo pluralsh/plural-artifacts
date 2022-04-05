@@ -18,6 +18,9 @@ sections:
   - name: hostname
     documentation: FQDN to use for your Argo Workflows installation
     type: DOMAIN
+  - name: adminEmail
+    documentation: email address for the admin user
+    type: STRING
   items:
   - type: TERRAFORM
     name: aws

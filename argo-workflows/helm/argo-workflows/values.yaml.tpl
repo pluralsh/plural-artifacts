@@ -58,7 +58,7 @@ artifactRepository:
 serviceAccount:
   create: true
   annotations:
-    workflows.argoproj.io/rbac-rule: "email in ['david@plural.sh']"
+    workflows.argoproj.io/rbac-rule: "email in ['{{ .Values.adminEmail }}']"
     workflows.argoproj.io/rbac-rule-precedence: "1"
     eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-argo-workflows"
   {{- end }}
