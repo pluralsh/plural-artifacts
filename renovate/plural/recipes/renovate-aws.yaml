@@ -7,17 +7,16 @@ dependencies:
 sections:
 - name: renovate
   configuration:
-  - name: private_key
-    documentation: path to the private key to use for git authentication
-    type: FILE
-    default: ~/.ssh/id_rsa
-  - name: public_key
-    documentation: path to the public key to use for git authentication
-    type: FILE
-    default: ~/.ssh/id_rsa.pub
+  - name: renovate_token
+    documentation: Token with read/write access to the relevant Git repositories
+    type: STRING
   - name: github_pat
     documentation: Read-only Github Personal Access Token to authenticate requests to GitHub
     type: STRING
+  - name: git_author
+    documentation: The Git author used by Renovate
+    type: STRING
+    default: 'Plural Bot <gh-bot@plural.sh>'
   - name: renovate_platform
     documentation: the platform the repositories are hosted on. Valid values are azure,bitbucket,bitbucket-server,gitea,github,gitlab
     type: STRING
