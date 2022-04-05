@@ -25,7 +25,14 @@ minio:
   environment:
     MINIO_PROMETHEUS_URL: http://monitoring-prometheus.{{ $monitoringNamespace }}.svc.cluster.local:9090
   {{- if eq .Provider "azure" }}
-  mode: gateway
+  mode: distributed
+  drivesPerNode: 2
+  replicas: 2
+  pools: 1
+  persistence:
+    enabled: true
+    storageClass: default
+    size: 50Gi
   gateway:
     type: "azure"
   envFrom:
