@@ -37,6 +37,13 @@
       "additionalBranchPrefix": ""
     }
   ],
+  "regexManagers": [
+    {
+      "fileMatch": ["^vendor_images$"],
+      "matchStrings": ["(?<currentValue>.*?)"],
+      "datasourceTemplate": "docker"
+    }
+  ],
   "separateMinorPatch": true,
   "dependencyDashboardApproval": true
 }
