@@ -19,7 +19,7 @@
       "matchDatasources":["helm"],
       "postUpgradeTasks": {
         "commands": [
-          "helm dependency update {{ packageFileDir }}"
+          "helm dependency update {{{packageFileDir}}}"
         ],
         "fileFilters": ["**/*.tgz"]
       }
