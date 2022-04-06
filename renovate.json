@@ -39,7 +39,7 @@
   ],
   "regexManagers": [
     {
-      "fileMatch": ["^vendor_images$"],
+      "fileMatch": ["(^|/|\\.)vendor_images$"],
       "matchStrings": ["(?<depName>.*?):(?<currentValue>.*?)\\n"],
       "datasourceTemplate": "docker"
     }
