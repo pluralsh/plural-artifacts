@@ -4,9 +4,17 @@ metadata:
   name: argo-workflow-minimal-role
 rules:
 - apiGroups:
-    - ""
+  - ""
   resources:
-    - pods
+  - pods
   verbs:
-    - get
-    - patch
+  - get
+  - patch
+  - watch
+- apiGroups:
+  - argoproj.io
+  resources:
+  - workflowtaskresults
+  verbs:
+  - create
+  - patch
