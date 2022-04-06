@@ -16,6 +16,15 @@
       "enabled": true
     },
     {
+      "matchDatasources":["helm"],
+      "postUpgradeTasks": {
+        "commands": [
+          "helm dependency update {{ packageFileDir }}"
+        ],
+        "fileFilters": ["**/*.tgz"]
+      }
+    },
+    {
       "description": "Disable major update k8s client-go",
       "matchPackagePatterns": ["^k8s.io/client-go"],
       "matchUpdateTypes": ["major"],
