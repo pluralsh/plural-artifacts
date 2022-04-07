@@ -11,6 +11,10 @@ output "cluster_oidc_issuer_url" {
   value = module.cluster.cluster_oidc_issuer_url
 }
 
+output "vpc_id" {
+  value = module.vpc.vpc_id
+}
+
 output "cluster_private_subnets" {
   value = module.vpc.private_subnets
 }
