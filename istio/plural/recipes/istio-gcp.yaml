@@ -1,15 +1,15 @@
-name: istio-azure
-description: Installs istio on an azure aks cluster
-provider: AZURE
+name: istio-gcp
+description: Installs istio on a GCP GKE cluster
+provider: GCP
 dependencies:
 - repo: bootstrap
-  name: azure-k8s
+  name: gcp-k8s
 - repo: monitoring
-  name: monitoring-azure
+  name: monitoring-gcp
 - repo: grafana-tempo
-  name: grafana-tempo-azure
+  name: grafana-tempo-gcp
 - repo: ingress-nginx
-  name: ingress-nginx-azure
+  name: ingress-nginx-gcp
 sections:
 - name: istio
   configuration:

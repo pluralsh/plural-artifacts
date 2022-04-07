@@ -12,6 +12,7 @@ istio:
       k8s:
         service:
           type: LoadBalancer
+        {{- if eq .Provider "aws" }}
         serviceAnnotations:
           service.beta.kubernetes.io/aws-load-balancer-name: {{ .Cluster }}-istio-nlb
           service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: '*'
@@ -19,6 +20,7 @@ istio:
           service.beta.kubernetes.io/aws-load-balancer-type: external
           service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: instance
           proxy.istio.io/config: '{"gatewayTopology" : { "numTrustedProxies": 2 } }'
+        {{- end }}
     # Cluster-local gateway for KFServing
     #{{ if .Configuration.kubeflow }}
     #- name: cluster-local-gateway
