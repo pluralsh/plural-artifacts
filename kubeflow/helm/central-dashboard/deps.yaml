@@ -13,6 +13,7 @@ spec:
     name: efs-csi-driver
     repo: bootstrap
     version: '>= 0.1.4'
+    optional: true
   - type: helm
     name: istio
     repo: istio
@@ -88,6 +89,11 @@ spec:
     optional: true
   - type: terraform
     name: aws
+    repo: kubeflow
+    version: '>= 0.1.0'
+    optional: true
+  - type: terraform
+    name: gcp
     repo: kubeflow
     version: '>= 0.1.0'
     optional: true
