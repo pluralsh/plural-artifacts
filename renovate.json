@@ -40,7 +40,8 @@
   "regexManagers": [
     {
       "fileMatch": ["(^|/|\\.)vendor_images$"],
-      "matchStrings": ["(?<depName>.*?):(?<currentValue>.*?)$"],
+      "matchStrings": ["(?<depName>.*?):(?<currentValue>.*)"],
+      "versioningTemplate": "docker",
       "datasourceTemplate": "docker"
     }
   ],
