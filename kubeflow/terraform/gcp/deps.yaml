@@ -1,0 +1,13 @@
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  description: kubeflow gcp setup
+  version: 0.1.0
+spec:
+  dependencies:
+  - name: gcp-bootstrap
+    repo: bootstrap
+    type: terraform
+    version: '>= 0.2.1'
+  providers:
+  - gcp

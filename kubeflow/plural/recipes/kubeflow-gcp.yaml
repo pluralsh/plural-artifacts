@@ -1,0 +1,70 @@
+name: kubeflow-gcp
+description: Installs Kubeflow on a GKE cluster
+provider: GCP
+oidcSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: mysql
+  name: gcp-mysql
+- repo: knative
+  name: knative-gcp
+- repo: istio
+  name: istio-gcp
+- repo: nvidia-operator
+  name: nvidia-operator-gcp
+# the following should be removed once transient recipe dependencies are fixed
+- repo: monitoring
+  name: monitoring-gcp
+- repo: grafana-tempo
+  name: grafana-tempo-gcp
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+- repo: redis
+  name: gcp-redis
+sections:
+- name: kubeflow
+  configuration:
+  - name: pipelines_bucket
+    type: BUCKET
+    default: kubeflow-pipelines
+    documentation: bucket to store the pipeline artifacts and logs in
+  - name: hostname
+    documentation: FQDN to use for your Kubeflow installation
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: gcp
+  # - type: HELM
+  #   name: aws-iam-controller
+  - type: HELM
+    name: central-dashboard
+  - type: HELM
+    name: katib
+  - type: HELM
+    name: mysql-cluster
+  - type: HELM
+    name: notebooks
+  - type: HELM
+    name: mpi
+  - type: HELM
+    name: mxnet
+  - type: HELM
+    name: pytorch
+  - type: HELM
+    name: tensorflow
+  - type: HELM
+    name: xgboost
+  - type: HELM
+    name: profile-controller
+  - type: HELM
+    name: pipelines
+  - type: HELM
+    name: serving
+  - type: HELM
+    name: tensorboards
+  - type: HELM
+    name: volumes
