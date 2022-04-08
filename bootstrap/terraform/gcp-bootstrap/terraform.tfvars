@@ -1,4 +1,4 @@
-{{- $tfOutput := pathJoin repoRoot "output.yaml" }}
+{{- $tfOutput := pathJoin repoRoot "bootstrap" "output.yaml" }}
 gcp_project_id = {{ .Project | quote }}
 cluster_name = {{ .Cluster | quote }}
 vpc_name_prefix = {{ .Values.vpc_name | quote }}
