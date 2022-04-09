@@ -1,6 +1,12 @@
 dependencies:
+- name: airbyte
+  repository: ""
+  version: 0.3.0
 - name: oidc-config
   repository: https://pluralsh.github.io/module-library
   version: 0.1.6
-digest: sha256:7954c988414a1ac91cbe65edba1d0de9070dd0d62b00eae0f3e28ea60019ac7e
-generated: "2022-03-13T01:14:41.748452-05:00"
+- name: test-base
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.3
+digest: sha256:02fc36f91bb62c2fa025f8eeebb002e644414982d931c7b8d0e31e963f21e7b7
+generated: "2022-04-08T21:09:17.262456-04:00"

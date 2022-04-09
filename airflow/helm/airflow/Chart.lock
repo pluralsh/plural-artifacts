@@ -5,5 +5,8 @@ dependencies:
 - name: airflow
   repository: https://airflow-helm.github.io/charts
   version: 8.5.2
-digest: sha256:a305e416f48e47a7b0e1638c7d5b485036558c9c7ac94768f5edada15a683575
-generated: "2022-02-26T14:35:50.146363-05:00"
+- name: test-base
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.3
+digest: sha256:e81e79441dcd0c8a0dee620419310995290d6de3a0b7949c395237aef174e169
+generated: "2022-04-08T21:09:21.373619-04:00"
