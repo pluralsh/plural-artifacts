@@ -10,6 +10,12 @@ replicaCount: 1
 oidc-config:
   enabled: false
 
+test-base:
+  enabled: false
+  repository: airbyte
+  testName: airbyte-integration
+  promoteTag: warm
+
 postgres:
   clone: null
   replicas: 1

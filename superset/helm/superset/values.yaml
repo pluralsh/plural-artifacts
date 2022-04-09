@@ -4,6 +4,12 @@
 
 replicaCount: 1
 
+test-base:
+  enabled: false
+  repository: superset
+  testName: superset-integration
+  promoteTag: warm
+
 configOverlays:
 - name: dkr-repository
   spec:

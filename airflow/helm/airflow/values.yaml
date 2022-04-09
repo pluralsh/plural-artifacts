@@ -9,6 +9,12 @@ sshConfig:
 secrets:
   redis_password: example
 
+test-base:
+  enabled: false
+  repository: airflow
+  testName: airflow-integration
+  promoteTag: warm
+
 postgres:
   replicas: 1
   storage:
