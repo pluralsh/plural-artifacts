@@ -5,9 +5,9 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
-  name: pvcviewers.kubeflow.org
+  name: pvcviewers.pvcviewer.kubeflow.org
 spec:
-  group: kubeflow.org
+  group: pvcviewer.kubeflow.org
   names:
     kind: PVCViewer
     listKind: PVCViewerList

@@ -5,9 +5,9 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
-  name: tensorboards.kubeflow.org
+  name: tensorboards.tensorboard.kubeflow.org
 spec:
-  group: kubeflow.org
+  group: tensorboard.kubeflow.org
   names:
     kind: Tensorboard
     listKind: TensorboardList

@@ -2,7 +2,11 @@
 config:
   infrastructure:
     clusterName: {{ .Cluster }}
+    {{- if eq .Provider "google"}}
+    provider: GCP
+    {{- else }}
     provider: {{ upper .Provider }}
+    {{- end }}
     providerConfig:
       accountID: {{ .Project | quote }}
       region: {{ .Region }}
