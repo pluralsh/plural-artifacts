@@ -42,4 +42,5 @@ module "gcs_buckets" {
   bucket_names = [var.loki_bucket]
   service_account_email = module.loki-workload-identity.gcp_service_account_email
   project_id = var.project_id
+  location = var.bucket_location
 }

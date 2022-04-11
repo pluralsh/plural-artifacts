@@ -16,6 +16,10 @@ variable "loki_bucket" {
   type = string
 }
 
+variable "bucket_location" {
+  type = string
+}
+
 variable "loki_serviceaccount" {
   type = string
   default = "loki"
