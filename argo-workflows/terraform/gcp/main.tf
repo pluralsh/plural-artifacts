@@ -14,7 +14,7 @@ resource "google_service_account" "argo-workflows" {
 }
 
 module "gcs_buckets" {
-  source = "github.com/pluralsh/module-library//terraform/gcp-buckets"
+  source = "github.com/pluralsh/module-library//terraform/gcs-buckets"
 
   project_id            = var.project_id
   bucket_names          = [var.workflow_bucket]
