@@ -4,7 +4,6 @@ resource "kubernetes_namespace" "kserve" {
     labels = {
       "app.kubernetes.io/managed-by" = "plural"
       "app.plural.sh/name" = "kserve"
-      "istio-injection" = "enabled"
 
     }
   }
