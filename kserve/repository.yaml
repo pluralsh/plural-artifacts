@@ -1,0 +1,6 @@
+name: kserve
+description: kserve deployed on plural
+category: DATA
+private: true
+icon: plural/icons/kserve.png
+notes: plural/notes.tpl
