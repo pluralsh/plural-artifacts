@@ -1,4 +1,4 @@
-apiVersion: admissionregistration.k8s.io/v1beta1
+apiVersion: admissionregistration.k8s.io/v1
 kind: MutatingWebhookConfiguration
 metadata:
   annotations:
@@ -16,6 +16,8 @@ webhooks:
         path: /mutate-serving-kubeflow-org-v1alpha2-inferenceservice
     failurePolicy: Fail
     name: inferenceservice.kfserving-webhook-server.defaulter
+    sideEffects: None
+    admissionReviewVersions: ["v1beta1"]
     rules:
       - apiGroups:
           - serving.kubeflow.org
@@ -34,6 +36,8 @@ webhooks:
         path: /mutate-serving-kubeflow-org-v1beta1-inferenceservice
     failurePolicy: Fail
     name: inferenceservice.kfserving-webhook-server.v1beta1.defaulter
+    sideEffects: None
+    admissionReviewVersions: ["v1beta1"]
     rules:
       - apiGroups:
           - serving.kubeflow.org
@@ -52,10 +56,8 @@ webhooks:
         path: /mutate-pods
     failurePolicy: Fail
     name: inferenceservice.kfserving-webhook-server.pod-mutator
-    namespaceSelector:
-      matchExpressions:
-        - key: control-plane
-          operator: DoesNotExist
+    sideEffects: None
+    admissionReviewVersions: ["v1beta1"]
     objectSelector:
       matchExpressions:
         - key: serving.kubeflow.org/inferenceservice

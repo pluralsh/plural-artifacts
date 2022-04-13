@@ -16,6 +16,8 @@ webhooks:
         path: /validate-serving-kubeflow-org-v1alpha2-inferenceservice
     failurePolicy: Fail
     name: inferenceservice.kfserving-webhook-server.validator
+    sideEffects: None
+    admissionReviewVersions: ["v1beta1"]
     rules:
       - apiGroups:
           - serving.kubeflow.org
@@ -34,6 +36,8 @@ webhooks:
         path: /validate-serving-kubeflow-org-v1beta1-inferenceservice
     failurePolicy: Fail
     name: inferenceservice.kfserving-webhook-server.v1beta1.validator
+    sideEffects: None
+    admissionReviewVersions: ["v1beta1"]
     rules:
       - apiGroups:
           - serving.kubeflow.org
@@ -63,6 +67,8 @@ webhooks:
         path: /validate-serving-kubeflow-org-v1alpha1-trainedmodel
     failurePolicy: Fail
     name: trainedmodel.kfserving-webhook-server.validator
+    sideEffects: None
+    admissionReviewVersions: ["v1beta1"]
     rules:
       - apiGroups:
           - serving.kubeflow.org
