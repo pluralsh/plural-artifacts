@@ -49,16 +49,25 @@ argo-workflows:
   useStaticCredentials: false
 artifactRepository:
   archiveLogs: true
+  {{ if eq .Provider "aws" }}
   s3:
     insecure: false
     bucket: {{ .Values.workflowBucket | quote }}
     endpoint: s3.amazonaws.com
     useSDKCreds: true
     roleARN: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-argo-workflows"
+  {{ end }}
+  {{ if eq .Provider "google" }}
+  gcs:
+    bucket: {{ .Values.workflowBucket | quote }}
+  {{ end }}
 serviceAccount:
   create: true
   annotations:
     workflows.argoproj.io/rbac-rule: "email in ['{{ .Values.adminEmail }}']"
     workflows.argoproj.io/rbac-rule-precedence: "1"
     eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-argo-workflows"
+    {{ if eq .Provider "google" }}
+    iam.gke.io/gcp-service-account: {{ importValue "Terraform" "service_account_email" }}
+    {{ end }}
   {{- end }}
