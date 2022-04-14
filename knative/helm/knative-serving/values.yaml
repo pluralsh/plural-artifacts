@@ -29,8 +29,7 @@ loggingConfig:
 leaderElectionConfig: {}
 gcConfig: {}
 featuresConfig: {}
-domainConfig:
-  kubeflow.david.onplural.sh: ""
+domainConfig: {}
 deploymentConfig:
   progressDeadline: 600s
 defaultsConfig: {}
