@@ -135,7 +135,7 @@ airflow:
         {
           "aws_access_key_id": {{ importValue "Terraform" "access_key_id" }},
           "aws_secret_access_key": {{ importValue "Terraform" "secret_access_key" }},
-          "host": "{{ .Configuration.minio.hostname }}"
+          "host": "https://{{ .Configuration.minio.hostname }}"
         }
     {{ end }}
     {{ if eq .Provider "kind" }}
