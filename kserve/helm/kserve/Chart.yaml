@@ -2,7 +2,7 @@ apiVersion: v2
 name: kserve
 description: helm chart for kserve
 type: application
-version: 0.1.0
+version: 0.1.1
 appVersion: "v0.8.0"
 dependencies:
 - name: kserve
