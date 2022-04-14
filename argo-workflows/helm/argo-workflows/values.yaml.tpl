@@ -3,6 +3,13 @@ oidcSecret:
   clientID: {{ .OIDC.ClientId }}
   clientSecret: {{ .OIDC.ClientSecret }}
 {{- end }}
+
+{{ if eq .Provider "azure" }}
+minioSecret:
+  access-key: {{ importValue "Terraform" "access_key_id" }}
+  secret-key: {{ importValue "Terraform" "secret_access_key" }}
+{{ end }}
+
 argo-workflows:
   server:
     ingress:
@@ -56,6 +63,18 @@ artifactRepository:
     endpoint: s3.amazonaws.com
     useSDKCreds: true
     roleARN: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-argo-workflows"
+  {{ end }}
+  {{ if eq .Provider "azure" }}
+  s3:
+    insecure: false
+    bucket: {{ .Values.workflowBucket | quote }}
+    endpoint: {{ .Configuration.minio.hostname | quote }}
+    accessKeySecret:
+      name: minio-secret
+      key: access-key
+    secretKeySecret:
+      name: minio-secret
+      key: secret-key
   {{ end }}
   {{ if eq .Provider "google" }}
   gcs:
