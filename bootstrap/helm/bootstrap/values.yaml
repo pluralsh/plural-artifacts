@@ -161,7 +161,7 @@ tigera-operator:
 cert-manager:
   image:
     repository: gcr.io/pluralsh/cert-manager/cert-manager-controller
-    tag: v1.7.0-alpha
+    tag: v1.7.0-alpha.0.572-462eca887c2a98
   serviceAccount:
     name: certmanager
   prometheus:
