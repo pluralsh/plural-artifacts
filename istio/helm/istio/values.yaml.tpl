@@ -22,12 +22,12 @@ istio:
           proxy.istio.io/config: '{"gatewayTopology" : { "numTrustedProxies": 2 } }'
         {{- end }}
     # Cluster-local gateway for KFServing
-    {{ if .Configuration.kubeflow }}
-    - name: cluster-local-gateway
+    {{ if .Configuration.knative }}
+    - name: knative-local-gateway
       enabled: true
       label:
-        app: cluster-local-gateway
-        istio: cluster-local-gateway
+        app: knative-local-gateway
+        istio: knative-local-gateway
       k8s:
         env:
         - name: ISTIO_META_ROUTER_MODE
@@ -43,7 +43,7 @@ istio:
           scaleTargetRef:
             apiVersion: apps/v1
             kind: Deployment
-            name: cluster-local-gateway
+            name: knative-local-gateway
         resources:
           limits:
             cpu: 2000m
