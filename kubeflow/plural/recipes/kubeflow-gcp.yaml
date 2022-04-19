@@ -12,6 +12,8 @@ dependencies:
   name: gcp-mysql
 - repo: knative
   name: knative-gcp
+- repo: kserve
+  name: kserve-gcp
 - repo: istio
   name: istio-gcp
 - repo: nvidia-operator

@@ -9,8 +9,14 @@ spec:
     name: bootstrap
     repo: bootstrap
     version: '>= 0.5.1'
-  
-  
+  - type: helm
+    name: istio
+    repo: istio
+    version: '>= 0.1.97'
+  - type: helm
+    name: knative-serving
+    repo: knative
+    version: '>= 0.1.24'
   - type: terraform
     name: aws
     repo: kserve

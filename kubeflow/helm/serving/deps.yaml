@@ -12,7 +12,11 @@ spec:
   - type: helm
     name: knative-serving
     repo: knative
-    version: '>= 0.1.1'
+    version: '>= 0.1.24'
+  - type: helm
+    name: kserve
+    repo: kserve
+    version: '>= 0.1.2'
   - type: terraform
     name: aws
     repo: kubeflow

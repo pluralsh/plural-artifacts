@@ -4,8 +4,10 @@ provider: GCP
 dependencies:
 - repo: bootstrap
   name: gcp-k8s
-
-
+- repo: knative
+  name: knative-gcp
+- repo: istio
+  name: istio-gcp
 sections:
 - name: kserve
   configuration: []
