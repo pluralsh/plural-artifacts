@@ -25,7 +25,6 @@ istio:
     {{ if .Configuration.kubeflow }}
     - name: cluster-local-gateway
       enabled: true
-       https://github.com/istio/istio/issues/19263#issuecomment-615833092
       label:
         app: cluster-local-gateway
         istio: cluster-local-gateway
