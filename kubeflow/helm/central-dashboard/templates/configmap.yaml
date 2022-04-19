@@ -78,7 +78,7 @@ data:
           "type": "item",
           "link": "/models/",
           "text": "Models",
-          "icon": "av:play-arrow"
+          "icon": "kubeflow:models"
         {{ end }}
         }
       ],
