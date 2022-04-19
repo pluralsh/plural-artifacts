@@ -22,7 +22,7 @@ istio:
           proxy.istio.io/config: '{"gatewayTopology" : { "numTrustedProxies": 2 } }'
         {{- end }}
     # Cluster-local gateway for KFServing
-    {{ if .Configuration.knative }}
+    {{ if or .Configuration.kubeflow .Configuration.knative }}
     - name: knative-local-gateway
       enabled: true
       label:
