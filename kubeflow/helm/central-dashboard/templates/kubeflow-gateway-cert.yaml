@@ -12,5 +12,4 @@ spec:
   commonName: {{ .Values.global.domain }}
   dnsNames:
   - {{ .Values.global.domain }}
-  # - <<__subdomain_serving__>>.<<__domain__>>
-  # - "*.<<__subdomain_serving__>>.<<__domain__>>"
+  - "*.{{ .Values.global.domain }}"

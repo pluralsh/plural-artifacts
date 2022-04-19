@@ -15,6 +15,7 @@ spec:
     - operation:
         hosts:
         - {{ .Values.global.domain }}   # needed for redirect after authentication
+        - "*.{{ .Values.global.domain }}"
 ---
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
@@ -36,9 +37,7 @@ spec:
     - operation:
         hosts:
         - {{ .Values.global.domain }}
-        # - <<__subdomain_kubecost__>>.<<__domain__>>
-        # - <<__subdomain_serving__>>.<<__domain__>>
-        # - '*.<<__subdomain_serving__>>.<<__domain__>>'
+        - "*.{{ .Values.global.domain }}"
 ---
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
