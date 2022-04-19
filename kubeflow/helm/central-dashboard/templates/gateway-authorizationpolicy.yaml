@@ -39,3 +39,25 @@ spec:
         # - <<__subdomain_kubecost__>>.<<__domain__>>
         # - <<__subdomain_serving__>>.<<__domain__>>
         # - '*.<<__subdomain_serving__>>.<<__domain__>>'
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  labels: {{- include "central-dashboard.labels" . | nindent 4 }}
+  name: knative-local-kubeflow
+  namespace: {{ .Values.global.istioNamespace }}
+spec:
+  action: ALLOW
+  rules:
+    - to:
+        - operation:
+            hosts:
+              - "*.{{ .Values.global.clusterDomain }}"
+      when:
+        - key: request.headers[kubeflow-request-source-namespace]
+          values:
+            - '*'
+  selector:
+    matchLabels:
+      app: knative-local-gateway
+      istio: knative-local-gateway
