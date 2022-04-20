@@ -47,10 +47,9 @@ service:
 resources:
   requests:
     cpu: 100m
-    memory: 20Mi
+    memory: 70Mi
   limits:
-    cpu: 100m
-    memory: 50Mi
+    memory: 70Mi
 
 autoscaling:
   enabled: false
