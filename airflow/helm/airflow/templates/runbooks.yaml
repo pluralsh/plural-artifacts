@@ -9,8 +9,14 @@ spec:
   name: Airflow Scaling
   description: overview of how to optimally scale your airflow cluster
   display: |-
-{{ .Files.Get "runbooks/scaling-manual.xml" | indent 4 }}
+{{ println "<root gap='medium'>" | indent 4 }}
+{{- if .Values.airflow.workers.enabled }}
+{{ .Files.Get "runbooks/scaling-manual-worker.xml" | indent 4 }}
+{{- end }}
+{{ .Files.Get "runbooks/scaling-manual-webserver.xml" | indent 4 }}
+{{ println "</root>" | indent 4 }}
   datasources:
+  {{- if .Values.airflow.workers.enabled }}
   - name: worker-cpu
     type: prometheus
     prometheus:
@@ -23,6 +29,7 @@ spec:
       format: memory
       legend: $pod
       query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"airflow-worker-[0-9]+"}) by (pod)
+  {{- end }}
   - name: web-cpu
     type: prometheus
     prometheus:
@@ -35,11 +42,13 @@ spec:
       format: memory
       legend: $pod
       query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"airflow-web-[a-z0-9]+-[a-z0-9]+"}) by (pod)
+  {{- if .Values.airflow.workers.enabled }}
   - name: worker
     type: kubernetes
     kubernetes:
       resource: statefulset
       name: airflow-worker
+  {{- end }}
   - name: web
     type: kubernetes
     kubernetes:
@@ -69,6 +78,7 @@ spec:
         - requests
         - memory
         valueFrom: web-memory
+      {{- if .Values.airflow.workers.enabled }}
       - path: 
         - airflow
         - airflow
@@ -85,6 +95,8 @@ spec:
         - requests
         - memory
         valueFrom: worker-memory
+      {{- end }}
+{{- if .Values.postgres.enabled }}
 ---
 apiVersion: platform.plural.sh/v1alpha1
 kind: Runbook
@@ -158,3 +170,4 @@ spec:
         - storage
         - size
         valueFrom: volume
+{{- end }}

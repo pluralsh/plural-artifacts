@@ -10,6 +10,7 @@ spec:
   shConfig:
     command: /bin/sh
     args: []
+{{- if .Values.airflow.workers.enabled }}
 ---
 apiVersion: platform.plural.sh/v1alpha1
 kind: Proxy
@@ -23,6 +24,8 @@ spec:
   shConfig:
     command: /bin/sh
     args: []
+{{- end }}
+{{- if .Values.postgres.enabled }}
 ---
 apiVersion: platform.plural.sh/v1alpha1
 kind: Proxy
@@ -41,3 +44,4 @@ spec:
     name: airflow
     engine: postgres
     port: 5432
+{{- end }}

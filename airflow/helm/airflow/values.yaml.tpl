@@ -4,8 +4,10 @@ global:
     - description: airbyte web ui
       url: {{ .Values.hostname }}
 
+{{ if .Values.redisEnabled }}
 secrets:
   redis_password: {{ dedupe . "airflow.secrets.redis_password" (randAlphaNum 14) }}
+{{ end }}
 
 {{ if eq .Provider "azure" }}
 s3access:
@@ -22,7 +24,9 @@ sshConfig:
   id_rsa_pub: example
 {{ end }}
 
+{{ if .Values.postgresqlEnabled }}
 postgresqlPassword: {{ dedupe . "airflow.postgresqlPassword" (randAlphaNum 20) }}
+{{ end }}
 
 {{ $hostname := default "example.com" .Values.hostname }}
 {{ $minioNamespace := namespace "minio" }}
@@ -160,7 +164,8 @@ airflow:
 
   dags:
     gitSync:
-      enabled: true
+      enabled: {{ .Values.gitSyncEnabled | ternary "true" "false" }}
+      {{ if .Values.gitSyncEnabled }}
       repo: {{ .Values.dagRepo }}
       branch: {{ .Values.branchName }}
       revision: HEAD
@@ -168,3 +173,4 @@ airflow:
       sshSecret: airflow-ssh-config
       sshSecretKey: id_rsa
       sshKnownHosts: {{ knownHosts | quote }}
+      {{ end }}
