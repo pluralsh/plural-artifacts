@@ -1,0 +1,5 @@
+config:
+  # either KUBE_VIP or CPEM
+  eipManagement: KUBE_VIP
+secret:
+  apiKey: ""

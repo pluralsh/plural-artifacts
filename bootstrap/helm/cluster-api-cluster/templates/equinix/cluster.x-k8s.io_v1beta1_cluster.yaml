@@ -1,0 +1,22 @@
+{{- if .Values.equinix.enabled }}
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: Cluster
+metadata:
+  name: {{ .Values.equinix.clusterName }}
+spec:
+  clusterNetwork:
+    pods:
+      cidrBlocks:
+      - {{ .Values.equinix.networking.podCidr }}
+    services:
+      cidrBlocks:
+      - {{ .Values.equinix.networking.serviceCidr }}
+  controlPlaneRef:
+    apiVersion: controlplane.cluster.x-k8s.io/v1beta1
+    kind: KubeadmControlPlane
+    name: {{ .Values.equinix.clusterName }}-control-plane
+  infrastructureRef:
+    apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+    kind: PacketCluster
+    name: {{ .Values.equinix.clusterName }}
+{{- end }}

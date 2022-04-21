@@ -1,0 +1,40 @@
+equinix:
+  enabled: true
+  clusterName: eqm-cluster
+  facility: ams1
+  projectId: ""
+  sshKeyNames:
+  - "test-key"
+  kubernetesVersion: "1.21.7"
+  networking:
+    podCidr: 192.168.0.0/16
+    serviceCidr: 172.26.0.0/16
+  controlePlane:
+    billingCycle: hourly
+    nodeCount: 3
+    nodeType: t1.small.x86
+    nodeOS: ubuntu_20_04
+    tags: []
+  workerNodeGroups:
+  - name: small-on-demand
+    billingCycle: hourly
+    nodeCount: 3
+    nodeType: c1.small.x86
+    nodeOS: ubuntu_20_04
+    tags:
+    - test-1
+    - test-2
+    autoscaler:
+      enabled: true
+      min: 3
+      max: 5
+  - name: medium-on-demand
+    billingCycle: hourly
+    nodeCount: 3
+    nodeType: c3.small.x86
+    nodeOS: ubuntu_20_04
+    tags: []
+    autoscaler:
+      enabled: true
+      min: 3
+      max: 5

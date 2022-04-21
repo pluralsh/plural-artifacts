@@ -1,0 +1,40 @@
+{{- if .Values.equinix.enabled }}
+{{- range $nodeGroup := .Values.equinix.workerNodeGroups }}
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: MachineDeployment
+metadata:
+  labels:
+    cluster.x-k8s.io/cluster-name: {{ $.Values.equinix.clusterName }}
+    pool: {{ $nodeGroup.name }}
+  {{- if $nodeGroup.autoscaler.enabled }}
+  annotations:
+    cluster.x-k8s.io/cluster-api-autoscaler-node-group-min-size: {{ $nodeGroup.autoscaler.min }}
+    cluster.x-k8s.io/cluster-api-autoscaler-node-group-max-size: {{ $nodeGroup.autoscaler.max }}
+  {{- end }}
+  name: {{ $.Values.equinix.clusterName }}-{{ $nodeGroup.name }}
+spec:
+  clusterName: {{ $.Values.equinix.clusterName }}
+  replicas: {{ $nodeGroup.nodeCount }}
+  selector:
+    matchLabels:
+      cluster.x-k8s.io/cluster-name: {{ $.Values.equinix.clusterName }}
+      pool: {{ $nodeGroup.name }}
+  template:
+    metadata:
+      labels:
+        cluster.x-k8s.io/cluster-name: {{ $.Values.equinix.clusterName }}
+        pool: {{ $nodeGroup.name }}
+    spec:
+      bootstrap:
+        configRef:
+          apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
+          kind: KubeadmConfigTemplate
+          name: {{ $.Values.equinix.clusterName }}-{{ $nodeGroup.name }}
+      clusterName: {{ $.Values.equinix.clusterName }}
+      infrastructureRef:
+        apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+        kind: PacketMachineTemplate
+        name: {{ $.Values.equinix.clusterName }}-{{ $nodeGroup.name }}
+      version: {{ $.Values.equinix.kubernetesVersion }}
+{{- end }}
+{{- end }}

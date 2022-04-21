@@ -1,0 +1,22 @@
+{{- if .Values.equinix.enabled }}
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: PacketMachineTemplate
+metadata:
+  name: {{ .Values.equinix.clusterName }}-control-plane
+spec:
+  template:
+    spec:
+      billingCycle: {{ .Values.equinix.controlePlane.billingCycle }}
+      machineType: {{ .Values.equinix.controlePlane.nodeType }}
+      os: {{ .Values.equinix.controlePlane.nodeOS }}
+      sshKeys:
+      {{- range $.Values.equinix.sshKeyNames }}
+      - {{ . }}
+      {{- end }}
+      {{- if .Values.equinix.controlePlane.tags }}
+      tags:
+      {{- range .Values.equinix.controlePlane.tags }}
+      - {{ . }}
+      {{- end }}
+      {{- end }}
+{{- end }}

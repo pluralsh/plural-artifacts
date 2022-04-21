@@ -1,0 +1,24 @@
+{{- if .Values.equinix.enabled }}
+{{- range $nodeGroup := .Values.equinix.workerNodeGroups }}
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: PacketMachineTemplate
+metadata:
+  name: {{ $.Values.equinix.clusterName }}-{{ $nodeGroup.name }}
+spec:
+  template:
+    spec:
+      billingCycle: {{ $nodeGroup.billingCycle }}
+      machineType: {{ $nodeGroup.nodeType }}
+      os: {{ $nodeGroup.nodeOS }}
+      sshKeys:
+      {{- range $.Values.equinix.sshKeyNames }}
+      - {{ . }}
+      {{- end }}
+      {{- if $nodeGroup.tags }}
+      tags:
+      {{- range $nodeGroup.tags }}
+      - {{ . }}
+      {{- end }}
+      {{- end }}
+{{- end }}
+{{- end }}

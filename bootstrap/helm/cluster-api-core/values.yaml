@@ -1,0 +1,6 @@
+featureGates:
+  clusterTopology: false
+  experimental:
+    machinePool: false
+    clusterResourceSet: false
+    ignitionBootstrap: false

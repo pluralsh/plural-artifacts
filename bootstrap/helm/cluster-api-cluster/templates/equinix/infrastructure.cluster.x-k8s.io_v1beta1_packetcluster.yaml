@@ -1,0 +1,9 @@
+{{- if .Values.equinix.enabled }}
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: PacketCluster
+metadata:
+  name: {{ .Values.equinix.clusterName }}
+spec:
+  facility: {{ .Values.equinix.facility }}
+  projectID: {{ .Values.equinix.projectId }}
+{{- end }}
