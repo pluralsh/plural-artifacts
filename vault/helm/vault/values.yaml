@@ -1,0 +1,100 @@
+vault:
+  injector:
+    resources:
+      requests:
+        memory: 256Mi
+        cpu: 250m
+      limits:
+        memory: 256Mi
+  
+  server:
+    # These Resource Limits are in line with node requirements in the Vault
+    # Reference Architecture for a Small Cluster
+    resources:
+      requests:
+        memory: 1Gi
+        cpu: 500m
+      limits:
+        memory: 16Gi
+  
+    # For HA configuration and because we need to manually init the vault, we
+    # need to define custom readiness/liveness Probe settings
+    readinessProbe:
+      enabled: true
+      path: "/v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204"
+      initialDelaySeconds: 600  # XXX
+    livenessProbe:
+      enabled: true
+      path: "/v1/sys/health?standbyok=true"
+      initialDelaySeconds: 600  # XXX 60
+  
+    # extraEnvironmentVars is a list of extra environment variables to set with the stateful set. These could be
+    # used to include variables required for auto-unseal.
+    # XXX extraEnvironmentVars:
+    # XXX   VAULT_CACERT: /vault/userconfig/tls-ca/ca.crt
+  
+    # This configures the Vault Statefulset to create a PVC for audit logs.
+    # See https://www.vaultproject.io/docs/audit/index.html to know more
+    auditStorage:
+      enabled: true
+  
+    standalone:
+      enabled: false
+  
+    # Run Vault in "HA" mode.
+    ha:
+      enabled: true
+      replicas: 5
+      raft:
+        enabled: true
+        setNodeId: true
+  
+        config: |
+          ui = true
+          listener "tcp" {
+            address = "0.0.0.0:8200"
+            cluster_address = "0.0.0.0:8201"
+            tls_disable = true
+          }
+  
+          storage "raft" {
+            path = "/vault/data"
+            retry_join {
+              leader_api_addr = "http://vault-0.vault-internal:8200"
+            }
+            retry_join {
+              leader_api_addr = "http://vault-1.vault-internal:8200"
+            }
+            retry_join {
+              leader_api_addr = "http://vault-2.vault-internal:8200"
+            }
+            retry_join {
+              leader_api_addr = "http://vault-3.vault-internal:8200"
+            }
+            retry_join {
+              leader_api_addr = "http://vault-4.vault-internal:8200"
+            }
+  
+            autopilot {
+              cleanup_dead_servers = "true"
+              last_contact_threshold = "200ms"
+              last_contact_failure_threshold = "10m"
+              max_trailing_logs = 250000
+              min_quorum = 5
+              server_stabilization_time = "10s"
+            }
+          }
+  
+          service_registration "kubernetes" {}
+  
+  # Vault UI
+  ui:
+    enabled: true
+    serviceType: ClusterIP
+    serviceNodePort: null
+    externalPort: 8200
+  
+    # For Added Security, edit the below
+    #loadBalancerSourceRanges:
+    #   - < Your IP RANGE Ex. 10.0.0.0/16 >
+    #   - < YOUR SINGLE IP Ex. 1.78.23.3/32 >

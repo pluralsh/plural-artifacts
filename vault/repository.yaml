@@ -1,0 +1,6 @@
+name: vault
+description: vault deployed on plural
+category: SECURITY
+private: true
+icon: plural/icons/vault.png
+notes: plural/notes.tpl
