@@ -1,3 +1,4 @@
+{{- if .Values.airbyte.postgresql.enabled }}
 apiVersion: platform.plural.sh/v1alpha1
 kind: Proxy
 metadata:
@@ -15,3 +16,4 @@ spec:
     name: airbyte
     engine: postgres
     port: 5432
+{{- end }}
