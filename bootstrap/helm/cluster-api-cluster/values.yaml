@@ -30,7 +30,7 @@ equinix:
       max: 5
   - name: medium-on-demand
     billingCycle: hourly
-    nodeCount: 3
+    nodeCount: 0
     nodeType: c3.small.x86
     nodeOS: ubuntu_20_04
     tags: []
