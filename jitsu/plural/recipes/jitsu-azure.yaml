@@ -4,16 +4,18 @@ provider: AZURE
 dependencies:
 - repo: bootstrap
   name: azure-k8s
-
 - repo: ingress-nginx
   name: ingress-nginx-azure
-
-
 sections:
 - name: jitsu
-  configuration: []
+  configuration:
+  - name: hostname
+    documentation: domain on which you'd like to host hydra
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: azure
+  - type: TERRAFORM
+    name: secrets
   - type: HELM
     name: jitsu
