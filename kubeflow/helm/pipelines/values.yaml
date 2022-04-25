@@ -24,6 +24,7 @@ config:
     metadataDB: metadb
     cacheDB: cachedb
   objectStore:
+    bucketHost: s3.amazonaws.com
     bucketName: pipelines-bucket
     bucketRegion: us-east-2
 

@@ -3,7 +3,7 @@ data:
   appName: pipeline
   appVersion: 1.8.1
   autoUpdatePipelineDefaultVersion: "true"
-  bucketHost: s3.amazonaws.com
+  bucketHost: {{ .Values.config.objectStore.bucketHost }}
   bucketRegion: {{ .Values.config.objectStore.bucketRegion }}
   bucketName: {{ .Values.config.objectStore.bucketName }}
   defaultPipelineRoot: s3://{{ .Values.config.objectStore.bucketName }}/pipelines
