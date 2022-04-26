@@ -15,4 +15,9 @@ vault:
       - hosts:
         - {{ .Values.hostname }}
         secretName: vault-tls
+    {{ if eq .Provider "aws" }}
+    serviceAccount:
+      annotations:
+        eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-vault"
+    {{ end }}
 

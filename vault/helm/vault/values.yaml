@@ -30,8 +30,10 @@ vault:
   
     # extraEnvironmentVars is a list of extra environment variables to set with the stateful set. These could be
     # used to include variables required for auto-unseal.
-    # XXX extraEnvironmentVars:
-    # XXX   VAULT_CACERT: /vault/userconfig/tls-ca/ca.crt
+    extraEnvironmentVars:
+      VAULT_SEAL_TYPE: awskms
+      VAULT_AWSKMS_SEAL_KEY_ID: "127c7120-8c25-4bd8-8caa-b421901f669d"
+      AWS_DEFAULT_REGION: eu-west-1
   
     # This configures the Vault Statefulset to create a PVC for audit logs.
     # See https://www.vaultproject.io/docs/audit/index.html to know more
