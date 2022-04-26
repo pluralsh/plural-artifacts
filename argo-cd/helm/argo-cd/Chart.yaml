@@ -2,7 +2,7 @@ apiVersion: v2
 name: argo-cd
 description: A Helm chart for Kubernetes
 type: application
-version: 0.1.30
+version: 0.1.31
 appVersion: "2.1.1"
 dependencies:
 - name: argo-cd
@@ -13,6 +13,6 @@ dependencies:
   repository: file://../../../../argo-helm/charts/argocd-image-updater/
   condition: argocd-image-updater.enabled
 - name: argocd-notifications
-  version: 1.5.0
+  version: 1.8.1
   repository: https://argoproj.github.io/argo-helm
   condition: argocd-notifications.enabled
