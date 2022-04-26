@@ -35,4 +35,4 @@ k8s.gcr.io/sig-storage/livenessprobe:v2.4.0
 k8s.gcr.io/sig-storage/snapshot-controller:v4.2.1
 k8s.gcr.io/sig-storage/snapshot-validation-webhook:v4.2.1
 prom/statsd-exporter:v0.20.2
-quay.io/tigera/operator:v1.23.6
+quay.io/tigera/operator:v1.23.7
