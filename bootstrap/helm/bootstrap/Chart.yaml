@@ -8,13 +8,13 @@ sources:
 maintainers:
 - name: michaeljguarino
   email: mguarino46@gmail.com
-version: 0.8.42
+version: 0.8.43
 dependencies:
 - name: external-dns
   version: 4.11.0
   repository: https://charts.bitnami.com/bitnami
 - name: metrics-server
-  version: 5.8.7
+  version: 5.8.15
   condition: metrics-server.enabled
   repository: https://charts.bitnami.com/bitnami
 - name: cert-manager
