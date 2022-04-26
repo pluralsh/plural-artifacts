@@ -1,4 +1,4 @@
-chronograf:1.8.8
+chronograf:1.8.10
 influxdb:1.8
 influxdb:1.8.6-alpine
 kapacitor:1.5.9-alpine
