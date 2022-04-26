@@ -1,6 +1,6 @@
-amazon/aws-efs-csi-driver:v1.3.6
+amazon/aws-efs-csi-driver:v1.3.8
 appscode/kubed:v0.13.0-beta.0
-bitnami/kubectl:1.21.7
+bitnami/kubectl:1.21.12
 bitnami/metrics-server:0.4.4-debian-10-r0
 calico/ctl:v3.21.5
 calico/kube-controllers:v3.21.5
