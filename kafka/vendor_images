@@ -1,2 +1,2 @@
-bitnami/kafka:2.6.0-debian-10-r78
-bitnami/zookeeper:3.6.3-debian-10-r58
+bitnami/kafka:2.8.1-debian-10-r78
+bitnami/zookeeper:3.7.0-debian-10-r58

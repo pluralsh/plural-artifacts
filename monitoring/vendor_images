@@ -1,7 +1,7 @@
 grafana/loki:1.6.1
-grafana/loki:2.2.1
-grafana/loki:2.4.2
+grafana/loki:2.5.0
+grafana/loki:2.5.0
 grafana/promtail:1.6.1
-grafana/promtail:2.2.1
-grafana/promtail:2.4.2
-otel/opentelemetry-collector:0.33.0
+grafana/promtail:2.5.0
+grafana/promtail:2.5.0
+otel/opentelemetry-collector:0.49.0

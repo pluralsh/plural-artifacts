@@ -1,5 +1,5 @@
-getsentry/relay:21.5.1
-getsentry/sentry:21.5.1
-getsentry/snuba:21.5.1
-getsentry/symbolicator:0.3.4
-yandex/clickhouse-server:20.8.19.4
+getsentry/relay:21.12.0
+getsentry/sentry:21.12.0
+getsentry/snuba:21.12.0
+getsentry/symbolicator:0.4.2
+yandex/clickhouse-server:20.12.8.5
