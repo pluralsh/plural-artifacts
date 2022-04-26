@@ -2,5 +2,5 @@ apiVersion: v2
 name: gcp-config-connector
 description: helm chart for gcp-config-connector
 type: application
-version: 0.1.0
-appVersion: "v1.0.0"
+version: 0.1.2
+appVersion: "1.82.0"

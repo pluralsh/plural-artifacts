@@ -20,7 +20,7 @@ metadata:
   labels:
     cnrm.cloud.google.com/system: "true"
   name: cnrm-deletiondefender
-  namespace: {{ .Release.Namespace }}
+  namespace: cnrm-system
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -30,7 +30,7 @@ metadata:
   labels:
     cnrm.cloud.google.com/system: "true"
   name: cnrm-resource-stats-recorder
-  namespace: {{ .Release.Namespace }}
+  namespace: cnrm-system
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -40,7 +40,7 @@ metadata:
   labels:
     cnrm.cloud.google.com/system: "true"
   name: cnrm-webhook-manager
-  namespace: {{ .Release.Namespace }}
+  namespace: cnrm-system
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -50,7 +50,7 @@ metadata:
   labels:
     cnrm.cloud.google.com/system: "true"
   name: cnrm-deletiondefender-cnrm-system-role
-  namespace: {{ .Release.Namespace }}
+  namespace: cnrm-system
 rules:
 - apiGroups:
   - ""
@@ -71,7 +71,7 @@ metadata:
   labels:
     cnrm.cloud.google.com/system: "true"
   name: cnrm-webhook-cnrm-system-role
-  namespace: {{ .Release.Namespace }}
+  namespace: cnrm-system
 rules:
 - apiGroups:
   - ""
@@ -461,7 +461,7 @@ metadata:
   labels:
     cnrm.cloud.google.com/system: "true"
   name: cnrm-deletiondefender-role-binding
-  namespace: {{ .Release.Namespace }}
+  namespace: cnrm-system
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -469,7 +469,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: cnrm-deletiondefender
-  namespace: {{ .Release.Namespace }}
+  namespace: cnrm-system
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -479,7 +479,7 @@ metadata:
   labels:
     cnrm.cloud.google.com/system: "true"
   name: cnrm-webhook-role-binding
-  namespace: {{ .Release.Namespace }}
+  namespace: cnrm-system
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -487,7 +487,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: cnrm-webhook-manager
-  namespace: {{ .Release.Namespace }}
+  namespace: cnrm-system
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -504,13 +504,13 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: cnrm-controller-manager
-  namespace: {{ .Release.Namespace }}
+  namespace: cnrm-system
 - kind: ServiceAccount
   name: cnrm-resource-stats-recorder
-  namespace: {{ .Release.Namespace }}
+  namespace: cnrm-system
 - kind: ServiceAccount
   name: cnrm-deletiondefender
-  namespace: {{ .Release.Namespace }}
+  namespace: cnrm-system
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -527,7 +527,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: cnrm-deletiondefender
-  namespace: {{ .Release.Namespace }}
+  namespace: cnrm-system
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -544,7 +544,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: cnrm-controller-manager
-  namespace: {{ .Release.Namespace }}
+  namespace: cnrm-system
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -561,7 +561,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: cnrm-controller-manager
-  namespace: {{ .Release.Namespace }}
+  namespace: cnrm-system
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -578,7 +578,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: cnrm-resource-stats-recorder
-  namespace: {{ .Release.Namespace }}
+  namespace: cnrm-system
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -595,7 +595,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: cnrm-webhook-manager
-  namespace: {{ .Release.Namespace }}
+  namespace: cnrm-system
 ---
 apiVersion: v1
 kind: Service
@@ -605,7 +605,7 @@ metadata:
   labels:
     cnrm.cloud.google.com/system: "true"
   name: cnrm-deletiondefender
-  namespace: {{ .Release.Namespace }}
+  namespace: cnrm-system
 spec:
   ports:
   - name: deletiondefender
@@ -625,7 +625,7 @@ metadata:
     cnrm.cloud.google.com/monitored: "true"
     cnrm.cloud.google.com/system: "true"
   name: cnrm-manager
-  namespace: {{ .Release.Namespace }}
+  namespace: cnrm-system
 spec:
   ports:
   - name: controller-manager
@@ -647,7 +647,7 @@ metadata:
     cnrm.cloud.google.com/monitored: "true"
     cnrm.cloud.google.com/system: "true"
   name: cnrm-resource-stats-recorder-service
-  namespace: {{ .Release.Namespace }}
+  namespace: cnrm-system
 spec:
   ports:
   - name: metrics
@@ -666,7 +666,7 @@ metadata:
     cnrm.cloud.google.com/component: cnrm-resource-stats-recorder
     cnrm.cloud.google.com/system: "true"
   name: cnrm-resource-stats-recorder
-  namespace: {{ .Release.Namespace }}
+  namespace: cnrm-system
 spec:
   replicas: 1
   revisionHistoryLimit: 1
@@ -730,7 +730,7 @@ metadata:
     cnrm.cloud.google.com/component: cnrm-webhook-manager
     cnrm.cloud.google.com/system: "true"
   name: cnrm-webhook-manager
-  namespace: {{ .Release.Namespace }}
+  namespace: cnrm-system
 spec:
   revisionHistoryLimit: 1
   selector:
@@ -786,7 +786,7 @@ metadata:
     cnrm.cloud.google.com/component: cnrm-controller-manager
     cnrm.cloud.google.com/system: "true"
   name: cnrm-controller-manager
-  namespace: {{ .Release.Namespace }}
+  namespace: cnrm-system
 spec:
   selector:
     matchLabels:
@@ -839,7 +839,7 @@ metadata:
     cnrm.cloud.google.com/component: cnrm-deletiondefender
     cnrm.cloud.google.com/system: "true"
   name: cnrm-deletiondefender
-  namespace: {{ .Release.Namespace }}
+  namespace: cnrm-system
 spec:
   selector:
     matchLabels:
@@ -889,7 +889,7 @@ metadata:
   labels:
     cnrm.cloud.google.com/system: "true"
   name: cnrm-webhook
-  namespace: {{ .Release.Namespace }}
+  namespace: cnrm-system
 spec:
   maxReplicas: 20
   metrics:
