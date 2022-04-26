@@ -4,6 +4,7 @@ data:
   ARGO_ARCHIVE_ARTIFACTORY: s3
   ARGO_ARCHIVE_BUCKETNAME: {{ .Values.config.objectStore.bucketName }}
   ARGO_ARCHIVE_PREFIX: pipelines
+  AWS_REGION: {{ .Values.config.objectStore.bucketRegion }}
   VIEWER_TENSORBOARD_POD_TEMPLATE_SPEC_PATH: /etc/config/viewer-tensorboard-template.json
   VIEWER_TENSORBOARD_TF_IMAGE_NAME: tensorflow/tensorflow
   METADATA_ENVOY_SERVICE_SERVICE_HOST: kubeflow-pipelines-metadata-envoy.kubeflow.svc.cluster.local
