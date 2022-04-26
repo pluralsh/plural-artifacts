@@ -31,6 +31,17 @@
       "enabled": false
     },
     {
+      "description": "Bump helm chart versions",
+      "matchManagers": ["helmv3"],
+      "bumpVersion": "patch"
+    },
+    {
+      "description": "Group Image Vendor updates",
+      "matchManagers": ["regex"],
+      "groupName": "vendor-images",
+      "additionalBranchPrefix": ""
+    },
+    {
       "description": "Group Kubeflow Pipelines update",
       "matchPackagePatterns": ["^(kubeflow|gcr.io)\/(ml-|tfx-oss-public\/ml_metadata_store_server).?(pipeline)?.*"],
       "groupName": "kubeflow-pipelines",
