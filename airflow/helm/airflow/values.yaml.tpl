@@ -4,7 +4,7 @@ global:
     - description: airbyte web ui
       url: {{ .Values.hostname }}
 
-{{ if .Values.redisEnabled }}
+{{ if not .Values.redisDisabled }}
 secrets:
   redis_password: {{ dedupe . "airflow.secrets.redis_password" (randAlphaNum 14) }}
 {{ end }}
@@ -15,6 +15,7 @@ s3access:
   secret_access_key: {{ importValue "Terraform" "secret_access_key" }}
 {{ end }}
 
+{{ if not .Values.gitSyncDisabled }}
 sshConfig:
 {{ if .Values.hostname }}
   id_rsa: {{ ternary .Values.private_key (dedupe . "airflow.sshConfig.id_rsa" "") (hasKey .Values "private_key") | quote }}
@@ -23,8 +24,9 @@ sshConfig:
   id_rsa: example
   id_rsa_pub: example
 {{ end }}
+{{ end }}
 
-{{ if .Values.postgresqlEnabled }}
+{{ if not .Values.postgresqlDisabled }}
 postgresqlPassword: {{ dedupe . "airflow.postgresqlPassword" (randAlphaNum 20) }}
 {{ end }}
 
@@ -162,10 +164,11 @@ airflow:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-airflow"
 
+  
   dags:
     gitSync:
-      enabled: {{ .Values.gitSyncEnabled | ternary "true" "false" }}
-      {{ if .Values.gitSyncEnabled }}
+      {{ if not .Values.gitSyncDisabled }}
+      enabled: true
       repo: {{ .Values.dagRepo }}
       branch: {{ .Values.branchName }}
       revision: HEAD
@@ -173,4 +176,6 @@ airflow:
       sshSecret: airflow-ssh-config
       sshSecretKey: id_rsa
       sshKnownHosts: {{ knownHosts | quote }}
+      {{ else }}
+      enabled: false  
       {{ end }}
