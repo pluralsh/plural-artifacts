@@ -1,0 +1,97 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: init-vault-sa
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: init-vault-role
+rules:
+- apiGroups: [""]
+  verbs: [delete, get, list, watch]
+  resources: [pods]
+- apiGroups: [""]
+  verbs: [create]
+  resources: [pods/exec]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: init-vault-rb
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: init-vault-role
+subjects:
+- apiGroup: ""
+  kind: ServiceAccount
+  name: init-vault-sa
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: init-vault-cm
+data:
+  init-vault.sh: |
+    set -euo pipefail
+
+    wait_for_pods() {
+        echo "Waiting for Vault pods to start..."
+        timeout_s=300  # 5 minutes
+        time_waiting_s=0
+        while ! kubectl -n vault get pod/vault-0 > /dev/null 2>&1; do
+            echo -n "."
+            sleep 20
+            time_waiting_s=$[ $time_waiting_s + 20 ]
+            if [ $time_waiting_s -ge $timeout_s ]; then
+                echo "ERROR: Vault pods did not start without $timeout_s seconds"
+                exit 1
+            fi
+        done
+        echo "I can see the Vault pods have started"
+    }
+
+    wait_for_pods
+
+    echo "Checking whether Vault is initialized or not..."
+    set +e
+    output=$(kubectl -n vault exec -it vault-0 -c vault -- vault status)
+    set -e
+    initialized=$(echo "$output" | awk '{ if ($1 == "Initialized") { print $2 } }')
+    if [ "$initialized" == "true" ]; then
+        echo "Vault already initialized, nothing left to do"
+        exit 0
+    fi
+
+    echo "Initializing Vault..."
+    # TODO: hide the output of `vault operator init` because it contains secrets
+    kubectl -n vault exec -it vault-0 -c vault -- vault operator init
+
+    echo "Restarting the Vault pods..."
+    kubectl delete -n vault -l app.kubernetes.io/instance=vault,component=server pod
+    wait_for_pods
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: init-vault
+spec:
+  backoffLimit: 1
+  template:
+    spec:
+      restartPolicy: Never
+      serviceAccountName: init-vault-sa
+      containers:
+      - name: kubectl
+        image: dkr.plural.sh/bootstrap/bitnami/kubectl:1.23.6
+        command: [bash, /init-vault-cm/init-vault.sh]
+        volumeMounts:
+        - name: init-vault-cm
+          mountPath: /init-vault-cm
+          readOnly: true
+      volumes:
+      - name: init-vault-cm
+        configMap:
+          name: init-vault-cm
