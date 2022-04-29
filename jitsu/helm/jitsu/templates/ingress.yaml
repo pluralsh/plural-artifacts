@@ -30,21 +30,25 @@ spec:
   - secretName: jitsu-tls
     hosts:
     - {{ .Values.ingress.host }}
+    - {{ .Values.ingress.apiHost }}
   rules:
   - host: {{ .Values.hostname }}
     http:
       paths:
-      - path: /configurator.*
+      - path: /.*
         pathType: ImplementationSpecific
         backend:
           service: 
             name: jitsu
             port: 
               name: config
+  - host: {{ .Values.ingress.apiHost}}
+    http:
+      paths:
       - path: /.*
         pathType: ImplementationSpecific
         backend:
-          service: 
+          service:
             name: jitsu
             port: 
               name: http

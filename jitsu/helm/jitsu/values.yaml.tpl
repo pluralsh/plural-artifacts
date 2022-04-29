@@ -6,6 +6,7 @@ global:
 
 ingress:
   host: {{ .Values.hostname }}
+  apiHost: {{ .Values.apiHostname }}
 
 secrets:
   redis_host: redis-master.{{ namespace "redis" }}

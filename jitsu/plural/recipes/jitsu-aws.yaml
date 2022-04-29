@@ -10,7 +10,10 @@ sections:
 - name: jitsu
   configuration:
   - name: hostname
-    documentation: domain on which you'd like to host hydra
+    documentation: domain on which you'd like to host jitsu's configuration page
+    type: DOMAIN
+  - name: apiHostname
+    documentation: domain on which you'd like to host jitsu's api
     type: DOMAIN
   items:
   - type: TERRAFORM
