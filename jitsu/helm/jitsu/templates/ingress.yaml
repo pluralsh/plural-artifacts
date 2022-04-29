@@ -32,19 +32,20 @@ spec:
     - {{ .Values.ingress.host }}
   rules:
   - host: {{ .Values.hostname }}
-    paths:
-    - path: /configurator.*
-      pathType: ImplementationSpecific
-      backend:
-        service: 
-          name: jitsu
-          port: 
-            name: config
-    - path: /.*
-      pathType: ImplementationSpecific
-      backend:
-        service: 
-          name: jitsu
-          port: 
-            name: http
+    http:
+      paths:
+      - path: /configurator.*
+        pathType: ImplementationSpecific
+        backend:
+          service: 
+            name: jitsu
+            port: 
+              name: config
+      - path: /.*
+        pathType: ImplementationSpecific
+        backend:
+          service: 
+            name: jitsu
+            port: 
+              name: http
 {{- end }}

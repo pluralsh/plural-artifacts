@@ -2,5 +2,5 @@ apiVersion: v2
 name: jitsu
 description: helm chart for jitsu
 type: application
-version: 0.1.9
+version: 0.1.10
 appVersion: 1.41.5
