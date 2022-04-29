@@ -39,7 +39,7 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 80
-  containerPort: 8001
+  containerPort: 8000
 
 config:
   server:
