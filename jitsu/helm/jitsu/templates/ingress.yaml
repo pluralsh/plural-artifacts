@@ -32,7 +32,7 @@ spec:
     - {{ .Values.ingress.host }}
     - {{ .Values.ingress.apiHost }}
   rules:
-  - host: {{ .Values.hostname }}
+  - host: {{ .Values.ingress.host }}
     http:
       paths:
       - path: /.*
