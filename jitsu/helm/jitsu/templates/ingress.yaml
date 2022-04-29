@@ -26,13 +26,10 @@ spec:
   {{- if and .Values.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
   ingressClassName: {{ .Values.ingress.className }}
   {{- end }}
-  {{- if .Values.ingress.tls }}
   tls:
-    tls:
-    - secretName: jitsu-tls
-      hosts:
-      - {{ .Values.ingress.host }}
-  {{- end }}
+  - secretName: jitsu-tls
+    hosts:
+    - {{ .Values.ingress.host }}
   rules:
   - host: {{ .Values.hostname }}
     paths:
