@@ -5,15 +5,7 @@ global:
       url: {{ .Values.hostname }}
 
 ingress:
-  tls:
-  - secretName: jitsu-tls
-    hosts:
-    - {{ .Values.hostname }}
-  hosts:
-  - host: {{ .Values.hostname }}
-    paths:
-    - path: /.*
-      pathType: ImplementationSpecific
+  host: {{ .Values.hostname }}
 
 secrets:
   redis_host: redis-master.{{ namespace "redis" }}

@@ -40,6 +40,9 @@ spec:
             - name: http
               containerPort: {{ .Values.service.containerPort }}
               protocol: TCP
+            - name: config
+              containerPort: 8000
+              protocol: TCP
           livenessProbe:
             httpGet:
               path: /
