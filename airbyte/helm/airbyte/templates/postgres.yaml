@@ -1,4 +1,5 @@
 # there is also a condition on charts/airbyte/Chart.yaml
+# i will leave this as a safety belt
 {{- if .Values.airbyte.postgresql.enabled }}
 apiVersion: acid.zalan.do/v1
 kind: postgresql
