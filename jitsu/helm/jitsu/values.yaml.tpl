@@ -19,7 +19,7 @@ secrets:
   redis_host: redis-master.{{ namespace "redis" }}
   redis_password: {{ importValue "Terraform" "redis_password" }}
   admin_token: {{ dedupe . "jitsu.jitsu.secrets.admin_token" (randAlphaNum 32) }}
-  configurator_url: https://{{ .Values.hostname }}
+  configurator_url: https://{{ .Values.hostname }}/configurator
 
 config:
   server:
