@@ -4,7 +4,6 @@ metadata:
   application: true
   description: Deploys minio crafted for the target cloud
 spec:
-  wait: true
   dependencies:
   - type: helm
     name: bootstrap

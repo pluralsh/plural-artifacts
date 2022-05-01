@@ -1,8 +1,8 @@
 terraform {
   required_providers {
     minio = {
-      source = "pluralsh/minio"
-      version = "1.1.3"
+      source = "aminueza/minio"
+      version = "1.5.1"
     }
   }
 }
@@ -31,6 +31,7 @@ provider "minio" {
   minio_access_key = data.kubernetes_secret.minio.data.rootUser
   minio_secret_key = data.kubernetes_secret.minio.data.rootPassword
   minio_ssl = "true"
+  minio_insecure = "true"
 }
 
 resource "minio_s3_bucket" "wal" {
@@ -53,9 +54,8 @@ data "minio_iam_policy_document" "postgres" {
 }
 
 resource "minio_iam_policy" "postgres" {
-  name = "minio-postgres"
-  policy    = data.minio_iam_policy_document.postgres.json
-
+  name   = "minio-postgres"
+  policy = data.minio_iam_policy_document.postgres.json
 }
 
 resource "minio_iam_user" "postgres" {
@@ -63,7 +63,7 @@ resource "minio_iam_user" "postgres" {
 }
 
 resource "minio_iam_user_policy_attachment" "postgres" {
-  user_name      = minio_iam_user.postgres.id
+  user_name   = minio_iam_user.postgres.id
   policy_name = minio_iam_policy.postgres.id
 }
 
