@@ -3,6 +3,56 @@ resource "google_compute_network" "vpc_network" {
   auto_create_subnetworks = "false"
 }
 
+resource "google_project_service" "gcr" {
+  project = var.gcp_project_id
+  service = "artifactregistry.googleapis.com"
+
+  timeouts {
+    create = "30m"
+    update = "40m"
+  }
+}
+
+resource "google_project_service" "container" {
+  project = var.gcp_project_id
+  service = "container.googleapis.com"
+
+  timeouts {
+    create = "30m"
+    update = "40m"
+  }
+}
+
+resource "google_project_service" "iam" {
+  project = var.gcp_project_id
+  service = "iam.googleapis.com"
+
+  timeouts {
+    create = "30m"
+    update = "40m"
+  }
+}
+
+resource "google_project_service" "storage" {
+  project = var.gcp_project_id
+  service = "storage.googleapis.com"
+
+  timeouts {
+    create = "30m"
+    update = "40m"
+  }
+}
+
+resource "google_project_service" "dns" {
+  project = var.gcp_project_id
+  service = "dns.googleapis.com"
+
+  timeouts {
+    create = "30m"
+    update = "40m"
+  }
+}
+
 resource "google_compute_subnetwork" "vpc_subnetwork" {
   name = local.vpc_subnetwork_name
 
@@ -58,7 +108,14 @@ module "gke" {
 
   node_pools_taints = var.node_pools_taints
 
-  depends_on = [google_compute_subnetwork.vpc_subnetwork]
+  depends_on = [
+    google_compute_subnetwork.vpc_subnetwork,
+    google_project_service.gcr,
+    google_project_service.container,
+    google_project_service.iam,
+    google_project_service.storage,
+    google_project_service.dns,
+  ]
 }
 
 resource "kubernetes_namespace" "bootstrap" {
