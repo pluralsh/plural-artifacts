@@ -1,4 +1,3 @@
-{{- if .Values.postgres.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -127,4 +126,3 @@ spec:
     {{- end }}
   selector:
     {{- include "statsd-exporter.selectorLabels" . | nindent 4 }}
-{{- end }}

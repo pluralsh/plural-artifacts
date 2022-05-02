@@ -27,7 +27,12 @@ sshConfig:
 {{ end }}
 
 {{ if not .Values.postgresqlDisabled }}
+postgres:
+  enabled: true
 postgresqlPassword: {{ dedupe . "airflow.postgresqlPassword" (randAlphaNum 20) }}
+{{ else }}
+postgres:
+  enabled: false
 {{ end }}
 
 {{ $hostname := default "example.com" .Values.hostname }}
