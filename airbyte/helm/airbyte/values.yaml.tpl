@@ -42,6 +42,13 @@ private:
 {{ $minioNamespace := namespace "minio" }}
 
 airbyte:
+  postgresql:
+    {{ if not .Values.postgresqlDisabled }}
+    enabled: true
+    {{ else }}
+    enabled: false
+    {{ end }}
+
 {{ if or (eq .Provider "google") (eq .Provider "azure") (eq .Provider "kind") }}
   airbyteS3Bucket: {{ .Values.airbyteBucket }}
   minio:
