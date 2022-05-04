@@ -1,8 +1,11 @@
 {{- if .Values.equinix.enabled }}
+{{- range $nodeGroup := .Values.equinix.workerNodeGroups }}
+---
 apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
 kind: KubeadmConfigTemplate
 metadata:
-  name: {{ .Values.equinix.clusterName }}-worker-a
+  name: {{ $.Values.equinix.clusterName }}-{{ $nodeGroup.name }}
+  namespace: {{ $.Release.Namespace  }}
 spec:
   template:
     spec:
@@ -10,30 +13,30 @@ spec:
         nodeRegistration:
           kubeletExtraArgs:
             cloud-provider: external
-            provider-id: equinixmetal://{{ `{{ v1.instance_id }}` }}
+            provider-id: {{ printf "equinixmetal://{{ `{{ v1.instance_id }}` }}" }}
       preKubeadmCommands:
-      - |
-        sed -ri '/\sswap\s/s/^#?/#/' /etc/fstab
-        swapoff -a
-        mount -a
-        cat <<EOF > /etc/modules-load.d/containerd.conf
-        overlay
-        br_netfilter
-        EOF
-        modprobe overlay
-        modprobe br_netfilter
-        cat <<EOF > /etc/sysctl.d/99-kubernetes-cri.conf
-        net.bridge.bridge-nf-call-iptables  = 1
-        net.ipv4.ip_forward                 = 1
-        net.bridge.bridge-nf-call-ip6tables = 1
-        EOF
-        sysctl --system
-        apt-get -y update
-        DEBIAN_FRONTEND=noninteractive apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release linux-generic jq
-        curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
-        echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list
-        apt-get update -y
-        TRIMMED_KUBERNETES_VERSION=$(echo {{ `{{ .kubernetesVersion }}` }} | sed 's/\./\\\\./g' | sed 's/^v//')
-        RESOLVED_KUBERNETES_VERSION=$(apt-cache policy kubelet | awk -v VERSION=${TRIMMED_KUBERNETES_VERSION} '$1~ VERSION { print $1 }' | head -n1)
-        DEBIAN_FRONTEND=noninteractive apt-get install -y containerd kubelet=${RESOLVED_KUBERNETES_VERSION} kubeadm=${RESOLVED_KUBERNETES_VERSION} kubectl=${RESOLVED_KUBERNETES_VERSION}
+      - sed -ri '/\sswap\s/s/^#?/#/' /etc/fstab
+      - swapoff -a
+      - mount -a
+      - cat <<EOF > /etc/modules-load.d/containerd.conf
+      - overlay
+      - br_netfilter
+      - EOF
+      - modprobe overlay
+      - modprobe br_netfilter
+      - cat <<EOF > /etc/sysctl.d/99-kubernetes-cri.conf
+      - net.bridge.bridge-nf-call-iptables  = 1
+      - net.ipv4.ip_forward                 = 1
+      - net.bridge.bridge-nf-call-ip6tables = 1
+      - EOF
+      - sysctl --system
+      - apt-get -y update
+      - DEBIAN_FRONTEND=noninteractive apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release linux-generic jq
+      - curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+      - echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list
+      - apt-get update -y
+      - TRIMMED_KUBERNETES_VERSION=$(echo {{ `{{ .kubernetesVersion }}` }} | sed 's/\./\\\\./g' | sed 's/^v//')
+      - RESOLVED_KUBERNETES_VERSION=$(apt-cache policy kubelet | awk -v VERSION=${TRIMMED_KUBERNETES_VERSION} '$1~ VERSION { print $1 }' | head -n1)
+      - DEBIAN_FRONTEND=noninteractive apt-get install -y containerd kubelet=${RESOLVED_KUBERNETES_VERSION} kubeadm=${RESOLVED_KUBERNETES_VERSION} kubectl=${RESOLVED_KUBERNETES_VERSION}
+{{- end }}
 {{- end }}

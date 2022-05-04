@@ -12,14 +12,14 @@ equinix:
   controlePlane:
     billingCycle: hourly
     nodeCount: 3
-    nodeType: t1.small.x86
+    nodeType: c3.small.x86
     nodeOS: ubuntu_20_04
     tags: []
   workerNodeGroups:
   - name: small-on-demand
     billingCycle: hourly
     nodeCount: 3
-    nodeType: c1.small.x86
+    nodeType: c3.small.x86
     nodeOS: ubuntu_20_04
     tags:
     - test-1

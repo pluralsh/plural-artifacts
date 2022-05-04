@@ -50,9 +50,9 @@ spec:
       serviceAccountName: capi-kubeadm-control-plane-manager
       terminationGracePeriodSeconds: 10
       tolerations:
-      - effect: NoSchedule
+      - operator: Exists
         key: node-role.kubernetes.io/master
-      - effect: NoSchedule
+      - operator: Exists
         key: node-role.kubernetes.io/control-plane
       volumes:
       - name: cert

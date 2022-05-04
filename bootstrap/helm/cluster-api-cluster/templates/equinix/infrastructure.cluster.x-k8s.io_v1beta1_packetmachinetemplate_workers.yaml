@@ -1,9 +1,11 @@
 {{- if .Values.equinix.enabled }}
 {{- range $nodeGroup := .Values.equinix.workerNodeGroups }}
+---
 apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
 kind: PacketMachineTemplate
 metadata:
   name: {{ $.Values.equinix.clusterName }}-{{ $nodeGroup.name }}
+  namespace: {{ $.Release.Namespace  }}
 spec:
   template:
     spec:

@@ -1,5 +1,6 @@
 {{- if .Values.equinix.enabled }}
 {{- range $nodeGroup := .Values.equinix.workerNodeGroups }}
+---
 apiVersion: cluster.x-k8s.io/v1beta1
 kind: MachineDeployment
 metadata:
@@ -8,10 +9,11 @@ metadata:
     pool: {{ $nodeGroup.name }}
   {{- if $nodeGroup.autoscaler.enabled }}
   annotations:
-    cluster.x-k8s.io/cluster-api-autoscaler-node-group-min-size: {{ $nodeGroup.autoscaler.min }}
-    cluster.x-k8s.io/cluster-api-autoscaler-node-group-max-size: {{ $nodeGroup.autoscaler.max }}
+    cluster.x-k8s.io/cluster-api-autoscaler-node-group-min-size: {{ $nodeGroup.autoscaler.min | quote }}
+    cluster.x-k8s.io/cluster-api-autoscaler-node-group-max-size: {{ $nodeGroup.autoscaler.max | quote }}
   {{- end }}
   name: {{ $.Values.equinix.clusterName }}-{{ $nodeGroup.name }}
+  namespace: {{ $.Release.Namespace  }}
 spec:
   clusterName: {{ $.Values.equinix.clusterName }}
   replicas: {{ $nodeGroup.nodeCount }}
