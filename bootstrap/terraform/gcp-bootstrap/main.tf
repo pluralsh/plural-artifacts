@@ -1,56 +1,15 @@
 resource "google_compute_network" "vpc_network" {
   name                    = local.vpc_network_name
   auto_create_subnetworks = "false"
-}
 
-resource "google_project_service" "gcr" {
-  project = var.gcp_project_id
-  service = "artifactregistry.googleapis.com"
-
-  timeouts {
-    create = "30m"
-    update = "40m"
-  }
-}
-
-resource "google_project_service" "container" {
-  project = var.gcp_project_id
-  service = "container.googleapis.com"
-
-  timeouts {
-    create = "30m"
-    update = "40m"
-  }
-}
-
-resource "google_project_service" "iam" {
-  project = var.gcp_project_id
-  service = "iam.googleapis.com"
-
-  timeouts {
-    create = "30m"
-    update = "40m"
-  }
-}
-
-resource "google_project_service" "storage" {
-  project = var.gcp_project_id
-  service = "storage.googleapis.com"
-
-  timeouts {
-    create = "30m"
-    update = "40m"
-  }
-}
-
-resource "google_project_service" "dns" {
-  project = var.gcp_project_id
-  service = "dns.googleapis.com"
-
-  timeouts {
-    create = "30m"
-    update = "40m"
-  }
+  depends_on = [
+    google_project_service.compute,
+    google_project_service.gcr,
+    google_project_service.container,
+    google_project_service.iam,
+    google_project_service.dns,
+    google_project_service.storage,
+  ]
 }
 
 resource "google_compute_subnetwork" "vpc_subnetwork" {
@@ -140,6 +99,8 @@ module "externaldns-workload-identity" {
   annotate_k8s_sa     = false
   k8s_sa_name         = "external-dns"
   roles               = ["roles/dns.admin"]
+
+  depends_on = [google_project_service.iam]
 }
 
 resource "kubernetes_service_account" "externaldns" {
@@ -164,6 +125,8 @@ module "certmanager-workload-identity" {
   annotate_k8s_sa     = false
   k8s_sa_name         = "certmanager"
   roles               = ["roles/dns.admin"]
+
+  depends_on = [google_project_service.iam]
 }
 
 resource "kubernetes_service_account" "certmanager" {
