@@ -3,5 +3,7 @@ description: turn any database into a realtime editable spreadsheet
 category: PRODUCTIVITY
 icon: plural/icons/nocodb.png
 notes: plural/notes.tpl
+homepage: https://nocodb.com/
+gitUrl: https://github.com/nocodb/nocodb
 tags:
 - tag: nocode

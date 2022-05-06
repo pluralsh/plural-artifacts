@@ -3,6 +3,8 @@ description: easy to use oauth solution for load balancers
 category: SECURITY
 icon: plural/icons/oauth2-proxy.png
 notes: plural/notes.tpl
+gitUrl: https://github.com/oauth2-proxy/oauth2-proxy
+homepage: https://oauth2-proxy.github.io/oauth2-proxy/
 tags:
 - tag: oauth
 - tag: GPU

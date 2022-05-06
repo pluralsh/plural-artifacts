@@ -3,5 +3,7 @@ description: high performance in-memory object store
 category: DATABASE
 icon: plural/icons/redis.png
 notes: plural/notes.tpl
+homepage: https://redis.io/
+gitUrl: https://github.com/redis/redis
 tags:
 - tag: cache

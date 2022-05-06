@@ -3,6 +3,8 @@ description: Declarative continuous deployment for Kubernetes.
 category: DEVOPS
 icon: plural/icons/argo-stacked-color-square.png
 notes: plural/notes.tpl
+gitUrl: https://github.com/argoproj/argo-cd
+homepage: https://argoproj.github.io/cd/
 oauthSettings:
   uriFormat: https://{domain}/auth/callback
   authMethod: POST

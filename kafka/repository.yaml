@@ -2,5 +2,7 @@ name: kafka
 description: high performance log database
 category: MESSAGING
 icon: plural/icons/kafka.png
+homepage: https://kafka.apache.org/
+gitUrl: https://github.com/apache/kafka
 tags:
   - tag: log
