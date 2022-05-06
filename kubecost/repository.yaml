@@ -3,6 +3,8 @@ description: kubernetes cost monitoring and management
 category: DEVOPS
 icon: plural/icons/kubecost.png
 notes: plural/notes.tpl
+homepage: https://www.kubecost.com/
+gitUrl: https://github.com/kubecost/cost-model
 oauthSettings:
   uriFormat: https://{domain}/oauth2/callback
   authMethod: POST

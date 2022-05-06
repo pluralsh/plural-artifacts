@@ -3,6 +3,8 @@ description: open source rdbms
 category: DATABASE
 icon: plural/icons/mysql.png
 notes: plural/notes.tpl
+gitUrl: https://github.com/mysql/mysql-server
+homepage: https://www.mysql.com/
 oauthSettings:
   uriFormat: https://{domain}/oauth2/callback
   authMethod: POST

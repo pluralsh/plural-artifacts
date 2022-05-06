@@ -3,6 +3,8 @@ description: open source instant graphql on all your data
 category: DATA
 icon: plural/icons/hasura.png
 notes: plural/notes.tpl
+homepage: https://hasura.io/
+gitUrl: https://github.com/hasura/graphql-engine
 tags:
   - tag: graphql
   - tag: api

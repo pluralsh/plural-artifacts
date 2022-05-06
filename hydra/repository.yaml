@@ -4,3 +4,5 @@ category: SECURITY
 private: false
 icon: plural/icons/hydra.png
 notes: plural/notes.tpl
+homepage: https://www.ory.sh/hydra/
+gitUrl: https://github.com/segmentio/ory-hydra

@@ -3,6 +3,8 @@ description: unified data integration platform
 category: DATA
 icon: plural/icons/airbyte.png
 notes: plural/notes.tpl
+gitUrl: https://github.com/airbytehq/airbyte
+homepage: https://www.airbyte.com
 oauthSettings:
   uriFormat: https://{domain}/oauth2/callback
   authMethod: POST

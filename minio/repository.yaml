@@ -3,6 +3,8 @@ description: High Performance, Kubernetes Native Object Storage
 category: DEVOPS
 icon: plural/icons/minio.png
 notes: plural/notes.tpl
+homepage: https://min.io/
+gitUrl: https://github.com/minio/minio
 tags:
 - tag: data
 - tag: multicloud
