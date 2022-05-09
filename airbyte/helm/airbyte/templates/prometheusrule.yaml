@@ -1,4 +1,4 @@
-{{- if .Values.airbyte.postgresql.enabled }}
+{{- if .Values.airbyte.postgres.enabled }}
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:

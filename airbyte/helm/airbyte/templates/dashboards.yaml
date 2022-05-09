@@ -1,4 +1,4 @@
-{{- if .Values.airbyte.postgresql.enabled }}
+{{- if .Values.airbyte.postgres.enabled }}
 apiVersion: platform.plural.sh/v1alpha1
 kind: Dashboard
 metadata:
