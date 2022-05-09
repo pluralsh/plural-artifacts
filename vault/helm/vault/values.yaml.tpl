@@ -1,5 +1,12 @@
+{{ $vaultOutputs := .Applications.TerraformValues "vault" }}
 vault:
   server:
+    extraEnvironmentVars:
+      {{- if eq .Provider "aws" }}
+      VAULT_SEAL_TYPE: awskms
+      VAULT_AWSKMS_SEAL_KEY_ID: {{ $vaultOutputs.aws_kms_key_id }}
+      AWS_DEFAULT_REGION: {{ .Region }}
+      {{- end }}
     ingress:
       enabled: true
       annotations:
