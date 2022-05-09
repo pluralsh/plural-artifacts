@@ -8,6 +8,7 @@ vault:
         memory: 256Mi
   
   server:
+    logLevel: debug  # XXX
     # These Resource Limits are in line with node requirements in the Vault
     # Reference Architecture for a Small Cluster
     resources:

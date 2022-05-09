@@ -15,9 +15,19 @@ vault:
       - hosts:
         - {{ .Values.hostname }}
         secretName: vault-tls
+
     {{ if eq .Provider "aws" }}
     serviceAccount:
       annotations:
         eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-vault"
+    {{ end }}
+
+    {{ if .OIDC }}
+    oidc_enabled: true
+    oidc_discovery_url: "{{ .OIDC.Configuration.AuthorizationEndpoint }}"
+    oidc_client_id: "{{ .OIDC.ClientId }}"
+    oidc_client_secret: "{{ .OIDC.ClientSecret }}"
+    {{ else }}
+    oidc_enabled: false
     {{ end }}
 
