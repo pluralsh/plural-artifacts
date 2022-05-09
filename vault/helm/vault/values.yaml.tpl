@@ -4,7 +4,6 @@ vault:
       {{- if eq .Provider "aws" }}
       VAULT_SEAL_TYPE: awskms
       VAULT_AWSKMS_SEAL_KEY_ID: {{ importValue "Terraform" "aws_kms_key_id" }}
-      AWS_DEFAULT_REGION: {{ .Region }}
       {{- end }}
     ingress:
       enabled: true
