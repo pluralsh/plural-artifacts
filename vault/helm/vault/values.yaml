@@ -8,6 +8,9 @@ vault:
         memory: 256Mi
   
   server:
+    image:
+      repository: "davidspek/vault"
+      tag: "1.10.2-master-oidc-fix"
     logLevel: debug  # XXX
     # These Resource Limits are in line with node requirements in the Vault
     # Reference Architecture for a Small Cluster
@@ -17,24 +20,25 @@ vault:
         cpu: 500m
       limits:
         memory: 16Gi
-  
-    # For HA configuration and because we need to manually init the vault, we
-    # need to define custom readiness/liveness Probe settings
-    readinessProbe:
-      enabled: true
-      path: "/v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204"
-      initialDelaySeconds: 600  # XXX
-    livenessProbe:
-      enabled: true
-      path: "/v1/sys/health?standbyok=true"
-      initialDelaySeconds: 600  # XXX 60
+    
+    # postStart:
+    # - /bin/sh
+    # - -c
+    # - /vault/userconfig/myscript/run.sh
+
+    # volumes:
+    # - name: plugins
+    #   secret:
+    #     name: init-vault-cm
+
+    # volumeMounts:
+    # - mountPath: /usr/local/libexec/vault
+    #   name: plugins
+    #   readOnly: true
   
     # extraEnvironmentVars is a list of extra environment variables to set with the stateful set. These could be
     # used to include variables required for auto-unseal.
-    extraEnvironmentVars:
-      VAULT_SEAL_TYPE: awskms
-      VAULT_AWSKMS_SEAL_KEY_ID: "127c7120-8c25-4bd8-8caa-b421901f669d"
-      AWS_DEFAULT_REGION: eu-west-1
+    extraEnvironmentVars: {}
   
     # This configures the Vault Statefulset to create a PVC for audit logs.
     # See https://www.vaultproject.io/docs/audit/index.html to know more

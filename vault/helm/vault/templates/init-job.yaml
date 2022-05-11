@@ -15,6 +15,9 @@ rules:
 - apiGroups: [""]
   verbs: [create]
   resources: [pods/exec]
+- apiGroups: [""]
+  verbs: [create, get, update, patch]
+  resources: [secrets]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -37,87 +40,31 @@ data:
   init-vault.sh: |
     set -euo pipefail
 
-    wait_for_pods() {
-        timeout_s=300  # 5 minutes
-        echo "Waiting for Vault pods to start (timeout: $timeout_s s)"
-        time_waiting_s=0
-        started=no
-        while [ $started == no ]; do
-            set +e
-            # XXX
-            output=$(kubectl -n vault get pod/vault-0 -o jsonpath='{.status.phase}')
-            set -e
-            if [ "$output" == Running ]; then
-                started=yes
-            else
-                echo -n "."
-                sleep 20
-                time_waiting_s=$[ $time_waiting_s + 20 ]
-                if [ $time_waiting_s -ge $timeout_s ]; then
-                    echo "ERROR: Vault pods did not start without $timeout_s seconds"
-                    exit 1
-                fi
-            fi
-        done
-        echo "I can see the Vault pods have started"
-    }
+    echo "Waiting for vault pod to be running"
+    kubectl wait --for=jsonpath='{.status.phase}'=Running -n {{ .Release.Namespace }} --timeout 10m pod/vault-0
 
-    wait_for_pods
+    sleep 10
 
     echo "Checking whether Vault is initialized or not"
     set +e
-    output=$(kubectl exec -n vault -it vault-0 -c vault -- vault status)
+    status=$(kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- vault status -format json)
     set -e
-    initialized=$(echo "$output" | awk '{ if ($1 == "Initialized") { print $2 } }')
+    initialized=$(echo "$status" | jq .initialized)
     if [ "$initialized" == "true" ]; then
         echo "Vault already initialized, nothing left to do"
         exit 0
     fi
 
     echo "Initializing Vault"
-    output=$(kubectl exec -n vault -it vault-0 -c vault -- vault operator init)
-    root_token=$(cat $output | grep '^Initial Root Token:' | awk '{ print $4 }')
-
-    echo "Restarting the Vault pods"
-    kubectl delete -n vault -l app.kubernetes.io/instance=vault,component=server pod
-    wait_for_pods
-
-    {{ if .Values.oidc_enabled }}
-    echo "Logging in with the root token"
-    kubectl exec -n vault -it vault-0 -c vault -- vault login "$root_token"
-
-    echo "Create plural policy, entity and alias"
-    kubectl exec -n vault -it vault-0 -c vault -- vault policy write plural - <<EOF
-    path "*" {
-      capabilities = ["list", "read", "create", "update", "patch", "delete", "sudo"]
-    }
-    EOF
-    output=$(kubectl exec -n vault -it vault-0 -c vault -- vault write identity/entity \
-        name=plural \
-        policies=plural)
-    entity_id=$(echo "$output" | awk '{ if ($1 == "id") { print $2 } }')
-    accessor=$(kubectl exec -n vault -it vault-0 -c vault -- vault auth list | awk '{ if ($1 == "oidc/") { print $3 } }')
-    kubectl exec -n vault -it vault-0 -c vault -- vault write identity/entity-alias \
-        name=plural \
-        mount_accessor="$accessor" \
-        canonical_id="$entity_id"
-
-    echo "Create plural role"
-    TODO NEXT from here: create role
-
-    echo "Enable and configure OIDC"
-    kubectl exec -n vault -it vault-0 -c vault -- vault auth enable oidc
-    kubectl exec -n vault -it vault-0 -c vault -- vault write auth/oidc/config \
-        oidc_discovery_url="{{ .Values.oidc_discovery_url }}" \
-        oidc_client_id="{{ .Values.oidc_client_id }}" \
-        oidc_client_secret="{{ .Values.oidc_client_secret }}" \
-        default_role=plural
-    {{ end }}
+    kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- vault operator init > /tmp/vault-init
+    kubectl create secret generic -n {{ .Release.Namespace }} vault-recovery-keys --from-file=/tmp/vault-init -o yaml --dry-run=client | kubectl apply -f -
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
   name: init-vault
+  annotations:
+    helm.sh/hook: post-install
 spec:
   backoffLimit: 1
   template:
@@ -132,7 +79,11 @@ spec:
         - name: init-vault-cm
           mountPath: /init-vault-cm
           readOnly: true
+        - name: tmp
+          mountPath: /tmp
       volumes:
       - name: init-vault-cm
         configMap:
           name: init-vault-cm
+      - name: tmp
+        emptyDir: {}

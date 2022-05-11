@@ -29,7 +29,7 @@ vault:
 
     {{ if .OIDC }}
     oidc_enabled: true
-    oidc_discovery_url: "{{ .OIDC.Configuration.AuthorizationEndpoint }}"
+    oidc_discovery_url: "https://oidc.plural.sh/"
     oidc_client_id: "{{ .OIDC.ClientId }}"
     oidc_client_secret: "{{ .OIDC.ClientSecret }}"
     {{ else }}
