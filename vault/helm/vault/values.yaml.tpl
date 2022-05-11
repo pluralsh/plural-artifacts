@@ -35,4 +35,3 @@ vault:
     {{ else }}
     oidc_enabled: false
     {{ end }}
-

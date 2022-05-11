@@ -56,8 +56,10 @@ data:
     fi
 
     echo "Initializing Vault"
-    kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- vault operator init > /tmp/vault-init
-    kubectl create secret generic -n {{ .Release.Namespace }} vault-recovery-keys --from-file=/tmp/vault-init -o yaml --dry-run=client | kubectl apply -f -
+    kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- vault operator init > /tmp/vault_recovery_keys
+    kubectl create secret generic -n {{ .Release.Namespace }} vault-recovery-keys --from-file=/tmp/vault_recovery_keys -o yaml --dry-run=client | kubectl apply -f -
+
+    sleep 5
 ---
 apiVersion: batch/v1
 kind: Job
@@ -66,7 +68,7 @@ metadata:
   annotations:
     helm.sh/hook: post-install
 spec:
-  backoffLimit: 1
+  backoffLimit: 0
   template:
     spec:
       restartPolicy: Never
