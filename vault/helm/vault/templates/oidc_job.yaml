@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vault-post-start-script
+data:
+  vault-bootstrap.sh: |
+    echo "Waiting for vault to be Ready"
+    kubectl wait --for=condition=Ready -n {{ .Release.Namespace }} --timeout 10m pod/vault-0
+
+    echo "Logging into Vault using service account"
+    jwt=$(kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+    token=$(kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- vault write auth/kubernetes/login role=admin jwt=$jwt | grep -m1 '^token' | awk '{ print $2 }')
+    kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- vault login -no-print -non-interactive $token
+
+    {{- if .Values.oidc.enabled }}
+
+    status=$(kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- vault auth list -format=json)
+
+    initialized=$(echo "$status" | jq '."oidc/"')
+    if [ "$initialized" ]; then
+        echo "OIDC already enabled"
+    else
+      echo "Enabling OIDC"
+      kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- vault auth enable oidc
+    fi
+
+    echo "Writing OIDC config"
+    kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- vault write auth/oidc/config oidc_discovery_url="${OIDC_DISCOVERY_URL}" oidc_client_id="${OIDC_CLIENT_ID}" oidc_client_secret="${OIDC_CLIENT_SECRET}" default_role="default"
+
+    echo "Writing OIDC default role"
+    kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- vault write auth/oidc/role/default allowed_redirect_uris="https://{{ .Values.oidc.redirectHostname }}/ui/vault/auth/oidc/oidc/callback" allowed_redirect_uris="http://localhost:8200/ui/vault/auth/oidc/oidc/callback" user_claim="email" oidc_scopes="profile" groups_claim="groups" policies="default"
+    {{- end }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: vault-oidc-job
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      serviceAccountName: init-vault-sa
+      containers:
+      - name: kubectl
+        image: dkr.plural.sh/bootstrap/bitnami/kubectl:1.23.6
+        command: [bash, /bootstrap/vault-bootstrap.sh]
+        volumeMounts:
+        - name: boostrap-scrip
+          mountPath: /bootstrap
+          readOnly: true
+        envFrom:
+        - secretRef:
+            name: vault-env-secret
+        {{- if .Values.oidc.enabled }}
+        env:
+        - name: OIDC_DISCOVERY_URL
+          value: "https://oidc.plural.sh/"
+        {{- end }}
+      volumes:
+      - name: boostrap-scrip
+        configMap:
+          name: vault-post-start-script
+          defaultMode: 0777

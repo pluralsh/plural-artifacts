@@ -12,6 +12,7 @@ vault:
       repository: "davidspek/vault"
       tag: "1.10.2-master-oidc-fix"
     logLevel: debug  # XXX
+    updateStrategyType: RollingUpdate
     # These Resource Limits are in line with node requirements in the Vault
     # Reference Architecture for a Small Cluster
     resources:
@@ -20,21 +21,17 @@ vault:
         cpu: 500m
       limits:
         memory: 16Gi
-    
-    # postStart:
-    # - /bin/sh
-    # - -c
-    # - /vault/userconfig/myscript/run.sh
 
-    # volumes:
-    # - name: plugins
-    #   secret:
-    #     name: init-vault-cm
+    volumes:
+    - name: admin-policy
+      configMap:
+        name: vault-admin-policy
+        defaultMode: 0777
 
-    # volumeMounts:
-    # - mountPath: /usr/local/libexec/vault
-    #   name: plugins
-    #   readOnly: true
+    volumeMounts:
+    - name: admin-policy
+      mountPath: /policies
+      readOnly: true
   
     # extraEnvironmentVars is a list of extra environment variables to set with the stateful set. These could be
     # used to include variables required for auto-unseal.
@@ -105,3 +102,9 @@ vault:
     #loadBalancerSourceRanges:
     #   - < Your IP RANGE Ex. 10.0.0.0/16 >
     #   - < YOUR SINGLE IP Ex. 1.78.23.3/32 >
+
+envSecret: {}
+
+oidc:
+  enabled: false
+  redirectHostname: ""

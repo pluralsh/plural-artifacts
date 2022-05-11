@@ -59,6 +59,20 @@ data:
     kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- vault operator init > /tmp/vault_recovery_keys
     kubectl create secret generic -n {{ .Release.Namespace }} vault-recovery-keys --from-file=/tmp/vault_recovery_keys -o yaml --dry-run=client | kubectl apply -f -
 
+    echo "Logging in as root"
+    root_token=$(cat /tmp/vault_recovery_keys | grep '^Initial Root Token:' | awk '{ print $4 }')
+    kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- vault login -no-print -non-interactive $root_token
+
+    echo "Writing admin policy"
+    kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- vault policy write admin /policies/admin-policy.hcl
+
+    echo "Enabling Kubernetes auth"
+    kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- vault auth enable kubernetes
+    kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- vault write auth/kubernetes/config kubernetes_host=https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT
+
+    echo "Enabling admin Kubernetes access to vault service account"
+    kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- vault write auth/kubernetes/role/admin bound_service_account_names=vault bound_service_account_namespaces={{ .Release.Namespace }} policies=admin
+
     sleep 5
 ---
 apiVersion: batch/v1

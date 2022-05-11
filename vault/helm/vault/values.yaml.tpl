@@ -3,8 +3,24 @@ vault:
     extraEnvironmentVars:
       {{- if eq .Provider "aws" }}
       VAULT_SEAL_TYPE: awskms
-      VAULT_AWSKMS_SEAL_KEY_ID: {{ importValue "Terraform" "aws_kms_key_id" }}
       {{- end }}
+      {{- if .OIDC }}
+      OIDC_DISCOVERY_URL: "https://oidc.plural.sh/"
+      {{- end }}
+    extraSecretEnvironmentVars:
+    {{- if eq .Provider "aws" }}
+    - envName: VAULT_AWSKMS_SEAL_KEY_ID
+      secretName: vault-env-secret
+      secretKey: VAULT_AWSKMS_SEAL_KEY_ID
+    {{- end }}
+    {{- if .OIDC }}
+    - envName: OIDC_CLIENT_ID
+      secretName: vault-env-secret
+      secretKey: OIDC_CLIENT_ID
+    - envName: OIDC_CLIENT_SECRET
+      secretName: vault-env-secret
+      secretKey: OIDC_CLIENT_SECRET
+    {{- end }}
     ingress:
       enabled: true
       annotations:
@@ -35,3 +51,17 @@ vault:
     {{ else }}
     oidc_enabled: false
     {{ end }}
+envSecret:
+  {{- if eq .Provider "aws" }}
+  VAULT_AWSKMS_SEAL_KEY_ID: {{ importValue "Terraform" "aws_kms_key_id" }}
+  {{- end }}
+  {{- if .OIDC }}
+  OIDC_CLIENT_ID: "{{ .OIDC.ClientId }}"
+  OIDC_CLIENT_SECRET: "{{ .OIDC.ClientSecret }}"
+  {{- end }}
+
+{{- if .OIDC }}
+oidc:
+  enabled: true
+  redirectHostname: {{ .Values.hostname }}
+{{- end }}
