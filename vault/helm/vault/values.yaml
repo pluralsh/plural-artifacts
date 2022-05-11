@@ -27,10 +27,17 @@ vault:
       configMap:
         name: vault-admin-policy
         defaultMode: 0777
+    - name: scripts
+      configMap:
+        name: vault-scripts
+        defaultMode: 0777
 
     volumeMounts:
     - name: admin-policy
       mountPath: /policies
+      readOnly: true
+    - mountPath: /vault/scripts
+      name: scripts
       readOnly: true
   
     # extraEnvironmentVars is a list of extra environment variables to set with the stateful set. These could be

@@ -2,6 +2,8 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: vault-admin-policy
+  labels:
+  {{ include "vault-plural.labels" . | nindent 4 }}
 data:
   admin-policy.hcl: |
     # Read system health check
@@ -63,3 +65,37 @@ data:
     {
       capabilities = ["read"]
     }
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vault-scripts
+  labels:
+  {{ include "vault-plural.labels" . | nindent 4 }}
+data:
+  login.sh: |
+    set -euo pipefail
+
+    echo "Logging in as admin using service account"
+    vault login -no-print -non-interactive $(vault write auth/kubernetes/login role=admin jwt=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) | grep -m1 '^token' | awk '{ print $2 }')
+  {{- if .Values.oidc.enabled }}
+  enable_oidc.sh: |
+    set -euo pipefail
+
+    echo "Checking if OIDC is already enabled"
+    set +e
+    status=$(vault auth list | grep 'oidc' | awk '{ print $1 }')
+    set -e
+    if [ "$status" == "oidc/" ]; then
+        echo "OIDC has already been enabled"
+    else
+      echo "Enabling OIDC"
+      vault auth enable oidc
+    fi
+
+    echo "Writing OIDC config"
+    vault write auth/oidc/config oidc_discovery_url="${OIDC_DISCOVERY_URL}" oidc_client_id="${OIDC_CLIENT_ID}" oidc_client_secret="${OIDC_CLIENT_SECRET}" default_role="default"
+
+    echo "Writing OIDC default role"
+    vault write auth/oidc/role/default allowed_redirect_uris="https://{{ .Values.oidc.redirectHostname }}/ui/vault/auth/oidc/oidc/callback" allowed_redirect_uris="http://localhost:8200/ui/vault/auth/oidc/oidc/callback" user_claim="email" oidc_scopes="profile" groups_claim="groups" policies="default"
+  {{- end }}
