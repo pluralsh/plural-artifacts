@@ -36,6 +36,7 @@ module "aks" {
   agents_pool_name                 = local.node_pool_name
   agents_availability_zones        = ["1", "2"]
   agents_type                      = "VirtualMachineScaleSets"
+  agents_size                      = var.agents_size
 
   agents_labels = {
     "nodepool" : local.node_pool_name
