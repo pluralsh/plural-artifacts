@@ -5,6 +5,7 @@ vaultwarden:
     {{- if .SMTP }}
     mail:
       enabled: true
+      explicitTLS: false
       host: {{ .SMTP.Server }}
       port: {{ .SMTP.Port }}
       fromAddress: {{ .SMTP.Sender }}
