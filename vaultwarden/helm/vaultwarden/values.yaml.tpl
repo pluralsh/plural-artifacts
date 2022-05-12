@@ -2,6 +2,15 @@ vaultwarden:
   config:
     domain: {{ .Values.hostname }}
     signupDomainsWhitelist: {{ .Values.signupDomains }}
+    {{- if .SMTP }}
+    mail:
+      enabled: true
+      host: {{ .SMTP.Server }}
+      port: {{ .SMTP.Port }}
+      fromAddress: {{ .SMTP.Sender }}
+      username: {{ .SMTP.User }}
+      password: {{ .SMTP.Password }}
+    {{- end }}
 
 {{- if eq .Provider "aws" }}
   storage:
