@@ -1,0 +1,6 @@
+name: openvpn
+description: openvpn deployed on plural
+category: NETWORK
+private: true
+icon: plural/icons/openvpn.png
+notes: plural/notes.tpl

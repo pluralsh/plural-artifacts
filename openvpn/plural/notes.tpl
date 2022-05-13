@@ -1,0 +1,1 @@
+Use `plural watch openvpn` to track the status of your application
