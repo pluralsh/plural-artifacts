@@ -4,3 +4,6 @@ category: SECURITY
 private: true
 icon: plural/icons/vault.png
 notes: plural/notes.tpl
+oauthSettings:
+  uriFormat: https://{domain}/ui/vault/auth/oidc/oidc/callback
+  authMethod: POST
