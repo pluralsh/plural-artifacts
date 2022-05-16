@@ -163,7 +163,7 @@ jobs:
       with:
         version: latest
     - name: installing plural
-      uses: pluralsh/setup-plural@v0.1.2
+      uses: pluralsh/setup-plural@v0.1.3
       with: 
         config: ${{ secrets.PLURAL_CONF }}
     - run: plural apply -f ${{ matrix.pluralfile }}
