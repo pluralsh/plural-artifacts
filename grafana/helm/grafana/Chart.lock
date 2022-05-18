@@ -2,5 +2,8 @@ dependencies:
 - name: grafana
   repository: https://grafana.github.io/helm-charts
   version: 6.19.1
-digest: sha256:6e8cadcafa2e453b09ffe6fdd591c6c75754bb293912f3b50203cb101b665037
-generated: "2021-12-13T11:59:00.562719494+01:00"
+- name: test-base
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.3
+digest: sha256:c3573ad2dcb12ea3a08e2b60fec5102044606a774e226d18b3335fed40b3544e
+generated: "2022-04-08T21:10:24.244083-04:00"

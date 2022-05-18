@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jitsu
+  labels:
+    {{- include "jitsu.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+    - port: 8000
+      targetPort: config
+      protocol: TCP
+      name: config
+  selector:
+    {{- include "jitsu.selectorLabels" . | nindent 4 }}

@@ -3,6 +3,8 @@ description: open-source, self-hosted customer engagement suite
 category: PRODUCTIVITY
 icon: plural/icons/chatwoot.png
 notes: plural/notes.tpl
+gitUrl: https://github.com/chatwoot/chatwoot
+homepage: https://www.chatwoot.com/
 tags:
 - tag: chat
 - tag: crm

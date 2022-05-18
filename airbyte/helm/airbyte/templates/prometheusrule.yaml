@@ -1,3 +1,4 @@
+{{- if .Values.airbyte.postgres.enabled }}
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
@@ -36,4 +37,4 @@ spec:
       annotations:
         summary: airbyte db's memory has gotten too high
         description: the memory utilization of your plural airbyte db is higher than recommended
-    
+{{- end }}

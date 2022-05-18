@@ -6,15 +6,15 @@ replicaCount: 1
 
 image:
   controller:
-    repository: storageos/etcd-cluster-operator-controller
+    repository: dkr.plural.sh/etcd/storageos/etcd-cluster-operator-controller
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: develop
+    tag: v0.3.1
   proxy:
-    repository: storageos/etcd-cluster-operator-proxy
+    repository: dkr.plural.sh/etcd/storageos/etcd-cluster-operator-proxy
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: develop
+    tag: v0.3.1
 
 imagePullSecrets: []
 nameOverride: ""

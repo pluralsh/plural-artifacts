@@ -1,6 +1,15 @@
 resource "google_compute_network" "vpc_network" {
   name                    = local.vpc_network_name
   auto_create_subnetworks = "false"
+
+  depends_on = [
+    google_project_service.compute,
+    google_project_service.gcr,
+    google_project_service.container,
+    google_project_service.iam,
+    google_project_service.dns,
+    google_project_service.storage,
+  ]
 }
 
 resource "google_compute_subnetwork" "vpc_subnetwork" {
@@ -58,7 +67,14 @@ module "gke" {
 
   node_pools_taints = var.node_pools_taints
 
-  depends_on = [google_compute_subnetwork.vpc_subnetwork]
+  depends_on = [
+    google_compute_subnetwork.vpc_subnetwork,
+    google_project_service.gcr,
+    google_project_service.container,
+    google_project_service.iam,
+    google_project_service.storage,
+    google_project_service.dns,
+  ]
 }
 
 resource "kubernetes_namespace" "bootstrap" {
@@ -83,6 +99,8 @@ module "externaldns-workload-identity" {
   annotate_k8s_sa     = false
   k8s_sa_name         = "external-dns"
   roles               = ["roles/dns.admin"]
+
+  depends_on = [google_project_service.iam]
 }
 
 resource "kubernetes_service_account" "externaldns" {
@@ -107,6 +125,8 @@ module "certmanager-workload-identity" {
   annotate_k8s_sa     = false
   k8s_sa_name         = "certmanager"
   roles               = ["roles/dns.admin"]
+
+  depends_on = [google_project_service.iam]
 }
 
 resource "kubernetes_service_account" "certmanager" {

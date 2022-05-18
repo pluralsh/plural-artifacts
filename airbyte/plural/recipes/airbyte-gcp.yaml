@@ -23,7 +23,7 @@ sections:
     type: DOMAIN
     documentation: the fully qualified domain name your airbyte instance will be available at
   - name: privateHostname
-    documentation: a private dns name to securely access the plural api from
+    documentation: a private dns name to securely access the airbyte api from
     type: DOMAIN
     optional: true
   items:

@@ -1,0 +1,24 @@
+name: jitsu-gcp
+description: Installs jitsu on an aws eks cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+sections:
+- name: jitsu
+  configuration:
+  - name: hostname
+    documentation: domain on which you'd like to host jitsu's configuration page
+    type: DOMAIN
+  - name: apiHostname
+    documentation: domain on which you'd like to host jitsu's api
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: TERRAFORM
+    name: secrets
+  - type: HELM
+    name: jitsu

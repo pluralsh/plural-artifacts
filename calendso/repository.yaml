@@ -3,5 +3,7 @@ description: open source calendly alternative
 category: PRODUCTIVITY
 icon: plural/icons/cal.png
 notes: plural/notes.tpl
+gitUrl: https://github.com/calcom/cal.com
+homepage: https://cal.com/
 tags:
 - tag: calendar
