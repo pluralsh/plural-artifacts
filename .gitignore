@@ -1,1 +1,3 @@
+*.orig
+.*.swp
 .DS_Store
