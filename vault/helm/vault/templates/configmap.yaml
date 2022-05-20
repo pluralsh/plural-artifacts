@@ -90,13 +90,13 @@ data:
         echo "OIDC has already been enabled"
     else
       echo "Enabling OIDC"
-      vault auth enable -path=plural oidc
-      vault auth tune -listing-visibility=unauth plural
+      vault auth enable -path=oidc oidc
     fi
 
     echo "Writing OIDC config"
-    vault write auth/plural/config oidc_discovery_url="${OIDC_DISCOVERY_URL}" oidc_client_id="${OIDC_CLIENT_ID}" oidc_client_secret="${OIDC_CLIENT_SECRET}" default_role="default"
+    vault write auth/oidc/config oidc_discovery_url="${OIDC_DISCOVERY_URL}" oidc_client_id="${OIDC_CLIENT_ID}" oidc_client_secret="${OIDC_CLIENT_SECRET}" default_role=default
 
     echo "Writing OIDC default role"
-    vault write auth/plural/role/default role_type=oidc allowed_redirect_uris="https://{{ .Values.oidc.redirectHostname }}/ui/vault/auth/plural/oidc/callback,http://localhost:8200/ui/vault/auth/plural/oidc/callback" user_claim=email oidc_scopes=profile groups_claim=groups policies=default verbose_oidc_logging=true
+    # XXX remove verbose_oidc_logging
+    vault write auth/oidc/role/default role_type=oidc allowed_redirect_uris="https://{{ .Values.oidc.redirectHostname }}/ui/vault/auth/oidc/oidc/callback,http://localhost:8200/ui/vault/auth/oidc/oidc/callback" user_claim=email oidc_scopes=profile groups_claim=groups policies=default verbose_oidc_logging=true
   {{- end }}
