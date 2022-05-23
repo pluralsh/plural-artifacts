@@ -6,6 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.8.0
   labels:
     cluster.x-k8s.io/provider: cluster-api
+    clusterctl.cluster.x-k8s.io: ""
   name: clusterclasses.cluster.x-k8s.io
 spec:
   conversion:
