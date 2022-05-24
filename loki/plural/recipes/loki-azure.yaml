@@ -1,0 +1,20 @@
+name: loki-azure
+description: Installs loki on an aws eks cluster
+provider: AZURE
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+- repo: redis
+  name: azure-redis
+sections:
+- name: loki
+  configuration:
+  - name: lokiContainer
+    type: BUCKET
+    default: loki
+    documentation: storage container to store the logs in
+  items:
+  - type: TERRAFORM
+    name: azure
+  - type: HELM
+    name: loki

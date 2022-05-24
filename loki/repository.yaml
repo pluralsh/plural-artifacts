@@ -1,0 +1,6 @@
+name: loki
+description: loki deployed on plural
+category: DEVOPS
+private: true
+icon: plural/icons/loki.png
+notes: plural/notes.tpl

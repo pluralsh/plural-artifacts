@@ -1,0 +1,20 @@
+name: loki-gcp
+description: Installs loki on an aws eks cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: redis
+  name: gcp-redis
+sections:
+- name: loki
+  configuration:
+  - name: lokiBucket
+    type: BUCKET
+    default: loki
+    documentation: bucket to store the logs in
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: loki
