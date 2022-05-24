@@ -1,5 +1,15 @@
 kyverno:
   installCRDs: false
+  replicaCount: 2
+  webhooks:
+    Exclude namespaces:
+    - namespaceSelector:
+        matchExpressions:
+        - key: kubernetes.io/metadata.name
+          operator: In
+          values:
+            - kube-system
+            - kyverno
   image:
     repository: dkr.plural.sh/kyverno/kyverno/kyverno
   initImage:
