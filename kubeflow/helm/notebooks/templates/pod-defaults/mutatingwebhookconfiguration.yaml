@@ -13,7 +13,7 @@ webhooks:
         namespace: kubeflow
         path: /apply-poddefault
     name: admission-webhook-deployment.kubeflow.org
-    admissionReviewVersions: ["v1", "v1beta1"]
+    admissionReviewVersions: ["v1beta1"]
     sideEffects: None
     namespaceSelector:
       matchLabels:
