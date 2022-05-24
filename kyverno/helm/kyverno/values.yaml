@@ -1,7 +1,9 @@
 kyverno:
   installCRDs: false
   image:
-    tag: v1.5.7
+    repository: dkr.plural.sh/kyverno/kyverno/kyverno
+  initImage:
+    repository: dkr.plural.sh/kyverno/kyverno/kyvernopre
   serviceAccount:
     create: true
   serviceMonitor:
