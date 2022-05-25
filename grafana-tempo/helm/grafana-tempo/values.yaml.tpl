@@ -1,5 +1,5 @@
 {{ $redisNamespace := namespace "redis" }}
-{{ $creds := secret $redisNamespace "redis-password" }}
+{{ $redisValues := .Applications.HelmValues "redis" }}
 
 {{- if eq .Provider "aws" }}
 provider: aws
@@ -46,7 +46,7 @@ tempo-distributed:
       redis:
         endpoint: redis-master.{{ $redisNamespace }}:6379
         db: 5
-        password: {{ $creds.password }}
+        password: {{ $redisValues.redis.password }}
       {{- if eq .Provider "aws" }}
       backend: s3
       s3:
