@@ -42,15 +42,6 @@ vault:
       annotations:
         eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-vault"
     {{ end }}
-
-    {{ if .OIDC }}
-    oidc_enabled: true
-    oidc_discovery_url: "https://oidc.plural.sh/"
-    oidc_client_id: "{{ .OIDC.ClientId }}"
-    oidc_client_secret: "{{ .OIDC.ClientSecret }}"
-    {{ else }}
-    oidc_enabled: false
-    {{ end }}
 envSecret:
   {{- if eq .Provider "aws" }}
   VAULT_AWSKMS_SEAL_KEY_ID: {{ importValue "Terraform" "aws_kms_key_id" }}
@@ -59,9 +50,11 @@ envSecret:
   OIDC_CLIENT_ID: "{{ .OIDC.ClientId }}"
   OIDC_CLIENT_SECRET: "{{ .OIDC.ClientSecret }}"
   {{- end }}
-
-{{- if .OIDC }}
 oidc:
+{{- if .OIDC }}
   enabled: true
   redirectHostname: {{ .Values.hostname }}
+  group_name: vault-admins
+{{ else }}
+  enabled: false
 {{- end }}
