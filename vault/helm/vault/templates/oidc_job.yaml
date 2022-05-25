@@ -12,8 +12,10 @@ data:
     echo "Waiting for vault to be Ready"
     kubectl wait --for=condition=Ready -n {{ .Release.Namespace }} --timeout 10m pod/vault-0
 
+    echo "Runing script to login in to Vault"
     kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- sh -c /vault/scripts/login.sh
 
+    echo "Running script to enable OIDC"
     kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- sh -c /vault/scripts/enable_oidc.sh
 ---
 apiVersion: batch/v1

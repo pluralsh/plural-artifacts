@@ -6,65 +6,34 @@ metadata:
   {{ include "vault-plural.labels" . | nindent 4 }}
 data:
   admin-policy.hcl: |
-    # Read system health check
-    path "sys/health"
-    {
-      capabilities = ["read", "sudo"]
-    }
-
-    # Create and manage ACL policies broadly across Vault
-
-    # List existing policies
-    path "sys/policies/acl"
-    {
-      capabilities = ["list"]
-    }
-
-    # Create and manage ACL policies
-    path "sys/policies/acl/*"
-    {
+    # Allow everything
+    path "*" {
       capabilities = ["create", "read", "update", "delete", "list", "sudo"]
     }
 
-    # Enable and manage authentication methods broadly across Vault
+    # Overwrite `default` policy
+    # ==========================
 
-    # Manage auth methods broadly across Vault
-    path "auth/*"
-    {
+    # NB: The `default` policy can been seen thus:
+    #
+    #     ```sh
+    #     $ vault read sys/policy/default
+    #     ```
+
+    # Allow all actions on the current entity
+    #
+    # NB: The curly brackets contraption is to tell Helm to output a double
+    # curly brackets, which is what Vault also uses for its templated policies.
+    # We also make sure Helm does not insert a newline after, or that will
+    # corrupt the Vault template.
+    path "identity/entity/id/{{ "{{" }}- identity.entity.id }}" {
+      capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+    }
+    path "identity/entity/name/{{ "{{" }}- identity.entity.name }}" {
       capabilities = ["create", "read", "update", "delete", "list", "sudo"]
     }
 
-    # Create, update, and delete auth methods
-    path "sys/auth/*"
-    {
-      capabilities = ["create", "update", "delete", "sudo"]
-    }
-
-    # List auth methods
-    path "sys/auth"
-    {
-      capabilities = ["read"]
-    }
-
-    # Enable and manage the key/value secrets engine at `secret/` path
-
-    # List, create, update, and delete key/value secrets
-    path "secret/*"
-    {
-      capabilities = ["create", "read", "update", "delete", "list", "sudo"]
-    }
-
-    # Manage secrets engines
-    path "sys/mounts/*"
-    {
-      capabilities = ["create", "read", "update", "delete", "list", "sudo"]
-    }
-
-    # List existing secrets engines.
-    path "sys/mounts"
-    {
-      capabilities = ["read"]
-    }
+    # The other items in the `default` policy should be fine
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -77,19 +46,18 @@ data:
     set -euo pipefail
 
     echo "Logging in as admin using service account"
-    vault login -no-print -non-interactive $(vault write auth/kubernetes/login role=admin jwt=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) | grep -m1 '^token' | awk '{ print $2 }')
+    jwt=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+    token=$(vault write auth/kubernetes/login role=admin jwt="$jwt" | grep -m1 '^token' | awk '{ print $2 }')
+    vault login -no-print -non-interactive "$token"
   {{- if .Values.oidc.enabled }}
   enable_oidc.sh: |
     set -euo pipefail
 
     echo "Checking if OIDC is already enabled"
-    set +e
-    status=$(vault auth list | grep 'oidc' | awk '{ print $1 }')
-    set -e
-    if [ "$status" == "oidc/" ]; then
-        echo "OIDC has already been enabled"
+    if vault auth list | grep -q ^oidc/; then
+      echo "OIDC has already been enabled"
     else
-      echo "Enabling OIDC"
+      echo "OIDC has not been already enabled; enabling now"
       vault auth enable oidc
     fi
 
@@ -98,4 +66,15 @@ data:
 
     echo "Writing OIDC default role"
     vault write auth/oidc/role/default role_type=oidc allowed_redirect_uris="https://{{ .Values.oidc.redirectHostname }}/ui/vault/auth/oidc/oidc/callback,http://localhost:8250/oidc/callback,http://localhost:8200/ui/vault/auth/oidc/oidc/callback" user_claim=email oidc_scopes=profile groups_claim=groups policies=default
+
+    echo "Getting OIDC mount accessor"
+    mount_accessor=$(vault auth list | awk '{ if ($1 == "oidc/") { print $3 } }')
+    echo "  mount accessor: $mount_accessor"
+
+    echo "Writing vault-admins group"
+    group_id=$(vault write identity/group name=admins policies=admin type=external | awk '{ if ($1 == "id") { print $2 } }')
+    echo "  group id: $group_id"
+
+    echo "Writing vault-admins group alias for plural OIDC"
+    vault write identity/group-alias name="{{ .Values.oidc.group_name }}" canonical_id="$group_id" mount_accessor="$mount_accessor"
   {{- end }}
