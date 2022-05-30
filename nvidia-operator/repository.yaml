@@ -3,6 +3,8 @@ description: Everything needed to schedule and monitor NVIDIA GPUs
 category: DEVOPS
 icon: plural/icons/nvidia.png
 notes: plural/notes.tpl
+homepage: https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/getting-started.html
+gitUrl: https://github.com/NVIDIA/gpu-operator
 tags:
 - tag: ai
 - tag: gpu

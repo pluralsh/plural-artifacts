@@ -3,6 +3,8 @@ description: The workflow engine for Kubernetes
 category: DEVOPS
 icon: plural/icons/argo-stacked-color-square.png
 notes: plural/notes.tpl
+gitUrl: https://github.com/argoproj/argo-workflows
+homepage: https://argoproj.github.io/argo-workflows/
 oauthSettings:
   uriFormat: https://{domain}/oauth2/callback
   authMethod: POST

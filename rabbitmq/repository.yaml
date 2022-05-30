@@ -2,6 +2,8 @@ name: rabbitmq
 description: deploys the rabbitmq operator and associated monitoring
 category: MESSAGING
 icon: plural/icons/rabbitmq.png
+homepage: https://www.rabbitmq.com/
+gitUrl: https://github.com/rabbitmq/rabbitmq-server
 tags:
 - tag: operator
 - tag: queue

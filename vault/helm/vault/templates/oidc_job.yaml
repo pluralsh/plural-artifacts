@@ -1,0 +1,45 @@
+{{- if .Values.oidc.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vault-oidc-script
+  labels:
+  {{ include "vault-plural.labels" . | nindent 4 }}
+data:
+  vault_oidc.sh: |
+    set -euo pipefail
+
+    echo "Waiting for vault to be Ready"
+    kubectl wait --for=condition=Ready -n {{ .Release.Namespace }} --timeout 10m pod/vault-0
+
+    kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- sh -c /vault/scripts/login.sh
+
+    kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- sh -c /vault/scripts/enable_oidc.sh
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: vault-oidc-job
+  labels:
+  {{ include "vault-plural.labels" . | nindent 4 }}
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      serviceAccountName: init-vault-sa
+      containers:
+      - name: kubectl
+        image: dkr.plural.sh/bootstrap/bitnami/kubectl:1.23.6
+        command: [bash, /scripts/vault_oidc.sh]
+        volumeMounts:
+        - name: oidc-script
+          mountPath: /scripts
+          readOnly: true
+      volumes:
+      - name: oidc-script
+        configMap:
+          name: vault-oidc-script
+          defaultMode: 0777
+{{- end }}

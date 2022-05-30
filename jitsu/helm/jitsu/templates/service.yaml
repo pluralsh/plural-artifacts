@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "jitsu.fullname" . }}
+  name: jitsu
   labels:
     {{- include "jitsu.labels" . | nindent 4 }}
 spec:
@@ -11,5 +11,9 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
+    - port: 8000
+      targetPort: config
+      protocol: TCP
+      name: config
   selector:
     {{- include "jitsu.selectorLabels" . | nindent 4 }}

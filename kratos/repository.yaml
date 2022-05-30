@@ -4,3 +4,5 @@ category: SECURITY
 private: true
 icon: plural/icons/kratos.png
 notes: plural/notes.tpl
+homepage: https://www.ory.sh/kratos/
+gitUrl: https://github.com/ory/kratos

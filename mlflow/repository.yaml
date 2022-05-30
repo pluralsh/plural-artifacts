@@ -3,6 +3,8 @@ description: streamlined machine learning development
 category: DEVOPS
 icon: plural/icons/mlflow.png
 notes: plural/notes.tpl
+homepage: https://mlflow.org/
+gitUrl: https://github.com/mlflow/mlflow
 oauthSettings:
   uriFormat: https://{domain}/oauth2/callback
   authMethod: POST

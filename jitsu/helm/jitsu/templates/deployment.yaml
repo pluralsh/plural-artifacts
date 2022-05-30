@@ -40,19 +40,23 @@ spec:
             - name: http
               containerPort: {{ .Values.service.containerPort }}
               protocol: TCP
+            - name: config
+              containerPort: 8000
+              protocol: TCP
           livenessProbe:
             httpGet:
               path: /
               port: http
+            initialDelaySeconds: 10
+            periodSeconds: 5
           readinessProbe:
             httpGet:
               path: /
               port: http
+            initialDelaySeconds: 10
+            periodSeconds: 5
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          volumeMounts:
-          - name: jitsu-config
-            mountPath: /home/eventnative/data/config
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -65,7 +69,3 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      volumes:
-      - name: jitsu-config
-        secret:
-          secretName: jitsu-config

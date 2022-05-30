@@ -5,20 +5,14 @@ global:
       url: {{ .Values.hostname }}
 
 ingress:
-  tls:
-  - secretName: jitsu-tls
-    hosts:
-    - {{ .Values.hostname }}
-  hosts:
-  - host: {{ .Values.hostname }}
-    paths:
-    - path: /.*
-      pathType: ImplementationSpecific
+  host: {{ .Values.hostname }}
+  apiHost: {{ .Values.apiHostname }}
 
 secrets:
   redis_host: redis-master.{{ namespace "redis" }}
   redis_password: {{ importValue "Terraform" "redis_password" }}
   admin_token: {{ dedupe . "jitsu.jitsu.secrets.admin_token" (randAlphaNum 32) }}
+  configurator_url: https://{{ .Values.hostname }}/configurator
 
 config:
   server:

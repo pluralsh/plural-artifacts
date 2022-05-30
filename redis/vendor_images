@@ -1,7 +1,7 @@
-bitnami/redis-exporter:1.12.1-debian-10-r11
-bitnami/redis-exporter:1.24.0-debian-10-r11
-bitnami/redis-exporter:1.24.0-debian-10-r17
+bitnami/redis-exporter:1.37.0-debian-10-r11
+bitnami/redis-exporter:1.37.0-debian-10-r11
+bitnami/redis-exporter:1.37.0-debian-10-r17
 bitnami/redis-sentinel-exporter:1.7.1-debian-10-r109
-bitnami/redis:6.0.9-debian-10-r0
-bitnami/redis:6.2.1-debian-10-r0
-bitnami/redis:6.2.4-debian-10-r0
+bitnami/redis:6.2.6-debian-10-r0
+bitnami/redis:6.2.6-debian-10-r0
+bitnami/redis:6.2.6-debian-10-r0

@@ -1,6 +1,8 @@
 name: jitsu
 description: jitsu deployed on plural
 category: DATA
-private: true
+private: false
 icon: plural/icons/jitsu.png
 notes: plural/notes.tpl
+homepage: https://jitsu.com/
+gitUrl: https://github.com/jitsucom/jitsu

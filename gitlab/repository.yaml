@@ -3,6 +3,8 @@ description: unified devops experience based on git
 category: DEVOPS
 icon: plural/icons/gitlab.png
 notes: plural/notes.tpl
+gitUrl: https://gitlab.com/gitlab-org/gitlab
+homepage: https://about.gitlab.com/
 oauthSettings:
   uriFormat: https://{domain}/users/auth/plural/callback
   authMethod: BASIC

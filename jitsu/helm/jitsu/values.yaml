@@ -48,7 +48,7 @@ config:
     type: redis
 
 ingress:
-  enabled: false
+  enabled: true
   className: nginx
   annotations:
     kubernetes.io/tls-acme: "true"

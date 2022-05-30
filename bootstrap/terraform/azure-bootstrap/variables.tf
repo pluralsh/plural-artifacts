@@ -37,6 +37,12 @@ variable "os_disk_type" {
   default = "Ephemeral"
 }
 
+variable "agents_size" {
+  default     = "Standard_D2s_v3"
+  description = "The default virtual machine size for the Kubernetes agents"
+  type        = string
+}
+
 variable "private_cluster" {
   type = bool
   default = false

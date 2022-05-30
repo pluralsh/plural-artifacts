@@ -1,0 +1,25 @@
+name: vault-gcp
+description: Installs vault on a GCP GKE cluster
+provider: GCP
+oidcSettings:
+  uriFormats:
+  - https://{domain}/ui/vault/auth/oidc/oidc/callback
+  - http://localhost:8250/oidc/callback
+  authMethod: POST
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+sections:
+- name: vault
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for your Vault installation
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: vault

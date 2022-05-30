@@ -1,5 +1,5 @@
-bitpoke/mysql-operator-sidecar-5.7:v0.6.1
-bitpoke/mysql-operator-sidecar-8.0:v0.6.1
-prom/mysqld-exporter:v0.13.0
-bitpoke/mysql-operator:v0.6.1
-bitpoke/mysql-operator-orchestrator:v0.6.1
+bitpoke/mysql-operator-sidecar-5.7:v0.6.2
+bitpoke/mysql-operator-sidecar-8.0:v0.6.2
+prom/mysqld-exporter:v0.14.0
+bitpoke/mysql-operator:v0.6.2
+bitpoke/mysql-operator-orchestrator:v0.6.2

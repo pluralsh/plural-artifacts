@@ -1,0 +1,101 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vault-admin-policy
+  labels:
+  {{ include "vault-plural.labels" . | nindent 4 }}
+data:
+  admin-policy.hcl: |
+    # Read system health check
+    path "sys/health"
+    {
+      capabilities = ["read", "sudo"]
+    }
+
+    # Create and manage ACL policies broadly across Vault
+
+    # List existing policies
+    path "sys/policies/acl"
+    {
+      capabilities = ["list"]
+    }
+
+    # Create and manage ACL policies
+    path "sys/policies/acl/*"
+    {
+      capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+    }
+
+    # Enable and manage authentication methods broadly across Vault
+
+    # Manage auth methods broadly across Vault
+    path "auth/*"
+    {
+      capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+    }
+
+    # Create, update, and delete auth methods
+    path "sys/auth/*"
+    {
+      capabilities = ["create", "update", "delete", "sudo"]
+    }
+
+    # List auth methods
+    path "sys/auth"
+    {
+      capabilities = ["read"]
+    }
+
+    # Enable and manage the key/value secrets engine at `secret/` path
+
+    # List, create, update, and delete key/value secrets
+    path "secret/*"
+    {
+      capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+    }
+
+    # Manage secrets engines
+    path "sys/mounts/*"
+    {
+      capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+    }
+
+    # List existing secrets engines.
+    path "sys/mounts"
+    {
+      capabilities = ["read"]
+    }
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vault-scripts
+  labels:
+  {{ include "vault-plural.labels" . | nindent 4 }}
+data:
+  login.sh: |
+    set -euo pipefail
+
+    echo "Logging in as admin using service account"
+    vault login -no-print -non-interactive $(vault write auth/kubernetes/login role=admin jwt=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) | grep -m1 '^token' | awk '{ print $2 }')
+  {{- if .Values.oidc.enabled }}
+  enable_oidc.sh: |
+    set -euo pipefail
+
+    echo "Checking if OIDC is already enabled"
+    set +e
+    status=$(vault auth list | grep 'oidc' | awk '{ print $1 }')
+    set -e
+    if [ "$status" == "oidc/" ]; then
+        echo "OIDC has already been enabled"
+    else
+      echo "Enabling OIDC"
+      vault auth enable oidc
+    fi
+
+    echo "Writing OIDC config"
+    vault write auth/oidc/config oidc_discovery_url="${OIDC_DISCOVERY_URL}" oidc_client_id="${OIDC_CLIENT_ID}" oidc_client_secret="${OIDC_CLIENT_SECRET}" default_role=default
+
+    echo "Writing OIDC default role"
+    vault write auth/oidc/role/default role_type=oidc allowed_redirect_uris="https://{{ .Values.oidc.redirectHostname }}/ui/vault/auth/oidc/oidc/callback,http://localhost:8250/oidc/callback,http://localhost:8200/ui/vault/auth/oidc/oidc/callback" user_claim=email oidc_scopes=profile groups_claim=groups policies=default
+  {{- end }}
