@@ -2,7 +2,7 @@
 # The following filter is used to forward the original SNI (sent by the application) as the SNI of the
 # mutual TLS connection.
 # The forwarded SNI will be will be used to enforce policies based on the original SNI value.
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
   name: forward-downstream-sni
@@ -28,7 +28,7 @@ spec:
 # The filter prevents the gateway from being deceived by a malicious client: routing to one SNI while
 # reporting some other value of SNI. If the original SNI does not match the SNI of the mutual TLS connection,
 # the filter will block the connection to the external service.
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
   name: egress-gateway-sni-verifier

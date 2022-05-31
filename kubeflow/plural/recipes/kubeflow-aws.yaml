@@ -14,6 +14,8 @@ dependencies:
   name: aws-mysql
 - repo: knative
   name: knative-aws
+- repo: kserve
+  name: kserve-aws
 - repo: istio
   name: istio-aws
 - repo: nvidia-operator
@@ -51,15 +53,17 @@ sections:
   - type: HELM
     name: notebooks
   - type: HELM
-    name: mpi
-  - type: HELM
-    name: mxnet
-  - type: HELM
-    name: pytorch
-  - type: HELM
-    name: tensorflow
-  - type: HELM
-    name: xgboost
+    name: training-operator
+  # - type: HELM
+  #   name: mpi
+  # - type: HELM
+  #   name: mxnet
+  # - type: HELM
+  #   name: pytorch
+  # - type: HELM
+  #   name: tensorflow
+  # - type: HELM
+  #   name: xgboost
   - type: HELM
     name: profile-controller
   - type: HELM

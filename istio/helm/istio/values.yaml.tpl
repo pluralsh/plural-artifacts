@@ -12,6 +12,7 @@ istio:
       k8s:
         service:
           type: LoadBalancer
+        {{- if eq .Provider "aws" }}
         serviceAnnotations:
           service.beta.kubernetes.io/aws-load-balancer-name: {{ .Cluster }}-istio-nlb
           service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: '*'
@@ -19,47 +20,47 @@ istio:
           service.beta.kubernetes.io/aws-load-balancer-type: external
           service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: instance
           proxy.istio.io/config: '{"gatewayTopology" : { "numTrustedProxies": 2 } }'
+        {{- end }}
     # Cluster-local gateway for KFServing
-    #{{ if .Configuration.kubeflow }}
-    #- name: cluster-local-gateway
-    #  enabled: true
-      # https://github.com/istio/istio/issues/19263#issuecomment-615833092
-    #  label:
-    #    app: cluster-local-gateway
-    #    istio: cluster-local-gateway
-    #  k8s:
-    #    env:
-    #    - name: ISTIO_META_ROUTER_MODE
-    #      value: sni-dnat
-    #    hpaSpec:
-    #      maxReplicas: 5
-    #      metrics:
-    #      - resource:
-    #          name: cpu
-    #          targetAverageUtilization: 80
-    #        type: Resource
-    #      minReplicas: 1
-    #      scaleTargetRef:
-    #        apiVersion: apps/v1
-    #        kind: Deployment
-    #        name: cluster-local-gateway
-    #    resources:
-    #      limits:
-    #        cpu: 2000m
-    #        memory: 1024Mi
-    #      requests:
-    #        cpu: 100m
-    #        memory: 128Mi
-    #    service:
-    #      type: ClusterIP
-    #      ports:
-    #      - name: status-port
-    #        port: 15020
-    #        targetPort: 15020
-    #      - name: http2
-    #        port: 80
-    #        targetPort: 8080
-    #{{ end }}
+    {{ if or .Configuration.kubeflow .Configuration.knative }}
+    - name: knative-local-gateway
+      enabled: true
+      label:
+        app: knative-local-gateway
+        istio: knative-local-gateway
+      k8s:
+        env:
+        - name: ISTIO_META_ROUTER_MODE
+          value: sni-dnat
+        hpaSpec:
+          maxReplicas: 5
+          metrics:
+          - resource:
+              name: cpu
+              targetAverageUtilization: 80
+            type: Resource
+          minReplicas: 1
+          scaleTargetRef:
+            apiVersion: apps/v1
+            kind: Deployment
+            name: knative-local-gateway
+        resources:
+          limits:
+            cpu: 2000m
+            memory: 1024Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        service:
+          type: ClusterIP
+          ports:
+          - name: status-port
+            port: 15020
+            targetPort: 15020
+          - name: http2
+            port: 80
+            targetPort: 8080
+    {{ end }}
     {{- if .Values.enableEgressGateway }}
     egressGateways:
     - name: istio-egressgateway

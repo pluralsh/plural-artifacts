@@ -16,7 +16,7 @@ image:
   repository: ghcr.io/pluralsh/kubeflow-profile-controller
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: 0.1.10
+  tag: 0.1.12
 
 kfam:
   image:
@@ -62,19 +62,19 @@ config:
     clusterName: kubeflow-dev
     provider: AWS
     providerConfig:
-      accountID: "332124921534"
-      region: us-east-2
-      clusterOIDCIssuer: "https://oidc.eks.us-east-2.amazonaws.com/id/50C07702B65D541BF8CA91958886A04A"
+      accountID: ""
+      region: ""
+      clusterOIDCIssuer: ""
     storage:
       provider: S3
-      bucketName: kubeflow-dev-pipelines-new
+      bucketName: ""
   namespace:
     defaultLabels:
-      katib-metricscollector-injection:      'enabled'
-      serving.kubeflow.org/inferenceservice: 'enabled'
-      pipelines.kubeflow.org/enabled:        'true'
+      katib-metricscollector-injection: 'enabled'
+      serving.kserve.io/inferenceservice: 'enabled'
+      pipelines.kubeflow.org/enabled: 'true'
   network:
-    hostname: kubeflow.kubeflow-aws.com
+    hostname: ""
     clusterDomain: cluster.local
     istio:
       clusterGateway:

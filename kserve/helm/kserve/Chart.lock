@@ -1,0 +1,6 @@
+dependencies:
+- name: kserve
+  repository: https://pluralsh.github.io/plural-helm-charts
+  version: v0.8.0
+digest: sha256:816a20761d629f7c1989c4b8c372ecbaca9e9218bd5de4c816716eab033c14ce
+generated: "2022-04-13T11:43:22.951658224+02:00"

@@ -1,0 +1,6 @@
+name: gcp-config-connector
+description: gcp-config-connector deployed on plural
+category: DEVOPS
+private: true
+icon: plural/icons/gcp.png
+notes: plural/notes.tpl

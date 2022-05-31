@@ -21,7 +21,7 @@ rules:
       - get
       - list
   - apiGroups:
-      - serving.kubeflow.org
+      - serving.kserve.io
     resources:
       - inferenceservices
       - inferenceservices/status
@@ -70,7 +70,7 @@ metadata:
   name: {{ include "serving.fullname" . }}-web-app-kubeflow-serving-ui-edit
 rules:
   - apiGroups:
-      - serving.kubeflow.org
+      - serving.kserve.io
     resources:
       - inferenceservices
     verbs:
@@ -111,7 +111,7 @@ metadata:
   name: {{ include "serving.fullname" . }}-web-app-kubeflow-serving-ui-view
 rules:
   - apiGroups:
-      - serving.kubeflow.org
+      - serving.kserve.io
     resources:
       - inferenceservices
     verbs:
