@@ -6,6 +6,8 @@ dependencies:
   name: azure-k8s
 - repo: ingress-nginx
   name: ingress-nginx-azure
+- repo: redis
+  name: azure-redis
 sections:
 - name: jitsu
   configuration:
@@ -15,7 +17,5 @@ sections:
   items:
   - type: TERRAFORM
     name: azure
-  - type: TERRAFORM
-    name: secrets
   - type: HELM
     name: jitsu

@@ -13,10 +13,10 @@ spec:
     name: ingress-nginx
     repo: ingress-nginx
     version: ">= 0.1.2"
-  - type: terraform
-    name: secrets
-    repo: jitsu
-    version: '>= 0.1.0'
+  - type: helm
+    name: redis
+    repo: redis
+    version: '>= 0.1.11'
   - type: terraform
     name: aws
     repo: jitsu

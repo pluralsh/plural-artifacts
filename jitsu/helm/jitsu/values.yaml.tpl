@@ -1,3 +1,4 @@
+{{ $redisValues := .Applications.HelmValues "redis" }}
 global:
   application:
     links:
@@ -10,7 +11,7 @@ ingress:
 
 secrets:
   redis_host: redis-master.{{ namespace "redis" }}
-  redis_password: {{ importValue "Terraform" "redis_password" }}
+  redis_password: {{ $redisValues.redis.password }}
   admin_token: {{ dedupe . "jitsu.jitsu.secrets.admin_token" (randAlphaNum 32) }}
   configurator_url: https://{{ .Values.hostname }}/configurator
 

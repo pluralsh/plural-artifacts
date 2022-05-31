@@ -6,6 +6,8 @@ dependencies:
   name: aws-k8s
 - repo: ingress-nginx
   name: ingress-nginx-aws
+- repo: redis
+  name: aws-redis
 sections:
 - name: jitsu
   configuration:
@@ -18,7 +20,5 @@ sections:
   items:
   - type: TERRAFORM
     name: aws
-  - type: TERRAFORM
-    name: secrets
   - type: HELM
     name: jitsu
