@@ -1,2 +1,2 @@
-quay.io/ceph/ceph:v16.2.7
-rook/ceph:v1.8.2
+quay.io/ceph/ceph:v16.2.9
+rook/ceph:v1.8.9
