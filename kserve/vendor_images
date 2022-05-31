@@ -1,3 +1,4 @@
+kserve/agent:v0.8.0
 kserve/kserve-controller:v0.8.0
 kserve/lgbserver:v0.8.0
 kserve/paddleserver:v0.8.0
@@ -8,7 +9,6 @@ kserve/torchserve-kfs:0.5.2
 nvcr.io/nvidia/tritonserver:21.09-py3
 kserve/xgbserver:v0.8.0
 seldonio/mlserver:0.5.3
-nvcr.io/nvidia/tritonserver:21.06.1-py3
 kserve/storage-initializer:v0.8.0
 kserve/modelmesh-controller:v0.8.0
 kserve/modelmesh:v0.8.0
