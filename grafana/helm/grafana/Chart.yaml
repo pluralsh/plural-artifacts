@@ -2,11 +2,11 @@ apiVersion: v2
 name: grafana
 description: A Helm chart for grafana on plural
 type: application
-version: 0.2.12
+version: 0.2.13
 appVersion: "8.3.2"
 dependencies:
 - name: grafana
-  version: 6.19.4
+  version: 6.29.5
   repository: https://grafana.github.io/helm-charts
 - name: test-base
   repository: https://pluralsh.github.io/module-library
