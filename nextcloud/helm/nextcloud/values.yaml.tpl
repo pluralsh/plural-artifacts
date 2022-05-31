@@ -1,4 +1,6 @@
 {{ $hostname := default "example.com" .Values.hostname }}
+{{ $redisNamespace := namespace "redis" }}
+{{ $redisValues := .Applications.HelmValues "redis" }}
 nextcloud:
   ingress:
     tls:
@@ -37,7 +39,6 @@ nextcloud:
             )
           )
         );
-    {{ $redisNamespace := namespace "redis" }}
     extraEnv:
       - name: S3_KEY
         valueFrom:
@@ -68,8 +69,7 @@ nextcloud:
       usernameKey: username
       passwordKey: password
 
-{{ $creds := secret $redisNamespace "redis-password" }}
-redisPassword: {{ $creds.password }}
+redisPassword: {{ $redisValues.redis.password }}
 
 secret:
   username: admin
