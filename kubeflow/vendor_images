@@ -26,3 +26,4 @@ public.ecr.aws/j1r0q0g6/notebooks/tensorboard-controller:master-18264c8f
 public.ecr.aws/j1r0q0g6/training/training-operator:174e8813666951ded505daf334a37f60fd50c18d
 davidspek/volumes-web-app:0.5.4
 davidspek/kubeflow-pvcviewer-controller:0.7
+davidspek/models-web-app:v0.8.0
