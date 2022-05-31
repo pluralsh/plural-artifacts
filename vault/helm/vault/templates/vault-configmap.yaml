@@ -1,0 +1,86 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vault-policies
+  labels:
+  {{ include "vault-plural.labels" . | nindent 4 }}
+data:
+  admin-policy.hcl: |
+    # Allow everything
+    path "*" {
+      capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+    }
+
+    # Overwrite `default` policy
+    # ==========================
+
+    # NB: This is necessary because the rule above (path "*") is "weaker" than
+    #     more explicit paths and thus get overriden, typically by the
+    #     `default` policy, which is usually attached as well.
+
+    # NB: The `default` policy can been seen thus:
+    #
+    #     ```sh
+    #     $ vault read sys/policy/default
+    #     ```
+
+    # Allow all actions on the current entity
+    #
+    # NB: The curly brackets contraption is to tell Helm to output a double
+    # curly brackets, which is what Vault also uses for its templated policies.
+    # We also make sure Helm does not insert a newline after, or that will
+    # corrupt the Vault template.
+    path "identity/entity/id/{{ "{{" }}- identity.entity.id }}" {
+      capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+    }
+    path "identity/entity/name/{{ "{{" }}- identity.entity.name }}" {
+      capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+    }
+
+    # The other rules in the `default` policy should be fine
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vault-scripts
+  labels:
+  {{ include "vault-plural.labels" . | nindent 4 }}
+data:
+  login.sh: |
+    set -euo pipefail
+
+    echo "Logging in as admin using service account"
+    jwt=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+    token=$(vault write auth/kubernetes/login role=admin jwt="$jwt" | grep -m1 '^token' | awk '{ print $2 }')
+    vault login -no-print -non-interactive "$token"
+  {{- if .Values.oidc.enabled }}
+  enable-oidc.sh: |
+    set -euo pipefail
+
+    echo "Checking if OIDC is already enabled"
+    if vault auth list | grep -q ^oidc/; then
+      echo "OIDC is already enabled"
+    else
+      echo "OIDC is not enabled; enabling it now"
+      vault auth enable oidc
+    fi
+
+    echo "Writing OIDC config"
+    vault write auth/oidc/config oidc_discovery_url="${OIDC_DISCOVERY_URL}" oidc_client_id="${OIDC_CLIENT_ID}" oidc_client_secret="${OIDC_CLIENT_SECRET}" default_role=default
+
+    echo "Writing OIDC default role"
+    vault write auth/oidc/role/default role_type=oidc allowed_redirect_uris="https://{{ .Values.oidc.redirectHostname }}/ui/vault/auth/oidc/oidc/callback,http://localhost:8250/oidc/callback,http://localhost:8200/ui/vault/auth/oidc/oidc/callback" oidc_scopes=profile user_claim=email groups_claim=groups policies=default
+
+    echo "Getting OIDC mount accessor"
+    mount_accessor=$(vault auth list | awk '{ if ($1 == "oidc/") { print $3 } }')
+    echo "  mount accessor: $mount_accessor"
+
+    echo "Writing 'admins' group"
+    group_id=$(vault write identity/group name=admins policies=admin type=external | awk '{ if ($1 == "id") { print $2 } }')
+    echo "  group id: $group_id"
+
+    echo "Writing 'admins' group alias for plural OIDC; external group: {{ .Values.oidc.external_group_name }}"
+    vault write identity/group-alias name="{{ .Values.oidc.external_group_name }}" canonical_id="$group_id" mount_accessor="$mount_accessor"
+
+    echo "OIDC successfully configured"
+  {{- end }}

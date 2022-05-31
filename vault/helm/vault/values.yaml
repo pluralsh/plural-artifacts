@@ -11,8 +11,9 @@ vault:
     image:
       repository: "davidspek/vault"
       tag: "1.10.2-master-oidc-fix"
-    logLevel: debug  # XXX
+    logLevel: debug
     updateStrategyType: RollingUpdate
+
     # These Resource Limits are in line with node requirements in the Vault
     # Reference Architecture for a Small Cluster
     resources:
@@ -23,9 +24,9 @@ vault:
         memory: 16Gi
 
     volumes:
-    - name: admin-policy
+    - name: policies
       configMap:
-        name: vault-admin-policy
+        name: vault-policies
         defaultMode: 0777
     - name: scripts
       configMap:
@@ -33,11 +34,11 @@ vault:
         defaultMode: 0777
 
     volumeMounts:
-    - name: admin-policy
+    - name: policies
       mountPath: /policies
       readOnly: true
-    - mountPath: /vault/scripts
-      name: scripts
+    - name: scripts
+      mountPath: /vault/scripts
       readOnly: true
   
     # extraEnvironmentVars is a list of extra environment variables to set with the stateful set. These could be
@@ -52,10 +53,10 @@ vault:
     standalone:
       enabled: false
   
-    # Run Vault in "HA" mode.
+    # Run Vault in HA mode.
     ha:
       enabled: true
-      replicas: 5
+      replicas: 5  # 5 replicas is required for Integrated Storage
       raft:
         enabled: true
         setNodeId: true
@@ -111,7 +112,3 @@ vault:
     #   - < YOUR SINGLE IP Ex. 1.78.23.3/32 >
 
 envSecret: {}
-
-oidc:
-  enabled: false
-  redirectHostname: ""

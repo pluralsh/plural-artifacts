@@ -6,20 +6,22 @@ metadata:
   labels:
   {{ include "vault-plural.labels" . | nindent 4 }}
 data:
-  vault_oidc.sh: |
+  vault-oidc.sh: |
     set -euo pipefail
 
     echo "Waiting for vault to be Ready"
     kubectl wait --for=condition=Ready -n {{ .Release.Namespace }} --timeout 10m pod/vault-0
 
-    kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- sh -c /vault/scripts/login.sh
+    echo "Runing script to login in to Vault"
+    kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- sh /vault/scripts/login.sh
 
-    kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- sh -c /vault/scripts/enable_oidc.sh
+    echo "Running script to enable OIDC"
+    kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- sh /vault/scripts/enable-oidc.sh
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: vault-oidc-job
+  name: vault-oidc
   labels:
   {{ include "vault-plural.labels" . | nindent 4 }}
   annotations:
@@ -28,11 +30,11 @@ spec:
   template:
     spec:
       restartPolicy: Never
-      serviceAccountName: init-vault-sa
+      serviceAccountName: vault-init-sa
       containers:
       - name: kubectl
         image: dkr.plural.sh/bootstrap/bitnami/kubectl:1.23.6
-        command: [bash, /scripts/vault_oidc.sh]
+        command: [bash, /scripts/vault-oidc.sh]
         volumeMounts:
         - name: oidc-script
           mountPath: /scripts
