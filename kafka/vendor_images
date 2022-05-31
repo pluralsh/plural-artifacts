@@ -1,2 +1,3 @@
 bitnami/kafka:2.8.1-debian-10-r78
 bitnami/zookeeper:3.7.0-debian-10-r58
+quay.io/strimzi/operator:0.24.0
