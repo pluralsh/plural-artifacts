@@ -16,42 +16,436 @@
       "enabled": true
     },
     {
-      "matchDatasources":["helm"],
+      "matchDatasources": [
+        "helm"
+      ],
       "postUpgradeTasks": {
         "commands": [
           "helm dependency update {{{packageFileDir}}}"
         ],
-        "fileFilters": ["**/*.tgz"]
+        "fileFilters": [
+          "**/*.tgz"
+        ]
       }
     },
     {
       "description": "Disable major update k8s client-go",
-      "matchPackagePatterns": ["^k8s.io/client-go"],
-      "matchUpdateTypes": ["major"],
+      "matchPackagePatterns": [
+        "^k8s.io/client-go"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
       "enabled": false
     },
     {
       "description": "Bump helm chart versions",
-      "matchManagers": ["helmv3"],
+      "matchManagers": [
+        "helmv3"
+      ],
       "bumpVersion": "patch"
     },
     {
       "description": "Group Image Vendor updates",
-      "matchManagers": ["regex"],
+      "matchManagers": [
+        "regex"
+      ],
       "groupName": "vendor-images",
       "additionalBranchPrefix": ""
     },
     {
-      "description": "Group Kubeflow Pipelines update",
-      "matchPackagePatterns": ["^(kubeflow|gcr.io)\/(ml-|tfx-oss-public\/ml_metadata_store_server).?(pipeline)?.*"],
-      "groupName": "kubeflow-pipelines",
+      "description": "Group airbyte updates",
+      "matchPaths": [
+        "airbyte"
+      ],
+      "groupName": "airbyte",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group airflow updates",
+      "matchPaths": [
+        "airflow"
+      ],
+      "groupName": "airflow",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group argo-cd updates",
+      "matchPaths": [
+        "argo-cd"
+      ],
+      "groupName": "argo-cd",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group argo-workflows updates",
+      "matchPaths": [
+        "argo-workflows"
+      ],
+      "groupName": "argo-workflows",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group bootstrap updates",
+      "matchPaths": [
+        "bootstrap"
+      ],
+      "groupName": "bootstrap",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group calendso updates",
+      "matchPaths": [
+        "calendso"
+      ],
+      "groupName": "calendso",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group chatwoot updates",
+      "matchPaths": [
+        "chatwoot"
+      ],
+      "groupName": "chatwoot",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group crossplane updates",
+      "matchPaths": [
+        "crossplane"
+      ],
+      "groupName": "crossplane",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group dagster updates",
+      "matchPaths": [
+        "dagster"
+      ],
+      "groupName": "dagster",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group dex updates",
+      "matchPaths": [
+        "dex"
+      ],
+      "groupName": "dex",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group etcd updates",
+      "matchPaths": [
+        "etcd"
+      ],
+      "groupName": "etcd",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group filecoin updates",
+      "matchPaths": [
+        "filecoin"
+      ],
+      "groupName": "filecoin",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group gcp-config-connector updates",
+      "matchPaths": [
+        "gcp-config-connector"
+      ],
+      "groupName": "gcp-config-connector",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group ghost updates",
+      "matchPaths": [
+        "ghost"
+      ],
+      "groupName": "ghost",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group gitlab updates",
+      "matchPaths": [
+        "gitlab"
+      ],
+      "groupName": "gitlab",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group goldilocks updates",
+      "matchPaths": [
+        "goldilocks"
+      ],
+      "groupName": "goldilocks",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group grafana updates",
+      "matchPaths": [
+        "grafana"
+      ],
+      "groupName": "grafana",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group grafana-tempo updates",
+      "matchPaths": [
+        "grafana-tempo"
+      ],
+      "groupName": "grafana-tempo",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group hasura updates",
+      "matchPaths": [
+        "hasura"
+      ],
+      "groupName": "hasura",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group hydra updates",
+      "matchPaths": [
+        "hydra"
+      ],
+      "groupName": "hydra",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group influx updates",
+      "matchPaths": [
+        "influx"
+      ],
+      "groupName": "influx",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group ingress-nginx updates",
+      "matchPaths": [
+        "ingress-nginx"
+      ],
+      "groupName": "ingress-nginx",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group istio updates",
+      "matchPaths": [
+        "istio"
+      ],
+      "groupName": "istio",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group jitsu updates",
+      "matchPaths": [
+        "jitsu"
+      ],
+      "groupName": "jitsu",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group kafka updates",
+      "matchPaths": [
+        "kafka"
+      ],
+      "groupName": "kafka",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group knative updates",
+      "matchPaths": [
+        "knative"
+      ],
+      "groupName": "knative",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group kratos updates",
+      "matchPaths": [
+        "kratos"
+      ],
+      "groupName": "kratos",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group kubecost updates",
+      "matchPaths": [
+        "kubecost"
+      ],
+      "groupName": "kubecost",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group kubeflow updates",
+      "matchPaths": [
+        "kubeflow"
+      ],
+      "groupName": "kubeflow",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group kyverno updates",
+      "matchPaths": [
+        "kyverno"
+      ],
+      "groupName": "kyverno",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group metabase updates",
+      "matchPaths": [
+        "metabase"
+      ],
+      "groupName": "metabase",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group minio updates",
+      "matchPaths": [
+        "minio"
+      ],
+      "groupName": "minio",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group mlflow updates",
+      "matchPaths": [
+        "mlflow"
+      ],
+      "groupName": "mlflow",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group monitoring updates",
+      "matchPaths": [
+        "monitoring"
+      ],
+      "groupName": "monitoring",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group mysql updates",
+      "matchPaths": [
+        "mysql"
+      ],
+      "groupName": "mysql",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group nextcloud updates",
+      "matchPaths": [
+        "nextcloud"
+      ],
+      "groupName": "nextcloud",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group nocodb updates",
+      "matchPaths": [
+        "nocodb"
+      ],
+      "groupName": "nocodb",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group nvidia-operator updates",
+      "matchPaths": [
+        "nvidia-operator"
+      ],
+      "groupName": "nvidia-operator",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group oauth2-proxy updates",
+      "matchPaths": [
+        "oauth2-proxy"
+      ],
+      "groupName": "oauth2-proxy",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group postgres updates",
+      "matchPaths": [
+        "postgres"
+      ],
+      "groupName": "postgres",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group rabbitmq updates",
+      "matchPaths": [
+        "rabbitmq"
+      ],
+      "groupName": "rabbitmq",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group redis updates",
+      "matchPaths": [
+        "redis"
+      ],
+      "groupName": "redis",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group rook updates",
+      "matchPaths": [
+        "rook"
+      ],
+      "groupName": "rook",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group sentry updates",
+      "matchPaths": [
+        "sentry"
+      ],
+      "groupName": "sentry",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group spark updates",
+      "matchPaths": [
+        "spark"
+      ],
+      "groupName": "spark",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group superset updates",
+      "matchPaths": [
+        "superset"
+      ],
+      "groupName": "superset",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group vault updates",
+      "matchPaths": [
+        "vault"
+      ],
+      "groupName": "vault",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group vaultwarden updates",
+      "matchPaths": [
+        "vaultwarden"
+      ],
+      "groupName": "vaultwarden",
       "additionalBranchPrefix": ""
     }
   ],
   "regexManagers": [
     {
-      "fileMatch": ["(^|/|\\.)vendor_images$"],
-      "matchStrings": ["(?<depName>.*?):(?<currentValue>.*)"],
+      "fileMatch": [
+        "(^|/|\\.)vendor_images$"
+      ],
+      "matchStrings": [
+        "(?<depName>.*?):(?<currentValue>.*)"
+      ],
       "versioningTemplate": "docker",
       "datasourceTemplate": "docker"
     }
