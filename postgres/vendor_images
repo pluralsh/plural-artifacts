@@ -1,3 +1,6 @@
 bitnami/postgres-exporter:0.8.0-debian-10-r354
 bitnami/postgresql:11.15.0-debian-10-r9
 postgres:13.6
+registry.opensource.zalan.do/acid/postgres-operator:v1.6.3
+registry.opensource.zalan.do/acid/logical-backup:v1.6.3
+registry.opensource.zalan.do/acid/pgbouncer:master-16

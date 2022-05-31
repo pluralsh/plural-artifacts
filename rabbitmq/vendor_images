@@ -1,2 +1,3 @@
 rabbitmq:3-management
 rabbitmq:3.9.15-management
+quay.io/rabbitmqoperator/cluster-operator:1.13.1

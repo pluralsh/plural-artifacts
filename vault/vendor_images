@@ -1,0 +1,2 @@
+hashicorp/vault-k8s:0.14.2
+davidspek/vault:1.10.2-master-oidc-fix
