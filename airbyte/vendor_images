@@ -1,7 +1,7 @@
-airbyte/bootloader:0.36.11-alpha
+airbyte/bootloader:0.39.7-alpha
 airbyte/scheduler:0.101.0-alpha
 airbyte/server:0.101.0-alpha
 airbyte/webapp:0.101.0-alpha
-airbyte/worker:0.36.11-alpha
+airbyte/worker:0.39.7-alpha
 bitnami/kubectl:latest
 temporalio/auto-setup:1.16.2
