@@ -7,8 +7,8 @@ calico/kube-controllers:v3.22.3
 calico/node:v3.22.3
 calico/pod2daemon-flexvol:v3.22.3
 calico/typha:v3.22.3
-equinix/cloud-provider-equinix-metal:v3.4.2
-k8s.gcr.io/provider-aws/aws-ebs-csi-driver:v1.5.1
+equinix/cloud-provider-equinix-metal:v3.4.3
+k8s.gcr.io/provider-aws/aws-ebs-csi-driver:v1.5.3
 k8s.gcr.io/sig-storage/csi-attacher:v3.4.0
 k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.5.1
 k8s.gcr.io/sig-storage/csi-provisioner:v3.1.0
