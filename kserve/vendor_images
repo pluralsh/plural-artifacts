@@ -8,7 +8,7 @@ tensorflow/serving:2.8.0
 kserve/torchserve-kfs:0.5.3
 nvcr.io/nvidia/tritonserver:21.09-py3
 kserve/xgbserver:v0.8.0
-seldonio/mlserver:0.5.3
+seldonio/mlserver:1.0.1
 kserve/storage-initializer:v0.8.0
 kserve/modelmesh-controller:v0.8.0
 kserve/modelmesh:v0.8.0
