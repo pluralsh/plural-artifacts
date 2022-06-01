@@ -7,6 +7,6 @@ gcr.io/knative-releases/knative.dev/serving/cmd/webhook:v0.26.2
 gcr.io/knative-releases/knative.dev/serving/cmd/queue:v0.26.2
 gcr.io/knative-releases/knative.dev/net-istio/cmd/controller:v0.26.0
 gcr.io/knative-releases/knative.dev/net-istio/cmd/webhook:v0.26.0
-gcr.io/knative-releases/knative.dev/eventing/cmd/controller:v0.22.3
-gcr.io/knative-releases/knative.dev/eventing/cmd/mtping:v0.22.3
-gcr.io/knative-releases/knative.dev/eventing/cmd/webhook:v0.22.3
+gcr.io/knative-releases/knative.dev/eventing/cmd/controller:v0.26.4
+gcr.io/knative-releases/knative.dev/eventing/cmd/mtping:v0.26.4
+gcr.io/knative-releases/knative.dev/eventing/cmd/webhook:v0.26.4
