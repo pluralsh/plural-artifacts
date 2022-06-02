@@ -58,7 +58,5 @@ oidc:
 {{- if .OIDC }}
   enabled: true
   redirectHostname: {{ .Values.hostname }}
-  external_group_name: vault-admins
-{{ else }}
-  enabled: false
+  adminEmail: {{ .Config.Email }}
 {{- end }}

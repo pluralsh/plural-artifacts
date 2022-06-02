@@ -15,6 +15,9 @@ data:
     echo "Runing script to login in to Vault"
     kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- sh /vault/scripts/login.sh
 
+    echo "Ensuring admin policy is up to date"
+    kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- sh /vault/scripts/write-admin-policy.sh
+
     echo "Running script to enable OIDC"
     kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- sh /vault/scripts/enable-oidc.sh
 ---

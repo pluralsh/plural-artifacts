@@ -112,3 +112,8 @@ vault:
     #   - < YOUR SINGLE IP Ex. 1.78.23.3/32 >
 
 envSecret: {}
+
+oidc:
+  enabled: false
+  redirectHostname: ""
+  adminEmail: ""
