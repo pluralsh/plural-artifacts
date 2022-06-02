@@ -54,8 +54,8 @@ envSecret:
   OIDC_CLIENT_SECRET: "{{ .OIDC.ClientSecret }}"
   {{- end }}
 
-oidc:
 {{- if .OIDC }}
+oidc:
   enabled: true
   redirectHostname: {{ .Values.hostname }}
   adminEmail: {{ .Config.Email }}
