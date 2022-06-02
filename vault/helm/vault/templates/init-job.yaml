@@ -73,7 +73,7 @@ data:
     kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- vault login -no-print -non-interactive "$root_token"
 
     echo "Writing admin policy"
-    kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- vault policy write admin /policies/admin-policy.hcl
+    kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- sh /vault/scripts/write-admin-policy.sh
 
     echo "Enabling Kubernetes auth"
     kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- vault auth enable kubernetes
