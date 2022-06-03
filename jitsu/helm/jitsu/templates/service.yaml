@@ -15,5 +15,9 @@ spec:
       targetPort: config
       protocol: TCP
       name: config
+    - port: 8001
+      targetPort: 8001
+      protocol: TCP
+      name: test
   selector:
     {{- include "jitsu.selectorLabels" . | nindent 4 }}
