@@ -7,7 +7,7 @@ postgres:
   password: REPLACE_ME
 
 image:
-  repository: gcr.io/pluralsh/oryd/hydra
+  repository: dkr.plural.sh/hydra/oryd/hydra
   tag: v1.10.5
   pullPolicy: Always
 
@@ -16,7 +16,8 @@ hydra:
   replicaCount: 2
 
   image:
-    repository: gcr.io/pluralsh/oryd/hydra
+    repository: dkr.plural.sh/hydra/oryd/hydra
+    tag: v1.10.5
 
   maester:
     enabled: false

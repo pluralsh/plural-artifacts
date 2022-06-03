@@ -12,8 +12,10 @@ kyverno:
             - kyverno
   image:
     repository: dkr.plural.sh/kyverno/kyverno/kyverno
+    tag: v1.6.2
   initImage:
     repository: dkr.plural.sh/kyverno/kyverno/kyvernopre
+    tag: v1.6.2
   serviceAccount:
     create: true
   serviceMonitor:

@@ -32,6 +32,15 @@ oidcProxy:
     host: kubecost.david.onplural.sh
 
 cost-analyzer:
+  imageVersion: prod-1.90.1
+  kubecostFrontend:
+    image: dkr.plural.sh/kubecost/kubecost1/frontend
+  kubecostModel:
+    image: dkr.plural.sh/kubecost/kubecost1/cost-model
+  kubecost:
+    image: dkr.plural.sh/kubecost/kubecost1/server
+  
+
   prometheus:
     kube-state-metrics:
       disabled: true

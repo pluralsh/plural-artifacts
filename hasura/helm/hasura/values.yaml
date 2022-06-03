@@ -18,6 +18,9 @@ ingress:
     nginx.ingress.kubernetes.io/session-cookie-path: /v1/graphql
 
 hasura:
+  imageConfig:
+    repository: dkr.plural.sh/hasura/hasura/graphql-engine
+    tag: v2.0.9
   console:
     enabled: true
   postgresql:

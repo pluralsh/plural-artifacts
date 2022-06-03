@@ -3,6 +3,44 @@
 # Declare variables to be passed into your templates.
 replicaCount: 1
 
+images:
+  activator:
+    registry: dkr.plural.sh
+    repository: knative/knative-releases/knative.dev/serving/cmd/activator
+    tag: v0.26.0
+  autoscaler:
+    registry: dkr.plural.sh
+    repository: knative/knative-releases/knative.dev/serving/cmd/activator
+    tag: v0.26.0
+  controller:
+    registry: dkr.plural.sh
+    repository: knative/knative-releases/knative.dev/serving/cmd/controller
+    tag: v0.26.0
+  domainMapping:
+    registry: dkr.plural.sh
+    repository: knative/knative-releases/knative.dev/serving/cmd/domain-mapping
+    tag: v0.26.0
+  domainMappingWebhook:
+    registry: dkr.plural.sh
+    repository: knative/knative-releases/knative.dev/serving/cmd/domain-mapping-webhook
+    tag: v0.26.0
+  netIstioController:
+    registry: dkr.plural.sh
+    repository: knative/knative-releases/knative.dev/net-istio/cmd/controller
+    tag: v0.26.0
+  netIstioWebhook:
+    registry: dkr.plural.sh
+    repository: knative/knative-releases/knative.dev/net-istio/cmd/webhook
+    tag: v0.26.0
+  webhook:
+    registry: dkr.plural.sh
+    repository: knative/knative-releases/knative.dev/serving/cmd/webhook
+    tag: v0.26.0
+  cacheImage:
+    registry: dkr.plural.sh
+    repository: knative/knative-releases/knative.dev/serving/cmd/queue
+    tag: v0.26.0
+
 observabilityConfig:
   metrics.backend-destination: opencensus
   request-metrics-backend-destination: opencensus

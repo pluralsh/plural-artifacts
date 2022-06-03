@@ -1,3 +1,8 @@
+crossplane:
+  image:
+    repository: dkr.plural.sh/crossplane/crossplane/crossplane
+    tag: v1.3.3
+
 serviceAccount:
   annotations:
     eks.amazonaws.com/role-arn: arn:aws:iam::test:role/test-crossplane

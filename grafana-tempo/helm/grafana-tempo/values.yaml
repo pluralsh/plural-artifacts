@@ -7,10 +7,13 @@ tempo-distributed:
     image:
       registry: dkr.plural.sh
       repository: grafana-tempo/docker.io/grafana/tempo
+      tag: 1.1.0
   queryFrontend:
     query:
       image:
+        registry: dkr.plural.sh
         repository: grafana-tempo/docker.io/grafana/tempo-query
+        tag: 1.1.0
   serviceAccount:
     name: grafana-tempo
   traces:

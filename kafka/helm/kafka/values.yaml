@@ -1,5 +1,10 @@
 strimzi-kafka-operator:
   watchAnyNamespace: true
+  image:
+    registry: dkr.plural.sh
+    repository: kafka/strimzi/operator
+    name: ""
+    tag: 0.24.0
 
 create: true
 

@@ -1,5 +1,10 @@
 ingress-nginx:
   controller:
+    image:
+      registry: dkr.plural.sh
+      image: ingress-nginx/ingress-nginx/controller
+      tag: v1.1.0
+      digest: ""
     admissionWebhooks:
       enabled: false
     config:

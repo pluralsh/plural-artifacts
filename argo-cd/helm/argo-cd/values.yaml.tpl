@@ -1,5 +1,6 @@
 {{ $hostname := .Values.hostname }}
 {{ $redisNamespace := namespace "redis" }}
+{{ $redisValues := .Applications.HelmValues "redis" }}
 
 global:
   application:
@@ -95,8 +96,7 @@ argo-cd:
         url: {{ .Values.privateRepoURL }}
     {{ end }}
 
-{{ $creds := secret $redisNamespace "redis-password" }}
-redisPassword: {{ $creds.password }}
+redisPassword: {{ $redisValues.redis.password }}
 
 {{ if .Values.enableImageUpdater }}
 argocd-image-updater:

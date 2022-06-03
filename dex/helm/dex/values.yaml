@@ -1,4 +1,7 @@
 dex:
+  image:
+    repository: dkr.plural.sh/dex/dexidp/dex
+    tag: v2.28.1
   config:
     storage:
       type: kubernetes

@@ -4,3 +4,16 @@
 
 replicaCount: 1
 
+images:
+  controller:
+    registry: dkr.plural.sh
+    repository: knative/knative-releases/knative.dev/eventing/cmd/controller
+    tag: v0.22.0
+  mtping:
+    registry: dkr.plural.sh
+    repository: knative/knative-releases/knative.dev/eventing/cmd/mtping
+    tag: v0.22.0
+  webhook:
+    registry: dkr.plural.sh
+    repository: knative/knative-releases/knative.dev/eventing/cmd/webhook
+    tag: v0.22.0
