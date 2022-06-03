@@ -10,6 +10,8 @@ dependencies:
   name: gcp-k8s
 - repo: grafana
   name: gcp-grafana
+- repo: monitoring
+  name: monitoring-gcp
 sections:
 - name: kubecost
   configuration:

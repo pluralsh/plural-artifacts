@@ -10,6 +10,8 @@ dependencies:
   name: aws-k8s
 - repo: grafana
   name: aws-grafana
+- repo: monitoring
+  name: monitoring-aws
 sections:
 - name: kubecost
   configuration:

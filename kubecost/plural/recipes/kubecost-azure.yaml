@@ -10,6 +10,8 @@ dependencies:
   name: azure-k8s
 - repo: grafana
   name: azure-grafana
+- repo: monitoring
+  name: monitoring-azure
 sections:
 - name: kubecost
   configuration:
