@@ -241,7 +241,7 @@ EOF
 
 variable "kubernetes_version" {
   type = string
-  default = "1.22.7-gke.1500"
+  default = "1.22.8-gke.201"
 }
 
 variable "vpc_subnetwork_cidr_range" {
