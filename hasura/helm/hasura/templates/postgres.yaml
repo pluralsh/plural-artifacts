@@ -1,4 +1,4 @@
-{{- if eq .Values.hasura.postgresql.host "plural-hasura" }}
+{{- if .Values.hasura.postgresql.operatorEnabled }}
 apiVersion: acid.zalan.do/v1
 kind: postgresql
 metadata:
