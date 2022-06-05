@@ -1,6 +1,7 @@
 name: calendso
 description: open source calendly alternative
 category: PRODUCTIVITY
+private: true
 icon: plural/icons/cal.png
 notes: plural/notes.tpl
 gitUrl: https://github.com/calcom/cal.com
