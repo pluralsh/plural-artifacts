@@ -16,6 +16,7 @@ hasura:
   adminSecret: {{ dedupe . "hasura.hasura.adminSecret" (randAlphaNum 40) }}
   jwt:
     key: {{ dedupe . "hasura.hasura.jwt.key" (randAlphaNum 40) }}
+  {{ if not .Values.postgresqlDisabled }}
   pgClient:
     external: 
       enabled: true
@@ -24,3 +25,10 @@ hasura:
       username: hasura
       database: hasura
       password: {{ $postgresPwd }}
+      operatorEnabled: true
+  {{ else }}
+  pgClient:
+    external: 
+      enabled: true
+      operatorEnabled: false
+  {{ end }}

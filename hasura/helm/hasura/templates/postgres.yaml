@@ -1,3 +1,4 @@
+{{- if .Values.hasura.postgresql.operatorEnabled }}
 apiVersion: acid.zalan.do/v1
 kind: postgresql
 metadata:
@@ -85,3 +86,4 @@ spec:
     targetPort: http-metrics
   selector:
     spilo-role: replica
+{{- end }}
