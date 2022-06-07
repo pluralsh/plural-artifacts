@@ -7,9 +7,9 @@ module "vpc" {
   name                   = var.vpc_name
   cidr                   = "10.0.0.0/16"
   azs                    = data.aws_availability_zones.available.names
-  public_subnets         = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
-  private_subnets        = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
-  worker_private_subnets = ["10.0.16.0/20", "10.0.32.0/20", "10.0.48.0/20"]
+  public_subnets         = var.public_subnets
+  private_subnets        = var.private_subnets
+  worker_private_subnets = var.worker_private_subnets
   enable_dns_hostnames   = true
   enable_ipv6            = true
 

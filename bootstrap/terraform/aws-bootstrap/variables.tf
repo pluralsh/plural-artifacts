@@ -14,6 +14,27 @@ variable "cluster_name" {
   description = "name for the cluster"
 }
 
+variable "public_subnets" {
+  type = list(string)
+  default = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
+
+  description = "Public subnets for the EKS cluster"
+}
+
+variable "private_subnets" {
+  type = list(string)
+  default = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+
+  description = "Private subnets for the EKS cluster"
+}
+
+variable "worker_private_subnets" {
+  type = list(string)
+  default = ["10.0.16.0/20", "10.0.32.0/20", "10.0.48.0/20"]
+
+  description = "Private subnets for the workers of the EKS cluster"
+}
+
 variable "instance_types" {
   type = list(string)
   default = ["t3.large"]
