@@ -182,7 +182,7 @@ airbyte:
 
   temporal:
     image:
-      tag: 1.13.1
+      tag: 1.16.2
     extraEnv:
       - name: SQL_TLS_ENABLED
         value: "true"
@@ -198,21 +198,25 @@ airbyte:
     existingSecretPasswordKey: password
     user: airbyte
 
+  bootloader:
+    image:
+      tag: 0.39.14-alpha
+
   worker:
     image:
-      tag: 0.35.5-alpha
+      tag: 0.39.14-alpha
 
   scheduler:
     image:
-      tag: 0.35.5-alpha
+      tag: 0.39.11-alpha
 
   server:
     image:
-      tag: 0.35.5-alpha
+      tag: 0.39.14-alpha
 
   webapp:
     image:
-      tag: 0.35.5-alpha
+      tag: 0.39.14-alpha
 
     ingress:
       enabled: false
