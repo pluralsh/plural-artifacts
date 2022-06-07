@@ -1,0 +1,6 @@
+name: kubescape
+description: kubernetes security in a single pane of glass
+category: SECURITY
+private: true
+icon: plural/icons/kubescape.png
+notes: plural/notes.tpl

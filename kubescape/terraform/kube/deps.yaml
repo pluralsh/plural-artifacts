@@ -1,0 +1,17 @@
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  description: kubescape aws setup
+  version: 0.1.0
+spec:
+  dependencies:
+  - name: aws-bootstrap
+    repo: bootstrap
+    type: terraform
+    version: '>= 0.1.1'
+  providers:
+  - aws
+  - gcp
+  - azure
+  - kind
+  - equinix

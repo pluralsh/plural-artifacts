@@ -1,0 +1,10 @@
+apiVersion: v2
+name: kubescape
+description: helm chart for kubescape
+type: application
+version: 0.1.1
+appVersion: "v1.0.0"
+dependencies:
+- name: armo-cluster-components
+  version: 1.7.8
+  repository: https://armosec.github.io/armo-helm/
