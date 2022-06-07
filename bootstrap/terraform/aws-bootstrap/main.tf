@@ -5,7 +5,7 @@ data "aws_caller_identity" "current" {}
 module "vpc" {
   source                 = "github.com/pluralsh/terraform-aws-vpc?ref=worker_subnet"
   name                   = var.vpc_name
-  cidr                   = "10.0.0.0/16"
+  cidr                   = var.vpc_cidr
   azs                    = data.aws_availability_zones.available.names
   public_subnets         = var.public_subnets
   private_subnets        = var.private_subnets

@@ -14,6 +14,13 @@ variable "cluster_name" {
   description = "name for the cluster"
 }
 
+variable "vpc_cidr" {
+  type = string
+  default = "10.0.0.0/16"
+
+  description = "The CIDR for the VPC created for the EKS cluster and it's worker nodes"
+}
+
 variable "public_subnets" {
   type = list(string)
   default = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
