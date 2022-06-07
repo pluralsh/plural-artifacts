@@ -43,19 +43,16 @@ spec:
             - name: config
               containerPort: 8000
               protocol: TCP
-            - name: health
-              containerPort: 8001
-              protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
-              port: http
+              path: /configurator
+              port: 8000
             initialDelaySeconds: 10
             periodSeconds: 5
           readinessProbe:
             httpGet:
-              path: /
-              port: http
+              path: /configurator
+              port: 8000
             initialDelaySeconds: 10
             periodSeconds: 5
           resources:
