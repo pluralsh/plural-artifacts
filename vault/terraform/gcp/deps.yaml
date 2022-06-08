@@ -11,3 +11,7 @@ spec:
     version: '>= 0.1.1'
   providers:
   - gcp
+  outputs:
+    google_kms_key_ring_location: google_kms_key_ring_location
+    google_kms_key_ring_id: google_kms_key_ring_id
+    google_kms_crypto_key_id: google_kms_crypto_key_id
