@@ -23,6 +23,16 @@ resource "kubernetes_service_account" "vault" {
   ]
 }
 
+resource "google_project_service" "kms" {
+  project = var.gcp_project_id
+  service = "cloudkms.googleapis.com"
+
+  timeouts {
+    create = "30m"
+    update = "40m"
+  }
+}
+
 module "vault-workload-identity" {
   source     = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
   name       = "${var.cluster_name}-vault"
@@ -47,10 +57,18 @@ resource "google_kms_key_ring" "vault" {
   project  = "${var.project_id}"
   name     = "${var.cluster_name}-vault"
   location = "${var.keyring_location}"
+
+  depends_on = [
+    google_project_service.kms
+  ]
 }
 
 resource "google_kms_crypto_key" "vault" {
   name            = "${var.cluster_name}-vault-key"
   key_ring        = "${google_kms_key_ring.vault.id}"
   rotation_period = "100000s"
+
+  depends_on = [
+    google_project_service.kms
+  ]
 }
