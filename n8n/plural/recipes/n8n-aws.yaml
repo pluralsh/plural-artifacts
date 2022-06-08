@@ -1,0 +1,22 @@
+name: n8n-aws
+description: Installs n8n on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+
+
+- repo: postgres
+  name: aws-postgres
+
+sections:
+- name: n8n
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: n8n
