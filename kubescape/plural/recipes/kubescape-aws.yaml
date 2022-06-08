@@ -8,7 +8,7 @@ sections:
 - name: kubescape
   configuration:
   - name: accountGuid
-    description: the account id for your kubescape account
+    documentation: the account id for your kubescape account
     type: STRING
   items:
   - type: TERRAFORM
