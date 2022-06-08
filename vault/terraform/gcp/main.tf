@@ -51,6 +51,6 @@ resource "google_kms_key_ring" "vault" {
 
 resource "google_kms_crypto_key" "vault" {
   name            = "${var.cluster_name}-vault-key"
-  key_ring        = "${google_kms_key_ring.vault.self_link}"
+  key_ring        = "${google_kms_key_ring.vault.id}"
   rotation_period = "100000s"
 }
