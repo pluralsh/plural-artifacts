@@ -1,0 +1,6 @@
+dependencies:
+- name: armo-cluster-components
+  repository: https://armosec.github.io/armo-helm/
+  version: 1.7.8
+digest: sha256:8e85cca5edddfaf04b0f973f4124f70a57e4c94c40fdc872a32314b218ced94b
+generated: "2022-06-06T23:53:17.11106-04:00"

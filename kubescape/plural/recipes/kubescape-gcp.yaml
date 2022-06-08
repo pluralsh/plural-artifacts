@@ -1,0 +1,17 @@
+name: kubescape-gcp
+description: Installs kubescape on an aws eks cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+sections:
+- name: kubescape
+  configuration:
+  - name: accountGuid
+    documentation: the account id for your kubescape account
+    type: STRING
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: kubescape
