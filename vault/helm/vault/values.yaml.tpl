@@ -4,6 +4,9 @@ vault:
       {{- if eq .Provider "aws" }}
       VAULT_SEAL_TYPE: awskms
       {{- end }}
+      {{- if eq .Provider "gcp" }}
+      VAULT_SEAL_TYPE: gcpckms
+      {{- end }}
       {{- if .OIDC }}
       OIDC_DISCOVERY_URL: "https://oidc.plural.sh/"
       {{- end }}
@@ -44,10 +47,21 @@ vault:
       annotations:
         eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-vault"
     {{ end }}
+    {{ if eq .Provider "gcp" }}
+    serviceAccount:
+      create: false
+      name: vault
+    {{ end }}
 
 envSecret:
   {{- if eq .Provider "aws" }}
   VAULT_AWSKMS_SEAL_KEY_ID: {{ importValue "Terraform" "aws_kms_key_id" }}
+  {{- end }}
+  {{- if eq .Provider "gcp" }}
+  GOOGLE_PROJECT: {{ .Project }}
+  GOOGLE_REGION: {{ importValue "Terraform" "google_kms_key_ring_location" }}
+  VAULT_GCPCKMS_SEAL_KEY_RING: {{ importValue "Terraform" "google_kms_key_ring_id" }}
+  VAULT_GCPCKMS_SEAL_CRYPTO_KEY: {{ importValue "Terraform" "google_kms_crypto_key_id" }}
   {{- end }}
   {{- if .OIDC }}
   OIDC_CLIENT_ID: "{{ .OIDC.ClientId }}"

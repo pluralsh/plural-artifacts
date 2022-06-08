@@ -9,3 +9,48 @@ resource "kubernetes_namespace" "vault" {
   }
 }
 
+resource "kubernetes_service_account" "vault" {
+  metadata {
+    name      = var.vault_serviceaccount
+    namespace = var.namespace
+    annotations = {
+      "iam.gke.io/gcp-service-account" = module.vault-workload-identity.gcp_service_account_email
+    }
+  }
+
+  depends_on = [
+    kubernetes_namespace.vault
+  ]
+}
+
+module "vault-workload-identity" {
+  source     = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
+  name       = "${var.cluster_name}-vault"
+  namespace  = var.namespace
+  project_id = var.project_id
+  use_existing_k8s_sa = true
+  annotate_k8s_sa = false
+  k8s_sa_name = var.vault_serviceaccount
+  roles = []
+}
+
+resource "google_kms_key_ring_iam_binding" "vault_iam_kms_binding" {
+  key_ring_id = "${google_kms_key_ring.vault.id}"
+  role = "roles/owner"
+
+  members = [
+    "serviceAccount:${module.vault-workload-identity.gcp_service_account_email}",
+  ]
+}
+
+resource "google_kms_key_ring" "vault" {
+  project  = "${var.project_id}"
+  name     = "${var.cluster_name}-vault"
+  location = "${var.keyring_location}"
+}
+
+resource "google_kms_crypto_key" "vault" {
+  name            = "${var.cluster_name}-vault-key"
+  key_ring        = "${google_kms_key_ring.vault.self_link}"
+  rotation_period = "100000s"
+}
