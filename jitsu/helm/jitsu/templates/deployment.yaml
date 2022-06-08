@@ -34,8 +34,8 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           envFrom:
-          - secretRef:
-              name: jitsu-env
+            - secretRef:
+                name: jitsu-env
           ports:
             - name: http
               containerPort: {{ .Values.service.containerPort }}
@@ -45,14 +45,13 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
-              port: http
-            initialDelaySeconds: 10
+              path: /configurator
+              port: 8000
+            initialDelaySeconds: 15
             periodSeconds: 5
           readinessProbe:
-            httpGet:
-              path: /
-              port: http
+            tcpSocket:
+              port: {{ .Values.service.containerPort }}
             initialDelaySeconds: 10
             periodSeconds: 5
           resources:
