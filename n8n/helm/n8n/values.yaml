@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: dkr.plural.sh/n8n/n8n/n8n
+  repository: dkr.plural.sh/n8n/n8nio/n8n
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "0.181.2"
 
 imagePullSecrets: []
 nameOverride: ""
