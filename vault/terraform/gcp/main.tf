@@ -53,9 +53,12 @@ resource "google_kms_key_ring_iam_binding" "vault_iam_kms_binding" {
   ]
 }
 
+resource "random_uuid" "keyring" {
+}
+
 resource "google_kms_key_ring" "vault" {
   project  = "${var.project_id}"
-  name     = "${var.cluster_name}-vault"
+  name     = "${var.cluster_name}-vault-${random_uuid.keyring.result}"
   location = "${var.keyring_location}"
 
   depends_on = [
