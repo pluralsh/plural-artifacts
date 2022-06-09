@@ -4,8 +4,10 @@ vault:
       {{- if eq .Provider "aws" }}
       VAULT_SEAL_TYPE: awskms
       {{- end }}
-      {{- if eq .Provider "gcp" }}
+      {{- if eq .Provider "google" }}
       VAULT_SEAL_TYPE: gcpckms
+      GOOGLE_PROJECT: {{ .Project }}
+      GOOGLE_REGION: {{ importValue "Terraform" "google_kms_key_ring_location" }}
       {{- end }}
       {{- if .OIDC }}
       OIDC_DISCOVERY_URL: "https://oidc.plural.sh/"
@@ -16,6 +18,14 @@ vault:
     - envName: VAULT_AWSKMS_SEAL_KEY_ID
       secretName: vault-env-secret
       secretKey: VAULT_AWSKMS_SEAL_KEY_ID
+    {{- end }}
+    {{- if eq .Provider "google" }}
+    - envName: VAULT_GCPCKMS_SEAL_CRYPTO_KEY
+      secretName: vault-env-secret
+      secretKey: VAULT_GCPCKMS_SEAL_CRYPTO_KEY
+    - envName: VAULT_GCPCKMS_SEAL_KEY_RING
+      secretName: vault-env-secret
+      secretKey: VAULT_GCPCKMS_SEAL_KEY_RING
     {{- end }}
     {{- if .OIDC }}
     - envName: OIDC_CLIENT_ID
@@ -47,7 +57,7 @@ vault:
       annotations:
         eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-vault"
     {{ end }}
-    {{ if eq .Provider "gcp" }}
+    {{ if eq .Provider "google" }}
     serviceAccount:
       create: false
       name: vault
@@ -57,11 +67,9 @@ envSecret:
   {{- if eq .Provider "aws" }}
   VAULT_AWSKMS_SEAL_KEY_ID: {{ importValue "Terraform" "aws_kms_key_id" }}
   {{- end }}
-  {{- if eq .Provider "gcp" }}
-  GOOGLE_PROJECT: {{ .Project }}
-  GOOGLE_REGION: {{ importValue "Terraform" "google_kms_key_ring_location" }}
-  VAULT_GCPCKMS_SEAL_KEY_RING: {{ importValue "Terraform" "google_kms_key_ring_id" }}
-  VAULT_GCPCKMS_SEAL_CRYPTO_KEY: {{ importValue "Terraform" "google_kms_crypto_key_id" }}
+  {{- if eq .Provider "google" }}
+  VAULT_GCPCKMS_SEAL_KEY_RING: {{ importValue "Terraform" "google_kms_key_ring_name" }}
+  VAULT_GCPCKMS_SEAL_CRYPTO_KEY: {{ importValue "Terraform" "google_kms_crypto_key_name" }}
   {{- end }}
   {{- if .OIDC }}
   OIDC_CLIENT_ID: "{{ .OIDC.ClientId }}"

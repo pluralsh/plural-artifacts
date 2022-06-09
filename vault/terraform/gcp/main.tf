@@ -24,7 +24,7 @@ resource "kubernetes_service_account" "vault" {
 }
 
 resource "google_project_service" "kms" {
-  project = var.gcp_project_id
+  project = var.project_id
   service = "cloudkms.googleapis.com"
 
   timeouts {
