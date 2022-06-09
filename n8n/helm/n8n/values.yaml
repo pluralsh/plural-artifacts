@@ -68,7 +68,7 @@ database:
   type: postgresdb
   secret: n8n.plural-n8n.credentials.postgresql.acid.zalan.do
   host: plural-n8n
-  port: '5432'
+  port: "5432"
   #dbname: n8n
   schema: n8n
 

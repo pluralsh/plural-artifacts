@@ -49,18 +49,18 @@ spec:
               value: {{ .Values.database.host }}
                   # maybe from secret, need to be dns probably
             - name: DB_POSTGRESDB_PORT
-              value: {{ .Values.database.port }}
+              value: {{ .Values.database.port | quote }}
             - name: DB_POSTGRESDB_SCHEMA
               value: {{ .Values.database.schema }}
             - name: DB_POSTGRESDB_USER
               valueFrom:
                 secretKeyRef:
-                  name: n8n.plural-n8n.credentials.postgresql.acid.zalan.do
+                  name: {{ .Values.database.secret }}
                   key: username
             - name: DB_POSTGRESDB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: n8n.plural-n8n.credentials.postgresql.acid.zalan.do
+                  name: {{ .Values.database.secret }}
                   key: password
           #livenessProbe:
           #  httpGet:
