@@ -4,14 +4,10 @@ provider: GCP
 dependencies:
 - repo: bootstrap
   name: gcp-k8s
-
 - repo: ingress-nginx
   name: ingress-nginx-gcp
-
-
 - repo: postgres
   name: gcp-postgres
-
 sections:
 - name: n8n
   configuration: []
