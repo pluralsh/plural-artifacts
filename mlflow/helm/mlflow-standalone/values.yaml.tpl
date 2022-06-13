@@ -9,7 +9,7 @@ global:
 oidc-config:
   enabled: true
   secret:
-    name: mlflow-standalone-proxy-config
+    name: mlflow-oauth2-proxy-config
     upstream: http://localhost:5000
     issuer: {{ .OIDC.Configuration.Issuer }}
     clientID: {{ .OIDC.ClientId }}
