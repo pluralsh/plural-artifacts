@@ -39,6 +39,7 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 80
+  containerPort: 5678
 
 ingress:
   enabled: true
@@ -69,7 +70,7 @@ database:
   secret: n8n.plural-n8n.credentials.postgresql.acid.zalan.do
   host: plural-n8n
   port: "5432"
-  #dbname: n8n
+  dbname: n8n
   schema: n8n
 
 resources: {}

@@ -37,31 +37,33 @@ spec:
             - mountPath: /.n8n
               name: user-data
           ports:
-            - name: n8n
+            - name: http
               containerPort: 5678
               protocol: TCP
           env:
-            - name: DB_TYPE
-              value: {{ .Values.database.type }}
-            - name: DB_POSTGRESDB_DATABASE
-              value: {{ .Values.postgres.dbName }}
-            - name: DB_POSTGRESDB_HOST
-              value: {{ .Values.database.host }}
+            - name: "N8N_PORT"
+              value: {{ .Values.service.containerPort | default "5678" | quote }}
+            #- name: DB_TYPE
+            #  value: {{ .Values.database.type }}
+            #- name: DB_POSTGRESDB_DATABASE
+            #  value: {{ .Values.postgres.dbName }}
+            #- name: DB_POSTGRESDB_HOST
+            #  value: {{ .Values.database.host | quote }}
                   # maybe from secret, need to be dns probably
-            - name: DB_POSTGRESDB_PORT
-              value: {{ .Values.database.port | quote }}
-            - name: DB_POSTGRESDB_SCHEMA
-              value: {{ .Values.database.schema }}
-            - name: DB_POSTGRESDB_USER
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.database.secret }}
-                  key: username
-            - name: DB_POSTGRESDB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.database.secret }}
-                  key: password
+            #- name: DB_POSTGRESDB_PORT
+            #  value: {{ .Values.database.port | quote }}
+            #- name: DB_POSTGRESDB_SCHEMA
+            #  value: {{ .Values.database.schema }}
+            #- name: DB_POSTGRESDB_USER
+            #  valueFrom:
+            #    secretKeyRef:
+            #      name: {{ .Values.database.secret }}
+            #      key: username
+            #- name: DB_POSTGRESDB_PASSWORD
+            #  valueFrom:
+            #    secretKeyRef:
+            #      name: {{ .Values.database.secret }}
+            #      key: password
           #livenessProbe:
           #  httpGet:
           #    path: /
