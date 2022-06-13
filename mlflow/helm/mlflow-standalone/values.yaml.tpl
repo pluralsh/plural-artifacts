@@ -16,7 +16,7 @@ oidc-config:
     clientSecret: {{ .OIDC.ClientSecret }}
     cookieSecret: {{ dedupe . "mlflow-standalone.oidc-config.secret.cookieSecret" $prevSecret }}
   service:
-    name: mlflow-standalone-oauth2-proxy
+    name: mlflow-oauth2-proxy
     selector:
       statefulset: trackingserver
   {{ if .Values.users }}
