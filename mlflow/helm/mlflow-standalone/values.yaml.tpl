@@ -5,13 +5,24 @@ global:
       url: {{ .Values.hostname }}
 
 {{- if .OIDC }}
-oidcProxy:
+{{ $prevSecret := dedupe . "mlflow-standalone.oidcProxy.cookieSecret" (randAlphaNum 32) }}
+oidc-config:
   enabled: true
-  upstream: http://localhost:5000
-  issuer: {{ .OIDC.Configuration.Issuer }}
-  clientID: {{ .OIDC.ClientId }}
-  clientSecret: {{ .OIDC.ClientSecret }}
-  cookieSecret: {{ dedupe . "mlflow-standalone.oidcProxy.cookieSecret" (randAlphaNum 32) }}
+  secret:
+    name: mlflow-oauth2-proxy-config
+    upstream: http://localhost:5000
+    issuer: {{ .OIDC.Configuration.Issuer }}
+    clientID: {{ .OIDC.ClientId }}
+    clientSecret: {{ .OIDC.ClientSecret }}
+    cookieSecret: {{ dedupe . "mlflow-standalone.oidc-config.secret.cookieSecret" $prevSecret }}
+  service:
+    name: mlflow-oauth2-proxy
+    selector:
+      statefulset: trackingserver
+  {{ if .Values.users }}
+  users:
+  {{ toYaml .Values.users | nindent 4 }}
+  {{ end }}
 {{- end }}
 
 mlflow:
