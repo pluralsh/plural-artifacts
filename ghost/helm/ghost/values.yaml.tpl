@@ -20,10 +20,6 @@ ghost:
     mail__from: {{ .Values.ghostEmail }}
 
 ingress:
-  {{- if .Values.ghostPath }}
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
-  {{- end }}
   hosts:
     - host: {{ .Values.ghostDomain }}
       paths:
