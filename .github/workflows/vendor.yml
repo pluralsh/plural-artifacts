@@ -314,7 +314,7 @@ jobs:
           repo: calendso
         
         # dagster
-        - image: dagster/dagster-celery-k8s:0.14.19
+        - image: dagster/dagster-celery-k8s:0.15.0
           repo: dagster
 
         # metabase
