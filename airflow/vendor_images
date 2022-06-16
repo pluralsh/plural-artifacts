@@ -1,4 +1,4 @@
 apache/airflow:2.3.2-python3.8
-bitnami/redis:6.2.7-debian-10-r0
+bitnami/redis:7.0.0-debian-10-r0
 prom/statsd-exporter:v0.22.5
 bitnami/redis-exporter:1.37.0-debian-10-r11

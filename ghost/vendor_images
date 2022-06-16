@@ -1,4 +1,4 @@
-bitnami/ghost:4.48.1-debian-10-r0
-bitnami/ghost:4.48.1-debian-10-r0
+bitnami/ghost:5.2.2-debian-10-r0
+bitnami/ghost:5.2.2-debian-10-r0
 ghost:5-alpine
 ghost:5.1-alpine
