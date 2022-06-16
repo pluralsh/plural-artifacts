@@ -8,7 +8,7 @@ db:
 
 image:
   repository: dkr.plural.sh/ghost/ghost
-  tag: 5-alpine
+  tag: 5.2-alpine
   pullPolicy: IfNotPresent
 
 resources: {}
