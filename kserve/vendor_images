@@ -4,7 +4,7 @@ kserve/lgbserver:v0.8.0
 kserve/paddleserver:v0.8.0
 kserve/pmmlserver:v0.8.0
 kserve/sklearnserver:v0.8.0
-tensorflow/serving:2.8.0
+tensorflow/serving:2.8.2
 kserve/torchserve-kfs:0.5.3
 nvcr.io/nvidia/tritonserver:21.09-py3
 kserve/xgbserver:v0.8.0
