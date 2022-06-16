@@ -9,7 +9,7 @@ calico/pod2daemon-flexvol:v3.23.1
 calico/typha:v3.23.1
 equinix/cloud-provider-equinix-metal:v3.4.3
 k8s.gcr.io/provider-aws/aws-ebs-csi-driver:v1.6.2
-k8s.gcr.io/sig-storage/csi-attacher:v3.4.0
+k8s.gcr.io/sig-storage/csi-attacher:v3.5.0
 k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.5.1
 k8s.gcr.io/sig-storage/csi-provisioner:v3.1.0
 k8s.gcr.io/sig-storage/csi-resizer:v1.4.0
