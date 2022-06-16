@@ -1,2 +1,2 @@
-storageos/etcd-cluster-operator-controller:v0.3.4
-storageos/etcd-cluster-operator-proxy:v0.3.4
+storageos/etcd-cluster-operator-controller:v0.3.7
+storageos/etcd-cluster-operator-proxy:v0.3.7
