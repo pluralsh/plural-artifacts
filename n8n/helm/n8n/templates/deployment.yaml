@@ -43,6 +43,7 @@ spec:
           env:
             - name: "N8N_PORT"
               value: {{ .Values.service.containerPort | default "5678" | quote }}
+            # NEEDED FOR Postress integration
             #- name: DB_TYPE
             #  value: {{ .Values.database.type }}
             #- name: DB_POSTGRESDB_DATABASE

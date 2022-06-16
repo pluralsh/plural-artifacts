@@ -49,12 +49,12 @@ ingress:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
     nginx.ingress.kubernetes.io/use-regex: "true"
-  hosts:
-    - host: chart-example.local
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
-  tls:
+  #hosts:
+  #  - host: chart-example.local
+  #    paths:
+  #      - path: /
+  #        pathType: ImplementationSpecific
+  #tls:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local

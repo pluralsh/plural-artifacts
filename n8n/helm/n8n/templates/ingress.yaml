@@ -29,9 +29,9 @@ spec:
   tls:
   - secretName: n8n-tls
     hosts:
-    - {{ .Values.ingress.host }}
+    - {{ .Values.n8n.ingress.host }}
   rules:
-    - host: {{ .Values.ingress.host }}
+    - host: {{ .Values.n8n.ingress.host }}
       http:
         paths:
           - path: /*
