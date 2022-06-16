@@ -24,13 +24,8 @@ serviceAccount:
 mlflow:
   defaultArtifactRoot: ""
 
-oidcProxy:
+oidc-config:
   enabled: false
-  upstream: http://localhost:5000/
-  issuer: https://oidc.plural.sh/
-  clientID: ""
-  clientSecret: ""
-  cookieSecret: ""
 
 service:
   type: ClusterIP
