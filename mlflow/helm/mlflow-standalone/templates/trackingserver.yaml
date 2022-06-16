@@ -8,7 +8,7 @@ spec:
   size: "5Gi"
   defaultArtifactRoot: s3:/{{ .Values.mlflow.defaultArtifactRoot }}
   serviceAccountName: {{ include "mlflow-standalone.serviceAccountName" . }}
-  {{- if .Values.oidcProxy.enabled }}
+  {{- if index .Values "oidc-config" "enabled" }}
   extraPodLabels:
     security.plural.sh/inject-oauth-sidecar: "true"
   extraPodAnnotations:
