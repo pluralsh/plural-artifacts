@@ -68,10 +68,8 @@ postgres:
 database:
   type: postgresdb
   secret: n8n.plural-n8n.credentials.postgresql.acid.zalan.do
-  host: plural-n8n
+  host: n8n-master
   port: "5432"
-  dbname: n8n
-  schema: n8n
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

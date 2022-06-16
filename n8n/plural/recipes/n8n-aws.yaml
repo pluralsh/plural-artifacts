@@ -11,9 +11,9 @@ dependencies:
 sections:
 - name: n8n
   configuration:
-    - name: hostname
-      documentation: domain on which you'd like to host n8n's page
-      type: DOMAIN
+  - name: hostname
+    documentation: domain on which you'd like to host n8n's page
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: aws

@@ -4,13 +4,13 @@ global:
     - description: n8n web ui
       url: {{ .Values.hostname }}
 
-n8n:
-  ingress:
-    tls:
-    - host: {{ .Values.hostname }}
-      secretName: n8n-tls
-    host: {{ .Values.hostname }}
-
-config:
-  server:
-    name: {{ .Values.hostname }}
+ingress:
+  hosts:
+   - host: {{ .Values.hostname }}
+     paths:
+       - path: /
+         pathType: ImplementationSpecific
+  tls:
+   - secretName: n8n-tls
+     hosts:
+       - {{ .Values.hostname }}
