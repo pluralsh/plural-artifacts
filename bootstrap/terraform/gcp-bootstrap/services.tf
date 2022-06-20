@@ -7,6 +7,8 @@ resource "google_project_service" "gcr" {
     create = "30m"
     update = "40m"
   }
+
+  disable_on_destroy = false
 }
 
 resource "google_project_service" "container" {
@@ -17,6 +19,8 @@ resource "google_project_service" "container" {
     create = "30m"
     update = "40m"
   }
+
+  disable_on_destroy = false
 }
 
 resource "google_project_service" "iam" {
@@ -27,6 +31,8 @@ resource "google_project_service" "iam" {
     create = "30m"
     update = "40m"
   }
+
+  disable_on_destroy = false
 }
 
 resource "google_project_service" "storage" {
@@ -37,6 +43,8 @@ resource "google_project_service" "storage" {
     create = "30m"
     update = "40m"
   }
+
+  disable_on_destroy = false
 }
 
 resource "google_project_service" "dns" {
@@ -47,6 +55,8 @@ resource "google_project_service" "dns" {
     create = "30m"
     update = "40m"
   }
+
+  disable_on_destroy = false
 }
 
 resource "google_project_service" "compute" {
@@ -57,4 +67,6 @@ resource "google_project_service" "compute" {
     create = "30m"
     update = "40m"
   }
+
+  disable_on_destroy = false
 }
