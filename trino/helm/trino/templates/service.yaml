@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "trino.fullname" . }}
+  labels:
+    #{{- include "trino.labels" . | nindent 4 }}
+    app: {{ template "trino.name" . }}
+    chart: {{ template "trino.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    #{{- include "trino.selectorLabels" . | nindent 4 }}
+    app: {{ template "trino.name" . }}
+    release: {{ .Release.Name }}
+    component: coordinator

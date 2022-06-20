@@ -1,0 +1,22 @@
+name: trino-gcp
+description: Installs trino on an aws eks cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+
+
+sections:
+- name: trino
+  configuration:
+    - name: hostname
+      documentation: domain on which you'd like to host trino's page
+      type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: trino

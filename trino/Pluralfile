@@ -1,0 +1,7 @@
+REPO trino
+ATTRIBUTES plural repository.yaml
+
+TF terraform/*
+HELM helm/*
+RECIPE plural/recipes/*
+TAG plural/tags/**/*

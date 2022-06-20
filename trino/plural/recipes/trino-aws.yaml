@@ -1,0 +1,22 @@
+name: trino-aws
+description: Installs trino on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+
+
+sections:
+- name: trino
+  configuration:
+    - name: hostname
+      documentation: domain on which you'd like to host trino's page
+      type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: trino
