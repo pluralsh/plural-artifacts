@@ -286,7 +286,7 @@ server:
   ##
   livenessProbe:
     enabled: true
-    initialDelaySeconds: 30
+    initialDelaySeconds: 45
     periodSeconds: 10
     timeoutSeconds: 1
     failureThreshold: 3
@@ -301,7 +301,7 @@ server:
   ##
   readinessProbe:
     enabled: true
-    initialDelaySeconds: 30
+    initialDelaySeconds: 45
     periodSeconds: 10
     timeoutSeconds: 1
     failureThreshold: 3
@@ -398,7 +398,7 @@ worker:
   ##
   livenessProbe:
     enabled: true
-    initialDelaySeconds: 30
+    initialDelaySeconds: 45
     periodSeconds: 10
     timeoutSeconds: 1
     failureThreshold: 3
@@ -413,7 +413,7 @@ worker:
   ##
   readinessProbe:
     enabled: true
-    initialDelaySeconds: 10
+    initialDelaySeconds: 45
     periodSeconds: 10
     timeoutSeconds: 1
     failureThreshold: 3
