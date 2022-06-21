@@ -1,0 +1,21 @@
+name: n8n-gcp
+description: Installs n8n on an aws eks cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+- repo: postgres
+  name: gcp-postgres
+sections:
+- name: n8n
+  configuration:
+  - name: hostname
+    documentation: domain on which you'd like to host n8n's page
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: n8n
