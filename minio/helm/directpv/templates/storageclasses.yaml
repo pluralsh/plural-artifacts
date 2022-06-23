@@ -1,0 +1,45 @@
+allowVolumeExpansion: false
+allowedTopologies:
+- matchLabelExpressions:
+  - key: direct.csi.min.io/identity
+    values:
+    - direct-csi-min-io
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  annotations:
+    rbac.authorization.kubernetes.io/autoupdate: "true"
+  creationTimestamp: null
+  finalizers:
+  - foregroundDeletion
+  labels:
+    {{- include "directpv.labels" . | nindent 4 }}
+  name: direct-csi-min-io
+parameters:
+  fstype: xfs
+provisioner: direct-csi-min-io
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer
+---
+allowVolumeExpansion: false
+allowedTopologies:
+- matchLabelExpressions:
+  - key: direct.csi.min.io/identity
+    values:
+    - direct-csi-min-io
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  annotations:
+    rbac.authorization.kubernetes.io/autoupdate: "true"
+  creationTimestamp: null
+  finalizers:
+  - foregroundDeletion
+  labels:
+    {{- include "directpv.labels" . | nindent 4 }}
+  name: directpv-min-io
+parameters:
+  fstype: xfs
+provisioner: direct-csi-min-io
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer

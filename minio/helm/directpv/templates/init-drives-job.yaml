@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: minio-init
+  namespace: minio
+  labels:
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      serviceAccountName: minio-directpv
+      containers:
+      - name: kubectl
+        image: dkr.plural.sh/minio/minio/kubectl-directpv:0.1.2
+        command: [kubectl]
+        args: ["directpv", "drives", "format", "--all"]

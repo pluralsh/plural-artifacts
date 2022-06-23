@@ -1,0 +1,33 @@
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  annotations:
+    rbac.authorization.kubernetes.io/autoupdate: "true"
+  creationTimestamp: null
+  labels:
+    {{- include "directpv.labels" . | nindent 4 }}
+  name: direct-csi-min-io
+spec:
+  allowedCapabilities:
+  - '*'
+  allowedHostPaths:
+  - pathPrefix: /proc
+    readOnly: true
+  - pathPrefix: /sys
+    readOnly: true
+  - pathPrefix: /var/lib/direct-csi
+  - pathPrefix: /csi
+  - pathPrefix: /var/lib/kubelet
+  fsGroup:
+    rule: RunAsAny
+  hostNetwork: true
+  hostPID: true
+  privileged: true
+  runAsUser:
+    rule: RunAsAny
+  seLinux:
+    rule: RunAsAny
+  supplementalGroups:
+    rule: RunAsAny
+  volumes:
+  - hostPath

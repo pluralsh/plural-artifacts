@@ -2,8 +2,9 @@ apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
   description: minio aws setup
-  version: 0.1.6
+  version: 0.1.7
 spec:
+  breaking: true
   dependencies:
   - name: aws-bootstrap
     repo: bootstrap

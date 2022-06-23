@@ -53,23 +53,22 @@ variable "node_groups_defaults" {
 variable "single_az_node_groups" {
   type = any
   default = {
-    local_hdd_small_on_demand = {
-      name = "local-hdd-small-on-demand"
+    local_hdd_large_on_demand = {
+      name = "local-hdd-large-on-demand"
       capacity_type = "ON_DEMAND"
-      min_capacity = 3
-      max_capacity = 3
-      desired_capacity = 3
-      ami_type = "AL2_x86_64_GPU"
+      min_capacity = 6
+      max_capacity = 12
+      desired_capacity = 6
       instance_types = ["d3.xlarge"]
       k8s_labels = {
         "plural.sh/capacityType" = "ON_DEMAND"
         "plural.sh/performanceType" = "SUSTAINED"
-        "plural.sh/scalingGroup" = "local-hdd-small-on-demand"
+        "plural.sh/scalingGroup" = "local-hdd-large-on-demand"
       }
       k8s_taints = [
         {
-          key = "localdisk"
-          value = "true"
+          key = "plural.sh/localDisks"
+          value = "HDD"
           effect = "NO_SCHEDULE"
         }
       ]
