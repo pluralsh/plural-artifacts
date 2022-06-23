@@ -4,19 +4,16 @@ provider: AWS
 dependencies:
 - repo: bootstrap
   name: aws-k8s
-
 - repo: ingress-nginx
   name: ingress-nginx-aws
-
-
 sections:
 - name: trino
   configuration:
-    - name: hostname
-      documentation: domain on which you'd like to host trino's page
-      type: DOMAIN
+  - name: hostname
+    documentation: domain on which you'd like to host trino's web interface
+    type: DOMAIN
   items:
   - type: TERRAFORM
-    name: aws
+    name: kube
   - type: HELM
     name: trino

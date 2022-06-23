@@ -8,4 +8,3 @@ resource "kubernetes_namespace" "trino" {
     }
   }
 }
-

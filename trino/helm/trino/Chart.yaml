@@ -3,9 +3,8 @@ name: trino
 description: helm chart for trino
 type: application
 version: 0.1.0
-appVersion: "v1.0.0"
-
+appVersion: "386"
 dependencies:
-  - name: trino
-    version: "0.8.0"
-    repository: "https://trinodb.github.io/charts/"
+- name: trino
+  version: "0.8.0"
+  repository: "https://trinodb.github.io/charts/"
