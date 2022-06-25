@@ -1,6 +1,7 @@
-name: gcp-airflow
+name: airflow-gcp
 description: Installs airflow on a GKE cluster
 provider: GCP
+restricted: true
 oidcSettings:
   authMethod: POST
   uriFormat: https://{domain}/oauth-authorized/plural
