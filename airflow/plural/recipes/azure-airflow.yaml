@@ -1,6 +1,7 @@
-name: azure-airflow
+name: airflow-azure
 description: Installs airflow on an AKS cluster
 provider: AZURE
+restricted: true
 oidcSettings:
   authMethod: POST
   uriFormat: https://{domain}/oauth-authorized/plural

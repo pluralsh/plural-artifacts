@@ -1,6 +1,7 @@
-name: aws-airflow
+name: airflow-aws
 description: Installs airflow on an EKS cluster
 provider: AWS
+restricted: true
 oidcSettings:
   authMethod: POST
   uriFormat: https://{domain}/oauth-authorized/plural
