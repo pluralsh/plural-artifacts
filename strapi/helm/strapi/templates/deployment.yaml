@@ -73,7 +73,6 @@ spec:
               port: 1337
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-      {{- with .Values.nodeSelector }}
       volumes:
       - name: user-data
         emptyDir: {}
