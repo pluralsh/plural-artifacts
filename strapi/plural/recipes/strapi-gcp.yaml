@@ -8,13 +8,15 @@ dependencies:
 - repo: ingress-nginx
   name: ingress-nginx-gcp
 
-
 - repo: postgres
   name: gcp-postgres
 
 sections:
 - name: strapi
-  configuration: []
+  configuration:
+  - name: hostname
+    documentation: domain on which you'd like to host strapi's page
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: gcp

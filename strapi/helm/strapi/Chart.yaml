@@ -3,7 +3,7 @@ name: strapi
 description: helm chart for strapi
 type: application
 version: 0.1.0
-appVersion: "v1.0.0"
+appVersion: "4.2.0"
 
 dependencies:
 - name: postgres
