@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: nginx
+  repository: gittysachin/strapi
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "4.2.0"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -37,8 +37,9 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  type: ClusterIP
-  port: 80
+  type: LoadBalancer
+  port: 1337
+  containerPort: 5678
 
 ingress:
   enabled: false
@@ -55,6 +56,18 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
+
+postgres:
+  team: plural
+  user: strapi
+  dbName: strapi
+  ownerChart: strapi
+
+database:
+  type: postgresdb
+  secret: strapi.plural-strapi.credentials.postgresql.acid.zalan.do
+  host: localhost
+  port: "5432"
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
