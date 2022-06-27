@@ -2,8 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "directpv.fullname" . }}
-  finalizers:
-  - direct-csi-min-io/delete-protection
   annotations:
     rbac.authorization.kubernetes.io/autoupdate: "true"
   labels:
