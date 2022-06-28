@@ -1,16 +1,17 @@
+{{ $hostname := default "example.com" .Values.hostname }}
 global:
   application:
     links:
     - description: strapi web ui
-      url: {{ .Values.hostname }}
+      url: {{ $hostname }}
 
 ingress:
   hosts:
-   - host: {{ .Values.hostname }}
+   - host: {{ $hostname }}
      paths:
        - path: /
          pathType: ImplementationSpecific
   tls:
    - secretName: strapi-tls
      hosts:
-       - {{ .Values.hostname }}
+       - {{ $hostname }}
