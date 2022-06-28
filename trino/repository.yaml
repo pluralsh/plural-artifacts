@@ -1,0 +1,6 @@
+name: trino
+description: trino deployed on plural
+category: DATABASE
+private: true
+icon: plural/icons/trino.png
+notes: plural/notes.tpl
