@@ -1,0 +1,6 @@
+name: strapi
+description: strapi deployed on plural
+category: DATA
+private: true
+icon: plural/icons/strapi.png
+notes: plural/notes.tpl
