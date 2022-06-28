@@ -43,9 +43,8 @@ service:
 
 ingress:
   enabled: true
-  className: ingress-nginx
+  className: nginx
   annotations:
-    kubernetes.io/ingress.class: nginx
     kubernetes.io/tls-acme: "true"
     cert-manager.io/cluster-issuer: letsencrypt-prod
     # Extend timeout to allow long running queries.
