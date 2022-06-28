@@ -1,6 +1,10 @@
 name: trino-azure
 description: Installs trino on an azure aks cluster
 provider: AZURE
+oidcSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
+  domainKey: hostname
 dependencies:
 - repo: bootstrap
   name: azure-k8s

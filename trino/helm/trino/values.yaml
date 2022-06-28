@@ -1,17 +1,14 @@
 trino:
-  #imagePullSecrets: []
-  #image:
-  #  repository: dkr.plural.sh/trino/trinodb/trino
-  #  pullPolicy: IfNotPresent
-    # Overrides the image tag whose default is the chart appVersion.
-  #  tag: "386"
+  imagePullSecrets: [] # needed because upstream charts adds an image pull secret by default for some reason
+  image:
+    repository: dkr.plural.sh/trino/trinodb/trino
+    pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+    tag: "386"
   service:
     type: ClusterIP
     port: 8080
-  #server:
-    #config:
-      #authenticationType: OAUTH2
-  seviceAccount:
+  serviceAccount:
     create: true
 
 ingress:
