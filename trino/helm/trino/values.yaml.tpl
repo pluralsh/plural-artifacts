@@ -4,6 +4,10 @@ global:
     - description: trinodb web ui
       url: {{ .Values.hostname }}
 
+
+{{ $sharedSecret := dedupe . "trino.internalCommSecret" (randAlphaNum 32) }}
+internalCommSecret: {{ $sharedSecret }}
+
 trino:
   server:
     {{- if .OIDC }}
@@ -27,7 +31,7 @@ trino:
       web-ui.authentication.type=oauth2
     {{- end }}
   additionalConfigProperties:
-  - internal-communication.shared-secret={{ dedupe . "trino.trino.additionalConfigProperties[0]" (randAlphaNum 32) }}
+  - internal-communication.shared-secret={{ $sharedSecret }}
 ingress:
   hosts:
    - host: {{ .Values.hostname }}
