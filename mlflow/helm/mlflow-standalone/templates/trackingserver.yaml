@@ -1,3 +1,5 @@
+{{ $oidcConfig := index .Values "oidc-config" }}
+
 apiVersion: mlflow.plural.sh/v1alpha1
 kind: TrackingServer
 metadata:
@@ -8,11 +10,14 @@ spec:
   size: "5Gi"
   defaultArtifactRoot: s3:/{{ .Values.mlflow.defaultArtifactRoot }}
   serviceAccountName: {{ include "mlflow-standalone.serviceAccountName" . }}
-  {{- if index .Values "oidc-config" "enabled" }}
+  {{- if $oidcConfig.enabled }}
   extraPodLabels:
     security.plural.sh/inject-oauth-sidecar: "true"
   extraPodAnnotations:
     security.plural.sh/oauth-env-secret: "mlflow-oauth2-proxy-config"
+    {{ if $oidcConfig.users }}
+    security.plural.sh/htpasswd-secret: httpaswd-users
+    {{ end }}
   {{- end }}
   network:
     istioEnabled: false
