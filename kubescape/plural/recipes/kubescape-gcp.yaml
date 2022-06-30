@@ -8,7 +8,7 @@ sections:
 - name: kubescape
   configuration:
   - name: accountGuid
-    documentation: the account id for your kubescape account
+    documentation: documentation: Unique identifier connecting results to the Kubescape Cloud account. To learn more go here https://hub.armosec.io/docs/kubescape-cloud-account#account-id
     type: STRING
   items:
   - type: TERRAFORM
