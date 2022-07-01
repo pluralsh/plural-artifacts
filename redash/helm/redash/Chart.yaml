@@ -8,6 +8,3 @@ dependencies:
   - name: redash
     version: "3.0.0"
     repository: "https://getredash.github.io/contrib-helm-chart/"
-#  - name: postgres
-#    version: 0.1.5
-#    repository: https://pluralsh.github.io/module-library
