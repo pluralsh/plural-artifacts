@@ -1,0 +1,19 @@
+name: redash-gcp
+description: Installs redash on an aws eks cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+sections:
+- name: redash
+  configuration:
+    - name: hostname
+      documentation: domain on which you'd like to host redash's page
+      type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: redash

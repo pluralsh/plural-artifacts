@@ -1,0 +1,6 @@
+dependencies:
+- name: redash
+  repository: https://getredash.github.io/contrib-helm-chart/
+  version: 3.0.0
+digest: sha256:657ca228405d58edf7aaf94288bf49ef03b53aa275321c350cf67780767441a8
+generated: "2022-07-01T16:37:28.724185+03:00"

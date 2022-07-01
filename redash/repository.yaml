@@ -1,0 +1,6 @@
+name: redash
+description: redash deployed on plural
+category: DATA
+private: true
+icon: plural/icons/redash.png
+notes: plural/notes.tpl
