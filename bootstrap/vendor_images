@@ -19,3 +19,7 @@ k8s.gcr.io/sig-storage/snapshot-controller:v6.0.1
 k8s.gcr.io/sig-storage/snapshot-validation-webhook:v6.0.1
 prom/statsd-exporter:v0.22.5
 quay.io/tigera/operator:v1.27.4
+quay.io/jetstack/cert-manager-cainjector:v1.8.2
+quay.io/jetstack/cert-manager-controller:v1.8.2
+quay.io/jetstack/cert-manager-webhook:v1.8.2
+quay.io/jetstack/cert-manager-ctl:v1.8.2
