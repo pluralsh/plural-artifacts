@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "lakefs.fullname" . }}
+  labels:
+    {{- include "lakefs.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "lakefs.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+    {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      labels:
+        {{- include "lakefs.selectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "lakefs.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          {{- if or (not .Values.lakefsConfig) .Values.localPostgres }}
+          command: ["/app/wait-for", "localhost:5432", "--", "/app/lakefs", "run"]
+          {{- end }}
+          {{- if .Values.lakefsConfig }}
+          args: ["run", "--config", "/etc/lakefs/config.yaml"]
+          {{- else }}
+          args: ["run"]
+          {{- end }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.deployment.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /_health
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /_health
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+          {{- if .Values.extraVolumeMounts }}
+            {{ toYaml .Values.extraVolumeMounts | nindent 12 }}
+          {{- end }}
+          {{- if .Values.committedLocalCacheVolume }}
+            - name: committed-local-cache
+              mountPath: "/lakefs/cache"
+          {{- end }}
+          {{- if .Values.lakefsConfig }}
+            - name: config-volume
+              mountPath: /etc/lakefs
+          {{- else }}
+            - name: {{ .Chart.Name }}-local-data
+              mountPath: "/lakefs/data"
+          {{- end }}
+          {{- include "lakefs.env" . | nindent 10 }}
+        {{- include "lakefs.s3proxyContainer" . | nindent 8}}
+        {{- if or (not .Values.lakefsConfig) .Values.localPostgres }}
+        - name: {{ .Chart.Name }}-postgres
+          image: postgres:11
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_PASSWORD
+              value: password
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: {{ .Chart.Name }}-postgredb
+        {{- end }}
+      volumes:
+        {{- include "lakefs.volumes" . | nindent 8 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

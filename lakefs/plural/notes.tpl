@@ -1,0 +1,1 @@
+Use `plural watch lakefs` to track the status of your application
