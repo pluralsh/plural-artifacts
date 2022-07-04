@@ -25,6 +25,11 @@ spec:
       {{- if .Values.scheduler.tolerations }}
       tolerations: {{- include "common.tplvalues.render" (dict "value" .Values.scheduler.tolerations "context" $) | nindent 8 }}
       {{- end }}
+      initContainers:
+      - name: wait-for-pg
+        image: gcr.io/pluralsh/busybox:latest
+        imagePullPolicy: IfNotPresent
+        command: [ "/bin/sh", "-c", "until nc -zv {{ include "airbyte.database.host" . }} 5432 -w1; do echo 'waiting for db'; sleep 1; done" ]
       containers:
       - name: airbyte-scheduler-container
         image: {{ include "airbyte.schedulerImage" . }}
