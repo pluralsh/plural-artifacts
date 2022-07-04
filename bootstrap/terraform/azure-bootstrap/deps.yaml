@@ -12,5 +12,8 @@ spec:
   outputs:
     kubelet_msi_id: kubelet_msi_id
     node_resource_group: node_resource_group
+    cluster: cluster
+    cluster_name: cluster_name
+    resource_group_name: resource_group_name
   provider_wirings:
     cluster: module.azure-bootstrap.cluster

@@ -4,10 +4,13 @@ data "azurerm_resource_group" "group" {
 
 module "network" {
   source              = "Azure/network/azurerm"
+
+  # vnet_name           = "${var.name}-vnet"
   resource_group_name = data.azurerm_resource_group.group.name
   address_space       = var.address_space
   subnet_prefixes     = var.subnet_prefixes
   subnet_names        = [var.subnet_name]
+  tags = {}
 }
 
 module "aks" {
@@ -34,7 +37,7 @@ module "aks" {
   agents_count                     = null # Please set `agents_count` `null` while `enable_auto_scaling` is `true` to avoid possible `agents_count` changes.
   agents_max_pods                  = 100
   agents_pool_name                 = local.node_pool_name
-  agents_availability_zones        = ["1", "2"]
+  agents_availability_zones        = ["1", "2", "3"]
   agents_type                      = "VirtualMachineScaleSets"
   agents_size                      = var.agents_size
 
@@ -52,6 +55,33 @@ module "aks" {
   net_profile_service_cidr       = "10.0.0.0/16"
 
   depends_on = [module.network]
+}
+
+resource "azurerm_kubernetes_cluster_node_pool" "main" {
+  for_each = {for idx, val in var.node_groups : val.name => val if idx != 0}
+
+  kubernetes_cluster_id = module.aks.aks_id
+
+  name = each.value.name
+  priority = each.value.priority
+  enable_auto_scaling = each.value.enable_auto_scaling
+  availability_zones = each.value.availability_zones
+
+  node_count = each.value.node_count
+  min_count = each.value.min_count
+  max_count = each.value.max_count
+
+  vm_size = each.value.vm_size
+
+  os_disk_type = each.value.os_disk_type
+
+  os_disk_size_gb = each.value.os_disk_size_gb
+
+  max_pods = each.value.max_pods
+
+
+  node_labels = each.value.node_labels
+  node_taints = each.value.node_taints
 }
 
 data "azurerm_resource_group" "node_group" {
@@ -100,5 +130,5 @@ resource "kubernetes_namespace" "bootstrap" {
     }
   }
 
-  depends_on = [module.aks.host]
+  depends_on = [module.aks.aks_id]
 }
