@@ -4,6 +4,7 @@ resource "kubernetes_namespace" "vaultwarden" {
     labels = {
       "app.kubernetes.io/managed-by" = "plural"
       "app.plural.sh/name" = "vaultwarden"
+      "platform.plural.sh/sync-target" = "pg"
     }
   }
 }
