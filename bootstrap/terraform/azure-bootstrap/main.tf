@@ -22,8 +22,8 @@ module "aks" {
   cluster_name                     = var.name
   network_plugin                   = "azure"
   vnet_subnet_id                   = module.network.vnet_subnets[0]
-  os_disk_size_gb                  = var.os_disk_size
-  os_disk_type                     = var.os_disk_type
+  os_disk_size_gb                  = var.node_groups[0].os_disk_size_gb
+  os_disk_type                     = var.node_groups[0].os_disk_type
   enable_role_based_access_control = true
   rbac_aad_enabled                 = false 
   rbac_aad_managed                 = false
@@ -31,23 +31,19 @@ module "aks" {
   private_cluster_enabled          = var.private_cluster
   enable_http_application_routing  = true
   enable_azure_policy              = true
-  enable_auto_scaling              = true
-  agents_min_count                 = var.min_nodes
-  agents_max_count                 = var.max_nodes
-  agents_count                     = null # Please set `agents_count` `null` while `enable_auto_scaling` is `true` to avoid possible `agents_count` changes.
-  agents_max_pods                  = 100
-  agents_pool_name                 = local.node_pool_name
-  agents_availability_zones        = ["1", "2", "3"]
+  enable_auto_scaling              = var.node_groups[0].enable_auto_scaling
+  agents_min_count                 = var.node_groups[0].min_count
+  agents_max_count                 = var.node_groups[0].max_count
+  agents_count                     = var.node_groups[0].node_count # Please set `agents_count` `null` while `enable_auto_scaling` is `true` to avoid possible `agents_count` changes.
+  agents_max_pods                  = var.node_groups[0].max_pods
+  agents_pool_name                 = var.node_groups[0].name
+  agents_availability_zones        = var.node_groups[0].availability_zones
   agents_type                      = "VirtualMachineScaleSets"
-  agents_size                      = var.agents_size
+  agents_size                      = var.node_groups[0].vm_size
 
-  agents_labels = {
-    "nodepool" : local.node_pool_name
-  }
+  agents_labels = var.node_groups[0].node_labels
 
-  agents_tags = {
-    "Agent" : "${local.node_pool_name}agent"
-  }
+  agents_tags = var.node_groups[0].tags
 
   network_policy                 = "azure"
   net_profile_dns_service_ip     = "10.0.0.10"
@@ -82,6 +78,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "main" {
 
   node_labels = each.value.node_labels
   node_taints = each.value.node_taints
+  tags = each.value.tags
 }
 
 data "azurerm_resource_group" "node_group" {

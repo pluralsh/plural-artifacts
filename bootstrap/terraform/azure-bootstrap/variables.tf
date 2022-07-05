@@ -67,8 +67,8 @@ variable "node_groups" {
   description = "map of maps of node groups to create. See \"`node_groups` and `node_groups_defaults` keys\" section in README.md for more details"
   type        = any
   default = [
-    # small_burst_on_demand = {
-    #   name = "small"
+    # {
+    #   name = "sbod"
     #   priority = "Regular"
     #   enable_auto_scaling = true
     #   availability_zones = ["1", "2", "3"]
@@ -92,7 +92,7 @@ variable "node_groups" {
     #     "plural.sh/scalingGroup" = "small-burst-on-demand"
     #   }
     #   node_taints = []
-    # }
+    # },
 
     {
       name = "ssod"
@@ -119,6 +119,9 @@ variable "node_groups" {
         "plural.sh/scalingGroup" = "small-sustained-on-demand"
       }
       node_taints = []
+      tags = {
+        "ScalingGroup": "small-sustained-on-demand"
+      }
     },
 
     {
@@ -146,6 +149,9 @@ variable "node_groups" {
         "plural.sh/scalingGroup" = "medium-sustained-on-demand"
       }
       node_taints = []
+      tags = {
+        "ScalingGroup": "medium-sustained-on-demand"
+      }
     },
 
     {
@@ -173,6 +179,9 @@ variable "node_groups" {
         "plural.sh/scalingGroup" = "large-sustained-on-demand"
       }
       node_taints = []
+      tags = {
+        "ScalingGroup": "large-sustained-on-demand"
+      }
     }
   ]
 }
