@@ -117,6 +117,14 @@ resource "azurerm_role_assignment" "aks-node-vm-contributor" {
   depends_on = [module.aks]
 }
 
+resource "azurerm_role_assignment" "aks-network-contributor" {
+  scope                = data.azurerm_resource_group.group.id
+  role_definition_name = "Network Contributor"
+  principal_id         = module.aks.system_assigned_identity[0].principal_id
+
+  depends_on = [module.aks]
+}
+
 resource "kubernetes_namespace" "bootstrap" {
   metadata {
     name = var.namespace
