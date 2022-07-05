@@ -84,3 +84,15 @@ data "aws_iam_policy_document" "minio" {
   }
 
 }
+
+module "node_groups" {
+  source                 = "github.com/pluralsh/module-library//terraform/eks-node-groups/single-az-node-groups?ref=7b6d3b1d1602e4265d6d3b172c38fe67d9a2c7fc"
+  cluster_name           = var.cluster_name
+  default_iam_role_arn   = var.node_role_arn
+  tags                   = var.tags
+  node_groups_defaults   = var.node_groups_defaults
+
+  node_groups            = var.single_az_node_groups
+  set_desired_size       = false
+  private_subnets        = var.private_subnets
+}

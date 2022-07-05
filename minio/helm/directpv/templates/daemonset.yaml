@@ -1,0 +1,239 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: {{ include "directpv.fullname" . }}
+  annotations:
+    rbac.authorization.kubernetes.io/autoupdate: "true"
+  labels:
+    {{- include "directpv.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "directpv-daemonset.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.daemonSet.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "directpv-daemonset.selectorLabels" . | nindent 8 }}
+    spec:
+      dnsPolicy: ClusterFirstWithHostNet
+      hostNetwork: true
+      hostPID: true
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "directpv.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.daemonSet.podSecurityContext | nindent 8 }}
+      containers:
+        - name: direct-csi
+          securityContext:
+            {{- toYaml .Values.daemonSet.securityContext | nindent 12 }}
+          image: "{{ .Values.daemonSet.image.repository }}:{{ .Values.daemonSet.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.daemonSet.image.pullPolicy }}
+          args:
+            - --identity=direct-csi-min-io
+            - -v=3
+            - --endpoint=$(CSI_ENDPOINT)
+            - --node-id=$(KUBE_NODE_NAME)
+            - --conversion-healthz-url=https://direct-csi-min-io.{{ .Release.Namespace }}.svc:30443/healthz
+            - --metrics-port=10443
+            - --driver
+            - --dynamic-drive-discovery
+          env:
+            - name: KUBE_NODE_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: spec.nodeName
+            - name: CSI_ENDPOINT
+              value: unix:///csi/csi.sock
+          ports:
+            - containerPort: 9898
+              name: healthz
+              protocol: TCP
+            - containerPort: 30443
+              name: convwebhook
+              protocol: TCP
+            - containerPort: 10443
+              name: metrics
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: convwebhook
+              scheme: HTTPS
+          livenessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /healthz
+              port: healthz
+            initialDelaySeconds: 300
+            periodSeconds: 5
+            timeoutSeconds: 5
+          resources:
+            {{- toYaml .Values.daemonSet.resources | nindent 12 }}
+          terminationMessagePath: /var/log/driver-termination-log
+          terminationMessagePolicy: FallbackToLogsOnError
+          volumeMounts:
+            - mountPath: /csi
+              mountPropagation: None
+              name: socket-dir
+            - mountPath: /var/lib/kubelet/pods
+              mountPropagation: Bidirectional
+              name: mountpoint-dir
+            - mountPath: /var/lib/kubelet/plugins
+              mountPropagation: Bidirectional
+              name: plugins-dir
+            - mountPath: /var/lib/direct-csi/
+              mountPropagation: Bidirectional
+              name: direct-csi-common-root
+            - mountPath: /etc/conversion/CAs
+              mountPropagation: None
+              name: conversioncacert
+            - mountPath: /etc/conversion/certs
+              mountPropagation: None
+              name: conversionkeypair
+            - mountPath: /sys
+              mountPropagation: Bidirectional
+              name: sysfs
+              readOnly: true
+            - mountPath: /dev
+              mountPropagation: HostToContainer
+              name: devfs
+              readOnly: true
+            - mountPath: /run/udev/data
+              mountPropagation: Bidirectional
+              name: run-udev-data-dir
+              readOnly: true
+        - name: node-driver-registrar
+          securityContext:
+            {{- toYaml .Values.daemonSet.nodeDriverRegistrar.securityContext | nindent 12 }}
+          image: "{{ .Values.daemonSet.nodeDriverRegistrar.image.repository }}:{{ .Values.daemonSet.nodeDriverRegistrar.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.daemonSet.nodeDriverRegistrar.image.pullPolicy }}
+          args:
+            - --v=3
+            - --csi-address=unix:///csi/csi.sock
+            - --kubelet-registration-path=/var/lib/kubelet/plugins/direct-csi-min-io/csi.sock
+          env:
+            - name: KUBE_NODE_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: spec.nodeName
+          resources:
+            {{- toYaml .Values.daemonSet.nodeDriverRegistrar.resources | nindent 12 }}
+          terminationMessagePath: /var/log/driver-registrar-termination-log
+          terminationMessagePolicy: FallbackToLogsOnError
+          volumeMounts:
+            - mountPath: /csi
+              mountPropagation: None
+              name: socket-dir
+            - mountPath: /registration
+              mountPropagation: None
+              name: registration-dir
+        - name: liveness-probe
+          securityContext:
+            {{- toYaml .Values.daemonSet.livenessProbe.securityContext | nindent 12 }}
+          image: "{{ .Values.daemonSet.livenessProbe.image.repository }}:{{ .Values.daemonSet.livenessProbe.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.daemonSet.livenessProbe.image.pullPolicy }}
+          args:
+            - --csi-address=/csi/csi.sock
+            - --health-port=9898
+          resources:
+            {{- toYaml .Values.daemonSet.livenessProbe.resources | nindent 12 }}
+          terminationMessagePath: /var/log/driver-liveness-termination-log
+          terminationMessagePolicy: FallbackToLogsOnError
+          volumeMounts:
+            - mountPath: /csi
+              mountPropagation: None
+              name: socket-dir
+        - name: directpv-drive-discovery
+          securityContext:
+            {{- toYaml .Values.daemonSet.driveDiscovery.securityContext | nindent 12 }}
+          image: "{{ .Values.daemonSet.driveDiscovery.image.repository }}:{{ .Values.daemonSet.driveDiscovery.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.daemonSet.driveDiscovery.image.pullPolicy }}
+          args:
+            - --identity=direct-csi-min-io
+            - -v=3
+            - --endpoint=$(CSI_ENDPOINT)
+            - --node-id=$(KUBE_NODE_NAME)
+            - --dynamic-drive-handler
+          env:
+            - name: KUBE_NODE_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: spec.nodeName
+          resources:
+            {{- toYaml .Values.daemonSet.driveDiscovery.resources | nindent 12 }}
+          terminationMessagePath: /var/log/driver-termination-log
+          terminationMessagePolicy: FallbackToLogsOnError
+          volumeMounts:
+            - mountPath: /sys
+              mountPropagation: Bidirectional
+              name: sysfs
+              readOnly: true
+            - mountPath: /dev
+              mountPropagation: HostToContainer
+              name: devfs
+              readOnly: true
+            - mountPath: /run/udev/data
+              mountPropagation: Bidirectional
+              name: run-udev-data-dir
+              readOnly: true
+      {{- with .Values.daemonSet.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.daemonSet.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.daemonSet.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - hostPath:
+            path: /var/lib/kubelet/plugins/direct-csi-min-io
+            type: DirectoryOrCreate
+          name: socket-dir
+        - hostPath:
+            path: /var/lib/kubelet/pods
+            type: DirectoryOrCreate
+          name: mountpoint-dir
+        - hostPath:
+            path: /var/lib/kubelet/plugins_registry
+            type: DirectoryOrCreate
+          name: registration-dir
+        - hostPath:
+            path: /var/lib/kubelet/plugins
+            type: DirectoryOrCreate
+          name: plugins-dir
+        - hostPath:
+            path: /var/lib/direct-csi/
+            type: DirectoryOrCreate
+          name: direct-csi-common-root
+        - name: conversioncacert
+          secret:
+            secretName: conversioncacert
+        - name: conversionkeypair
+          secret:
+            secretName: conversionkeypair
+        - hostPath:
+            path: /sys
+            type: DirectoryOrCreate
+          name: sysfs
+        - hostPath:
+            path: /dev
+            type: DirectoryOrCreate
+          name: devfs
+        - hostPath:
+            path: /run/udev/data
+            type: DirectoryOrCreate
+          name: run-udev-data-dir

@@ -1,0 +1,1035 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.6.1
+  labels:
+    direct.csi.min.io/version: v1beta4
+  name: directcsidrives.direct.csi.min.io
+spec:
+  conversion:
+    strategy: Webhook
+    webhook:
+      clientConfig:
+        caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUZ2ekNDQTZlZ0F3SUJBZ0lDQitNd0RRWUpLb1pJaHZjTkFRRUxCUUF3Y1RFTE1Ba0dBMVVFQmhNQ1ZWTXgKQ1RBSEJnTlZCQWdUQURFU01CQUdBMVVFQnhNSlVHRnNieUJCYkhSdk1SMHdHd1lEVlFRSkV4UlZibWwyWlhKegphWFI1SUVGMlpTQlRkR1VnUWpFT01Bd0dBMVVFRVJNRk9UUXpNREV4RkRBU0JnTlZCQW9UQzAxcGJrbFBMQ0JKClRrTXVNQjRYRFRJeU1EWXlNekV5TURJek5Wb1hEVE15TURZeU16RXlNREl6TlZvd2NURUxNQWtHQTFVRUJoTUMKVlZNeENUQUhCZ05WQkFnVEFERVNNQkFHQTFVRUJ4TUpVR0ZzYnlCQmJIUnZNUjB3R3dZRFZRUUpFeFJWYm1sMgpaWEp6YVhSNUlFRjJaU0JUZEdVZ1FqRU9NQXdHQTFVRUVSTUZPVFF6TURFeEZEQVNCZ05WQkFvVEMwMXBia2xQCkxDQkpUa011TUlJQ0lqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FnOEFNSUlDQ2dLQ0FnRUFxaHFHQzJiUDQ0Z2MKdzFlQWErRUZnUkZSWkZyNE9zb3BVeE5tSnpzVE5yeEYyN0VUTDkzTlVOU2szUXJ1Y1VxVXU2U1NRZ3NVNStQVgpaVlNjekVyT2lHczRxK0JoRm1ZZ3V0d0RyUXBKb2pPVkcwc2ZXTEVXNHZ1Qi9NdjN3TFQ2VVQwMldmWHp1Y1hBCmlpM21JU3RnNFZXQU84R1F4NjEyM0NldDlvYlJHY2xmblBYTldYSnpLQlRGZm9UbW1SODNYWGlHZHJuWUtCTk8KZ2pUQzYrN0FsaUcrSi9yaWVvazdUaXJLYnNUTmJDZlJCSS9talh6RDFLVnNVYXJJSU1WT3lJY0FEbVE4TThSUgpQbURsbnZwbXc2V3lzTDZEVlc0YTlHTDVOcFBYbDZOMC92RVhMNGNVZitKTDlGNU92c3lBVDRSVG5DY2ozQjFQCnZMNUUvZ2ZtdURPa1JjRWNkczJDSzJRY0RWa3dlZWxpUXhvaWI3NDBIaGlZL0FaVmNlSkdkanRvNUdSUHI0TW8KZ29HemxWY1FLTnVKTURTeXl5dGhFM0xaMW9WOTQ0azNueCtPTXNIbkhmY3BJOXdkSVpSajRCdzl1TGV2allhZQpUSFB5Ni9YRXpxUWtVYTdGZXQ2aGI3eEtuUUpNTjJ2eXBZeUpYTjVKYXpPM3I1K0FTZmtabFZTdXVOS0M4UkNkCkFOYWlaZm81bzdCdk9rTzh0WTN6ZjhlOEZKRzR2KzZCQWhxN1AvY0hEUmRlWFVlQnVTdFQ3anZUdzZSbjVGMkoKbW9Ud2NYOGJsOUk0cWFrTy8yY1JUR2R0cDhhWGJ3SS8rRUczbGdPQmJGMzZtUlFpUmZFM2hJTzJFU0xyQ0JtcApjSHd5aGhGRDdKYW1ndStCc1M2NmxMaGlRMGJnK1lzQ0F3RUFBYU5oTUY4d0RnWURWUjBQQVFIL0JBUURBZ0tFCk1CMEdBMVVkSlFRV01CUUdDQ3NHQVFVRkJ3TUNCZ2dyQmdFRkJRY0RBVEFQQmdOVkhSTUJBZjhFQlRBREFRSC8KTUIwR0ExVWREZ1FXQkJSUHRHVUtLaGwvZllZMGo2cTBlM243Ly9lVEdqQU5CZ2txaGtpRzl3MEJBUXNGQUFPQwpBZ0VBQVphNEI3VnNmR1N2YUNkcXRTYS96d0d1TWttS0s4M1VLdyt2QVhac1J2MDlPU3VDS0swRDFzOG9mWU9UCjMvS2lXUEhNSkxCNWZKandJQ1hJNlo4b21hMkNxdy95bGc5b1lEeC9rRVdEcnd3Yk1FZzRxZWhwKzBzVUgrL0EKREFNdEp3UjRFY0ZnSVArdW5wSnlVSEVXYzBhYWp4ZTErY25YYk5Nc3BHRS8vbm9OOFBQRXZPMmlqK2J3UFgvSwprL1A3MlpqMHJvYVlWMk4rQ2ZhZTNBc2l0SjBOWDVINXk2NXJkT1lRcXJsdktENHVVeVVpcEdienV2dzBIejhaCk54aXVmdkI5RjhNcWkxSENpcjFjN0daLzVhZWdrRVBaaVpzUTVaeVBydFR4Q2I3Mlg4b2o2Y1FPcXQ1US9WeFoKMm5jQ3A0VDExcmozN1RkRFREZVI4aWFLcjlkbkpZU1JyMU0vTVlkTEJhS1hpdlNucUZscVpmLzl1L2s5Zzk2VQpyU2R3Zm1sVnAyVFZ0MDFPRUVPczY3ck5jL2hSQ1pXankvM3BueXUveVp3azIzR3ZJamhhbHFMcWs0cjIwZ245CkJENWJVWnhKYzJqUGJ1V3ExVDRSWlNGMy9HMW9VR3ZvNG9VSEZXVkR0c3VraW1DZkV1VUY3UGFyWW1aYVlVZ0YKQThYWXQ1OWgvSEZ6ekRwd2RHWG5aYzhFY3J3NHBseXVUS1dISG9YSTF4c3FVSWMwbm9LYkFOM2IrZWk1dXVkcApmbnIzLzhuSmVoVy9EVFFjcit5WERLM1AyWWdpZHdyR0Z3TkxXaUNLUXNqTnRQOUlJTlE0My9FWTdxQmhSaTE0Cm9SOVlRNE5NSmRGcG5oRW15cVhDbGxLMk1SUW93TzFtSUVUVDRSODZvU0RqdDJRPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0t
+        service:
+          name: direct-csi-min-io
+          namespace: minio
+          path: /convertdrive
+          port: 30443
+      conversionReviewVersions:
+      - v1
+  group: direct.csi.min.io
+  names:
+    kind: DirectCSIDrive
+    listKind: DirectCSIDriveList
+    plural: directcsidrives
+    singular: directcsidrive
+  scope: Cluster
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: DirectCSIDrive denotes drive CRD object.
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: DirectCSIDriveSpec denotes drive specification.
+            properties:
+              directCSIOwned:
+                description: required
+                type: boolean
+              driveTaint:
+                additionalProperties:
+                  type: string
+                type: object
+              requestedFormat:
+                description: RequestedFormat denotes drive format request information.
+                properties:
+                  filesystem:
+                    type: string
+                  force:
+                    type: boolean
+                  mountOptions:
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: atomic
+                  mountpoint:
+                    type: string
+                  purge:
+                    type: boolean
+                type: object
+            required:
+            - directCSIOwned
+            type: object
+          status:
+            description: DirectCSIDriveStatus denotes drive information.
+            properties:
+              allocatedCapacity:
+                format: int64
+                type: integer
+              conditions:
+                items:
+                  description: "Condition contains details for one aspect of the current
+                    state of this API Resource. --- This struct is intended for direct
+                    use as an array at the field path .status.conditions.  For example,
+                    type FooStatus struct{     // Represents the observations of a
+                    foo's current state.     // Known .status.conditions.type are:
+                    \"Available\", \"Progressing\", and \"Degraded\"     // +patchMergeKey=type
+                    \    // +patchStrategy=merge     // +listType=map     // +listMapKey=type
+                    \    Conditions []metav1.Condition `json:\"conditions,omitempty\"
+                    patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"`
+                    \n     // other fields }"
+                  properties:
+                    lastTransitionTime:
+                      description: lastTransitionTime is the last time the condition
+                        transitioned from one status to another. This should be when
+                        the underlying condition changed.  If that is not known, then
+                        using the time when the API field changed is acceptable.
+                      format: date-time
+                      type: string
+                    message:
+                      description: message is a human readable message indicating
+                        details about the transition. This may be an empty string.
+                      maxLength: 32768
+                      type: string
+                    observedGeneration:
+                      description: observedGeneration represents the .metadata.generation
+                        that the condition was set based upon. For instance, if .metadata.generation
+                        is currently 12, but the .status.conditions[x].observedGeneration
+                        is 9, the condition is out of date with respect to the current
+                        state of the instance.
+                      format: int64
+                      minimum: 0
+                      type: integer
+                    reason:
+                      description: reason contains a programmatic identifier indicating
+                        the reason for the condition's last transition. Producers
+                        of specific condition types may define expected values and
+                        meanings for this field, and whether the values are considered
+                        a guaranteed API. The value should be a CamelCase string.
+                        This field may not be empty.
+                      maxLength: 1024
+                      minLength: 1
+                      pattern: ^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$
+                      type: string
+                    status:
+                      description: status of the condition, one of True, False, Unknown.
+                      enum:
+                      - "True"
+                      - "False"
+                      - Unknown
+                      type: string
+                    type:
+                      description: type of condition in CamelCase or in foo.example.com/CamelCase.
+                        --- Many .condition.type values are consistent across resources
+                        like Available, but because arbitrary conditions can be useful
+                        (see .node.status.conditions), the ability to deconflict is
+                        important. The regex it matches is (dns1123SubdomainFmt/)?(qualifiedNameFmt)
+                      maxLength: 316
+                      pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - message
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              driveStatus:
+                description: DriveStatus denotes drive status.
+                type: string
+              filesystem:
+                type: string
+              freeCapacity:
+                format: int64
+                type: integer
+              logicalBlockSize:
+                format: int64
+                type: integer
+              modelNumber:
+                type: string
+              mountOptions:
+                items:
+                  type: string
+                type: array
+                x-kubernetes-list-type: atomic
+              mountpoint:
+                type: string
+              nodeName:
+                type: string
+              partitionNum:
+                type: integer
+              path:
+                type: string
+              physicalBlockSize:
+                format: int64
+                type: integer
+              rootPartition:
+                type: string
+              serialNumber:
+                type: string
+              topology:
+                additionalProperties:
+                  type: string
+                type: object
+              totalCapacity:
+                format: int64
+                type: integer
+            required:
+            - path
+            type: object
+        required:
+        - metadata
+        - spec
+        type: object
+    served: true
+    storage: false
+  - name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: DirectCSIDrive denotes drive CRD object.
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: DirectCSIDriveSpec denotes drive specification.
+            properties:
+              directCSIOwned:
+                description: required
+                type: boolean
+              driveTaint:
+                additionalProperties:
+                  type: string
+                type: object
+              requestedFormat:
+                description: RequestedFormat denotes drive format request information.
+                properties:
+                  filesystem:
+                    type: string
+                  force:
+                    type: boolean
+                  mountOptions:
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: atomic
+                  mountpoint:
+                    type: string
+                  purge:
+                    type: boolean
+                type: object
+            required:
+            - directCSIOwned
+            type: object
+          status:
+            description: DirectCSIDriveStatus denotes drive information.
+            properties:
+              accessTier:
+                description: AccessTier denotes access tier.
+                type: string
+              allocatedCapacity:
+                format: int64
+                type: integer
+              conditions:
+                items:
+                  description: "Condition contains details for one aspect of the current
+                    state of this API Resource. --- This struct is intended for direct
+                    use as an array at the field path .status.conditions.  For example,
+                    type FooStatus struct{     // Represents the observations of a
+                    foo's current state.     // Known .status.conditions.type are:
+                    \"Available\", \"Progressing\", and \"Degraded\"     // +patchMergeKey=type
+                    \    // +patchStrategy=merge     // +listType=map     // +listMapKey=type
+                    \    Conditions []metav1.Condition `json:\"conditions,omitempty\"
+                    patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"`
+                    \n     // other fields }"
+                  properties:
+                    lastTransitionTime:
+                      description: lastTransitionTime is the last time the condition
+                        transitioned from one status to another. This should be when
+                        the underlying condition changed.  If that is not known, then
+                        using the time when the API field changed is acceptable.
+                      format: date-time
+                      type: string
+                    message:
+                      description: message is a human readable message indicating
+                        details about the transition. This may be an empty string.
+                      maxLength: 32768
+                      type: string
+                    observedGeneration:
+                      description: observedGeneration represents the .metadata.generation
+                        that the condition was set based upon. For instance, if .metadata.generation
+                        is currently 12, but the .status.conditions[x].observedGeneration
+                        is 9, the condition is out of date with respect to the current
+                        state of the instance.
+                      format: int64
+                      minimum: 0
+                      type: integer
+                    reason:
+                      description: reason contains a programmatic identifier indicating
+                        the reason for the condition's last transition. Producers
+                        of specific condition types may define expected values and
+                        meanings for this field, and whether the values are considered
+                        a guaranteed API. The value should be a CamelCase string.
+                        This field may not be empty.
+                      maxLength: 1024
+                      minLength: 1
+                      pattern: ^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$
+                      type: string
+                    status:
+                      description: status of the condition, one of True, False, Unknown.
+                      enum:
+                      - "True"
+                      - "False"
+                      - Unknown
+                      type: string
+                    type:
+                      description: type of condition in CamelCase or in foo.example.com/CamelCase.
+                        --- Many .condition.type values are consistent across resources
+                        like Available, but because arbitrary conditions can be useful
+                        (see .node.status.conditions), the ability to deconflict is
+                        important. The regex it matches is (dns1123SubdomainFmt/)?(qualifiedNameFmt)
+                      maxLength: 316
+                      pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - message
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              driveStatus:
+                description: DriveStatus denotes drive status.
+                type: string
+              filesystem:
+                type: string
+              freeCapacity:
+                format: int64
+                type: integer
+              logicalBlockSize:
+                format: int64
+                type: integer
+              modelNumber:
+                type: string
+              mountOptions:
+                items:
+                  type: string
+                type: array
+                x-kubernetes-list-type: atomic
+              mountpoint:
+                type: string
+              nodeName:
+                type: string
+              partitionNum:
+                type: integer
+              path:
+                type: string
+              physicalBlockSize:
+                format: int64
+                type: integer
+              rootPartition:
+                type: string
+              serialNumber:
+                type: string
+              topology:
+                additionalProperties:
+                  type: string
+                type: object
+              totalCapacity:
+                format: int64
+                type: integer
+            required:
+            - path
+            type: object
+        required:
+        - metadata
+        - spec
+        type: object
+    served: true
+    storage: false
+  - name: v1beta2
+    schema:
+      openAPIV3Schema:
+        description: DirectCSIDrive denotes drive CRD object.
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: DirectCSIDriveSpec denotes drive specification.
+            properties:
+              directCSIOwned:
+                description: required
+                type: boolean
+              driveTaint:
+                additionalProperties:
+                  type: string
+                type: object
+              requestedFormat:
+                description: RequestedFormat denotes drive format request information.
+                properties:
+                  filesystem:
+                    type: string
+                  force:
+                    type: boolean
+                  mountOptions:
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: atomic
+                  mountpoint:
+                    type: string
+                  purge:
+                    type: boolean
+                type: object
+            required:
+            - directCSIOwned
+            type: object
+          status:
+            description: DirectCSIDriveStatus denotes drive information.
+            properties:
+              accessTier:
+                description: AccessTier denotes access tier.
+                type: string
+              allocatedCapacity:
+                format: int64
+                type: integer
+              conditions:
+                items:
+                  description: "Condition contains details for one aspect of the current
+                    state of this API Resource. --- This struct is intended for direct
+                    use as an array at the field path .status.conditions.  For example,
+                    type FooStatus struct{     // Represents the observations of a
+                    foo's current state.     // Known .status.conditions.type are:
+                    \"Available\", \"Progressing\", and \"Degraded\"     // +patchMergeKey=type
+                    \    // +patchStrategy=merge     // +listType=map     // +listMapKey=type
+                    \    Conditions []metav1.Condition `json:\"conditions,omitempty\"
+                    patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"`
+                    \n     // other fields }"
+                  properties:
+                    lastTransitionTime:
+                      description: lastTransitionTime is the last time the condition
+                        transitioned from one status to another. This should be when
+                        the underlying condition changed.  If that is not known, then
+                        using the time when the API field changed is acceptable.
+                      format: date-time
+                      type: string
+                    message:
+                      description: message is a human readable message indicating
+                        details about the transition. This may be an empty string.
+                      maxLength: 32768
+                      type: string
+                    observedGeneration:
+                      description: observedGeneration represents the .metadata.generation
+                        that the condition was set based upon. For instance, if .metadata.generation
+                        is currently 12, but the .status.conditions[x].observedGeneration
+                        is 9, the condition is out of date with respect to the current
+                        state of the instance.
+                      format: int64
+                      minimum: 0
+                      type: integer
+                    reason:
+                      description: reason contains a programmatic identifier indicating
+                        the reason for the condition's last transition. Producers
+                        of specific condition types may define expected values and
+                        meanings for this field, and whether the values are considered
+                        a guaranteed API. The value should be a CamelCase string.
+                        This field may not be empty.
+                      maxLength: 1024
+                      minLength: 1
+                      pattern: ^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$
+                      type: string
+                    status:
+                      description: status of the condition, one of True, False, Unknown.
+                      enum:
+                      - "True"
+                      - "False"
+                      - Unknown
+                      type: string
+                    type:
+                      description: type of condition in CamelCase or in foo.example.com/CamelCase.
+                        --- Many .condition.type values are consistent across resources
+                        like Available, but because arbitrary conditions can be useful
+                        (see .node.status.conditions), the ability to deconflict is
+                        important. The regex it matches is (dns1123SubdomainFmt/)?(qualifiedNameFmt)
+                      maxLength: 316
+                      pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - message
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              driveStatus:
+                description: DriveStatus denotes drive status.
+                type: string
+              filesystem:
+                type: string
+              filesystemUUID:
+                type: string
+              freeCapacity:
+                format: int64
+                type: integer
+              logicalBlockSize:
+                format: int64
+                type: integer
+              majorNumber:
+                format: int32
+                type: integer
+              minorNumber:
+                format: int32
+                type: integer
+              modelNumber:
+                type: string
+              mountOptions:
+                items:
+                  type: string
+                type: array
+                x-kubernetes-list-type: atomic
+              mountpoint:
+                type: string
+              nodeName:
+                type: string
+              partitionNum:
+                type: integer
+              partitionUUID:
+                type: string
+              path:
+                type: string
+              physicalBlockSize:
+                format: int64
+                type: integer
+              rootPartition:
+                type: string
+              serialNumber:
+                type: string
+              topology:
+                additionalProperties:
+                  type: string
+                type: object
+              totalCapacity:
+                format: int64
+                type: integer
+            required:
+            - path
+            type: object
+        required:
+        - metadata
+        - spec
+        type: object
+    served: true
+    storage: false
+  - name: v1beta3
+    schema:
+      openAPIV3Schema:
+        description: DirectCSIDrive denotes drive CRD object.
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: DirectCSIDriveSpec denotes drive specification.
+            properties:
+              directCSIOwned:
+                description: required
+                type: boolean
+              driveTaint:
+                additionalProperties:
+                  type: string
+                type: object
+              requestedFormat:
+                description: RequestedFormat denotes drive format request information.
+                properties:
+                  filesystem:
+                    type: string
+                  force:
+                    type: boolean
+                  mountOptions:
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: atomic
+                  mountpoint:
+                    type: string
+                  purge:
+                    type: boolean
+                type: object
+            required:
+            - directCSIOwned
+            type: object
+          status:
+            description: DirectCSIDriveStatus denotes drive information.
+            properties:
+              accessTier:
+                description: AccessTier denotes access tier.
+                type: string
+              allocatedCapacity:
+                format: int64
+                type: integer
+              conditions:
+                items:
+                  description: "Condition contains details for one aspect of the current
+                    state of this API Resource. --- This struct is intended for direct
+                    use as an array at the field path .status.conditions.  For example,
+                    type FooStatus struct{     // Represents the observations of a
+                    foo's current state.     // Known .status.conditions.type are:
+                    \"Available\", \"Progressing\", and \"Degraded\"     // +patchMergeKey=type
+                    \    // +patchStrategy=merge     // +listType=map     // +listMapKey=type
+                    \    Conditions []metav1.Condition `json:\"conditions,omitempty\"
+                    patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"`
+                    \n     // other fields }"
+                  properties:
+                    lastTransitionTime:
+                      description: lastTransitionTime is the last time the condition
+                        transitioned from one status to another. This should be when
+                        the underlying condition changed.  If that is not known, then
+                        using the time when the API field changed is acceptable.
+                      format: date-time
+                      type: string
+                    message:
+                      description: message is a human readable message indicating
+                        details about the transition. This may be an empty string.
+                      maxLength: 32768
+                      type: string
+                    observedGeneration:
+                      description: observedGeneration represents the .metadata.generation
+                        that the condition was set based upon. For instance, if .metadata.generation
+                        is currently 12, but the .status.conditions[x].observedGeneration
+                        is 9, the condition is out of date with respect to the current
+                        state of the instance.
+                      format: int64
+                      minimum: 0
+                      type: integer
+                    reason:
+                      description: reason contains a programmatic identifier indicating
+                        the reason for the condition's last transition. Producers
+                        of specific condition types may define expected values and
+                        meanings for this field, and whether the values are considered
+                        a guaranteed API. The value should be a CamelCase string.
+                        This field may not be empty.
+                      maxLength: 1024
+                      minLength: 1
+                      pattern: ^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$
+                      type: string
+                    status:
+                      description: status of the condition, one of True, False, Unknown.
+                      enum:
+                      - "True"
+                      - "False"
+                      - Unknown
+                      type: string
+                    type:
+                      description: type of condition in CamelCase or in foo.example.com/CamelCase.
+                        --- Many .condition.type values are consistent across resources
+                        like Available, but because arbitrary conditions can be useful
+                        (see .node.status.conditions), the ability to deconflict is
+                        important. The regex it matches is (dns1123SubdomainFmt/)?(qualifiedNameFmt)
+                      maxLength: 316
+                      pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - message
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              dmName:
+                type: string
+              dmUUID:
+                type: string
+              driveStatus:
+                description: DriveStatus denotes drive status.
+                type: string
+              filesystem:
+                type: string
+              filesystemUUID:
+                type: string
+              freeCapacity:
+                format: int64
+                type: integer
+              logicalBlockSize:
+                format: int64
+                type: integer
+              majorNumber:
+                format: int32
+                type: integer
+              master:
+                type: string
+              mdUUID:
+                type: string
+              minorNumber:
+                format: int32
+                type: integer
+              modelNumber:
+                type: string
+              mountOptions:
+                items:
+                  type: string
+                type: array
+                x-kubernetes-list-type: atomic
+              mountpoint:
+                type: string
+              nodeName:
+                type: string
+              partTableType:
+                type: string
+              partTableUUID:
+                type: string
+              partitionNum:
+                type: integer
+              partitionUUID:
+                type: string
+              partitioned:
+                type: boolean
+              path:
+                type: string
+              physicalBlockSize:
+                format: int64
+                type: integer
+              readOnly:
+                type: boolean
+              rootPartition:
+                type: string
+              serialNumber:
+                type: string
+              swapOn:
+                type: boolean
+              topology:
+                additionalProperties:
+                  type: string
+                type: object
+              totalCapacity:
+                format: int64
+                type: integer
+              ueventFSUUID:
+                type: string
+              ueventSerial:
+                type: string
+              vendor:
+                type: string
+              virtual:
+                type: boolean
+              wwid:
+                type: string
+            required:
+            - path
+            type: object
+        required:
+        - metadata
+        - spec
+        type: object
+    served: true
+    storage: false
+  - name: v1beta4
+    schema:
+      openAPIV3Schema:
+        description: DirectCSIDrive denotes drive CRD object.
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: DirectCSIDriveSpec denotes drive specification.
+            properties:
+              directCSIOwned:
+                description: required
+                type: boolean
+              driveTaint:
+                additionalProperties:
+                  type: string
+                type: object
+              requestedFormat:
+                description: RequestedFormat denotes drive format request information.
+                properties:
+                  filesystem:
+                    type: string
+                  force:
+                    type: boolean
+                  mountOptions:
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: atomic
+                  mountpoint:
+                    type: string
+                  purge:
+                    type: boolean
+                type: object
+            required:
+            - directCSIOwned
+            type: object
+          status:
+            description: DirectCSIDriveStatus denotes drive information.
+            properties:
+              accessTier:
+                description: AccessTier denotes access tier.
+                type: string
+              allocatedCapacity:
+                format: int64
+                type: integer
+              conditions:
+                items:
+                  description: "Condition contains details for one aspect of the current
+                    state of this API Resource. --- This struct is intended for direct
+                    use as an array at the field path .status.conditions.  For example,
+                    type FooStatus struct{     // Represents the observations of a
+                    foo's current state.     // Known .status.conditions.type are:
+                    \"Available\", \"Progressing\", and \"Degraded\"     // +patchMergeKey=type
+                    \    // +patchStrategy=merge     // +listType=map     // +listMapKey=type
+                    \    Conditions []metav1.Condition `json:\"conditions,omitempty\"
+                    patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"`
+                    \n     // other fields }"
+                  properties:
+                    lastTransitionTime:
+                      description: lastTransitionTime is the last time the condition
+                        transitioned from one status to another. This should be when
+                        the underlying condition changed.  If that is not known, then
+                        using the time when the API field changed is acceptable.
+                      format: date-time
+                      type: string
+                    message:
+                      description: message is a human readable message indicating
+                        details about the transition. This may be an empty string.
+                      maxLength: 32768
+                      type: string
+                    observedGeneration:
+                      description: observedGeneration represents the .metadata.generation
+                        that the condition was set based upon. For instance, if .metadata.generation
+                        is currently 12, but the .status.conditions[x].observedGeneration
+                        is 9, the condition is out of date with respect to the current
+                        state of the instance.
+                      format: int64
+                      minimum: 0
+                      type: integer
+                    reason:
+                      description: reason contains a programmatic identifier indicating
+                        the reason for the condition's last transition. Producers
+                        of specific condition types may define expected values and
+                        meanings for this field, and whether the values are considered
+                        a guaranteed API. The value should be a CamelCase string.
+                        This field may not be empty.
+                      maxLength: 1024
+                      minLength: 1
+                      pattern: ^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$
+                      type: string
+                    status:
+                      description: status of the condition, one of True, False, Unknown.
+                      enum:
+                      - "True"
+                      - "False"
+                      - Unknown
+                      type: string
+                    type:
+                      description: type of condition in CamelCase or in foo.example.com/CamelCase.
+                        --- Many .condition.type values are consistent across resources
+                        like Available, but because arbitrary conditions can be useful
+                        (see .node.status.conditions), the ability to deconflict is
+                        important. The regex it matches is (dns1123SubdomainFmt/)?(qualifiedNameFmt)
+                      maxLength: 316
+                      pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - message
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              dmName:
+                type: string
+              dmUUID:
+                type: string
+              driveStatus:
+                description: DriveStatus denotes drive status.
+                type: string
+              filesystem:
+                type: string
+              filesystemUUID:
+                type: string
+              freeCapacity:
+                format: int64
+                type: integer
+              logicalBlockSize:
+                format: int64
+                type: integer
+              majorNumber:
+                format: int32
+                type: integer
+              master:
+                type: string
+              mdUUID:
+                type: string
+              minorNumber:
+                format: int32
+                type: integer
+              modelNumber:
+                type: string
+              mountOptions:
+                items:
+                  type: string
+                type: array
+                x-kubernetes-list-type: atomic
+              mountpoint:
+                type: string
+              nodeName:
+                type: string
+              otherMountsInfo:
+                items:
+                  description: OtherMountsInfo contains mount info
+                  properties:
+                    mountOptions:
+                      items:
+                        type: string
+                      type: array
+                      x-kubernetes-list-type: atomic
+                    mountpoint:
+                      description: required
+                      type: string
+                  type: object
+                type: array
+                x-kubernetes-list-type: atomic
+              partTableType:
+                type: string
+              partTableUUID:
+                type: string
+              partitionNum:
+                type: integer
+              partitionUUID:
+                type: string
+              partitioned:
+                type: boolean
+              path:
+                type: string
+              pciPath:
+                type: string
+              physicalBlockSize:
+                format: int64
+                type: integer
+              readOnly:
+                type: boolean
+              rootPartition:
+                type: string
+              serialNumber:
+                type: string
+              serialNumberLong:
+                type: string
+              swapOn:
+                type: boolean
+              topology:
+                additionalProperties:
+                  type: string
+                type: object
+              totalCapacity:
+                format: int64
+                type: integer
+              ueventFSUUID:
+                type: string
+              ueventSerial:
+                type: string
+              vendor:
+                type: string
+              virtual:
+                type: boolean
+              wwid:
+                type: string
+            required:
+            - path
+            type: object
+        required:
+        - metadata
+        - spec
+        type: object
+    served: true
+    storage: true
+status:
+  acceptedNames:
+    kind: DirectCSIDrive
+    listKind: DirectCSIDriveList
+    plural: directcsidrives
+    singular: directcsidrive
+  conditions:
+  - lastTransitionTime: "2022-06-21T14:31:04Z"
+    message: no conflicts found
+    reason: NoConflicts
+    status: "True"
+    type: NamesAccepted
+  - lastTransitionTime: "2022-06-21T14:31:04Z"
+    message: the initial names have been accepted
+    reason: InitialNamesAccepted
+    status: "True"
+    type: Established
+  storedVersions:
+  - v1beta4

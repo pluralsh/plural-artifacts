@@ -33,16 +33,40 @@ minio:
       name: minio-azure-secret
   {{- else if eq .Provider "aws" }}
   mode: distributed
-  drivesPerNode: 4
-  replicas: 4
+  drivesPerNode: 3
+  replicas: 6
   pools: 1
   persistence:
     enabled: true
-    storageClass: ebs-csi
-    size: 50Gi
+    storageClass: directpv-min-io
+    size: 1800Gi
   envFrom:
   - secretRef:
       name: minio-s3-secret
+
+  tolerations:
+  - key: plural.sh/localDisks
+    operator: Exists
+    effect: NoSchedule
+  affinity:
+    nodeAffinity: 
+      requiredDuringSchedulingIgnoredDuringExecution: 
+        nodeSelectorTerms: 
+        - matchExpressions: 
+          - key: plural.sh/scalingGroup
+            operator: In
+            values:
+            - local-hdd-large-on-demand
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: app
+            operator: In
+            values:
+            - minio
+        topologyKey: kubernetes.io/hostname
+
   {{- else if eq .Provider "equinix" }}
   mode: gateway
   gateway:

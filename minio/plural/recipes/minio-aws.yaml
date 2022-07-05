@@ -26,3 +26,5 @@ sections:
     name: aws
   - type: HELM
     name: minio
+  - type: HELM
+    name: directpv
