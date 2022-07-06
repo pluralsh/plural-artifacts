@@ -3,7 +3,7 @@ description: Installs sentry on a GKE cluster
 provider: GCP
 oidcSettings:
   authMethod: POST
-  uriFormat: https://{domain}/auth/sso
+  uriFormat: https://{domain}/auth/sso/
   domainKey: hostname
 dependencies:
 - repo: bootstrap
