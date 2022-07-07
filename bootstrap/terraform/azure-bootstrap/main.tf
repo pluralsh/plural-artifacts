@@ -4,6 +4,8 @@ data "azurerm_resource_group" "group" {
 
 module "network" {
   source              = "github.com/pluralsh/terraform-azurerm-network?ref=plural"
+
+  vnet_name           = var.network_name
   resource_group_name = data.azurerm_resource_group.group.name
   address_space       = var.address_space
   subnet_prefixes     = var.subnet_prefixes
