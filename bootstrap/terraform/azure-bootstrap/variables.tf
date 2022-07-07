@@ -24,7 +24,12 @@ variable "address_space" {
 
 variable "subnet_prefixes" {
   type = list(string)
-  default = ["10.1.0.0/22"]
+  default = ["10.1.0.0/18"]
+}
+
+variable "admin_username" {
+  type = string
+  default = null
 }
 
 variable "name" {
