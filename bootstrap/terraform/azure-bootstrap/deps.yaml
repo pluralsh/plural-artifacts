@@ -2,7 +2,7 @@ apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
   description: Creates a AKS cluster and prepares it for bootstrapping
-  version: 0.1.13
+  version: 0.1.14
 spec:
   dependencies: []
   providers:
@@ -10,6 +10,9 @@ spec:
   secrets:
   - /private_ssh_key
   outputs:
+    cluster_name: cluster_name
+    resource_group_name: resource_group_name
+    cluster: cluster
     kubelet_msi_id: kubelet_msi_id
     node_resource_group: node_resource_group
   provider_wirings:
