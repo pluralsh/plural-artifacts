@@ -159,6 +159,21 @@
       "additionalBranchPrefix": ""
     },
     {
+      "description": "Group clickhouse Helm updates",
+      "matchPaths": [
+        "clickhouse"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "clickhouse",
+      "additionalBranchPrefix": ""
+    },
+    {
       "description": "Group crossplane Helm updates",
       "matchPaths": [
         "crossplane"
@@ -459,6 +474,21 @@
       "additionalBranchPrefix": ""
     },
     {
+      "description": "Group kserve Helm updates",
+      "matchPaths": [
+        "kserve"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "kserve",
+      "additionalBranchPrefix": ""
+    },
+    {
       "description": "Group kubecost Helm updates",
       "matchPaths": [
         "kubecost"
@@ -489,6 +519,21 @@
       "additionalBranchPrefix": ""
     },
     {
+      "description": "Group kubescape Helm updates",
+      "matchPaths": [
+        "kubescape"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "kubescape",
+      "additionalBranchPrefix": ""
+    },
+    {
       "description": "Group kyverno Helm updates",
       "matchPaths": [
         "kyverno"
@@ -501,6 +546,21 @@
         "helmv3"
       ],
       "groupName": "kyverno",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group lakefs Helm updates",
+      "matchPaths": [
+        "lakefs"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "lakefs",
       "additionalBranchPrefix": ""
     },
     {
@@ -576,6 +636,21 @@
         "helmv3"
       ],
       "groupName": "mysql",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group n8n Helm updates",
+      "matchPaths": [
+        "n8n"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "n8n",
       "additionalBranchPrefix": ""
     },
     {
@@ -729,6 +804,21 @@
       "additionalBranchPrefix": ""
     },
     {
+      "description": "Group strapi Helm updates",
+      "matchPaths": [
+        "strapi"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "strapi",
+      "additionalBranchPrefix": ""
+    },
+    {
       "description": "Group superset Helm updates",
       "matchPaths": [
         "superset"
@@ -741,6 +831,21 @@
         "helmv3"
       ],
       "groupName": "superset",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group trino Helm updates",
+      "matchPaths": [
+        "trino"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "trino",
       "additionalBranchPrefix": ""
     },
     {
