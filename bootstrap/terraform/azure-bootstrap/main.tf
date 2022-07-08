@@ -67,6 +67,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "main" {
   min_count = each.value.min_count
   max_count = each.value.max_count
 
+  vnet_subnet_id = module.network.vnet_subnets[0]
+
   vm_size = each.value.vm_size
 
   os_disk_type = each.value.os_disk_type
