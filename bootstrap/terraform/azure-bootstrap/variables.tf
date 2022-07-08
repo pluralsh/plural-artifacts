@@ -72,3 +72,99 @@ variable "namespace" {
   type = string
   default = "bootstrap"
 }
+
+variable "node_groups" {
+  description = "list of maps of node groups to create. "
+  type        = any
+  default = [
+    {
+      name = "ssod"
+      priority = "Regular"
+      enable_auto_scaling = true
+      availability_zones = ["1", "2", "3"]
+
+      node_count = null
+      min_count = 3
+      max_count = 27
+
+      vm_size = "Standard_D2as_v5"
+
+      os_disk_type = "Managed"
+
+      os_disk_size_gb = 50
+
+      max_pods = 110
+
+
+      node_labels = {
+        "plural.sh/capacityType" = "ON_DEMAND"
+        "plural.sh/performanceType" = "SUSTAINED"
+        "plural.sh/scalingGroup" = "small-sustained-on-demand"
+      }
+      node_taints = []
+      tags = {
+        "ScalingGroup": "small-sustained-on-demand"
+      }
+    },
+
+    {
+      name = "msod"
+      priority = "Regular"
+      enable_auto_scaling = true
+      availability_zones = ["1", "2", "3"]
+
+      node_count = null
+      min_count = 0
+      max_count = 27
+
+      vm_size = "Standard_D4as_v5"
+
+      os_disk_type = "Managed"
+
+      os_disk_size_gb = 50
+
+      max_pods = 110
+
+
+      node_labels = {
+        "plural.sh/capacityType" = "ON_DEMAND"
+        "plural.sh/performanceType" = "SUSTAINED"
+        "plural.sh/scalingGroup" = "medium-sustained-on-demand"
+      }
+      node_taints = []
+      tags = {
+        "ScalingGroup": "medium-sustained-on-demand"
+      }
+    },
+
+    {
+      name = "lsod"
+      priority = "Regular"
+      enable_auto_scaling = true
+      availability_zones = ["1", "2", "3"]
+
+      node_count = null
+      min_count = 0
+      max_count = 27
+
+      vm_size = "Standard_D8as_v5"
+
+      os_disk_type = "Managed"
+
+      os_disk_size_gb = 50
+
+      max_pods = 110
+
+
+      node_labels = {
+        "plural.sh/capacityType" = "ON_DEMAND"
+        "plural.sh/performanceType" = "SUSTAINED"
+        "plural.sh/scalingGroup" = "large-sustained-on-demand"
+      }
+      node_taints = []
+      tags = {
+        "ScalingGroup": "large-sustained-on-demand"
+      }
+    }
+  ]
+}
