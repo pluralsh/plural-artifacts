@@ -1,0 +1,17 @@
+name: datadog-aws
+description: Installs datadog on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+sections:
+- name: datadog
+  configuration:
+  - name: apiKey
+    type: STRING
+    documentation: the api key for your datadog account
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: datadog
