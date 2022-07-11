@@ -1,0 +1,1 @@
+Use `plural watch datadog` to track the status of your application

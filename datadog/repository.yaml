@@ -1,0 +1,7 @@
+name: datadog
+description: datadog deployed on plural
+category: DEVOPS
+private: true
+gitUrl: https://github.com/DataDog/helm-charts
+icon: plural/icons/datadog.png
+notes: plural/notes.tpl
