@@ -1,2 +1,3 @@
 datadog:
-  apiKey: {{ .Values.apiKey | quote }}
+  datadog:
+    apiKey: {{ .Values.apiKey | quote }}
