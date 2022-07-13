@@ -6,6 +6,10 @@ redash:
   redash:
     secretKey: "redash_secret"
     cookieSecret: "cookie_secret"
+  postgresql:
+    enabled: false
+  redis:
+    enabled: false
 
 service:
   type: ClusterIP
