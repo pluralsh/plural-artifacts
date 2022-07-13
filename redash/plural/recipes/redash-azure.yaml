@@ -1,5 +1,5 @@
 name: redash-azure
-description: Installs redash on an aws eks cluster
+description: Installs redash on an azure aks cluster
 provider: AZURE
 dependencies:
 - repo: bootstrap
