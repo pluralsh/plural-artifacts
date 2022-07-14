@@ -7,7 +7,7 @@ quay.io/prometheus/node-exporter:v1.3.1
 quay.io/prometheus-operator/prometheus-operator:v0.57.0
 quay.io/prometheus-operator/prometheus-config-reloader:v0.57.0
 quay.io/prometheus/alertmanager:v0.24.0
-quay.io/prometheus/prometheus:v2.36.1
+quay.io/prometheus/prometheus:v2.36.2
 us.gcr.io/k8s-artifacts-prod/autoscaling/vpa-recommender:0.11.0
 us.gcr.io/k8s-artifacts-prod/autoscaling/vpa-updater:0.11.0
 quay.io/thanos/thanos:v0.26.0
