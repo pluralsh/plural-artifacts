@@ -1,6 +1,7 @@
 name: kubescape
 description: kubernetes security in a single pane of glass
 category: SECURITY
-private: true
+private: false
 icon: plural/icons/kubescape.png
 notes: plural/notes.tpl
+gitUrl: https://github.com/armosec/kubescape
