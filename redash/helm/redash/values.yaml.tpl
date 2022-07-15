@@ -5,22 +5,21 @@ global:
     - description: redash web ui
       url: {{ .Values.hostname }}
 
-ingress:
-  hosts:
-   - host: {{ .Values.hostname }}
-     paths:
-       - path: /
-         pathType: ImplementationSpecific
-  tls:
-   - secretName: redash-tls
-     hosts:
-       - {{ .Values.hostname }}
+redash:
+  redash:
+    secretKey: {{ dedupe . "redash.redash.redash.secretKey" (randAlphaNum 32) }}
+    cookieSecret: {{ dedupe . "redash.redash.redash.cookieSecret" (randAlphaNum 32) }}
+  ingress:
+    hosts:
+    - host: {{ .Values.hostname }}
+      paths:
+        - /
+    pathType: Prefix
+    tls:
+    - secretName: redash-tls
+      hosts:
+        - {{ .Values.hostname }}
 
 secrets:
   redis_host: redis-master.{{ namespace "redis" }}
   redis_password: {{ $redisValues.redis.password }}
-
-redash:
-  externalRedisSecret:
-    name: redash
-    key: REDIS_URL
