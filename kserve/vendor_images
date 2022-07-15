@@ -13,7 +13,7 @@ kserve/storage-initializer:v0.8.0
 kserve/modelmesh-controller:v0.8.0
 kserve/modelmesh:v0.8.0
 kserve/modelmesh-runtime-adapter:v0.8.0
-kserve/rest-proxy:v0.1.3
+kserve/rest-proxy:v0.1.4
 kserve/alibi-explainer:v0.8.0
 kserve/art-explainer:v0.8.0
 kserve/aix-explainer:v0.8.0

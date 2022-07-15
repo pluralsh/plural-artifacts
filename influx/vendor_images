@@ -2,5 +2,5 @@ chronograf:1.9.4
 influxdb:2.2
 influxdb:2.2.0-alpine
 kapacitor:1.6.4-alpine
-quay.io/influxdb/telegraf-operator:v1.3.7
+quay.io/influxdb/telegraf-operator:v1.3.8
 telegraf:1.23-alpine
