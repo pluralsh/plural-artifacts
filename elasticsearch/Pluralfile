@@ -1,0 +1,7 @@
+REPO elasticsearch
+
+TF terraform/*
+HELM helm/*
+CRD plural/crds/* helm/elasticsearch
+RECIPE plural/recipes/*
+TAG plural/tags/**/*

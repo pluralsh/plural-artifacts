@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: kibana
+spec:
+  gateways:
+  - elasticsearch-gateway
+  hosts:
+  - kibana.kubeflow-aws.com
+  http:
+  - route:
+    - destination:
+        host: kibana-kb-http.elasticsearch.svc.cluster.local
+        port:
+          number: 5601

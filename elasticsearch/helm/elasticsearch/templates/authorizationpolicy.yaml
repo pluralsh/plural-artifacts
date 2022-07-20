@@ -1,0 +1,26 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  labels: {{- include "elasticsearch.labels" . | nindent 4 }}
+  name: {{ include "elasticsearch.fullname" . }}-allow-all-access
+spec:
+  action: ALLOW
+  rules:
+    - {}
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: kibana-allow-external-access
+  namespace: istio
+spec:
+  action: ALLOW
+  selector:
+    matchLabels:
+      app: istio-ingressgateway
+      istio: ingressgateway
+  rules:
+  - to:
+    - operation:
+        hosts:
+        - kibana.kubeflow-aws.com
