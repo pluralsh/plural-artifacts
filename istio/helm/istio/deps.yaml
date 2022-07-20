@@ -8,8 +8,21 @@ spec:
   - type: helm
     name: bootstrap
     repo: bootstrap
-    version: '>= 0.5.1'
+    version: '>= 0.7.12'
+  - type: helm
+    name: monitoring
+    repo: monitoring
+    version: '>= 0.1.37'
+  - type: helm
+    name: grafana-tempo
+    repo: grafana-tempo
+    version: '>= 0.1.7'
+    optional: true
+  - type: helm
+    name: ingress-nginx
+    repo: ingress-nginx
+    version: '>= 0.1.2'
   - type: terraform
     name: kube
     repo: istio
-    version: '>= 0.1.0'
+    version: '>= 0.1.4'

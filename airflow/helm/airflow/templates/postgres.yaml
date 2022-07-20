@@ -1,3 +1,4 @@
+{{- if .Values.postgres.enabled }}
 apiVersion: acid.zalan.do/v1
 kind: postgresql
 metadata:
@@ -7,12 +8,16 @@ metadata:
 spec:
   teamId: plural
   volume:
-    size: 25Gi
-  numberOfInstances: 1
+    size: {{ .Values.postgres.storage.size }}
+  numberOfInstances: {{ .Values.postgres.replicas }}
   users:
     airflow:  # database owner
     - superuser
     - createdb
+  {{ if .Values.postgres.resources }}
+  resources:
+  {{ mergeOverwrite .Values.postgres.default.resources .Values.postgres.resources | toYaml | nindent 4 }}
+  {{ end }}
   databases:
     airflow: airflow  # dbname: owner
   postgresql:
@@ -81,3 +86,4 @@ spec:
     targetPort: http-metrics
   selector:
     spilo-role: replica
+{{- end }}

@@ -1,0 +1,27 @@
+name: oauth2-proxy-aws
+description: Installs OAuth2-Proxy on an eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+sections:
+- name: oauth2-proxy
+  configuration:
+  - name: auth_cookie_domain
+    documentation: domain to use for the auth cookie
+    type: STRING
+  - name: auth_whitelist_domain
+    documentation: whitelist domain for auth
+    type: STRING
+  - name: oidc_issuer_url
+    documentation: uri of your oidc issuer
+    type: STRING
+  - name: user_id_claim
+    documentation: claim used for the user id
+    type: STRING
+    default: email
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: oauth2-proxy

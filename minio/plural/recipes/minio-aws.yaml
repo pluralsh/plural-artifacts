@@ -1,0 +1,28 @@
+name: minio-aws
+description: Installs minio on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: etcd
+  name: etcd-aws
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+sections:
+- name: minio
+  configuration:
+  - name: minio_bucket
+    type: BUCKET
+    default: minio
+    documentation: bucket to store minio data
+  - name: hostname
+    documentation: Fully Qualified Domain Name to use for your minio gateway installation, eg minio.topleveldomain.com if topleveldomain.com is the domain you inputed for dns_domain above.
+    type: DOMAIN
+  - name: consoleHostname
+    documentation: Fully Qualified Domain Name to use for your minio console installation, eg minio.topleveldomain.com if topleveldomain.com is the domain you inputed for dns_domain above.
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: minio

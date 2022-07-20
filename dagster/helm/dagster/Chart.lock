@@ -1,0 +1,9 @@
+dependencies:
+- name: postgres
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.4
+- name: dagster
+  repository: https://dagster-io.github.io/helm
+  version: 0.15.0
+digest: sha256:de4266f4e7078b0fea8578ee1e39fdefe9132a0713bbba1c0ca8ee267aa57075
+generated: "2022-06-14T20:29:41.732719263-07:00"

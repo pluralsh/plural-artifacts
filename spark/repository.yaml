@@ -1,0 +1,10 @@
+name: spark
+description: a unified analytics engine for large-scale data processing
+category: DATA
+icon: plural/icons/spark.png
+notes: plural/notes.tpl
+gitUrl: https://github.com/apache/spark
+homepage: https://spark.apache.org/
+tags:
+- tag: apache
+- tag: data

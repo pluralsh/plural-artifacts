@@ -1,0 +1,245 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.4.1
+  creationTimestamp: null
+  name: runbooks.platform.plural.sh
+spec:
+  group: platform.plural.sh
+  names:
+    kind: Runbook
+    listKind: RunbookList
+    plural: runbooks
+    singular: runbook
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Runbook is the Schema for the runbooks API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: RunbookSpec defines the desired state of Runbook
+            properties:
+              actions:
+                description: actions that can be performed in a runbook. These will
+                  be references in input forms
+                items:
+                  description: RunbookAction represents an action to be performed
+                    in a runbook
+                  properties:
+                    action:
+                      description: The type of this action, eg config or kubernetes
+                      enum:
+                      - config
+                      type: string
+                    configuration:
+                      description: The details of a configuration action
+                      properties:
+                        statefulSets:
+                          description: stateful sets to clean before rebuilding (for
+                            pvc resizes)
+                          items:
+                            description: details for any statefulset resizes to apply
+                            properties:
+                              name:
+                                description: name of statefulset
+                                type: string
+                              persistentVolume:
+                                description: persistent volume to resize
+                                type: string
+                              valueFrom:
+                                description: the value to use from the args for the
+                                  execution
+                                type: string
+                            required:
+                            - name
+                            - persistentVolume
+                            - valueFrom
+                            type: object
+                          type: array
+                        updates:
+                          description: The updates you want to perform
+                          items:
+                            description: An update to a configuration path
+                            properties:
+                              path:
+                                description: path in the configuration to update
+                                items:
+                                  type: string
+                                type: array
+                              valueFrom:
+                                description: the value to use from the args for this
+                                  execution
+                                type: string
+                            required:
+                            - path
+                            - valueFrom
+                            type: object
+                          type: array
+                      required:
+                      - updates
+                      type: object
+                    name:
+                      description: The name to reference this action
+                      type: string
+                    redirectTo:
+                      description: The url to redirect to after executing this action
+                      type: string
+                  required:
+                  - action
+                  - name
+                  type: object
+                type: array
+              alerts:
+                description: alerts to tie to this runbook
+                items:
+                  description: RunbookAlert represents an alert to join to this runbook
+                  properties:
+                    name:
+                      description: the name of the alert
+                      type: string
+                  required:
+                  - name
+                  type: object
+                type: array
+              datasources:
+                description: datasources to hydrate graphs and tables in the runbooks
+                  display
+                items:
+                  description: RunbookDatasource defines the query to extract data
+                    for a runbook
+                  properties:
+                    kubernetes:
+                      description: a kubernetes datasource spec
+                      properties:
+                        name:
+                          description: the name of this resource
+                          type: string
+                        resource:
+                          description: the kubernetes resource kind, eg deployment
+                          enum:
+                          - deployment
+                          - statefulset
+                          type: string
+                      required:
+                      - name
+                      - resource
+                      type: object
+                    name:
+                      description: The name to reference this datasource
+                      type: string
+                    prometheus:
+                      description: a prometheus query spec
+                      properties:
+                        format:
+                          description: the format for the value returned
+                          enum:
+                          - cpu
+                          - memory
+                          - none
+                          type: string
+                        legend:
+                          description: the legend to use in the graph of this metric
+                          type: string
+                        query:
+                          description: the prometheus query
+                          type: string
+                      required:
+                      - format
+                      - legend
+                      - query
+                      type: object
+                    type:
+                      description: The type of this datasource
+                      enum:
+                      - prometheus
+                      - kubernetes
+                      - nodes
+                      type: string
+                  required:
+                  - name
+                  - type
+                  type: object
+                type: array
+              description:
+                description: Short description of what this runbook does
+                type: string
+              display:
+                description: the display in supported xml for the runbook in the console
+                  UI
+                type: string
+              name:
+                description: The name for the runbook displayed in the plural console
+                type: string
+            required:
+            - actions
+            - description
+            - display
+            - name
+            type: object
+          status:
+            description: RunbookStatus defines the observed state of Runbook
+            properties:
+              alerts:
+                description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
+                  of cluster Important: Run "make" to regenerate code after modifying
+                  this file'
+                items:
+                  description: RunbookAlertStatus represents the status of an alert
+                    joined to a runbook
+                  properties:
+                    annotations:
+                      additionalProperties:
+                        type: string
+                      description: the alert annotations
+                      type: object
+                    fingerprint:
+                      description: the fingerprint of this alert
+                      type: string
+                    labels:
+                      additionalProperties:
+                        type: string
+                      description: the alert labels
+                      type: object
+                    name:
+                      description: the name of the alert
+                      type: string
+                    startsAt:
+                      description: the time it fired
+                      type: string
+                  required:
+                  - annotations
+                  - fingerprint
+                  - labels
+                  - name
+                  - startsAt
+                  type: object
+                type: array
+            required:
+            - alerts
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

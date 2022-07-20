@@ -1,17 +1,24 @@
 artifact: {}
 terraform:
-  terraform/kube: h1:N1+2RIiS8CboWWY8WM88t1BslRnrAsLOsiVzF2PDGv4=
+  terraform/kube: h1:aIkXBh2cF3BUvrwOu5kJ1BwzyIt5INCKWXs2ekWFwoU=
 helm:
-  helm/knative-eventing: h1:s2qcJeuvr/TpRRMhOWvWJLYtYIIZVEt4/Q2SmhFt1T8=
-  helm/knative-serving: h1:8tCqCW6P81rXCo06O/IK+SSllsoVYg2dR5mAvrv/F0w=
+  helm/knative-eventing: h1:sGDwUgjtdW9CX251At60G+erCLbc0LVwS+7IPW/TBAs=
+  helm/knative-operator: h1:iei142RH+BHrW8yzC4obZyf2WTJkm26WrB2hp8uzyZ8=
+  helm/knative-serving: h1:R6ZG8+2vWIE74826IG58GT/4EEEjCMp5E+DCuTmdvTU=
 recipe:
-  plural/recipes/knative-aws.yaml: ba2c23c53ce073ab72a1e9feb29de8b677e7edf9dc3aa7b6137e8c33bd3605a0
+  plural/recipes/knative-aws.yaml: 3a6025e65851bdfc1d141491adb4ceecf9f742c2dc5db966a5dc52b110014d5e
+  plural/recipes/knative-operator-aws.yaml: 76c5b5e81c21374109ca4eb4c5caaa3e0ba322ae75a1f16627f0b1bedf42ae97
 integration: {}
 crd:
   plural/crds/eventing/crds.yaml: 2892c5545a962507cda742f64e55a03174db0f5d176bbe11fc24e917d82b6bb7:h1:s2qcJeuvr/TpRRMhOWvWJLYtYIIZVEt4/Q2SmhFt1T8=
-  plural/crds/serving/crds.yaml: 955893d4dd8dc83c2c77477ad3b93b70cd082b1bc42c09fb7f353b331e31c4a1:h1:8tCqCW6P81rXCo06O/IK+SSllsoVYg2dR5mAvrv/F0w=
+  plural/crds/operator/knative-eventing.yaml: 95c61091f439b700e49100e75832d475fd81d53e1fff9d8907641d6e1f0ae701:h1:XHbAS4FsASkIUN49cv/mAUtdopaK5opmYABF3/skv0w=
+  plural/crds/operator/knative-serving.yaml: 30e5f7763fb9a969c8bc34f37f39ae6dba72f78599d0506bd10533acaa247432:h1:XHbAS4FsASkIUN49cv/mAUtdopaK5opmYABF3/skv0w=
+  plural/crds/serving/crds.yaml: 60f77a21eab4c3baf98eb5b78552d35c861bec73fdac8136fd62a9a906864689:h1:RuXJecyswQaOk80tHz0X34h0z4uelxKJl+tYxg1/V7Y=
 ird: {}
 tag:
   plural/tags/helm/knative-eventing.yaml: af3d79bc83ee70a3765ccbbf6e36bfc59ccd7ee19911176700a00333d8673093
+  plural/tags/helm/knative-operator.yaml: 3b04924d7e217792bd539cb1cd414d65796af6b3973d05883b0b558e57ea0101
   plural/tags/helm/knative-serving.yaml: 3314931d47a45a80ec0c589b449e2b419309904d3db8b34ae1b1a5ac8b827825
   plural/tags/terraform/kube.yaml: 92ef5c9d1ec51bcf6d917cf7bd8032649bda7e894cc2f47c398250c237c2b1a9
+attrs:
+  repository.yaml_Plural: -Fj9ryzUwTRVw2f-Ari5XoLkDeDo73rI9aeXbnHU99k=

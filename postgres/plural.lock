@@ -1,21 +1,24 @@
 artifact: {}
 terraform:
-  terraform/aws: h1:TCyPVcknygdQF0GLwSiJKGvLgawqDKZnNhFNSEIIR3Y=
-  terraform/azure: h1:4Lgdokw8+XNVsJFtH4HefczvqHEKQxs9M7uWrMZv7OY=
-  terraform/gcp: h1:Eu4oH9Vyd1owZptMTtp3UOkUSqpYH/yR1Uak1+Yrd2k=
+  terraform/aws: h1:nxHvJ8KGic9LxH97OPmz8C5MvbfDcZ5DZ1exlfcYe2I=
+  terraform/azure: h1:pNtacWHp91+XezosxlX945keATDCuxulU/8Igvf9de4=
+  terraform/gcp: h1:sevYx4C88dAp3WAzApSNIkwoJ/LlvJGzNmuaNNpi0NE=
 helm:
-  helm/postgres: h1:1nq9Zgnyff1i4BZggZkNocb5phiKygUKNqoj09l6wX0=
+  helm/postgres: h1:gay0Nmgunq5UuXZyDiT/XuZa2ef1xBP/e7JOx32fCJY=
 recipe:
-  plural/recipes/aws-postgres.yaml: c1d6d4aee995b4e5803f987c0d96a9ff68aa75d01e77446d5f418b051ce39585
-  plural/recipes/gcp-postgres.yaml: a44a2585d41b3657912242b0d6b139b8dae972dcacdbba47043a426df65a448c
+  plural/recipes/aws-postgres.yaml: 92cc579f204ed9c2f5bb0f4f946a6ba0f1e9fa426c4eb987c4c8d453ac78a194
+  plural/recipes/azure-postgres.yaml: 025e72e64af569c761ef03bfe28bfd5c89c17b0d8d74c88fe342d20a6dae86ac
+  plural/recipes/gcp-postgres.yaml: e74e6e6f54ca4c448c4f762aa344e9af1d857a9a6ba907fef01d91715c52a589
 integration: {}
 crd:
-  plural/crds/operatorconfigurations.yaml: c564bf334fa94ba84e4328b4af2bc09e0332ac5bb5fb77deab2f0bccf1222afc:h1:1nq9Zgnyff1i4BZggZkNocb5phiKygUKNqoj09l6wX0=
-  plural/crds/postgresqls.yaml: 5e9d2ea6add79e99b2cf474150de2d83c22a4d022b524f56ac62a907b69cfb31:h1:1nq9Zgnyff1i4BZggZkNocb5phiKygUKNqoj09l6wX0=
-  plural/crds/postgresteams.yaml: f1917a7672c8c1739708107e46c0c56bcd1fffbaa6f77ad85db574f112bc4e02:h1:1nq9Zgnyff1i4BZggZkNocb5phiKygUKNqoj09l6wX0=
+  plural/crds/operatorconfigurations.yaml: c564bf334fa94ba84e4328b4af2bc09e0332ac5bb5fb77deab2f0bccf1222afc:h1:6EsFgMdiK2fTHkay5IN1RkyeXi4+9NyMjID4NPVq01A=
+  plural/crds/postgresqls.yaml: 5e9d2ea6add79e99b2cf474150de2d83c22a4d022b524f56ac62a907b69cfb31:h1:6EsFgMdiK2fTHkay5IN1RkyeXi4+9NyMjID4NPVq01A=
+  plural/crds/postgresteams.yaml: f1917a7672c8c1739708107e46c0c56bcd1fffbaa6f77ad85db574f112bc4e02:h1:6EsFgMdiK2fTHkay5IN1RkyeXi4+9NyMjID4NPVq01A=
 ird: {}
 tag:
   plural/tags/helm/postgres.yml: 64a1c392e3c0dd39f8317847175e9847b5fcb2d199644e02444f441148aba3ef
   plural/tags/terraform/aws.yml: b46befb9716e1f9ef21cec5ba614f4b1f039438af71c8e039140fdd64a67bb3d
   plural/tags/terraform/azure.yml: eb86a8273f31bda3c64704756f7d5d1c99c82ef048cf9b869c4be01f99a7431f
   plural/tags/terraform/gcp.yml: a5f9d2f77756067979a97968c715feb2a5c509805ee07a86aa32121e56ac976b
+attrs:
+  repository.yaml_Plural: _h67UKsxSHXboWZBrCj1OBgaw88W94ndHjENd85tE_o=

@@ -1,0 +1,76 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Dashboard
+metadata:
+  name: redis
+  labels:
+  {{ include "redis.labels" . | nindent 4 }}
+spec:
+  defaultTime: 1h
+  labels:
+  - name: instance
+    query:
+      query: redis_uptime_in_seconds
+      label: instance
+  graphs:
+  - name: Uptime
+    queries:
+    - legend: uptime
+      query: max(max_over_time(redis_uptime_in_seconds{instance=~"$instance"}[5m]))
+  - name: Clients
+    queries:
+    - legend: clients
+      query: redis_connected_clients{instance=~"$instance"}
+  - name: Memory Usage
+    queries:
+    - legend: mem %
+      query: 100 * (redis_memory_used_bytes{instance=~"$instance"}  / redis_memory_max_bytes{instance=~"$instance"})
+  - name: Commands Executed / sec
+    queries:
+    - legend: commands
+      query: rate(redis_commands_processed_total{instance=~"$instance"}[1m])
+  - name: Hits / Misses per Sec
+    queries:
+    - legend: hits
+      query: irate(redis_keyspace_hits_total{instance=~"$instance"}[5m])
+    - legend: misses
+      query: irate(redis_keyspace_misses_total{instance=~"$instance"}[5m])
+  - name: Total Memory Usage
+    queries:
+    - legend: used
+      query: 'redis_memory_used_bytes{instance=~"$instance"}'
+    - legend: max
+      query: 'redis_memory_max_bytes{instance=~"$instance"}'
+  - name: Network I/O
+    queries:
+    - legendFormat: '$input'
+      query: rate(redis_net_input_bytes_total{instance=~"$instance"}[5m])
+    - legendFormat: '$output'
+      query: rate(redis_net_output_bytes_total{instance=~"$instance"}[5m])
+  - name: Total Items per DB
+    queries:
+    - legendFormat: '$db'
+      query: sum (redis_db_keys{instance=~"$instance"}) by (db)
+  - name: Expiring vs Not-Expiring Keys
+    queries:
+    - legend: not expiring
+      query: 'sum (redis_db_keys{instance=~"$instance"}) - sum (redis_db_keys_expiring{instance=~"$instance"}) '
+    - legend: expiring
+      query: 'sum (redis_db_keys_expiring{instance=~"$instance"}) '
+  - name: Expired / Evicted
+    queries:
+    - legendFormat: $instance expired
+      query: sum(rate(redis_expired_keys_total{instance=~"$instance"}[5m])) by (instance)
+    - legendFormat: $instance evicted
+      query: sum(rate(redis_evicted_keys_total{instance=~"$instance"}[5m])) by (instance)
+  - name: Command Calls / sec
+    queries:
+    - legendFormat: $cmd
+      query: topk(5, irate(redis_commands_total{instance=~"$instance"} [1m]))
+  name: redis overview
+  timeslices:
+  - 1h
+  - 2h
+  - 6h
+  - 1d
+  - 7d
+status: {}

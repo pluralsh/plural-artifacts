@@ -1,34 +1,52 @@
 global:
-  {{ if .Values.domain }}
+  application:
+    links:
+    - description: gitlab web ui
+      url: gitlab.{{ .Network.Subdomain }}
+    - description: gitlab docker registry
+      url: registry.{{ .Network.Subdomain }}
+
+  {{ if .Network }}
   hosts:
-    domain: {{ .Values.domain }}
+    domain: {{ .Network.Subdomain }}
+  {{ end }}
+  {{ if .SMTP }}
+  email:
+    display_name: GitLab
+    from: {{ .SMTP.Sender }}
+  smtp:
+    enabled: true
+    address: {{ .SMTP.Server }}
+    authentication: 'plain'
+    port: {{ .SMTP.Port }}
+    user_name: {{ .SMTP.User }}
   {{ end }}
   registry:
     bucket: {{ .Values.registryBucket }}
   appConfig:
+    {{ if .OIDC }}
+    omniauth:
+      enabled: true
+      autoLinkUser: true
+      allowSingleSignOn: true
+      blockAutoCreatedUsers: false
+      providers:
+      - secret: plural-oidc-provider
+        key: provider
+    {{ end }}
     lfs:
       bucket: {{ .Values.lfsBucket }}
-      connection: # https://gitlab.com/gitlab-org/charts/gitlab/blob/master/doc/charts/globals.md#connection
-        secret: objectstore-connection
-        key: connection
     artifacts:
       bucket: {{ .Values.artifactsBucket }}
-      connection:
-        secret: objectstore-connection
-        key: connection
     uploads:
       bucket: {{ .Values.uploadsBucket }}
-      connection:
-        secret: objectstore-connection
-        key: connection
     packages:
       bucket: {{ .Values.packagesBucket }}
-      connection:
-        secret: objectstore-connection
-        key: connection
     backups:
       bucket: {{ .Values.backupsBucket }}
       tmpBucket: {{ .Values.backupsTmpBucket }}
+    object_store:
+      enabled: true
       connection:
         secret: objectstore-connection
         key: connection
@@ -39,8 +57,28 @@ global:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-gitlab"
 
+{{ if .OIDC }}
+oidc:
+  name: openid_connect
+  label: Plural
+  icon: https://plural-assets.s3.us-east-2.amazonaws.com/uploads/repos/3fbf2a2b-6416-4245-ad28-3c2fb74aac86/plural-logo.png?v=63791948408
+  args:
+    name: openid_connect
+    issuer: {{ .OIDC.Configuration.Issuer }}
+    scope: [openid]
+    discovery: true
+    client_options:
+      identifier: {{ .OIDC.ClientId }}
+      secret: {{ .OIDC.ClientSecret }}
+      redirect_uri: https://gitlab.{{ .Values.domain }}/users/auth/openid_connect/callback
+{{ end }}
+
+{{ if .SMTP }}
+smtpPassword: {{ .SMTP.Password }}
+{{ end }}
 rootPassword: {{ dedupe . "gitlab.rootPassword" (randAlphaNum 20) }}
 
+{{ $minio := .Configuration.minio.hostname | quote }}
 gitlab:
   registry:
     storage:
@@ -57,8 +95,12 @@ gitlab:
         cacheType: gcs
         gcsBucketName: {{ .Values.runnerCacheBucket }}
       {{ end }}
-          
-
+      {{ if eq .Provider "azure" }}
+        cacheType: s3
+        s3BucketName: {{ .Values.runnerCacheBucket }}
+        s3ServerAddress: {{ $minio }}
+        secretName: s3credentials
+      {{ end }}
 
 railsConnection:
 {{ if eq .Provider "google" }}
@@ -71,6 +113,13 @@ railsConnection:
   region: {{ .Region }}
   use_iam_profile: true
 {{ end }}
+{{ if eq .Provider "azure" }}
+  provider: AWS
+  endpoint: {{ $minio }}
+  aws_access_key_id: {{ importValue "Terraform" "access_key_id" }}
+  aws_secret_access_key: {{ importValue "Terraform" "secret_access_key" }}
+  aws_signature_version: 4
+{{ end }}
 
 registryConnection:
 {{ if eq .Provider "aws" }}
@@ -78,9 +127,19 @@ registryConnection:
     bucket: {{ .Values.registryBucket }}
     region: {{ .Region }}
     v4auth: true
-    
 {{ end }}
 {{ if eq .Provider "google" }}
   gcs:
     bucket: {{ .Values.registryBucket }}
+{{ end }}
+{{ if eq .Provider "azure" }}
+  s3:
+    regionendpoint: {{ $minio }}
+    bucket: {{ .Values.registryBucket }}
+    accesskey: {{ importValue "Terraform" "access_key_id" }}
+    secretkey: {{ importValue "Terraform" "secret_access_key" }}
+
+s3secret:
+  accesskey: {{ importValue "Terraform" "access_key_id" }}
+  secretkey: {{ importValue "Terraform" "secret_access_key" }}
 {{ end }}

@@ -1,0 +1,10 @@
+influx:
+  stage: push
+  only:
+  - main
+  script:
+  - vendor_image chronograf:1.8.8 influx 
+  - vendor_image influxdb:1.8.6-alpine influx 
+  - vendor_image kapacitor:1.5.9-alpine influx
+  - vendor_image telegraf:1.19-alpine influx
+  

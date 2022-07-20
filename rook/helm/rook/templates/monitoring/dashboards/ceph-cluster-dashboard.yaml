@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ceph-cluster
+  labels: {{- include "rook.labels" . | nindent 4 }}
+    grafana_dashboard:  "ceph-cluster-dashboard"
+  annotations:
+      k8s-sidecar-target-directory: "/tmp/dashboards/Ceph Dashboard"
+data:
+  ceph-cluster.json: |-
+{{ .Files.Get "grafana-dashboards/ceph-cluster.json" | indent 4 }}

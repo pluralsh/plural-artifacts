@@ -1,0 +1,323 @@
+global:
+  rbac:
+    pspEnabled: false
+
+loki:
+  rbac:
+    pspEnabled: false
+  image:
+    repository: gcr.io/pluralsh/grafana/loki
+  podAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "3100"
+    prometheus.io/path: /metrics
+    prometheus.io/scheme: http
+promtail:
+  image:
+    registry: gcr.io
+    repository: pluralsh/grafana/promtail
+  podAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "3101"
+    prometheus.io/path: /metrics
+    prometheus.io/scheme: http
+  tolerations:
+  - effect: NoSchedule
+    operator: Exists
+  - effect: NoExecute
+    operator: Exists
+  config:
+    lokiAddress: http://monitoring-loki:3100/loki/api/v1/push
+    snippets:
+      pipelineStages:
+        - docker:
+        - match:
+            selector: '{app="ingress-nginx"}'
+            stages:
+              - replace:
+                  expression: '(?:[0-9]{1,3}\.){3}([0-9]{1,3})'
+                  replace: '***'
+        #     - docker:
+            # - json:
+            #     expressions:
+            #       msec: msec
+            #       connection: connection
+            #       connection_requests: connection_requests
+            #       pid: pid
+            #       request_id: request_id
+            #       request_length: request_length
+            #       remote_addr: remote_addr
+            #       remote_user: remote_user
+            #       remote_port: remote_port
+            #       time_local: time_local
+            #       time_iso8601: time_iso8601
+            #       request: request
+            #       request_uri: request_uri
+            #       args: args
+            #       status: status
+            #       body_bytes_sent: body_bytes_sent
+            #       bytes_sent: bytes_sent
+            #       http_referer: http_referer
+            #       http_user_agent: http_user_agent
+            #       http_x_forwarded_for: http_x_forwarded_for
+            #       http_host: http_host
+            #       server_name: server_name
+            #       request_time: request_time
+            #       upstream: upstream_addr
+            #       upstream_connect_time: upstream_connect_time
+            #       upstream_header_time: upstream_header_time
+            #       upstream_response_time: upstream_response_time
+            #       upstream_response_length: upstream_response_length
+            #       upstream_cache_status: upstream_cache_status
+            #       ssl_protocol: ssl_protocol
+            #       ssl_cipher: ssl_cipher
+            #       scheme: scheme
+            #       request_method: request_method
+            #       server_protocol: server_protocol
+            #       pipe: pipe
+            #       gzip_ratio: gzip_ratio
+            #       http_cf_ray: http_cf_ray
+            #       geoip_country_code: geoip_country_code
+            # - timestamp:
+            #     source: timetime_iso8601
+            #     format: RFC3339
+            # - labels:
+            #     msec:
+            #     connection:
+            #     connection_requests:
+            #     pid:
+            #     request_id:
+            #     request_length:
+            #     remote_addr:
+            #     remote_user:
+            #     remote_port:
+            #     time_local:
+            #     request:
+            #     request_uri:
+            #     args:
+            #     status:
+            #     body_bytes_sent:
+            #     bytes_sent:
+            #     http_referer:
+            #     http_user_agent:
+            #     http_x_forwarded_for:
+            #     http_host:
+            #     server_name:
+            #     request_time:
+            #     upstream:
+            #     upstream_connect_time:
+            #     upstream_header_time:
+            #     upstream_response_time:
+            #     upstream_response_length:
+            #     upstream_cache_status:
+            #     ssl_protocol:
+            #     ssl_cipher:
+            #     scheme:
+            #     request_method:
+            #     server_protocol:
+            #     pipe:
+            #     gzip_ratio:
+            #     http_cf_ray:
+            #     geoip_country_code:
+            # - output:
+            #     source: request_id
+
+kube-prometheus-stack:
+  global:
+    rbac:
+      pspEnabled: false
+
+  fullnameOverride: "monitoring"
+
+  kubeControllerManager:
+    enabled: false
+  
+  kubeScheduler:
+    enabled: false
+
+  defaultRules:
+    additionalRuleLabels:
+      namespace: monitoring
+
+  grafana:
+    enabled: false
+    namespaceOverride: monitoring
+    forceDeployDashboards: true
+    sidecar:
+      dashboards:
+        annotations:
+          k8s-sidecar-target-directory: /tmp/dashboards/Kubernetes
+  alertmanager:
+    alertmanagerSpec:
+      logLevel: debug
+  
+  kube-state-metrics:
+    podSecurityPolicy:
+      enabled: false
+
+  prometheus-node-exporter:
+    rbac:
+      pspEnabled: false
+    tolerations:
+    - effect: NoSchedule
+      operator: Exists
+    - effect: NoExecute
+      operator: Exists
+
+    config:
+      global:
+        resolve_timeout: 5m
+      route:
+        group_by: ['job']
+        group_wait: 30s
+        group_interval: 5m
+        repeat_interval: 30m
+        receiver: plural
+        routes:
+        - match:
+            alertname: Watchdog
+          receiver: 'null'
+        - match:
+            severity: critical
+          receiver: console
+      receivers:
+      - name: 'null'
+      - name: plural
+        webhook_configs:
+        - send_resolved: true
+          url: http://plural-operator.bootstrap:8080/webhook
+      - name: console
+        webhook_configs:
+        - send_resolved: true
+          url: http://console.console:4000/alertmanager
+      templates:
+      - '/etc/alertmanager/config/*.tmpl'
+
+  prometheus:
+    labels:
+      app.kubernetes.io/managed-by: Helm
+    service:
+      labels:
+        app.kubernetes.io/managed-by: Helm
+    prometheusSpec:
+      resources:
+        requests:
+          cpu: 1
+          memory: 1Gi
+        limits: {}
+      prometheusExternalLabelName: cluster
+      externalLabels:
+        cluster: "plural"
+      storageSpec:
+        volumeClaimTemplate:
+          spec:
+            accessModes:
+            - ReadWriteOnce
+            resources:
+              requests:
+                storage: 30Gi
+      podMetadata:
+        labels:
+          app.kubernetes.io/managed-by: Helm
+      ruleNamespaceSelector:
+        matchLabels:
+          app.kubernetes.io/managed-by: plural
+      ruleSelectorNilUsesHelmValues: false
+      ruleSelector: {}
+      serviceMonitorNamespaceSelector:
+        matchLabels:
+          app.kubernetes.io/managed-by: plural
+      serviceMonitorSelectorNilUsesHelmValues: false
+      serviceMonitorSelector: {}
+      podMonitorNamespaceSelector:
+        matchLabels:
+          app.kubernetes.io/managed-by: plural
+      podMonitorSelectorNilUsesHelmValues: false
+      podMonitorSelector: {}
+      probeNamespaceSelector:
+        matchLabels:
+          app.kubernetes.io/managed-by: plural
+      probeSelectorNilUsesHelmValues: false
+      probeSelector: {}
+
+opentelemetry-operator:
+  collector:
+    enabled: false
+    tempoNamespace: grafana-tempo
+
+vpa:
+  # Default values for vertical-pod-autoscaler.
+  # This is a YAML-formatted file.
+  # Declare variables to be passed into your templates.
+
+  # imagePullSecrets -- A list of image pull secrets to be used for all pods
+  imagePullSecrets: []
+  # priorityClassName -- To set the priorityclass for all pods
+  priorityClassName: ""
+  # nameOverride -- A template override for the name
+  nameOverride: ""
+  # fullnameOverride -- A template override for the fullname
+  fullnameOverride: ""
+  rbac:
+    # rbac.create -- If true, then rbac resources (clusterroles and clusterrolebindings) will be created for the selected components.
+    create: true
+
+  serviceAccount:
+    # serviceAccount.create -- Specifies whether a service account should be created for each component
+    create: true
+    # serviceAccount.annotations -- Annotations to add to the service accounts for each component
+    annotations: {}
+    # serviceAccount.name -- The base name of the service account to use (appended with the component). If not set and create is true, a name is generated using the fullname template and appended for each component
+    name: ""
+    # serviceAccount.automountServiceAccountToken -- Automount API credentials for the Service Account
+    automountServiceAccountToken: true
+
+  recommender:
+    # recommender.enabled -- If true, the vpa recommender component will be installed.
+    enabled: true
+    # recommender.extraArgs -- A set of key-value flags to be passed to the recommender
+    extraArgs:
+      v: "4"
+      pod-recommendation-min-cpu-millicores: 15
+      pod-recommendation-min-memory-mb: 100
+      storage: prometheus
+      prometheus-address: http://monitoring-prometheus:9090
+      prometheus-cadvisor-job-name: kubelet
+      pod-namespace-label: namespace
+      pod-name-label: pod
+      pod-label-prefix: ""
+      container-name-label: name
+      container-namespace-label: namespace
+      container-pod-name-label: pod
+      history-length: 1d
+      memory-saver:
+    replicaCount: 1
+    # recommender.podDisruptionBudget -- This is the setting for the pod disruption budget
+    podDisruptionBudget: {}
+      # maxUnavailable: 1
+    image:
+      # recommender.image.repository -- The location of the recommender image
+      repository: us.gcr.io/k8s-artifacts-prod/autoscaling/vpa-recommender
+      # recommender.image.pullPolicy -- The pull policy for the recommender image. Recommend not changing this
+      pullPolicy: Always
+      # recommender.image.tag -- Overrides the image tag whose default is the chart appVersion
+      tag: ""
+    # recommender.podAnnotations -- Annotations to add to the recommender pod
+    podAnnotations: {}
+    # recommender.podSecurityContetxt -- The security context for the recommender pod
+    podSecurityContext:
+      runAsNonRoot: true
+      runAsUser: 65534
+    # recommender.securityContext -- The security context for the containers inside the recommender pod
+    securityContext: {}
+    # recommender.resources -- The resources block for the recommender pod
+    resources:
+      limits:
+        cpu: 200m
+        memory: 1000Mi
+      requests:
+        cpu: 50m
+        memory: 500Mi
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}

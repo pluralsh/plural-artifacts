@@ -1,0 +1,10 @@
+name: ingress-nginx
+description: NGINX Ingress Controller for Kubernetes
+category: NETWORK
+icon: plural/icons/nginx.png
+notes: plural/notes.tpl
+homepage: https://www.nginx.com/
+gitUrl: https://github.com/kubernetes/ingress-nginx
+tags:
+- tag: ingress
+- tag: nginx

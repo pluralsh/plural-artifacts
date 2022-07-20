@@ -1,0 +1,25 @@
+name: equinix-grafana
+description: Installs grafana on an EKS cluster
+provider: EQUINIX
+oidcSettings:
+  authMethod: POST
+  uriFormat: https://{domain}/login/generic_oauth
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: equinix-kubernetes
+- repo: ingress-nginx
+  name: ingress-nginx-equinix
+- repo: rook
+  name: rook-equinix
+sections:
+- name: grafana
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for your grafana installation
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: equinix
+  - type: HELM
+    name: grafana

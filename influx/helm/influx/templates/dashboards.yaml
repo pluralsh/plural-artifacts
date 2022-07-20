@@ -1,0 +1,18 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Dashboard
+metadata:
+  name: {{ template "influx.fullname" $ }}-filesystem
+  labels:
+{{ include "influx.labels" . | indent 4 }}
+spec:
+  name: filesystem
+  description: Influxdb filesystem metrics
+  timeslices: [30m, 1h, 2h, 1d]
+  defaultTime: 30m
+  labels: []
+  graphs:
+  - queries:
+    - query: (kubelet_volume_stats_capacity_bytes{namespace="{{ .Release.Namespace }}"} - kubelet_volume_stats_available_bytes{namespace="{{ .Release.Namespace }}"}) / kubelet_volume_stats_capacity_bytes{namespace="{{ .Release.Namespace }}"}
+      legendFormat: $persistentvolumeclaim
+    format: percent
+    name: PVC Utilization

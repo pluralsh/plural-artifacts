@@ -4,6 +4,82 @@
 
 replicaCount: 1
 
+postgres:
+  replicas: 1
+  storage:
+    size: 25Gi
+  resources: {}
+  default:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 100Mi
+      limits:
+        cpu: '2'
+        memory: 1Gi
+
+configOverlays:
+- name: web-cpu
+  labels:
+    platform.plural.sh/component: sentry-web
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: cpu
+  spec:
+    name: web cpu
+    documentation: cpu requests for web deployment
+    updates:
+    - path: ['sentry', 'sentry', 'sentry', 'web', 'resources', 'requests', 'cpu']
+- name: web-mem
+  labels:
+    platform.plural.sh/component: sentry-web
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: memory
+  spec:
+    name: web memory
+    documentation: memory requests for web deployment
+    updates:
+    - path: ['sentry', 'sentry', 'sentry', 'web', 'resources', 'requests', 'memory']
+- name: worker-cpu
+  labels:
+    platform.plural.sh/component: sentry-worker
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: cpu
+  spec:
+    name: worker cpu
+    documentation: cpu requests for worker deployment
+    updates:
+    - path: ['sentry', 'sentry', 'sentry', 'worker', 'resources', 'requests', 'cpu']
+- name: worker-mem
+  labels:
+    platform.plural.sh/component: sentry-worker
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: memory
+  spec:
+    name: worker memory
+    documentation: memory requests for worker deployment
+    updates:
+    - path: ['sentry', 'sentry', 'sentry', 'worker', 'resources', 'requests', 'memory']
+- name: clickhouse-cpu
+  labels:
+    platform.plural.sh/component: sentry-clickhouse
+    platform.plural.sh/kind: statefulset
+    platform.plural.sh/resource: cpu
+  spec:
+    name: clickhouse cpu
+    documentation: cpu requests for clickhouse statefulset
+    updates:
+    - path: ['sentry', 'sentry', 'clickhouse', 'clickhouse', 'resources', 'requests', 'cpu']
+- name: clickhouse-mem
+  labels:
+    platform.plural.sh/component: sentry-clickhouse
+    platform.plural.sh/kind: statefulset
+    platform.plural.sh/resource: memory
+  spec:
+    name: clickhouse memory
+    documentation: memory requests for clickhouse statefulset
+    updates:
+    - path: ['sentry', 'sentry', 'clickhouse', 'clickhouse', 'resources', 'requests', 'memory']
+
 sentry:
   images:
     symbolicator:
@@ -12,6 +88,7 @@ sentry:
       repository: gcr.io/pluralsh/getsentry/snuba
     sentry:
       repository: gcr.io/pluralsh/getsentry/sentry
+      tag: 21.5.1-extended
     relay:
       repository: gcr.io/pluralsh/getsentry/relay
 
@@ -45,6 +122,7 @@ sentry:
         enabled: true
   
   kafka:
+    enabled: false
     image:
       registry: gcr.io/pluralsh
     
@@ -61,6 +139,7 @@ sentry:
       enabled: true
 
   redis:
+    enabled: false
     image:
       registry: gcr.io/pluralsh
       tag: 6.0.9-debian-10-r0
@@ -89,20 +168,67 @@ sentry:
     web:
       autoscaling:
         enabled: true
+      resources:
+        requests:
+          cpu: 50m
+          memory: 350Mi
     worker:
       autoscaling:
         enabled: true
+      resources:
+        requests:
+          cpu: 50m
+          memory: 750Mi
     ingestConsumer:
       autoscaling:
         enabled: true
+      resources:
+        requests:
+          cpu: 50m
+          memory: 300Mi
 
   snuba:
-    autoscaling:
-      enabled: true
+    api:
+      autoscaling:
+        enabled: true
+      resources:
+        requests:
+          cpu: 20m
+          memory: 100Mi
+    sessionsConsumer:
+      resources:
+        requests:
+          cpu: 20m
+          memory: 100Mi
+    consumer:
+      resources:
+        requests:
+          cpu: 20m
+          memory: 100Mi
+    outcomesConsumer:
+      resources:
+        requests:
+          cpu: 20m
+          memory: 100Mi
+    replacer:
+      resources:
+        requests:
+          cpu: 20m
+          memory: 100Mi
+    transactionsConsumer:
+      resources:
+        requests:
+          cpu: 20m
+          memory: 100Mi
 
   symbolicator:
     autoscaling:
       enabled: true
+    api:
+      resources:
+        requests:
+          cpu: 20m
+          memory: 50Mi
 
   clickhouse:
     clickhouse:
@@ -111,4 +237,9 @@ sentry:
       init:
         image: 'gcr.io/pluralsh/busybox'
         imageVersion: latest
-    
+      
+      metrics:
+        enabled: true
+        serviceMonitor:
+          enabled: true
+        

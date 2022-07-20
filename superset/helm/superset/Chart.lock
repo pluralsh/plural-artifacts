@@ -1,0 +1,9 @@
+dependencies:
+- name: superset
+  repository: ""
+  version: 0.3.12
+- name: test-base
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.3
+digest: sha256:c840b460d443fbc3e41c09b4aa59f49e72b797ddf285ee1154980d4213a927a2
+generated: "2022-04-08T21:10:18.857437-04:00"

@@ -1,0 +1,9 @@
+name: vaultwarden
+description: Unofficial Bitwarden compatible server written in Rust
+category: SECURITY
+icon: plural/icons/vaultwarden.png
+notes: plural/notes.tpl
+gitUrl: https://github.com/dani-garcia/vaultwarden
+homepage: https://github.com/dani-garcia/vaultwarden
+tags:
+- tag: security

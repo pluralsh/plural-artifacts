@@ -9,6 +9,26 @@ sshConfig:
 secrets:
   redis_password: example
 
+test-base:
+  enabled: false
+  repository: airflow
+  testName: airflow-integration
+  promoteTag: warm
+
+postgres:
+  replicas: 1
+  storage:
+    size: 25Gi
+  resources: {}
+  default:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 100Mi
+      limits:
+        cpu: '2'
+        memory: 1Gi
+
 exporter:
   image:
     repository: gcr.io/pluralsh/prom/statsd-exporter
@@ -60,12 +80,90 @@ exporter:
     # Metric mapping configuration
     mappingConfig: |-
 
-airflow:
-  image:
-    repository: dkr.plural.sh/airflow/airflow
-    tag: 2.0.1-python3.8
-    pullSecret: plural-creds
+config-overlays:
+  configOverlays:
+    airflow-registry:
+      spec:
+        name: Airflow Registry
+        documentation: docker repository to use for airflow (default is dkr.plural.sh/airflow/apache/airflow)
+        updates:
+        - path: ['airflow', 'airflow', 'airflow', 'image', 'repository']
+    web-replicas:
+      spec:
+        name: Web Replicas
+        documentation: number of replicas for the web deployment
+        updates:
+        - path: ['airflow', 'airflow', 'web', 'replicas']
+        inputType: int
+    worker-replicas:
+      spec:
+        name: Worker Replicas
+        documentation: number of replicas for the worker deployment
+        updates:
+        - path: ['airflow', 'airflow', 'workers', 'replicas']
+        inputType: int
+    web-cpu:
+      labels:
+        platform.plural.sh/component: airflow-web
+        platform.plural.sh/kind: deployment
+        platform.plural.sh/resource: cpu
+      spec:
+        name: web cpu
+        documentation: cpu requests for web deployment
+        updates:
+        - path: ['airflow', 'airflow', 'web', 'resources', 'requests', 'cpu']
+    web-mem:
+      labels:
+        platform.plural.sh/component: airflow-web
+        platform.plural.sh/kind: deployment
+        platform.plural.sh/resource: memory
+      spec:
+        name: web memory
+        documentation: memory requests for web deployment
+        updates:
+        - path: ['airflow', 'airflow', 'web', 'resources', 'requests', 'memory']
+    worker-cpu:
+      labels:
+        platform.plural.sh/component: airflow-worker
+        platform.plural.sh/kind: statefulset
+        platform.plural.sh/resource: cpu
+      spec:
+        name: worker cpu
+        documentation: cpu requests for worker statefulset
+        updates:
+        - path: ['airflow', 'airflow', 'workers', 'resources', 'requests', 'cpu']
+    worker-mem:
+      labels:
+        platform.plural.sh/component: airflow-worker
+        platform.plural.sh/kind: statefulset
+        platform.plural.sh/resource: memory
+      spec:
+        name: worker memory
+        documentation: memory requests for worker statefulset
+        updates:
+        - path: ['airflow', 'airflow', 'workers', 'resources', 'requests', 'memory']
+    scheduler-cpu:
+      labels:
+        platform.plural.sh/component: airflow-scheduler
+        platform.plural.sh/kind: deployment
+        platform.plural.sh/resource: cpu
+      spec:
+        name: scheduler cpu
+        documentation: cpu requests for scheduler deployment
+        updates:
+        - path: ['airflow', 'airflow', 'scheduler', 'resources', 'requests', 'cpu']
+    scheduler-mem:
+      labels:
+        platform.plural.sh/component: airflow-scheduler
+        platform.plural.sh/kind: deployment
+        platform.plural.sh/resource: memory
+      spec:
+        name: scheduler memory
+        documentation: memory requests for scheduler deployment
+        updates:
+        - path: ['airflow', 'airflow', 'scheduler', 'resources', 'requests', 'memory']
 
+airflow:
   externalDatabase:
     type: postgres
     host: plural-airflow
@@ -93,6 +191,9 @@ airflow:
       serviceMonitor:
         enabled: true
     existingSecret: airflow-postgres-password
+  
+  pgbouncer:
+    enabled: false
 
   prometheusRule:
     enabled: true
@@ -148,10 +249,15 @@ airflow:
 
   airflow:
     executor: CeleryExecutor
+    image:
+      repository: dkr.plural.sh/airflow/apache/airflow
+      tag: 2.1.4-python3.8
+
     config:
       ## security
       AIRFLOW__WEBSERVER__EXPOSE_CONFIG: "False"
       AIRFLOW__WEBSERVER__BASE_URL: http://localhost/
+      AIRFLOW__WEBSERVER__ENABLE_PROXY_FIX: "True"
 
       ## dags
       AIRFLOW__SCHEDULER__DAG_DIR_LIST_INTERVAL: "30"
@@ -167,9 +273,6 @@ airflow:
     
     usersUpdate: false
 
-    extraPipPackages:
-    - airflow-exporter
-
     variables:
     - key: "environment"
       value: "prod"
@@ -184,6 +287,7 @@ airflow:
 
   ingress:
     enabled: true
+    apiVersion: networking.k8s.io/v1
     web:
       tls:
         enabled: true
@@ -194,7 +298,6 @@ airflow:
         cert-manager.io/cluster-issuer: letsencrypt-prod
         nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
         nginx.ingress.kubernetes.io/use-regex: "true"
-
   web:
     replicas: 1
 
@@ -210,6 +313,10 @@ airflow:
       requests:
         cpu: "500m"
         memory: "1Gi"
+
+  scheduler:
+    livenessProbe: 
+      timeoutSeconds: 60
   
   workers:
     ## if the airflow workers StatefulSet should be deployed
@@ -222,8 +329,8 @@ airflow:
     ##
     resources:
       requests:
-        cpu: "1000m"
-        memory: "2Gi"
+        cpu: "200m"
+        memory: "1Gi"
 
     podDisruptionBudget:
       enabled: true

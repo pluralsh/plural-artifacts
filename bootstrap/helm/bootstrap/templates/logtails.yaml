@@ -8,6 +8,17 @@ spec:
   limit: 50
   target: deployment/bootstrap-external-dns
   follow: true
+---
+apiVersion: platform.plural.sh/v1alpha1
+kind: LogTail
+metadata:
+  name: cert-manager
+  labels:
+{{ include "bootstrap.labels" . | indent 4 }}
+spec:
+  limit: 50
+  target: deployment/bootstrap-cert-manager
+  follow: true
 {{ if eq .Values.provider "aws" }}
 ---
 apiVersion: platform.plural.sh/v1alpha1

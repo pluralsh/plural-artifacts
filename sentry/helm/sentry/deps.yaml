@@ -10,6 +10,10 @@ spec:
     repo: bootstrap
     version: '>= 0.5.1'
   - type: helm
+    name: ingress-nginx
+    repo: ingress-nginx
+    version: '>= 0.1.2'
+  - type: helm
     name: postgres
     repo: postgres
     version: '>= 0.1.6'
@@ -17,6 +21,18 @@ spec:
     name: cluster-operator
     repo: rabbitmq
     version: '>= 0.1.8'
+  - type: helm
+    name: redis
+    repo: redis
+    version: '>= 0.1.1'
+  - type: helm
+    name: kafka
+    repo: kafka
+    version: '>= 0.1.3'
+  - type: terraform
+    name: secrets
+    repo: sentry
+    version: '>= 0.1.0'
   - type: terraform
     name: aws
     repo: sentry

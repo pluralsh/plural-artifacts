@@ -1,0 +1,23 @@
+<root gap='medium'>
+  <box pad='small' gap='medium' direction='row' align='center'>
+    <box direction='row' align='center' gap='small'>
+      <box gap='small' align='center'>
+        <timeseries datasource="gitaly-volume" label="Gitaly Volume Usage" />
+        <text size='small'>You should probably give yourself at least 30% headroom, depending on growth of usage</text>
+      </box>
+    </box>
+    <box gap='small'>
+      <box gap='xsmall'>
+        <input placeholder="20Gi" label='Gitaly Volume Size' name='gitaly-storage'>
+          <valueFrom
+            datasource="gitaly" 
+            doc="kubernetes.raw" 
+            path="spec.volumeClaimTemplates[0].spec.resources.requests.storage" />
+        </input>
+      </box>
+      <box direction='row' justify='end'>
+        <button label='Scale' action='volume-scale' primary='true' />
+      </box>
+    </box>
+  </box>
+</root>

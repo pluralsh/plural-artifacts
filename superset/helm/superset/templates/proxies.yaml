@@ -1,0 +1,17 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Proxy
+metadata:
+  name: db
+  labels:
+{{ include "superset.labels" . | indent 4 }}
+spec:
+  type: db
+  target: service/superset-master
+  credentials:
+    secret: superset.plural-superset.credentials.postgresql.acid.zalan.do
+    key: password
+    user: superset
+  dbConfig:
+    name: superset
+    engine: postgres
+    port: 5432

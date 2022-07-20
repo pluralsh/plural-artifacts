@@ -1,0 +1,77 @@
+# Default values for serving.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+global:
+  istioNamespace: istio
+  clusterDomain: cluster.local
+  userIDHeader: kubeflow-userid
+  userIDPrefix: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+webApp:
+  replicaCount: 1
+  image:
+    repository: davidspek/models-web-app
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: v0.8.0
+
+  podAnnotations:
+    sidecar.istio.io/inject: "true"
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  service:
+    port: 80
+
+  virtualService:
+    annotations: {}
+    prefix: /models
+    gateways:
+      - kubeflow-gateway
+    hosts:
+      - '*'
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 200Mi
+    limits:
+      cpu: 100m
+      memory: 200Mi
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}

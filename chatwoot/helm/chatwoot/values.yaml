@@ -1,0 +1,103 @@
+chatwoot:
+  image:
+    repository: dkr.plural.sh/chatwoot/chatwoot/chatwoot
+    tag: v2.0.0
+  services:
+    name: chatwoot
+    internlPort: 3000
+    targetPort: 3000
+    type: ClusterIP
+  postgresql:
+    enabled: false
+    postgresqlHost: plural-postgres-chatwoot
+    postgresqlPort: 5432
+    postgresqlDatabase: chatwoot
+    postgresqlUsername: chatwoot
+    existingSecret: chatwoot.plural-postgres-chatwoot.credentials.postgresql.acid.zalan.do
+    existingSecretKey: password
+  redis:
+    enabled: false
+    host: redis
+    password: redis
+    port: 6379
+
+configOverlays:
+- name: fb-app-id
+  spec:
+    folder: oauth
+    subfolder: facebook
+    name: FB App ID
+    documentation: app id for facebook oauth
+    updates:
+    - path: ['chatwoot', 'chatwoot', 'env', 'FB_APP_ID']
+- name: fb-app-secret
+  spec:
+    folder: oauth
+    subfolder: facebook
+    name: FB App Secret
+    documentation: app secret for facebook oauth
+    updates:
+    - path: ['chatwoot', 'chatwoot', 'env', 'FB_APP_SECRET']
+- name: fb-verify-token
+  spec:
+    folder: oauth
+    subfolder: facebook
+    name: FB Verify Token
+    documentation: verify token for configuring facebook oauth
+    updates:
+    - path: ['chatwoot', 'chatwoot', 'env', 'FB_VERIFY_TOKEN']
+- name: slack-client-id
+  spec:
+    folder: oauth
+    subfolder: slack
+    name: Slack Client Id
+    documentation: client id for slack oauth
+    updates:
+    - path: ['chatwoot', 'chatwoot', 'env', 'SLACK_CLIENT_ID']
+- name: slack-client-secret
+  spec:
+    folder: oauth
+    subfolder: slack
+    name: Slack Client Secret
+    documentation: client secret for slack oauth
+    updates:
+    - path: ['chatwoot', 'chatwoot', 'env', 'SLACK_CLIENT_SECRET']
+- name: twitter-app-id
+  spec:
+    folder: oauth
+    subfolder: twitter
+    name: Twitter App Id
+    documentation: app id for twitter oauth
+    updates:
+    - path: ['chatwoot', 'chatwoot', 'env', 'TWITTER_APP_ID']
+- name: twitter-consumer-key
+  spec:
+    folder: oauth
+    subfolder: twitter
+    name: Twitter Consumer Key
+    documentation: consumer key for twitter oauth
+    updates:
+    - path: ['chatwoot', 'chatwoot', 'env', 'TWITTER_CONSUMER_KEY']
+- name: twitter-consumer-secret
+  spec:
+    folder: oauth
+    subfolder: twitter
+    name: Twitter Consumer Secret
+    documentation: consumer secret for twitter oauth
+    updates:
+    - path: ['chatwoot', 'chatwoot', 'env', 'TWITTER_CONSUMER_SECRET']
+- name: twitter-environment
+  spec:
+    folder: oauth
+    subfolder: twitter
+    name: Twitter Environment
+    documentation: environment for twitter oauth
+    updates:
+    - path: ['chatwoot', 'chatwoot', 'env', 'TWITTER_ENVIRONMENT']
+    
+postgres:
+  dbName: chatwoot
+  team: plural
+  user: chatwoot
+  infix: '-postgres'
+  ownerChart: chatwoot

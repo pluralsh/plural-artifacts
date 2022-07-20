@@ -1,19 +1,17 @@
 name: aws-dex
-description: Installs grafana on an EKS cluster
+description: Installs dex on an EKS cluster
 provider: AWS
 dependencies:
 - repo: bootstrap
   name: aws-k8s
 sections:
 - name: dex
+  configuration:
+  - name: fqdn
+    documentation: FQDN to use for your dex installation
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: aws
-    configuration: []
   - type: HELM
     name: dex
-    configuration:
-    - name: fqdn
-      documentation: FQDN to use for your dex installation
-      type: STRING
-  

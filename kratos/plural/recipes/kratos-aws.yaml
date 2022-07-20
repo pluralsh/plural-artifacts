@@ -1,0 +1,27 @@
+name: kratos-aws
+description: Installs kratos on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+- repo: postgres
+  name: aws-postgres
+sections:
+- name: kratos
+  configuration:
+  - name: hostname
+    documentation: domain on which you'd like to host hydra
+    type: DOMAIN
+  - name: adminHostname
+    documentation: dns name for the internal endpoint for hydra admin (leave empty to not enable ingress)
+    type: DOMAIN
+  - name: returnUrl
+    type: STRING
+    documentation: the default url kratos will redirect to on completion of login flows
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: kratos

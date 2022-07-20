@@ -1,0 +1,24 @@
+name: vaultwarden-gcp
+description: Installs vaultwarden on a gcp gke cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+- repo: postgres
+  name: gcp-postgres
+sections:
+- name: vaultwarden
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for your Vaultwarden installation
+    type: DOMAIN
+  - name: signupDomains
+    documentation: comma separated list of domains to allow for user signup
+    type: STRING
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: vaultwarden

@@ -1,0 +1,233 @@
+# Default values for airbyte.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+global:
+  imageRegistry: dkr.plural.sh/airbyte
+
+replicaCount: 1
+
+oidc-config:
+  enabled: false
+
+test-base:
+  enabled: false
+  repository: airbyte
+  testName: airbyte-integration
+  promoteTag: warm
+
+postgres:
+  clone: null
+  replicas: 1
+  storage:
+    size: 25Gi
+  resources: {}
+  default:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 100Mi
+      limits:
+        cpu: "2"
+        memory: 1Gi
+
+oidcProxy:
+  enabled: false
+
+private:
+  ingress:
+    enabled: false
+    className: internal-nginx
+    annotations:
+      kubernetes.io/tls-acme: "true"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      # Extend timeout to allow long running queries.
+      nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/use-regex: "true"
+    service:
+      name: airbyte-webapp
+      port: 80
+
+configOverlays:
+  - name: web-cpu
+    labels:
+      platform.plural.sh/component: airbyte-webapp
+      platform.plural.sh/kind: deployment
+      platform.plural.sh/resource: cpu
+    spec:
+      name: web cpu
+      documentation: cpu requests for webapp deployment
+      updates:
+        - path: ["airbyte", "airbyte", "webapp", "resources", "requests", "cpu"]
+  - name: web-mem
+    labels:
+      platform.plural.sh/component: airbyte-webapp
+      platform.plural.sh/kind: deployment
+      platform.plural.sh/resource: memory
+    spec:
+      name: web memory
+      documentation: memory requests for webapp deployment
+      updates:
+        - path:
+            ["airbyte", "airbyte", "webapp", "resources", "requests", "memory"]
+  - name: worker-cpu
+    labels:
+      platform.plural.sh/component: airbyte-worker
+      platform.plural.sh/kind: deployment
+      platform.plural.sh/resource: cpu
+    spec:
+      name: worker cpu
+      documentation: cpu requests for worker deployment
+      updates:
+        - path: ["airbyte", "airbyte", "worker", "resources", "requests", "cpu"]
+  - name: worker-mem
+    labels:
+      platform.plural.sh/component: airbyte-worker
+      platform.plural.sh/kind: deployment
+      platform.plural.sh/resource: memory
+    spec:
+      name: worker memory
+      documentation: memory requests for worker deployment
+      updates:
+        - path:
+            ["airbyte", "airbyte", "worker", "resources", "requests", "memory"]
+  - name: scheduler-cpu
+    labels:
+      platform.plural.sh/component: airbyte-scheduler
+      platform.plural.sh/kind: deployment
+      platform.plural.sh/resource: cpu
+    spec:
+      name: scheduler cpu
+      documentation: cpu requests for scheduler deployment
+      updates:
+        - path:
+            ["airbyte", "airbyte", "scheduler", "resources", "requests", "cpu"]
+  - name: scheduler-mem
+    labels:
+      platform.plural.sh/component: airbyte-scheduler
+      platform.plural.sh/kind: deployment
+      platform.plural.sh/resource: memory
+    spec:
+      name: scheduler memory
+      documentation: memory requests for scheduler deployment
+      updates:
+        - path:
+            [
+              "airbyte",
+              "airbyte",
+              "scheduler",
+              "resources",
+              "requests",
+              "memory",
+            ]
+  - name: server-cpu
+    labels:
+      platform.plural.sh/component: airbyte-server
+      platform.plural.sh/kind: deployment
+      platform.plural.sh/resource: cpu
+    spec:
+      name: server cpu
+      documentation: cpu requests for server deployment
+      updates:
+        - path: ["airbyte", "airbyte", "server", "resources", "requests", "cpu"]
+  - name: server-mem
+    labels:
+      platform.plural.sh/component: airbyte-server
+      platform.plural.sh/kind: deployment
+      platform.plural.sh/resource: memory
+    spec:
+      name: server memory
+      documentation: memory requests for server deployment
+      updates:
+        - path:
+            ["airbyte", "airbyte", "server", "resources", "requests", "memory"]
+  - name: temporal-cpu
+    labels:
+      platform.plural.sh/component: airbyte-temporal
+      platform.plural.sh/kind: deployment
+      platform.plural.sh/resource: cpu
+    spec:
+      name: temporal cpu
+      documentation: cpu requests for temporal deployment
+      updates:
+        - path:
+            ["airbyte", "airbyte", "temporal", "resources", "requests", "cpu"]
+  - name: temporal-mem
+    labels:
+      platform.plural.sh/component: airbyte-temporal
+      platform.plural.sh/kind: deployment
+      platform.plural.sh/resource: memory
+    spec:
+      name: temporal memory
+      documentation: memory requests for temporal deployment
+      updates:
+        - path:
+            [
+              "airbyte",
+              "airbyte",
+              "temporal",
+              "resources",
+              "requests",
+              "memory",
+            ]
+
+airbyte:
+  postgresql:
+    enabled: true
+  minio:
+    enabled: false
+
+  temporal:
+    image:
+      tag: 1.16.2
+    extraEnv:
+      - name: SQL_TLS_ENABLED
+        value: "true"
+      - name: SQL_TLS
+        value: "true"
+      - name: SQL_TLS_DISABLE_HOST_VERIFICATION
+        value: "true"
+
+  externalDatabase:
+    database: airbyte
+    host: plural-airbyte
+    existingSecret: airbyte.plural-airbyte.credentials.postgresql.acid.zalan.do
+    existingSecretPasswordKey: password
+    user: airbyte
+
+  bootloader:
+    image:
+      tag: 0.39.14-alpha
+
+  worker:
+    image:
+      tag: 0.39.14-alpha
+
+  scheduler:
+    image:
+      tag: 0.39.11-alpha
+
+  server:
+    image:
+      tag: 0.39.14-alpha
+
+  webapp:
+    image:
+      tag: 0.39.14-alpha
+
+    ingress:
+      enabled: false
+      className: nginx
+      annotations:
+        kubernetes.io/tls-acme: "true"
+        # kubernetes.io/ingress.class: "nginx"
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        # Extend timeout to allow long running queries.
+        nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
+        nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+        nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        nginx.ingress.kubernetes.io/use-regex: "true"

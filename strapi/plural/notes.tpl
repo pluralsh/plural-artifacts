@@ -1,0 +1,1 @@
+Use `plural watch strapi` to track the status of your application

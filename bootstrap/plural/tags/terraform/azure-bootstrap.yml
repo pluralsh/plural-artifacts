@@ -1,7 +1,6 @@
 spec:
   terraform: azure-bootstrap
-  version: 0.1.1
+  version: 0.1.9
 tags:
 - stable
 - warm
-- latest

@@ -8,4 +8,6 @@ backups_bucket = {{ .Values.backupsBucket | quote }}
 backups_tmp_bucket = {{ .Values.backupsTmpBucket | quote }}
 lfs_bucket = {{ .Values.lfsBucket | quote }}
 runner_cache_bucket = {{ .Values.runnerCacheBucket | quote }}
-gcp_location = {{ .Region | quote }}
+terraform_bucket = {{ .Values.terraformBucket | quote }}
+gcp_region = {{ .Region | quote }}
+bucket_location = {{ .Context.BucketLocation | quote }}

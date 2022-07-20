@@ -42,6 +42,20 @@ global:
 railsConnection: {}
 registryConnection: {}
 
+postgres:
+  replicas: 1
+  storage:
+    size: 50Gi
+  resources: {}
+  default:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 100Mi
+      limits:
+        cpu: '2'
+        memory: 1Gi
+
 gitlab:
   upgradeCheck:
     enabled: false
@@ -91,7 +105,7 @@ gitlab:
           targetAverageValue: 50
     gitlab-shell:
       minReplicas: 1
-    task-runner:
+    toolbox:
       enabled: false
       backups:
         cron:
@@ -111,6 +125,7 @@ gitlab:
   prometheus:
     install: false  
   gitlab-runner:
+    image: gcr.io/pluralsh/gitlab/gitlab-runner:alpine-v14.0.0
     rbac:
       create: false
       serviceAccountName: gitlab-runner
@@ -133,6 +148,8 @@ gitlab:
             privileged = true
             service_account = 'gitlab-runner'
             poll_timeout = 360
+            cpu_request = 0.25
+            memory_request = 250Mi
             [runners.kubernetes.affinity]
               [runners.kubernetes.affinity.node_affinity]
                 [[runners.kubernetes.affinity.node_affinity.preferred_during_scheduling_ignored_during_execution]]

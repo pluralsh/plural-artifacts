@@ -1,0 +1,16 @@
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  description: airbyte aws setup
+  version: 0.1.1
+spec:
+  dependencies:
+  - name: aws-bootstrap
+    repo: bootstrap
+    type: terraform
+    version: '>= 0.1.1'
+  providers:
+  - aws
+  outputs:
+    access_key_id: access_key_id
+    secret_access_key: secret_access_key

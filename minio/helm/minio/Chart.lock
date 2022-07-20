@@ -1,0 +1,6 @@
+dependencies:
+- name: minio
+  repository: https://pluralsh.github.io/plural-helm-charts
+  version: 3.4.6
+digest: sha256:1eab38a717c1e2d8695fb8a283ba94bf4d40be107cf3b7dcbedc697ace429dd3
+generated: "2022-01-20T14:49:10.988990294+01:00"

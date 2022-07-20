@@ -1,0 +1,6 @@
+spec:
+  chart: cluster-operator
+  version: 0.1.8
+tags:
+- stable
+- warm

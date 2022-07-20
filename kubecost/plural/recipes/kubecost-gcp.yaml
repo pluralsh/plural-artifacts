@@ -1,0 +1,25 @@
+name: kubecost-gcp
+description: Installs kubecost on a gcp gke cluster
+provider: GCP
+oidcSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: grafana
+  name: gcp-grafana
+- repo: monitoring
+  name: monitoring-gcp
+sections:
+- name: kubecost
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for your KubeCost installation
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: kubecost

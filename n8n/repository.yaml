@@ -1,0 +1,6 @@
+name: n8n
+description: n8n deployed on plural
+category: DATA
+private: true
+icon: plural/icons/n8n.png
+notes: plural/notes.tpl

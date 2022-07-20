@@ -1,51 +1,35 @@
+APPS := $(shell ls -l | egrep '^d' | awk '{ print $$9 }')
+JOBS := $(addprefix upload-,${APPS})
+
+PG_APPS := airbyte airflow gitlab nocodb sentry superset hasura
+PG_JOBS := $(addprefix sync-pg-,${PG_APPS})
+
 .PHONY: help
 
 help:
 	@perl -nle'print $& if m{^[a-zA-Z_-]+:.*?## .*$$}' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-all: upload-bootstrap upload-plural upload-console upload-airflow upload-gitlab upload-sentry upload-grafana upload-postgres
+all: ${JOBS} ; echo "finished updating all apps"
 
-upload-airflow: # uploads airflow artifacts 
-	plural apply -f airflow/Pluralfile
+sync-pgs: ${PG_JOBS} ; echo "synced pg resources"
 
-upload-bootstrap: # uploads k8s bootstrapping artifacts
-	plural apply -f bootstrap/Pluralfile
-
-upload-plural: # uploads plural platform artifacts
-	plural apply -f plural/Pluralfile
-
-upload-console: # uploads console artifacts
-	plural apply -f console/Pluralfile
-
-upload-gitlab: # uploads gitlab artifacts
-	plural apply -f gitlab/Pluralfile
-
-upload-sentry: # uploads sentry artifacts
-	plural apply -f sentry/Pluralfile
-
-upload-grafana: # uploads grafana artifacts
-	plural apply -f grafana/Pluralfile
-
-upload-postgres: # uploads postgres artifacts
-	plural apply -f postgres/Pluralfile
-
-upload-istio: # uploads istio artifacts
-	plural apply -f istio/Pluralfile
-
-upload-knative: # uploads knative artifacts
-	plural apply -f knative/Pluralfile
-
-upload-dex: # uploads dex artifacts
-	plural apply -f dex/Pluralfile
-
-upload-redis: # uploads redis artifacts
-	plural apply -f redis/Pluralfile
-
-upload-mysql: # uploads mysql artifacts
-	plural apply -f mysql/Pluralfile
-
-upload-elasticsearch: # uploads mysql artifacts
-	plural apply -f elasticsearch/Pluralfile
+sync-pg-%:
+	cp .plural/runbooks/db-scaling.xml $*/helm/$*/runbooks/db-scaling.xml
+	cp .plural/resources/postgres-secret-sync.yaml $*/helm/$*/templates/pgsync.yaml
 
 import-operator:
-	cp ../plural-operator/config/crd/bases/* bootstrap/plural/crds/bootstrap
+	kustomize build ../plural-operator/config/crd/ -o bootstrap/helm/bootstrap/crds
+
+import-tigera:
+	cp -R ../calico/calico/_includes/charts/tigera-operator/crds/. bootstrap/helm/bootstrap/crds 
+	cp -R ../calico/calico/_includes/charts/calico/crds/kdd/. bootstrap/helm/bootstrap/crds
+	rm bootstrap/helm/bootstrap/crds/calico
+
+helm-dependencies-%: # syncs helm dependencies for a chart
+	dir=pwd
+	for D in ./$*/helm/* ; do \
+		cd $$dir$$D && helm dependency update && cd - ; \
+	done
+
+upload-%: # uploads artifacts
+	plural apply -f $*/Pluralfile

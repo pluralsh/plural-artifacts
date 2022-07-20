@@ -1,0 +1,12 @@
+apiVersion: eks.aws.crossplane.io/v1beta1
+kind: Cluster
+metadata:
+  annotations:
+    crossplane.io/external-name: {{ .Values.clusterName }}
+  name: plural-bootstrapped
+spec:
+  deletionPolicy: Orphan
+  forProvider:
+    resourcesVpcConfig: {}
+  providerConfigRef:
+    name: aws-provider

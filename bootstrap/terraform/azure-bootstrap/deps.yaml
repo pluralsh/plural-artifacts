@@ -2,7 +2,7 @@ apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
   description: Creates a AKS cluster and prepares it for bootstrapping
-  version: 0.1.1
+  version: 0.1.18
 spec:
   dependencies: []
   providers:
@@ -10,9 +10,12 @@ spec:
   secrets:
   - /private_ssh_key
   outputs:
-    externaldns_msi_client_id: externaldns_msi_client_id
-    externaldns_msi_id: externaldns_msi_id
+    cluster_name: cluster_name
+    resource_group_name: resource_group_name
+    cluster: cluster
+    network: network
     kubelet_msi_id: kubelet_msi_id
     node_resource_group: node_resource_group
   provider_wirings:
-    cluster: module.azure-bootstrap.cluster  
+    cluster: module.azure-bootstrap.cluster
+  provider_vsn: "0.1.0"

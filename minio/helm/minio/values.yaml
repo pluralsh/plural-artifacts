@@ -1,0 +1,63 @@
+secret:
+  rootUser: ""
+  rootPassword: ""
+
+storageClass: ""
+
+minio:
+  image:
+    repository: quay.io/minio/minio
+    tag: RELEASE.2022-03-26T06-49-28Z
+    pullPolicy: IfNotPresent
+
+  mcImage:
+    repository: quay.io/minio/mc
+    tag: RELEASE.2022-03-17T20-25-06Z
+    pullPolicy: IfNotPresent
+
+  mode: gateway
+
+  existingSecret: "minio-root-secret"
+
+  gateway:
+    type: "s3" # currently only "nas" is supported.
+    replicas: 1
+    s3:
+      serviceEndpoint: https://s3.amazonaws.com
+    gcs:
+      projectID: ""
+
+  ## Enable persistence using Persistent Volume Claims
+  ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+  ##
+  persistence:
+    size: 5Gi
+
+  ## List of users to be created after minio install
+  ##
+  users: []
+    ## Username, password and policy to be assigned to the user
+    ## Default policies are [readonly|readwrite|writeonly|consoleAdmin|diagnostics]
+    ## Add new policies as explained here https://docs.min.io/docs/minio-multi-user-quickstart-guide.html
+    ## NOTE: this will fail if LDAP is enabled in your MinIO deployment
+    ## make sure to disable this if you are using LDAP.
+    # - accessKey: console
+    #   secretKey: console123
+    #   policy: consoleAdmin
+
+  ## Use this field to add environment variables relevant to MinIO server. These fields will be passed on to MinIO container(s)
+  ## when Chart is deployed
+  environment:
+    MINIO_PROMETHEUS_URL: http://monitoring-prometheus.monitoring.svc.cluster.local:9090
+    MINIO_PROMETHEUS_JOB_ID: minio
+    ## Please refer for comprehensive list https://docs.min.io/minio/baremetal/reference/minio-server/minio-server.html
+    ## MINIO_SUBNET_LICENSE: "License key obtained from https://subnet.min.io"
+    ## MINIO_BROWSER: "off"
+
+  metrics:
+    serviceMonitor:
+      enabled: true
+
+  etcd:
+    endpoints:
+    - http://minio-etcd.minio:2379

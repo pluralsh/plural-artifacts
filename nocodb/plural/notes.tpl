@@ -1,0 +1,1 @@
+Your nocodb installation should be available at https://{{ .Values.hostname }} momentarily

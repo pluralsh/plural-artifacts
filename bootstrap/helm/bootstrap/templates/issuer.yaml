@@ -8,7 +8,15 @@ spec:
     # Let's Encrypt will use this to contact you about expiring
     # certificates, and issues related to your account.
     email: {{ .Values.ownerEmail }}
-    server: https://acme-v02.api.letsencrypt.org/directory
+    server: {{ .Values.acmeServer }}
+    {{ if .Values.acmeEAB.kid }}
+    externalAccountBinding:
+      keyID: {{ .Values.acmeEAB.kid }}
+      keySecretRef:
+        name: acme-eab-secret
+        key: eab-secret
+      keyAlgorithm: HS256
+    {{ end }}
     privateKeySecretRef:
       # Secret resource that will be used to store the account's private key.
       name: cert-manager-key

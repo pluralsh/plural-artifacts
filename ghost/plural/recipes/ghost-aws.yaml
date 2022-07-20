@@ -1,0 +1,30 @@
+name: ghost-aws
+description: Installs ghost on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+- repo: mysql
+  name: aws-mysql
+sections:
+- name: ghost
+  configuration:
+  - name: ghostUser
+    documentation: username for your initial ghost user account
+    type: STRING
+  - name: ghostEmail
+    documentation: email address for the initial ghost user
+    type: STRING
+  - name: ghostDomain
+    documentation: fully qualified domain name for the ghost blog instance
+    type: DOMAIN
+  - name: blogTitle
+    documentation: title for your ghost-powered blog
+    type: STRING
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: ghost

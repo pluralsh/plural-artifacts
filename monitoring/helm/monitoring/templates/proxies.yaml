@@ -1,0 +1,11 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Proxy
+metadata:
+  name: alertmanager
+  labels:
+{{ include "monitoring.labels" . | indent 4 }}
+spec:
+  type: web
+  target: service/monitoring-alertmanager
+  webConfig:
+    port: 9093

@@ -1,0 +1,14 @@
+name: azure-kafka
+description: Installs kafka on an azure eks cluster
+provider: AZURE
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+sections:
+- name: kafka
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: kafka

@@ -1,0 +1,119 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Runbook
+metadata:
+  name: scaling-manual
+  labels:
+    platform.plural.sh/pinned: 'true'
+{{ include "monitoring.labels" . | indent 4 }}
+spec:
+  name: Prometheus Scaling
+  description: overview of how to optimally scale your prometheus deployment
+  alerts:
+  - name: PrometheusCPU
+  - name: PrometheusMEM
+  - name: LokiCPU
+  - name: LokiMEM
+  display: |-
+{{ .Files.Get "runbooks/scaling-manual.xml" | indent 4 }}
+  datasources:
+  - name: prometheus-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"prometheus-monitoring-prometheus-[0-9]+"}[5m])) by (pod)
+  - name: prometheus-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"prometheus-monitoring-prometheus-[0-9]+"}) by (pod)
+  - name: loki-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"monitoring-loki-[0-9]+"}[5m])) by (pod)
+  - name: loki-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"monitoring-loki-[0-9]+"}) by (pod)
+  - name: prometheus
+    type: kubernetes
+    kubernetes:
+      resource: statefulset
+      name: prometheus-monitoring-prometheus
+  - name: loki
+    type: kubernetes
+    kubernetes:
+      resource: statefulset
+      name: monitoring-loki
+  - name: nodes
+    type: nodes
+  - name: volume
+    type: prometheus
+    prometheus:
+      format: none
+      legend: $persistentvolumeclaim
+      query: (kubelet_volume_stats_capacity_bytes{namespace="{{ .Release.Namespace }}", persistentvolumeclaim=~"prometheus-monitoring-prometheus-db-.*"} - kubelet_volume_stats_available_bytes{namespace="{{ .Release.Namespace }}", persistentvolumeclaim=~"prometheus-monitoring-prometheus-db-.*"}) / kubelet_volume_stats_capacity_bytes{namespace="{{ .Release.Namespace }}", persistentvolumeclaim=~"prometheus-monitoring-prometheus-db-.*"}
+  actions:
+  - name: volume-scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      statefulSets:
+      - name: prometheus-monitoring-prometheus
+        persistentVolume: prometheus-monitoring-prometheus-db
+        valueFrom: volume
+      updates:
+      - path: 
+        - monitoring
+        - kube-prometheus-stack
+        - prometheus
+        - prometheusSpec
+        - storageSpec
+        - volumeClaimTemplate
+        - spec
+        - resources
+        - requests
+        - storage
+        valueFrom: volume
+  - name: scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+      - path: 
+        - monitoring
+        - kube-prometheus-stack
+        - prometheus
+        - prometheusSpec
+        - resources
+        - requests
+        - cpu
+        valueFrom: prometheus-cpu
+      - path:
+        - monitoring
+        - kube-prometheus-stack
+        - prometheus
+        - prometheusSpec
+        - resources
+        - requests
+        - memory
+        valueFrom: prometheus-memory
+      - path: 
+        - monitoring
+        - loki
+        - resources
+        - requests
+        - cpu
+        valueFrom: loki-cpu
+      - path:
+        - monitoring
+        - loki
+        - resources
+        - requests
+        - memory
+        valueFrom: loki-memory

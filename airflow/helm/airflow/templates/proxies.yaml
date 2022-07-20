@@ -10,6 +10,7 @@ spec:
   shConfig:
     command: /bin/sh
     args: []
+{{- if .Values.airflow.workers.enabled }}
 ---
 apiVersion: platform.plural.sh/v1alpha1
 kind: Proxy
@@ -19,10 +20,12 @@ metadata:
 {{ include "airflow.labels" . | indent 4 }}
 spec:
   type: sh
-  target: statefulseret/airflow-work
+  target: statefulset/airflow-worker
   shConfig:
     command: /bin/sh
     args: []
+{{- end }}
+{{- if .Values.postgres.enabled }}
 ---
 apiVersion: platform.plural.sh/v1alpha1
 kind: Proxy
@@ -32,12 +35,13 @@ metadata:
 {{ include "airflow.labels" . | indent 4 }}
 spec:
   type: db
-  target: statefulset/airflow-postgresql
+  target: service/airflow-master
   credentials:
-    secret: airflow-postgres-password
-    key: postgresql-password
-    user: postgres
+    secret: airflow.plural-airflow.credentials.postgresql.acid.zalan.do
+    key: password
+    user: airflow
   dbConfig:
     name: airflow
     engine: postgres
     port: 5432
+{{- end }}

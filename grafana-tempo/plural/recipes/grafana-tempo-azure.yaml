@@ -1,0 +1,20 @@
+name: grafana-tempo-azure
+description: Installs grafana-tempo on an azure aks cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+- repo: redis
+  name: azure-redis
+sections:
+- name: grafana-tempo
+  configuration:
+  - name: tempoContainer
+    type: BUCKET
+    default: grafana-tempo
+    documentation: Arbitrary storage container name to store the traces in, eg plural-tempo-traces
+  items:
+  - type: TERRAFORM
+    name: azure
+  - type: HELM
+    name: grafana-tempo

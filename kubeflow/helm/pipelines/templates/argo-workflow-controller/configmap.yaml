@@ -1,0 +1,36 @@
+apiVersion: v1
+data:
+  containerRuntimeExecutor: pns
+  executor: |
+    imagePullPolicy: IfNotPresent
+    resources:
+      requests:
+        cpu: 0.01
+        memory: 32Mi
+      limits:
+        cpu: 0.5
+        memory: 512Mi
+kind: ConfigMap
+metadata:
+  labels: {{- include "pipelines.labels" . | nindent 4 }}
+  name: {{ include "pipelines.fullname" . }}-argo-workflow-controller
+  namespace: kubeflow
+---
+apiVersion: v1
+data:
+  default-v1: |
+    archiveLogs: true
+    s3:
+      bucket: {{ .Values.config.objectStore.bucketName }}
+      keyPrefix: pipelines
+      endpoint: s3.amazonaws.com
+      region: {{ .Values.config.objectStore.bucketRegion }}
+      insecure: false
+      keyFormat: {{ printf "\"pipelines/{{workflow.namespace}}/pipelines/{{workflow.name}}/{{pod.name}}\"" }}
+kind: ConfigMap
+metadata:
+  labels: {{- include "pipelines.labels" . | nindent 4 }}
+  annotations:
+    workflows.argoproj.io/default-artifact-repository: default-v1
+  name: artifact-repositories
+  namespace: kubeflow

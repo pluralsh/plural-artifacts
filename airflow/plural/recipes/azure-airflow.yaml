@@ -1,0 +1,66 @@
+name: airflow-azure
+description: Installs airflow on an AKS cluster
+provider: AZURE
+restricted: true
+oidcSettings:
+  authMethod: POST
+  uriFormat: https://{domain}/oauth-authorized/plural
+  domainKey: hostname
+dependencies:
+  - repo: bootstrap
+    name: azure-k8s
+  - repo: ingress-nginx
+    name: ingress-nginx-azure
+  - repo: postgres
+    name: azure-postgres
+tests:
+- name: git access
+  type: GIT
+  args:
+  - name: private_key
+    repo: airflow
+    key: private_key
+  - name: url
+    repo: airflow
+    key: dagRepo
+sections:
+- name: airflow
+  configuration:
+  - name: airflowBucket
+    type: BUCKET
+    default: airflow
+    documentation: Arbitrary bucket name to store the logs in
+  - name: hostname
+    documentation: Fully Qualified Domain Name to use for your airflow installation, eg airflow.topleveldomain.com if topleveldomain.com is the domain you inputed for dns_domain above.
+    type: DOMAIN
+  - name: dagRepo
+    type: STRING
+    documentation: Git Repo url for storing dags, should be a ssh url like git@github.com:pluralsh/airflow-dags.git
+  - name: branchName
+    type: STRING
+    documentation: The branch to sync from
+  - name: adminUsername
+    type: STRING
+    documentation: The airflow username for the admin
+  - name: adminFirst
+    type: STRING
+    documentation: The first name for the admin
+  - name: adminLast
+    type: STRING
+    documentation: The last name for the admin
+  - name: adminEmail
+    type: STRING
+    documentation: The email for the admin
+  - name: private_key
+    documentation: path to the private key to use for git authentication
+    type: FILE
+    default: ~/.ssh/id_rsa
+  - name: public_key
+    documentation: path to the public key to use for git authentication
+    type: FILE
+    default: ~/.ssh/id_rsa.pub
+  items:
+  - type: TERRAFORM
+    name: azure
+  - type: HELM
+    name: airflow

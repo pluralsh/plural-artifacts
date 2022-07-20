@@ -1,0 +1,1 @@
+You can view your ghost instance at https://{{ .Values.ghostDomain }}

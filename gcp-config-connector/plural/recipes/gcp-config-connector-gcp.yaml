@@ -1,0 +1,16 @@
+name: gcp-config-connector-gcp
+description: Installs gcp-config-connector on an aws eks cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+
+
+sections:
+- name: gcp-config-connector
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: gcp-config-connector

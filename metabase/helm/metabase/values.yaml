@@ -1,0 +1,175 @@
+# Default values for metabase.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: dkr.plural.sh/metabase/metabase/metabase
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: v0.41.5
+
+listen:
+  host: "0.0.0.0"
+  port: 3000
+
+livenessProbe:
+  initialDelaySeconds: 120
+  timeoutSeconds: 30
+  failureThreshold: 6
+
+readinessProbe:
+  initialDelaySeconds: 30
+  timeoutSeconds: 3
+  periodSeconds: 5
+
+configOverlays:
+- name: web-cpu
+  labels:
+    platform.plural.sh/component: metabase
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: cpu
+  spec:
+    name: web cpu
+    documentation: cpu requests for metabase webapp deployment
+    updates:
+    - path: ['metabase', 'resources', 'requests', 'cpu']
+- name: web-mem
+  labels:
+    platform.plural.sh/component: metabase
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: memory
+  spec:
+    name: web memory
+    documentation: memory requests for metabase webapp deployment
+    updates:
+    - path: ['metabase', 'resources', 'requests', 'memory']
+
+jetty:
+#  maxThreads: 254
+#  minThreads: 8
+#  maxQueued: -1
+#  maxIdleTime: 60000
+
+postgres:
+  team: plural
+  user: metabase
+  dbName: metabase
+  ownerChart: metabase
+
+database:
+  secret: metabase.plural-metabase.credentials.postgresql.acid.zalan.do
+  host: plural-metabase
+  port: '5432'
+  dbname: metabase
+
+password:
+  # Changing Metabase password complexity:
+  # weak: no character constraints
+  # normal: at least 1 digit (default)
+  # strong: minimum 8 characters w/ 2 lowercase, 2 uppercase, 1 digit, and 1 special character
+  complexity: normal
+  length: 8
+
+
+timeZone: UTC
+emojiLogging: true
+colorLogging: true
+
+
+session:
+  {}
+  # maxSessionAge:
+  # sessionCookies:
+  # cookieSameSite:
+
+
+# A custom log4j.properties file can be provided using a multiline YAML string.
+# See https://github.com/metabase/metabase/blob/master/resources/log4j.properties
+#
+# log4jProperties:
+
+internalPort: 3000
+
+extraVolumeMounts: []
+extraVolumes: []
+
+initContainers: []
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    # Extend timeout to allow long running queries.
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/affinity: cookie
+    nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+    nginx.ingress.kubernetes.io/proxy-read-timeout: '3600'
+    nginx.ingress.kubernetes.io/proxy-send-timeout: '3600'
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

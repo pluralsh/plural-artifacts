@@ -1,0 +1,21 @@
+artifact: {}
+terraform:
+  terraform/aws: h1:JFezaFt5Y7y7MpZx8lGSnQb6zY20b7TllvM3hCNS+h0=
+  terraform/azure: h1:QiGCixnhWQQBnhParJZlcBJ3ru5cjyfKHeE1vNYhG0w=
+  terraform/gcp: h1:xQ4E8MOEgJ6fCw76yty76ywuWKY00WAIQzrefpqIVUg=
+helm:
+  helm/ghost: h1:IsaSVA/i4PeoC1ERMDmVO8rxACTF24k9utSmLUGLQqQ=
+recipe:
+  plural/recipes/ghost-aws.yaml: a1e56034b3cb1cab39384ab4aa17f9e3a8ad49206ed9c2d862ca9d4757327c1f
+  plural/recipes/ghost-azure.yaml: 0a457a0a6329150c45fe87399baef4d0c6e28c55be2b20d3f518f0a37dbfb20e
+  plural/recipes/ghost-gcp.yaml: af7b2ef7577c597fdd3f80b517bdbe146e12be391e54e48e2db66705c93fad78
+integration: {}
+crd: {}
+ird: {}
+tag:
+  plural/tags/helm/ghost.yaml: 4431371f2e13371eee1090adc1ee20ab30bd4033b9278d738107fd2f104f6799
+  plural/tags/terraform/aws.yaml: 01c402c260cc7fe359d1ebc4302ff11539cfabbd5a82745907ad445914153bb7
+  plural/tags/terraform/azure.yaml: 86b17dc5dcbc7d877dddbda68b790231f9f7eaa025d00471360108ccd5f42a07
+  plural/tags/terraform/gcp.yaml: 3761f7e078206cf85f48969d231071adfb3b68ee68b7c68a2b50045e896a3288
+attrs:
+  repository.yaml_Plural: X8PkHGJmM-hCZ5DXbjYd1zWbD30E-H1zeZjs0tr7pMw=

@@ -1,13 +1,14 @@
 artifact: {}
 terraform:
-  terraform/aws: h1:GmKQx6Ha9yjYA4tiadvM4zXttS1z4V8DWt67qaiyF00=
-  terraform/azure: h1:oiuN9zkJR8BmE8Ggea7pwqvuxglQmFTaf7WGIANu1pc=
-  terraform/gcp: h1:qx17LeJjEjgffmfiTl7qvy6NLuKz/hRGrrDUszKDoPk=
+  terraform/aws: h1:xP5G3QcnmuoSikmE16sqksbErCMjVd7IRMsVslQGiD8=
+  terraform/azure: h1:fu3ccCfQ8RVG8h3sri9r/8gDdwgnCsxf0qLF3od+J3w=
+  terraform/gcp: h1:kVk8wnq85D6o56XBBZSfvk6YRXj3BYHpa+nVAdcRkL0=
 helm:
-  helm/grafana: h1:VXk2K7Xd5np4uZSbs0ECLpxE0aexa9AWyq6RKVgIVJc=
+  helm/grafana: h1:diRyfpMyHd1VGpAqlubMEcbeV1jbS97INnddCK1OELU=
 recipe:
-  plural/recipes/aws-grafana.yaml: d1a610ee8d1b06f4b3e3d956d0f31c0b6a7d2131755d6099b064981d8f01dcb7
-  plural/recipes/gcp-grafana.yaml: ba7a87b95b94923108949c3c4e3b3dff9dc4d3d4d364763a1d8c424a1fbd1a5f
+  plural/recipes/aws-grafana.yaml: 2b0799e21d0b56cebb51806a6903ce071dce4fc957e7660f121a5c8afa11ce61
+  plural/recipes/azure-grafana.yaml: 5e5f4011f8e70b1c6d5a00b6469f4837246ba07d211077ab06cad6797b12cbf7
+  plural/recipes/gcp-grafana.yaml: 214c7a614479ac56e8c26388273fbf2952cd0a361712a1f045a315a396f00194
 integration: {}
 crd: {}
 ird: {}
@@ -16,3 +17,5 @@ tag:
   plural/tags/terraform/aws.yml: b46befb9716e1f9ef21cec5ba614f4b1f039438af71c8e039140fdd64a67bb3d
   plural/tags/terraform/azure.yml: eb86a8273f31bda3c64704756f7d5d1c99c82ef048cf9b869c4be01f99a7431f
   plural/tags/terraform/gcp.yml: a5f9d2f77756067979a97968c715feb2a5c509805ee07a86aa32121e56ac976b
+attrs:
+  repository.yaml_Plural: 2ERD47CYppseGzkdQ5hsfLejzoTWI4qvySKb30Q7C2s=

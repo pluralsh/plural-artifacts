@@ -1,0 +1,11 @@
+grafana:
+  stage: push
+  only:
+  - main
+  script:
+  - vendor_image grafana/grafana:7.5.5 grafana
+  - vendor_image grafana/grafana:8.0.3 grafana
+  - vendor_image grafana/grafana:8.0.5 grafana
+  - vendor_image grafana/grafana:8.1.5 grafana
+  - vendor_image grafana/grafana:8.3.1 grafana
+  - vendor_image grafana/grafana:8.3.2 grafana

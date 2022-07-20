@@ -1,0 +1,34 @@
+name: superset-aws
+description: Installs superset on an EKS cluster
+provider: AWS
+oidcSettings:
+  authMethod: POST
+  uriFormat: https://{domain}/oauth-authorized/plural
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+- repo: postgres
+  name: aws-postgres
+sections:
+- name: superset
+  configuration:
+  - name: hostname
+    documentation: Fully Qualified Domain Name to use for your superset installation, eg airflow.topleveldomain.com if topleveldomain.com is the domain you inputed for dns_domain above.
+    type: DOMAIN
+  - name: username
+    type: STRING
+    documentation: short name/handle for the initial admin user
+  - name: name
+    type: STRING
+    documentation: full name for the initial admin user
+  - name: adminEmail
+    type: STRING
+    documentation: email for the initial admin user
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: superset

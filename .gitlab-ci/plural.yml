@@ -3,4 +3,4 @@ influxdb:
   only:
   - main
   script:
-  - vendor_image influxdb:1.8.0-alpine
+  - vendor_image influxdb:1.8.0-alpine plural

@@ -13,6 +13,10 @@ default:
       docker pull $1
       docker tag $1 gcr.io/pluralsh/$1
       docker push gcr.io/pluralsh/$1
+      if [ -n "$2" ]; then
+        docker tag $1 dkr.plural.sh/$2/$1
+        docker push dkr.plural.sh/$2/$1
+      fi
     }
 
   retry:
@@ -27,12 +31,39 @@ variables:
   DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client"
 
 stages:
+- deploy
 - push
 
 include:
 - .gitlab-ci/bootstrap.yml
+- .gitlab-ci/grafana.yml
+- .gitlab-ci/monitoring.yml
 - .gitlab-ci/vendor.yml
 - .gitlab-ci/sentry.yml
 - .gitlab-ci/plural.yml
 - .gitlab-ci/postgres.yml
 - .gitlab-ci/redis.yml
+- .gitlab-ci/ghost.yml
+- .gitlab-ci/influx.yml
+- .gitlab-ci/airflow.yml
+- .gitlab-ci/gitlab.yml
+- .gitlab-ci/superset.yml
+- .gitlab-ci/airbyte.yml
+- .gitlab-ci/nocodb.yml
+
+.ignore-cond: &ignore-cond
+  except:
+    variables:
+    - $CI_COMMIT_MESSAGE =~ /pushed to plural/
+
+deploy:
+  image: gcr.io/pluralsh/plrl-base:0.1.8
+  stage: deploy
+  <<: *ignore-cond
+  only:
+  - main
+  before_script:
+  - cat /root/configure.sh
+  - source /root/configure.sh
+  script:
+  - make all

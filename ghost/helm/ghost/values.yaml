@@ -1,0 +1,48 @@
+replicaCount: 1
+
+db:
+  rootPassword: replace
+  password: replace
+  name: ghost
+  username: ghost
+
+image:
+  repository: dkr.plural.sh/ghost/ghost
+  tag: 5.2-alpine
+  pullPolicy: IfNotPresent
+
+resources: {}
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+    nginx.ingress.kubernetes.io/proxy-read-timeout: '3600'
+    nginx.ingress.kubernetes.io/proxy-send-timeout: '3600'
+  hosts:
+    - host: ghost.example.com
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls:
+   - secretName: ghost-tls
+     hosts:
+       - ghost.example.com
+
+service:
+  type: NodePort
+  port: 2368
+
+persistence:
+  volume:
+    size: 5Gi
+
+ghost:
+  env:
+    database__client: mysql
+    database__connection__host: ghost-mysql-master
+    database__connection__user: ghost
+    database__connection__database: ghost

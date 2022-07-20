@@ -1,0 +1,10 @@
+name: crossplane
+description: crd based cloud resource deployment
+category: DEVOPS
+icon: plural/icons/crossplane.png
+notes: plural/notes.tpl
+gitUrl: https://github.com/crossplane/crossplane
+homepage: https://crossplane.io/
+tags:
+- tag: crd
+- tag: multicloud

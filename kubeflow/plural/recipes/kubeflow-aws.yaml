@@ -1,0 +1,76 @@
+name: kubeflow-aws
+description: Installs Kubeflow on an EKS cluster
+provider: AWS
+oidcSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: bootstrap
+  name: aws-efs
+- repo: mysql
+  name: aws-mysql
+- repo: knative
+  name: knative-aws
+- repo: kserve
+  name: kserve-aws
+- repo: istio
+  name: istio-aws
+- repo: nvidia-operator
+  name: nvidia-operator-aws
+# the following should be removed once transient recipe dependencies are fixed
+- repo: monitoring
+  name: monitoring-aws
+- repo: grafana-tempo
+  name: grafana-tempo-aws
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+- repo: redis
+  name: aws-redis
+sections:
+- name: kubeflow
+  configuration:
+  - name: pipelines_bucket
+    type: BUCKET
+    default: kubeflow-pipelines
+    documentation: bucket to store the pipeline artifacts and logs in
+  - name: hostname
+    documentation: FQDN to use for your Kubeflow installation
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: aws-iam-controller
+  - type: HELM
+    name: central-dashboard
+  - type: HELM
+    name: katib
+  - type: HELM
+    name: mysql-cluster
+  - type: HELM
+    name: notebooks
+  - type: HELM
+    name: training-operator
+  # - type: HELM
+  #   name: mpi
+  # - type: HELM
+  #   name: mxnet
+  # - type: HELM
+  #   name: pytorch
+  # - type: HELM
+  #   name: tensorflow
+  # - type: HELM
+  #   name: xgboost
+  - type: HELM
+    name: profile-controller
+  - type: HELM
+    name: pipelines
+  - type: HELM
+    name: serving
+  - type: HELM
+    name: tensorboards
+  - type: HELM
+    name: volumes

@@ -1,0 +1,25 @@
+name: kubecost-aws
+description: Installs kubecost on an aws eks cluster
+provider: AWS
+oidcSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: grafana
+  name: aws-grafana
+- repo: monitoring
+  name: monitoring-aws
+sections:
+- name: kubecost
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for your KubeCost installation
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: kubecost

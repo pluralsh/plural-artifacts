@@ -1,0 +1,28 @@
+artifact: {}
+terraform:
+  terraform/aws: h1:AjFev4nTjNKTjEn7+sTde8485+QBSqggi7oh5crDk7I=
+helm:
+  helm/central-dashboard: h1:W2NUth6iUZvWBu6j1U8dJu2zQJNuCxBkA9g9I6piFcU=
+  helm/katib: h1:r+9vbxJQ41xpK6TWlVXC19m7bTQfyC95bNO/FQEJOPo=
+  helm/mysql-cluster: h1:kXvOQkH/GKYE/v/ghHCJObgVs8+d6IVlupPfipUNkSY=
+  helm/notebooks: h1:HzXJfyaQ8kimyddwO6+MjJcqZAQU5pzZaALajwM4bbc=
+  helm/operators/mpi: h1:oy9WH4CdcBSjovxHIR4V5kTLFV2Z9BEN/DCfCgJ++4o=
+  helm/operators/mxnet: h1:3TVyvRlMSVdCGFVE5Pnf/9L3MqdKl2n0YpGzhPnE1Yk=
+  helm/operators/pytorch: h1:KRh+hGTYK9G4+ER8WSl7zsLGZHDQJGNfupT6ypDouS4=
+  helm/operators/tensorflow: h1:toqrsNF9bD96nYXAu5N9wHnmJcfOhnBa7yBxYaXJ7aw=
+  helm/operators/xgboost: h1:KaitX2yztaulcHy63YJ9gogrBf6K+97ApMc1pFJzYs4=
+  helm/pipelines: h1:cC7J0dxFmb72tvchLxQrwLxBXKj75eC8u1u6WgfHjOM=
+  helm/profile-controller: h1:sj8K8NEmy5AWuTxlgmBK5ERSsTSvo3UtE61pUqgTSWg=
+  helm/serving: h1:RzzwyHkSVliJ5ZLa9DbhsYnpZnziNOVlOLmHppjTiVA=
+  helm/tensorboards: h1:e+2xTYX53JCJ+0gIMvpcNJRTXqUzUrkoVnp9dscn+IE=
+  helm/volumes: h1:416qzMUu2Ho+jBRoSYk1oOoKKkbtigAhOWpl0AhfKaI=
+recipe:
+  plural/recipes/kubeflow-aws.yaml: 7fbd75943151a417c45ae9e20d299e12d52b06b3036608f91997f19b8e965703
+integration: {}
+crd:
+  plural/crds/profile-controller/profiles.yaml: b3097e7bce72e61f2f0eca692594fc5301e681c36f08ed38e205d406af99f6d4:h1:sj8K8NEmy5AWuTxlgmBK5ERSsTSvo3UtE61pUqgTSWg=
+  plural/crds/profiles.yaml: b3097e7bce72e61f2f0eca692594fc5301e681c36f08ed38e205d406af99f6d4:h1:93j96nnXsNghvBD0sKNWoSPnNA7RDVtLRAoaPYAVaOg=
+ird: {}
+tag: {}
+attrs:
+  repository.yaml_Plural: wLYXqa7JQXzG8djiTCvgVRFa5hHM5w7zSyG5ZCImMOE=

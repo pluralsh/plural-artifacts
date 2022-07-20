@@ -1,26 +1,40 @@
 name: gcp-sentry
 description: Installs sentry on a GKE cluster
 provider: GCP
+oidcSettings:
+  authMethod: POST
+  uriFormat: https://{domain}/auth/sso/
+  domainKey: hostname
 dependencies:
 - repo: bootstrap
-  name: gcp-kubernetes
+  name: gcp-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
 - repo: rabbitmq
   name: rabbitmq-gcp
+- repo: redis
+  name: gcp-redis
+- repo: postgres
+  name: gcp-postgres
+- repo: kafka
+  name: gcp-kafka
 sections:
 - name: sentry
+  configuration:
+  - name: hostname
+    documentation: FQDN for your sentry instance
+    type: DOMAIN
+  - name: filestoreBucket
+    documentation: gcs bucket to store miscellaneous files to
+    type: BUCKET
+    default: sentry-filestore
+  - name: adminEmail
+    documentation: admin user email
+    type: STRING
   items:
   - type: TERRAFORM
     name: gcp
-    configuration: []
+  - type: TERRAFORM
+    name: secrets
   - type: HELM
     name: sentry
-    configuration:
-    - name: hostname
-      documentation: FQDN for your sentry instance
-      type: STRING
-    - name: filestoreBucket
-      documentation: gcs bucket to store miscellaneous files to
-      type: STRING
-    - name: adminEmail
-      documentation: admin user email
-      type: STRING

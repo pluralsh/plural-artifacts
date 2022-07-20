@@ -5,17 +5,22 @@ variable "cluster_name" {
 
 variable "namespace" {
   type = string
-  default = "console"
+  default = "gitlab"
 }
 
-variable "gcp_location" {
+variable "gcp_region" {
   type = string
-  default = "us-east1-b"
+  default = "us-east1"
   description = <<EOF
 The region you wish to deploy to
 EOF
 }
 
+variable "bucket_location" {
+  type = string
+  default = "US"
+  description = "the location of the bucket"
+}
 
 variable "project_id" {
   type = string
@@ -49,5 +54,9 @@ variable "lfs_bucket" {
 }
 
 variable "runner_cache_bucket" {
+  type = string
+}
+
+variable "terraform_bucket" {
   type = string
 }

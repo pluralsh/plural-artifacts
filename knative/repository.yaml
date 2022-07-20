@@ -1,0 +1,9 @@
+name: knative
+description: serverless for kubernetes
+category: DEVOPS
+icon: plural/icons/knative.png
+gitUrl: https://github.com/knative/serving
+homepage: https://knative.dev/docs/
+tags:
+  - tag: functions
+  - tag: serverless

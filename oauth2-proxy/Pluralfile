@@ -1,0 +1,8 @@
+REPO oauth2-proxy
+ATTRIBUTES Plural repository.yaml
+
+TF terraform/*
+HELM helm/*
+RECIPE plural/recipes/*
+TAG plural/tags/helm/*
+TAG plural/tags/terraform/*

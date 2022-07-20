@@ -1,0 +1,8 @@
+name: dex
+description: federated identity provider for modern authentication
+category: DEVOPS
+icon: plural/icons/dex.png
+notes: plural/notes.tpl
+tags:
+- tag: idp
+- tag: oauth

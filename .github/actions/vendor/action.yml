@@ -1,0 +1,13 @@
+name: vendor image
+description: vendors an image into plural dkr registries
+inputs:
+  img:
+    description: the image to vendor
+    required: true
+  repo:
+    description: a plural repo to push to as well
+    required: false
+outputs: {}
+runs:
+  using: 'node12'
+  main: 'index.js'

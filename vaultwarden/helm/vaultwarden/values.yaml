@@ -1,0 +1,144 @@
+vaultwarden:
+  replicaCount: 1
+
+  image:
+    repository: dkr.plural.sh/vaultwarden/vaultwarden/server
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: 1.24.0
+
+  imagePullSecrets: []
+  nameOverride: ""
+  fullnameOverride: ""
+
+  config:
+    dataFolder: /data
+    domain: vaultwarden.example.com
+    insecure: false # if vaultwarden is hosted without TLS certificates
+    signupEnabled: false
+    signupDomainsWhitelist: "plural.sh,onplural.sh" # Controls if new users from a list of comma-separated domains can register, even if SIGNUPS_ALLOWED is set to false
+    signupVerify: false
+    websocketNotificationsEnabled: true # Enables websocket notifications
+    database:
+      postgresOperator:
+        enabled: true
+      type: postgresql # can either be postgresql or mysql
+      host: vaultwarden-postgres-master.vaultwarden
+      port: 5432
+      databaseName: vaultwarden
+      username: vaultwarden
+      password: "" # database password, if empty randomly generated
+      existingSecret: vaultwarden.plural-vaultwarden-postgres.credentials.postgresql.acid.zalan.do # existing secret with database credentials
+      userKey: "" # key of the username in th existing secret, defaults to username
+      passwordKey: "" # key of the password in th existing secret, defaults to password
+    mail:
+      enabled: false
+      host: smtp.domain.tld
+      port: 587 # Ports 587 (submission) and 25 (smtp) are standard without encryption and with encryption via STARTTLS (Explicit TLS). Port 465 is outdated and used with Implicit TLS.
+      fromAddress: vaultwarden@domain.tld
+      fromName: Vaultwarden
+      sslEnabled: true # (Explicit) - This variable by default configures Explicit STARTTLS, it will upgrade an insecure connection to a secure one. Unless SMTP_EXPLICIT_TLS is set to true. Either port 587 or 25 are default.
+      explicitTLS: true # (Implicit) - N.B. This variable configures Implicit TLS. It's currently mislabelled (see bug #851) - SMTP_SSL Needs to be set to true for this option to work. Usually port 465 is used here.
+      timeout: 15
+      username: vaultwarden
+      password: "" # database password, if empty randomly generated
+      existingSecret: "" # existing secret with database credentials
+      userKey: "" # key of the username in th existing secret, defaults to username
+      passwordKey: "" # key of the password in th existing secret, defaults to password
+
+      ## Defaults for SSL is "Plain" and "Login" and nothing for Non-SSL connections.
+      ## Possible values: ["Plain", "Login", "Xoauth2"].
+      ## Multiple options need to be separated by a comma ','.
+      authMechanism: "Plain,Login"
+
+  # environment variables. See [image docs](https://github.com/dani-garcia/vaultwarden/blob/main/.env.template) for more details.
+  environment: {}
+
+  storage:
+    enabled: true
+    size: 5Gi
+    storageClassName: ""
+    accessModes:
+    - ReadWriteOnce
+
+  envFrom: []
+  # - configMapRef:
+  #     name: config-map-name
+  # - secretRef:
+  #     name: secret-name
+
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: true
+    # Annotations to add to the service account
+    annotations: {}
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: ""
+
+  podAnnotations:
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext:
+    privileged: false
+    capabilities:
+      drop:
+      - ALL
+    # readOnlyRootFilesystem: true
+    runAsNonRoot: true
+    runAsUser: 65534
+
+  service:
+    type: ClusterIP
+    port: 80
+    websocketPort: 3012
+
+  ingress:
+    enabled: true
+    className: ""
+    annotations:
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+      kubernetes.io/tls-acme: "true"
+      kubernetes.io/ingress.class: "nginx"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+      nginx.ingress.kubernetes.io/use-regex: "true"
+    hosts:
+      - host: vaultwarden.example.com
+        paths:
+          - path: /
+            pathType: Prefix
+          - path: /notifications/hub/negotiate
+            pathType: Prefix
+          - path: /notifications/hub
+            pathType: Prefix
+    tls:
+      - secretName: vaultwarden-host-tls
+        hosts:
+          - vaultwarden.example.com
+
+  resources:
+    requests:
+      cpu: 10m
+      memory: 32Mi
+    limits:
+      cpu: 10m
+      memory: 32Mi
+
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}

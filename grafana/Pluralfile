@@ -1,4 +1,5 @@
 REPO grafana
+ATTRIBUTES Plural repository.yaml
 
 TF terraform/*
 HELM helm/*

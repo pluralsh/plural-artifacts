@@ -1,0 +1,14 @@
+name: rabbitmq-azure
+description: Deploys rabbitmq on our bootstrapped AKS cluster
+provider: AZURE
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+sections:
+- name: rabbitmq
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: cluster-operator

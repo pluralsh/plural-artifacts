@@ -1,0 +1,50 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Runbook
+metadata:
+  name: scaling-manual
+  labels:
+    platform.plural.sh/pinned: 'true'
+{{ include "ghost.labels" . | indent 4 }}
+spec:
+  name: Ghost Scaling
+  description: overview of how to accurately scale ghost deployment
+  display: |-
+{{ .Files.Get "runbooks/scaling.xml" | indent 4 }}
+  datasources:
+  - name: cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"ghost-[0-9]+"}[5m])) by (pod)
+  - name: memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"ghost-[0-9]+"}) by (pod)
+  - name: statefulset
+    type: kubernetes
+    kubernetes:
+      resource: statefulset
+      name: ghost
+  - name: nodes
+    type: nodes
+  actions:
+  - name: scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+      - path: 
+        - ghost
+        - resources
+        - requests
+        - cpu
+        valueFrom: cpu
+      - path:
+        - ghost
+        - resources
+        - requests
+        - memory
+        valueFrom: memory

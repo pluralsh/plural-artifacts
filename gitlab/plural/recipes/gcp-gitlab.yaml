@@ -1,39 +1,58 @@
 name: gcp-gitlab
 description: Installs gitlab on a GKE cluster
 provider: GCP
+oidcSettings:
+  authMethod: BASIC
+  uriFormat: https://gitlab.{subdomain}/users/auth/plural/callback
+  subdomain: true
 dependencies:
 - repo: bootstrap
-  name: gcp-kubernetes
+  name: gcp-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+- repo: postgres
+  name: gcp-postgres
 sections:
 - name: gitlab
+  configuration:
+  - name: registryBucket
+    documentation: bucket name for gitlab registry
+    type: BUCKET
+    default: gitlab-registry
+  - name: artifactsBucket
+    documentation: bucket name for gitlab artifacts
+    type: BUCKET
+    default: gitlab-artifacts
+  - name: uploadsBucket
+    documentation: bucket name for gitlab uploads
+    type: BUCKET
+    default: gitlab-uploads
+  - name: packagesBucket
+    documentation: bucket name for gitlab packages
+    type: BUCKET
+    default: gitlab-packages
+  - name: backupsBucket
+    documentation: bucket name for gitlab backups
+    type: BUCKET
+    default: gitlab-backups
+  - name: backupsTmpBucket
+    documentation: bucket name for gitlab tmp backups
+    type: BUCKET
+    default: gitlab-backups-tmp
+  - name: lfsBucket
+    documentation: bucket name for git large file storage
+    type: BUCKET
+    default: gitlab-lfs
+  - name: runnerCacheBucket
+    documentation: bucket name for gitlab runner cache
+    type: BUCKET
+    default: gitlab-runner-cache
+  - name: terraformBucket
+    documentation: bucket name for gitlab managed terraform state
+    type: BUCKET
+    default: gitlab-terraform-state
   items:
   - type: TERRAFORM
     name: gcp
-    configuration: []
   - type: HELM
     name: gitlab
-    configuration:
-    - name: domain
-      documentation: toplevel domain for all gitlab subcomponents (eg gitlab itself, registry, etc)
-      type: STRING
-    - name: dagRepo
-      type: STRING
-      documentation: the repo your dags will be stored in
-    - name: branchName
-      type: STRING
-      documentation: the branch to sync from
-    - name: adminUsername
-      type: STRING
-      documentation: the gitlab username for the admin
-    - name: adminFirst
-      type: STRING
-      documentation: the first name for the admin
-    - name: adminLast
-      type: STRING
-      documentation: the last name for the admin
-    - name: adminEmail
-      type: STRING
-      documentation: the email for the admin
-    - name: lfsBucket
-      documentation: bucket name for git large file storage
-      type: STRING

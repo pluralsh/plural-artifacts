@@ -1,0 +1,144 @@
+# Default values for nocodb.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+configOverlays:
+- name: nocodb-registry
+  spec:
+    folder: general
+    subfolder: docker
+    name: Nocodb Registry
+    documentation: docker repository to use for nocodb (default is dkr.plural.sh/nocodb/nocodb/nocodb)
+    updates:
+    - path: ['nocodb', 'image', 'repository']
+- name: nocodb-dkr-tag
+  spec:
+    folder: general
+    subfolder: docker
+    name: Nocodb Docker Tag
+    documentation: docker image tag to use for nocodb
+    updates:
+    - path: ['nocodb', 'image', 'tag']
+- name: deployment-cpu
+  labels:
+    platform.plural.sh/component: nocodb
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: cpu
+  spec:
+    name: web cpu
+    documentation: cpu requests for noco deployment
+    updates:
+    - path: ['nocodb', 'resources', 'requests', 'cpu']
+- name: deployment-mem
+  labels:
+    platform.plural.sh/component: nocodb
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: memory
+  spec:
+    name: web memory
+    documentation: memory requests for noco deployment
+    updates:
+    - path: ['nocodb', 'resources', 'requests', 'memory']
+
+image:
+  repository: dkr.plural.sh/nocodb/nocodb/nocodb
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: 0.83.8
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: false
+  className: nginx
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    # Extend timeout to allow long running queries.
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+postgres:
+  password: '' # must change this
+  replicas: 1
+  storage:
+    size: 25Gi
+  resources: {}
+  default:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 100Mi
+      limits:
+        cpu: '2'
+        memory: 1Gi
+
+nocodb:
+  databaseUrl: ''
+  jwtSecret: ''
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

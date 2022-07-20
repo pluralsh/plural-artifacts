@@ -1,0 +1,6 @@
+dependencies:
+- name: goldilocks
+  repository: https://pluralsh.github.io/plural-helm-charts
+  version: 3.3.0
+digest: sha256:f364f8eb07b083e19c57bc50eb2344ee3f2adfd0471a2c57d92fcd64f38eac14
+generated: "2021-11-15T17:37:58.967151-05:00"

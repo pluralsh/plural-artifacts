@@ -1,0 +1,8 @@
+name: filecoin
+description: making the web more secure and efficient with a decentralized data storage marketplace, protocol, and cryptocurrency.
+category: DEVOPS
+icon: plural/icons/filecoin.png
+notes: plural/notes.tpl
+tags:
+- tag: filecoin
+- tag: cryptocurrency

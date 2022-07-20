@@ -1,0 +1,13 @@
+name: sentry
+description: error monitoring for multiple languages and platforms
+icon: plural/icons/sentry.png
+category: DEVOPS
+notes: plural/notes.tpl
+gitUrl: https://github.com/getsentry/sentry
+homepage: https://sentry.io/
+oauthSettings:
+  uriFormat: https://{domain}/auth/sso/
+  authMethod: POST
+tags:
+- tag: observability
+- tag: monitoring

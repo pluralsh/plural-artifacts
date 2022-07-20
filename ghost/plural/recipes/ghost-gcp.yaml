@@ -1,0 +1,27 @@
+name: ghost-gcp
+description: Installs ghost on a gcp gke cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+- repo: mysql
+  name: gcp-mysql
+sections:
+- name: ghost
+  configuration:
+  - name: ghostUser
+    documentation: username for your initial ghost user account
+    type: STRING
+  - name: ghostEmail
+    documentation: email address for the initial ghost user
+    type: STRING
+  - name: ghostDomain
+    documentation: fully qualified domain name for the ghost blog instance
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: ghost

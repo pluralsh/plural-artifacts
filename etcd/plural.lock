@@ -1,0 +1,22 @@
+artifact: {}
+terraform:
+  terraform/aws: h1:s7hmGAhr7MiYYVxM3iv5KUfccsl2D0QU7UGIKMkrEMo=
+  terraform/azure: h1:ooafymWwMd6bmE7+COrrihHb3D6c9+dNzMiAPKIrkFg=
+  terraform/gcp: h1:wfSKdDLVnFTmmcv6JX4Xa75Ai+98xYCG9YCzOvWA8kQ=
+helm:
+  helm/etcd: h1:JHrsdv0ZyM6SFcxyZAcl2agsWTjBGK2j6HyArkfu4tk=
+recipe:
+  plural/recipes/etcd-aws.yaml: 900fc0297f06e45921f81c2f3c400b7c14c7b2820b9e5a14eed319e52f8d4948
+  plural/recipes/etcd-azure.yaml: 2e2a725761ceef36a9bb9627a3ca6b8ebfb502b12a80f4a3a03e41adb90b1695
+  plural/recipes/etcd-gcp.yaml: 6e6fe444da393bcc2f07493f4e801fe8ae1605532a6095a1aa01418645a3a5ff
+integration: {}
+crd:
+  plural/crds/customresourcedefinition.yaml: 7add5c678cbd962184d05ac38918749b0202e28499f82f756ca16340e17f4649:h1:Lt56UZcdfg/bFj9UUtoo4j5ns7RBUdCOcPPhDlCUYk8=
+ird: {}
+tag:
+  plural/tags/helm/etcd.yaml: a26cdcf364553450ace009b7162bba8c4b1c434dbd1ea0efb82895ac5fe9152a
+  plural/tags/terraform/aws.yaml: 01c402c260cc7fe359d1ebc4302ff11539cfabbd5a82745907ad445914153bb7
+  plural/tags/terraform/azure.yaml: 86b17dc5dcbc7d877dddbda68b790231f9f7eaa025d00471360108ccd5f42a07
+  plural/tags/terraform/gcp.yaml: 3761f7e078206cf85f48969d231071adfb3b68ee68b7c68a2b50045e896a3288
+attrs:
+  repository.yaml_Plural: Y-249HBXYSL1SLK5OmkOY5OImngWYW9Wx3UZWpTt_dE=

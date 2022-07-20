@@ -1,0 +1,28 @@
+{{ $oidcConfig := index .Values "oidc-config" }}
+
+apiVersion: mlflow.plural.sh/v1alpha1
+kind: TrackingServer
+metadata:
+  name: trackingserver
+spec:
+  image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+  replicas: 1
+  size: "5Gi"
+  defaultArtifactRoot: s3:/{{ .Values.mlflow.defaultArtifactRoot }}
+  serviceAccountName: {{ include "mlflow-standalone.serviceAccountName" . }}
+  {{- if $oidcConfig.enabled }}
+  extraPodLabels:
+    security.plural.sh/inject-oauth-sidecar: "true"
+  extraPodAnnotations:
+    security.plural.sh/oauth-env-secret: "mlflow-oauth2-proxy-config"
+    {{ if $oidcConfig.users }}
+    security.plural.sh/htpasswd-secret: httpaswd-users
+    {{ end }}
+  {{- end }}
+  network:
+    istioEnabled: false
+  postgres:
+    instances: 1
+    version: "13"
+    volume:
+      size: 10Gi

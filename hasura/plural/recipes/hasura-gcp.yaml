@@ -1,0 +1,22 @@
+name: hasura-gcp
+description: Installs hasura on an GKE cluster
+provider: GCP
+dependencies:
+  - repo: bootstrap
+    name: gcp-k8s
+  - repo: ingress-nginx
+    name: ingress-nginx-gcp
+  - repo: postgres
+    name: gcp-postgres
+sections:
+  - name: hasura
+    items:
+      - type: TERRAFORM
+        name: gcp
+        configuration: []
+      - type: HELM
+        name: hasura
+    configuration:
+      - name: hostname
+        documentation: Fully Qualified Domain Name to use for your hasura installation, eg hasura.topleveldomain.com if topleveldomain.com is the domain you inputed for dns_domain above.
+        type: DOMAIN

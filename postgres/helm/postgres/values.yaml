@@ -44,7 +44,7 @@ configGeneral:
   # Select if setup uses endpoints (default), or configmaps to manage leader (DCS=k8s)
   # kubernetes_use_configmaps: false
   # Spilo docker image
-  docker_image: gcr.io/pluralsh/spilo:13.0
+  docker_image: gcr.io/pluralsh/spilo:13.3
   # min number of instances in Postgres cluster. -1 = no limit
   min_instances: -1
   # max number of instances in Postgres cluster. -1 = no limit
@@ -141,9 +141,9 @@ configKubernetes:
   # override topology key for pod anti affinity
   pod_antiaffinity_topology_key: "kubernetes.io/hostname"
   # namespaced name of the ConfigMap with environment variables to populate on every pod
-  # pod_environment_configmap: "default/my-custom-config"
+  pod_environment_configmap: "postgres/postgres-environment"
   # name of the Secret (in cluster namespace) with environment variables to populate on every pod
-  pod_environment_secret: postgres-environment
+  # pod_environment_secret: postgres-environment
 
   # specify the pod management policy of stateful sets of Postgres clusters
   pod_management_policy: "ordered_ready"
@@ -177,6 +177,14 @@ configKubernetes:
   storage_resize_mode: pvc
   # operator watches for postgres objects in the given namespace
   watched_namespace: "*"  # listen to all namespaces
+
+configSecret:
+  enabled: false
+  env: {}
+
+provider: ""
+
+configConfigMap: {}
 
 # configure resource requests for the Postgres pods
 configPostgresPodResources:

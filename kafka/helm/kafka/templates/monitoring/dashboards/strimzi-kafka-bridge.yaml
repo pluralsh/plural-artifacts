@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: strimzi-kafka-bridge
+  labels: {{ include "kafka.labels" . | nindent 4 }}
+    grafana_dashboard: strimzi-kafka-bridge
+  annotations:
+    k8s-sidecar-target-directory: /tmp/dashboards/Kafka Dashboards
+data:
+  strimzi-kafka-bridge.json: |-
+{{ .Files.Get "grafana-dashboards/strimzi-kafka-bridge.json" | indent 4 }}

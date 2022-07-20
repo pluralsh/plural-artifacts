@@ -1,0 +1,51 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Runbook
+metadata:
+  name: db-scaling
+  labels:
+    platform.plural.sh/pinned: 'true'
+{{ include "mysql-cluster.labels" . | indent 4 }}
+spec:
+  name: MySQL Scaling
+  description: overview of how to accurately scale kubeflow's mysql instances
+  alerts:
+  - name: KubeflowDbCPU
+  - name: KubeflowDbMEM
+  display: |-
+{{ .Files.Get "runbooks/db-scaling.xml" | indent 4 }}
+  datasources:
+  - name: cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"kubeflow-mysql-cluster-mysql-[0-9]+",container=~"mysql"}[5m])) by (pod)
+  - name: memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"kubeflow-mysql-cluster-mysql-[0-9]+",container=~"mysql"}) by (pod)
+  - name: statefulset
+    type: kubernetes
+    kubernetes:
+      resource: statefulset
+      name: kubeflow-mysql-cluster-mysql
+  - name: nodes
+    type: nodes
+  actions:
+  - name: scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+      - path: 
+        - resources
+        - requests
+        - cpu
+        valueFrom: cpu
+      - path:
+        - resources
+        - requests
+        - memory
+        valueFrom: memory

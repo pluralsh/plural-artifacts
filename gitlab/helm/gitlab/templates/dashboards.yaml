@@ -99,6 +99,10 @@ spec:
     - query: sum without (grpc_method,grpc_service,grpc_type) (rate(grpc_server_started_total{instance=~"$instance"}[1m]))
       legend: request rate
     name: GRPC request rate
+  - queries:
+    - query: avg((kubelet_volume_stats_capacity_bytes{persistentvolumeclaim=~"repo-data-gitlab-gitaly-.*"} - kubelet_volume_stats_available_bytes{persistentvolumeclaim=~"repo-data-gitlab-gitaly-.*"}) / kubelet_volume_stats_capacity_bytes{persistentvolumeclaim=~"repo-data-gitlab-gitaly-.*"})
+      legend: disk usage
+    name: Persistent Volume Availability
 ---
 apiVersion: platform.plural.sh/v1alpha1
 kind: Dashboard

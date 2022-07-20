@@ -1,0 +1,13 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: LogTail
+metadata:
+  name: plural-webhook
+  labels:
+    app: {{ include "plural-webhook.name" . }}
+    chart: {{ include "plural-webhook.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  limit: 50
+  target: deployment/{{ include "plural-webhook.fullname" . }}
+  follow: true

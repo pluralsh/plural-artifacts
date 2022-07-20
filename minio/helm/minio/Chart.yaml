@@ -1,0 +1,10 @@
+apiVersion: v2
+name: minio
+description: A Helm chart for Kubernetes
+type: application
+version: 0.1.53
+appVersion: "2022.1.08"
+dependencies:
+- name: minio
+  version: 3.4.6
+  repository: https://pluralsh.github.io/plural-helm-charts

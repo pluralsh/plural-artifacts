@@ -1,0 +1,38 @@
+name: influx-gcp
+description: Installs influx on a gcp gke cluster
+provider: GCP
+oidcSettings:
+  uriFormat: https://{domain}/oauth/plural/callback
+  authMethod: POST
+  domainKey: chronografHostname
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+sections:
+- name: influx
+  configuration:
+  - name: enableChronograf
+    documentation: whether to deploy the chronograf web ui
+    type: BOOL
+  - name: chronografHostname
+    documentation: Fully Qualified Domain Name for the chronograf web ui
+    type: DOMAIN
+  - name: enableKapacitor
+    documentation: whether to deploy kapacitor alerting
+    type: BOOL
+  - name: enableTelegraf
+    documentation: whether to deploy telegraf metrics collection
+    type: BOOL
+  - name: databaseName
+    documentation: name for the initial bootstrapped database
+    type: STRING
+  - name: influxdbHostname
+    documentation: external dns name for your influxdb instance (leave empty if you don't want ingress)
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: influx

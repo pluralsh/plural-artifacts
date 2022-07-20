@@ -1,0 +1,25 @@
+name: gcp-mysql
+description: installs mysql operator on a GKE cluster
+provider: GCP
+oidcSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+sections:
+- name: mysql
+  configuration:
+  - name: backup_bucket
+    documentation: bucket to store mysql backups in
+    type: BUCKET
+    default: mysql-backups
+  - name: hostname
+    documentation: FQDN to use for your accessing the mysql orchestrator
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: mysql

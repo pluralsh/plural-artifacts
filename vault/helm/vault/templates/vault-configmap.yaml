@@ -1,0 +1,125 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vault-policies
+  labels:
+  {{ include "vault-plural.labels" . | nindent 4 }}
+data:
+  admin-policy.hcl: |
+    # Read system health check
+    path "sys/health"
+    {
+      capabilities = ["read", "sudo"]
+    }
+
+    # Create and manage identities.
+    path "identity/*"
+    {
+      capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+    }
+
+    # Create and manage ACL policies broadly across Vault
+
+    # List existing policies
+    path "sys/policies/acl"
+    {
+      capabilities = ["list"]
+    }
+
+    # Create and manage ACL policies
+    path "sys/policies/acl/*"
+    {
+      capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+    }
+
+    # Enable and manage authentication methods broadly across Vault
+
+    # Manage auth methods broadly across Vault
+    path "auth/*"
+    {
+      capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+    }
+
+    # Create, update, and delete auth methods
+    path "sys/auth/*"
+    {
+      capabilities = ["create", "update", "delete", "sudo"]
+    }
+
+    # List auth methods
+    path "sys/auth"
+    {
+      capabilities = ["read"]
+    }
+
+    # Enable and manage the all secret engines at `*` path
+
+    # List, create, update, and delete secrets in all engines
+    path "*"
+    {
+      capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+    }
+
+    # Manage secrets engines
+    path "sys/mounts/*"
+    {
+      capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+    }
+
+    # List existing secrets engines.
+    path "sys/mounts"
+    {
+      capabilities = ["read"]
+    }
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vault-scripts
+  labels:
+  {{ include "vault-plural.labels" . | nindent 4 }}
+data:
+  login.sh: |
+    set -euo pipefail
+
+    echo "Logging in as admin using service account"
+    jwt=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+    token=$(vault write auth/kubernetes/login role=admin jwt="$jwt" | grep -m1 '^token' | awk '{ print $2 }')
+    vault login -no-print -non-interactive "$token"
+  write-admin-policy.sh: |
+    echo "Writing admin policy"
+    vault policy write admin /policies/admin-policy.hcl
+  {{- if .Values.oidc.enabled }}
+  enable-oidc.sh: |
+    set -euo pipefail
+
+    echo "Checking if OIDC is already enabled"
+    set +e
+    status=$(vault auth list | grep 'oidc' | awk '{ print $1 }')
+    set -e
+    if [ "$status" == "oidc/" ]; then
+      echo "OIDC is already enabled"
+    else
+      echo "OIDC is not enabled; enabling it now"
+      vault auth enable oidc
+    fi
+
+    echo "Writing OIDC config"
+    vault write auth/oidc/config oidc_discovery_url="${OIDC_DISCOVERY_URL}" oidc_client_id="${OIDC_CLIENT_ID}" oidc_client_secret="${OIDC_CLIENT_SECRET}" default_role=default
+
+    echo "Writing OIDC default role"
+    vault write auth/oidc/role/default role_type=oidc allowed_redirect_uris="https://{{ .Values.oidc.redirectHostname }}/ui/vault/auth/oidc/oidc/callback,http://localhost:8250/oidc/callback,http://localhost:8200/ui/vault/auth/oidc/oidc/callback" oidc_scopes=profile user_claim=email groups_claim=groups policies=default
+
+    echo "Getting OIDC mount accessor"
+    mount_accessor=$(vault auth list | awk '{ if ($1 == "oidc/") { print $3 } }')
+    echo "  mount accessor: $mount_accessor"
+
+    echo "Writing 'admin' user"
+    entity_id=$(vault write identity/entity name=admin policies=admin | awk '{ if ($1 == "id") { print $2 } }')
+    echo "  entity id: $entity_id"
+
+    echo "Writing 'admin' alias for plural OIDC; email: {{ .Values.oidc.adminEmail }}"
+    vault write identity/entity-alias name="{{ .Values.oidc.adminEmail }}" canonical_id="$entity_id" mount_accessor="$mount_accessor"
+
+    echo "OIDC successfully configured"
+  {{- end }}

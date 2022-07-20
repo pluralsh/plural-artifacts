@@ -1,0 +1,28 @@
+name: argo-workflows-aws
+description: Installs argo-workflows on an aws eks cluster
+provider: AWS
+oidcSettings:
+  authMethod: POST
+  uriFormat: https://{domain}/oauth2/callback
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+sections:
+- name: argo-workflows
+  configuration:
+  - name: workflowBucket
+    type: BUCKET
+    default: argo-workflows
+    documentation: bucket to workflow artifacts in
+  - name: hostname
+    documentation: FQDN to use for your Argo Workflows installation
+    type: DOMAIN
+  - name: adminEmail
+    documentation: email address for the admin user
+    type: STRING
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: argo-workflows

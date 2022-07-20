@@ -1,6 +1,6 @@
 REPO mysql
+ATTRIBUTES Plural repository.yaml
 
 TF terraform/*
 HELM helm/*
-CRD plural/crds/* helm/mysql
 RECIPE plural/recipes/*

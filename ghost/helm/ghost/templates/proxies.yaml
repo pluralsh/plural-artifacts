@@ -1,0 +1,12 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Proxy
+metadata:
+  name: sh
+  labels:
+{{ include "ghost.labels" . | indent 4 }}
+spec:
+  type: sh
+  target: statefulset/ghost
+  shConfig:
+    command: /bin/sh
+    args: []

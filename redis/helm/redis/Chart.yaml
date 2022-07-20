@@ -2,9 +2,9 @@ apiVersion: v2
 name: redis
 description: Redis deployable on plural
 type: application
-version: 0.1.0
-appVersion: "1.16.0"
+version: 0.1.11
+appVersion: "6.2.4"
 dependencies:
 - name: redis
-  version: 14.6.3
+  version: 14.7.2
   repository: https://charts.bitnami.com/bitnami

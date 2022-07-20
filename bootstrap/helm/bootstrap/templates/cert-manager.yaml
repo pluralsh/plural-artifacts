@@ -1,0 +1,19 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: plural-operator-selfsigned-issuer
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: plural-operator-serving-cert
+spec:
+  dnsNames:
+  - plural-operator-webhook-service.{{ .Release.Namespace }}.svc
+  - plural-operator-webhook-service.{{ .Release.Namespace }}.svc.cluster.local
+  issuerRef:
+    kind: Issuer
+    name: plural-operator-selfsigned-issuer
+  secretName: plural-operator-webhook-server-cert

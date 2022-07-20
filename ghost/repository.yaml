@@ -1,0 +1,9 @@
+name: ghost
+description: open source blog platform
+category: PRODUCTIVITY
+icon: plural/icons/ghost.png
+notes: plural/notes.tpl
+gitUrl: https://github.com/TryGhost/Ghost
+homepage: https://ghost.org
+tags:
+- tag: blog

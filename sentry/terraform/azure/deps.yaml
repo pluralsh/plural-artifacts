@@ -2,7 +2,7 @@ apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
   description: sentry azure setup
-  version: 0.1.1
+  version: 0.1.6
 spec:
   dependencies:
   - name: azure-bootstrap
@@ -14,5 +14,6 @@ spec:
   - azure
 
   outputs:
-    console_msi_client_id: console_msi_client_id
-    console_msi_id: console_msi_id
+    access_key_id: access_key_id
+    secret_access_key: secret_access_key
+   

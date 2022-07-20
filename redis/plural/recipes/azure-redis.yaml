@@ -6,10 +6,17 @@ dependencies:
   name: azure-k8s
 sections:
 - name: redis
+  configuration:
+  - name: masterHostname
+    documentation: the dns name to access the redis master (optional)
+    type: DOMAIN
+    optional: true
+  - name: replicaHostname
+    documentation: the dns name to access your redis replicas (optional)
+    type: DOMAIN
+    optional: true
   items:
   - type: TERRAFORM
     name: kube
-    configuration: []
   - type: HELM
     name: redis
-    configuration: []

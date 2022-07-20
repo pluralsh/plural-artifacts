@@ -1,0 +1,92 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Runbook
+metadata:
+  name: scaling-manual
+  labels:
+    platform.plural.sh/pinned: 'true'
+{{ include "redis.labels" . | indent 4 }}
+spec:
+  name: Redis Scaling
+  description: overview of how to optimally scale your redis cluster
+  alerts:
+  - name: RedisMasterCPU
+  - name: RedisMasterMEM
+  - name: RedisReplicasCPU
+  - name: RedisReplicasMEM
+  display: |-
+{{ .Files.Get "runbooks/scaling-manual.xml" | indent 4 }}
+  datasources:
+  - name: master-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"redis-master-[0-9]+"}[5m])) by (pod)
+  - name: master-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"redis-master-[0-9]+"}) by (pod)
+  - name: replica-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"redis-replicas-[0-9]+"}[5m])) by (pod)
+  - name: replica-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"redis-replicas-[0-9]+"}) by (pod)
+  - name: master
+    type: kubernetes
+    kubernetes:
+      resource: statefulset
+      name: redis-master
+  - name: replica
+    type: kubernetes
+    kubernetes:
+      resource: statefulset
+      name: redis-replicas
+  - name: nodes
+    type: nodes
+  actions:
+  - name: scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+      - path: 
+        - redis
+        - redis
+        - master
+        - resources
+        - requests
+        - cpu
+        valueFrom: master-cpu
+      - path:
+        - redis
+        - redis
+        - master
+        - resources
+        - requests
+        - memory
+        valueFrom: master-memory
+      - path: 
+        - redis
+        - redis
+        - replica
+        - resources
+        - requests
+        - cpu
+        valueFrom: replica-cpu
+      - path:
+        - redis
+        - redis
+        - replica
+        - resources
+        - requests
+        - memory
+        valueFrom: replica-memory

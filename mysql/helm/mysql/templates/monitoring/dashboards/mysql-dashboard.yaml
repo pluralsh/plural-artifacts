@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-dashboard
+  labels: {{ include "mysql.labels" . | nindent 4 }}
+    grafana_dashboard: mysql-dashboard
+  annotations:
+    k8s-sidecar-target-directory: /tmp/dashboards/MySQL Dashboards
+data:
+  mysql-dashboard.json: |-
+{{ .Files.Get "grafana-dashboards/mysql-dashboard.json" | indent 4 }}

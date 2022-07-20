@@ -1,13 +1,13 @@
 artifact: {}
 terraform:
-  terraform/aws: h1:jsoxHAPW4ltJdgHorMy9fYU+nSqzuyG+A7+Gft7gnTo=
+  terraform/aws: h1:TjJvQtHroH1GA6u71f2hGlV43nKQCIWZqP0Jm+t58m4=
   terraform/azure: h1:jWyQiP2VWnslaOTNvBx9xrtP9ToaJTq7IAxB04WK5wA=
   terraform/gcp: h1:DoaptJC/2Ay58N1ziTGrvszZQvjA4QjxMwkkXTq9hO0=
 helm:
-  helm/gitlab: h1:cozzeFxGujO243o/NbOM7UsvNu7IKV2j4QXU7fun0ms=
+  helm/gitlab: h1:cb8c+nao1F5mMcT8q/5Tu4KXVbCOZ+//NypPJUPBmDg=
 recipe:
-  plural/recipes/aws-gitlab.yaml: 94f52cd00ae1f1fb39019410d31a6b8e91dfea8077883a39b2f7273945d3b0f2
-  plural/recipes/gcp-gitlab.yaml: 034482b670c52d03ac8797b79acd0446109d750e7f0e26f4ac8e9b0105733149
+  plural/recipes/aws-gitlab.yaml: 4807a3f56df00da982ae18e9cd3264190aaff64d5a4314741054e1f908983501
+  plural/recipes/gcp-gitlab.yaml: c7f1654b8a41da91bf8a30aba1fe307df50d52571b179f6eb8a0bfc6c283ceee
 integration: {}
 crd: {}
 ird: {}
@@ -16,3 +16,5 @@ tag:
   plural/tags/terraform/aws.yml: b46befb9716e1f9ef21cec5ba614f4b1f039438af71c8e039140fdd64a67bb3d
   plural/tags/terraform/azure.yml: eb86a8273f31bda3c64704756f7d5d1c99c82ef048cf9b869c4be01f99a7431f
   plural/tags/terraform/gcp.yml: a5f9d2f77756067979a97968c715feb2a5c509805ee07a86aa32121e56ac976b
+attrs:
+  repository.yaml_Plural: C-3DMW7aDinwqvLGgF_mOIlYGhmAsxJG8L6aviTXYmU=

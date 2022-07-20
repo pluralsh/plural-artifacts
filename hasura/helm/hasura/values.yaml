@@ -1,0 +1,44 @@
+# Default values for hasura.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+ingress:
+  ingressClassName: nginx
+  host: ''
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    # Extend timeout to allow long running queries.
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/affinity: cookie
+    nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+    nginx.ingress.kubernetes.io/proxy-read-timeout: '3600'
+    nginx.ingress.kubernetes.io/proxy-send-timeout: '3600'
+    nginx.ingress.kubernetes.io/session-cookie-path: /v1/graphql
+
+hasura:
+  console:
+    enabled: true
+  postgresql:
+    enabled: false
+    postgresqlUsername: hasura
+  extraEnv:
+  - name: PGSSLMODE
+    value: require
+  ingress:
+    enabled: false
+postgres:
+  password: CHANGEME
+  replicas: 1
+  storage:
+    size: 25Gi
+  resources: {}
+  default:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 100Mi
+      limits:
+        cpu: "2"
+        memory: 1Gi

@@ -3,7 +3,7 @@ data "azurerm_resource_group" "group" {
 }
 
 module "network" {
-  source              = "Azure/network/azurerm"
+  source              = "github.com/pluralsh/terraform-azurerm-network?ref=plural"
   resource_group_name = data.azurerm_resource_group.group.name
   address_space       = var.address_space
   subnet_prefixes     = var.subnet_prefixes
@@ -13,13 +13,17 @@ module "network" {
 module "aks" {
   source                           = "github.com/pluralsh/terraform-azurerm-aks?ref=plural"
   resource_group_name              = data.azurerm_resource_group.group.name
-  kubernetes_version               = "1.20.5"
-  orchestrator_version             = "1.20.5"
+  kubernetes_version               = var.kubernetes_version
+  orchestrator_version             = var.kubernetes_version
   prefix                           = var.name
   cluster_name                     = var.name
   network_plugin                   = "azure"
   vnet_subnet_id                   = module.network.vnet_subnets[0]
   os_disk_size_gb                  = var.os_disk_size
+  os_disk_type                     = var.os_disk_type
+  enable_role_based_access_control = true
+  rbac_aad_enabled                 = false 
+  rbac_aad_managed                 = false
   sku_tier                         = "Paid"
   private_cluster_enabled          = var.private_cluster
   enable_http_application_routing  = true
@@ -32,6 +36,7 @@ module "aks" {
   agents_pool_name                 = local.node_pool_name
   agents_availability_zones        = ["1", "2"]
   agents_type                      = "VirtualMachineScaleSets"
+  agents_size                      = var.agents_size
 
   agents_labels = {
     "nodepool" : local.node_pool_name
@@ -91,6 +96,7 @@ resource "kubernetes_namespace" "bootstrap" {
 
     labels = {
       "app.kubernetes.io/managed-by" = "plural"
+      "app.plural.sh/name" = "bootstrap"
     }
   }
 

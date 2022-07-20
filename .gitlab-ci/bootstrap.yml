@@ -1,30 +1,16 @@
-promtail:
-  stage: push
-  only:
-  - main
-  script:
-  - vendor_image grafana/promtail:1.6.0
-
 kubed:
   stage: push
   only:
   - main
   script:
-  - vendor_image appscode/kubed:v0.13.0-beta.0
-
-loki:
-  stage: push
-  only:
-  - main
-  script:
-  - vendor_image grafana/loki:1.6.0
+  - vendor_image appscode/kubed:v0.13.0-beta.0 bootstrap
 
 statsd-exporter:
   stage: push
   only:
   - main
   script:
-  - vendor_image prom/statsd-exporter:v0.20.2
+  - vendor_image prom/statsd-exporter:v0.20.2 bootstrap
 
 curl:
   stage: push
@@ -33,17 +19,41 @@ curl:
   script:
   - vendor_image curlimages/curl:7.73.0
 
-grafana:
-  stage: push
-  only:
-  - main
-  script:
-  - vendor_image grafana/grafana:7.5.5
-  - vendor_image grafana/grafana:8.0.3
-
 metrics-server:
   stage: push
   only:
   - main
   script:
-  - vendor_image bitnami/metrics-server:0.4.4-debian-10-r0
+  - vendor_image bitnami/metrics-server:0.4.4-debian-10-r0 bootstrap
+
+csi-drivers:
+  stage: push
+  only:
+  - main
+  script:
+  - vendor_image amazon/aws-efs-csi-driver:v1.3.4
+  - vendor_image k8s.gcr.io/provider-aws/aws-ebs-csi-driver:v1.3.0
+  - vendor_image k8s.gcr.io/sig-storage/livenessprobe:v2.2.0
+  - vendor_image k8s.gcr.io/sig-storage/livenessprobe:v2.3.0
+  - vendor_image k8s.gcr.io/sig-storage/livenessprobe:v2.4.0
+  - vendor_image k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.1.0
+  - vendor_image k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.2.0
+  - vendor_image k8s.gcr.io/sig-storage/csi-node-driver-registrar:v2.3.0
+  - vendor_image k8s.gcr.io/sig-storage/csi-provisioner:v2.1.1
+  - vendor_image k8s.gcr.io/sig-storage/csi-provisioner:v2.1.2
+  - vendor_image k8s.gcr.io/sig-storage/csi-provisioner:v2.2.2
+  - vendor_image k8s.gcr.io/sig-storage/csi-provisioner:v3.0.0
+  - vendor_image k8s.gcr.io/sig-storage/csi-attacher:v3.1.0
+  - vendor_image k8s.gcr.io/sig-storage/csi-attacher:v3.2.1
+  - vendor_image k8s.gcr.io/sig-storage/csi-attacher:v3.3.0
+  - vendor_image k8s.gcr.io/sig-storage/csi-snapshotter:v3.0.3
+  - vendor_image k8s.gcr.io/sig-storage/csi-snapshotter:v4.0.0
+  - vendor_image k8s.gcr.io/sig-storage/csi-snapshotter:v4.1.1
+  - vendor_image k8s.gcr.io/sig-storage/csi-snapshotter:v4.2.1
+  - vendor_image k8s.gcr.io/sig-storage/csi-resizer:v1.0.0
+  - vendor_image k8s.gcr.io/sig-storage/csi-resizer:v1.0.1
+  - vendor_image k8s.gcr.io/sig-storage/csi-resizer:v1.1.0
+  - vendor_image k8s.gcr.io/sig-storage/csi-resizer:v1.2.0
+  - vendor_image k8s.gcr.io/sig-storage/csi-resizer:v1.3.0
+  - vendor_image k8s.gcr.io/sig-storage/snapshot-controller:v4.2.1
+  - vendor_image k8s.gcr.io/sig-storage/snapshot-validation-webhook:v4.2.1

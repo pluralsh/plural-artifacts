@@ -1,0 +1,21 @@
+name: goldilocks-aws
+description: Installs goldilocks on an aws eks cluster
+provider: AWS
+oidcSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+sections:
+- name: goldilocks
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for your accessing the goldilocks dashboard
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: goldilocks

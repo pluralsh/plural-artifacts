@@ -1,0 +1,22 @@
+{{- define "superset.config-overlay" -}}
+apiVersion: platform.plural.sh/v1alpha1
+kind: ConfigurationOverlay
+metadata:
+  name: {{ .name }}
+  labels:
+{{ include "superset.labels" . | indent 4 }}
+{{ if .labels }}
+  {{ toYaml .labels | nindent 4 }}
+{{ end }}
+spec:
+{{ toYaml .spec | nindent 2 }}
+{{- end -}}
+
+{{ $context := . }}
+{{ range $index, $overlay := .Values.configOverlays }}
+  {{- $args := mergeOverwrite $context $overlay }}
+  {{ if $index }}
+---
+  {{ end }}
+  {{ include "superset.config-overlay" $args | nindent 0 }}
+{{- end -}}

@@ -1,0 +1,22 @@
+name: rook-azure
+description: Installs rook on an azure aks cluster
+provider: AZURE
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-azure
+sections:
+- name: rook
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for your the Ceph Dashboard
+    type: DOMAIN
+  - name: s3Hostname
+    documentation: FQDN to use for your the S3 API endpoint
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: azure
+  - type: HELM
+    name: rook

@@ -1,0 +1,139 @@
+provider: aws
+tempoStorageIdentityId: 
+tempoStorageIdentityClientId: 
+
+tempo-distributed:
+  tempo:
+    image:
+      registry: dkr.plural.sh
+      repository: grafana-tempo/docker.io/grafana/tempo
+  queryFrontend:
+    query:
+      image:
+        repository: grafana-tempo/docker.io/grafana/tempo-query
+  serviceAccount:
+    name: grafana-tempo
+  traces:
+    jaeger:
+      grpc: true
+    zipkin: true
+    otlp:
+      http: true
+      grpc: true
+    opencensus: true
+  storage:
+    trace:
+      cache: redis
+      redis:
+        endpoint: ""
+        db: 5
+        password: ""
+      memcached:
+        consistent_hash: true
+        host: grafana-tempo-tempo-distributed-memcached
+        service: memcached-client
+        timeout: 500ms
+  serviceMonitor:
+    enabled: true
+  memcached:
+    enabled: false
+  config: |
+    multitenancy_enabled: false
+    compactor:
+      compaction:
+        block_retention: 48h
+      ring:
+        kvstore:
+          store: memberlist
+    distributor:
+      ring:
+        kvstore:
+          store: memberlist
+      receivers:
+        {{- if  or (.Values.traces.jaeger.thriftCompact) (.Values.traces.jaeger.thriftBinary) (.Values.traces.jaeger.thriftHttp) (.Values.traces.jaeger.grpc) }}
+        jaeger:
+          protocols:
+            {{- if .Values.traces.jaeger.thriftCompact }}
+            thrift_compact:
+              endpoint: 0.0.0.0:6831
+            {{- end }}
+            {{- if .Values.traces.jaeger.thriftBinary }}
+            thrift_binary:
+              endpoint: 0.0.0.0:6832
+            {{- end }}
+            {{- if .Values.traces.jaeger.thriftHttp }}
+            thrift_http:
+              endpoint: 0.0.0.0:14268
+            {{- end }}
+            {{- if .Values.traces.jaeger.grpc }}
+            grpc:
+              endpoint: 0.0.0.0:14250
+            {{- end }}
+        {{- end }}
+        {{- if .Values.traces.zipkin}}
+        zipkin:
+          endpoint: 0.0.0.0:9411
+        {{- end }}
+        {{- if or (.Values.traces.otlp.http) (.Values.traces.otlp.grpc) }}
+        otlp:
+          protocols:
+            {{- if .Values.traces.otlp.http }}
+            http:
+              endpoint: 0.0.0.0:55681
+            {{- end }}
+            {{- if .Values.traces.otlp.grpc }}
+            grpc:
+              endpoint: 0.0.0.0:4317
+            {{- end }}
+        {{- end }}
+        {{- if .Values.traces.opencensus}}
+        opencensus:
+          endpoint: 0.0.0.0:55678
+        {{- end }}
+    querier:
+      frontend_worker:
+        frontend_address: {{ include "tempo.queryFrontendFullname" . }}-discovery:9095
+    ingester:
+      lifecycler:
+        ring:
+          replication_factor: 1
+          kvstore:
+            store: memberlist
+        tokens_file_path: /var/tempo/tokens.json
+    memberlist:
+      abort_if_cluster_join_fails: false
+      join_members:
+        - {{ include "tempo.fullname" . }}-gossip-ring
+    overrides:
+      per_tenant_override_config: /conf/overrides.yaml
+    server:
+      http_listen_port: 3100
+    storage:
+      trace:
+        backend: {{.Values.storage.trace.backend}}
+        {{- if eq .Values.storage.trace.backend "gcs"}}
+        gcs:
+          {{- toYaml .Values.storage.trace.gcs | nindent 6}}
+        {{- end}}
+        {{- if eq .Values.storage.trace.backend "s3"}}
+        s3:
+          {{- toYaml .Values.storage.trace.s3 | nindent 6}}
+        {{- end}}
+        {{- if eq .Values.storage.trace.backend "azure"}}
+        azure:
+          {{- toYaml .Values.storage.trace.azure | nindent 6}}
+        {{- end}}
+        blocklist_poll: 5m
+        local:
+          path: /var/tempo/traces
+        wal:
+          path: /var/tempo/wal
+        cache: {{.Values.storage.trace.cache}}
+        {{- if eq .Values.storage.trace.cache "redis"}}
+        redis:
+          {{- toYaml .Values.storage.trace.redis | nindent 6}}
+        {{- end }}
+        {{- if eq .Values.storage.trace.cache "memcached"}}
+        memcached:
+          {{- toYaml .Values.storage.trace.memcached | nindent 6}}
+        {{- end }}

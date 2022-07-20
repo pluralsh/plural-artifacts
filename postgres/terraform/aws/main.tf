@@ -4,6 +4,7 @@ resource "kubernetes_namespace" "postgres" {
 
     labels = {
       "app.kubernetes.io/managed-by" = "plural"
+      "app.plural.sh/name" = "postgres"
     }
   }
 }
@@ -34,6 +35,7 @@ resource "aws_iam_policy" "postgres" {
 resource "aws_s3_bucket" "wal" {
   bucket = var.wal_bucket
   acl    = "private"
+  force_destroy = true
 }
 
 data "aws_iam_policy_document" "postgres" {

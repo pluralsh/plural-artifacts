@@ -1,0 +1,11 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Proxy
+metadata:
+  name: mlflow-trackingserver
+  labels:
+{{ include "mlflow-standalone.labels" . | indent 4 }}
+spec:
+  type: web
+  target: service/trackingserver
+  webConfig:
+    port: 5000

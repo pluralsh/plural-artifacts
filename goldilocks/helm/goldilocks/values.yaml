@@ -1,0 +1,321 @@
+oidcProxy:
+  enabled: false
+  upstream: http://localhost:3000
+  issuer: https://oidc.plural.sh/
+  clientID: ""
+  clientSecret: ""
+  cookieSecret: ""
+  ingress:
+    host: ""
+
+goldilocks:
+  vpa:
+    # vpa.enabled -- If true, the vpa will be installed as a sub-chart
+    enabled: false
+
+  metrics-server:
+    # metrics-server.enabled -- If true, the metrics-server will be installed as a sub-chart
+    enabled: false
+    apiService:
+      create: true
+
+  image:
+    # image.repository -- Repository for the goldilocks image
+    repository: quay.io/fairwinds/goldilocks
+    # image.tag -- The goldilocks image tag to use
+    tag: v3.3.0
+    # image.pullPolicy -- imagePullPolicy - Highly recommended to leave this as `Always`
+    pullPolicy: Always
+
+  nameOverride: ""
+  fullnameOverride: ""
+
+  controller:
+    # controller.enabled -- Whether or not to install the controller deployment
+    enabled: true
+    rbac:
+      # controller.rbac.create -- If set to true, rbac resources will be created for the controller
+      create: true
+    serviceAccount:
+      # controller.serviceAccount.create -- If true, a service account will be created for the controller. If set to false, you must set `controller.serviceAccount.name`
+      create: true
+      # controller.serviceAccount.name -- The name of an existing service account to use for the controller. Combined with `controller.serviceAccount.create`
+      name:
+
+    # controller.flags -- A map of additional flags to pass to the controller
+    flags: {}
+    # controller.logVerbosity -- Controller log verbosity. Can be set from 1-10 with 10 being extremely verbose
+    logVerbosity: "2"
+    # controller.nodeSelector -- Node selector for the controller pod
+    nodeSelector: {}
+    # controller.tolerations -- Tolerations for the controller pod
+    tolerations: []
+    # controller.affinity -- Affinity for the controller pods
+    affinity: {}
+    # controller.resources -- The resources block for the controller pods
+    resources:
+      limits:
+        cpu: 25m
+        memory: 32Mi
+      requests:
+        cpu: 25m
+        memory: 32Mi
+    # controller.podSecurityContext -- Defines the podSecurityContext for the controller pod
+    podSecurityContext: {}
+    # controller.securityContext -- The container securityContext for the controller container
+    securityContext:
+      readOnlyRootFilesystem: true
+      allowPrivilegeEscalation: false
+      runAsNonRoot: true
+      runAsUser: 10324
+      capabilities:
+        drop:
+          - ALL
+
+    # controller.deployment.annotations -- Extra annotations for the controller deployment
+    deployment:
+      # controller.deployment.extraVolumeMounts -- Extra volume mounts for the controller container
+      extraVolumeMounts: []
+      # controller.deployment.extraVolumes -- Extra volumes for the controller pod
+      extraVolumes: []
+      # controller.deployment.annotations -- Extra annotations for the controller deployment
+      annotations: {}
+      # controller.deployment.additionalLabels -- Extra labels for the controller deployment
+      additionalLabels: {}
+
+  dashboard:
+    # dashboard.enabled -- If true, the dashboard component will be installed
+    enabled: true
+    # dashboard.replicaCount -- Number of dashboard pods to run
+    replicaCount: 1
+    service:
+      # dashboard.service.type -- The type of the dashboard service
+      type: ClusterIP
+      # dashboard.service.port -- The port to run the dashboard service on
+      port: 80
+      # dashboard.service.annotations -- Extra annotations for the dashboard service
+      annotations: {}
+    # dashboard.logVerbosity -- Dashboard log verbosity. Can be set from 1-10 with 10 being extremely verbose
+    logVerbosity: "2"
+    # dashboard.excludeContainers -- Container names to exclude from displaying in the Goldilocks dashboard
+    excludeContainers: "linkerd-proxy,istio-proxy"
+    rbac:
+      # dashboard.rbac.create -- If set to true, rbac resources will be created for the dashboard
+      create: true
+    serviceAccount:
+      # dashboard.serviceAccount.create -- If true, a service account will be created for the dashboard. If set to false, you must set `dashboard.serviceAccount.name`
+      create: true
+      # dashboard.serviceAccount.name -- The name of an existing service account to use for the controller. Combined with `dashboard.serviceAccount.create`
+      name:
+
+    # dashboard.deployment.annotations -- Extra annotations for the dashboard deployment
+    deployment:
+      # dashboard.deployment.annotations -- Extra annotations for the dashboard deployment
+      annotations: {}
+      # dashboard.deployment.additionalLabels -- Extra labels for the dashboard deployment
+      additionalLabels: {}
+      # dashboard.deployment.extraVolumeMounts -- Extra volume mounts for the dashboard container
+      extraVolumeMounts: []
+      # dashboard.deployment.extraVolumes -- Extra volumes for the dashboard pod
+      extraVolumes: []
+
+    ingress:
+      # dashboard.ingress.enabled -- Enables an ingress object for the dashboard.
+      enabled: false
+      annotations: {}
+        # kubernetes.io/ingress.class: nginx
+        # kubernetes.io/tls-acme: "true"
+      hosts:
+        - host: chart-example.local
+          paths: []
+
+      tls: []
+      #  - secretName: chart-example-tls
+      #    hosts:
+      #      - chart-example.local
+
+    # dashboard.resources -- A resources block for the dashboard.
+    resources:
+      limits:
+        cpu: 25m
+        memory: 32Mi
+      requests:
+        cpu: 25m
+        memory: 32Mi
+    # dashboard.podSecurityContext -- Defines the podSecurityContext for the dashboard pod
+    podSecurityContext: {}
+    # dashboard.securityContext -- The container securityContext for the dashboard container
+    securityContext:
+      readOnlyRootFilesystem: true
+      allowPrivilegeEscalation: false
+      runAsNonRoot: true
+      runAsUser: 10324
+      capabilities:
+        drop:
+          - ALL
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}
+
+vpa:
+  # Default values for vertical-pod-autoscaler.
+  # This is a YAML-formatted file.
+  # Declare variables to be passed into your templates.
+
+  # imagePullSecrets -- A list of image pull secrets to be used for all pods
+  imagePullSecrets: []
+  # priorityClassName -- To set the priorityclass for all pods
+  priorityClassName: ""
+  # nameOverride -- A template override for the name
+  nameOverride: ""
+  # fullnameOverride -- A template override for the fullname
+  fullnameOverride: ""
+  rbac:
+    # rbac.create -- If true, then rbac resources (clusterroles and clusterrolebindings) will be created for the selected components.
+    create: true
+
+  serviceAccount:
+    # serviceAccount.create -- Specifies whether a service account should be created for each component
+    create: true
+    # serviceAccount.annotations -- Annotations to add to the service accounts for each component
+    annotations: {}
+    # serviceAccount.name -- The base name of the service account to use (appended with the component). If not set and create is true, a name is generated using the fullname template and appended for each component
+    name: ""
+    # serviceAccount.automountServiceAccountToken -- Automount API credentials for the Service Account
+    automountServiceAccountToken: true
+
+  recommender:
+    # recommender.enabled -- If true, the vpa recommender component will be installed.
+    enabled: true
+    # recommender.extraArgs -- A set of key-value flags to be passed to the recommender
+    extraArgs:
+      v: "4"
+      pod-recommendation-min-cpu-millicores: 15
+      pod-recommendation-min-memory-mb: 100
+      storage: prometheus
+      prometheus-address: http://monitoring-prometheus.monitoring.svc:9090
+      prometheus-cadvisor-job-name: kubelet
+      pod-namespace-label: namespace
+      pod-name-label: pod
+      pod-label-prefix: ""
+      container-name-label: name
+      container-namespace-label: namespace
+      container-pod-name-label: pod
+      history-length: 1d
+      memory-saver:
+    replicaCount: 1
+    # recommender.podDisruptionBudget -- This is the setting for the pod disruption budget
+    podDisruptionBudget: {}
+      # maxUnavailable: 1
+    image:
+      # recommender.image.repository -- The location of the recommender image
+      repository: us.gcr.io/k8s-artifacts-prod/autoscaling/vpa-recommender
+      # recommender.image.pullPolicy -- The pull policy for the recommender image. Recommend not changing this
+      pullPolicy: Always
+      # recommender.image.tag -- Overrides the image tag whose default is the chart appVersion
+      tag: ""
+    # recommender.podAnnotations -- Annotations to add to the recommender pod
+    podAnnotations: {}
+    # recommender.podSecurityContetxt -- The security context for the recommender pod
+    podSecurityContext:
+      runAsNonRoot: true
+      runAsUser: 65534
+    # recommender.securityContext -- The security context for the containers inside the recommender pod
+    securityContext: {}
+    # recommender.resources -- The resources block for the recommender pod
+    resources:
+      limits:
+        cpu: 200m
+        memory: 1000Mi
+      requests:
+        cpu: 50m
+        memory: 500Mi
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}
+
+  updater:
+    # updater.enabled -- If true, the updater component will be deployed
+    enabled: true
+    # updater.extraArgs -- A key-value map of flags to pass to the updater
+    extraArgs: {}
+    replicaCount: 1
+    # updater.podDisruptionBudget -- This is the setting for the pod disruption budget
+    podDisruptionBudget: {}
+      # maxUnavailable: 1
+    image:
+      # updater.image.repository -- The location of the updater image
+      repository: us.gcr.io/k8s-artifacts-prod/autoscaling/vpa-updater
+      # updater.image.pullPolicy -- The pull policy for the updater image. Recommend not changing this
+      pullPolicy: Always
+      # updater.image.tag -- Overrides the image tag whose default is the chart appVersion
+      tag: ""
+    # updater.podAnnotations -- Annotations to add to the updater pod
+    podAnnotations: {}
+    # updater.podSecurityContetxt -- The security context for the updater pod
+    podSecurityContext:
+      runAsNonRoot: true
+      runAsUser: 65534
+    # updater.securityContext -- The security context for the containers inside the updater pod
+    securityContext: {}
+    # updater.resources -- The resources block for the updater pod
+    resources:
+      limits:
+        cpu: 200m
+        memory: 1000Mi
+      requests:
+        cpu: 50m
+        memory: 500Mi
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}
+
+  admissionController:
+    # admissionController.enabled -- If true, will install the admission-controller component of vpa
+    enabled: false
+    # admissionController.generateCertificate -- If true and admissionController is enabled, a pre-install hook will run to create the certificate for the webhook
+    generateCertificate: true
+    certGen:
+      image:
+        # admissionController.certGen.image.repository -- An image that contains certgen for creating certificates. Only used if admissionController.generateCertificate is true
+        repository: quay.io/reactiveops/ci-images
+        # admissionController.certGen.image.tag -- An image tag for the admissionController.certGen.image.repository image. Only used if admissionController.generateCertificate is true
+        tag: v11-alpine
+        # admissionController.certGen.image.pullPolicy -- The pull policy for the certgen image. Recommend not changing this
+        pullPolicy: Always
+        # admissionController.certGen.env -- Additional environment variables to be added to the certgen container. Format is KEY: Value format
+      env: {}
+      # admissionController.certGen.resources -- The resources block for the certgen pod
+      resources: {}
+    # admissionController.cleanupOnDelete -- If true, a post-delete job will remove the mutatingwebhookconfiguration and the tls secret for the admission controller
+    cleanupOnDelete: true
+    replicaCount: 1
+    # admissionController.podDisruptionBudget -- This is the setting for the pod disruption budget
+    podDisruptionBudget: {}
+      # maxUnavailable: 1
+    image:
+      # admissionController.image.repository -- The location of the vpa admission controller image
+      repository: us.gcr.io/k8s-artifacts-prod/autoscaling/vpa-admission-controller
+      # admissionController.image.pullPolicy -- The pull policy for the admission controller image. Recommend not changing this
+      pullPolicy: Always
+      # admissionController.image.tag -- Overrides the image tag whose default is the chart appVersion
+      tag: ""
+    # admissionController.podAnnotations -- Annotations to add to the admission controller pod
+    podAnnotations: {}
+    # admissionController.podSecurityContetxt -- The security context for the admission controller pod
+    podSecurityContext:
+      runAsNonRoot: true
+      runAsUser: 65534
+    # admissionController.securityContext -- The security context for the containers inside the admission controller pod
+    securityContext: {}
+    # admissionController.resources -- The resources block for the admission controller pod
+    resources:
+      limits:
+        cpu: 200m
+        memory: 500Mi
+      requests:
+        cpu: 50m
+        memory: 200Mi
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}

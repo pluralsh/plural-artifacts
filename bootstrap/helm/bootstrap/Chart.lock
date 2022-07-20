@@ -1,30 +1,30 @@
 dependencies:
 - name: external-dns
-  repository: https://charts.bitnami.com/bitnami
+  repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
   version: 4.11.0
 - name: metrics-server
-  repository: https://charts.bitnami.com/bitnami
+  repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
   version: 5.8.7
-- name: kube-prometheus-stack
-  repository: https://prometheus-community.github.io/helm-charts
-  version: 15.4.6
-- name: loki-stack
-  repository: https://grafana.github.io/loki/charts
-  version: 0.40.1
-- name: ingress-nginx
-  repository: https://kubernetes.github.io/ingress-nginx
-  version: 3.29.0
 - name: cert-manager
   repository: https://charts.jetstack.io
-  version: v1.4.0
+  version: v1.8.2
 - name: cluster-autoscaler
-  repository: https://kubernetes.github.io/autoscaler
-  version: 9.9.2
-- name: kubed
-  repository: https://charts.appscode.com/stable
-  version: v0.13.0-beta.0
+  repository: https://pluralsh.github.io/plural-helm-charts
+  version: 9.11.0
 - name: aws-load-balancer-controller
   repository: https://aws.github.io/eks-charts
-  version: 1.1.6
-digest: sha256:b0ed5e607f6cb5215fb5369175dc1d329622d58ca11b873c9c43d74909f8c1b6
-generated: "2021-06-23T16:35:24.915971-04:00"
+  version: 1.2.3
+- name: aws-ebs-csi-driver
+  repository: https://kubernetes-sigs.github.io/aws-ebs-csi-driver
+  version: 2.6.2
+- name: snapshot-validation-webhook
+  repository: https://piraeus.io/helm-charts/
+  version: 1.2.1
+- name: snapshot-controller
+  repository: https://piraeus.io/helm-charts/
+  version: 1.2.1
+- name: tigera-operator
+  repository: https://docs.projectcalico.org/charts
+  version: v3.21.3
+digest: sha256:1953fc906c0e59274fe7cfadc1ab753116602ee866f2effbcbc30e64fa980025
+generated: "2022-07-01T13:34:12.753712685+02:00"

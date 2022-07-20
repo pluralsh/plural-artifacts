@@ -1,0 +1,256 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Runbook
+metadata:
+  name: scaling-manual
+  labels:
+    platform.plural.sh/pinned: 'true'
+{{ include "gitlab-plural.labels" . | indent 4 }}
+spec:
+  name: Gitlab Scaling
+  description: overview of how to optimally scale your gitlab deployment
+  alerts:
+  - name: GitlabGitalyCPU
+  - name: GitlabGitalyMEM
+  display: |-
+{{ .Files.Get "runbooks/scaling-manual.xml" | indent 4 }}
+  datasources:
+  - name: web-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"gitlab-webservice-default-[a-z0-9]+-[a-z0-9]+"}[5m])) by (pod)
+  - name: web-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"gitlab-webservice-default-[a-z0-9]+-[a-z0-9]+"}) by (pod)
+  - name: gitaly-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"gitlab-gitaly-[0-9]+"}[5m])) by (pod)
+  - name: gitaly-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"gitlab-gitaly-[0-9]+"}) by (pod)
+  - name: sidekiq-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"gitlab-sidekiq-all-in-1-v1-[a-z0-9]+-[a-z0-9]+"}[5m])) by (pod)
+  - name: sidekiq-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"gitlab-sidekiq-all-in-1-v1-[a-z0-9]+-[a-z0-9]+"}) by (pod)
+  - name: web
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: gitlab-webservice-default
+  - name: gitaly
+    type: kubernetes
+    kubernetes:
+      resource: statefulset
+      name: gitlab-gitaly
+  - name: sidekiq
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: gitlab-sidekiq-all-in-1-v1
+  - name: nodes
+    type: nodes
+  actions:
+  - name: web-scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+      - path: 
+        - gitlab
+        - gitlab
+        - gitlab
+        - webservice
+        - resources
+        - requests
+        - cpu
+        valueFrom: influx-cpu
+      - path:
+        - gitlab
+        - gitlab
+        - gitlab
+        - webservice
+        - resources
+        - requests
+        - memory
+        valueFrom: influx-memory
+  - name: gitaly-scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+      - path: 
+        - gitlab
+        - gitlab
+        - gitlab
+        - gitaly
+        - resources
+        - requests
+        - cpu
+        valueFrom: kap-cpu
+      - path:
+        - gitlab
+        - gitlab
+        - gitlab
+        - gitaly
+        - resources
+        - requests
+        - memory
+        valueFrom: kap-memory
+  - name: sidekiq-scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+      - path: 
+        - gitlab
+        - gitlab
+        - gitlab
+        - sidekiq
+        - resources
+        - requests
+        - cpu
+        valueFrom: chron-cpu
+      - path:
+        - gitlab
+        - gitlab
+        - gitlab
+        - sidekiq
+        - resources
+        - requests
+        - memory
+        valueFrom: chron-memory
+---
+apiVersion: platform.plural.sh/v1alpha1
+kind: Runbook
+metadata:
+  name: db-scaling
+  labels:
+    platform.plural.sh/pinned: 'true'
+{{ include "gitlab-plural.labels" . | indent 4 }}
+spec:
+  name: Postgres Scaling
+  description: overview of how to accurately scale gitlab's postgres instance
+  alerts:
+  - name: GitlabPostgresCPU
+  - name: GitlabPostgresMEM
+  display: |-
+{{ .Files.Get "runbooks/db-scaling.xml" | indent 4 }}
+  datasources:
+  - name: cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"plural-gitlab-[0-9]+"}[5m])) by (pod)
+  - name: memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"plural-gitlab-[0-9]+"}) by (pod)
+  - name: volume
+    type: prometheus
+    prometheus:
+      format: none
+      legend: $persistentvolumeclaim
+      query: (kubelet_volume_stats_capacity_bytes{namespace="{{ .Release.Namespace }}", persistentvolumeclaim=~"pgdata-plural-gitlab-.*"} - kubelet_volume_stats_available_bytes{namespace="{{ .Release.Namespace }}", persistentvolumeclaim=~"pgdata-plural-gitlab-.*"}) / kubelet_volume_stats_capacity_bytes{namespace="{{ .Release.Namespace }}", persistentvolumeclaim=~"pgdata-plural-gitlab-.*"}
+  - name: statefulset
+    type: kubernetes
+    kubernetes:
+      resource: statefulset
+      name: plural-gitlab
+  - name: nodes
+    type: nodes
+  actions:
+  - name: scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+      - path: 
+        - gitlab
+        - postgres
+        - resources
+        - requests
+        - cpu
+        valueFrom: cpu
+      - path:
+        - gitlab
+        - postgres
+        - resources
+        - requests
+        - memory
+        valueFrom: memory
+      - path:
+        - gitlab
+        - postgres
+        - replicas
+        valueFrom: replicas
+      - path:
+        - gitlab
+        - postgres
+        - storage
+        - size
+        valueFrom: volume
+---
+apiVersion: platform.plural.sh/v1alpha1
+kind: Runbook
+metadata:
+  name: volume-scaling
+  labels:
+    platform.plural.sh/pinned: 'true'
+{{ include "gitlab-plural.labels" . | indent 4 }}
+spec:
+  name: Gitaly Volume Scaling
+  description: overview of how to optimally scale your gitaly persistent volumes
+  alerts:
+  - name: GitlabGitalyVolumeFull
+  display: |-
+{{ .Files.Get "runbooks/volume-scaling.xml" | indent 4 }}
+  datasources:
+  - name: gitaly-volume
+    type: prometheus
+    prometheus:
+      format: none
+      legend: $persistentvolumeclaim
+      query: (kubelet_volume_stats_capacity_bytes{namespace="{{ .Release.Namespace }}", persistentvolumeclaim=~"repo-data-.*"} - kubelet_volume_stats_available_bytes{namespace="{{ .Release.Namespace }}", persistentvolumeclaim=~"repo-data-.*"}) / kubelet_volume_stats_capacity_bytes{namespace="{{ .Release.Namespace }}", persistentvolumeclaim=~"repo-data-.*"}
+  - name: gitaly
+    type: kubernetes
+    kubernetes:
+      resource: statefulset
+      name: gitlab-gitaly
+  actions:
+  - name: volume-scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      statefulSets:
+      - name: gitlab-gitaly
+        persistentVolume: repo-data
+        valueFrom: gitaly-storage
+      updates:
+      - path: 
+        - gitlab
+        - gitlab
+        - gitaly
+        - persistence
+        - size
+        valueFrom: gitaly-storage

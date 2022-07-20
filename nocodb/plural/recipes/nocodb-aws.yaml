@@ -1,0 +1,21 @@
+name: nocodb-aws
+description: Installs nocodb on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+- repo: postgres
+  name: aws-postgres
+sections:
+- name: nocodb
+  configuration:
+  - name: hostname
+    documentation: Fully Qualified Domain Name to use for your nocodb installation
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: nocodb

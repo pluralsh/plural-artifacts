@@ -1,0 +1,35 @@
+name: airbyte-azure
+description: Installs airbyte on an azure aks cluster
+provider: AZURE
+oidcSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-azure
+- repo: postgres
+  name: azure-postgres
+- repo: minio
+  name: minio-azure
+sections:
+- name: airbyte
+  configuration:
+  - name: airbyteBucket
+    type: BUCKET
+    default: airbyte
+    documentation: Arbitrary bucket name to store airbyte logs in
+  - name: hostname
+    type: DOMAIN
+    documentation: the fully qualified domain name your airbyte instance will be available at
+  - name: privateHostname
+    documentation: a private dns name to securely access the airbyte api from
+    type: DOMAIN
+    optional: true
+  items:
+  - type: TERRAFORM
+    name: azure
+  - type: HELM
+    name: airbyte

@@ -1,0 +1,16 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  labels: {{- include "central-dashboard.labels" . | nindent 4 }}
+  name: {{ include "central-dashboard.fullname" . }}
+  namespace: kubeflow
+spec:
+  action: ALLOW
+  rules:
+    - from:
+        - source:
+            principals:
+              - cluster.local/ns/{{ .Values.global.istioNamespace }}/sa/istio-ingressgateway-service-account
+  selector:
+    matchLabels:
+      {{- include "central-dashboard.selectorLabels" . | nindent 6 }}

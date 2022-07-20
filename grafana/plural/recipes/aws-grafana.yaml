@@ -1,19 +1,23 @@
 name: aws-grafana
 description: Installs grafana on an EKS cluster
 provider: AWS
+oidcSettings:
+  authMethod: POST
+  uriFormat: https://{domain}/login/generic_oauth
+  domainKey: hostname
 dependencies:
 - repo: bootstrap
   name: aws-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-aws
 sections:
 - name: grafana
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for your grafana installation
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: aws
-    configuration: []
   - type: HELM
     name: grafana
-    configuration:
-    - name: hostname
-      documentation: FQDN to use for your grafana installation
-      type: STRING
-  

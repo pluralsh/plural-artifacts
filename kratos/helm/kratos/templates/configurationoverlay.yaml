@@ -1,0 +1,27 @@
+{{- define "kratos-plural.config-overlay" -}}
+apiVersion: platform.plural.sh/v1alpha1
+kind: ConfigurationOverlay
+metadata:
+  name: {{ .name }}
+  labels:
+{{ include "kratos-plural.labels" . | indent 4 }}
+{{ if .labels }}
+  {{ toYaml .labels | nindent 4 }}
+{{ end }}
+spec:
+{{ toYaml .spec | nindent 2 }}
+{{- end -}}
+
+{{ $context := deepCopy . }}
+{{ $rendered := false }}
+{{ range $key, $overlay := .Values.configOverlays }}
+  {{- $_ := set $context "name" $key -}}
+  {{- $_ := set $context "labels" $overlay.labels -}}
+  {{- $_ := set $context "annotations" $overlay.annotations -}}
+  {{- $_ := set $context "spec" $overlay.spec -}}
+  {{ if $rendered }}
+---
+  {{ end }}
+  {{ include "kratos-plural.config-overlay" $context | nindent 0 }}
+  {{- $rendered = true -}}
+{{- end -}}

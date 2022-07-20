@@ -4,6 +4,8 @@ resource "kubernetes_namespace" "airflow" {
 
     labels = {
       "app.kubernetes.io/managed-by" = "plural"
+      "app.plural.sh/name" = "airflow"
+      "platform.plural.sh/sync-target" = "pg"
     }
   }
 }
@@ -29,8 +31,9 @@ resource "aws_iam_policy" "airflow" {
 }
 
 resource "aws_s3_bucket" "airflow" {
-  bucket = var.airflow_bucket
-  acl    = "private"
+  bucket         = var.airflow_bucket
+  acl            = "private"
+  force_destroy  = true
 }
 
 data "aws_iam_policy_document" "airflow" {

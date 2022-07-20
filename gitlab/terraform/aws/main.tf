@@ -4,6 +4,8 @@ resource "kubernetes_namespace" "gitlab" {
 
     labels = {
       "app.kubernetes.io/managed-by" = "plural"
+      "app.plural.sh/name" = "gitlab"
+      "platform.plural.sh/sync-target" = "pg"
     }
   }
 }
@@ -45,43 +47,57 @@ resource "aws_iam_policy" "gitlab_runner" {
 }
 
 resource "aws_s3_bucket" "registry" {
-  bucket = var.registry_bucket
-  acl    = "private"
+  bucket        = var.registry_bucket
+  acl           = "private"
+  force_destroy = true
 }
 
 resource "aws_s3_bucket" "lfs" {
-  bucket = var.lfs_bucket
-  acl    = "private"
+  bucket        = var.lfs_bucket
+  acl           = "private"
+  force_destroy = true
 }
 
 resource "aws_s3_bucket" "artifacts" {
-  bucket = var.artifacts_bucket
-  acl    = "private"
+  bucket        = var.artifacts_bucket
+  acl           = "private"
+  force_destroy = true
 }
 
 resource "aws_s3_bucket" "packages" {
-  bucket = var.packages_bucket
-  acl    = "private"
+  bucket        = var.packages_bucket
+  acl           = "private"
+  force_destroy = true
 }
 
 resource "aws_s3_bucket" "backups" {
-  bucket = var.backups_bucket
-  acl    = "private"
+  bucket        = var.backups_bucket
+  acl           = "private"
+  force_destroy = true
 }
 
 resource "aws_s3_bucket" "backups_tmp" {
-  bucket = var.backups_tmp_bucket
-  acl    = "private"
+  bucket        = var.backups_tmp_bucket
+  acl           = "private"
+  force_destroy = true
 }
 
 resource "aws_s3_bucket" "uploads" {
-  bucket = var.uploads_bucket
-  acl    = "private"
+  bucket        = var.uploads_bucket
+  acl           = "private"
+  force_destroy = true
+}
+
+resource "aws_s3_bucket" "terraform_state" {
+  bucket        = var.terraform_bucket
+  acl           = "private"
+  force_destroy = true
 }
 
 resource "aws_s3_bucket" "runner_cache" {
   bucket = var.runner_cache_bucket
   acl    = "private"
+  force_destroy = true
 }
 
 data "aws_iam_policy_document" "gitlab" {

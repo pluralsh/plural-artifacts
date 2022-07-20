@@ -1,0 +1,220 @@
+# Default values for pipelines.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+global:
+  domain: kubeflow.kubeflow-aws.com
+  istioNamespace: istio
+  clusterDomain: cluster.local
+  userIDHeader: kubeflow-userid
+  userIDPrefix: ""
+  oidcIssuer: https://oidc.plural.sh/
+  jwksURI: https://oidc.plural.sh/.well-known/jwks.json
+
+replicaCount: 1
+
+config:
+  databases:
+    connection:
+      host: kubeflow-mysql-cluster-mysql-master.kubeflow.svc.cluster.local
+      port: 3306
+      username: pipelines
+      password: SuperSecurePassword
+    pipelineDB: mlpipeline
+    metadataDB: metadb
+    cacheDB: cachedb
+  objectStore:
+    bucketHost: s3.amazonaws.com
+    bucketName: pipelines-bucket
+    bucketRegion: us-east-2
+
+image:
+  repository: gcr.io/ml-pipeline/frontend
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: 1.8.1
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations:
+  sidecar.istio.io/inject: "true"
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  port: 80
+
+virtualService:
+  annotations: {}
+  prefix: /pipeline
+  gateways:
+    - kubeflow-gateway
+  hosts:
+    - '*'
+
+apiServer:
+  image:
+    repository: gcr.io/ml-pipeline/api-server
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: 1.8.1
+  service:
+    http:
+      port: 8888
+    grpc:
+      port: 8887
+
+persistenceAgent:
+  image:
+    repository: gcr.io/ml-pipeline/persistenceagent
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: 1.8.1
+
+scheduledWorkflow:
+  image:
+    repository: gcr.io/ml-pipeline/scheduledworkflow
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: 1.8.1
+
+viewerController:
+  image:
+    repository: gcr.io/ml-pipeline/viewer-crd-controller
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: 1.8.1
+
+visualizationServer:
+  image:
+    repository: gcr.io/ml-pipeline/visualization-server
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: 1.8.1
+  service:
+    port: 8888
+
+argoWorkflowController:
+  image:
+    repository: gcr.io/ml-pipeline/workflow-controller
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: v3.2.3-license-compliance
+  resources:
+    requests:
+      cpu: 100m
+      memory: 500Mi
+    limits:
+      cpu: 100m
+      memory: 500Mi
+  securityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+      - ALL
+    readOnlyRootFilesystem: true
+    runAsNonRoot: true
+  podAnnotations:
+    sidecar.istio.io/inject: "true"
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+    prometheus.io/port: "9090"
+    prometheus.io/scheme: http
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /metrics
+  podSecurityContext: {}
+  service:
+    port: 9090
+
+cache:
+  server:
+    image:
+      repository: gcr.io/ml-pipeline/cache-server
+      pullPolicy: IfNotPresent
+      # Overrides the image tag whose default is the chart appVersion.
+      tag: 1.8.1
+    service:
+      port: 443
+  deployer:
+    image:
+      repository: gcr.io/ml-pipeline/cache-deployer
+      pullPolicy: IfNotPresent
+      # Overrides the image tag whose default is the chart appVersion.
+      tag: 1.8.1
+
+metadata:
+  envoy:
+    image:
+      repository: gcr.io/ml-pipeline/metadata-envoy
+      pullPolicy: IfNotPresent
+      # Overrides the image tag whose default is the chart appVersion.
+      tag: 1.8.1
+    service:
+      port: 9090
+      admin:
+        port: 9901
+  grpc:
+    image:
+      repository: gcr.io/tfx-oss-public/ml_metadata_store_server
+      pullPolicy: IfNotPresent
+      # Overrides the image tag whose default is the chart appVersion.
+      tag: 1.5.0
+    service:
+      port: 8080
+    virtualService:
+      annotations: {}
+      prefix: /ml_metadata
+      gateways:
+        - kubeflow-gateway
+      hosts:
+        - '*'
+  writer:
+    image:
+      repository: gcr.io/ml-pipeline/metadata-writer
+      pullPolicy: IfNotPresent
+      # Overrides the image tag whose default is the chart appVersion.
+      tag: 1.8.1
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

@@ -1,0 +1,13 @@
+name: superset
+description: open source data visualization
+category: DATA
+icon: plural/icons/superset.png
+notes: plural/notes.tpl
+homepage: https://superset.apache.org/
+gitUrl: https://github.com/apache/superset
+oauthSettings:
+  uriFormat: https://{domain}/oauth-authorized/plural
+  authMethod: POST
+tags:
+- tag: apache
+- tag: data-science

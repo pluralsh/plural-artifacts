@@ -1,0 +1,21 @@
+name: nextcloud-azure
+description: Installs nextcloud on an azure aks cluster
+provider: AZURE
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+sections:
+- name: nextcloud
+  configuration:
+  - name: nextcloud_bucket
+    type: BUCKET
+    defualt: nextcloud
+    documentation: bucket to store nextcloud data
+  - name: hostname
+    documentation: FQDN to use for your nextcloud installation
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: azure
+  - type: HELM
+    name: nextcloud

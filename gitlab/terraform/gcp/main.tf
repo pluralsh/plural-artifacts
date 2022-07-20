@@ -1,14 +1,11 @@
-locals {
-  gcp_location_parts = split("-", var.gcp_location)
-  gcp_region         = "${local.gcp_location_parts[0]}-${local.gcp_location_parts[1]}"
-}
-
 resource "kubernetes_namespace" "gitlab" {
   metadata {
     name = var.namespace
 
     labels = {
       "app.kubernetes.io/managed-by" = "plural"
+      "app.plural.sh/name" = "gitlab"
+      "platform.plural.sh/sync-target" = "pg"
     }
   }
 }
@@ -45,42 +42,104 @@ resource "google_storage_bucket" "registry_bucket" {
   name = var.registry_bucket
   project = var.gcp_project_id
   force_destroy = true
+  location = var.bucket_location
+  
+  lifecycle {
+    ignore_changes = [
+      location,
+    ]
+  }
 }
 
 resource "google_storage_bucket" "packages_bucket" {
   name = var.packages_bucket
   project = var.gcp_project_id
   force_destroy = true
+  location = var.bucket_location
+  
+  lifecycle {
+    ignore_changes = [
+      location,
+    ]
+  }
 }
 
 resource "google_storage_bucket" "artifacts_bucket" {
   name = var.artifacts_bucket
   project = var.gcp_project_id
   force_destroy = true
+  location = var.bucket_location
+  
+  lifecycle {
+    ignore_changes = [
+      location,
+    ]
+  }
 }
 
 resource "google_storage_bucket" "backups_bucket" {
   name = var.backups_bucket
   project = var.gcp_project_id
   force_destroy = true
+  location = var.bucket_location
+  
+  lifecycle {
+    ignore_changes = [
+      location,
+    ]
+  }
 }
 
 resource "google_storage_bucket" "backups_tmp_bucket" {
   name = var.backups_tmp_bucket
   project = var.gcp_project_id
   force_destroy = true
+  location = var.bucket_location
+  
+  lifecycle {
+    ignore_changes = [
+      location,
+    ]
+  }
 }
 
 resource "google_storage_bucket" "lfs_bucket" {
   name = var.lfs_bucket
   project = var.gcp_project_id
   force_destroy = true
+  location = var.bucket_location
+  
+  lifecycle {
+    ignore_changes = [
+      location,
+    ]
+  }
 }
 
 resource "google_storage_bucket" "runner_cache" {
   name = var.runner_cache_bucket
   project = var.gcp_project_id
   force_destroy = true
+  location = var.bucket_location
+  
+  lifecycle {
+    ignore_changes = [
+      location,
+    ]
+  }
+}
+
+resource "google_storage_bucket" "terraform_bucket" {
+  name = var.terraform_bucket
+  project = var.gcp_project_id
+  force_destroy = true
+  location = var.bucket_location
+  
+  lifecycle {
+    ignore_changes = [
+      location,
+    ]
+  }
 }
 
 resource "google_storage_bucket_iam_member" "registry" {
@@ -143,6 +202,26 @@ resource "google_storage_bucket_iam_member" "lfs" {
   ]
 }
 
+resource "google_storage_bucket_iam_member" "runner-gitlab" {
+  bucket = google_storage_bucket.runner_cache_bucket.name
+  role = "roles/storage.admin"
+  member = "serviceAccount:${module.gitlab-workflow-identity.gcp_service_account_email}"
+
+  depends_on = [
+    google_storage_bucket.runner_cache_bucket,
+  ]
+}
+
+resource "google_storage_bucket_iam_member" "tf-gitlab" {
+  bucket = google_storage_bucket.terraform_bucket.name
+  role = "roles/storage.admin"
+  member = "serviceAccount:${module.gitlab-workflow-identity.gcp_service_account_email}"
+
+  depends_on = [
+    google_storage_bucket.terraform_bucket,
+  ]
+}
+
 resource "google_storage_bucket_iam_member" "runner" {
   bucket = google_storage_bucket.runner_cache_bucket.name
   role = "roles/storage.admin"
@@ -150,6 +229,16 @@ resource "google_storage_bucket_iam_member" "runner" {
 
   depends_on = [
     google_storage_bucket.runner_cache_bucket,
+  ]
+}
+
+resource "google_storage_bucket_iam_member" "terraform" {
+  bucket = google_storage_bucket.terraform_bucket.name
+  role = "roles/storage.admin"
+  member = "serviceAccount:${module.gitlab-runner-workflow-identity.gcp_service_account_email}"
+
+  depends_on = [
+    google_storage_bucket.terraform_bucket,
   ]
 }
 

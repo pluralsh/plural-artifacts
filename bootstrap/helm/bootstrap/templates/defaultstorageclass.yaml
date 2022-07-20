@@ -1,0 +1,17 @@
+{{- if and (eq .Values.provider "aws") ( index .Values "aws-ebs-csi-driver" "enabled") }}
+apiVersion: platform.plural.sh/v1alpha1
+kind: DefaultStorageClass
+metadata:
+  name: default
+  labels: {{ include "bootstrap.labels" . | nindent 4 }}
+spec:
+  name: ebs-csi
+{{- else if eq .Values.provider "google" }}
+apiVersion: platform.plural.sh/v1alpha1
+kind: DefaultStorageClass
+metadata:
+  name: default
+  labels: {{ include "bootstrap.labels" . | nindent 4 }}
+spec:
+  name: standard-rwo
+{{- end }}

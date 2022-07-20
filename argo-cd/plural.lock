@@ -1,0 +1,25 @@
+artifact: {}
+terraform:
+  terraform/aws: h1:6gb6LiSzLndhCIhUCwzszR9xXID39iq32k0YkYfoN+0=
+  terraform/azure: h1:yZyl+PThZHBDNxIvKUx9V5C4wM8m+xmh4HFYmXJHGwg=
+  terraform/gcp: h1:Er6eTB0w67NTjpK3WV/L149BWG4iQTO2Ru4YwjeEtQg=
+helm:
+  helm/argo-cd: h1:GMFn9Vbpv/BjaHUL+Bx3ug0FTSZt8o06OTaG7m63eEE=
+  helm/argocd: h1:ekOxLom9wLnGvjVcvCZU1cGpbS+uEiTm/LAq8ZM0Vz4=
+recipe:
+  plural/recipes/argo-cd-aws.yaml: 290add42112191493d6bab4b296b70af35e2143ae834dc4f27f61465790f1da1
+  plural/recipes/argo-cd-azure.yaml: 7cd4d261b478e4ed679d54096b22d810a209e4d277743d8e1e40a62587983b31
+  plural/recipes/argo-cd-gcp.yaml: 555f2e2ce2c76837c96652b427f6cb17f2aca2647a5f3a584a1381250f5365da
+integration: {}
+crd:
+  plural/crds/crd-application.yaml: b947869a3c2ebe23658bbc7fbaa859356ffdf4c43ff4e6a97afc6882f983e361:h1:iDlstodACZCiHEZkdUrOWAdDnaxzrYIhVL4MLo3ZEBc=
+  plural/crds/crd-project.yaml: db83363cb8cfe305fc3bcfbbff07a09a288068ccb182f2e0a3cd1d762dd0dae4:h1:iDlstodACZCiHEZkdUrOWAdDnaxzrYIhVL4MLo3ZEBc=
+ird: {}
+tag:
+  plural/tags/helm/argo-cd.yaml: bc8716bed26920a22fd5b0126a3968c65cdfabe20518a3c257ce001e9513fd3b
+  plural/tags/helm/argocd.yaml: bf0dc31a3f496a77c487690218ce4a0f63cda5574d04acfbf6cf2e1d40a7a1fa
+  plural/tags/terraform/aws.yaml: 01c402c260cc7fe359d1ebc4302ff11539cfabbd5a82745907ad445914153bb7
+  plural/tags/terraform/azure.yaml: 86b17dc5dcbc7d877dddbda68b790231f9f7eaa025d00471360108ccd5f42a07
+  plural/tags/terraform/gcp.yaml: 3761f7e078206cf85f48969d231071adfb3b68ee68b7c68a2b50045e896a3288
+attrs:
+  repository.yaml_Plural: 48xJNnot9zJGW0eMUFOrk0m-4mx-o6py_-5G9A-nN4A=

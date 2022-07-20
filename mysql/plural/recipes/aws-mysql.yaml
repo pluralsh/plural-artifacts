@@ -1,18 +1,25 @@
 name: aws-mysql
-description: Installs mysql operator on an EKS cluster
+description: installs mysql operator on an EKS cluster
 provider: AWS
+oidcSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
+  domainKey: hostname
 dependencies:
 - repo: bootstrap
   name: aws-k8s
 sections:
 - name: mysql
+  configuration:
+  - name: backup_bucket
+    documentation: bucket to store mysql backups in
+    type: BUCKET
+    default: mysql-backups
+  - name: hostname
+    documentation: FQDN to use for your accessing the mysql orchestrator
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: aws
-    configuration:
-    - name: backup_bucket
-      documentation: bucket to store mysql backups in
-      type: STRING
   - type: HELM
     name: mysql
-    configuration: []

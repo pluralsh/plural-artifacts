@@ -4,26 +4,13 @@ provider: AZURE
 dependencies: []
 sections:
 - name: bootstrap
+  configuration: []
   items:
   - type: TERRAFORM
     name: azure-bootstrap
-    configuration:
-    - name: dns_domain
-      documentation: top level domain to use
-      type: STRING
   - type: HELM
     name: bootstrap
-    configuration:
-    - name: txt_owner
-      documentation: arbitrary name for externaldns to use to track ownership of dns records, eg "plural"
-      type: STRING
-      default: plural
-    - name: grafana_dns
-      documentation: FQDN for grafana
-      type: STRING
-    - name: ownerEmail
-      type: STRING
-      documentation: email to be used for certificate renewal notifications
   - type: HELM
     name: azure-identity
-    configuration: []
+  - type: HELM
+    name: plural-certmanager-webhook

@@ -13,9 +13,30 @@ data:
       type: prometheus
       access: proxy
       orgId: 1
-      url: http://bootstrap-prometheus.bootstrap:9090
+      url: http://monitoring-prometheus.monitoring:9090
     - name: Loki
       type: loki
       access: proxy
       orgId: 1
-      url: http://bootstrap-loki.bootstrap:3100
+      uid: loki
+      url: http://monitoring-loki.monitoring:3100
+      jsonData:
+        derivedFields:
+          - datasourceName: Tempo
+            matcherRegex: "traceID=(\\w+)"
+            name: TraceID
+            url: "$${__value.raw}"
+            datasourceUid: tempo
+    - name: Tempo
+      type: tempo
+      access: proxy
+      orgId: 1
+      uid: tempo
+      url: http://grafana-tempo-tempo-distributed-query-frontend.grafana-tempo:3100
+      jsonData:
+        tracesToLogs:
+            datasourceUid: loki
+            tags:
+              - cluster
+              - namespace
+              - pod

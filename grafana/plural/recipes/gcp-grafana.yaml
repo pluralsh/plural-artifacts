@@ -1,19 +1,24 @@
 name: gcp-grafana
 description: Installs grafana on a GKE cluster
 provider: GCP
+oidcSettings:
+  authMethod: POST
+  uriFormat: https://{domain}/login/generic_oauth
+  domainKey: hostname
 dependencies:
 - repo: bootstrap
-  name: gcp-kubernetes
+  name: gcp-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
 sections:
 - name: grafana
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for your grafana installation
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: gcp
-    configuration: []
   - type: HELM
     name: grafana
-    configuration:
-    - name: hostname
-      documentation: FQDN to use for your grafana installation
-      type: STRING
   

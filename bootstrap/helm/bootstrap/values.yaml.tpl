@@ -1,6 +1,19 @@
+{{ $pluraldns := .Network.PluralDns }}
+{{ $providerArgs := dict "provider" .Provider "cluster" .Cluster }}
+{{ if eq .Provider "google" }}
+  {{ $_ := set $providerArgs "provider" "gcp" }}
+{{ end }}
+
 external-dns:
+  {{ if $pluraldns }}
+  provider: plural
+  extraArgs:
+    plural-cluster: {{ $providerArgs.cluster }}
+    plural-provider: {{ $providerArgs.provider }}
+  {{ else }}
   provider: {{ .Provider }}
-  txtOwnerId: {{ .Values.txt_owner }}
+  {{ end }}
+  txtOwnerId: {{ default .Cluster .Values.txt_owner }}
 {{ if eq .Provider "azure" }}
   podLabels:
     aadpodidbinding: externaldns
@@ -8,29 +21,46 @@ external-dns:
   rbac:
     create: true
   serviceAccount:
-{{ if eq .Provider "google"}}
+{{ if eq .Provider "google" }}
     create: false
 {{ end }}
     name: {{ default "external-dns" .Values.externaldns_service_account }}
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-externaldns"
   domainFilters:
-  - {{ .Values.dns_domain }}
+  - {{ .Network.Subdomain }}
   google:
     project: {{ .Project }}
   aws:
     region: {{ .Region }}
-  {{ if eq .Provider "azure" }}
+  {{ if and (not $pluraldns) (eq .Provider "azure")}}
   azure:
     useManagedIdentityExtension: true
     resourceGroup: {{ .Project }}
     tenantId: {{ .Context.TenantId }}
     subscriptionId: {{ .Context.SubscriptionId }}
   {{ end }}
+  sources:
+  - service
+  - ingress
+  {{ if .Configuration.istio }}
+  - istio-gateway
+  - istio-virtualservice
+  {{ end }}
 
-{{ if eq .Provider "azure" }}
+{{ if and (not $pluraldns) (eq .Provider "azure") }}
 externalDnsIdentityId: {{ importValue "Terraform" "externaldns_msi_id" }}
 externalDnsIdentityClientId: {{ importValue "Terraform" "externaldns_msi_client_id" }}
+{{ end }}
+
+pluralToken: {{ .Config.Token }}
+
+{{ if $pluraldns }}
+{{ $eab := eabCredential $providerArgs.cluster $providerArgs.provider }}
+acmeServer: https://acme.zerossl.com/v2/DV90
+acmeEAB:
+  kid: {{ $eab.KeyId }}
+  secret: {{ $eab.HmacKey }}
 {{ end }}
 
 regcreds:
@@ -40,10 +70,8 @@ regcreds:
       password: {{ .Config.Token }}
       auth: {{ list .Config.Email .Config.Token | join ":" | b64enc | quote }}
 
-
-grafana_dns: {{ .Values.grafana_dns }}
 provider: {{ .Provider }}
-ownerEmail: {{ .Values.ownerEmail }}
+ownerEmail: {{ .Config.Email }}
 
 cluster-autoscaler:
 {{ if eq (default "google" .Provider) "aws" }}
@@ -65,14 +93,17 @@ cluster-autoscaler:
     enabled: true
 
 {{ if eq .Provider "aws"}}
-ingress-nginx:
-  controller:
-    service:
-      externalTrafficPolicy: Local
-    config:
-      compute-full-forwarded-for: 'true'
-      use-forwarded-headers: 'true'
-      use-proxy-protocol: 'true'
+tigera-operator:
+  enabled: true
+  tigeraOperator:
+    image: pluralsh/quay.io/tigera/operator
+    registry: gcr.io
+  installation:
+    kubernetesProvider: EKS
+    registry: gcr.io/pluralsh/
+  calioctl:
+    image: gcr.io/pluralsh/calico/ctl
+    tag: master
 aws-load-balancer-controller:
   enabled: true
   clusterName: {{ .Cluster }}
@@ -81,23 +112,32 @@ aws-load-balancer-controller:
     name: alb-operator
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-alb"
+aws-ebs-csi-driver:
+  enabled: true
+  controller:
+    serviceAccount:
+      name: ebs-csi-controller
+      annotations:
+        eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-ebs-csi"
 {{ end }}
-
-grafana:
-  admin:
-    password: {{ dedupe . "bootstrap.grafana.admin.password" (randAlphaNum 14) }}
-    user: admin
-  ingress:
-    tls:
-    - hosts:
-      - {{ .Values.grafana_dns }}
-      secretName: grafana-tls
-    hosts:
-    - {{ .Values.grafana_dns }}
 
 {{ if eq .Provider "aws" }}
 metrics-server:
   enabled: true
+snapshot-validation-webhook:
+  enabled: true
+snapshot-controller:
+  enabled: true
+{{ end }}
+
+{{ if $pluraldns }}
+dnsSolver:
+  webhook:
+    groupName: acme.plural.sh
+    solverName: plural-solver
+    config:
+      cluster: {{ $providerArgs.cluster }}
+      provider: {{ $providerArgs.provider }}
 {{ end }}
 
 {{ if eq .Provider "aws" }}
@@ -108,17 +148,19 @@ cert-manager:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-certmanager"
 
+{{ if not $pluraldns }}
 dnsSolver:
   route53:
     region: {{ .Region }}
 {{ end }}
+{{ end }}
 
-{{ if eq .Provider "azure" }}
+{{ if and (not $pluraldns) (eq .Provider "azure") }}
 dnsSolver:
   azureDNS:
     subscriptionID: {{ .Context.SubscriptionId }}
     resourceGroupName: {{ .Project }}
-    hostedZoneName: {{ .Values.dns_domain }}
+    hostedZoneName: {{ .Network.Subdomain }}
     # Azure Cloud Environment, default to AzurePublicCloud
     environment: AzurePublicCloud
 {{ end }}
@@ -129,7 +171,9 @@ cert-manager:
     create: false
     name: certmanager
 
+{{ if not $pluraldns }}
 dnsSolver:
   cloudDNS:
     project: {{ .Project }}
+{{ end }}
 {{ end }}

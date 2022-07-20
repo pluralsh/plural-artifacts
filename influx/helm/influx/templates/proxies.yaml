@@ -1,0 +1,14 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Proxy
+metadata:
+  name: db
+  labels:
+{{ include "influx.labels" . | indent 4 }}
+spec:
+  type: sh
+  target: statefulset/influxdb
+  shConfig:
+    command: "/bin/bash"
+    args:
+    - '-c'
+    - 'influx'

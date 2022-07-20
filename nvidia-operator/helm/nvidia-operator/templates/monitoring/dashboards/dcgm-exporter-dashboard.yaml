@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dcgm-exporter-dashboard
+  labels: {{ include "nvidia-operator.labels" . | nindent 4 }}
+    grafana_dashboard: dcgm-exporter-dashboard
+  annotations:
+    k8s-sidecar-target-directory: /tmp/dashboards/NVIDIA Dashboards
+data:
+  dcgm-exporter-dashboard.json: |-
+{{ .Files.Get "grafana-dashboards/dcgm-exporter-dashboard.json" | indent 4 }}

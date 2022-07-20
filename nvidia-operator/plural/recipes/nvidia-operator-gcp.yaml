@@ -1,0 +1,14 @@
+name: nvidia-operator-gcp
+description: Installs nvidia-operator on a gcp gke cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+sections:
+- name: nvidia-operator
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: nvidia-operator

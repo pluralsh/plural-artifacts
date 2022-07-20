@@ -1,0 +1,242 @@
+# Default values for superset.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+test-base:
+  enabled: false
+  repository: superset
+  testName: superset-integration
+  promoteTag: warm
+
+configOverlays:
+- name: dkr-repository
+  spec:
+    name: Image registry
+    documentation: the image registry uri to use for superset
+    updates:
+    - path: ['superset', 'superset', 'image', 'repository']
+- name: web-cpu
+  labels:
+    platform.plural.sh/component: superset
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: cpu
+  spec:
+    name: web cpu
+    documentation: cpu requests for web deployment
+    updates:
+    - path: ['superset', 'superset', 'web', 'resources', 'requests', 'cpu']
+- name: web-mem
+  labels:
+    platform.plural.sh/component: superset
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: memory
+  spec:
+    name: web memory
+    documentation: memory requests for web deployment
+    updates:
+    - path: ['superset', 'superset', 'web', 'resources', 'requests', 'memory']
+- name: worker-cpu
+  labels:
+    platform.plural.sh/component: superset-worker
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: cpu
+  spec:
+    name: worker cpu
+    documentation: cpu requests for worker deployment
+    updates:
+    - path: ['superset', 'superset', 'worker', 'resources', 'requests', 'cpu']
+- name: worker-mem
+  labels:
+    platform.plural.sh/component: superset-worker
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: memory
+  spec:
+    name: worker memory
+    documentation: memory requests for worker deployment
+    updates:
+    - path: ['superset', 'superset', 'worker', 'resources', 'requests', 'memory']
+- name: beat-cpu
+  labels:
+    platform.plural.sh/component: superset-celerybeat
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: cpu
+  spec:
+    name: beat cpu
+    documentation: cpu requests for celery beat deployment
+    updates:
+    - path: ['superset', 'superset', 'beat', 'resources', 'requests', 'cpu']
+- name: beat-mem
+  labels:
+    platform.plural.sh/component: superset-celerybeat
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: memory
+  spec:
+    name: beat memory
+    documentation: memory requests for celery beat deployment
+    updates:
+    - path: ['superset', 'superset', 'beat', 'resources', 'requests', 'memory']
+- name: redis-cpu
+  labels:
+    platform.plural.sh/component: superset-redis-master
+    platform.plural.sh/kind: statefulset
+    platform.plural.sh/resource: cpu
+  spec:
+    name: redis cpu
+    documentation: cpu requests for redis statefulset
+    updates:
+    - path: ['superset', 'superset', 'redis', 'master', 'resources', 'requests', 'cpu']
+- name: redis-mem
+  labels:
+    platform.plural.sh/component: superset-redis-master
+    platform.plural.sh/kind: statefulset
+    platform.plural.sh/resource: memory
+  spec:
+    name: redis memory
+    documentation: memory requests for redis statefulset
+    updates:
+    - path: ['superset', 'superset', 'redis', 'master', 'resources', 'requests', 'memory']
+
+superset:
+  image:
+    repository: dkr.plural.sh/superset/apache/superset
+    tag: 3c41ff68a43b5ab6b871226a73de9f2129d64766
+    pullPolicy: Always
+
+  bootstrapScript: |
+    #!/bin/bash
+    rm -rf /var/lib/apt/lists/* && \
+    pip install \
+      psycopg2==2.8.5 \
+      Authlib~=0.15.3 \
+      pyjwt \
+      redis==3.2.1 \
+      snowflake-sqlalchemy~=1.2.4 && \
+    if [ ! -f ~/bootstrap ]; then echo "Running Superset with uid {{ .Values.runAsUser }}" > ~/bootstrap; fi
+  postgresql:
+    enabled: false
+  
+  redis:
+    enabled: true
+    image:
+      registry: gcr.io/pluralsh
+      tag: 6.0.9-debian-10-r0
+
+  # configOverrides:
+  #   statsd_conf: |
+  #     from superset.stats_logger import StatsdStatsLogger
+  
+  #     STATS_LOGGER = StatsdStatsLogger(host='statsd-exporter', port=9125, prefix='superset')
+
+  supersetCeleryBeat:
+    enabled: true
+  
+  supersetWorker:
+    initContainers:
+    - name: wait-for-postgres
+      image: gcr.io/pluralsh/busybox:latest
+      imagePullPolicy: IfNotPresent
+      envFrom:
+        - secretRef:
+            name: '{{ tpl .Values.envFromSecret . }}'
+      command: [ "/bin/sh", "-c", "until nc -zv $DB_HOST $DB_PORT -w1; do echo 'waiting for db'; sleep 1; done" ]
+  
+  supersetNode:
+    connections:
+      db_host: plural-superset
+    initContainers:
+    - name: wait-for-postgres
+      image: gcr.io/pluralsh/busybox:latest
+      imagePullPolicy: IfNotPresent
+      envFrom:
+        - secretRef:
+            name: '{{ tpl .Values.envFromSecret . }}'
+      command: [ "/bin/sh", "-c", "until nc -zv $DB_HOST $DB_PORT -w1; do echo 'waiting for db'; sleep 1; done" ]
+
+  extraEnvRaw:
+  - name: DB_PASS
+    valueFrom:
+      secretKeyRef:
+        name: superset.plural-superset.credentials.postgresql.acid.zalan.do
+        key: password
+  
+  ingress:
+    enabled: true
+    # ingressClassName: nginx
+    annotations:
+      kubernetes.io/tls-acme: "true"
+      kubernetes.io/ingress.class: "nginx"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      # Extend timeout to allow long running queries.
+      nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+      nginx.ingress.kubernetes.io/use-regex: "true"
+    path: /.*
+
+postgres:
+  replicas: 1
+  storage:
+    size: 25Gi
+  resources: {}
+  default:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 100Mi
+      limits:
+        cpu: '2'
+        memory: 1Gi
+
+
+exporter:
+  image:
+    repository: gcr.io/pluralsh/prom/statsd-exporter
+    tag: v0.20.2
+    pullPolicy: IfNotPresent
+  
+  podSecurityContext: {}
+
+  securityContext: {}
+
+  replicas: 1
+
+  service:
+    type: ClusterIP
+    annotations: {}
+
+  web:
+    # The address on which to expose the web interface and generated Prometheus metrics.
+    port: 9102
+
+    # Path under which to expose metrics.
+    path: /metrics
+
+  serviceMonitor:
+    interval: 30s
+    scrapeTimeout: 10s
+    additionalLabels: {}
+
+  statsd:
+    # The UDP port on which to receive statsd metric lines.
+    udpPort: 9125
+
+    # The TCP port on which to receive statsd metric lines.
+    tcpPort: 9125
+
+    # Maximum size of your metric mapping cache.
+    # Relies on least recently used replacement policy if max size is reached.
+    cacheSize: 1000
+
+    # Size of internal queue for processing events.
+    eventQueueSize: 10000
+
+    # Number of events to hold in queue before flushing.
+    eventFlushThreshold: 1000
+
+    # Time interval before flushing events in queue.
+    eventFlushInterval: 200ms
+
+    # Metric mapping configuration
+    mappingConfig: |-

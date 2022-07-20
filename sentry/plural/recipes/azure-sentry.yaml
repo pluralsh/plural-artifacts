@@ -1,0 +1,40 @@
+name: azure-sentry
+description: installs sentry on an AKS cluster
+provider: AZURE
+oidcSettings:
+  authMethod: POST
+  uriFormat: https://{domain}/auth/sso/
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-azure
+- repo: rabbitmq
+  name: rabbitmq-azure
+- repo: redis
+  name: azure-redis
+- repo: postgres
+  name: azure-postgres
+- repo: kafka
+  name: azure-kafka
+sections:
+- name: sentry
+  configuration:
+  - name: hostname
+    documentation: hostname for your sentry instance
+    type: DOMAIN
+  - name: filestoreBucket
+    documentation: s3 bucket to store miscellaneous files to
+    type: BUCKET
+    default: sentry-filestore
+  - name: adminEmail
+    documentation: admin user email
+    type: STRING
+  items:
+  - type: TERRAFORM
+    name: azure
+  - type: TERRAFORM
+    name: secrets
+  - type: HELM
+    name: sentry

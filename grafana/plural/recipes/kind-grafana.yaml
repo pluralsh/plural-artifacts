@@ -1,0 +1,23 @@
+name: kind-grafana
+description: Installs grafana on a KinD Kubernetes cluster
+provider: KIND
+oidcSettings:
+  authMethod: POST
+  uriFormat: https://{domain}/login/generic_oauth
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: kind-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-kind
+sections:
+- name: grafana
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for your grafana installation
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: grafana

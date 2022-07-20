@@ -1,3 +1,4 @@
+{{- if .Values.postgres.enabled }}
 apiVersion: platform.plural.sh/v1alpha1
 kind: Dashboard
 metadata:
@@ -56,6 +57,7 @@ spec:
     - query: pg_stat_database_blks_hit{instance="$instance"} / (pg_stat_database_blks_read{instance="$instance"} + pg_stat_database_blks_hit{instance="$instance"})
       legend: hit rate
     name: Cache hit rate
+{{- end }}
 ---
 apiVersion: platform.plural.sh/v1alpha1
 kind: Dashboard

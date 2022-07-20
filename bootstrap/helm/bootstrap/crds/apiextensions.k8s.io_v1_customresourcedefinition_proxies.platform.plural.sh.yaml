@@ -1,0 +1,139 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.4.1
+  creationTimestamp: null
+  name: proxies.platform.plural.sh
+spec:
+  group: platform.plural.sh
+  names:
+    kind: Proxy
+    listKind: ProxyList
+    plural: proxies
+    singular: proxy
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Proxy is the Schema for the proxies API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: ProxySpec defines the desired state of Proxy
+            properties:
+              credentials:
+                description: credentials to use when authenticating against a proxied
+                  resource
+                properties:
+                  key:
+                    description: key in the secret to use
+                    type: string
+                  secret:
+                    description: secret storing auth info
+                    type: string
+                  user:
+                    description: username to auth with
+                    type: string
+                  userKey:
+                    description: key in the secret that stores the username
+                    type: string
+                required:
+                - key
+                - secret
+                type: object
+              dbConfig:
+                description: db-specific configuration for this proxy
+                properties:
+                  engine:
+                    description: db engine
+                    enum:
+                    - postgres
+                    - mysql
+                    type: string
+                  name:
+                    description: name of the database to connect to
+                    type: string
+                  port:
+                    description: port to use
+                    format: int32
+                    type: integer
+                required:
+                - engine
+                - name
+                - port
+                type: object
+              description:
+                description: Description for this proxy spec
+                type: string
+              shConfig:
+                description: sh-specific configuration for this proxy
+                properties:
+                  args:
+                    description: arguments to pass to the command
+                    items:
+                      type: string
+                    type: array
+                  command:
+                    description: command to execute in the proxied pod
+                    type: string
+                  container:
+                    description: The container name to shell into (if the pod has
+                      multiple containers configured)
+                    type: string
+                required:
+                - command
+                type: object
+              target:
+                description: selector to set up the proxy against
+                type: string
+              type:
+                description: the type of proxy to use, can be a db, shell or web proxy
+                enum:
+                - db
+                - sh
+                - web
+                type: string
+              webConfig:
+                description: web-specific configuration for this proxy
+                properties:
+                  path:
+                    description: path to direct users to on sign-in
+                    type: string
+                  port:
+                    description: port of the service to forward
+                    format: int32
+                    type: integer
+                required:
+                - port
+                type: object
+            required:
+            - target
+            - type
+            type: object
+          status:
+            description: ProxyStatus defines the observed state of Proxy
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

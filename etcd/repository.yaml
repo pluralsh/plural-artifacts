@@ -1,0 +1,9 @@
+name: etcd
+description: a strongly consistent, distributed key-value store
+category: DATABASE
+icon: plural/icons/etcd-logo.png
+homepage: https://etcd.io/
+gitUrl: https://github.com/etcd-io/etcd
+tags:
+- tag: raft
+- tag: cp

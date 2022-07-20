@@ -1,0 +1,23 @@
+name: trino-azure
+description: Installs trino on an azure aks cluster
+provider: AZURE
+oidcSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-azure
+sections:
+- name: trino
+  configuration:
+  - name: hostname
+    documentation: domain on which you'd like to host trino's web interface
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: trino

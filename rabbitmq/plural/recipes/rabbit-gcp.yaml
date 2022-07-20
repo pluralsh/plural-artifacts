@@ -1,0 +1,14 @@
+name: rabbitmq-gcp
+description: Deploys rabbitmq on our bootstrapped GKE cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+sections:
+- name: rabbitmq
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: cluster-operator

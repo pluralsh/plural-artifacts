@@ -12,19 +12,30 @@ external-dns:
   sources:
   - service
   - ingress
-  - istio-gateway
-  - istio-virtualservice
   provider: google
   txtOwnerId: piazza
   policy: sync
   rbac:
     create: true
     serviceAccountName: external-dns
+  extraEnv:
+  - name: PLURAL_ACCESS_TOKEN
+    valueFrom:
+      secretKeyRef:
+        name: plural-env
+        key: PLURAL_ACCESS_TOKEN
   domainFilters:
-  - pluralsh.com
+  - plural.sh
 
 ownerEmail: mguarino46@gmail.com
 provider: aws
+
+pluralToken: plrl-api-token
+
+plural:
+  image:
+    repository: dkr.plural.sh/bootstrap/plural-operator
+    tag: v0.3.4
 
 imagePullSecrets:
 - name: plural-creds
@@ -33,9 +44,10 @@ application:
   registry: dkr.plural.sh/bootstrap
   tag: v0.8.3
 
-dnsSolver:
-  route53:
-    region: us-east-1
+dnsSolver: {}
+
+acmeServer: https://acme-v02.api.letsencrypt.org/directory
+acmeEAB: {}
 
 autoscaling:
   ingress:
@@ -43,204 +55,163 @@ autoscaling:
     maxReplicas: 11
     targetCPUUtilizationPercentage: 50
 
-
-loki-stack:
-  loki:
-    image:
-      repository: gcr.io/pluralsh/grafana/loki
-  promtail:
-    image:
-      repository: gcr.io/pluralsh/grafana/promtail
-      tag: 1.6.0
-  grafana:
-    enabled: false
-    persistence:
-      inMemory:
-        enabled: true
-    sidecar:
-      image: {}
-      notifiers:
-        enabled: false
-      datasources:
-        enabled: false
-    imageRenderer:
-      enabled: false
-
-
 aws-load-balancer-controller:
   enabled: false
 
-
-ingress-nginx:
-  controller:
-    admissionWebhooks:
-      enabled: false
-    service:
-      annotations:
-        service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
-        service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
-        service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: 'true'
-        service.beta.kubernetes.io/aws-load-balancer-type: external
-        service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
-        service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
-        service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: '3600'
-    config:
-      worker-shutdown-timeout: 240s
-      proxy-body-size: '0'
-      proxy-read-timeout: '3600'
-      proxy-send-timeout: '3600'
-
-
-grafana:
+snapshot-validation-webhook:
+  enabled: false
   image:
-    repository: gcr.io/pluralsh/grafana/grafana
-  initChownData:
-    image:
-      repository: gcr.io/pluralsh/busybox
-      tag: latest
-  downloadDashboardsImage:
-    repository: gcr.io/pluralsh/curlimages/curl
-  grafana.ini:
-    security:
-      allow_embedding: true
-  admin:
-    existingSecret: grafana-credentials
-  dashboardProviders:
-    dashboardproviders.yaml:
-      apiVersion: 1
-      providers:
-      - name: default
-        orgId: 1
-        folder: ''
-        type: file
-        updateIntervalSeconds: 10
-        disableDeletion: true
-        editable: true
-        options:
-          path: /var/lib/grafana/dashboards/default
-      - name: sidecar
-        orgId: 1
-        folder: ''
-        type: file
-        updateIntervalSeconds: 10
-        disableDeletion: true
-        editable: true
-        options:
-          path: /var/lib/grafana/dashboards/sidecar
-  dashboards:
-    default:
-      kubernetes-overview:
-        gnetId: 10856
-        revision: 1
-        uid: 'kubernetes-overview'
-        datasource: Prometheus
-      kubernetes-deepdive:
-        gnetId: 8588
-        revision: 1
-        uid: 'kubernetes-deepdive'
-        datasource: Prometheus
-      node-overview:
-        gnetId: 1860
-        revision: 16
-        uid: 'node-overview'
-        datasource: Prometheus
-  service:
-    type: NodePort
-  persistence:
-    enabled: true
-    type: statefulset
-    inMemory:
-      enabled: false
-  sidecar:
-    dashboards:
-      provider:
-        name: sidecar
-        allowUiUpdates: true
-      enabled: true
-      searchNamespace: ALL
-    datasources:
-      enabled: true
-      searchNamespace: ALL
-  ingress:
-    enabled: true
-    path: /.*
-    annotations:
-      kubernetes.io/tls-acme: "true"
-      kubernetes.io/ingress.class: "nginx"
-      cert-manager.io/cluster-issuer: letsencrypt-prod
-      nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
-      nginx.ingress.kubernetes.io/use-regex: "true"
+    repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/snapshot-validation-webhook
+    tag: v4.2.1
+  resources:
+    requests:
+      cpu: 10m
+      memory: 20Mi
+    limits:
+      cpu: 10m
+      memory: 20Mi
 
+snapshot-controller:
+  enabled: false
+  image:
+    repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/snapshot-controller
+    tag: v4.2.1
+  resources:
+    requests:
+      cpu: 10m
+      memory: 20Mi
+    limits:
+      cpu: 10m
+      memory: 20Mi
+
+aws-ebs-csi-driver:
+  enabled: false
+  storageClasses:
+    - name: ebs-csi
+      annotations:
+        storageclass.kubernetes.io/is-default-class: "true"
+      parameters:
+        encrypted: "true"
+      reclaimPolicy: Delete
+      volumeBindingMode: WaitForFirstConsumer
+      allowVolumeExpansion: true
+  node:
+    tolerateAllTaints: true
+  controller:
+    resources:
+      requests:
+        cpu: 10m
+        memory: 24Mi
+      limits:
+        cpu: 10m
+        memory: 24Mi
+  sidecars:
+    provisioner:
+      resources:
+        requests:
+          cpu: 10m
+          memory: 24Mi
+        limits:
+          cpu: 10m
+          memory: 24Mi
+    attacher:
+      resources:
+        requests:
+          cpu: 10m
+          memory: 24Mi
+        limits:
+          cpu: 10m
+          memory: 24Mi
+    snapshotter:
+      resources:
+        requests:
+          cpu: 10m
+          memory: 24Mi
+        limits:
+          cpu: 10m
+          memory: 24Mi
+    livenessProbe:
+      resources:
+        requests:
+          cpu: 10m
+          memory: 145Mi
+        limits:
+          cpu: 10m
+          memory: 145Mi
+    resizer:
+      resources:
+        requests:
+          cpu: 10m
+          memory: 37Mi
+        limits:
+          cpu: 10m
+          memory: 37Mi
+    nodeDriverRegistrar:
+      resources:
+        requests:
+          cpu: 10m
+          memory: 24Mi
+        limits:
+          cpu: 10m
+          memory: 24Mi
+
+tigera-operator:
+  enabled: false
 
 cert-manager:
+  image:
+    repository: dkr.plural.sh/bootstrap/jetstack/cert-manager-controller
+    tag: v1.8.2
+  webhook:
+    image:
+      repository: dkr.plural.sh/bootstrap/jetstack/cert-manager-webhook
+      tag: v1.8.2
+  cainjector:
+    image:
+      repository: dkr.plural.sh/bootstrap/jetstack/cert-manager-cainjector
+      tag: v1.8.2
+  startupapicheck:
+    image:
+      repository: dkr.plural.sh/bootstrap/jetstack/cert-manager-ctl
+      tag: v1.8.2
+  serviceAccount:
+    name: certmanager
   prometheus:
     enabled: true
     serviceMonitor:
       enabled: true
-
-kube-prometheus-stack:
-  fullnameOverride: "bootstrap"
-  grafana:
-    enabled: false
-  prometheus:
-    labels:
-      app.kubernetes.io/managed-by: Helm
-    service:
-      labels:
-        app.kubernetes.io/managed-by: Helm
-    prometheusSpec:
-      podMetadata:
-        labels:
-          app.kubernetes.io/managed-by: Helm
-      ruleNamespaceSelector:
-        matchLabels:
-          app.kubernetes.io/managed-by: plural
-      ruleSelector:
-        matchLabels:
-          app.kubernetes.io/managed-by:  Helm
-      serviceMonitorNamespaceSelector:
-        matchLabels:
-          app.kubernetes.io/managed-by: plural
-      serviceMonitorSelector:
-        matchLabels:
-          app.kubernetes.io/managed-by:  Helm
-      podMonitorNamespaceSelector:
-        matchLabels:
-          app.kubernetes.io/managed-by: plural
-      podMonitorSelector:
-        matchLabels:
-          app.kubernetes.io/managed-by:  Helm
-      probeNamespaceSelector:
-        matchLabels:
-          app.kubernetes.io/managed-by: plural
-      probeSelector:
-        matchLabels:
-          app.kubernetes.io/managed-by:  Helm
-
-
-kubed:
-  operator:
-    registry: gcr.io/pluralsh/appscode
-
-prometheus:
-  server:
-    statefulSet:
-      enabled: true
-
-cluster-autoscaler:
-  enabled: false
-  extraArgs:
-    "scale-down-utilization-threshold": 0.75
-  serviceMonitor:
-    enabled: true
-    namespace: ""
-
-cert-manager:
   securityContext:
     fsGroup: 1000
     runAsNonRoot: true
   podLabels:
     aadpodidbinding: externaldns # grants the same permissions needed for cert-manager
+
+kubed:
+  operator:
+    registry: gcr.io/pluralsh/appscode
+
+cluster-autoscaler:
+  enabled: false
+  replicaCount: 2
+  image:
+    tag: v1.23.0
+  expanderPriorities: |
+    10:
+    - .*sustained-on-demand.*
+    20:
+    - .*burst-on-demand.*
+    30:
+    - .*sustained-spot.*
+    40:
+    - .*burst-spot.*
+  extraArgs:
+    scale-down-utilization-threshold: 0.4
+    skip-nodes-with-local-storage: false
+    balance-similar-node-groups: true
+    expander: "priority,least-waste"
+  serviceMonitor:
+    enabled: true
+    namespace: ""
 
 metrics-server:
   enabled: false

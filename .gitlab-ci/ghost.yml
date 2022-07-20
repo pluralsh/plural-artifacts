@@ -1,0 +1,9 @@
+ghost:
+  stage: push
+  only:
+  - main
+  script:
+  - vendor_image bitnami/ghost:4.11.0-debian-10-r0 ghost
+  - vendor_image bitnami/ghost:4.12.1-debian-10-r0 ghost
+  - vendor_image ghost:4-alpine ghost
+  - vendor_image ghost:4.16-alpine ghost

@@ -4,6 +4,8 @@ resource "kubernetes_namespace" "sentry" {
 
     labels = {
       "app.kubernetes.io/managed-by" = "plural"
+      "app.plural.sh/name" = "sentry"
+      "platform.plural.sh/sync-target" = "pg"
     }
   }
 }
@@ -31,6 +33,7 @@ resource "aws_iam_policy" "sentry" {
 resource "aws_s3_bucket" "filestore" {
   bucket = var.filestore_bucket
   acl    = "private"
+  force_destroy = true
 }
 
 data "aws_iam_policy_document" "sentry" {

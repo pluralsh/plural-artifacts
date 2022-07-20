@@ -1,0 +1,30 @@
+name: calendso-gcp
+description: Installs calendso on a gcp gke cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+- repo: postgres
+  name: gcp-postgres
+sections:
+- name: calendso
+  configuration:
+  - name: hostname
+    type: DOMAIN
+    documentation: fqdn you'll be deploying cal.com to
+  - name: email
+    type: STRING
+    documentation: email for your initial user
+  - name: name
+    type: STRING
+    documentation: full name for your initial user
+  - name: handle
+    type: STRING
+    documentation: short handle for your initial user
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: calendso

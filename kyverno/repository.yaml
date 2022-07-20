@@ -1,0 +1,7 @@
+name: kyverno
+description: Kubernetes Native Policy Management
+category: SECURITY
+icon: plural/icons/kyverno.png
+notes: plural/notes.tpl
+tags:
+- tag: policy

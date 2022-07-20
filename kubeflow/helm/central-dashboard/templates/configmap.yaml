@@ -1,0 +1,144 @@
+apiVersion: v1
+data:
+  links: |-
+    {
+      "menuLinks": [
+        {
+        {{ if eq .Values.kubeflowComponents.notebooks.enabled true }}
+          "type": "item",
+          "link": "/jupyter/",
+          "text": "Notebooks",
+          "icon": "book"
+        {{ end }}
+        {{ if eq .Values.kubeflowComponents.volumes.enabled true }}
+        },
+        {
+          "type": "item",
+          "link": "/volumes/",
+          "text": "Volumes",
+          "icon": "device:storage"
+        {{ end }}
+        {{ if eq .Values.kubeflowComponents.tensorboards.enabled true }}
+        },
+        {
+          "type": "item",
+          "link": "/tensorboards/",
+          "text": "Tensorboards",
+          "icon": "assessment"
+        {{ end }}
+        {{ if eq .Values.kubeflowComponents.katib.enabled true }}
+        },
+        {
+          "type": "item",
+          "link": "/katib/",
+          "text": "Experiments (AutoML)",
+          "icon": "kubeflow:katib"
+        {{ end }}
+        {{ if eq .Values.kubeflowComponents.pipelines.enabled true }}
+        },
+        {
+          "type": "item",
+          "text": "Experiments (KFP)",
+          "link": "/pipeline/#/experiments",
+          "icon": "done-all"
+        },
+        {
+          "type": "item",
+          "link": "/pipeline/#/pipelines",
+          "text": "Pipelines",
+          "icon": "kubeflow:pipeline-centered"
+        },
+        {
+          "type": "item",
+          "link": "/pipeline/#/runs",
+          "text": "Runs",
+          "icon": "maps:directions-run"
+        },
+        {
+          "type": "item",
+          "link": "/pipeline/#/recurringruns",
+          "text": "Recurring Runs",
+          "icon": "device:access-alarm"
+        },
+        {
+          "type": "item",
+          "link": "/pipeline/#/artifacts",
+          "text": "Artifacts",
+          "icon": "editor:bubble-chart"
+        },
+        {
+          "type": "item",
+          "link": "/pipeline/#/executions",
+          "text": "Executions",
+          "icon": "av:play-arrow"
+        {{ end }}
+        {{ if eq .Values.kubeflowComponents.serving.enabled true }}
+        },
+        {
+          "type": "item",
+          "link": "/models/",
+          "text": "Models",
+          "icon": "kubeflow:models"
+        {{ end }}
+        }
+      ],
+      "externalLinks": [ ],
+        "quickLinks": [
+          {
+          {{ if eq .Values.kubeflowComponents.notebooks.enabled true }}
+            "text": "Create a new Notebook server",
+            "desc": "Notebook Servers",
+            "link": "/jupyter/new?namespace=kubeflow"
+          {{ end }}
+          {{ if eq .Values.kubeflowComponents.pipelines.enabled true }}
+          },
+          {
+            "text": "Upload a pipeline",
+            "desc": "Pipelines",
+            "link": "/pipeline/"
+          },
+          {
+            "text": "View all pipeline runs",
+            "desc": "Pipelines",
+            "link": "/pipeline/#/runs"
+          {{ end }}
+          {{ if eq .Values.kubeflowComponents.katib.enabled true }}
+          },
+          {
+            "text": "View Katib Experiments",
+            "desc": "Katib",
+            "link": "/katib/"
+          {{ end }}
+          }
+        ],
+        "documentationItems": [
+          {
+            "text": "Getting Started with Kubeflow",
+            "desc": "Get your machine-learning workflow up and running on Kubeflow",
+            "link": "https://www.kubeflow.org/docs/started/getting-started/"
+          }
+        ]
+    }
+  settings: |-
+    {
+      "DASHBOARD_FORCE_IFRAME": true
+    }
+kind: ConfigMap
+metadata:
+  labels: {{- include "central-dashboard.labels" . | nindent 4 }}
+  name: {{ include "central-dashboard.fullname" . }}-config
+  namespace: kubeflow
+---
+apiVersion: v1
+data:
+  REGISTRATION_FLOW: {{ .Values.config.registrationFlow.enabled | quote }}
+  USERID_HEADER: {{ .Values.global.userIDHeader }}
+  USERID_PREFIX: {{ .Values.global.userIDPrefix | quote }}
+  PROFILES_KFAM_SERVICE_HOST: {{ .Values.config.profileControllerService }}
+  PROFILES_KFAM_SERVICE_PORT: {{ .Values.config.kfamPort | quote }}
+  DASHBOARD_CONFIGMAP: {{ include "central-dashboard.fullname" . }}-config
+kind: ConfigMap
+metadata:
+  labels: {{- include "central-dashboard.labels" . | nindent 4 }}
+  name: {{ include "central-dashboard.fullname" . }}-parameters
+  namespace: kubeflow

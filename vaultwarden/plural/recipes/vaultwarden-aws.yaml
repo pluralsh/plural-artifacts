@@ -1,0 +1,26 @@
+name: vaultwarden-aws
+description: Installs vaultwarden on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: bootstrap
+  name: aws-efs
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+- repo: postgres
+  name: aws-postgres
+sections:
+- name: vaultwarden
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for your Vaultwarden installation
+    type: DOMAIN
+  - name: signupDomains
+    documentation: comma separated list of domains to allow for user signup
+    type: STRING
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: vaultwarden

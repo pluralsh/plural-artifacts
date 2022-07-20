@@ -1,0 +1,22 @@
+name: knative-gcp
+description: Installs knative on a GKE cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: istio
+  name: istio-gcp
+- repo: monitoring
+  name: monitoring-gcp
+- repo: grafana-tempo
+  name: grafana-tempo-gcp
+sections:
+- name: knative
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: knative-serving
+  # - type: HELM
+  #   name: knative-eventing

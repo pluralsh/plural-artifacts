@@ -1,0 +1,19 @@
+{{- if .Values.hasura.postgresql.operatorEnabled }}
+apiVersion: platform.plural.sh/v1alpha1
+kind: Proxy
+metadata:
+  name: db
+  labels:
+{{ include "hasura.labels" . | indent 4 }}
+spec:
+  type: db
+  target: service/hasura-master
+  credentials:
+    secret: hasura.plural-hasura.credentials.postgresql.acid.zalan.do
+    key: password
+    user: hasura
+  dbConfig:
+    name: hasura
+    engine: postgres
+    port: 5432
+{{- end }}

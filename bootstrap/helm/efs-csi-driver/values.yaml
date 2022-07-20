@@ -1,0 +1,20 @@
+aws-efs-csi-driver:
+  image:
+    repository: gcr.io/pluralsh/amazon/aws-efs-csi-driver
+    tag: v1.3.6
+  sidecars:
+    livenessProbe:
+      image:
+        repository: k8s.gcr.io/sig-storage/livenessprobe
+        tag: v2.4.0
+    nodeDriverRegistrar:
+      image:
+        repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/csi-node-driver-registrar
+        tag: v2.1.0
+    csiProvisioner:
+      image:
+        repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/csi-provisioner
+        tag: v2.1.2
+  controller:
+    serviceAccount:
+      name: efs-csi-controller

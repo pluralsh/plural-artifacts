@@ -1,0 +1,35 @@
+name: airbyte-kind
+description: Installs airbyte on a KinD Kubernetes cluster
+provider: KIND
+oidcSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: kind-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-kind
+- repo: postgres
+  name: kind-postgres
+- repo: minio
+  name: minio-kind
+sections:
+- name: airbyte
+  configuration:
+  - name: airbyteBucket
+    type: BUCKET
+    default: airbyte
+    documentation: Arbitrary bucket name to store airbyte logs in
+  - name: hostname
+    type: DOMAIN
+    documentation: the fully qualified domain name your airbyte instance will be available at
+  - name: privateHostname
+    documentation: a private dns name to securely access the airbyte api from
+    type: DOMAIN
+    optional: true
+  items:
+  - type: TERRAFORM
+    name: kind
+  - type: HELM
+    name: airbyte

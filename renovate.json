@@ -1,0 +1,896 @@
+{
+  "extends": [
+    "config:base",
+    ":dependencyDashboard",
+    ":prHourlyLimit4",
+    ":prConcurrentLimit10"
+  ],
+  "packageRules": [
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "enabled": true
+    },
+    {
+      "matchDatasources": [
+        "helm"
+      ],
+      "postUpgradeTasks": {
+        "commands": [
+          "helm dependency update {{{packageFileDir}}}"
+        ],
+        "fileFilters": [
+          "**/*.tgz"
+        ]
+      }
+    },
+    {
+      "description": "Disable major update k8s client-go",
+      "matchPackagePatterns": [
+        "^k8s.io/client-go"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "enabled": false
+    },
+    {
+      "description": "Bump helm chart versions",
+      "matchManagers": [
+        "helmv3"
+      ],
+      "bumpVersion": "patch"
+    },
+    {
+      "description": "Group Image Vendor updates",
+      "matchManagers": [
+        "regex"
+      ],
+      "groupName": "vendor-images",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group airbyte Helm updates",
+      "matchPaths": [
+        "airbyte"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "airbyte",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group airflow Helm updates",
+      "matchPaths": [
+        "airflow"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "airflow",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group argo-cd Helm updates",
+      "matchPaths": [
+        "argo-cd"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "argo-cd",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group argo-workflows Helm updates",
+      "matchPaths": [
+        "argo-workflows"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "argo-workflows",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group bootstrap Helm updates",
+      "matchPaths": [
+        "bootstrap"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "bootstrap",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group calendso Helm updates",
+      "matchPaths": [
+        "calendso"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "calendso",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group chatwoot Helm updates",
+      "matchPaths": [
+        "chatwoot"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "chatwoot",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group clickhouse Helm updates",
+      "matchPaths": [
+        "clickhouse"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "clickhouse",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group crossplane Helm updates",
+      "matchPaths": [
+        "crossplane"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "crossplane",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group dagster Helm updates",
+      "matchPaths": [
+        "dagster"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "dagster",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group dex Helm updates",
+      "matchPaths": [
+        "dex"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "dex",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group etcd Helm updates",
+      "matchPaths": [
+        "etcd"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "etcd",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group filecoin Helm updates",
+      "matchPaths": [
+        "filecoin"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "filecoin",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group gcp-config-connector Helm updates",
+      "matchPaths": [
+        "gcp-config-connector"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "gcp-config-connector",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group ghost Helm updates",
+      "matchPaths": [
+        "ghost"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "ghost",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group gitlab Helm updates",
+      "matchPaths": [
+        "gitlab"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "gitlab",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group goldilocks Helm updates",
+      "matchPaths": [
+        "goldilocks"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "goldilocks",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group grafana Helm updates",
+      "matchPaths": [
+        "grafana"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "grafana",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group grafana-tempo Helm updates",
+      "matchPaths": [
+        "grafana-tempo"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "grafana-tempo",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group hasura Helm updates",
+      "matchPaths": [
+        "hasura"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "hasura",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group hydra Helm updates",
+      "matchPaths": [
+        "hydra"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "hydra",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group influx Helm updates",
+      "matchPaths": [
+        "influx"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "influx",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group ingress-nginx Helm updates",
+      "matchPaths": [
+        "ingress-nginx"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "ingress-nginx",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group istio Helm updates",
+      "matchPaths": [
+        "istio"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "istio",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group jitsu Helm updates",
+      "matchPaths": [
+        "jitsu"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "jitsu",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group kafka Helm updates",
+      "matchPaths": [
+        "kafka"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "kafka",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group knative Helm updates",
+      "matchPaths": [
+        "knative"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "knative",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group kratos Helm updates",
+      "matchPaths": [
+        "kratos"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "kratos",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group kserve Helm updates",
+      "matchPaths": [
+        "kserve"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "kserve",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group kubecost Helm updates",
+      "matchPaths": [
+        "kubecost"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "kubecost",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group kubeflow Helm updates",
+      "matchPaths": [
+        "kubeflow"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "kubeflow",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group kubescape Helm updates",
+      "matchPaths": [
+        "kubescape"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "kubescape",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group kyverno Helm updates",
+      "matchPaths": [
+        "kyverno"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "kyverno",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group lakefs Helm updates",
+      "matchPaths": [
+        "lakefs"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "lakefs",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group metabase Helm updates",
+      "matchPaths": [
+        "metabase"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "metabase",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group minio Helm updates",
+      "matchPaths": [
+        "minio"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "minio",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group mlflow Helm updates",
+      "matchPaths": [
+        "mlflow"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "mlflow",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group monitoring Helm updates",
+      "matchPaths": [
+        "monitoring"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "monitoring",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group mysql Helm updates",
+      "matchPaths": [
+        "mysql"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "mysql",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group n8n Helm updates",
+      "matchPaths": [
+        "n8n"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "n8n",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group nextcloud Helm updates",
+      "matchPaths": [
+        "nextcloud"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "nextcloud",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group nocodb Helm updates",
+      "matchPaths": [
+        "nocodb"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "nocodb",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group nvidia-operator Helm updates",
+      "matchPaths": [
+        "nvidia-operator"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "nvidia-operator",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group oauth2-proxy Helm updates",
+      "matchPaths": [
+        "oauth2-proxy"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "oauth2-proxy",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group postgres Helm updates",
+      "matchPaths": [
+        "postgres"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "postgres",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group rabbitmq Helm updates",
+      "matchPaths": [
+        "rabbitmq"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "rabbitmq",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group redis Helm updates",
+      "matchPaths": [
+        "redis"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "redis",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group rook Helm updates",
+      "matchPaths": [
+        "rook"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "rook",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group sentry Helm updates",
+      "matchPaths": [
+        "sentry"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "sentry",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group spark Helm updates",
+      "matchPaths": [
+        "spark"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "spark",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group strapi Helm updates",
+      "matchPaths": [
+        "strapi"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "strapi",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group superset Helm updates",
+      "matchPaths": [
+        "superset"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "superset",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group trino Helm updates",
+      "matchPaths": [
+        "trino"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "trino",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group vault Helm updates",
+      "matchPaths": [
+        "vault"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "vault",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group vaultwarden Helm updates",
+      "matchPaths": [
+        "vaultwarden"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "vaultwarden",
+      "additionalBranchPrefix": ""
+    }
+  ],
+  "regexManagers": [
+    {
+      "fileMatch": [
+        "(^|/|\\.)vendor_images$"
+      ],
+      "matchStrings": [
+        "(?<depName>.*?):(?<currentValue>.*)"
+      ],
+      "versioningTemplate": "docker",
+      "datasourceTemplate": "docker"
+    }
+  ],
+  "separateMinorPatch": true,
+  "dependencyDashboardApproval": true
+}

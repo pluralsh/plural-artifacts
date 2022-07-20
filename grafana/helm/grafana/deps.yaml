@@ -9,6 +9,15 @@ spec:
     name: bootstrap
     repo: bootstrap
     version: '>= 0.5.1'
+  - type: helm
+    name: ingress-nginx
+    repo: ingress-nginx
+    version: '>= 0.1.2'
+  - type: helm
+    name: rook
+    repo: rook
+    version: '>= 0.1.4'
+    optional: true
   - type: terraform
     name: aws
     repo: grafana
@@ -21,6 +30,11 @@ spec:
     optional: true
   - type: terraform
     name: azure
+    repo: grafana
+    version: '>= 0.1.0'
+    optional: true
+  - type: terraform
+    name: equinix
     repo: grafana
     version: '>= 0.1.0'
     optional: true

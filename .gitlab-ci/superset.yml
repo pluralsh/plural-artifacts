@@ -1,0 +1,7 @@
+superset:
+  stage: push
+  only:
+  - main
+  script:
+  - vendor_image apache/superset:master superset
+  - vendor_image apache/superset:3c41ff68a43b5ab6b871226a73de9f2129d64766 superset

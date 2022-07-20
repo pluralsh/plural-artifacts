@@ -2,12 +2,19 @@ apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
   description: postgres azure setup
-  version: 0.1.1
+  version: 0.1.15
 spec:
   dependencies:
   - name: azure-bootstrap
     repo: bootstrap
     type: terraform
     version: '>= 0.1.1'
+  - name: azure
+    repo: minio
+    type: terraform
+    version: '>= 0.1.5'
   providers:
   - azure
+  outputs:
+    access_key_id: access_key_id
+    secret_access_key: secret_access_key

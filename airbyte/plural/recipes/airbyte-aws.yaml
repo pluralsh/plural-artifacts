@@ -1,0 +1,33 @@
+name: airbyte-aws
+description: Installs airbyte on an eks cluster
+provider: AWS
+oidcSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+- repo: postgres
+  name: aws-postgres
+sections:
+- name: airbyte
+  configuration:
+  - name: airbyteBucket
+    type: BUCKET
+    default: airbyte
+    documentation: Arbitrary bucket name to store airbyte logs in
+  - name: hostname
+    type: DOMAIN
+    documentation: the fully qualified domain name your airbyte instance will be available at
+  - name: privateHostname
+    documentation: a private dns name to securely access the airbyte api from
+    type: DOMAIN
+    optional: true
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: airbyte

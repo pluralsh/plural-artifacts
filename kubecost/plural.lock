@@ -1,0 +1,21 @@
+artifact: {}
+terraform:
+  terraform/aws: h1:GxC9N+oL9ViTitkG9khvZw3qgFDsH1aOjWQS3D9cH3g=
+  terraform/azure: h1:iSK+IdyrS3NMnoFP+SdUKMeU7ZdAj6JMkKyifwAgy1o=
+  terraform/gcp: h1:rVoarImzapl4z3viyFhGsq1Dfkr9UKIM6L80rzkM0/Q=
+helm:
+  helm/kubecost: h1:gjge9jHXuU5IeSEnhethFDk5SYsOp36xV2yEM1WUqkE=
+recipe:
+  plural/recipes/kubecost-aws.yaml: cbf47a64368315645c9859b72b3e3bcd6ae90ee46d2784c195916411bfa4772e
+  plural/recipes/kubecost-azure.yaml: d4ff9d7b54204407648778da84d121f0cc152e7da8d8cbf85033b1b86aff0290
+  plural/recipes/kubecost-gcp.yaml: 16760acad6a69b5cdcfa623e7ff3c361473230e7328a369e2cbb4fa73203b59e
+integration: {}
+crd: {}
+ird: {}
+tag:
+  plural/tags/helm/kubecost.yaml: b4b601f7174ceb9af151ad2a73b2948cb9446a84b25a2a98141fa53dc727935a
+  plural/tags/terraform/aws.yaml: 01c402c260cc7fe359d1ebc4302ff11539cfabbd5a82745907ad445914153bb7
+  plural/tags/terraform/azure.yaml: 86b17dc5dcbc7d877dddbda68b790231f9f7eaa025d00471360108ccd5f42a07
+  plural/tags/terraform/gcp.yaml: 3761f7e078206cf85f48969d231071adfb3b68ee68b7c68a2b50045e896a3288
+attrs:
+  repository.yaml_Plural: mTkRhEU60qK4Q8HmKP-5W5867rn2H8Ld0SkE_RN4kEY=

@@ -1,0 +1,33 @@
+name: mlflow-aws
+description: Installs mlflow on an aws eks cluster
+provider: AWS
+oidcSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+- repo: postgres
+  name: aws-postgres
+sections:
+- name: mlflow
+  configuration:
+  - name: mlflow_bucket
+    type: BUCKET
+    default: mlflow
+    documentation: bucket to store the mlflow artifacts in
+  - name: hostname
+    documentation: FQDN to use for your MLFlow installation
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: TERRAFORM
+    name: aws-standalone
+  - type: HELM
+    name: mlflow
+  - type: HELM
+    name: mlflow-standalone

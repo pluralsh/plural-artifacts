@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgresql-database-dashboard
+  labels: {{ include "postgres.labels" . | nindent 4 }}
+    grafana_dashboard: postgresql-database-dashboard
+  annotations:
+    k8s-sidecar-target-directory: /tmp/dashboards/Postgres Dashboards
+data:
+  postgresql-database_rev7.json: |-
+{{ .Files.Get "grafana-dashboards/postgresql-database_rev7.json" | indent 4 }}
