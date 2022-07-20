@@ -1,0 +1,40 @@
+# Default values for openmetadata.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+elasticNamespace: elasticsearch
+
+database:
+  storage: 5Gi
+  replicas: 1
+  resources:
+    requests:
+      cpu: 0.2
+      memory: 400Mi
+openmetadata:
+  airflow:
+    enabled: false
+  mysql:
+    enabled: false
+  elasticsearch:
+    enabled: false
+
+global:
+  database:
+    host: plural-openmetadata
+    dbUseSSL: false
+    databaseName: openmetadata
+    auth:
+      username: openmetadata
+      password:
+        secretRef: mysql-secrets
+        secretKey: openmetadata-mysql-password
+  elasticsearch:
+    host: elasticsearch-es-http.elasticsearch
+    scheme: https
+    auth:
+      enabled: true
+      username: elastic
+      password:
+        secretRef: elasticsearch-es-elastic-user
+        secretKey: elastic

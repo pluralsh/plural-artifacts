@@ -1,0 +1,37 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  creationTimestamp: null
+  labels:
+    role: alert-rules
+  name: om-mysql-rules
+spec:
+  groups:
+  - name: openmetadata
+    rules:
+    - alert: openmetadataDbCPU
+      expr: |
+        (
+          sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"openmetadata-mysql-[0-9]+",container=~"mysql"}[5m])) 
+          / sum(kube_pod_container_resource_requests{endpoint="http",namespace="{{ .Release.Namespace }}", pod=~"openmetadata-mysql-[0-9]+",container=~"mysql",resource="cpu"})
+        )  > 0.6
+      for: 5m
+      labels:
+        severity: critical
+        namespace: {{ .Release.Namespace }}
+      annotations:
+        summary: openmetadata's MySQL cpu usage has gotten too high
+        description: the cpu utilization of your openmetadata deployment's mysql db is higher than recommended
+    - alert: openmetadataDbMEM
+      expr: |
+        (
+          sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"openmetadata-mysql-[0-9]+",container=~"mysql"})
+          / sum(kube_pod_container_resource_requests{endpoint="http",resource="memory",namespace="{{ .Release.Namespace }}",pod=~"openmetadata-mysql-[0-9]+",container=~"mysql"})
+        )  > 0.6
+      for: 5m
+      labels:
+        severity: critical
+        namespace: {{ .Release.Namespace }}
+      annotations:
+        summary: openmetadata's MySQL memory usage has gotten too high
+        description: the memory utilization of your openmetadata deployment's mysql db is higher than recommended

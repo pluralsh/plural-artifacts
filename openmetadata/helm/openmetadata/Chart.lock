@@ -1,0 +1,6 @@
+dependencies:
+- name: openmetadata
+  repository: https://helm.open-metadata.org/
+  version: 0.0.28
+digest: sha256:8f6a44a5a8079c3d025da5204a3a3ce98af76ee2fbf52530fa8af29cf2e5811d
+generated: "2022-07-25T13:26:24.41211-04:00"

@@ -1,0 +1,23 @@
+name: openmetadata-aws
+description: Installs openmetadata on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+- name: elasticsearch-aws
+  repo: elasticsearch
+- name: aws-mysql
+  repo: mysql
+sections:
+- name: openmetadata
+  configuration:
+  - name: hostname
+    type: DOMAIN
+    documentation: the fully qualified domain name your openmetadata instance will be available at
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: openmetadata

@@ -1,0 +1,21 @@
+name: openmetadata-gcp
+description: Installs openmetadata on an aws eks cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+- name: elasticsearch-gcp
+  repo: elasticsearch
+sections:
+- name: openmetadata
+  configuration:
+  - name: hostname
+    type: DOMAIN
+    documentation: the fully qualified domain name your openmetadata instance will be available at
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: openmetadata

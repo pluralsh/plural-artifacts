@@ -1,0 +1,10 @@
+apiVersion: v2
+name: openmetadata
+description: helm chart for openmetadata
+type: application
+version: 0.1.0
+appVersion: "v1.0.0"
+dependencies:
+- name: openmetadata
+  version: 0.0.28
+  repository: https://helm.open-metadata.org/

@@ -1,0 +1,1 @@
+Use `plural watch openmetadata` to track the status of your application

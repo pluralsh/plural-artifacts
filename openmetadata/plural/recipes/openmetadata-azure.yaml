@@ -1,0 +1,21 @@
+name: openmetadata-azure
+description: Installs openmetadata on an aws eks cluster
+provider: AZURE
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-azure
+- name: elasticsearch-azure
+  repo: elasticsearch
+sections:
+- name: openmetadata
+  configuration:
+  - name: hostname
+    type: DOMAIN
+    documentation: the fully qualified domain name your openmetadata instance will be available at
+  items:
+  - type: TERRAFORM
+    name: azure
+  - type: HELM
+    name: openmetadata

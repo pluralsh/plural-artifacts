@@ -1,0 +1,26 @@
+apiVersion: mysql.presslabs.org/v1alpha1
+kind: MysqlCluster
+metadata:
+  name: openmetadata
+spec:
+  replicas: {{ .Values.database.replicas }}
+  secretName: openmetadata-root
+  volumeSpec:
+    persistentVolumeClaim:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: {{ .Values.database.storage }}
+    resources:
+    {{ toYaml .Values.database.resources | nindent 6 }}
+---
+apiVersion: mysql.presslabs.org/v1alpha1
+kind: MysqlDatabase
+metadata:
+  name: openmetadata
+  namespace: kubeflow
+spec:
+  database: openmetadata
+  clusterRef:
+    name: openmetadata
+    namespace: {{ .Release.Namespace }}

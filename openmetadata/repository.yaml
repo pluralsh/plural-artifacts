@@ -1,0 +1,7 @@
+name: openmetadata
+description: openmetadata deployed on plural
+category: DATA
+private: true
+icon: plural/icons/openmetadata.png
+notes: plural/notes.tpl
+gitUrl: https://github.com/open-metadata/OpenMetadata
