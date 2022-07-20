@@ -1,0 +1,16 @@
+name: elasticsearch-aws
+description: Installs elasticsearch on an eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+sections:
+- name: elasticsearch
+  items:
+  - type: TERRAFORM
+    name: kube
+    configuration: []
+  - type: HELM
+    name: elasticsearch
+    configuration: []
+  

@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: elasticsearch-ingressgateway-certs
+  namespace: istio
+spec:
+  secretName: elasticsearch-ingressgateway-certs
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: kibana.kubeflow-aws.com
+  dnsNames:
+  - kibana.kubeflow-aws.com
