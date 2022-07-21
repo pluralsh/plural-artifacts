@@ -1,8 +1,11 @@
+{{ if .Values.metricbeat.enabled }}
 ---
 apiVersion: beat.k8s.elastic.co/v1beta1
 kind: Beat
 metadata:
   name: metricbeat
+  labels:
+  {{ include "elasticsearch.labels" . | nindent 4 }}
 spec:
   type: metricbeat
   version: 7.13.2
@@ -141,6 +144,8 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: metricbeat
+  labels:
+  {{ include "elasticsearch.labels" . | nindent 4 }}
 rules:
 - apiGroups:
   - ""
@@ -186,17 +191,21 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: metricbeat
-  namespace: elasticsearch
+  labels:
+  {{ include "elasticsearch.labels" . | nindent 4 }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: metricbeat
+  labels:
+  {{ include "elasticsearch.labels" . | nindent 4 }}
 subjects:
 - kind: ServiceAccount
   name: metricbeat
-  namespace: elasticsearch
+  namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
   name: metricbeat
   apiGroup: rbac.authorization.k8s.io
+{{ end }}

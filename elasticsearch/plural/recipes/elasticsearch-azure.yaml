@@ -1,9 +1,9 @@
-name: elasticsearch-aws
+name: elasticsearch-azure
 description: Installs elasticsearch on an eks cluster
-provider: AWS
+provider: AZURE
 dependencies:
 - repo: bootstrap
-  name: aws-k8s
+  name: azure-k8s
 sections:
 - name: elasticsearch
   items:
