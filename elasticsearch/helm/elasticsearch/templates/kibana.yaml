@@ -1,7 +1,10 @@
+{{ if .Values.kibana.enabled }}
 apiVersion: kibana.k8s.elastic.co/v1
 kind: Kibana
 metadata:
   name: kibana
+  labels:
+  {{ include "elasticsearch.labels" . | nindent 4 }}
 spec:
   config:
     xpack.monitoring.collection.enabled: true
@@ -21,12 +24,8 @@ spec:
         stack-monitoring.elastic.co/type: kb
     spec:
       containers:
-        - name: kibana
-          resources:
-            requests:
-              memory: 1Gi
-              cpu: 0.5
-            limits:
-              memory: 2Gi
-              cpu: 2
-  version: 7.13.2
+      - name: kibana
+        resources:
+          {{ toYaml .Values.kibana.resources | nindent 12 }}
+  version: {{ .Values.kibana.version }}
+{{ end }}

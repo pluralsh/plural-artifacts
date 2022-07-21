@@ -1,7 +1,10 @@
+{{ if .Values.apm.enabled }}
 apiVersion: apm.k8s.elastic.co/v1
 kind: ApmServer
 metadata:
   name: apm
+  labels:
+  {{ include "elasticsearch.labels" . | nindent 4 }}
 spec:
   config:
     http.enabled: true
@@ -27,3 +30,4 @@ spec:
               name: monitoring
               protocol: TCP
   version: 7.13.2
+{{ end }}
