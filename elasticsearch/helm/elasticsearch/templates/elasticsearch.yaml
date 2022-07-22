@@ -19,6 +19,13 @@ spec:
           labels:
             stack-monitoring.elastic.co/type: es
         spec:
+          initContainers:
+          - name: install-plugins
+            command:
+            - sh
+            - -c
+            - |
+              bin/elasticsearch-plugin install -b repository-s3 https://github.com/vvanholl/elasticsearch-prometheus-exporter/releases/download/{{ .Values.elasticsearch.version }}.0/prometheus-exporter-{{ .Values.elasticsearch.version }}.0.zip
           containers:
             - name: elasticsearch
               resources:
