@@ -8,7 +8,7 @@ spec:
   image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
   replicas: 1
   size: "5Gi"
-  defaultArtifactRoot: s3:/{{ .Values.mlflow.defaultArtifactRoot }}
+  defaultArtifactRoot: s3://{{ .Values.mlflow.defaultArtifactRoot }}
   serviceAccountName: {{ include "mlflow-standalone.serviceAccountName" . }}
   {{- if $oidcConfig.enabled }}
   extraPodLabels:
