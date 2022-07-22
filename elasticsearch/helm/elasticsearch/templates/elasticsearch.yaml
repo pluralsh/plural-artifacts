@@ -23,6 +23,20 @@ spec:
             - name: elasticsearch
               resources:
                 {{ toYaml .Values.elasticsearch.resources | nindent 16 }}
+              readinessProbe:
+                exec:
+                  command:
+                  - bash
+                  - -c
+                  - /mnt/elastic-internal/scripts/readiness-probe-script.sh
+                failureThreshold: 3
+                initialDelaySeconds: 20
+                periodSeconds: 12
+                successThreshold: 1
+                timeoutSeconds: 30
+              env:
+              - name: READINESS_PROBE_TIMEOUT
+                value: "30"
       volumeClaimTemplates:
       - metadata:
           name: elasticsearch-data
