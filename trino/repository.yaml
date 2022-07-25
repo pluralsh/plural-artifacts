@@ -8,6 +8,6 @@ homepage: https://trino.io/
 gitUrl: https://github.com/trinodb/trino
 oauthSettings:
   uriFormat: https://{domain}/oauth2/callback
-  authMethod: POST
+  authMethod: BASIC
 tags:
 - tag: data
