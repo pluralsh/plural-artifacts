@@ -1,0 +1,6 @@
+name: lightdash
+description: lightdash deployed on plural
+category: DATA
+private: true
+icon: plural/icons/lightdash.png
+notes: plural/notes.tpl
