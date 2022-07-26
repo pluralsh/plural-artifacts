@@ -11,6 +11,8 @@ spec:
       resources:
         requests:
           storage: {{ .Values.database.storage }}
+  podSpec:
+    serviceAccountName: {{ include "openmetadata.serviceAccountName" . }}
     resources:
     {{ toYaml .Values.database.resources | nindent 6 }}
 ---
@@ -18,7 +20,6 @@ apiVersion: mysql.presslabs.org/v1alpha1
 kind: MysqlDatabase
 metadata:
   name: openmetadata
-  namespace: kubeflow
 spec:
   database: openmetadata
   clusterRef:

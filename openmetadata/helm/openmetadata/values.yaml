@@ -4,6 +4,10 @@
 
 elasticNamespace: elasticsearch
 
+serviceAccount:
+  create: true
+  annotations: {}
+
 database:
   storage: 5Gi
   replicas: 1
