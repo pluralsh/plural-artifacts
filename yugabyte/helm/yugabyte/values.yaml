@@ -1,6 +1,12 @@
 yugabyte:
+  Image:
+    repository: dkr.plural.sh/yugabyte/yugabytedb/yugabyte
+    tag: 2.15.1.0-b175
   autoMultiAz:
     enabled: true
+    image:
+      repository: dkr.plural.sh/yugabyte/bitnami/kubectl
+      tag: 1.24.3
   tls:
     enabled: true
     certManager:
