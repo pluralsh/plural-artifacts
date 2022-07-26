@@ -52,7 +52,6 @@ ingress-nginx:
       enabled: true
       minReplicas: 2
       maxReplicas: 11
-      targetCPUUtilizationPercentage: 50
       targetMemoryUtilizationPercentage: 95
       behavior:
         scaleDown:
