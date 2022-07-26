@@ -3,6 +3,7 @@ oidc-config:
   enabled: true
   secret:
     name: yugabyte-proxy-config
+    upstream: http://localhost:7000
     issuer: {{ .OIDC.Configuration.Issuer }}
     clientID: {{ .OIDC.ClientId }}
     clientSecret: {{ .OIDC.ClientSecret }}
