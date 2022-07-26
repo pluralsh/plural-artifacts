@@ -1,0 +1,9 @@
+yugabyte:
+  autoMultiAz:
+    enabled: true
+  tls:
+    enabled: true
+    certManager:
+      enabled: true
+  serviceMonitor:
+    enabled: true

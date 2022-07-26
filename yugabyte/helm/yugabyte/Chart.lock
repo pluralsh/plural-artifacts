@@ -1,0 +1,9 @@
+dependencies:
+- name: yugabyte
+  repository: https://pluralsh.github.io/plural-helm-charts
+  version: 2.15.1
+- name: oidc-config
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.6
+digest: sha256:a1cd2c69f0ca566d4cb567ee5d5510ef7c918b1abdb80636feb920ef0f9b6c1b
+generated: "2022-07-26T15:28:45.999671766+02:00"

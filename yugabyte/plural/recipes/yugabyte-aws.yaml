@@ -1,0 +1,23 @@
+name: yugabyte-aws
+description: Installs yugabyte on an aws eks cluster
+provider: AWS
+oidcSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+sections:
+- name: yugabyte
+  configuration:
+  - name: hostname
+    type: DOMAIN
+    documentation: the fully qualified domain name your yugabyte instance will be available at
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: yugabyte
