@@ -26,7 +26,7 @@ ingress-nginx:
     resources:
       requests:
         cpu: 100m
-        memory: 120Mi
+        memory: 250Mi
     topologySpreadConstraints:
     - maxSkew: 1
       topologyKey: topology.kubernetes.io/zone
@@ -38,7 +38,6 @@ ingress-nginx:
       enabled: true
       minReplicas: 2
       maxReplicas: 11
-      targetCPUUtilizationPercentage: 50
       targetMemoryUtilizationPercentage: 95
       behavior:
         scaleDown:
