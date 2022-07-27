@@ -39,3 +39,9 @@ ingress:
     - secretName: mlflow-standalone-tls
       hosts:
         - {{ .Values.hostname }}
+
+{{- if eq .Provider "aws" }}
+serviceAccount:
+  annotations:
+    eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-mlflow"
+{{- end }}
