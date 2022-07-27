@@ -8,9 +8,9 @@ operatorConfigName: operator-configuration
 oauthSecretName: postgres-operator
 
 image:
-  registry: registry.opensource.zalan.do
-  repository: acid/postgres-operator
-  tag: v1.6.3
+  registry: dkr.plural.sh
+  repository: postgres/acid/postgres-operator
+  tag: v1.8.2-6-g8c94e377-dirty
   pullPolicy: "IfNotPresent"
 
   # Optionally specify an array of imagePullSecrets.
@@ -150,8 +150,6 @@ configKubernetes:
   # label assigned to the Postgres pods (and services/endpoints)
   pod_role_label: spilo-role
 
-  pod_service_account_name: postgres-pod
-
   # service account definition as JSON/YAML string to be used by postgres cluster pods
   # pod_service_account_definition: ""
 
@@ -177,6 +175,17 @@ configKubernetes:
   storage_resize_mode: pvc
   # operator watches for postgres objects in the given namespace
   watched_namespace: "*"  # listen to all namespaces
+
+  liveness_probe:
+    failureThreshold: 3
+    httpGet:
+      path: /readiness
+      port: 8008
+      scheme: HTTP
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 5
 
 configSecret:
   enabled: false
