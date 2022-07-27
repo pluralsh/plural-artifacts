@@ -2,7 +2,7 @@ apiVersion: v2
 name: yugabyte
 description: helm chart for yugabyte
 type: application
-version: 0.1.1
+version: 0.1.2
 appVersion: "v2.15.1"
 dependencies:
 - name: yugabyte
