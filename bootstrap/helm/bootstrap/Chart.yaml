@@ -8,7 +8,9 @@ sources:
 maintainers:
 - name: michaeljguarino
   email: mguarino46@gmail.com
-version: 0.8.46
+- name: David van der Spek
+  email: david@plural.sh
+version: 0.8.47
 dependencies:
 - name: external-dns
   version: 4.11.0
