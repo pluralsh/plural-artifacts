@@ -10,13 +10,14 @@ spec:
     repo: bootstrap
     version: '>= 0.5.1'
   - type: helm
-    name: ingress-nginx
-    repo: ingress-nginx
-    version: ">= 0.1.2"
+    name: istio
+    repo: istio
+    version: '>= 0.1.88'
+    optional: true
   - type: helm
     name: postgres
     repo: postgres
-    version: ">= 0.1.6"
+    version: '>= 0.1.32'
   - type: terraform
     name: aws
     repo: mlflow

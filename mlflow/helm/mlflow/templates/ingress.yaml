@@ -1,5 +1,7 @@
 {{- if .Values.ingress.enabled -}}
+{{- $fullName := include "mlflow.fullname" . -}}
 {{- $svcPort := .Values.service.port -}}
+{{- $oidcConfig := index .Values "oidc-config" -}}
 {{- if and .Values.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
   {{- if not (hasKey .Values.ingress.annotations "kubernetes.io/ingress.class") }}
   {{- $_ := set .Values.ingress.annotations "kubernetes.io/ingress.class" .Values.ingress.className}}
@@ -14,9 +16,9 @@ apiVersion: extensions/v1beta1
 {{- end }}
 kind: Ingress
 metadata:
-  name: mlflow-oauth2-proxy
+  name: {{ $fullName }}
   labels:
-    {{- include "mlflow-standalone.labels" . | nindent 4 }}
+    {{- include "mlflow.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -46,14 +48,26 @@ spec:
             pathType: {{ .pathType }}
             {{- end }}
             backend:
+              {{- if $oidcConfig.enabled }}
               {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
               service:
-                name: mlflow-oauth2-proxy
+                name: {{ $oidcConfig.service.name }}
+                port:
+                  number: 80
+              {{- else }}
+              serviceName: {{ $oidcConfig.service.name }}
+              servicePort: 80
+              {{- end }}
+              {{- else }}
+              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
+              service:
+                name: {{ $fullName }}
                 port:
                   number: {{ $svcPort }}
               {{- else }}
-              serviceName: mlflow-oauth2-proxy
+              serviceName: {{ $fullName }}
               servicePort: {{ $svcPort }}
+              {{- end }}
               {{- end }}
           {{- end }}
     {{- end }}
