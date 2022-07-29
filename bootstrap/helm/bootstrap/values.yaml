@@ -67,9 +67,6 @@ snapshot-validation-webhook:
     requests:
       cpu: 10m
       memory: 20Mi
-    limits:
-      cpu: 10m
-      memory: 20Mi
 
 snapshot-controller:
   enabled: false
@@ -78,9 +75,6 @@ snapshot-controller:
     tag: v4.2.1
   resources:
     requests:
-      cpu: 10m
-      memory: 20Mi
-    limits:
       cpu: 10m
       memory: 20Mi
 
@@ -102,16 +96,10 @@ aws-ebs-csi-driver:
       requests:
         cpu: 10m
         memory: 24Mi
-      limits:
-        cpu: 10m
-        memory: 24Mi
   sidecars:
     provisioner:
       resources:
         requests:
-          cpu: 10m
-          memory: 24Mi
-        limits:
           cpu: 10m
           memory: 24Mi
     attacher:
@@ -119,15 +107,9 @@ aws-ebs-csi-driver:
         requests:
           cpu: 10m
           memory: 24Mi
-        limits:
-          cpu: 10m
-          memory: 24Mi
     snapshotter:
       resources:
         requests:
-          cpu: 10m
-          memory: 24Mi
-        limits:
           cpu: 10m
           memory: 24Mi
     livenessProbe:
@@ -135,23 +117,14 @@ aws-ebs-csi-driver:
         requests:
           cpu: 10m
           memory: 145Mi
-        limits:
-          cpu: 10m
-          memory: 145Mi
     resizer:
       resources:
         requests:
           cpu: 10m
           memory: 37Mi
-        limits:
-          cpu: 10m
-          memory: 37Mi
     nodeDriverRegistrar:
       resources:
         requests:
-          cpu: 10m
-          memory: 24Mi
-        limits:
           cpu: 10m
           memory: 24Mi
 
