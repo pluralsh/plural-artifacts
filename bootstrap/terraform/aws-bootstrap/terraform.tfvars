@@ -8,3 +8,11 @@ map_roles = [
     groups = ["system:masters"]
   }
 ]
+
+
+{{- if .Values.database_subnets }}
+database_subnets = yamldecode(<<EOT
+{{ .Values.database_subnets | toYaml }}
+EOT
+)
+{{- end }}

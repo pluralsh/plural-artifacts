@@ -42,6 +42,13 @@ variable "worker_private_subnets" {
   description = "Private subnets for the workers of the EKS cluster"
 }
 
+variable "database_subnets" {
+  type = list(string)
+  default = []
+
+  description = "A list of database subnets"
+}
+
 variable "instance_types" {
   type = list(string)
   default = ["t3.large"]

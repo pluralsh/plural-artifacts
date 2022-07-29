@@ -42,3 +42,7 @@ output "worker_role_arn" {
 output "node_groups" {
   value = [for d in merge(module.single_az_node_groups.node_groups, module.multi_az_node_groups.node_groups): d]
 }
+
+output "vpc" {
+  value = module.vpc
+}
