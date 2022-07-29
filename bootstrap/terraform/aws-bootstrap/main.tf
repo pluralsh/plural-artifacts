@@ -13,6 +13,8 @@ module "vpc" {
   enable_dns_hostnames   = true
   enable_ipv6            = true
 
+  database_subnets = var.database_subnets
+
   enable_nat_gateway = true
   single_nat_gateway = true
 
