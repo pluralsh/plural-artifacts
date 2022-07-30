@@ -112,6 +112,7 @@ superset:
       Authlib~=0.15.3 \
       pyjwt \
       redis==3.2.1 \
+      typing-extensions~=3.10 \
       snowflake-sqlalchemy~=1.2.4 && \
     if [ ! -f ~/bootstrap ]; then echo "Running Superset with uid {{ .Values.runAsUser }}" > ~/bootstrap; fi
   postgresql:
