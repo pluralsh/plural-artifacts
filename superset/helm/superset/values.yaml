@@ -142,7 +142,13 @@ superset:
         - secretRef:
             name: '{{ tpl .Values.envFromSecret . }}'
       command: [ "/bin/sh", "-c", "until nc -zv $DB_HOST $DB_PORT -w1; do echo 'waiting for db'; sleep 1; done" ]
-  
+    - name: wait-for-migration
+      image: gcr.io/pluralsh/groundnuty/k8s-wait-for:v1.3
+      imagePullPolicy: Always
+      args:
+      - job
+      - superset-init-db-{{ .Release.Revision }}
+    
   supersetNode:
     connections:
       db_host: plural-superset
@@ -154,6 +160,12 @@ superset:
         - secretRef:
             name: '{{ tpl .Values.envFromSecret . }}'
       command: [ "/bin/sh", "-c", "until nc -zv $DB_HOST $DB_PORT -w1; do echo 'waiting for db'; sleep 1; done" ]
+    - name: wait-for-migration
+      image: gcr.io/pluralsh/groundnuty/k8s-wait-for:v1.3
+      imagePullPolicy: Always
+      args:
+      - job
+      - superset-init-db-{{ .Release.Revision }}
 
   extraEnvRaw:
   - name: DB_PASS

@@ -2,9 +2,8 @@ apiVersion: v2
 name: superset
 description: A Helm chart for superset on plural
 type: application
-version: 0.2.4
+version: 0.2.5
 appVersion: "1.16.0"
-
 dependencies:
 - name: superset
   version: 0.3.12
