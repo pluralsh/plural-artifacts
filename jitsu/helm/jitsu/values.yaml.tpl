@@ -14,6 +14,14 @@ secrets:
   redis_password: {{ $redisValues.redis.password }}
   admin_token: {{ dedupe . "jitsu.jitsu.secrets.admin_token" (randAlphaNum 32) }}
   configurator_url: https://{{ .Values.hostname }}/configurator
+  {{ if .SMTP }}
+  smtp:
+    user: {{ .SMTP.User }}
+    password: {{ .SMTP.Password }}
+    host: {{ .SMTP.Server }}
+    port: {{ .SMTP.Port }}
+    from: {{ .SMTP.Sender }}
+  {{ end }}
 
 config:
   server:
