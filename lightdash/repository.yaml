@@ -1,6 +1,10 @@
 name: lightdash
-description: lightdash deployed on plural
+description: Lightdash instantly turns your dbt project into a full-stack BI platform.
 category: DATA
 private: true
 icon: plural/icons/lightdash.png
 notes: plural/notes.tpl
+homepage: https://www.lightdash.com/
+gitUrl: https://github.com/lightdash/lightdash
+tags:
+- tag: bi

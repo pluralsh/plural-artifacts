@@ -1,4 +1,7 @@
 lightdash:
+  image:
+    repository: dkr.plural.sh/lightdash/lightdash/lightdash
+    tag: 0.138.0
   postgresql:
     enabled: false
     #secretName: lightdash.plural-lightdash.credentials.postgresql.acid.zalan.do
