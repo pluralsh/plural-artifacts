@@ -1,0 +1,11 @@
+name: kube
+description: Installs mongodb on an aws eks cluster
+provider: AZURE
+sections:
+- name: mongodb
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: mongodb-community
