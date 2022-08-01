@@ -11,18 +11,13 @@ lightdash:
     database: lightdash
     port: 5432
   #configMap:
+    #PGSSLMODE: no-verify
     # Example connection details for Lightdash postgres database - Change me!
   #  PGHOST: "plural-lightdash"
   #  PGPORT: "5432"
   #  PGUSER: lightdash
   #  PGDATABASE: "lightdash"
-  #secrets:
-      # Password for postgres user above - Change me!
-  #  PGPASSWORD:
 
-    # If you know the public url of the finished Lightdash installation add it here
-    # you may have to return later and change this
-    SITE_URL: ""
 
 
 postgres:

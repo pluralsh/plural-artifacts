@@ -6,7 +6,7 @@ version: 0.1.0
 appVersion: "v0.165.3"
 dependencies:
   - name: lightdash
-    version: 0.3.4
+    version: 0.3.7
     repository: https://lightdash.github.io/helm-charts
   - name: postgres
     version: 0.1.5
