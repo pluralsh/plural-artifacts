@@ -17,6 +17,10 @@ sections:
   - name: apiHostname
     documentation: the domain name for the growthbook api (should be different from hostname)
     type: DOMAIN
+  - name: growthbookBucket
+    documentation: bucket for your growthbook instance
+    type: BUCKET
+    default: growthbook
   items:
   - type: TERRAFORM
     name: azure

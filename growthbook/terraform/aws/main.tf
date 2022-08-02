@@ -10,7 +10,7 @@ resource "kubernetes_namespace" "growthbook" {
 
 module "s3_buckets" {
   source = "github.com/pluralsh/module-library//terraform/s3-buckets"
-  bucket_names = [var.dagster_bucket]
+  bucket_names = [var.growthbook_bucket]
   policy_prefix = "growthbook"
 }
 
