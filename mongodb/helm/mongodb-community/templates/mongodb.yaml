@@ -1,0 +1,8 @@
+apiVersion: mongodbcommunity.mongodb.com/v1
+kind: MongoDBCommunity
+metadata:
+  name: {{ .Values.clusterName }}
+  labels:
+  {{ include "mongodb.labels" . | nindent 4 }}
+spec:
+  {{ toYaml .Values.cluster | nindent 2 }}

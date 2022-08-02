@@ -1,0 +1,14 @@
+name: mongodb-aws
+description: Installs mongodb CE on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+sections:
+- name: mongodb
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: mongodb-community

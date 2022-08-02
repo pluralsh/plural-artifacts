@@ -1,0 +1,6 @@
+name: mongodb
+description: scalable nosql document-oriented db
+category: DATABASE
+private: true
+icon: plural/icons/mongodb.png
+notes: plural/notes.tpl

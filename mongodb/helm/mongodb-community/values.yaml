@@ -1,0 +1,32 @@
+metrics: 
+  password: CHANGEME
+
+clusterName: mongo
+
+community-operator:
+  community-operator-crds:
+    enabled: false
+
+cluster: 
+  members: 3
+  version: 5.0.6
+  type: ReplicaSet
+  security:
+    authentication:
+      modes: ["SCRAM"]
+  users:
+  - name: admin
+    db: admin
+    passwordSecretRef: # a reference to the secret that will be used to generate the user's password
+      name: admin-password
+    roles:
+    - name: clusterAdmin
+      db: admin
+    - name: userAdminAnyDatabase
+      db: admin
+    scramCredentialsSecretName: admin-scram
+  prometheus:
+    passwordSecretRef:
+      name: metrics-endpoint-creds
+
+    username: metrics
