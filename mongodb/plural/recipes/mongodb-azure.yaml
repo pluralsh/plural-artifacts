@@ -1,4 +1,4 @@
-name: kube
+name: mongodb-azure
 description: Installs mongodb on an aws eks cluster
 provider: AZURE
 sections:

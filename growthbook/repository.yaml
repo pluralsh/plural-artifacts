@@ -1,0 +1,6 @@
+name: growthbook
+description: open source feature flagging toolkit
+category: DATA
+private: true
+icon: plural/icons/growthbook.png
+notes: plural/notes.tpl
