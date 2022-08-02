@@ -1,0 +1,24 @@
+name: growthbook-azure
+description: Installs growthbook on an aws eks cluster
+provider: AZURE
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-azure
+- repo: mongodb
+  name: mongodb-azure
+sections:
+- name: growthbook
+  configuration:
+  - name: hostname
+    documentation: the domain name for your growthbook instance
+    type: DOMAIN
+  - name: apiHostname
+    documentation: the domain name for the growthbook api (should be different from hostname)
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: azure
+  - type: HELM
+    name: growthbook
