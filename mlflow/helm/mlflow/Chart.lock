@@ -1,6 +1,9 @@
 dependencies:
-- name: mlflow-operator
-  repository: https://pluralsh.github.io/plural-helm-charts
-  version: 0.1.4
-digest: sha256:2e82a3774b35423364db63a229d4fe1399dd22ab0d44600688caf18184d44aec
-generated: "2021-12-29T18:02:36.518428-05:00"
+- name: postgres
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.5
+- name: oidc-config
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.6
+digest: sha256:7030b7705752817c5bdb7d71b8ff558cae5ad6204e3b7b588916489f9147cd85
+generated: "2022-07-28T17:03:49.705024344+02:00"
