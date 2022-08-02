@@ -9,13 +9,14 @@ spec:
     name: bootstrap
     repo: bootstrap
     version: '>= 0.5.1'
-  
   - type: helm
     name: ingress-nginx
     repo: ingress-nginx
     version: ">= 0.1.2"
-  
-  
+  - type: helm
+    name: mongodb-community
+    repo: mongodb
+    version: '>= 0.1.4'
   - type: terraform
     name: aws
     repo: growthbook
