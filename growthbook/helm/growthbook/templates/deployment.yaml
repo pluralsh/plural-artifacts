@@ -44,10 +44,10 @@ spec:
                 key: connectionString.standardSrv
           ports:
           - name: http
-            containerPort: 3000
+            containerPort: {{ .Values.service.port }}
             protocol: TCP
           - name: api
-            containerPort: 3001
+            containerPort: {{ .Values.service.api }}
             protocol: TCP
           livenessProbe:
             httpGet:
