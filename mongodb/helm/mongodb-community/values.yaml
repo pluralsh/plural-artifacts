@@ -24,9 +24,10 @@ cluster:
       db: admin
     - name: userAdminAnyDatabase
       db: admin
+    - name: root
+      db: admin
     scramCredentialsSecretName: admin-scram
   prometheus:
     passwordSecretRef:
       name: metrics-endpoint-creds
-
     username: metrics
