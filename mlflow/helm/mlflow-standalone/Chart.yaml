@@ -5,7 +5,7 @@ type: application
 version: 0.1.13
 appVersion: "1.16.0"
 dependencies:
-  - name: oidc-config
-    version: 0.1.6
-    repository: https://pluralsh.github.io/module-library
-    condition: oidc-config.enabled
+- name: oidc-config
+  version: 0.1.6
+  repository: https://pluralsh.github.io/module-library
+  condition: oidc-config.enabled
