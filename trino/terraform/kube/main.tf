@@ -4,7 +4,6 @@ resource "kubernetes_namespace" "trino" {
     labels = {
       "app.kubernetes.io/managed-by" = "plural"
       "app.plural.sh/name" = "trino"
-
     }
   }
 }
