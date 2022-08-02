@@ -9,33 +9,24 @@ resource "kubernetes_namespace" "mlflow" {
   }
 }
 
+data "aws_eks_cluster" "cluster" {
+  name = var.cluster_name
+}
+
 module "s3_buckets" {
   source = "github.com/pluralsh/module-library//terraform/s3-buckets"
   bucket_names  = [var.mlflow_bucket]
-  policy_prefix = "mlflow"
+  policy_prefix = var.role_name
 }
 
-module "irsa_policy" {
-  source = "github.com/pluralsh/module-library//terraform/irsa-policy"
-  cluster_name   = var.cluster_name
-  role_name      = var.role_name
-  namespace      = var.namespace
-  serviceaccount = var.serviceaccount_name
-  policy_json    = data.aws_iam_policy_document.mlflow.json
-
-}
-
-data "aws_iam_policy_document" "mlflow" {
-  statement {
-    sid    = "admin"
-    effect = "Allow"
-    actions = ["s3:*"]
-
-    resources = [
-      "arn:aws:s3:::${var.mlflow_bucket}",
-      "arn:aws:s3:::${var.mlflow_bucket}/*"
-    ]
-  }
+module "assumable_role_mlflow" {
+  source                        = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
+  version                       = "3.14.0"
+  create_role                   = true
+  role_name                     = "${var.cluster_name}-${var.role_name}"
+  provider_url                  = replace(data.aws_eks_cluster.cluster.identity[0].oidc[0].issuer, "https://", "")
+  role_policy_arns              = [module.s3_buckets.policy_arn]
+  oidc_fully_qualified_subjects = ["system:serviceaccount:${var.namespace}:${var.serviceaccount_name}"]
 }
 
 data "aws_iam_role" "postgres" {
