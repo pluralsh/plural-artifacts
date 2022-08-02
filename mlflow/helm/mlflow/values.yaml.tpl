@@ -37,12 +37,11 @@ ingress:
     - secretName: mlflow-standalone-tls
       hosts:
         - {{ .Values.hostname }}
-
+{{- if eq .Provider "aws" }}
 config:
   artifact:
-    {{- if eq .Provider "aws" }}
     defaultArtifactRoot: s3://{{ .Values.mlflow_bucket }}/
-    {{- end }}
+{{- end }}
 
 {{- if eq .Provider "aws" }}
 serviceAccount:

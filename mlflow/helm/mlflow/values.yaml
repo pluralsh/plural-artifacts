@@ -103,7 +103,7 @@ postgres:
 
 config:
   artifact:
-    defaultArtifactRoot: s3://plural-mlflow-test-bucket/
+    defaultArtifactRoot: ""
   database:
     credentials:
       secretName: mlflow.plural-mlflow.credentials.postgresql.acid.zalan.do
