@@ -8,3 +8,4 @@ dependencies:
 - name: postgres
   version: 0.1.4
   repository: https://pluralsh.github.io/module-library
+  condition: database.operatorEnabled
