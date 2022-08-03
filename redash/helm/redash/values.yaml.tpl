@@ -5,6 +5,11 @@ global:
     - description: redash web ui
       url: {{ .Values.hostname }}
 
+redash:
+  envSecretName: redash.plural-redash.credentials.postgresql.acid.zalan.do
+  externalPostgreSQL: postgresql://$(username):$(password)@plural-redash:5432/redash
+  secretKey: {{ dedupe . "redash.redash.redash.secretKey" (randAlphaNum 32) }}
+  cookieSecret: {{ dedupe . "redash.redash.redash.cookieSecret" (randAlphaNum 32) }}
 
 secrets:
   redis_host: redis-master.{{ namespace "redis" }}
