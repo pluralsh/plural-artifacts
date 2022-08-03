@@ -5,17 +5,6 @@ global:
     - description: redash web ui
       url: {{ .Values.hostname }}
 
-redash:
-  redash:
-    secretKey: {{ dedupe . "redash.redash.redash.secretKey" (randAlphaNum 32) }}
-    cookieSecret: {{ dedupe . "redash.redash.redash.cookieSecret" (randAlphaNum 32) }}
-  postgresql:
-    enabled: false
-  redis:
-    enabled: false
-  externalRedisSecret:
-    name: redash-redis
-    key: REDIS_URL
 
 secrets:
   redis_host: redis-master.{{ namespace "redis" }}
