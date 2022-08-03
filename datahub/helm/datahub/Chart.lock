@@ -1,0 +1,9 @@
+dependencies:
+- name: datahub
+  repository: https://helm.datahubproject.io
+  version: 0.2.87
+- name: postgres
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.5
+digest: sha256:d62a63a02f1b12d51d78f540295006f00265ad66ea59879e6f60f676627010ea
+generated: "2022-08-01T17:00:51.892131+03:00"

@@ -1,0 +1,11 @@
+name: datahub
+description: datahub deployed on plural
+category: DATA
+private: true
+icon: plural/icons/datahub.png
+notes: plural/notes.tpl
+homepage: https://datahubproject.io/
+gitUrl: https://github.com/datahub-project/datahub
+tags:
+  - tag: data
+  - tag: automation
