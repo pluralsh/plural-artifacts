@@ -4,3 +4,8 @@ category: DATA
 private: true
 icon: plural/icons/redash.png
 notes: plural/notes.tpl
+homepage: https://redash.io/
+gitUrl: https://github.com/getredash/redash
+tags:
+  - tag: datasource
+  - tag: bigdata
