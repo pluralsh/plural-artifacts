@@ -175,6 +175,8 @@ configOverlays:
             ]
 
 airbyte:
+  version: 0.39.14-alpha
+
   postgresql:
     enabled: true
   minio:
