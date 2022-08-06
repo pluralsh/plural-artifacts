@@ -87,7 +87,11 @@ serviceAccount:
   create: true
   annotations:
     {{- if .OIDC }}
+    {{ if .Values.adminGroup }}
+    workflows.argoproj.io/rbac-rule: "'{{ .Values.adminGroup }}' in groups"
+    {{ else }}
     workflows.argoproj.io/rbac-rule: "email in ['{{ .Values.adminEmail }}']"
+    {{ end }}
     workflows.argoproj.io/rbac-rule-precedence: "1"
     {{- end }}
     {{- if eq .Provider "aws" }}
