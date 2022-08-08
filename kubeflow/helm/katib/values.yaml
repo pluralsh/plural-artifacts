@@ -24,7 +24,7 @@ serviceAccount:
 webApp:
   replicaCount: 1
   image:
-    repository: docker.io/kubeflowkatib/katib-new-ui
+    repository: dkr.plural.sh/kubeflow/kubeflowkatib/katib-new-ui
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: v0.11.1
@@ -80,7 +80,7 @@ controller:
     gateway: kubeflow/kubeflow-gateway
 
   image:
-    repository: docker.io/kubeflowkatib/katib-controller
+    repository: dkr.plural.sh/kubeflow/kubeflowkatib/katib-controller
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: v0.11.1
@@ -134,7 +134,7 @@ controller:
 
 dbManager:
   image:
-    repository: docker.io/kubeflowkatib/katib-db-manager
+    repository: dkr.plural.sh/kubeflow/kubeflowkatib/katib-db-manager
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: v0.11.1

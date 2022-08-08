@@ -24,7 +24,7 @@ serviceAccount:
 webApp:
   replicaCount: 1
   image:
-    repository: davidspek/models-web-app
+    repository: dkr.plural.sh/kubeflow/davidspek/models-web-app
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: v0.8.0
