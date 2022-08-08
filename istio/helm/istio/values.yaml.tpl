@@ -99,7 +99,6 @@ provider: {{ .Provider }}
 {{ $monitoringNamespace := namespace "monitoring" }}
 {{ $grafanaNamespace := namespace "grafana" }}
 {{ $tempoNamespace := namespace "grafana-tempo" }}
-{{ $grafanaValues := .Applications.HelmValues "grafana" }}
 monitoring:
   namespace: {{ $monitoringNamespace }}
   grafama:
@@ -153,6 +152,7 @@ kiali-server:
     prometheus:
       url: http://monitoring-prometheus.{{ $monitoringNamespace }}:9090
     {{ if .Configuration.grafana }}
+    {{ $grafanaValues := .Applications.HelmValues "grafana" }}
     grafana:
       auth:
         username: {{ $grafanaValues.grafana.grafana.admin.user }}
