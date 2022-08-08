@@ -1,5 +1,5 @@
 name: redash
-description: redash deployed on plural
+description: Redash provides users with BI tools to query data sources and create visual dashboards.
 category: DATA
 private: true
 icon: plural/icons/redash.png
