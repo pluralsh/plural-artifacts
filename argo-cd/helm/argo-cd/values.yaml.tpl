@@ -19,14 +19,14 @@ argo-cd:
   repoServer:
     extraArgs:
       - --redis=redis-master.{{ $redisNamespace }}:6379
-      - --redisdb=4
+      - --redisdb=2
     envFrom:
       - secretRef:
           name: redis-secret
   server:
     extraArgs:
       - --redis=redis-master.{{ $redisNamespace }}:6379
-      - --redisdb=3
+      - --redisdb=2
     envFrom:
       - secretRef:
           name: redis-secret
