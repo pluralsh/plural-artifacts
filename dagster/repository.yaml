@@ -1,5 +1,5 @@
 name: dagster
-description: beautiful data processing workflows
+description: A data orchestration platform for the development, production, and observation of data assets.
 category: DATA
 private: false
 icon: plural/icons/dagster.png

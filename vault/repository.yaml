@@ -1,5 +1,5 @@
 name: vault
-description: vault deployed on plural
+description: An open-source identity-based secrets and encryption management system.
 category: SECURITY
 private: false
 icon: plural/icons/vault.png

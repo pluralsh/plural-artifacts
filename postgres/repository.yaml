@@ -1,5 +1,5 @@
 name: postgres
-description: postgres as a service for kubernetes
+description: An open-source relational database that supports both SQL and JSON querying.
 icon: plural/icons/postgres.png
 category: DATABASE
 homepage: https://postgres-operator.readthedocs.io/en/latest/

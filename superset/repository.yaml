@@ -1,5 +1,5 @@
 name: superset
-description: open source data visualization
+description: An open-source modern data exploration and visualization platform.
 category: DATA
 icon: plural/icons/superset.png
 notes: plural/notes.tpl

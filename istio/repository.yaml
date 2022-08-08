@@ -1,5 +1,5 @@
 name: istio
-description: envoy powered service mesh
+description: An open-source service mesh platform that controls how microservices share data with one another.
 category: DEVOPS
 icon: plural/icons/istio.png
 homepage: https://istio.io/

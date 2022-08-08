@@ -1,5 +1,5 @@
 name: strapi
-description: strapi deployed on plural
+description: An open-source headless CMS to build powerful APIs with little effort.
 category: DATA
 private: true
 icon: plural/icons/strapi.png
