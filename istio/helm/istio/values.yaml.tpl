@@ -99,7 +99,7 @@ provider: {{ .Provider }}
 {{ $monitoringNamespace := namespace "monitoring" }}
 {{ $grafanaNamespace := namespace "grafana" }}
 {{ $tempoNamespace := namespace "grafana-tempo" }}
-{{ $grafanaCreds := secret $grafanaNamespace "grafana-credentials" }}
+{{ $grafanaValues := .Applications.HelmValues "grafana" }}
 monitoring:
   namespace: {{ $monitoringNamespace }}
   grafama:
@@ -155,8 +155,8 @@ kiali-server:
     {{ if .Configuration.grafana }}
     grafana:
       auth:
-        username: {{ ( index $grafanaCreds "admin-user") }}
-        password: {{ ( index $grafanaCreds "admin-password") }}
+        username: {{ $grafanaValues.grafana.grafana.admin.user }}
+        password: {{ $grafanaValues.grafana.grafana.admin.password }}
       url: https://{{ .Configuration.grafana.hostname }}
       in_cluster_url: http://grafana.{{ $grafanaNamespace }}:80
     {{  end }}
