@@ -9,4 +9,4 @@ metadata:
   name: queue-proxy
   namespace: {{ .Release.Namespace }}
 spec:
-  image: gcr.io/knative-releases/knative.dev/serving/cmd/queue:v0.26.0
+  image: {{ .Values.images.cacheImage.registry }}/{{ .Values.images.cacheImage.repository }}:{{ .Values.images.cacheImage.tag }}
