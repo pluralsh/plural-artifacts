@@ -1,5 +1,5 @@
 name: monitoring
-description: openmetrics suite for plural
+description: An OpenMetrics suite for Plural.
 icon: plural/icons/monitoring.png
 category: DEVOPS
 gitUrl: https://github.com/prometheus/prometheus
