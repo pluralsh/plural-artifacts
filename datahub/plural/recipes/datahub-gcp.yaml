@@ -8,6 +8,10 @@ dependencies:
   name: ingress-nginx-gcp
 - repo: postgres
   name: gcp-postgres
+- name: elasticsearch-gcp
+  repo: elasticsearch
+- repo: kafka
+  name: gcp-kafka
 sections:
 - name: datahub
   configuration:

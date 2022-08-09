@@ -8,6 +8,10 @@ dependencies:
   name: ingress-nginx-aws
 - repo: postgres
   name: aws-postgres
+- name: elasticsearch-aws
+  repo: elasticsearch
+- repo: kafka
+  name: aws-kafka
 sections:
 - name: datahub
   configuration:

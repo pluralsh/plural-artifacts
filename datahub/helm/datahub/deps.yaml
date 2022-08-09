@@ -17,6 +17,14 @@ spec:
     name: postgres
     repo: postgres
     version: ">= 0.1.6"
+  - type: helm
+    name: elasticsearch
+    repo: elasticsearch
+    version: '>= 0.1.9'
+  - type: helm
+    name: kafka
+    repo: kafka
+    version: '>= 0.1.3'
   - type: terraform
     name: aws
     repo: datahub
