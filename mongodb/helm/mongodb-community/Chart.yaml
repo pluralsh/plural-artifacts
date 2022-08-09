@@ -2,9 +2,12 @@ apiVersion: v2
 name: mongodb-community
 description: helm chart for mongodb community operator
 type: application
-version: 0.1.6
+version: 0.1.7
 appVersion: "v1.0.0"
 dependencies:
 - name: community-operator
   repository: https://mongodb.github.io/helm-charts
   version: 0.7.4
+- name: config-overlays
+  version: 0.1.1
+  repository: https://pluralsh.github.io/module-library

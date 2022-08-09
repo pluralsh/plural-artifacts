@@ -5,4 +5,25 @@ metadata:
   labels:
   {{ include "mongodb.labels" . | nindent 4 }}
 spec:
+  statefulSet:
+    spec:
+      template:
+        spec:
+          containers:
+          {{ range $name, $container := .Values.statefulset.containers }}
+          - name: {{ $name }}
+            {{ toYaml $container | nindent 12 }}
+          {{ end }}
+      volumeClaimTemplates:
+      - apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+          name: data-volume
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: {{ .Values.statefulset.storage.size }}
+          volumeMode: Filesystem
   {{ toYaml .Values.cluster | nindent 2 }}
