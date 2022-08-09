@@ -2,5 +2,6 @@ name: mongodb
 description: scalable nosql document-oriented db
 category: DATABASE
 private: false
+gitUrl: https://github.com/mongodb/mongo
 icon: plural/icons/mongodb.png
 notes: plural/notes.tpl

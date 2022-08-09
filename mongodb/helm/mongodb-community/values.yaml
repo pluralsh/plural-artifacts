@@ -20,6 +20,7 @@ statefulset:
           cpu: 500m
           memory: 400M
     mongod:
+      image: dkr.plural.sh/mongodb/mongo:5.0.6
       resources:
         limits:
           cpu: 1
