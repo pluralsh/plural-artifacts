@@ -1,5 +1,5 @@
 name: crossplane
-description: crd based cloud resource deployment
+description: An open-source Kubernetes add-on that transforms your cluster into a universal control plane.
 category: DEVOPS
 icon: plural/icons/crossplane.png
 notes: plural/notes.tpl

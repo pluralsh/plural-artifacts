@@ -1,5 +1,5 @@
 name: jitsu
-description: jitsu deployed on plural
+description: An open-source high-performance data collection service.
 category: DATA
 private: false
 icon: plural/icons/jitsu.png

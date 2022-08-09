@@ -1,5 +1,5 @@
 name: filecoin
-description: making the web more secure and efficient with a decentralized data storage marketplace, protocol, and cryptocurrency.
+description: A decentralized storage network for renting unused hard disk space.
 category: DEVOPS
 icon: plural/icons/filecoin.png
 notes: plural/notes.tpl

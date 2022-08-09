@@ -1,5 +1,5 @@
 name: oauth2-proxy
-description: easy to use oauth solution for load balancers
+description: A reverse proxy & static file server that issues auth to validate accounts by email or domain.
 category: SECURITY
 icon: plural/icons/oauth2-proxy.png
 notes: plural/notes.tpl

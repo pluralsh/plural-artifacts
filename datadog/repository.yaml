@@ -1,5 +1,5 @@
 name: datadog
-description: datadog deployed on plural
+description: An observability service for cloud-scale applications.
 category: DEVOPS
 private: false
 gitUrl: https://github.com/DataDog/helm-charts

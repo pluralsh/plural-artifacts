@@ -1,5 +1,5 @@
 name: n8n
-description: n8n deployed on plural
+description: An extendable workflow automation tool.
 category: DATA
 private: false
 icon: plural/icons/n8n.png

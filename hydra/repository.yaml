@@ -1,5 +1,5 @@
 name: hydra
-description: hydra deployed on plural
+description: Low latency, high-throughput OAuth 2.0 and OpenID Connect provider.
 category: SECURITY
 private: false
 icon: plural/icons/hydra.png

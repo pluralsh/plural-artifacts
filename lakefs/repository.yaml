@@ -1,5 +1,5 @@
 name: lakefs
-description: lakefs deployed on plural
+description: An open-source business intelligence platform.
 category: DEVOPS
 private: true
 icon: plural/icons/lakefs.png

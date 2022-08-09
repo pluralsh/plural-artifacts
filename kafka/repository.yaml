@@ -1,5 +1,5 @@
 name: kafka
-description: high performance log database
+description: An open-source distributed event streaming platform.
 category: MESSAGING
 icon: plural/icons/kafka.png
 homepage: https://kafka.apache.org/

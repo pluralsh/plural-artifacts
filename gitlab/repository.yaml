@@ -1,5 +1,5 @@
 name: gitlab
-description: unified devops experience based on git
+description: Source control management tool with built-in CI/CD and DevOps solutions.
 category: DEVOPS
 icon: plural/icons/gitlab.png
 notes: plural/notes.tpl

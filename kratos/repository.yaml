@@ -1,5 +1,5 @@
 name: kratos
-description: kratos deployed on plural
+description: A microservice framework in Go that acts like a toolbox for building microservices in Go.
 category: SECURITY
 private: true
 icon: plural/icons/kratos.png

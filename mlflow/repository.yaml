@@ -1,5 +1,5 @@
 name: mlflow
-description: streamlined machine learning development
+description: An open-source platform that streamlines machine learning development.
 category: DEVOPS
 icon: plural/icons/mlflow.png
 notes: plural/notes.tpl

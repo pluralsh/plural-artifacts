@@ -1,5 +1,5 @@
 name: mongodb
-description: scalable nosql document-oriented db
+description: A scalable NoSQL document-oriented database.
 category: DATABASE
 private: false
 icon: plural/icons/mongodb.png

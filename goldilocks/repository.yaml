@@ -1,5 +1,5 @@
 name: goldilocks
-description: resource scaling assistant
+description: A K8s controller that provides a dashboard with guidance for setting up your resource requests.
 category: DEVOPS
 icon: plural/icons/goldilocks.png
 notes: plural/notes.tpl

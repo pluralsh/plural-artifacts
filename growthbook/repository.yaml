@@ -1,5 +1,5 @@
 name: growthbook
-description: open source feature flagging toolkit
+description: An open-source feature flagging and experimentation platform.
 category: DATA
 private: false
 icon: plural/icons/growthbook.png
