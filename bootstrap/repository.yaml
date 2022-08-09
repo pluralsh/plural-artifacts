@@ -1,5 +1,5 @@
 name: bootstrap
-description: The Helm, Terraform, and YAML required to get started with Kubernetes.
+description: The cluster initialization resources for Plural.
 icon: plural/icons/k8s.png
 category: DEVOPS
 tags:
