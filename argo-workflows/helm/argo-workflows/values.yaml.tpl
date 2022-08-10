@@ -83,17 +83,19 @@ artifactRepository:
   gcs:
     bucket: {{ .Values.workflowBucket | quote }}
   {{ end }}
-serviceAccount:
-  create: true
+{{- if .OIDC }}
+adminServiceAccount:
   annotations:
-    {{- if .OIDC }}
     {{ if .Values.adminGroup }}
     workflows.argoproj.io/rbac-rule: "'{{ .Values.adminGroup }}' in groups"
     {{ else }}
     workflows.argoproj.io/rbac-rule: "email in ['{{ .Values.adminEmail }}']"
     {{ end }}
     workflows.argoproj.io/rbac-rule-precedence: "1"
-    {{- end }}
+{{- end }}
+serviceAccount:
+  create: true
+  annotations:
     {{- if eq .Provider "aws" }}
     eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-argo-workflows"
     {{- end }}

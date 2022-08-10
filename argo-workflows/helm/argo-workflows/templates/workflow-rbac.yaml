@@ -10,6 +10,9 @@ subjects:
   - kind: ServiceAccount
     name: argo-workflow
     namespace: {{ .Release.Namespace }}
+  - kind: ServiceAccount
+    name: argo-workflow-admin
+    namespace: {{ .Release.Namespace }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
