@@ -1,9 +1,9 @@
 dependencies:
 - name: lightdash
   repository: https://lightdash.github.io/helm-charts
-  version: 0.3.4
+  version: 0.3.7
 - name: postgres
   repository: https://pluralsh.github.io/module-library
   version: 0.1.5
-digest: sha256:160357e6f77697de508eee54b891353e0c1f2bba0be923dc55d02a890b67b62a
-generated: "2022-07-21T07:07:06.979989+03:00"
+digest: sha256:817127fc057f15a4bf58203382884c8df69fef399721dfe683d1f7b758ea69cd
+generated: "2022-08-09T12:48:04.368916+03:00"
