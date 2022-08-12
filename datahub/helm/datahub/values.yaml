@@ -9,22 +9,51 @@ replicaCount: 1
 datahub:
   global:
     elasticsearch:
-      host: "something"
+      host: "elasticsearch-es-http.elasticsearch"
       port: "9200"
+      useSSL: "true"
+      auth:
+        username: elastic
+        password:
+          secretRef: elasticsearch-es-elastic-user
+          secretKey: elastic
+    kafka:
+      bootstrap:
+        server: "kafka-kafka-bootstrap.kafka.svc.local:9092"
+      zookeeper:
+        server: "kafka-zookeeper-client.kafka.svc.local:2181"
+      ## For AWS MSK set this to a number larger than 1
+      # partitions: 3
+      # replicationFactor: 3
+      #schemaregistry:
+        #url: "http://prerequisites-cp-schema-registry:8081"
+        # type: AWS_GLUE
+        # glue:
+        #   region: us-east-1
+        #   registry: datahub
+    ##  Add below to enable SSL for kafka
+    #  credentialsAndCertsSecrets:
+    #    name: datahub-certs
+    #    path: /mnt/datahub/certs
+    #    secureEnv:
+    #      ssl.key.password: datahub.linkedin.com.KeyPass
+    #      ssl.keystore.password: datahub.linkedin.com.KeyStorePass
+    #      ssl.truststore.password: datahub.linkedin.com.TrustStorePass
+    #      kafkastore.ssl.truststore.password: datahub.linkedin.com.TrustStorePass
   prerequisites:
     elasticsearch:
-      enabled: true   # set this to false, if you want to provide your own ES instance.
+      enabled: false   # set this to false, if you want to provide your own ES instance.
     neo4j:
       enabled: false  # set this to true, if you have a license for the enterprise edition
     neo4j-community:
       enabled: true   # set this to false, if you have a license for the enterprise edition
       acceptLicenseAgreement: "yes"
       defaultDatabase: "graph.db"
-  # For better security, add password to neo4j-secrets k8s secret and uncomment below
+      # For better security, add password to neo4j-secrets k8s secret and uncomment below
       existingPasswordSecret: neo4j-secrets
     mysql:
       enabled: false
 
-  # Bitnami version of Kafka that deploys open source Kafka https://artifacthub.io/packages/helm/bitnami/kafka
+    # Bitnami version of Kafka that deploys open source Kafka https://artifacthub.io/packages/helm/bitnami/kafka
     kafka:
       enabled: true
