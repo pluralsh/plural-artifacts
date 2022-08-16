@@ -37,6 +37,10 @@ spec:
             value: {{ .Values.minecraft.gamemode }}
           - name: MOTD
             value: {{ .Values.minecraft.motd }}
+          {{ if .Values.minecraft.type }}
+          - name: TYPE
+            value: {{ .Values.minecraft.type }}
+          {{ end }}
           - name: ALLOW_FLIGHT
             value: 'TRUE'
         ports:
@@ -48,16 +52,14 @@ spec:
         readinessProbe:
           exec:
             command:
-            - mcstatus
-            - 127.0.0.1
-            - ping
-          initialDelaySeconds: 30
+            - mc-monitor
+            - status
+          initialDelaySeconds: 240
           periodSeconds: 30
         livenessProbe:
           exec:
             command:
-            - mcstatus
-            - 127.0.0.1
-            - ping
-          initialDelaySeconds: 30
+            - mc-monitor
+            - status
+          initialDelaySeconds: 240
           periodSeconds: 30
