@@ -4,14 +4,12 @@ provider: GCP
 dependencies:
 - repo: bootstrap
   name: gcp-k8s
-
-- repo: ingress-nginx
-  name: ingress-nginx-gcp
-
-
 sections:
 - name: minecraft
-  configuration: []
+  configuration:
+  - name: hostname
+    documentation: fqdn for your metabase instance
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: gcp

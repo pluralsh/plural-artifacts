@@ -4,14 +4,12 @@ provider: AWS
 dependencies:
 - repo: bootstrap
   name: aws-k8s
-
-- repo: ingress-nginx
-  name: ingress-nginx-aws
-
-
 sections:
 - name: minecraft
-  configuration: []
+  configuration:
+  - name: hostname
+    documentation: fqdn for your metabase instance
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: aws

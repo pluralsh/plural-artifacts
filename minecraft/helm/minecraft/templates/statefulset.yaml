@@ -1,24 +1,30 @@
 # docker run -d -it -v /path/on/host:/data -e EULA=TRUE -p 25565:25565 --name mc itzg/minecraft-server
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: minecraft-server
   labels:
     app: minecraft-server
+    {{ include "minecraft.labels" . | nindent 4 }}
 spec:
   replicas: 1
+  serviceName: minecraft-headless
   selector:
     matchLabels:
       app: minecraft-server
+  volumeClaimTemplates:
+  - metadata:
+      name: minecraft-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: {{ .Values.volume.storage }}
   template:
     metadata:
       labels:
         app: minecraft-server
     spec:
-      volumes:
-      - name: minecraft-data
-        persistentVolumeClaim:
-          claimName: minecraft-data-pvc
       containers:
       - name: minecraft-server
         image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
