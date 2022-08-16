@@ -3,7 +3,7 @@
 {{ if hasKey $artifacts "s3" }}
   {{ $s3 := $artifacts.s3 }}
   {{ $_ := set $s3 "keyFormat" "{{workflow.namespace}}/{{workflow.name}}/{{pod.name}}"  }} 
-{{ else }}
+{{ else if hasKey $artifacts "gcs" }}
   {{ $gcs := $artifacts.gcs }}
   {{ $_ := set $gcs "keyFormat" "{{workflow.namespace}}/{{workflow.name}}/{{pod.name}}"  }} 
 {{ end }}
