@@ -26,40 +26,194 @@ spec:
         app: minecraft-server
     spec:
       containers:
-      - name: minecraft-server
-        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+      - name: {{ template "minecraft.fullname" . }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
         resources:
-        {{ toYaml .Values.resources | nindent 10 }}
+          {{ toYaml .Values.resources | nindent 10 }}
+      {{- with .Values.envFrom }}
+        envFrom:
+          {{- . | toYaml | nindent 10 }}
+      {{ end }}
         env:
-          - name:  EULA
-            value: 'TRUE'
-          - name: MODE
-            value: {{ .Values.minecraft.gamemode }}
-          - name: MOTD
-            value: {{ .Values.minecraft.motd }}
-          {{ if .Values.minecraft.type }}
-          - name: TYPE
-            value: {{ .Values.minecraft.type }}
-          {{ end }}
-          - name: ALLOW_FLIGHT
-            value: 'TRUE'
+        - name: EULA
+          value: {{ .Values.minecraftServer.eula | quote }}
+        - name: TYPE
+          value: {{ default "" .Values.minecraftServer.type | quote }}
+        {{- if eq .Values.minecraftServer.type "FORGE" }}
+        {{- if .Values.minecraftServer.forgeInstallerUrl }}
+        - name: FORGE_INSTALLER_URL
+          value: {{ .Values.minecraftServer.forgeInstallerUrl | quote }}
+        {{- else }}
+        - name: FORGEVERSION
+          value: {{ .Values.minecraftServer.forgeVersion | quote }}
+        {{- end }}
+        {{- else if eq .Values.minecraftServer.type "SPIGOT" }}
+        - name: SPIGOT_DOWNLOAD_URL
+          value: {{ .Values.minecraftServer.spigotDownloadUrl | quote }}
+        {{- else if eq .Values.minecraftServer.type "BUKKIT" }}
+        - name: BUKKIT_DOWNLOAD_URL
+          value: {{ .Values.minecraftServer.bukkitDownloadUrl | quote }}
+        {{- else if eq .Values.minecraftServer.type "PAPER" }}
+        - name: PAPER_DOWNLOAD_URL
+          value: {{ .Values.minecraftServer.paperDownloadUrl | quote }}
+        {{- else if eq .Values.minecraftServer.type "FTBA" }}
+        - name: FTB_MODPACK_ID
+          value: {{ required "You must supply a minecraftserver.ftbModpackVersionID with type=FTBA" .Values.minecraftServer.ftbModpackId | quote }}
+        {{- if .Values.minecraftServer.ftbModpackVersionId }}
+        - name: FTB_MODPACK_VERSION_ID
+          value: {{ .Values.minecraftServer.ftbModpackVersionId | quote }}
+        {{- end }}
+        {{- else if eq .Values.minecraftServer.type "CURSEFORGE" }}
+        - name: CF_SERVER_MOD
+          value: {{ .Values.minecraftServer.cfServerMod | quote }}
+        - name: FTB_LEGACYJAVAFIXER
+          value: {{ default false .Values.minecraftServer.ftbLegacyJavaFixer | quote }}
+        {{- end }}
+        - name: VERSION
+          value: {{ .Values.minecraftServer.version | quote }}
+        - name: DIFFICULTY
+          value: {{ .Values.minecraftServer.difficulty | quote }}
+        - name: WHITELIST
+          value: {{ default "" .Values.minecraftServer.whitelist | quote }}
+        - name: OPS
+          value: {{ default "" .Values.minecraftServer.ops | quote }}
+        - name: ICON
+          value: {{ default "" .Values.minecraftServer.icon | quote }}
+        - name: MAX_PLAYERS
+          value: {{ .Values.minecraftServer.maxPlayers | quote }}
+        - name: MAX_WORLD_SIZE
+          value: {{ .Values.minecraftServer.maxWorldSize | quote }}
+        - name: ALLOW_NETHER
+          value: {{ .Values.minecraftServer.allowNether | quote }}
+        - name: ANNOUNCE_PLAYER_ACHIEVEMENTS
+          value: {{ .Values.minecraftServer.announcePlayerAchievements | quote }}
+        - name: ENABLE_COMMAND_BLOCK
+          value: {{ .Values.minecraftServer.enableCommandBlock | quote }}
+        - name: FORCE_GAMEMODE
+          value: {{ .Values.minecraftServer.forcegameMode | quote }}
+        {{- if .Values.minecraftServer.forceReDownload }}
+        - name: FORCE_REDOWNLOAD
+          value: "TRUE"
+        {{- end }}
+        - name: GENERATE_STRUCTURES
+          value: {{ .Values.minecraftServer.generateStructures | quote }}
+        - name: HARDCORE
+          value: {{ .Values.minecraftServer.hardcore | quote }}
+        - name: MAX_BUILD_HEIGHT
+          value: {{ .Values.minecraftServer.maxBuildHeight | quote }}
+        - name: MAX_TICK_TIME
+          value: {{ .Values.minecraftServer.maxTickTime | quote }}
+        - name: SPAWN_ANIMALS
+          value: {{ .Values.minecraftServer.spawnAnimals | quote }}
+        - name: SPAWN_MONSTERS
+          value: {{ .Values.minecraftServer.spawnMonsters | quote }}
+        - name: SPAWN_NPCS
+          value: {{ .Values.minecraftServer.spawnNPCs | quote }}
+        - name: SPAWN_PROTECTION
+          value: {{ .Values.minecraftServer.spawnProtection | quote }}
+        - name: VIEW_DISTANCE
+          value: {{ .Values.minecraftServer.viewDistance | quote }}
+        - name: SEED
+          value: {{ default "" .Values.minecraftServer.levelSeed | quote }}
+        - name: MODE
+          value: {{ .Values.minecraftServer.gameMode | quote }}
+        - name: MOTD
+          value: {{ .Values.minecraftServer.motd | quote }}
+        - name: PVP
+          value: {{ .Values.minecraftServer.pvp | quote }}
+        - name: LEVEL_TYPE
+          value: {{ .Values.minecraftServer.levelType | quote }}
+        - name: GENERATOR_SETTINGS
+          value: {{ default "" .Values.minecraftServer.generatorSettings | quote }}
+        - name: LEVEL
+          value: {{ .Values.minecraftServer.worldSaveName | quote }}
+        {{- if .Values.minecraftServer.downloadWorldUrl }}
+        - name: WORLD
+          value: {{ .Values.minecraftServer.downloadWorldUrl | quote }}
+        {{- end }}
+        {{- if .Values.minecraftServer.downloadModpackUrl }}
+        - name: MODPACK
+          value: {{ .Values.minecraftServer.downloadModpackUrl | quote }}
+        {{- if .Values.minecraftServer.removeOldMods }}
+        - name: REMOVE_OLD_MODS
+          value: "TRUE"
+        {{- end }}
+        {{- end }}
+        {{- if .Values.minecraftServer.spigetResources }}
+        - name: SPIGET_RESOURCES
+          value: {{ join "," .Values.minecraftServer.spigetResources | quote }}
+        {{- end }}
+        {{- if .Values.minecraftServer.vanillaTweaksShareCodes }}
+        - name: VANILLATWEAKS_SHARECODE
+          value: {{ join "," .Values.minecraftServer.vanillaTweaksShareCodes | quote }}
+        {{- end }}
+        {{- if .Values.minecraftServer.resourcePackUrl }}
+        - name: RESOURCE_PACK
+          value: {{ .Values.minecraftServer.resourcePackUrl | quote }}
+        {{- end }}
+        {{- if .Values.minecraftServer.resourcePackSha }}
+        - name: RESOURCE_PACK_SHA1
+          value: {{ .Values.minecraftServer.resourcePackSha | quote }}
+        {{- end }}
+        {{- if .Values.minecraftServer.resourcePackEnforce }}
+        - name: RESOURCE_PACK_ENFORCE
+          value: "TRUE"
+        {{- end }}
+        - name: ONLINE_MODE
+          value: {{ .Values.minecraftServer.onlineMode | quote }}
+        - name: MEMORY
+          value: {{ .Values.minecraftServer.memory | quote }}
+        - name: JVM_OPTS
+          value: {{ .Values.minecraftServer.jvmOpts | quote }}
+        - name: JVM_XX_OPTS
+          value: {{ .Values.minecraftServer.jvmXXOpts | quote }}
+        - name: OVERRIDE_SERVER_PROPERTIES
+          value: {{ default false .Values.minecraftServer.overrideServerProperties | quote }}
+
+        {{- if .Values.minecraftServer.rcon.enabled }}
+        - name: ENABLE_RCON
+          value: "true"
+        - name: RCON_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.minecraftServer.rcon.existingSecret | default (include "minecraft.fullname" .) }}
+              key: {{ .Values.minecraftServer.rcon.secretKey | default "rcon-password" }}
+        {{- else }}
+        - name: ENABLE_RCON
+          value: "false"
+        {{- end }}
+        {{- if .Values.minecraftServer.query.enabled }}
+        - name: ENABLE_QUERY
+          value: "true"
+        - name: QUERY_PORT
+          value: {{ .Values.minecraftServer.query.port | quote }}
+        {{- end }}
         ports:
         - containerPort: {{ .Values.minecraft.port }}
           name: minecraft
+          protocol: TCP
         volumeMounts:
           - name: minecraft-data
             mountPath:  /data
+        startupProbe:
+          tcpSocket:
+            port: 25565
+          failureThreshold: {{ .Values.startupProbe.failureThreshold }}
+          periodSeconds: {{ .Values.startupProbe.periodSeconds }}
         readinessProbe:
-          exec:
-            command:
-            - mc-monitor
-            - status
-          initialDelaySeconds: 240
-          periodSeconds: 30
+          tcpSocket:
+            port: 25565
+          initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+          failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+          successThreshold: {{ .Values.readinessProbe.successThreshold }}
+          timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
         livenessProbe:
-          exec:
-            command:
-            - mc-monitor
-            - status
-          initialDelaySeconds: 240
-          periodSeconds: 30
+          tcpSocket:
+            port: 25565
+          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+          failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+          successThreshold: {{ .Values.livenessProbe.successThreshold }}
+          timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
