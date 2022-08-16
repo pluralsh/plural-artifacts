@@ -1,3 +1,13 @@
+{{ $artifacts := .Values.artifactRepository }}
+
+{{ if hasKey $artifacts "s3" }}
+  {{ $s3 := $artifacts.s3 }}
+  {{ $_ := set $s3 "keyFormat" "{{workflow.namespace}}/{{workflow.name}}/{{pod.name}}"  }} 
+{{ else }}
+  {{ $gcs := $artifacts.gcs }}
+  {{ $_ := set $gcs "keyFormat" "{{workflow.namespace}}/{{workflow.name}}/{{pod.name}}"  }} 
+{{ end }}
+
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -6,5 +16,4 @@ metadata:
     workflows.argoproj.io/default-artifact-repository: default
 data:
   default: |
-    {{ toYaml .Values.artifactRepository | nindent 4 }}
-    keyFormat: {{ printf "\"{{workflow.namespace}}/{{workflow.name}}/{{pod.name}}\"" }}
+    {{ toYaml $artifacts | nindent 4 }}
