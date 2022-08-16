@@ -4,7 +4,6 @@ description: A Helm chart for gitlab on plural
 type: application
 version: 0.5.9
 appVersion: 15.0.0
-
 dependencies:
 - name: gitlab
   version: 6.0.0
