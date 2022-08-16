@@ -7,4 +7,4 @@ metadata:
 data:
   default: |
     {{ toYaml .Values.artifactRepository | nindent 4 }}
-  keyFormat: {{ printf "\"{{workflow.namespace}}/{{workflow.name}}/{{pod.name}}\"" }}
+    keyFormat: {{ printf "\"{{workflow.namespace}}/{{workflow.name}}/{{pod.name}}\"" }}
