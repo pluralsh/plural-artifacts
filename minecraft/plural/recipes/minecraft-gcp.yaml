@@ -1,0 +1,19 @@
+name: minecraft-gcp
+description: Installs minecraft on an aws eks cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+
+
+sections:
+- name: minecraft
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: minecraft

@@ -1,0 +1,6 @@
+name: minecraft
+description: minecraft deployed on plural
+category: PRODUCTIVITY
+private: true
+icon: plural/icons/minecraft.png
+notes: plural/notes.tpl

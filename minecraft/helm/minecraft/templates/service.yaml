@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: minecraft-server
+  namespace: minecraft
+  labels:
+    app: minecraft-server
+spec:
+  type: NodePort
+  ports:
+    - port: {{ .Values.minecraft.port }}
+      targetPort: minecraft
+      protocol: TCP
+      name: minecraft
+  selector:
+    app: minecraft-server
