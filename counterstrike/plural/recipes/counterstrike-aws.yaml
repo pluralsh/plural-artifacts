@@ -1,0 +1,27 @@
+name: counterstrike-aws
+description: Installs counterstrike on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+sections:
+- name: counterstrike
+  configuration:
+  - name: hostname
+    documentation: dns address for your counterstrike server
+    type: DOMAIN
+  - name: token
+    documentation: registration token, can be generated at https://steamcommunity.com/dev/managegameservers with app id 730
+    type: PASSWORD
+  - name: password
+    documentation: set your server password
+    type: PASSWORD
+  - name: rconPassword
+    documentation: set the rcon password you'll use for your server
+    type: PASSWORD
+    optional: true
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: counterstrike

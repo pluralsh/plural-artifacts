@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "counterstrike.fullname" . }}
+  labels:
+    {{- include "counterstrike.labels" . | nindent 4 }}
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: {{ .Values.hostname }}
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
+    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: 'true'
+    service.beta.kubernetes.io/aws-load-balancer-type: external
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+    service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: '3600'
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+  - port: 27016
+    targetPort: scrds
+    protocol: TCP
+    name: scrds
+  - port: 27021
+    targetPort: scrds-tv
+    protocol: TCP
+    name: scrds-tv
+  selector:
+    {{- include "counterstrike.selectorLabels" . | nindent 4 }}

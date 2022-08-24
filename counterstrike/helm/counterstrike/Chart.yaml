@@ -1,0 +1,6 @@
+apiVersion: v2
+name: counterstrike
+description: helm chart for counterstrike
+type: application
+version: 0.1.1
+appVersion: "v1.0.0"

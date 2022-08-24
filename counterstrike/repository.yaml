@@ -1,0 +1,7 @@
+name: counterstrike
+description: counterstrike deployed on plural
+category: PRODUCTIVITY
+private: true
+icon: plural/icons/csgo.png
+darkIcon: plural/icons/csgo-dark.png
+notes: plural/notes.tpl

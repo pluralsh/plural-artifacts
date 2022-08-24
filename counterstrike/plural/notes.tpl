@@ -1,0 +1,1 @@
+Use `plural watch counterstrike` to track the status of your application
