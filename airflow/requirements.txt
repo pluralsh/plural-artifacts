@@ -1,0 +1,9 @@
+sqlalchemy-redshift==0.8.11
+great-expectations==0.15.19
+airflow-provider-great-expectations==0.1.5
+awscli==1.19.112
+sqlalchemy==1.3.24
+airflow-exporter
+Authlib~=0.15.3
+pyjwt
+apache-airflow-providers-airbyte==2.1.4
