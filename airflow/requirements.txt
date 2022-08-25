@@ -1,4 +1,3 @@
-sqlalchemy-redshift==0.8.11
 great-expectations==0.15.19
 airflow-provider-great-expectations==0.1.5
 awscli==1.19.112
