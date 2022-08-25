@@ -8,4 +8,4 @@ homepage: https://datahubproject.io/
 gitUrl: https://github.com/datahub-project/datahub
 tags:
   - tag: data
-  - tag: automation
+  - tag: data-catalog
