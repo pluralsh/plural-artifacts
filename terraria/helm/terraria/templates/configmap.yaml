@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: {{ template "terraria.fullname" . }}
   labels:
-{{ include "terraria.labels" . | indent 4 }}
+    {{- include "terraria.labels" . | nindent 4 }}
 data:
   config.json: |
 {{- if .Values.terraria.settings }}
