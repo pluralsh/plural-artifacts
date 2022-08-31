@@ -1,5 +1,5 @@
 name: terraria-azure
-description: Installs terraria on an aws eks cluster
+description: Installs terraria on an Azure cluster
 provider: AZURE
 dependencies:
 - repo: bootstrap

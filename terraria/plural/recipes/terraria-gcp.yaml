@@ -1,5 +1,5 @@
 name: terraria-gcp
-description: Installs terraria on an aws eks cluster
+description: Installs terraria on a GCP cluster
 provider: GCP
 dependencies:
 - repo: bootstrap
