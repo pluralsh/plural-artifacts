@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "terraria.fullname" . }}
+  labels:
+{{ include "terraria.labels" . | indent 4 }}
+data:
+  config.json: |
+{{- if .Values.terraria.settings }}
+{{ toJson .Values.terraria.settings | indent 4 }}
+{{- end }}

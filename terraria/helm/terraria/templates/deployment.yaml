@@ -27,6 +27,15 @@ spec:
       serviceAccountName: {{ include "terraria.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+      - name: "init-{{ .Chart.Name }}"
+        image: gcr.io/pluralsh/busybox:latest
+        command: [ "/bin/sh", "-c", "cp /config/config.json /world/config.json && chmod 777 /world/config.json" ]
+        volumeMounts:
+        - name: terraria-worlds
+          mountPath: /world
+        - name: configmap
+          mountPath: /config
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
