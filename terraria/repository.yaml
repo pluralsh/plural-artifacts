@@ -1,0 +1,6 @@
+name: terraria
+description: terraria deployed on plural
+category: NETWORK
+private: true
+icon: plural/icons/terraria.png
+notes: plural/notes.tpl

@@ -1,0 +1,19 @@
+name: terraria-gcp
+description: Installs terraria on an aws eks cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+
+
+sections:
+- name: terraria
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: terraria

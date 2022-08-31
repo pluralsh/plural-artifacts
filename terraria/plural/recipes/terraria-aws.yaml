@@ -1,0 +1,19 @@
+name: terraria-aws
+description: Installs terraria on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+
+
+sections:
+- name: terraria
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: terraria

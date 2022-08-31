@@ -1,0 +1,19 @@
+name: terraria-azure
+description: Installs terraria on an aws eks cluster
+provider: AZURE
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+
+- repo: ingress-nginx
+  name: ingress-nginx-azure
+
+
+sections:
+- name: terraria
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: azure
+  - type: HELM
+    name: terraria
