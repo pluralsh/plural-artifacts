@@ -1,4 +1,5 @@
-apiVersion: networking.istio.io/v1alpha3
+{{- if .Values.istio.egressGateway.enabled }}
+apiVersion: networking.istio.io/v1beta1
 kind: Gateway
 metadata:
   name: istio-egressgateway
@@ -15,3 +16,4 @@ spec:
     - "*"
     tls:
       mode: ISTIO_MUTUAL
+{{- end }}

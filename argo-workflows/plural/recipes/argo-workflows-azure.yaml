@@ -1,0 +1,32 @@
+name: argo-workflows-azure
+description: Installs argo-workflows on a gke cluster
+provider: AZURE
+oidcSettings:
+  authMethod: POST
+  uriFormat: https://{domain}/oauth2/callback
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+sections:
+- name: argo-workflows
+  configuration:
+  - name: workflowBucket
+    type: BUCKET
+    default: argo-workflows
+    documentation: bucket to workflow artifacts in
+  - name: hostname
+    documentation: FQDN to use for your Argo Workflows installation
+    type: DOMAIN
+  - name: adminEmail
+    documentation: email address for the admin user
+    type: STRING
+  - name: adminGroup
+    documentation: specify a user group to grant admin rights to
+    type: STRING
+    optional: true
+  items:
+  - type: TERRAFORM
+    name: azure
+  - type: HELM
+    name: argo-workflows

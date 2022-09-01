@@ -1,0 +1,5 @@
+spec:
+  chart: elasticsearch
+  version: 0.1.0
+tags:
+- experimental

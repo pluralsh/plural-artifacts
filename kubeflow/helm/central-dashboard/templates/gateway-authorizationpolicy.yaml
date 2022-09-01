@@ -15,6 +15,7 @@ spec:
     - operation:
         hosts:
         - {{ .Values.global.domain }}   # needed for redirect after authentication
+        - "*.{{ .Values.global.domain }}"
 ---
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
@@ -36,6 +37,26 @@ spec:
     - operation:
         hosts:
         - {{ .Values.global.domain }}
-        # - <<__subdomain_kubecost__>>.<<__domain__>>
-        # - <<__subdomain_serving__>>.<<__domain__>>
-        # - '*.<<__subdomain_serving__>>.<<__domain__>>'
+        - "*.{{ .Values.global.domain }}"
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  labels: {{- include "central-dashboard.labels" . | nindent 4 }}
+  name: knative-local-kubeflow
+  namespace: {{ .Values.global.istioNamespace }}
+spec:
+  action: ALLOW
+  rules:
+    - to:
+        - operation:
+            hosts:
+              - "*.{{ .Values.global.clusterDomain }}"
+      when:
+        - key: request.headers[kubeflow-request-source-namespace]
+          values:
+            - '*'
+  selector:
+    matchLabels:
+      app: knative-local-gateway
+      istio: knative-local-gateway

@@ -1,0 +1,18 @@
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  description: vault gcp setup
+  version: 0.1.2
+spec:
+  breaking: true
+  dependencies:
+  - name: gcp-bootstrap
+    repo: bootstrap
+    type: terraform
+    version: '>= 0.1.1'
+  providers:
+  - gcp
+  outputs:
+    google_kms_key_ring_location: google_kms_key_ring_location
+    google_kms_key_ring_name: google_kms_key_ring_name
+    google_kms_crypto_key_name: google_kms_crypto_key_name

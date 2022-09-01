@@ -1,0 +1,7 @@
+name: vault
+description: An open-source identity-based secrets and encryption management system.
+category: SECURITY
+private: false
+icon: plural/icons/vault.png
+darkIcon: plural/icons/vault-white.png
+notes: plural/notes.tpl

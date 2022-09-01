@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hydra-migration-{{ randAlphaNum 4 | lower }}
+spec:
+  backoffLimit: 10
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: hydra-migration
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        command: ["hydra"]
+        args: ["migrate", "sql", "-e", "--yes"]
+        env:
+        - name: DSN
+          valueFrom:
+            secretKeyRef:
+              name: plural-hydra-conf
+              key: dsn

@@ -1,3 +1,4 @@
+{{- if .Values.istio.egressGateway.enabled }}
 # The following filter is used to forward the original SNI (sent by the application) as the SNI of the
 # mutual TLS connection.
 # The forwarded SNI will be will be used to enforce policies based on the original SNI value.
@@ -50,3 +51,4 @@ spec:
       value:
          name: sni_verifier
          config: {}
+{{- end }}

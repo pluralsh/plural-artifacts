@@ -5,6 +5,10 @@ metadata:
   description: installs the aws efs csi driver
 spec:
   dependencies:
+  - type: helm
+    name: bootstrap
+    repo: bootstrap
+    version: '>= 0.5.1'
   - type: terraform
     name: aws-efs
     repo: bootstrap

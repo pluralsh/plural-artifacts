@@ -1,8 +1,11 @@
 secret:
   username: admin
-  password:
-  smtpUsername:
-  smtpPassword:
+  password: ""
+  smtpUsername: ""
+  smtpPassword: ""
+
+redisPassword: ""
+postgresqlPassword: ""
 
 nextcloud:
   ## Official nextcloud image version

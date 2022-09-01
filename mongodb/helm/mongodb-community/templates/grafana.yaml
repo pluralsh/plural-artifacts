@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-mongo-dashboard
+  labels: {{ include "mongodb.labels" . | nindent 4 }}
+    grafana_dashboard: mongodb-dashboard
+  annotations:
+    k8s-sidecar-target-directory: /tmp/dashboards/MongoDB Dashboards
+data:
+  mongodb-dashboard.json: |-
+{{ .Files.Get "grafana-dashboards/dashboard.json" | indent 4 }}

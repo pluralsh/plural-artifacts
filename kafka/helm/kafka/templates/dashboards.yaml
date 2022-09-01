@@ -179,7 +179,7 @@ spec:
   - name: Outstanding Requests
     queries:
     - legendFormat: $kubernetes_pod_name
-      query: sum(zookeeper_outstandingrequests{strimzi_io_cluster="$strimzi_cluster_name",strimzi_io_kind="Kafka")) by (kubernetes_pod_name)
+      query: sum(zookeeper_outstandingrequests{strimzi_io_cluster="$strimzi_cluster_name",strimzi_io_kind="Kafka"}) by (kubernetes_pod_name)
   - name: Number of ZNodes
     queries:
     - legend: znodes

@@ -1,0 +1,20 @@
+name: kind-postgres
+description: Installs postgres operator on a KinD Kubernetes cluster
+provider: KIND
+dependencies:
+  - repo: bootstrap
+    name: kind-k8s
+  - repo: minio
+    name: minio-kind
+sections:
+- name: postgres
+  configuration:
+  - name: wal_bucket
+    documentation: Arbitary name for s3 bucket to store wal archives in, eg plural-wal-archives
+    type: BUCKET
+    default: postgres-wal
+  items:
+  - type: TERRAFORM
+    name: kind
+  - type: HELM
+    name: postgres

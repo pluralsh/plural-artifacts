@@ -1,0 +1,28 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+ name: elasticsearch
+ labels:
+   {{ include "elasticsearch.labels" . | nindent 4 }}
+spec:
+ endpoints:
+  - interval: 30s
+    path: "/_prometheus/metrics"
+    port: https
+    scheme: https
+    tlsConfig:
+      insecureSkipVerify: true
+    basicAuth:
+      password:
+        name: elasticsearch-es-elastic-user
+        key: elastic
+      username:
+        name: es-basic-auth
+        key: username
+ namespaceSelector:
+   matchNames:
+   - {{ .Release.Namespace }}
+ selector:
+   matchLabels:
+     common.k8s.elastic.co/type: elasticsearch
+     elasticsearch.k8s.elastic.co/cluster-name: elasticsearch

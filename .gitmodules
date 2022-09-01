@@ -1,0 +1,4 @@
+[submodule "calendso/calendso"]
+	path = calendso/calendso
+	url = https://github.com/calendso/calendso.git
+	branch = main

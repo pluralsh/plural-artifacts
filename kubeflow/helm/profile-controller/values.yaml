@@ -16,7 +16,7 @@ image:
   repository: ghcr.io/pluralsh/kubeflow-profile-controller
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: 0.1.8
+  tag: 0.1.12
 
 kfam:
   image:
@@ -58,13 +58,34 @@ securityContext: {}
   # runAsUser: 1000
 
 config:
-  adminUserEmail: david@plural.sh
-  pipelinesBucket: pipelines-bucket
-  namespaceLables:
-    katib-metricscollector-injection: 'enabled'
-    serving.kubeflow.org/inferenceservice: 'enabled'
-    pipelines.kubeflow.org/enabled: 'true'
-    app.kubernetes.io/part-of: 'kubeflow-profile'
+  infrastructure:
+    clusterName: kubeflow-dev
+    provider: AWS
+    providerConfig:
+      accountID: ""
+      region: ""
+      clusterOIDCIssuer: ""
+    storage:
+      provider: S3
+      bucketName: ""
+  namespace:
+    defaultLabels:
+      katib-metricscollector-injection: 'enabled'
+      serving.kserve.io/inferenceservice: 'enabled'
+      pipelines.kubeflow.org/enabled: 'true'
+  network:
+    hostname: ""
+    clusterDomain: cluster.local
+    istio:
+      clusterGateway:
+        name: kubeflow-gateway
+        namespace: kubeflow
+  security:
+    oidc:
+      issuer: https://oidc.plural.sh/
+      jwksURI: https://oidc.plural.sh/.well-known/jwks.json
+  identity:
+    userIdPrefix: ""
 
 service:
   controller:
@@ -83,10 +104,10 @@ virtualService:
 resources:
   requests:
     cpu: 11m
-    memory: 52Mi
+    memory: 70Mi
   limits:
     cpu: 11m
-    memory: 52Mi
+    memory: 70Mi
 
 autoscaling:
   enabled: false

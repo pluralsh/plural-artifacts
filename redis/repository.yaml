@@ -1,7 +1,9 @@
 name: redis
-description: high performance in-memory object store
+description: An open-source, in-memory data structure store, used as a database, cache, and message broker
 category: DATABASE
 icon: plural/icons/redis.png
 notes: plural/notes.tpl
+homepage: https://redis.io/
+gitUrl: https://github.com/redis/redis
 tags:
 - tag: cache

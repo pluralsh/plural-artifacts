@@ -1,0 +1,56 @@
+
+eck-operator:
+  managedNamespaces: []
+
+  installCRDs: false
+
+  createClusterScopedResources: true
+
+  webhook:
+    enabled: true
+
+  podAnnotations:
+    sidecar.istio.io/inject: "true"
+    traffic.sidecar.istio.io/includeInboundPorts: "*"
+    traffic.sidecar.istio.io/excludeInboundPorts: "9443"
+
+  podMonitor:
+    enabled: true
+
+  config:
+    metricsPort: 9191
+
+ingress:
+  enabled: true
+  hostname: ''
+  ingressClass: nginx
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+
+elasticsearch:
+  nodes: 3
+  resources:
+    requests:
+      memory: 2Gi
+      cpu: 1
+    limits:
+      memory: 4Gi
+      cpu: 2
+  storage: 50Gi
+  version: '7.13.2'
+
+kibana:
+  enabled: true
+  version: 7.13.2
+  resources:
+    requests:
+      memory: 500Mi
+      cpu: 0.3
+apm:
+  enabled: false
+filebeat:
+  enabled: false
+metricbeat:
+  enabled: false

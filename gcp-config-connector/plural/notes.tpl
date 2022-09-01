@@ -1,0 +1,1 @@
+Use `plural watch gcp-config-connector` to track the status of your application

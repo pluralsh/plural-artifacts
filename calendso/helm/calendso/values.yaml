@@ -1,0 +1,165 @@
+# Default values for calendso.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+containerPort: 3000
+
+postgres:
+  team: plural
+  user: calendso
+  dbName: calendso
+  ownerChart: calendso
+
+configOverlays:
+- name: web-cpu
+  labels:
+    platform.plural.sh/component: calendso
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: cpu
+  spec:
+    name: web cpu
+    documentation: cpu requests for calendso webapp deployment
+    updates:
+    - path: ['calendso', 'resources', 'requests', 'cpu']
+- name: web-mem
+  labels:
+    platform.plural.sh/component: calendso
+    platform.plural.sh/kind: deployment
+    platform.plural.sh/resource: memory
+  spec:
+    name: web memory
+    documentation: memory requests for calendso webapp deployment
+    updates:
+    - path: ['calendso', 'resources', 'requests', 'memory']
+- name: google-client-id
+  spec:
+    folder: secrets
+    subfolder: google
+    name: Google Api Credentials
+    documentation: oauth credentials for gcal meetings, see instructions https://github.com/calendso/calendso#obtaining-the-google-api-credentials
+    updates:
+    - path: ['calendso', 'secrets', 'googleApiCredentials']
+- name: zoom-client-id
+  spec:
+    folder: secrets
+    subfolder: zoom
+    name: Zoom Client ID
+    documentation: oauth credential for generating zoom meetings, see instructions https://github.com/calendso/calendso#obtaining-zoom-client-id-and-secret
+    updates:
+    - path: ['calendso', 'secrets', 'zoomClientId']
+- name: zoom-client-secret
+  spec:
+    folder: secrets
+    subfolder: zoom
+    name: Zoom Client Secret
+    documentation: oauth credential for generating zoom meetings, see instructions https://github.com/calendso/calendso#obtaining-zoom-client-id-and-secret
+    updates:
+    - path: ['calendso', 'secrets', 'zoomClientSecret']
+- name: daily-api-key
+  spec:
+    folder: secrets
+    subfolder: daily
+    name: Daily API Key
+    documentation: api key for scheduling videos with daily.co
+    updates:
+    - path: ['calendso', 'secrets', 'dailyKey']
+- name: ms-client-id
+  spec:
+    folder: secrets
+    subfolder: microsoft
+    name: Microsoft Graph Client ID
+    documentation: client id for access to microsoft outlook calendars
+    updates:
+    - path: ['calendso', 'secrets', 'msGraphClientId']
+- name: ms-client-secret
+  spec:
+    folder: secrets
+    subfolder: microsoft
+    name: Microsoft Graph Client ID
+    documentation: client secret for access to microsoft outlook calendars
+    updates:
+    - path: ['calendso', 'secrets', 'msGraphClientSecret']
+
+image:
+  repository: dkr.plural.sh/calendso/calendso
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: latest
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    # Extend timeout to allow long running queries.
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /.*
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

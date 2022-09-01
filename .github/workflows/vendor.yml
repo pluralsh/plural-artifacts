@@ -41,11 +41,12 @@ jobs:
         - k8s.gcr.io/sig-storage/snapshot-validation-webhook:v4.2.1
 
         # cni
-        - docker.io/calico/ctl:v3.21.3
-        - docker.io/calico/kube-controllers:v3.21.3
-        - docker.io/calico/typha:v3.21.3
-        - docker.io/calico/pod2daemon-flexvol:v3.21.3
-        - docker.io/calico/node:v3.21.3
+        - quay.io/tigera/operator:v1.23.4
+        - calico/ctl:v3.21.3
+        - calico/kube-controllers:v3.21.3
+        - calico/typha:v3.21.3
+        - calico/pod2daemon-flexvol:v3.21.3
+        - calico/node:v3.21.3
 
         # misc
         - kiwigrid/k8s-sidecar:1.1.0
@@ -75,6 +76,15 @@ jobs:
         - rancher/mirrored-coreos-etcd:v3.4.16-rancher1
         - rancher/mirrored-calico-node
         - rancher/mirrored-calico-kube-controllers
+
+        # filecoin
+        - filecoin/lotus-all-in-one:v1.13.2
+
+        # airflow
+        - apache/airflow:2.1.4-python3.8
+    
+        # misc
+        - nginx:1.21.6
     steps:
     - uses: actions/checkout@v2
     - uses: google-github-actions/auth@v0
@@ -106,13 +116,15 @@ jobs:
       matrix:
         img: 
         # airbyte images
-        - image: airbyte/webapp:0.32.5-alpha
+        - image: airbyte/webapp:0.35.5-alpha
           repo: airbyte
-        - image: airbyte/scheduler:0.32.5-alpha
+        - image: airbyte/scheduler:0.35.5-alpha
           repo: airbyte
-        - image: airbyte/server:0.32.5-alpha
+        - image: airbyte/server:0.35.5-alpha
           repo: airbyte
-        - image: airbyte/worker:0.32.5-alpha
+        - image: airbyte/worker:0.35.5-alpha
+          repo: airbyte
+        - image: airbyte/bootloader:0.35.5-alpha
           repo: airbyte
         - image: temporalio/auto-setup:1.7.0 
           repo: airbyte
@@ -120,10 +132,6 @@ jobs:
           repo: airbyte
         - image: bitnami/kubectl:latest
           repo: airbyte
-
-        # airflow images
-        - image: apache/airflow:2.0.1-python3.8
-          repo: airflow
         
         # bootstrap images
         - image: appscode/kubed:v0.13.0-beta.0
@@ -140,16 +148,22 @@ jobs:
           repo: chatwoot
 
         # calico images
-        - image: docker.io/calico/kube-controllers:v3.21.3
+        - image: quay.io/tigera/operator:v1.23.4
           repo: bootstrap
-        - image: docker.io/calico/ctl:v3.21.3
+        - image: calico/kube-controllers:v3.21.3
           repo: bootstrap
-        - image: docker.io/calico/typha:v3.21.3
+        - image: calico/ctl:v3.21.3
           repo: bootstrap
-        - image: docker.io/calico/pod2daemon-flexvol:v3.21.3
+        - image: calico/typha:v3.21.3
           repo: bootstrap
-        - image: docker.io/calico/node:v3.21.3
+        - image: calico/pod2daemon-flexvol:v3.21.3
           repo: bootstrap
+        - image: calico/node:v3.21.3
+          repo: bootstrap
+
+        # filecoin images
+        - image: filecoin/lotus-all-in-one:v1.13.2
+          repo: filecoin
 
         # ghost images
         - image: bitnami/ghost:4.11.0-debian-10-r0 
@@ -190,15 +204,19 @@ jobs:
         # grafana-tempo images
         - image: docker.io/grafana/tempo:1.1.0
           repo: grafana-tempo
+        - image: docker.io/grafana/tempo-query:1.1.0
+          repo: grafana-tempo
 
         # influxdb images
-        - image: chronograf:1.8.8 
+        - image: chronograf:1.8.8
           repo: influx
-        - image: influxdb:1.8.6-alpine 
+        - image: influxdb:1.8.6-alpine
           repo: influx
-        - image: kapacitor:1.5.9-alpine 
+        - image: kapacitor:1.5.9-alpine
           repo: influx
-        - image: telegraf:1.19-alpine 
+        - image: telegraf:1.19-alpine
+          repo: influx
+        - image: quay.io/influxdb/telegraf-operator:v1.3.0
           repo: influx
 
         # monitoring images
@@ -206,21 +224,27 @@ jobs:
           repo: monitoring
         - image: grafana/promtail:2.2.1 
           repo: monitoring
+        - image: grafana/promtail:2.4.2 
+          repo: monitoring
         - image: grafana/loki:1.6.0 
           repo: monitoring
         - image: grafana/loki:2.2.1 
+          repo: monitoring
+        - image: grafana/loki:2.4.2
           repo: monitoring
         - image: otel/opentelemetry-collector:0.33.0
           repo: monitoring
         
         # mysql images
-        - image: bitpoke/mysql-operator-sidecar-5.7:v0.5.0
+        - image: bitpoke/mysql-operator-sidecar-5.7:v0.6.1
+          repo: mysql
+        - image: bitpoke/mysql-operator-sidecar-8.0:v0.6.1
           repo: mysql
         - image: prom/mysqld-exporter:v0.13.0
           repo: mysql
-        - image: bitpoke/mysql-operator:v0.5.0
+        - image: bitpoke/mysql-operator:v0.6.1
           repo: mysql
-        - image: bitpoke/mysql-operator-orchestrator:v0.5.0
+        - image: bitpoke/mysql-operator-orchestrator:v0.6.1
           repo: mysql
         
         # nocodb images
@@ -271,14 +295,6 @@ jobs:
         - image: oryd/hydra:v1.8.5
           repo: plural
 
-        # bootstrap images
-        - image: calico/typha:v3.21.3
-          repo: bootstrap
-        - image: calico/node:v3.21.3
-          repo: bootstrap
-        - image: calico/kube-controllers:v3.21.3
-          repo: bootstrap
-
         # rancher images
         - image: rancher/mirrored-pause:3.4.1
           repo: bootstrap
@@ -292,6 +308,26 @@ jobs:
           repo: bootstrap
         - image: rancher/mirrored-calico-kube-controllers
           repo: bootstrap
+        
+        # calendso
+        - image: calendso/calendso:latest
+          repo: calendso
+        
+        # dagster
+        - image: dagster/dagster-celery-k8s:0.15.0
+          repo: dagster
+
+        # metabase
+        - image: metabase/metabase:v0.41.5
+          repo: metabase
+
+        # hydra
+        - image: oryd/hydra:v1.10.5
+          repo: hydra
+        
+        # kratos
+        - image: oryd/kratos:v0.8.2-alpha.1
+          repo: kratos
 
         # misc images
         - image: bitnami/postgres-exporter:0.8.0-debian-10-r354 
@@ -304,6 +340,8 @@ jobs:
           repo: bootstrap
         - image: equinix/cloud-provider-equinix-metal:v3.2.2
           repo: bootstrap
+        - image: nginx:1.21.6
+          repo: istio
     steps:
     - uses: actions/checkout@v2
     - uses: google-github-actions/auth@v0

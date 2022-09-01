@@ -1,0 +1,56 @@
+apiVersion: elasticsearch.k8s.elastic.co/v1
+kind: Elasticsearch
+metadata:
+  name: elasticsearch
+  labels:
+  {{ include "elasticsearch.labels" . | nindent 4 }}
+spec:
+  nodeSets:
+    - config:
+        node.store.allow_mmap: false
+        xpack.monitoring.collection.enabled: true
+        xpack.monitoring.elasticsearch.collection.enabled: false
+      count: {{ .Values.elasticsearch.nodes }}
+      name: default
+      podTemplate:
+        metadata:
+          annotations:
+            co.elastic.logs/enabled: "true"
+          labels:
+            stack-monitoring.elastic.co/type: es
+        spec:
+          initContainers:
+          - name: install-plugins
+            command:
+            - sh
+            - -c
+            - |
+              bin/elasticsearch-plugin install -b repository-s3 https://github.com/vvanholl/elasticsearch-prometheus-exporter/releases/download/{{ .Values.elasticsearch.version }}.0/prometheus-exporter-{{ .Values.elasticsearch.version }}.0.zip
+          containers:
+            - name: elasticsearch
+              resources:
+                {{ toYaml .Values.elasticsearch.resources | nindent 16 }}
+              readinessProbe:
+                exec:
+                  command:
+                  - bash
+                  - -c
+                  - /mnt/elastic-internal/scripts/readiness-probe-script.sh
+                failureThreshold: 3
+                initialDelaySeconds: 20
+                periodSeconds: 12
+                successThreshold: 1
+                timeoutSeconds: 30
+              env:
+              - name: READINESS_PROBE_TIMEOUT
+                value: "30"
+      volumeClaimTemplates:
+      - metadata:
+          name: elasticsearch-data
+        spec:
+          accessModes:
+          - ReadWriteOnce
+          resources:
+            requests:
+              storage: {{ .Values.elasticsearch.storage }}
+  version: {{ .Values.elasticsearch.version }}

@@ -1,7 +1,11 @@
-{{ $grafanaNamespace := namespace "grafana" }}
+global:
+  rbac:
+    pspEnabled: false
+
+{{ $monitoringNamespace := namespace "monitoring" }}
 kube-prometheus-stack:
   grafana:
-    namespaceOverride: {{ $grafanaNamespace }}
+    namespaceOverride: {{ $monitoringNamespace }}
   prometheus:
     prometheusSpec:
       externalLabels:

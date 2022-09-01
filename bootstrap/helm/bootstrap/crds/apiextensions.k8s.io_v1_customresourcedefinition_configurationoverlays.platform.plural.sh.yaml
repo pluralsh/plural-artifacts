@@ -48,6 +48,8 @@ spec:
                 - string
                 - enum
                 - int
+                - list
+                - bool
                 type: string
               inputValues:
                 description: the values for enum input types

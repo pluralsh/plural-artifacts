@@ -1,0 +1,6 @@
+name: lakefs
+description: An open-source business intelligence platform.
+category: DEVOPS
+private: true
+icon: plural/icons/lakefs.png
+notes: plural/notes.tpl

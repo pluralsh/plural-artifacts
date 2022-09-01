@@ -1,6 +1,6 @@
 dependencies:
 - name: mysql-operator
   repository: https://pluralsh.github.io/plural-helm-charts
-  version: 0.1.0
-digest: sha256:b00c4de09abb833bda6d5c3b5a5bebbe665bdd83d8c6a0896342a2a62a9848db
-generated: "2021-10-06T15:11:56.764713696+02:00"
+  version: 0.6.2
+digest: sha256:a51a673c7bff2ae3e880906d41002eda49e87b8adfa95e766abb60f705368895
+generated: "2022-03-29T14:45:17.917841033+02:00"

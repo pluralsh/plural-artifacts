@@ -1,0 +1,6 @@
+apiVersion: v2
+name: minecraft
+description: helm chart for minecraft
+type: application
+version: 0.1.4
+appVersion: "v1.0.0"

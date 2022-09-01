@@ -1,0 +1,10 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: LogTail
+metadata:
+  name: public
+  labels:
+{{ include "ingress-nginx-plural.labels" . | indent 4 }}
+spec:
+  limit: 50
+  target: deployment/ingress-nginx-controller
+  follow: true

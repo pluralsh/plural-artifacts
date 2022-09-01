@@ -3,6 +3,14 @@ tempoStorageIdentityId:
 tempoStorageIdentityClientId: 
 
 tempo-distributed:
+  tempo:
+    image:
+      registry: dkr.plural.sh
+      repository: grafana-tempo/docker.io/grafana/tempo
+  queryFrontend:
+    query:
+      image:
+        repository: grafana-tempo/docker.io/grafana/tempo-query
   serviceAccount:
     name: grafana-tempo
   traces:

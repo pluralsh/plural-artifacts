@@ -24,10 +24,10 @@ serviceAccount:
 webApp:
   replicaCount: 1
   image:
-    repository: kfserving/models-web-app
+    repository: davidspek/models-web-app
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: v0.6.0
+    tag: v0.8.0
 
   podAnnotations:
     sidecar.istio.io/inject: "true"
@@ -54,64 +54,6 @@ webApp:
       - kubeflow-gateway
     hosts:
       - '*'
-
-  resources:
-    requests:
-      cpu: 100m
-      memory: 200Mi
-    limits:
-      cpu: 100m
-      memory: 200Mi
-
-  autoscaling:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 100
-    targetCPUUtilizationPercentage: 80
-    # targetMemoryUtilizationPercentage: 80
-
-  nodeSelector: {}
-
-  tolerations: []
-
-  affinity: {}
-
-controller:
-  replicaCount: 1
-
-  istio:
-    enabled: true
-    gateway: kubeflow/kubeflow-gateway
-  image:
-    repository: gcr.io/kfserving/kfserving-controller
-    pullPolicy: IfNotPresent
-    # Overrides the image tag whose default is the chart appVersion.
-    tag: v0.6.0
-
-  service:
-    metrics:
-      port: 8080
-    webhook:
-      port: 443 # do not change
-  
-  podAnnotations:
-    sidecar.istio.io/inject: "true"
-    cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
-    prometheus.io/port: "8080"
-    prometheus.io/scheme: http
-    prometheus.io/scrape: "true"
-    prometheus.io/path: /metrics
-
-  podSecurityContext: {}
-    # fsGroup: 2000
-
-  securityContext: {}
-    # capabilities:
-    #   drop:
-    #   - ALL
-    # readOnlyRootFilesystem: true
-    # runAsNonRoot: true
-    # runAsUser: 1000
 
   resources:
     requests:

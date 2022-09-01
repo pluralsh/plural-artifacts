@@ -1,0 +1,119 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: vault-init-sa
+  labels:
+  {{ include "vault-plural.labels" . | nindent 4 }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: vault-init-role
+  labels:
+  {{ include "vault-plural.labels" . | nindent 4 }}
+rules:
+- apiGroups: [""]
+  verbs: [delete, get, list, watch]
+  resources: [pods]
+- apiGroups: [""]
+  verbs: [create]
+  resources: [pods/exec]
+- apiGroups: [""]
+  verbs: [create, get, update, patch]
+  resources: [secrets]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: vault-init-rb
+  labels:
+  {{ include "vault-plural.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: vault-init-role
+subjects:
+- apiGroup: ""
+  kind: ServiceAccount
+  name: vault-init-sa
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vault-init-cm
+  labels:
+  {{ include "vault-plural.labels" . | nindent 4 }}
+data:
+  init-vault.sh: |
+    set -euo pipefail
+
+    echo "Waiting for vault pod to be running"
+    kubectl wait --for=jsonpath='{.status.phase}'=Running -n {{ .Release.Namespace }} --timeout 10m pod/vault-0
+
+    # Wait for Vault to become responsive
+    sleep 10
+
+    echo "Checking whether Vault is initialized or not"
+    set +e
+    status=$(kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- vault status -format json)
+    set -e
+    initialized=$(echo "$status" | jq .initialized)
+    if [ "$initialized" == "true" ]; then
+      echo "Vault already initialized, nothing left to do"
+      exit 0
+    fi
+
+    echo "Initializing Vault"
+    kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- vault operator init > /tmp/vault_recovery_keys
+    kubectl create secret generic -n {{ .Release.Namespace }} vault-recovery-keys --from-file=/tmp/vault_recovery_keys -o yaml --dry-run=client | kubectl apply -f -
+
+    echo "Logging in as root"
+    root_token=$(cat /tmp/vault_recovery_keys | grep '^Initial Root Token:' | awk '{ print $4 }')
+    kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- vault login -no-print -non-interactive "$root_token"
+
+    echo "Writing admin policy"
+    kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- sh /vault/scripts/write-admin-policy.sh
+
+    echo "Enabling Kubernetes auth"
+    kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- vault auth enable kubernetes
+
+    echo "Writing Kubernetes auth config"
+    kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- vault write auth/kubernetes/config kubernetes_host=https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT
+
+    echo "Enabling admin Kubernetes access to vault service account"
+    kubectl exec -n {{ .Release.Namespace }} -i vault-0 -c vault -- vault write auth/kubernetes/role/admin bound_service_account_names=vault bound_service_account_namespaces={{ .Release.Namespace }} policies=admin
+
+    sleep 5
+    echo "Vault initialization successfully completed"
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: vault-init
+  labels:
+  {{ include "vault-plural.labels" . | nindent 4 }}
+  annotations:
+    helm.sh/hook: post-install
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      serviceAccountName: vault-init-sa
+      containers:
+      - name: kubectl
+        image: dkr.plural.sh/bootstrap/bitnami/kubectl:1.23.6
+        command: [bash, /scripts/init-vault.sh]
+        volumeMounts:
+        - name: vault-init
+          mountPath: /scripts
+          readOnly: true
+        - name: tmp
+          mountPath: /tmp
+      volumes:
+      - name: vault-init
+        configMap:
+          name: vault-init-cm
+      - name: tmp
+        emptyDir: {}

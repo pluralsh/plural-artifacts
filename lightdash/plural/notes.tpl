@@ -1,0 +1,1 @@
+Use `plural watch lightdash` to track the status of your application

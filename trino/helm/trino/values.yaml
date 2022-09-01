@@ -1,0 +1,30 @@
+trino:
+  imagePullSecrets: [] # needed because upstream charts adds an image pull secret by default for some reason
+  image:
+    repository: dkr.plural.sh/trino/trinodb/trino
+    pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+    tag: "386"
+  service:
+    type: ClusterIP
+    port: 8080
+  serviceAccount:
+    create: true
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+    nginx.ingress.kubernetes.io/use-regex: "true"
+  #hosts:
+  #  - host: chart-example.local
+  #    paths:
+  #      - path: /
+  #        pathType: ImplementationSpecific
+  #tls:
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local

@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: ghost
+  name: {{ include "ghost.fullname" . }}
   labels:
     app: ghost
 {{ include "ghost.labels" . | indent 4 }}
 spec:
-  type: NodePort
+  type: {{ .Values.service.type }}
   ports:
   - port: {{ .Values.service.port }}
     targetPort: http

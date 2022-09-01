@@ -1,0 +1,13 @@
+name: trino
+description: A distributed SQL query engine for big data and analytics.
+category: DATABASE
+private: false
+icon: plural/icons/trino.png
+notes: plural/notes.tpl
+homepage: https://trino.io/
+gitUrl: https://github.com/trinodb/trino
+oauthSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: BASIC
+tags:
+- tag: data

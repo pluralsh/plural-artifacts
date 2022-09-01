@@ -1,13 +1,13 @@
 dependencies:
 - name: external-dns
-  repository: https://charts.bitnami.com/bitnami
+  repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
   version: 4.11.0
 - name: metrics-server
-  repository: https://charts.bitnami.com/bitnami
+  repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
   version: 5.8.7
 - name: cert-manager
   repository: https://charts.jetstack.io
-  version: v1.6.1
+  version: v1.8.2
 - name: cluster-autoscaler
   repository: https://pluralsh.github.io/plural-helm-charts
   version: 9.11.0
@@ -26,5 +26,5 @@ dependencies:
 - name: tigera-operator
   repository: https://docs.projectcalico.org/charts
   version: v3.21.3
-digest: sha256:c72caed2af528b4929374200d60beddc7f755dff3016f7460acaade071a2230e
-generated: "2022-01-25T22:21:36.277719-05:00"
+digest: sha256:1953fc906c0e59274fe7cfadc1ab753116602ee866f2effbcbc30e64fa980025
+generated: "2022-07-01T13:34:12.753712685+02:00"

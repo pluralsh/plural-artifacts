@@ -35,7 +35,7 @@ pluralToken: plrl-api-token
 plural:
   image:
     repository: dkr.plural.sh/bootstrap/plural-operator
-    tag: v0.3.0
+    tag: v0.3.4
 
 imagePullSecrets:
 - name: plural-creds
@@ -67,9 +67,6 @@ snapshot-validation-webhook:
     requests:
       cpu: 10m
       memory: 20Mi
-    limits:
-      cpu: 10m
-      memory: 20Mi
 
 snapshot-controller:
   enabled: false
@@ -78,9 +75,6 @@ snapshot-controller:
     tag: v4.2.1
   resources:
     requests:
-      cpu: 10m
-      memory: 20Mi
-    limits:
       cpu: 10m
       memory: 20Mi
 
@@ -95,12 +89,11 @@ aws-ebs-csi-driver:
       reclaimPolicy: Delete
       volumeBindingMode: WaitForFirstConsumer
       allowVolumeExpansion: true
+  node:
+    tolerateAllTaints: true
   controller:
     resources:
       requests:
-        cpu: 10m
-        memory: 24Mi
-      limits:
         cpu: 10m
         memory: 24Mi
   sidecars:
@@ -109,15 +102,9 @@ aws-ebs-csi-driver:
         requests:
           cpu: 10m
           memory: 24Mi
-        limits:
-          cpu: 10m
-          memory: 24Mi
     attacher:
       resources:
         requests:
-          cpu: 10m
-          memory: 24Mi
-        limits:
           cpu: 10m
           memory: 24Mi
     snapshotter:
@@ -125,15 +112,9 @@ aws-ebs-csi-driver:
         requests:
           cpu: 10m
           memory: 24Mi
-        limits:
-          cpu: 10m
-          memory: 24Mi
     livenessProbe:
       resources:
         requests:
-          cpu: 10m
-          memory: 145Mi
-        limits:
           cpu: 10m
           memory: 145Mi
     resizer:
@@ -141,15 +122,9 @@ aws-ebs-csi-driver:
         requests:
           cpu: 10m
           memory: 37Mi
-        limits:
-          cpu: 10m
-          memory: 37Mi
     nodeDriverRegistrar:
       resources:
         requests:
-          cpu: 10m
-          memory: 24Mi
-        limits:
           cpu: 10m
           memory: 24Mi
 
@@ -158,8 +133,20 @@ tigera-operator:
 
 cert-manager:
   image:
-    repository: gcr.io/pluralsh/cert-manager/cert-manager-controller
-    tag: v1.7.0-alpha
+    repository: dkr.plural.sh/bootstrap/jetstack/cert-manager-controller
+    tag: v1.8.2
+  webhook:
+    image:
+      repository: dkr.plural.sh/bootstrap/jetstack/cert-manager-webhook
+      tag: v1.8.2
+  cainjector:
+    image:
+      repository: dkr.plural.sh/bootstrap/jetstack/cert-manager-cainjector
+      tag: v1.8.2
+  startupapicheck:
+    image:
+      repository: dkr.plural.sh/bootstrap/jetstack/cert-manager-ctl
+      tag: v1.8.2
   serviceAccount:
     name: certmanager
   prometheus:
@@ -178,6 +165,7 @@ kubed:
 
 cluster-autoscaler:
   enabled: false
+  replicaCount: 2
   image:
     tag: v1.23.0
   expanderPriorities: |
@@ -192,6 +180,7 @@ cluster-autoscaler:
   extraArgs:
     scale-down-utilization-threshold: 0.4
     skip-nodes-with-local-storage: false
+    balance-similar-node-groups: true
     expander: "priority,least-waste"
   serviceMonitor:
     enabled: true

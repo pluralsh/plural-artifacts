@@ -1,0 +1,30 @@
+name: calendso-azure
+description: Installs calendso on an azure aks cluster
+provider: AZURE
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-azure
+- repo: postgres
+  name: azure-postgres
+sections:
+- name: calendso
+  configuration:
+  - name: hostname
+    type: DOMAIN
+    documentation: fqdn you'll be deploying cal.com to
+  - name: email
+    type: STRING
+    documentation: email for your initial user
+  - name: name
+    type: STRING
+    documentation: full name for your initial user
+  - name: handle
+    type: STRING
+    documentation: short handle for your initial user
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: calendso

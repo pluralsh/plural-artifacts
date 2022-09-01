@@ -1,0 +1,6 @@
+name: strapi
+description: An open-source headless CMS to build powerful APIs with little effort.
+category: DATA
+private: true
+icon: plural/icons/strapi.png
+notes: plural/notes.tpl

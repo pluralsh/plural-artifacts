@@ -1,0 +1,14 @@
+name: ingress-nginx-kind
+description: Installs ingress-nginx on a kind kubernetes cluster
+provider: KIND
+dependencies:
+- repo: bootstrap
+  name: kind-k8s
+sections:
+- name: ingress-nginx
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: kind
+  - type: HELM
+    name: ingress-nginx

@@ -11,7 +11,7 @@ resource "azurerm_user_assigned_identity" "externaldns" {
   resource_group_name = data.azurerm_resource_group.group.name
   location            = data.azurerm_resource_group.group.location
 
-  name = "${var.name}-externaldns"
+  name = "${var.cluster_name}-externaldns"
 }
 
 resource "azurerm_role_assignment" "rg-reader" {

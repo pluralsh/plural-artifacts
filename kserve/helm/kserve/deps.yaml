@@ -1,0 +1,34 @@
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  application: true
+  description: Deploys kserve crafted for the target cloud
+spec:
+  dependencies:
+  - type: helm
+    name: bootstrap
+    repo: bootstrap
+    version: '>= 0.5.1'
+  - type: helm
+    name: istio
+    repo: istio
+    version: '>= 0.1.97'
+  - type: helm
+    name: knative-serving
+    repo: knative
+    version: '>= 0.1.24'
+  - type: terraform
+    name: aws
+    repo: kserve
+    version: '>= 0.1.0'
+    optional: true
+  - type: terraform
+    name: azure
+    repo: kserve
+    version: '>= 0.1.0'
+    optional: true
+  - type: terraform
+    name: gcp
+    repo: kserve
+    version: '>= 0.1.0'
+    optional: true

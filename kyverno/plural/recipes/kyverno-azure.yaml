@@ -1,0 +1,18 @@
+name: kyverno-azure
+description: Installs kyverno on an azure aks cluster
+provider: AZURE
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+sections:
+- name: kyverno
+  configuration:
+  - name: enablePolicies
+    type: BOOL
+    documentation: Deploy Kyverno policies
+    default: false
+  items:
+  - type: TERRAFORM
+    name: azure
+  - type: HELM
+    name: kyverno

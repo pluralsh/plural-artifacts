@@ -5,9 +5,9 @@ dependencies:
 - repo: bootstrap
   name: azure-k8s
 - repo: monitoring
-  name: monitoring-aws
+  name: monitoring-azure
 - repo: grafana-tempo
-  name: grafana-tempo-aws
+  name: grafana-tempo-azure
 - repo: ingress-nginx
   name: ingress-nginx-azure
 sections:

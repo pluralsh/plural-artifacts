@@ -1,0 +1,15 @@
+name: dagster
+description: A data orchestration platform for the development, production, and observation of data assets.
+category: DATA
+private: false
+icon: plural/icons/dagster.png
+notes: plural/notes.tpl
+gitUrl: https://github.com/dagster-io/dagster
+homepage: https://dagster.io/
+oauthSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
+tags:
+- tag: dag
+- tag: data
+- tag: data-pipelines

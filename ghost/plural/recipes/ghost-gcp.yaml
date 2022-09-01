@@ -3,9 +3,11 @@ description: Installs ghost on a gcp gke cluster
 provider: GCP
 dependencies:
 - repo: bootstrap
-  name: gcp-kubernetes
+  name: gcp-k8s
 - repo: ingress-nginx
   name: ingress-nginx-gcp
+- repo: mysql
+  name: gcp-mysql
 sections:
 - name: ghost
   configuration:

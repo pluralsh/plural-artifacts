@@ -1,0 +1,6 @@
+dependencies:
+- name: lotus-fullnode
+  repository: https://pluralsh.github.io/plural-helm-charts
+  version: 0.3.4
+digest: sha256:9b6da5fb9fefe9e26e66a6bf863e6832df3b62fef14dedf81599083f2dca497d
+generated: "2022-02-07T11:06:24.385678793+01:00"

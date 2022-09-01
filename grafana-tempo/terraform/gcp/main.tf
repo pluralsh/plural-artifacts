@@ -8,11 +8,6 @@ resource "kubernetes_namespace" "grafana-tempo" {
   }
 }
 
-locals {
-  gcp_location_parts = split("-", var.gcp_location)
-  gcp_region         = "${local.gcp_location_parts[0]}-${local.gcp_location_parts[1]}"
-}
-
 resource "kubernetes_service_account" "grafana-tempo" {
   metadata {
     name      = "grafana-tempo"
@@ -31,6 +26,13 @@ resource "google_storage_bucket" "tempo" {
   name = var.tempo_bucket
   project = var.project_id
   force_destroy = true
+  location = var.bucket_location
+  
+  lifecycle {
+    ignore_changes = [
+      location,
+    ]
+  }
 }
 
 resource "google_storage_bucket_iam_member" "tempo" {

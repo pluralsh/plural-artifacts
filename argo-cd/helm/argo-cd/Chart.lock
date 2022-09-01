@@ -3,10 +3,7 @@ dependencies:
   repository: https://argoproj.github.io/argo-helm
   version: 3.17.4
 - name: argocd-image-updater
-  repository: file://../../../../argo-helm/charts/argocd-image-updater/
-  version: 0.1.1
-- name: argocd-notifications
   repository: https://argoproj.github.io/argo-helm
-  version: 1.5.0
-digest: sha256:dcb9423da23bbba5f297623ff9b6cf64aba5ebf085e0cd8ac875e67533368ff0
-generated: "2021-09-02T13:28:34.179196335+02:00"
+  version: 0.8.0
+digest: sha256:16ff44b0d6d5139039c65e4c57857b75bcd298c86cab00c60d43a6a697b9acf7
+generated: "2022-08-08T14:09:35.350142145+02:00"

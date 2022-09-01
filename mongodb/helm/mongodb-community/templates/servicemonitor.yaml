@@ -1,0 +1,23 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    {{ include "mongodb.labels" . | nindent 4 }}
+  name: mongodb-sm
+spec:
+  endpoints:
+  - basicAuth:
+      password:
+        key: password
+        name: metrics-endpoint-creds
+      username:
+        key: username
+        name: metrics-endpoint-creds
+    port: prometheus
+    scheme: http
+  namespaceSelector:
+    matchNames:
+    - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      app: {{ .Values.clusterName }}-svc

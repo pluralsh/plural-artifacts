@@ -1,0 +1,25 @@
+name: vault-aws
+description: Installs vault on an AWS EKS cluster
+provider: AWS
+oidcSettings:
+  uriFormats:
+  - https://{domain}/ui/vault/auth/oidc/oidc/callback
+  - http://localhost:8250/oidc/callback
+  authMethod: POST
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+sections:
+- name: vault
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for your Vault installation
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: vault

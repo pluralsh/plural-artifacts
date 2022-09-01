@@ -1,4 +1,4 @@
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: Gateway
 metadata:
   labels: {{- include "central-dashboard.labels" . | nindent 4 }}
@@ -10,8 +10,7 @@ spec:
   servers:
   - hosts:
     - {{ .Values.global.domain }}
-    # - <<__subdomain_serving__>>.<<__domain__>>
-    # - '*.<<__subdomain_serving__>>.<<__domain__>>'
+    - "*.{{ .Values.global.domain }}"
     port:
       name: http
       number: 80
@@ -21,8 +20,7 @@ spec:
       httpsRedirect: true
   - hosts:
     - {{ .Values.global.domain }}
-    # - <<__subdomain_serving__>>.<<__domain__>>
-    # - '*.<<__subdomain_serving__>>.<<__domain__>>'
+    - "*.{{ .Values.global.domain }}"
     port:
       name: https
       number: 443

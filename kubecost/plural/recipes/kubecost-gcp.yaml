@@ -7,9 +7,11 @@ oidcSettings:
   domainKey: hostname
 dependencies:
 - repo: bootstrap
-  name: gcp-kubernetes
+  name: gcp-k8s
 - repo: grafana
   name: gcp-grafana
+- repo: monitoring
+  name: monitoring-gcp
 sections:
 - name: kubecost
   configuration:

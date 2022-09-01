@@ -1,0 +1,8 @@
+name: filecoin
+description: A decentralized storage network for renting unused hard disk space.
+category: DEVOPS
+icon: plural/icons/filecoin.png
+notes: plural/notes.tpl
+tags:
+- tag: filecoin
+- tag: cryptocurrency

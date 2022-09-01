@@ -1,5 +1,5 @@
 name: dex
-description: federated identity provider for modern authentication
+description: An identity service that uses OpenID connect to drive authentication for other apps.
 category: DEVOPS
 icon: plural/icons/dex.png
 notes: plural/notes.tpl

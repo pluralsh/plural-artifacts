@@ -1,8 +1,10 @@
 name: kubecost
-description: kubernetes cost monitoring and management
+description: An open core tool that provides visibility into Kubernetes spend and resource allocation.
 category: DEVOPS
 icon: plural/icons/kubecost.png
 notes: plural/notes.tpl
+homepage: https://www.kubecost.com/
+gitUrl: https://github.com/kubecost/cost-model
 oauthSettings:
   uriFormat: https://{domain}/oauth2/callback
   authMethod: POST
