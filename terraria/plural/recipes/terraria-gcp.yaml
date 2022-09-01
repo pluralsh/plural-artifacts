@@ -6,7 +6,10 @@ dependencies:
   name: gcp-k8s
 sections:
 - name: terraria
-  configuration: []
+  configuration:
+  - name: hostname
+    documentation: fqdn for your terraria server
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: gcp
