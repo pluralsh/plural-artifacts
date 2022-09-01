@@ -36,20 +36,8 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
             - /manager
-            - -userid-header
-            - $(USERID_HEADER)
-            - -userid-prefix
-            - $(USERID_PREFIX)
             - -workload-identity
             - $(WORKLOAD_IDENTITY)
-            - -namespace-labels-path
-            - $(DEFAULTNAMESPACELABELSPATH)
-            - -issuer
-            - $(ISSUER)
-            - -jwks-uri
-            - $(JWKSURI)
-            - -pipeline-bucket
-            - $(PIPELINES_BUCKET)
           ports:
             - name: metrics
               containerPort: 8080
@@ -75,9 +63,6 @@ spec:
             - configMapRef:
                 name: {{ include "profile-controller.fullname" . }}-config
           volumeMounts:
-            - mountPath: /etc/profile-controller
-              name: namespace-labels
-              readOnly: true
             - mountPath: /templates
               name: profile-templates
               readOnly: true
@@ -114,9 +99,6 @@ spec:
             - configMapRef:
                 name: {{ include "profile-controller.fullname" . }}-config
       volumes:
-        - configMap:
-            name: {{ include "profile-controller.fullname" . }}-namespace-labels-data
-          name: namespace-labels
         - configMap:
             name: {{ include "profile-controller.fullname" . }}-templates
           name: profile-templates

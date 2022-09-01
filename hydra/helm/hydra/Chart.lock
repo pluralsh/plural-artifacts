@@ -1,0 +1,9 @@
+dependencies:
+- name: postgres
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.5
+- name: hydra
+  repository: https://k8s.ory.sh/helm/charts
+  version: 0.21.7
+digest: sha256:bac41a99b5e7718d8a9f4a20edf340e1ffe9fb90067edb30b365cca92f678942
+generated: "2022-02-09T16:49:57.320554-05:00"

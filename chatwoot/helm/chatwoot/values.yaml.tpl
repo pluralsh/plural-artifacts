@@ -18,7 +18,7 @@ chatwoot:
     {{- end }}
   postgresql:
     enabled: false
-    postgresqlHost: chatwoot-postgres-master
+    postgresqlHost: plural-postgres-chatwoot
     postgresqlPort: 5432
     postgresqlDatabase: chatwoot
     postgresqlUsername: chatwoot

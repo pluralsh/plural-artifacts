@@ -8,14 +8,19 @@ variable "airbyte_bucket" {
 }
 
 
-variable "gcp_location" {
+variable "gcp_region" {
   type = string
-  default = "us-east1-b"
+  default = "us-east1"
   description = <<EOF
 The region you wish to deploy to
 EOF
 }
 
+variable "bucket_location" {
+  type = string
+  default = "US"
+  description = "the location of the bucket"
+}
 
 variable "project_id" {
   type = string

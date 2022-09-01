@@ -1,0 +1,30 @@
+name: hydra-azure
+description: Installs hydra on an aws eks cluster
+provider: AZURE
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-azure
+- repo: postgres
+  name: azure-postgres
+sections:
+- name: hydra
+  configuration:
+  - name: hostname
+    documentation: domain on which you'd like to host hydra
+    type: DOMAIN
+  - name: adminHostname
+    documentation: dns name for the internal endpoint for hydra admin (leave empty to not enable ingress)
+    type: DOMAIN
+  - name: loginUrl
+    documentation: url on which oauth logins will occur
+    type: STRING
+  - name: consentUrl
+    documentation: url for oauth consent requests
+    type: STRING
+  items:
+  - type: TERRAFORM
+    name: azure
+  - type: HELM
+    name: hydra

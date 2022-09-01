@@ -2,9 +2,9 @@ apiVersion: v2
 name: mysql
 description: Deploys the mysql operator enhanced for plural
 type: application
-version: 0.1.14
-appVersion: "v0.5.0"
+version: 0.1.18
+appVersion: "v0.6.1"
 dependencies:
 - name: mysql-operator
-  version: 0.1.0
+  version: 0.6.2
   repository: https://pluralsh.github.io/plural-helm-charts

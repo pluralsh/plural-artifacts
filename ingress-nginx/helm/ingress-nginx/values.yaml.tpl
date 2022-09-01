@@ -8,7 +8,18 @@ ingress-nginx:
     {{- end }}
   {{- end }}
   controller:
+    {{- if eq .Provider "kind" }}
+    topologySpreadConstraints: {}
+    autoscaling:
+      enabled: false
+   {{- end }}
     service:
+      {{- if eq .Provider "kind" }}
+      type: NodePort
+      nodePorts:
+        http: 30080
+        https: 30443
+      {{- end }}
       externalTrafficPolicy: Local
     {{- if eq .Provider "aws"}}
       annotations:

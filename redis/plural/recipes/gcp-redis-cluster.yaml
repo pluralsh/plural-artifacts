@@ -3,7 +3,7 @@ description: Installs redis on a GKE cluster
 provider: GCP
 dependencies:
 - repo: bootstrap
-  name: gcp-kubernetes
+  name: gcp-k8s
 sections:
 - name: redis
   configuration: []

@@ -1,0 +1,1 @@
+Use `plural watch kratos` to track the status of your application

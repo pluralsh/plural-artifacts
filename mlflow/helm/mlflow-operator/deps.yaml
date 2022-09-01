@@ -1,0 +1,35 @@
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  application: true
+  description: Deploys mlflow crafted for the target cloud
+spec:
+  dependencies:
+  - type: helm
+    name: bootstrap
+    repo: bootstrap
+    version: '>= 0.5.1'
+  - type: helm
+    name: istio
+    repo: istio
+    version: '>= 0.1.88'
+    optional: true
+  - type: helm
+    name: postgres
+    repo: postgres
+    version: '>= 0.1.32'
+  - type: terraform
+    name: aws
+    repo: mlflow
+    version: '>= 0.1.0'
+    optional: true
+  - type: terraform
+    name: azure
+    repo: mlflow
+    version: '>= 0.1.0'
+    optional: true
+  - type: terraform
+    name: gcp
+    repo: mlflow
+    version: '>= 0.1.0'
+    optional: true

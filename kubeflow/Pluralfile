@@ -2,6 +2,7 @@ REPO kubeflow
 ATTRIBUTES Plural repository.yaml
 
 TF terraform/*
+HELM helm/aws-iam-controller
 HELM helm/central-dashboard
 HELM helm/katib
 HELM helm/mysql-cluster
@@ -12,5 +13,6 @@ HELM helm/profile-controller
 HELM helm/serving
 HELM helm/tensorboards
 HELM helm/volumes
+HELM helm/training-operator
 RECIPE plural/recipes/*
 TAG plural/tags/**/*

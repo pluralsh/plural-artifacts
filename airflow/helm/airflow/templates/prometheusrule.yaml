@@ -1,3 +1,4 @@
+{{- if .Values.postgres.enabled }}
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
@@ -36,4 +37,4 @@ spec:
       annotations:
         summary: airflow db's memory has gotten too high
         description: the memory utilization of your plural airflow db is higher than recommended
-    
+{{- end }}

@@ -1,0 +1,28 @@
+name: growthbook-gcp
+description: Installs growthbook on an aws eks cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+- repo: mongodb
+  name: mongodb-gcp
+sections:
+- name: growthbook
+  configuration:
+  - name: hostname
+    documentation: the domain name for your growthbook instance
+    type: DOMAIN
+  - name: apiHostname
+    documentation: the domain name for the growthbook api (should be different from hostname)
+    type: DOMAIN
+  - name: growthbookBucket
+    documentation: bucket for your growthbook instance
+    type: BUCKET
+    default: growthbook
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: growthbook

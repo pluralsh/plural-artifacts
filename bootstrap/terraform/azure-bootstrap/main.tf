@@ -3,7 +3,7 @@ data "azurerm_resource_group" "group" {
 }
 
 module "network" {
-  source              = "Azure/network/azurerm"
+  source              = "github.com/pluralsh/terraform-azurerm-network?ref=plural"
   resource_group_name = data.azurerm_resource_group.group.name
   address_space       = var.address_space
   subnet_prefixes     = var.subnet_prefixes
@@ -13,8 +13,8 @@ module "network" {
 module "aks" {
   source                           = "github.com/pluralsh/terraform-azurerm-aks?ref=plural"
   resource_group_name              = data.azurerm_resource_group.group.name
-  kubernetes_version               = "1.21.2"
-  orchestrator_version             = "1.21.2"
+  kubernetes_version               = var.kubernetes_version
+  orchestrator_version             = var.kubernetes_version
   prefix                           = var.name
   cluster_name                     = var.name
   network_plugin                   = "azure"
@@ -36,6 +36,7 @@ module "aks" {
   agents_pool_name                 = local.node_pool_name
   agents_availability_zones        = ["1", "2"]
   agents_type                      = "VirtualMachineScaleSets"
+  agents_size                      = var.agents_size
 
   agents_labels = {
     "nodepool" : local.node_pool_name
@@ -60,6 +61,14 @@ data "azurerm_resource_group" "node_group" {
 resource "azurerm_role_assignment" "aks-managed-identity" {
   scope                = data.azurerm_resource_group.group.id
   role_definition_name = "Managed Identity Operator"
+  principal_id         = module.aks.kubelet_identity[0].object_id
+
+  depends_on = [module.aks]
+}
+
+resource "azurerm_role_assignment" "aks-network-identity" {
+  scope                = data.azurerm_resource_group.group.id
+  role_definition_name = "Network Contributor"
   principal_id         = module.aks.kubelet_identity[0].object_id
 
   depends_on = [module.aks]

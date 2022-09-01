@@ -8,6 +8,8 @@ dependencies:
   name: aws-efs
 - repo: ingress-nginx
   name: ingress-nginx-aws
+- repo: postgres
+  name: aws-postgres
 sections:
 - name: vaultwarden
   configuration:

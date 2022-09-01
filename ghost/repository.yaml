@@ -1,7 +1,9 @@
 name: ghost
-description: open source blog platform
+description: An open-source app that allows creators to publish, share, and grow a business around their content.
 category: PRODUCTIVITY
 icon: plural/icons/ghost.png
 notes: plural/notes.tpl
+gitUrl: https://github.com/TryGhost/Ghost
+homepage: https://ghost.org
 tags:
 - tag: blog

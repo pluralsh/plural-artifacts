@@ -1,8 +1,10 @@
 name: argo-workflows
-description: The workflow engine for Kubernetes
+description: An open source container-native workflow engine for orchestrating parallel jobs on Kubernetes.
 category: DEVOPS
 icon: plural/icons/argo-stacked-color-square.png
 notes: plural/notes.tpl
+gitUrl: https://github.com/argoproj/argo-workflows
+homepage: https://argoproj.github.io/argo-workflows/
 oauthSettings:
   uriFormat: https://{domain}/oauth2/callback
   authMethod: POST

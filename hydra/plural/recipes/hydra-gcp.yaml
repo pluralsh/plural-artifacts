@@ -1,0 +1,30 @@
+name: hydra-gcp
+description: Installs hydra on an aws eks cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+- repo: postgres
+  name: gcp-postgres
+sections:
+- name: hydra
+  configuration:
+  - name: hostname
+    documentation: domain on which you'd like to host hydra
+    type: DOMAIN
+  - name: adminHostname
+    documentation: dns name for the internal endpoint for hydra admin (leave empty to not enable ingress)
+    type: DOMAIN
+  - name: loginUrl
+    documentation: url on which oauth logins will occur
+    type: STRING
+  - name: consentUrl
+    documentation: url for oauth consent requests
+    type: STRING
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: hydra

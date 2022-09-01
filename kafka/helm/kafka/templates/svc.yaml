@@ -1,0 +1,203 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: kafka-cluster-kafka-bootstrap-prometheus 
+  name: kafka-cluster-kafka-bootstrap-prometheus
+  namespace: kafka
+spec:
+  ports:
+  - name: tcp-prometheus
+    port: 9404
+    protocol: TCP
+    targetPort: 9404
+  selector:
+    strimzi.io/cluster: kafka
+    strimzi.io/kind: Kafka
+    strimzi.io/name: kafka-kafka
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: kafka-bootstrap-metrics
+  labels:
+    name: kafka-bootstrap-metrics
+spec:
+  selector:
+    matchLabels:
+      name: kafka-cluster-kafka-bootstrap-prometheus 
+  namespaceSelector:
+    matchNames:
+    - kafka
+  endpoints:
+  - port: tcp-prometheus
+    interval: 30s
+    relabelings: 
+    - action: labelmap
+      regex: __meta_kubernetes_pod_label_(strimzi_io_.+)
+      replacement: $1
+      separator: ;
+    - action: replace
+      regex: (.*)
+      replacement: $1
+      separator: ;
+      sourceLabels:
+      - __meta_kubernetes_namespace
+      targetLabel: namespace
+    - action: replace
+      regex: (.*)
+      replacement: $1
+      separator: ;
+      sourceLabels:
+      - __meta_kubernetes_pod_name
+      targetLabel: kubernetes_pod_name
+    - action: replace
+      regex: (.*)
+      replacement: $1
+      separator: ;
+      sourceLabels:
+      - __meta_kubernetes_pod_node_name
+      targetLabel: node_name
+    - action: replace
+      regex: (.*)
+      replacement: $1
+      separator: ;
+      sourceLabels:
+      - __meta_kubernetes_pod_host_ip
+      targetLabel: node_ip
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: kafka-cluster-kafka-bootstrap-zookeeper
+  name: kafka-cluster-kafka-bootstrap-zookeeper
+  namespace: kafka
+spec:
+  ports:
+  - name: tcp-prometheus
+    port: 9404
+    protocol: TCP
+    targetPort: 9404
+  selector:
+    strimzi.io/cluster: kafka
+    strimzi.io/kind: Kafka
+    strimzi.io/name: kafka-zookeeper
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: zookeeper-bootstrap-metrics
+  labels:
+    name: zookeeper-bootstrap-metrics
+spec:
+  selector:
+    matchLabels:
+      name: kafka-cluster-kafka-bootstrap-zookeeper
+  namespaceSelector:
+    matchNames:
+    - kafka
+  endpoints:
+  - port: tcp-prometheus
+    interval: 30s
+    relabelings: 
+    - action: labelmap
+      regex: __meta_kubernetes_pod_label_(strimzi_io_.+)
+      replacement: $1
+      separator: ;
+    - action: replace
+      regex: (.*)
+      replacement: $1
+      separator: ;
+      sourceLabels:
+      - __meta_kubernetes_namespace
+      targetLabel: namespace
+    - action: replace
+      regex: (.*)
+      replacement: $1
+      separator: ;
+      sourceLabels:
+      - __meta_kubernetes_pod_name
+      targetLabel: kubernetes_pod_name
+    - action: replace
+      regex: (.*)
+      replacement: $1
+      separator: ;
+      sourceLabels:
+      - __meta_kubernetes_pod_node_name
+      targetLabel: node_name
+    - action: replace
+      regex: (.*)
+      replacement: $1
+      separator: ;
+      sourceLabels:
+      - __meta_kubernetes_pod_host_ip
+      targetLabel: node_ip
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: kafka-cluster-kafka-bootstrap-exporter  
+  name: kafka-cluster-kafka-bootstrap-exporter
+  namespace: kafka
+spec:
+  ports:
+  - name: tcp-prometheus
+    port: 9404
+    protocol: TCP
+    targetPort: 9404
+  selector:
+    strimzi.io/cluster: kafka
+    strimzi.io/kind: Kafka
+    strimzi.io/name: kafka-kafka-exporter
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: exporter-bootstrap-metrics
+  labels:
+    name: exporter-bootstrap-metrics
+spec:
+  selector:
+    matchLabels:
+      name: kafka-cluster-kafka-bootstrap-exporter  
+  namespaceSelector:
+    matchNames:
+    - kafka
+  endpoints:
+  - port: tcp-prometheus
+    interval: 30s
+    relabelings: 
+    - action: labelmap
+      regex: __meta_kubernetes_pod_label_(strimzi_io_.+)
+      replacement: $1
+      separator: ;
+    - action: replace
+      regex: (.*)
+      replacement: $1
+      separator: ;
+      sourceLabels:
+      - __meta_kubernetes_namespace
+      targetLabel: namespace
+    - action: replace
+      regex: (.*)
+      replacement: $1
+      separator: ;
+      sourceLabels:
+      - __meta_kubernetes_pod_name
+      targetLabel: kubernetes_pod_name
+    - action: replace
+      regex: (.*)
+      replacement: $1
+      separator: ;
+      sourceLabels:
+      - __meta_kubernetes_pod_node_name
+      targetLabel: node_name
+    - action: replace
+      regex: (.*)
+      replacement: $1
+      separator: ;
+      sourceLabels:
+      - __meta_kubernetes_pod_host_ip
+      targetLabel: node_ip

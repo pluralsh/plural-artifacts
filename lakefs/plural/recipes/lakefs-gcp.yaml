@@ -1,0 +1,24 @@
+name: lakefs-gcp
+description: Installs lakefs on an aws eks cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+
+- repo: postgres
+  name: gcp-postgres
+
+sections:
+- name: lakefs
+  configuration:
+  - name: hostname
+    documentation: domain on which you'd like to host lakefs's page
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: lakefs

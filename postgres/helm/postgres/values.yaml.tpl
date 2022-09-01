@@ -1,5 +1,5 @@
 configAwsOrGcp:
-{{ if or (eq .Provider "aws") (eq .Provider "azure") (eq .Provider "equinix") }}
+{{ if or (eq .Provider "aws") (eq .Provider "azure") (eq .Provider "equinix") (eq .Provider "kind") }}
   wal_s3_bucket: {{ .Values.wal_bucket }}
 {{ else if eq .Provider "google" }}
   additional_secret_mount: postgres-gcp-creds
@@ -17,6 +17,8 @@ serviceAccount:
 
 provider: {{ .Provider }}
 
+{{ $minioNamespace := namespace "minio" }}
+
 configConfigMap:
   AWS_SDK_LOAD_CONFIG: "1"
   USE_WALG_BACKUP: "true"
@@ -30,13 +32,17 @@ configConfigMap:
   AWS_S3_FORCE_PATH_STYLE: "true"
   AWS_ENDPOINT: {{ .Configuration.minio.hostname }}
   {{- end }}
+  {{- if eq .Provider "kind" }}
+  AWS_S3_FORCE_PATH_STYLE: "true"
+  AWS_ENDPOINT: http://minio.{{ $minioNamespace }}:9000
+  {{- end }}
 
-{{ if or (eq .Provider "azure") (eq .Provider "equinix") }}
+{{ if or (eq .Provider "azure") (eq .Provider "equinix") (eq .Provider "kind") }}
 configKubernetes:
   pod_environment_secret: plural-postgres-s3
 {{ end }}
 
-{{ if or (eq .Provider "azure") (eq .Provider "equinix") }}
+{{ if or (eq .Provider "azure") (eq .Provider "equinix") (eq .Provider "kind") }}
 configSecret:
   enabled: true
   env:

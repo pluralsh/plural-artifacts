@@ -1,0 +1,24 @@
+name: jitsu-azure
+description: Installs jitsu on an aws eks cluster
+provider: AZURE
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-azure
+- repo: redis
+  name: azure-redis
+sections:
+- name: jitsu
+  configuration:
+  - name: hostname
+    documentation: domain on which you'd like to host jitsu
+    type: DOMAIN
+  - name: apiHostname
+    documentation: domain on which you'd like to host jitsu's api
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: azure
+  - type: HELM
+    name: jitsu

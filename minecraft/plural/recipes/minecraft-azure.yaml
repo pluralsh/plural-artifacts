@@ -1,0 +1,17 @@
+name: minecraft-azure
+description: Installs minecraft on an aws eks cluster
+provider: AZURE
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+sections:
+- name: minecraft
+  configuration:
+  - name: hostname
+    documentation: fqdn for your metabase instance
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: azure
+  - type: HELM
+    name: minecraft

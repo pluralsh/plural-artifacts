@@ -1,0 +1,10 @@
+apiVersion: v2
+name: vault
+description: A Helm chart for Hashicorp Vault on Plural
+type: application
+version: 0.2.3
+appVersion: 1.11.0
+dependencies:
+- name: vault
+  version: 0.19.0
+  repository: https://helm.releases.hashicorp.com

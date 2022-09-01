@@ -9,11 +9,6 @@ resource "kubernetes_namespace" "chatwoot" {
   }
 }
 
-locals {
-  gcp_location_parts = split("-", var.gcp_location)
-  gcp_region         = "${local.gcp_location_parts[0]}-${local.gcp_location_parts[1]}"
-}
-
 resource "kubernetes_service_account" "chatwoot" {
   metadata {
     name      = var.chatwoot_serviceaccount
@@ -32,6 +27,13 @@ resource "google_storage_bucket" "chatwoot" {
   name = var.chatwoot_bucket
   project = var.project_id
   force_destroy = true
+  location = var.bucket_location
+  
+  lifecycle {
+    ignore_changes = [
+      location,
+    ]
+  }
 }
 
 resource "google_storage_bucket_iam_member" "chatwoot" {

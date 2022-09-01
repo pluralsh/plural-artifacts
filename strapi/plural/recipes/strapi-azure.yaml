@@ -1,0 +1,24 @@
+name: strapi-azure
+description: Installs strapi on an aws eks cluster
+provider: AZURE
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+
+- repo: ingress-nginx
+  name: ingress-nginx-azure
+
+- repo: postgres
+  name: azure-postgres
+
+sections:
+- name: strapi
+  configuration:
+  - name: hostname
+    documentation: domain on which you'd like to host strapi's page
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: azure
+  - type: HELM
+    name: strapi

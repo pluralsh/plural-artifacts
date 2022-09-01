@@ -9,6 +9,10 @@ grafana:
     password: {{ dedupe . "grafana.grafana.admin.password" (randAlphaNum 14) }}
     user: admin
   ingress:
+    {{- if eq .Provider "kind" }}
+    annotations:
+      external-dns.alpha.kubernetes.io/target: "127.0.0.1"
+    {{- end }}
     tls:
     - hosts:
       - {{ .Values.hostname }}

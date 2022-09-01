@@ -1,3 +1,4 @@
+{{- if .Values.hasura.postgresql.operatorEnabled }}
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
@@ -36,3 +37,4 @@ spec:
         annotations:
           summary: hasura db's memory has gotten too high
           description: the memory utilization of your plural hasura db is higher than recommended
+{{- end }}

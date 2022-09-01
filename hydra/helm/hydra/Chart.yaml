@@ -1,0 +1,13 @@
+apiVersion: v2
+name: hydra
+description: helm chart for hydra
+type: application
+version: 0.1.8
+appVersion: "v1.0.0"
+dependencies:
+- name: postgres
+  version: 0.1.5
+  repository: https://pluralsh.github.io/module-library
+- name: hydra
+  repository: https://k8s.ory.sh/helm/charts
+  version: 0.21.7

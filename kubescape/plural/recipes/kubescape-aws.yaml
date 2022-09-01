@@ -1,0 +1,17 @@
+name: kubescape-aws
+description: Installs kubescape on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+sections:
+- name: kubescape
+  configuration:
+  - name: accountGuid
+    documentation: Unique identifier connecting results to the Kubescape Cloud account. To learn more go here https://hub.armosec.io/docs/kubescape-cloud-account#account-id
+    type: STRING
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: kubescape

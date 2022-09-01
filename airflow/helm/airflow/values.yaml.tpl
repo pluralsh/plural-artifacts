@@ -4,8 +4,10 @@ global:
     - description: airbyte web ui
       url: {{ .Values.hostname }}
 
+{{ if not .Values.redisDisabled }}
 secrets:
   redis_password: {{ dedupe . "airflow.secrets.redis_password" (randAlphaNum 14) }}
+{{ end }}
 
 {{ if eq .Provider "azure" }}
 s3access:
@@ -13,6 +15,7 @@ s3access:
   secret_access_key: {{ importValue "Terraform" "secret_access_key" }}
 {{ end }}
 
+{{ if not .Values.gitSyncDisabled }}
 sshConfig:
 {{ if .Values.hostname }}
   id_rsa: {{ ternary .Values.private_key (dedupe . "airflow.sshConfig.id_rsa" "") (hasKey .Values "private_key") | quote }}
@@ -21,10 +24,19 @@ sshConfig:
   id_rsa: example
   id_rsa_pub: example
 {{ end }}
+{{ end }}
 
+{{ if not .Values.postgresqlDisabled }}
+postgres:
+  enabled: true
 postgresqlPassword: {{ dedupe . "airflow.postgresqlPassword" (randAlphaNum 20) }}
+{{ else }}
+postgres:
+  enabled: false
+{{ end }}
 
 {{ $hostname := default "example.com" .Values.hostname }}
+{{ $minioNamespace := namespace "minio" }}
 airflow:
   web:
     baseUrl: {{ $hostname }}
@@ -90,6 +102,10 @@ airflow:
   ingress:
     web:
       host: {{ $hostname }}
+      {{- if eq .Provider "kind" }}
+      annotations:
+        external-dns.alpha.kubernetes.io/target: "127.0.0.1"
+      {{- end }}
 
   fernetKey: {{ dedupe . "airflow.airflow.fernetKey" (randAlphaNum 20)}}
 
@@ -99,21 +115,27 @@ airflow:
     {{ if eq .Provider "google" }}
       AIRFLOW__LOGGING__REMOTE_BASE_LOG_FOLDER: "gs://{{ .Values.airflowBucket }}/airflow/logs"
     {{ end }}
-    {{ if or (eq .Provider "aws") (eq .Provider "azure") }}
+    {{ if or (eq .Provider "aws") (eq .Provider "azure") (eq .Provider "kind") }}
       AIRFLOW__LOGGING__REMOTE_BASE_LOG_FOLDER: "s3://{{ .Values.airflowBucket }}/airflow/logs"
     {{ end }}
-    {{ if eq .Provider "azure" }}
+    {{ if or (eq .Provider "azure") (eq .Provider "kind") }}
       AIRFLOW__LOGGING__REMOTE_LOG_CONN_ID: minio
     {{ end }}
   
     {{ if eq .Provider "google" }}
     connections:
     ## see docs: https://airflow.apache.org/docs/apache-airflow-providers-google/stable/connections/gcp.html
-    - id: my_gcp
+    - id: plural
       type: google_cloud_platform
       description: my GCP connection
       extra: |-
         { "extra__google_cloud_platform__num_retries": "5" }
+    {{ end }}
+    {{ if eq .Provider "aws" }}
+    connections:
+    - id: plural
+      type: aws
+      description: connection to aws s3 logs (via workflow identity)
     {{ end }}
     {{ if eq .Provider "azure" }}
     connections:
@@ -124,7 +146,19 @@ airflow:
         {
           "aws_access_key_id": {{ importValue "Terraform" "access_key_id" }},
           "aws_secret_access_key": {{ importValue "Terraform" "secret_access_key" }},
-          "host": "{{ .Configuration.minio.hostname }}"
+          "host": "https://{{ .Configuration.minio.hostname }}"
+        }
+    {{ end }}
+    {{ if eq .Provider "kind" }}
+    connections:
+    - id: minio
+      type: aws
+      description: connection to local minio gateway
+      extra: |-
+        {
+          "aws_access_key_id": {{ importValue "Terraform" "access_key_id" }},
+          "aws_secret_access_key": {{ importValue "Terraform" "secret_access_key" }},
+          "host": "http://minio.{{ $minioNamespace }}:9000"
         }
     {{ end }}
 
@@ -135,8 +169,10 @@ airflow:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-airflow"
 
+  
   dags:
     gitSync:
+      {{ if not .Values.gitSyncDisabled }}
       enabled: true
       repo: {{ .Values.dagRepo }}
       branch: {{ .Values.branchName }}
@@ -145,3 +181,6 @@ airflow:
       sshSecret: airflow-ssh-config
       sshSecretKey: id_rsa
       sshKnownHosts: {{ knownHosts | quote }}
+      {{ else }}
+      enabled: false  
+      {{ end }}

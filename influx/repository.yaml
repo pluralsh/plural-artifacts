@@ -1,8 +1,10 @@
 name: influx
-description: time series database and monitoring platform
+description: An open-source time-series database.
 category: DATABASE
 icon: plural/icons/influx.png
 notes: plural/notes.tpl
+homepage: https://www.influxdata.com/
+gitUrl: https://github.com/influxdata/influxdb
 oauthSettings:
   uriFormat: https://{domain}/oauth/plural/callback
   authMethod: POST

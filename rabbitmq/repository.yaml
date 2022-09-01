@@ -1,7 +1,9 @@
 name: rabbitmq
-description: deploys the rabbitmq operator and associated monitoring
+description: An open-source message broker.
 category: MESSAGING
 icon: plural/icons/rabbitmq.png
+homepage: https://www.rabbitmq.com/
+gitUrl: https://github.com/rabbitmq/rabbitmq-server
 tags:
 - tag: operator
 - tag: queue

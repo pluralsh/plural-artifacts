@@ -13,6 +13,7 @@ spec:
     name: efs-csi-driver
     repo: bootstrap
     version: '>= 0.1.4'
+    optional: true
   - type: helm
     name: istio
     repo: istio
@@ -21,6 +22,11 @@ spec:
     name: nvidia-operator
     repo: nvidia-operator
     version: '>= 0.1.2'
+  - type: helm
+    name: aws-iam-controller
+    repo: kubeflow
+    version: '>= 0.0.6'
+    optional: true
   - type: helm
     name: katib
     repo: kubeflow
@@ -32,30 +38,35 @@ spec:
     version: '>= 0.1.1'
     optional: true
   - type: helm
-    name: mpi
+    name: training-operator
     repo: kubeflow
-    version: '>= 0.1.1'
+    version: '>= 0.1.0'
     optional: true
-  - type: helm
-    name: mxnet
-    repo: kubeflow
-    version: '>= 0.1.1'
-    optional: true
-  - type: helm
-    name: pytorch
-    repo: kubeflow
-    version: '>= 0.1.1'
-    optional: true
-  - type: helm
-    name: tensorflow
-    repo: kubeflow
-    version: '>= 0.1.1'
-    optional: true
-  - type: helm
-    name: xgboost
-    repo: kubeflow
-    version: '>= 0.1.1'
-    optional: true
+  # - type: helm
+  #   name: mpi
+  #   repo: kubeflow
+  #   version: '>= 0.1.1'
+  #   optional: true
+  # - type: helm
+  #   name: mxnet
+  #   repo: kubeflow
+  #   version: '>= 0.1.1'
+  #   optional: true
+  # - type: helm
+  #   name: pytorch
+  #   repo: kubeflow
+  #   version: '>= 0.1.1'
+  #   optional: true
+  # - type: helm
+  #   name: tensorflow
+  #   repo: kubeflow
+  #   version: '>= 0.1.1'
+  #   optional: true
+  # - type: helm
+  #   name: xgboost
+  #   repo: kubeflow
+  #   version: '>= 0.1.1'
+  #   optional: true
   - type: helm
     name: pipelines
     repo: kubeflow
@@ -83,6 +94,11 @@ spec:
     optional: true
   - type: terraform
     name: aws
+    repo: kubeflow
+    version: '>= 0.1.0'
+    optional: true
+  - type: terraform
+    name: gcp
     repo: kubeflow
     version: '>= 0.1.0'
     optional: true

@@ -1,0 +1,25 @@
+name: vault-azure
+description: Installs vault on an Azure AKS cluster
+provider: AZURE
+oidcSettings:
+  uriFormats:
+  - https://{domain}/ui/vault/auth/oidc/oidc/callback
+  - http://localhost:8250/oidc/callback
+  authMethod: POST
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-azure
+sections:
+- name: vault
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for your Vault installation
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: azure
+  - type: HELM
+    name: vault

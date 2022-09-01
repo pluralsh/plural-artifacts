@@ -1,0 +1,27 @@
+redash:
+  envSecretName: redash.plural-redash.credentials.postgresql.acid.zalan.do
+  externalPostgreSQL: postgresql://$(username):$(password)@plural-redash:5432/redash
+  secretKey: CHANGEME
+  cookieSecret: CHANGEME
+  postgresql:
+    enabled: false
+  redis:
+    enabled: false
+  externalRedisSecret:
+    name: redash-redis
+    key: REDIS_URL
+
+postgres:
+  team: plural
+  user: redash
+  dbName: redash
+  ownerChart: redash
+
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+    kubernetes.io/ingress.class: "nginx"

@@ -25,161 +25,24 @@ spec:
       {{- if .Values.scheduler.tolerations }}
       tolerations: {{- include "common.tplvalues.render" (dict "value" .Values.scheduler.tolerations "context" $) | nindent 8 }}
       {{- end }}
+      initContainers:
+      - name: wait-for-pg
+        image: gcr.io/pluralsh/busybox:latest
+        imagePullPolicy: IfNotPresent
+        command: [ "/bin/sh", "-c", "until nc -zv {{ include "airbyte.database.host" . }} 5432 -w1; do echo 'waiting for db'; sleep 1; done" ]
       containers:
       - name: airbyte-scheduler-container
         image: {{ include "airbyte.schedulerImage" . }}
         imagePullPolicy: "{{ .Values.scheduler.image.pullPolicy }}"        
+        envFrom:
+        - secretRef:
+            name: airbyte-env
         env:
-        - name: AIRBYTE_VERSION
-          valueFrom:
-            secretKeyRef:
-              name: airbyte-env
-              key: AIRBYTE_VERSION
-        - name: CONFIG_ROOT
-          valueFrom:
-            secretKeyRef:
-              name: airbyte-env
-              key: CONFIG_ROOT
-        - name: DATABASE_HOST
-          valueFrom:
-            secretKeyRef:
-              name: airbyte-env
-              key: DATABASE_HOST
-        - name: DATABASE_PORT
-          valueFrom:
-            secretKeyRef:
-              name: airbyte-env
-              key: DATABASE_PORT
-        {{- if .Values.postgresql.enabled }}
-        - name: DATABASE_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: airbyte-env
-              key: DATABASE_PASSWORD
-        {{- else }}
         - name: DATABASE_PASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ include "airbyte.postgresql.secretName" . }}
               key: {{ include "airbyte.database.existingsecret.key" . }}
-        {{- end }}
-        - name: DATABASE_URL
-          valueFrom:
-            secretKeyRef:
-              name: airbyte-env
-              key: DATABASE_URL
-        - name: DATABASE_USER
-          valueFrom:
-            secretKeyRef:
-              name: airbyte-env
-              key: DATABASE_USER
-        - name: TRACKING_STRATEGY
-          valueFrom:
-            secretKeyRef:
-              name: airbyte-env
-              key: TRACKING_STRATEGY
-        - name: WORKSPACE_DOCKER_MOUNT
-          value: workspace
-        - name: WORKSPACE_ROOT
-          valueFrom:
-            secretKeyRef:
-              name: airbyte-env
-              key: WORKSPACE_ROOT
-        - name: WORKER_ENVIRONMENT
-          valueFrom:
-            secretKeyRef:
-              name: airbyte-env
-              key: WORKER_ENVIRONMENT
-        - name: LOCAL_ROOT
-          valueFrom:
-            secretKeyRef:
-              name: airbyte-env
-              key: LOCAL_ROOT
-        - name: WEBAPP_URL
-          valueFrom:
-            secretKeyRef:
-              name: airbyte-env
-              key: WEBAPP_URL
-        - name: TEMPORAL_HOST
-          valueFrom:
-            secretKeyRef:
-              name: airbyte-env
-              key: TEMPORAL_HOST
-        - name: TEMPORAL_WORKER_PORTS
-          valueFrom:
-            secretKeyRef:
-              name: airbyte-env
-              key: TEMPORAL_WORKER_PORTS
-        - name: LOG_LEVEL
-          value: "{{ .Values.scheduler.log.level }}"
-        - name: KUBE_NAMESPACE
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.namespace
-        - name: SUBMITTER_NUM_THREADS
-          valueFrom:
-            secretKeyRef:
-              name: airbyte-env
-              key: SUBMITTER_NUM_THREADS
-        - name: RESOURCE_CPU_REQUEST
-          valueFrom:
-            secretKeyRef:
-              name: airbyte-env
-              key: RESOURCE_CPU_REQUEST
-        - name: RESOURCE_CPU_LIMIT
-          valueFrom:
-            secretKeyRef:
-              name: airbyte-env
-              key: RESOURCE_CPU_LIMIT
-        - name: RESOURCE_MEMORY_REQUEST
-          valueFrom:
-            secretKeyRef:
-              name: airbyte-env
-              key: RESOURCE_MEMORY_REQUEST
-        - name: RESOURCE_MEMORY_LIMIT
-          valueFrom:
-            secretKeyRef:
-              name: airbyte-env
-              key: RESOURCE_MEMORY_LIMIT
-        - name: S3_LOG_BUCKET
-          valueFrom:
-            secretKeyRef:
-              name: airbyte-env
-              key: S3_LOG_BUCKET
-        - name: S3_LOG_BUCKET_REGION
-          valueFrom:
-            secretKeyRef:
-              name: airbyte-env
-              key: S3_LOG_BUCKET_REGION
-        - name: AWS_ACCESS_KEY_ID
-          value: {{ .Values.minio.accessKey.password }}
-        - name: AWS_SECRET_ACCESS_KEY
-          value: {{ .Values.minio.secretKey.password }}
-        - name: S3_MINIO_ENDPOINT
-          valueFrom:
-            secretKeyRef:
-              name: airbyte-env
-              key: S3_MINIO_ENDPOINT
-        - name: S3_PATH_STYLE_ACCESS
-          valueFrom:
-            secretKeyRef:
-              name: airbyte-env
-              key: S3_PATH_STYLE_ACCESS
-        - name: GOOGLE_APPLICATION_CREDENTIALS
-          valueFrom:
-            secretKeyRef:
-              name: {{ default "airbyte-env" .Values.googleCredentialsSecret }}
-              key: GOOGLE_APPLICATION_CREDENTIALS
-        - name: GCP_STORAGE_BUCKET
-          valueFrom:
-            secretKeyRef:
-              name: airbyte-env
-              key: GCP_STORAGE_BUCKET
-        - name: INTERNAL_API_HOST
-          valueFrom:
-            secretKeyRef:
-              name: airbyte-env
-              key: INTERNAL_API_HOST
         {{- if .Values.scheduler.extraEnv }}
         {{ .Values.scheduler.extraEnv | toYaml | nindent 8 }}
         {{- end }}

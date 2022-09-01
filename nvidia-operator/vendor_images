@@ -1,0 +1,12 @@
+nvcr.io/nvidia/gpu-operator:v1.10.1
+nvcr.io/nvidia/cloud-native/gpu-operator-validator:v1.10.1
+nvcr.io/nvidia/driver:510.47.03
+nvcr.io/nvidia/cloud-native/k8s-driver-manager:v0.3.0
+nvcr.io/nvidia/k8s/container-toolkit:v1.9.0-ubuntu18.04
+nvcr.io/nvidia/k8s-device-plugin:v0.11.0-ubi8
+nvcr.io/nvidia/cloud-native/dcgm:2.3.4-1-ubuntu20.04
+nvcr.io/nvidia/k8s/dcgm-exporter:2.3.4-2.6.4-ubuntu20.04
+nvcr.io/nvidia/gpu-feature-discovery:v0.5.0
+nvcr.io/nvidia/cloud-native/k8s-mig-manager:v0.3.0-ubuntu20.04
+nvcr.io/nvidia/cloud-native/nvidia-fs:510.39.01
+nvcr.io/nvidia/cuda:11.4.2-base-ubi8

@@ -4,6 +4,167 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.4.1
   creationTimestamp: null
+  name: configs.platform.kubeflow.org
+spec:
+  group: platform.kubeflow.org
+  names:
+    kind: Config
+    listKind: ConfigList
+    plural: configs
+    singular: config
+  scope: Cluster
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Config is the Schema for the configs API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            properties:
+              name:
+                pattern: ^config$
+                type: string
+            type: object
+          spec:
+            description: ConfigSpec defines the desired state of Config
+            properties:
+              admins:
+                description: Email addresses of Kubeflow cluster level admins
+                items:
+                  type: string
+                type: array
+              identity:
+                description: Identity related configs
+                properties:
+                  userIdPrefix:
+                    description: Prefix found in the JWT email claim
+                    type: string
+                type: object
+              infrastructure:
+                description: Infrastructure related configs
+                properties:
+                  clusterName:
+                    description: Name of the Kubernetes Cluster
+                    type: string
+                  provider:
+                    description: Cloud provider where the cluster is running
+                    enum:
+                    - AWS
+                    - GCP
+                    - Azure
+                    - EquinixMetal
+                    type: string
+                  providerConfig:
+                    description: Cloud provider related configs
+                    properties:
+                      accountID:
+                        description: Cloud provider Account ID
+                        type: string
+                      clusterOIDCIssuer:
+                        description: The OIDC issuer for your cluster
+                        type: string
+                      region:
+                        description: Cloud provider region
+                        type: string
+                    type: object
+                  storage:
+                    description: Storage related configs
+                    properties:
+                      bucketName:
+                        description: Name of the object storage bucket to use for
+                          Kubeflow
+                        type: string
+                      provider:
+                        description: The storage provider to use
+                        enum:
+                        - S3
+                        - GCS
+                        - MinIO
+                        type: string
+                    type: object
+                type: object
+              namespace:
+                description: Configs related to namespaces
+                properties:
+                  defaultLabels:
+                    additionalProperties:
+                      type: string
+                    description: Labels to add to all created namespaces
+                    type: object
+                type: object
+              network:
+                description: Network related configs
+                properties:
+                  clusterDomain:
+                    default: cluster.local
+                    description: Domain for the local cluster
+                    type: string
+                  hostname:
+                    description: Hostname of the Kubeflow deployment
+                    type: string
+                  istio:
+                    description: Istio related configs
+                    properties:
+                      clusterGateway:
+                        description: Istio Gateway resource used for Kubeflow
+                        properties:
+                          name:
+                            description: Name of the Istio gateway to use for Kubeflow
+                            type: string
+                          namespace:
+                            description: Namespace of the Istio gateway to use for
+                              Kubeflow
+                            type: string
+                        type: object
+                    type: object
+                type: object
+              security:
+                description: Security related configs
+                properties:
+                  oidc:
+                    description: Settings related to OIDC configuration
+                    properties:
+                      issuer:
+                        description: The OIDC issuer to setup with Istio
+                        type: string
+                      jwksURI:
+                        description: The JWKS URI for the OIDC issuer you would like
+                          to use with Istio
+                        type: string
+                    type: object
+                type: object
+            type: object
+          status:
+            description: ConfigStatus defines the observed state of Config
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.4.1
+  creationTimestamp: null
   name: profiles.kubeflow.org
 spec:
   group: kubeflow.org

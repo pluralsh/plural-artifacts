@@ -1,6 +1,6 @@
 global:
   image:
-    repository: quay.io/argoproj/argocd
+    repository: dkr.plural.sh/argo-cd/argoproj/argocd
     tag: v2.1.1
     imagePullPolicy: IfNotPresent
   ## Annotations applied to all pods
@@ -241,7 +241,7 @@ argo-cd:
         # additionalLabels: {}
 
     image:
-      repository: ghcr.io/dexidp/dex
+      repository: dkr.plural.sh/argo-cd/dexidp/dex
       tag: v2.30.0
       imagePullPolicy: IfNotPresent
     initImage:
@@ -1219,26 +1219,19 @@ argo-cd:
 
 argocd-image-updater:
   enabled: true
+  image:
+    repository: dkr.plural.sh/argo-cd/argoprojlabs/argocd-image-updater
+    pullPolicy: IfNotPresent
+    tag: v0.10.1
   config:
+    applicationsAPIKind: "kubernetes"
     argocd:
-      applicationsAPI: "kubernetes"
-      argocdNamespace: ""
       grpcWeb: true
       serverAddress: ""
       insecure: false
       plaintext: false
     registries: []
   metrics:
+    enabled: true
     serviceMonitor:
       enabled: true
-      path: /metrics
-      interval: 30s
-    grafanaDashboard:
-      enabled: true
-      additionalLabels:
-        grafana_dashboard: "example-grafana-dashboard"
-      additionalAnnotations:
-        k8s-sidecar-target-directory: /tmp/dashboards/Argo CD Dashboards
-
-argocd-notifications:
- enabled: false

@@ -1,0 +1,11 @@
+name: metabase
+description: An easy, open-source way for everyone to ask questions and learn from data.
+category: DATA
+icon: plural/icons/metabase.png
+notes: plural/notes.tpl
+homepage: https://www.metabase.com/
+gitUrl: https://github.com/metabase/metabase
+tags:
+- tag: data
+- tag: dataviz
+- tag: nocode

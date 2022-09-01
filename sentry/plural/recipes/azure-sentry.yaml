@@ -3,7 +3,7 @@ description: installs sentry on an AKS cluster
 provider: AZURE
 oidcSettings:
   authMethod: POST
-  uriFormat: https://{domain}/auth/sso
+  uriFormat: https://{domain}/auth/sso/
   domainKey: hostname
 dependencies:
 - repo: bootstrap

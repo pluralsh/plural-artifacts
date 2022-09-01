@@ -1,0 +1,6 @@
+name: gcp-config-connector
+description: An open-source Kubernetes add-on that allows users to manage GCP resources through Kubernetes.
+category: DEVOPS
+private: true
+icon: plural/icons/gcp.png
+notes: plural/notes.tpl

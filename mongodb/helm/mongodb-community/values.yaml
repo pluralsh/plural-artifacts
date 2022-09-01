@@ -1,0 +1,98 @@
+metrics: 
+  password: CHANGEME
+
+clusterName: mongo
+
+community-operator:
+  community-operator-crds:
+    enabled: false
+
+statefulset:
+  storage:
+    size: 10G
+  containers:
+    mongodb-agent:
+      resources:
+        limits:
+          cpu: 1
+          memory: 500M
+        requests:
+          cpu: 500m
+          memory: 400M
+    mongod:
+      image: dkr.plural.sh/mongodb/mongo:5.0.6
+      resources:
+        limits:
+          cpu: 1
+          memory: 500M
+        requests:
+          cpu: 500m
+          memory: 400M
+
+cluster: 
+  members: 3
+  version: 5.0.6
+  type: ReplicaSet
+  security:
+    authentication:
+      modes: ["SCRAM"]
+  users:
+  - name: admin
+    db: admin
+    passwordSecretRef: # a reference to the secret that will be used to generate the user's password
+      name: admin-password
+    roles:
+    - name: clusterAdmin
+      db: admin
+    - name: userAdminAnyDatabase
+      db: admin
+    - name: root
+      db: admin
+    scramCredentialsSecretName: admin-scram
+  prometheus:
+    passwordSecretRef:
+      name: metrics-endpoint-creds
+    username: metrics
+
+config-overlays:
+  configOverlays:
+    mongod-cpu:
+      labels:
+        platform.plural.sh/component: mongo
+        platform.plural.sh/kind: statefulset
+        platform.plural.sh/resource: cpu
+      spec:
+        name: mongod cpu
+        documentation: cpu requests for mongod
+        updates:
+        - path: ['mongodb-community', 'statefulset', 'containers', 'mongod', 'resources', 'requests', 'cpu']
+    mongod-mem:
+      labels:
+        platform.plural.sh/component: mongo
+        platform.plural.sh/kind: statefulset
+        platform.plural.sh/resource: cpu
+      spec:
+        name: mongod memory
+        documentation: memory requests for mongod
+        updates:
+        - path: ['mongodb-community', 'statefulset', 'containers', 'mongod', 'resources', 'requests', 'memory']
+    mongo-agent-cpu:
+      labels:
+        platform.plural.sh/component: mongo
+        platform.plural.sh/kind: statefulset
+        platform.plural.sh/resource: cpu
+      spec:
+        name: mongo agent cpu
+        documentation: cpu requests for mongo-agent
+        updates:
+        - path: ['mongodb-community', 'statefulset', 'containers', 'mongo-agent', 'resources', 'requests', 'cpu']
+    mongo-agent-mem:
+      labels:
+        platform.plural.sh/component: mongo
+        platform.plural.sh/kind: statefulset
+        platform.plural.sh/resource: cpu
+      spec:
+        name: mongo agent memory
+        documentation: memory requests for mongo-agent
+        updates:
+        - path: ['mongodb-community', 'statefulset', 'containers', 'mongo-agent', 'resources', 'requests', 'memory']

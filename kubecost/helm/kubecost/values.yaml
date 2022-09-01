@@ -15,6 +15,12 @@ global:
       enabled: true
       fqdn: http://monitoring-alertmanager.monitoring.svc.cluster.local9093
 
+test-base:
+  enabled: false
+  repository: kubecost
+  testName: kubecost-integration
+  promoteTag: warm
+
 oidcProxy:
   enabled: false
   upstream: http://localhost:9090/
@@ -29,6 +35,10 @@ cost-analyzer:
   prometheus:
     kube-state-metrics:
       disabled: true
+  
+  networkCosts:
+    podSecurityPolicy:
+      enabled: false
 
   kubecostProductConfigs:
     grafanaURL: https://grafana.example.com

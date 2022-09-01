@@ -1,3 +1,4 @@
+{{- if .Values.airbyte.postgres.enabled }}
 apiVersion: acid.zalan.do/v1
 kind: postgresql
 metadata:
@@ -89,3 +90,4 @@ spec:
     targetPort: http-metrics
   selector:
     spilo-role: replica
+{{- end }}

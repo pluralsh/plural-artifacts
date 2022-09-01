@@ -1,8 +1,10 @@
 name: kubeflow
-description: The Machine Learning Toolkit for Kubernetes
+description: A cloud-native platform for machine learning operations - pipelines, training, and deployment.
 category: DEVOPS
 icon: plural/icons/kubeflow.png
 notes: plural/notes.tpl
+homepage: https://www.kubeflow.org/
+gitUrl: https://github.com/kubeflow/kubeflow
 oauthSettings:
   uriFormat: https://{domain}/oauth2/callback
   authMethod: POST

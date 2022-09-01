@@ -1,0 +1,40 @@
+{{- if and .Values.lakefsConfig (not .Values.localPostgres) }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "lakefs.fullname" . }}-migrate
+  labels:
+  {{- include "lakefs.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-weight": "-1"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      name: {{ include "lakefs.fullname" . }}-migrate
+      annotations:
+      {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.jobPodAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      serviceAccountName: {{ include "lakefs.serviceAccountName" . }}
+      restartPolicy: Never
+      containers:
+        - name: lakefs-migration
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args: [ "migrate", "up", "--config", "/etc/lakefs/config.yaml" ]
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/lakefs
+          {{- include "lakefs.env" . | nindent 10 }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+
+      volumes:
+        {{- include "lakefs.volumes" . | nindent 8 }}
+{{- end }}

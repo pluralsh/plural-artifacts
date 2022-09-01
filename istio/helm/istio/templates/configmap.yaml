@@ -1,3 +1,4 @@
+{{- if .Values.istio.egressGateway.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -6,3 +7,4 @@ metadata:
 data:
   nginx.conf: |
 {{ .Files.Get "istio-nginx-sni-proxy/nginx.conf" | indent 4 }}
+{{- end }}

@@ -8,17 +8,19 @@ sources:
 maintainers:
 - name: michaeljguarino
   email: mguarino46@gmail.com
-version: 0.8.28
+- name: David van der Spek
+  email: david@plural.sh
+version: 0.8.47
 dependencies:
 - name: external-dns
   version: 4.11.0
-  repository: https://charts.bitnami.com/bitnami
+  repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
 - name: metrics-server
   version: 5.8.7
   condition: metrics-server.enabled
-  repository: https://charts.bitnami.com/bitnami
+  repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
 - name: cert-manager
-  version: v1.6.1
+  version: v1.8.2
   repository: https://charts.jetstack.io
 - name: cluster-autoscaler
   version: 9.11.0

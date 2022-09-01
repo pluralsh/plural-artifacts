@@ -1,0 +1,5 @@
+gitlab/gitlab-runner:alpine-v14.0.0
+gitlab/gitlab-runner:alpine-v14.1.0
+gitlab/gitlab-runner:alpine-v14.2.0
+gitlab/gitlab-runner:alpine-v14.3.0
+gitlab/gitlab-runner:alpine-v14.4.0

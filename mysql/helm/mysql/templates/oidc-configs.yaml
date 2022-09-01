@@ -17,7 +17,8 @@ spec:
     protocol: TCP
     name: metrics-oauth
   selector:
-    app: mysql-operator
+    app.kubernetes.io/instance: mysql
+    app.kubernetes.io/name: mysql-operator
 ---
 apiVersion: v1
 kind: Secret

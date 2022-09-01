@@ -3,6 +3,13 @@ oidcSecret:
   clientID: {{ .OIDC.ClientId }}
   clientSecret: {{ .OIDC.ClientSecret }}
 {{- end }}
+
+{{ if eq .Provider "azure" }}
+minioSecret:
+  access-key: {{ importValue "Terraform" "access_key_id" }}
+  secret-key: {{ importValue "Terraform" "secret_access_key" }}
+{{ end }}
+
 argo-workflows:
   server:
     ingress:
@@ -13,7 +20,9 @@ argo-workflows:
         cert-manager.io/cluster-issuer: letsencrypt-prod
         nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
         nginx.ingress.kubernetes.io/use-regex: "true"
+        {{- if .OIDC }}
         nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+        {{- end }}
       hosts:
         - {{ .Values.hostname }}
       paths:
@@ -47,18 +56,49 @@ argo-workflows:
     podSecurityContext:
       fsGroup: 65534
   useStaticCredentials: false
+  {{- end }}
 artifactRepository:
   archiveLogs: true
+  {{ if eq .Provider "aws" }}
   s3:
     insecure: false
     bucket: {{ .Values.workflowBucket | quote }}
     endpoint: s3.amazonaws.com
     useSDKCreds: true
     roleARN: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-argo-workflows"
+  {{ end }}
+  {{ if eq .Provider "azure" }}
+  s3:
+    insecure: false
+    bucket: {{ .Values.workflowBucket | quote }}
+    endpoint: {{ .Configuration.minio.hostname | quote }}
+    accessKeySecret:
+      name: minio-secret
+      key: access-key
+    secretKeySecret:
+      name: minio-secret
+      key: secret-key
+  {{ end }}
+  {{ if eq .Provider "google" }}
+  gcs:
+    bucket: {{ .Values.workflowBucket | quote }}
+  {{ end }}
+{{- if .OIDC }}
+adminServiceAccount:
+  annotations:
+    {{ if .Values.adminGroup }}
+    workflows.argoproj.io/rbac-rule: "'{{ .Values.adminGroup }}' in groups"
+    {{ else }}
+    workflows.argoproj.io/rbac-rule: "email in ['{{ .Values.adminEmail }}']"
+    {{ end }}
+    workflows.argoproj.io/rbac-rule-precedence: "1"
+{{- end }}
 serviceAccount:
   create: true
   annotations:
-    workflows.argoproj.io/rbac-rule: "email in ['david@plural.sh']"
-    workflows.argoproj.io/rbac-rule-precedence: "1"
+    {{- if eq .Provider "aws" }}
     eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-argo-workflows"
-  {{- end }}
+    {{- end }}
+    {{ if eq .Provider "google" }}
+    iam.gke.io/gcp-service-account: {{ importValue "Terraform" "service_account_email" }}
+    {{ end }}

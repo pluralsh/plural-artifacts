@@ -1,0 +1,4 @@
+lotus-fullnode:
+  image:
+    repository: dkr.plural.sh/filecoin/filecoin/lotus-all-in-one
+    tag: v1.13.2

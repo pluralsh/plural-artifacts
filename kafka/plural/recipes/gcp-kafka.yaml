@@ -3,7 +3,7 @@ description: Installs kafka on an gcp eks cluster
 provider: GCP
 dependencies:
 - repo: bootstrap
-  name: gcp-kubernetes
+  name: gcp-k8s
 sections:
 - name: kafka
   configuration: []

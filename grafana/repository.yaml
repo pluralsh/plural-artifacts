@@ -1,8 +1,10 @@
 name: grafana
-description: open source metrics visualization
+description: An open-source platform for monitoring and observability with interactive visualizations.
 category: DEVOPS
 icon: plural/icons/grafana.png
 notes: plural/notes.tpl
+homepage: https://grafana.com/
+gitUrl: https://github.com/grafana/grafana
 oauthSettings:
   uriFormat: https://{domain}/login/generic_oauth
   authMethod: POST

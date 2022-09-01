@@ -7,6 +7,10 @@ variable "resource_group" {
   type = string
 }
 
+variable "kubernetes_version" {
+  type = string
+  default = "1.21.9"
+}
 
 variable "address_space" {
   type = string
@@ -31,6 +35,12 @@ variable "os_disk_size" {
 variable "os_disk_type" {
   type = string
   default = "Ephemeral"
+}
+
+variable "agents_size" {
+  default     = "Standard_D2s_v3"
+  description = "The default virtual machine size for the Kubernetes agents"
+  type        = string
 }
 
 variable "private_cluster" {

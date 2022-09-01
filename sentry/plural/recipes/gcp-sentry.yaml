@@ -3,11 +3,11 @@ description: Installs sentry on a GKE cluster
 provider: GCP
 oidcSettings:
   authMethod: POST
-  uriFormat: https://{domain}/auth/sso
+  uriFormat: https://{domain}/auth/sso/
   domainKey: hostname
 dependencies:
 - repo: bootstrap
-  name: gcp-kubernetes
+  name: gcp-k8s
 - repo: ingress-nginx
   name: ingress-nginx-gcp
 - repo: rabbitmq

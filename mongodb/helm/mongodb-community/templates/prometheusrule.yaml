@@ -1,0 +1,47 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: mongo-rules
+  labels:
+    role: alert-rules
+    {{ include "mongodb.labels" . | nindent 4 }}
+spec:
+  groups:
+  - name: mongodb
+    rules:
+    - alert: MongoCPU
+      expr: |
+        (
+          sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"mongo-[0-9]+"}[5m])) 
+          / sum(kube_pod_container_resource_requests{endpoint="http",namespace="{{ .Release.Namespace }}", pod=~"mongo-[0-9]+", resource="cpu"})
+        )  > 0.6
+      for: 5m
+      labels:
+        severity: warning
+        namespace: {{ .Release.Namespace }}
+      annotations:
+        summary: Mongodb cluster's cpu has gotten too high
+        description: the cpu utilization of your mongo cluster is higher than recommended
+    - alert: MongoMem
+      expr: |
+        (
+          sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"mongo-[0-9]+"})
+          / sum(kube_pod_container_resource_requests{endpoint="http",resource="memory",namespace="{{ .Release.Namespace }}", pod=~"mongo-[0-9]+"})
+        )  > 0.5
+      for: 5m
+      labels:
+        severity: warning
+        namespace: {{ .Release.Namespace }}
+      annotations:
+        summary: Mongodb cluster's memory has gotten too high
+        description: the memory utilization of your mongo cluster is higher than recommended
+    - alert: MongoVolumeFull
+      expr: |
+        avg((kubelet_volume_stats_capacity_bytes{persistentvolumeclaim=~"data-volume-mongo-.*"} - kubelet_volume_stats_available_bytes{persistentvolumeclaim=~"data-volume-mongo-.*"}) / kubelet_volume_stats_capacity_bytes{persistentvolumeclaim=~"data-volume-mongo-.*"}) > 0.7
+      for: 5m
+      labels:
+        severity: critical
+        namespace: {{ .Release.Namespace }}
+      annotations:
+        summary: Mongodb's persistent volume is nearly full
+        description: you have very little headroom in your mongodb volume, and it should be sized up
