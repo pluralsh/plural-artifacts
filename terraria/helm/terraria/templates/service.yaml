@@ -7,9 +7,13 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
+    - port: {{ .Values.service.gamePort }}
+      targetPort: {{ .Values.service.gamePort }}
       protocol: TCP
-      name: http
+      name: game
+    - port: {{ .Values.service.restPort }}
+      targetPort: {{ .Values.service.restPort }}
+      protocol: TCP
+      name: rest
   selector:
     {{- include "terraria.selectorLabels" . | nindent 4 }}

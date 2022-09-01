@@ -1,16 +1,30 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ include "terraria.fullname" . }}
   labels:
     {{- include "terraria.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-  {{- end }}
+  replicas: 1
+  serviceName: {{ include "terraria.fullname" . }}
   selector:
     matchLabels:
       {{- include "terraria.selectorLabels" . | nindent 6 }}
+  volumeClaimTemplates:
+  - metadata:
+      name: world
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: {{ .Values.volume.world.storage }}
+  - metadata:
+      name: plugins
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: {{ .Values.volume.plugins.storage }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -27,33 +41,67 @@ spec:
       serviceAccountName: {{ include "terraria.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      volumes:
+      - name: config
+        configMap:
+          name: {{ template "terraria.fullname" . }}
       initContainers:
-      - name: "init-{{ .Chart.Name }}"
-        image: gcr.io/pluralsh/busybox:latest
-        command: [ "/bin/sh", "-c", "cp /config/config.json /world/config.json && chmod 777 /world/config.json" ]
-        volumeMounts:
-        - name: terraria-worlds
-          mountPath: /world
-        - name: configmap
-          mountPath: /config
+        - name: "init-{{ .Chart.Name }}"
+          image: gcr.io/pluralsh/busybox:latest
+          command: ["/bin/sh", "-c", "cp /config/config.json /world/config.json && chmod 777 /world/config.json"]
+          volumeMounts:
+          - name: world
+            mountPath: /world
+          - name: config
+            mountPath: /config
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args:
+            {{- if .Values.terraria.args }}
+            {{- toYaml .Values.terraria.args | nindent 12 }}
+            {{- else }}
+            - "-autocreate"
+            - {{ include "terraria.worldsize" . | quote }}
+            - "-world"
+            - "/root/.local/share/Terraria/Worlds/{{ .Values.terraria.worldsize }}-Normal-{{ include "terraria.worldsize" . }}.wld"
+            {{- end }}
           ports:
-            - name: http
-              containerPort: 80
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
+          - name: game
+            containerPort: {{ .Values.service.gamePort }}
+            protocol: TCP
+          - name: rest
+            containerPort: {{ .Values.service.restPort }}
+            protocol: TCP
+          volumeMounts:
+          - name: world
+            mountPath: {{ .Values.volume.world.path }}
+          - name: plugins
+            mountPath: {{ .Values.volume.plugins.path }}
+          startupProbe:
+            tcpSocket:
+              port: {{ .Values.service.gamePort }}
+            failureThreshold: {{ .Values.startupProbe.failureThreshold }}
+            periodSeconds: {{ .Values.startupProbe.periodSeconds }}
           readinessProbe:
-            httpGet:
-              path: /
-              port: http
+            tcpSocket:
+              port: {{ .Values.service.gamePort }}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+            successThreshold: {{ .Values.readinessProbe.successThreshold }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+          livenessProbe:
+            tcpSocket:
+              port: {{ .Values.service.gamePort }}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+            successThreshold: {{ .Values.livenessProbe.successThreshold }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
