@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 image:
-  repository: ryshe/terraria
+  repository: dkr.plural.sh/terraria/ryshe/terraria
   pullPolicy: IfNotPresent
   # See https://hub.docker.com/r/ryshe/terraria/tags for the list of available tags.
   # Default: latest (terraria server with tshock)
