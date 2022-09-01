@@ -2,6 +2,11 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# ********REQUIRED********
+node:
+  hostname: 'plrl-terraria' # Your kube node's hostname
+# ************************
+
 image:
   repository: dkr.plural.sh/terraria/ryshe/terraria
   pullPolicy: IfNotPresent

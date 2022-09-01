@@ -4,11 +4,6 @@ provider: GCP
 dependencies:
 - repo: bootstrap
   name: gcp-k8s
-
-- repo: ingress-nginx
-  name: ingress-nginx-gcp
-
-
 sections:
 - name: terraria
   configuration: []
