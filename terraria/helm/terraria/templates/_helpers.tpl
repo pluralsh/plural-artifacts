@@ -60,3 +60,16 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "terraria.worldsize" -}}
+{{- if contains "large" .Values.terraria.worldsize }}
+{{- printf "3" }}
+{{- else if contains "medium" .Values.terraria.worldsize }}
+{{- printf "2" }}
+{{- else if contains "small" .Values.terraria.worldsize }}
+{{- printf "1" }}
+{{- end }}
+{{- end }}

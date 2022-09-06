@@ -105,17 +105,10 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
-      - name: configmap
+      - name: config
         configMap:
           name: {{ template "terraria.fullname" . }}
       - name: terraria-worlds
-      {{- if .Values.persistence.enabled }}
-        persistentVolumeClaim:
-          claimName: {{ template "terraria.fullname" . }}
-      {{- else }}
-        emptyDir: {}
-      {{- end }}
-      {{- with .Values.nodeSelector }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

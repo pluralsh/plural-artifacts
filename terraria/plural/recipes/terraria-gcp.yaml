@@ -8,7 +8,7 @@ sections:
 - name: terraria
   configuration:
   - name: hostname
-    documentation: fqdn for your terraria server
+    documentation: domain on which you'd like to host your terraria server
     type: DOMAIN
   items:
   - type: TERRAFORM
