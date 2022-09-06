@@ -1,7 +1,7 @@
 apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
-  description: minecraft k8s setup
+  description: minecraft aws setup
   version: 0.1.0
 spec:
   dependencies:
@@ -10,27 +10,5 @@ spec:
     type: terraform
     version: '>= 0.1.1'
     optional: true
-  - name: azure-bootstrap
-    repo: bootstrap
-    type: terraform
-    version: '>= 0.1.1'
-    optional: true
-  - name: equinix-bootstrap
-    repo: bootstrap
-    type: terraform
-    version: '>= 0.1.1'  
-  - name: gcp-bootstrap
-    repo: bootstrap
-    type: terraform
-    version: '>= 0.1.1'
-    optional: true
-  - name: kind-bootstrap
-    repo: bootstrap
-    type: terraform
-    version: '>= 0.1.1'
   providers:
   - aws
-  - azure
-  - equinix
-  - gcp
-  - kind
