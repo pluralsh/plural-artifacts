@@ -1,9 +1,9 @@
-name: terraria-gcp
+name: terraria-kind
 description: Installs terraria game server
-provider: GCP
+provider: KIND
 dependencies:
 - repo: bootstrap
-  name: gcp-k8s
+  name: kind-k8s
 sections:
 - name: terraria
   configuration:

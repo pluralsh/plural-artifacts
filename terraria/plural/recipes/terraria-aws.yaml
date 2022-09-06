@@ -1,5 +1,5 @@
 name: terraria-aws
-description: Installs terraria on an AWS EKS cluster
+description: Installs terraria game server
 provider: AWS
 dependencies:
 - repo: bootstrap
@@ -12,6 +12,6 @@ sections:
     type: DOMAIN
   items:
   - type: TERRAFORM
-    name: aws
+    name: kube
   - type: HELM
     name: terraria

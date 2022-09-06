@@ -1,9 +1,9 @@
-name: terraria-gcp
+name: terraria-equinix
 description: Installs terraria game server
-provider: GCP
+provider: EQUINIX
 dependencies:
 - repo: bootstrap
-  name: gcp-k8s
+  name: equinix-k8s
 sections:
 - name: terraria
   configuration:

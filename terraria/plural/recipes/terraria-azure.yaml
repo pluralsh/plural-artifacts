@@ -1,5 +1,5 @@
 name: terraria-azure
-description: Installs terraria on an Azure cluster
+description: Installs terraria game server
 provider: AZURE
 dependencies:
 - repo: bootstrap
@@ -12,6 +12,6 @@ sections:
     type: DOMAIN
   items:
   - type: TERRAFORM
-    name: azure
+    name: kube
   - type: HELM
     name: terraria
