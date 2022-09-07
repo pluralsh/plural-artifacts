@@ -8,3 +8,6 @@ ingress:
   - secretName: terraria-tls
     hosts:
     - {{ .Values.hostname }}
+
+node:
+  hostname: {{ .Values.hostname }}

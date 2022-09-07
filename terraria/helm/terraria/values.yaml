@@ -8,7 +8,7 @@ node:
 # ************************
 
 image:
-  repository: dkr.plural.sh/terraria/ryshe/terraria
+  repository: docker.io/ryshe/terraria
   pullPolicy: IfNotPresent
   # See https://hub.docker.com/r/ryshe/terraria/tags for the list of available tags.
   # Please avoid the latest tags as Plural won't be able to control the upgrades.
@@ -48,7 +48,6 @@ ingress:
   annotations:
     kubernetes.io/tls-acme: "true"
     cert-manager.io/cluster-issuer: letsencrypt-prod
-
 
 livenessProbe:
   initialDelaySeconds: 30
