@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: minio-init-cm
+  labels:
+    {{- include "directpv.labels" . | nindent 4 }}
+data:
+  format-all-drives.sh: |
+    set -euo pipefail
+
+    echo "Waiting for directpv daemonset to be running"
+    kubectl rollout status daemonset -n {{ .Release.Namespace }} minio-directpv --timeout 5m
+
+    echo "Waiting for directpv deployment to be running"
+    kubectl rollout status deployment -n {{ .Release.Namespace }} minio-directpv --timeout 5m
+
+    sleep 30
+
+    echo "Formatting all drives"
+    kubectl directpv drives format --all
+
+    sleep 5
+    echo "Finished formatting all drives"
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: minio-init
+  namespace: minio
+  labels:
+    {{- include "directpv.labels" . | nindent 4 }}
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      serviceAccountName: minio-directpv
+      containers:
+      - name: kubectl
+        image: dkr.plural.sh/minio/minio/kubectl-directpv:0.1.2
+        command: [bash, /scripts/format-all-drives.sh]
+        volumeMounts:
+        - name: minio-init
+          mountPath: /scripts
+          readOnly: true
+      volumes:
+      - name: minio-init
+        configMap:
+          name: minio-init-cm

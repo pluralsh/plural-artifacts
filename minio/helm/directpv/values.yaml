@@ -1,0 +1,152 @@
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+controller:
+  replicaCount: 3
+
+  image:
+    repository: quay.io/minio/directpv
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: v3.0.2
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext:
+    privileged: true
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  service:
+    type: ClusterIP
+    convWebhook:
+      port: 30443
+    valWebhook:
+      port: 20443
+  
+  validatingWebhook:
+    enabled: false
+
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+  csiProvisioner:
+    image:
+      repository: quay.io/minio/csi-provisioner
+      pullPolicy: IfNotPresent
+      tag: v2.2.0-go1.18
+    resources: {}
+    securityContext:
+      privileged: true
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+daemonSet:
+  image:
+    repository: quay.io/minio/directpv
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: v3.0.2
+
+  nodeDriverRegistrar:
+    image:
+      repository: quay.io/minio/csi-node-driver-registrar
+      pullPolicy: IfNotPresent
+      tag: v2.2.0-go1.18
+    resources: {}
+    securityContext: {}
+
+  livenessProbe:
+    image:
+      repository: quay.io/minio/livenessprobe
+      pullPolicy: IfNotPresent
+      tag: v2.2.0-go1.18
+    resources: {}
+    securityContext: {}
+
+  driveDiscovery:
+    image:
+      repository: quay.io/minio/directpv
+      pullPolicy: IfNotPresent
+      tag: v3.0.2
+    resources: {}
+    securityContext:
+      privileged: true
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext:
+    privileged: true
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  service:
+    type: ClusterIP
+    metrics:
+      port: 10443
+
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+  nodeSelector: {}
+
+  tolerations:
+  - key: plural.sh/localDisks
+    operator: Exists
+    effect: NoSchedule
+
+  affinity:
+    nodeAffinity: 
+      requiredDuringSchedulingIgnoredDuringExecution: 
+        nodeSelectorTerms: 
+        - matchExpressions: 
+          - key: plural.sh/scalingGroup
+            operator: In
+            values:
+            - local-hdd-large-on-demand
