@@ -18,6 +18,7 @@ sections:
     documentation: password that will be required when joining the server (leave empty to disable)
     type: STRING
     optional: true
+    default: ''
   - name: restAPIEnabled
     documentation: if additional rest API should be enabled and exposed on port 7878 (Y/n)
     type: STRING

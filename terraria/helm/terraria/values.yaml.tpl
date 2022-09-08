@@ -1,7 +1,11 @@
+{{ $password := default "" .Values.password }}
+
 hostname: {{ .Values.hostname }}
 
 terraria:
   worldsize: {{ .Values.worldsize }}
   settings:
-    ServerPassword: {{ .Values.password }}
+    {{ if $password }}
+    ServerPassword: {{ $password }}
+    {{ end }}
     RestApiEnabled: {{ .Values.restAPIEnabled }}
