@@ -5,23 +5,19 @@ metadata:
   labels:
     {{- include "terraria.labels" . | nindent 4 }}
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: {{ .Values.node.hostname }}
-    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
-    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
-    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: 'true'
-    service.beta.kubernetes.io/aws-load-balancer-type: external
-    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
-    service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: '3600'
+    external-dns.alpha.kubernetes.io/hostname: {{ .Values.hostname }}
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.gamePort }}
-      targetPort: {{ .Values.service.gamePort }}
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.port }}
       protocol: TCP
       name: game
-    - port: {{ .Values.service.restPort }}
-      targetPort: {{ .Values.service.restPort }}
+    {{- if .Values.terraria.settings.RestApiEnabled }}
+    - port: {{ .Values.terraria.settings.RestApiPort }}
+      targetPort: {{ .Values.terraria.settings.RestApiPort }}
       protocol: TCP
       name: rest
+    {{- end }}
   selector:
     {{- include "terraria.selectorLabels" . | nindent 4 }}

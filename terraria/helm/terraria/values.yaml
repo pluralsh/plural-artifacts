@@ -2,17 +2,14 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-# ********REQUIRED********
-node:
-  hostname: 'plrl-terraria' # Your kube node's hostname
-# ************************
+hostname: ''
 
 image:
-  repository: docker.io/ryshe/terraria
+  repository: ryshe/terraria
   pullPolicy: IfNotPresent
   # See https://hub.docker.com/r/ryshe/terraria/tags for the list of available tags.
   # Please avoid the latest tags as Plural won't be able to control the upgrades.
-  # Default: tshock-1.4.3.6-4.5.18 (terraria server with tshock)
+  # Default: tshock-1.4.3.6-4.5.18 - terraria server with tshock
   # Popular tags:
   #  - vanilla-1.4.3.6-4 - vanilla terraria server
   tag: tshock-1.4.3.6-4.5.18
@@ -24,7 +21,7 @@ serviceAccount:
 resources:
   limits:
     cpu: 2
-    memory: 5Gi
+    memory: 6Gi
   requests:
     cpu: 1
     memory: 4Gi
@@ -39,37 +36,12 @@ volume:
 
 service:
   type: LoadBalancer
-  gamePort: 7777
-  restPort: 7878
-
-ingress:
-  enabled: true
-  className: nginx
-  annotations:
-    kubernetes.io/tls-acme: "true"
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-
-livenessProbe:
-  initialDelaySeconds: 30
-  periodSeconds: 5
-  failureThreshold: 10
-  successThreshold: 1
-  timeoutSeconds: 1
-readinessProbe:
-  initialDelaySeconds: 30
-  periodSeconds: 5
-  failureThreshold: 10
-  successThreshold: 1
-  timeoutSeconds: 1
-startupProbe:
-  enabled: true
-  failureThreshold: 30
-  periodSeconds: 10
+  port: 7777
 
 terraria:
   # Override default arguments. It will ignore the worldsize.
   args:
-  worldsize: large
+  worldsize: small
   settings:
     InvasionMultiplier: 1
     DefaultMaximumSpawns: 5

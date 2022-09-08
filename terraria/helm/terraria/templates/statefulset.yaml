@@ -60,6 +60,8 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          tty: true
+          stdin: false
           args:
             {{- if .Values.terraria.args }}
             {{- toYaml .Values.terraria.args | nindent 12 }}
@@ -71,44 +73,24 @@ spec:
             {{- end }}
           ports:
           - name: game
-            containerPort: {{ .Values.service.gamePort }}
+            containerPort: {{ .Values.service.port }}
             protocol: TCP
+          {{- if .Values.terraria.settings.RestApiEnabled }}
           - name: rest
-            containerPort: {{ .Values.service.restPort }}
+            containerPort: {{ .Values.terraria.settings.RestApiPort }}
             protocol: TCP
+          {{- end }}
           volumeMounts:
           - name: world
             mountPath: {{ .Values.volume.world.path }}
           - name: plugins
             mountPath: {{ .Values.volume.plugins.path }}
-          startupProbe:
-            tcpSocket:
-              port: {{ .Values.service.gamePort }}
-            failureThreshold: {{ .Values.startupProbe.failureThreshold }}
-            periodSeconds: {{ .Values.startupProbe.periodSeconds }}
-          readinessProbe:
-            tcpSocket:
-              port: {{ .Values.service.gamePort }}
-            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
-            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
-            successThreshold: {{ .Values.readinessProbe.successThreshold }}
-            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
-          livenessProbe:
-            tcpSocket:
-              port: {{ .Values.service.gamePort }}
-            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
-            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
-            successThreshold: {{ .Values.livenessProbe.successThreshold }}
-            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
       - name: config
         configMap:
           name: {{ template "terraria.fullname" . }}
-      - name: terraria-worlds
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

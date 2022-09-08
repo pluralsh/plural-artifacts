@@ -1,13 +1,7 @@
-ingress:
-  hosts:
-  - host: {{ .Values.hostname }}
-    paths:
-    - path: /
-      pathType: ImplementationSpecific
-  tls:
-  - secretName: terraria-tls
-    hosts:
-    - {{ .Values.hostname }}
+hostname: {{ .Values.hostname }}
 
-node:
-  hostname: {{ .Values.hostname }}
+terraria:
+  worldsize: {{ .Values.worldsize }}
+  settings:
+    ServerPassword: {{ .Values.password }}
+    RestApiEnabled: {{ .Values.restAPIEnabled }}
