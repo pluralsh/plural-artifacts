@@ -1,0 +1,14 @@
+name: reloader-kind
+description: Installs reloader on a KinD cluster
+provider: KIND
+dependencies:
+- repo: bootstrap
+  name: kind-k8s
+sections:
+- name: reloader
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: reloader

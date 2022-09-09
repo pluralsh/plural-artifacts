@@ -1,0 +1,10 @@
+name: reloader
+description: A Kubernetes controller to watch changes in ConfigMap and Secrets and do rolling upgrades on Pods with their associated Deployment, StatefulSet, DaemonSet and DeploymentConfig.
+category: DEVOPS
+private: false
+icon: plural/icons/reloader.png
+notes: plural/notes.tpl
+homepage: https://github.com/stakater/Reloader
+gitUrl: https://github.com/stakater/Reloader
+tags:
+- tag: tools
