@@ -1,0 +1,7 @@
+name: terraria
+description: Terraria server deployed on Kubernetes.
+category: PRODUCTIVITY
+private: true
+icon: plural/icons/terraria.png
+darkIcon: plural/icons/terraria.png
+notes: plural/notes.tpl
