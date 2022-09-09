@@ -2,5 +2,5 @@ apiVersion: v2
 name: terraria
 description: helm chart for terraria
 type: application
-version: 0.1.2
+version: 0.1.3
 appVersion: "v1.0.0"
