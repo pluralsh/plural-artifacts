@@ -72,7 +72,15 @@ rules:
   - pods
   verbs:
   - create
+  - delete
   - update
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - update
+  - list
 - apiGroups:
   - ""
   resources:
