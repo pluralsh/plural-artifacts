@@ -54,7 +54,7 @@ module "cluster" {
 }
 
 module "single_az_node_groups" {
-  source                 = "github.com/pluralsh/module-library//terraform/eks-node-groups/single-az-node-groups?ref=7b6d3b1d1602e4265d6d3b172c38fe67d9a2c7fc"
+  source                 = "github.com/pluralsh/module-library//terraform/eks-node-groups/single-az-node-groups?ref=df068595c3e91590d11e1ace11e1d688630f03d6"
   cluster_name           = var.cluster_name
   default_iam_role_arn   = module.cluster.worker_iam_role_arn
   tags                   = {}
@@ -88,7 +88,7 @@ module "multi_az_node_groups" {
 resource "aws_eks_addon" "vpc_cni" {
   cluster_name = module.cluster.cluster_id
   addon_name   = "vpc-cni"
-  addon_version     = "v1.10.1-eksbuild.1"
+  addon_version     = "v1.11.3-eksbuild.1"
   resolve_conflicts = "OVERWRITE"
   tags = {
       "eks_addon" = "vpc-cni"
@@ -116,7 +116,7 @@ resource "aws_eks_addon" "core_dns" {
 resource "aws_eks_addon" "kube_proxy" {
   cluster_name      = module.cluster.cluster_id
   addon_name        = "kube-proxy"
-  addon_version     = "v1.21.2-eksbuild.2"
+  addon_version     = "v1.21.14-eksbuild.2"
   resolve_conflicts = "OVERWRITE"
   tags = {
       "eks_addon" = "kube-proxy"
