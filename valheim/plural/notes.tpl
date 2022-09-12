@@ -1,0 +1,1 @@
+Use `plural watch valheim` to track the status of your application

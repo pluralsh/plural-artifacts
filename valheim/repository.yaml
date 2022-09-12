@@ -1,0 +1,7 @@
+name: valheim
+description: Valheim server deployed on Kubernetes.
+category: PRODUCTIVITY
+private: true
+icon: plural/icons/valheim.png
+darkIcon: plural/icons/valheim.png
+notes: plural/notes.tpl

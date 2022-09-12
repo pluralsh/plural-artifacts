@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "valheim.fullname" . }}
+  labels:
+    {{- include "valheim.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  serviceName: {{ include "valheim.fullname" . }}
+  selector:
+    matchLabels:
+      {{- include "valheim.selectorLabels" . | nindent 6 }}
+  volumeClaimTemplates:
+    - metadata:
+        name: server
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: {{ .Values.storage.server.size }}
+    - metadata:
+        name: game
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: {{ .Values.storage.game.size }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "valheim.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "valheim.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: SERVER_NAME
+              value: {{ .Values.serverName }}
+            - name: WORLD_NAME
+              value: {{ .Values.worldName }}
+            - name: SERVER_PASS
+              value: {{ .Values.password }}
+            - name: SERVER_PORT
+              value: {{ .Values.service.port }}
+            {{- if and (eq .Values.mods.bepinex true) (eq .Values.mods.valheimplus false) }}
+            - name: BEPINEX
+              value: {{ .Values.mods.bepinex }}
+            {{- end }}
+            {{- if (eq .Values.mods.valheimplus true) }}
+            - name: VALHEIM_PLUS
+              value: {{ .Values.mods.valheimplus }}
+            {{- end }}
+          ports:
+            - name: game
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          volumeMounts:
+            - name: server
+              mountPath: {{ .Values.storage.server.path }}
+            - name: game
+              mountPath: {{ .Values.storage.game.path }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
