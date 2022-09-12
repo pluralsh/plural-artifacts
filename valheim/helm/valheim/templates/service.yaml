@@ -6,12 +6,21 @@ metadata:
     {{- include "valheim.labels" . | nindent 4 }}
   annotations:
     external-dns.alpha.kubernetes.io/hostname: {{ .Values.hostname }}
+    {{- if (eq .Values.provider "aws") }}
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb
+    {{- end }}
 spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
       targetPort: {{ .Values.service.port }}
-      protocol: TCP
+      protocol: UDP
       name: game
+    - name: query
+      port: {{ .Values.service.port | int | add 1 }}
+      targetPort: {{ .Values.service.port | int | add 1 }}
+      protocol: UDP
   selector:
     {{- include "valheim.selectorLabels" . | nindent 4 }}

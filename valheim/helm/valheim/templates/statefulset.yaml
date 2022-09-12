@@ -55,19 +55,22 @@ spec:
             - name: SERVER_PASS
               value: {{ .Values.password }}
             - name: SERVER_PORT
-              value: {{ .Values.service.port }}
+              value: {{ .Values.service.port | quote }}
             {{- if and (eq .Values.mods.bepinex true) (eq .Values.mods.valheimplus false) }}
             - name: BEPINEX
-              value: {{ .Values.mods.bepinex }}
+              value: {{ .Values.mods.bepinex | quote }}
             {{- end }}
             {{- if (eq .Values.mods.valheimplus true) }}
             - name: VALHEIM_PLUS
-              value: {{ .Values.mods.valheimplus }}
+              value: {{ .Values.mods.valheimplus | quote }}
             {{- end }}
           ports:
             - name: game
               containerPort: {{ .Values.service.port }}
-              protocol: TCP
+              protocol: UDP
+            - name: query
+              containerPort: {{ .Values.service.port | int | add 1 }}
+              protocol: UDP
           volumeMounts:
             - name: server
               mountPath: {{ .Values.storage.server.path }}

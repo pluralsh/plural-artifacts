@@ -1,5 +1,6 @@
 {{ $password := default "" .Values.password }}
 
+provider: {{ .Provider }}
 hostname: {{ .Values.hostname }}
 serverName: {{ .Values.serverName }}
 worldName: {{ .Values.worldName }}

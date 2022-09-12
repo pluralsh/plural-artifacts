@@ -16,10 +16,10 @@ serviceAccount:
 resources:
   limits:
     cpu: 4
-    memory: 4Gi
+    memory: 6Gi
   requests:
     cpu: 3
-    memory: 6Gi
+    memory: 4Gi
 
 service:
   type: LoadBalancer
