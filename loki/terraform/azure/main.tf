@@ -20,7 +20,7 @@ data "azurerm_storage_account" "main" {
 
 resource "azurerm_storage_container" "loki" {
   name                  = var.loki_container
-  storage_account_name  = azurerm_storage_account.main.name
+  storage_account_name  = data.azurerm_storage_account.main.name
   container_access_type = "private"
 }
 

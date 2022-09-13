@@ -14,3 +14,7 @@ variable "resource_group" {
 variable "storage_account_name" {
   type = string
 }
+
+variable "loki_container" {
+  type = string
+}
