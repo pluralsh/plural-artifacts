@@ -106,13 +106,13 @@ configOverlays:
       - path: ['kratos', 'kratos', 'kratos', 'config', 'selfservice', 'flows', 'error', 'ui_url']
 
 image:
-  repository: gcr.io/pluralsh/oryd/kratos
+  repository: dkr.plural.sh/kratos/oryd/kratos
   tag: v0.8.2-alpha.1
   pullPolicy: Always
 
 kratos:
   image:
-    repository: gcr.io/pluralsh/oryd/kratos
+    repository: dkr.plural.sh/kratos/oryd/kratos
     tag: v0.8.2-alpha.1
 
   kratos:

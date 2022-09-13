@@ -1,2 +1,55 @@
 kserve:
-  kserve: {}
+  kserve:
+    agent:
+      image: dkr.plural.sh/kserve/kserve/agent:v0.8.0
+    storage:
+      image: dkr.plural.sh/kserve/kserve/storage-initializer:v0.8.0
+    controller:
+      image: dkr.plural.sh/kserve/kserve/kserve-controller:v0.8.0
+    modelmesh:
+      controller:
+        image: dkr.plural.sh/kserve/kserve/modelmesh-controller:v0.8.0
+      config:
+        modelmeshImage: dkr.plural.sh/kserve/kserve/modelmesh
+        modelmeshImageTag: v0.8.0
+        modelmeshRuntimeAdapterImage: dkr.plural.sh/kserve/kserve/modelmesh-runtime-adapter
+        modelmeshRuntimeAdapterImageTag: v0.8.0
+        restProxyImage: dkr.plural.sh/kserve/kserve/rest-proxy
+        restProxyImageTag: v0.1.1
+    servingruntime:
+      tensorflow:
+        image: dkr.plural.sh/kserve/tensorflow/serving
+        tag: 2.6.2
+      mlserver:
+        image: dkr.plural.sh/kserve/seldonio/mlserver
+        tag: 0.5.3
+      sklearnserver:
+        image: dkr.plural.sh/kserve/kserve/sklearnserver
+        tag: v0.8.0
+      xgbserver:
+        image: dkr.plural.sh/kserve/kserve/xgbserver
+        tag: v0.8.0
+      tritonserver:
+        image: dkr.plural.sh/kserve/nvidia/tritonserver
+        tag: 21.09-py3
+      pmmlserver:
+        image: dkr.plural.sh/kserve/kserve/pmmlserver
+        tag: v0.8.0
+      paddleserver:
+        image: dkr.plural.sh/kserve/kserve/paddleserver
+        tag: v0.8.0
+      lgbserver:
+        image: dkr.plural.sh/kserve/kserve/lgbserver
+        tag: v0.8.0
+      torchserve:
+        image: dkr.plural.sh/kserve/kserve/torchserve-kfs
+        tag: 0.5.2
+      alibi:
+        image: dkr.plural.sh/kserve/kserve/alibi-explainer
+        defaultVersion: v0.8.0
+      art:
+        image: dkr.plural.sh/kserve/kserve/art-explainer
+        defaultVersion: v0.8.0
+      aix:
+        image: dkr.plural.sh/kserve/kserve/aix-explainer
+        defaultVersion: v0.8.0

@@ -10,6 +10,10 @@ oidcSecret:
 
 argo-workflows:
   controller:
+    image:
+      registry: dkr.plural.sh
+      repository: argo-workflows/argoproj/workflow-controller
+      tag: v3.2.9
     containerRuntimeExecutor: pns
     podAnnotations:
       prometheus.io/scrape: "true"
@@ -24,6 +28,11 @@ argo-workflows:
       servicePortName: metrics
     serviceMonitor:
       enabled: true
+  server:
+    image:
+      registry: dkr.plural.sh
+      repository: argo-workflows/argoproj/argocli
+      tag: v3.2.9
   executor:
     resources:
       requests:

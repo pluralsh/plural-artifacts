@@ -31,7 +31,7 @@ postgres:
 
 exporter:
   image:
-    repository: gcr.io/pluralsh/prom/statsd-exporter
+    repository: dkr.plural.sh/airflow/prom/statsd-exporter
     tag: v0.20.2
     pullPolicy: IfNotPresent
   
@@ -211,7 +211,8 @@ airflow:
   
   redis:
     image:
-      registry: gcr.io/pluralsh
+      registry: dkr.plural.sh
+      repository: airflow/bitnami/redis
       tag: 6.0.9-debian-10-r0
     enabled: true
     existingSecret: airflow-redis-password
@@ -220,7 +221,8 @@ airflow:
     metrics:
       enabled: true
       image:
-        registry: gcr.io/pluralsh
+        registry: dkr.plural.sh
+        repository: airflow/bitnami/redis-exporter
         tag: 1.12.1-debian-10-r11
       serviceMonitor:
         enabled: true

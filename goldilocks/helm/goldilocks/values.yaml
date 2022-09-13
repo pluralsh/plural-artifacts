@@ -21,7 +21,7 @@ goldilocks:
 
   image:
     # image.repository -- Repository for the goldilocks image
-    repository: quay.io/fairwinds/goldilocks
+    repository: dkr.plural.sh/goldilocks/fairwinds/goldilocks
     # image.tag -- The goldilocks image tag to use
     tag: v3.3.0
     # image.pullPolicy -- imagePullPolicy - Highly recommended to leave this as `Always`

@@ -12,9 +12,18 @@ oidcProxy:
   enabled: false
 
 dagster:
+  dagsterDaemon:
+    image:
+      repository: dkr.plural.sh/dagster/dagster/dagster-celery-k8s
+      tag: 0.14.2
   dagit:
     image:
       repository: dkr.plural.sh/dagster/dagster/dagster-celery-k8s
+      tag: 0.14.2
+  busybox:
+    image:
+      repository: dkr.plural.sh/dagster/busybox
+      tag: "1.28"
 
   ingress:
     enabled: true
@@ -37,6 +46,9 @@ dagster:
 
   postgresql:
     enabled: false
+    image:
+      repository: dkr.plural.sh/dagster/library/postgres
+      tag: 9.6.21
     postgresqlHost: plural-dagster
     postgresqlUsername: dagster
     postgresqlDatabase: dagster

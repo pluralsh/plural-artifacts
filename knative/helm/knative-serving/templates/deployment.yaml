@@ -30,7 +30,7 @@ spec:
         - name: activator
           # This is the Go import path for the binary that is containerized
           # and substituted here.
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/activator@sha256:8619f871364463cd821a7324636686b6d835ca65c3d671fb8c141b8437fd2a0b
+          image: {{ .Values.images.activator.registry }}/{{ .Values.images.activator.repository }}:{{ .Values.images.activator.tag }}
           # The numbers are based on performance test results from
           # https://github.com/knative/serving/issues/1625#issuecomment-511930023
           resources:
@@ -144,7 +144,7 @@ spec:
         - name: autoscaler
           # This is the Go import path for the binary that is containerized
           # and substituted here.
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler@sha256:d083394e718a3cc157ecac6dae4812db56e700603ca72ec5f7ac19f5d9283d05
+          image: {{ .Values.images.autoscaler.registry }}/{{ .Values.images.autoscaler.repository }}:{{ .Values.images.autoscaler.tag }}
           resources:
             requests:
               cpu: 100m
@@ -240,7 +240,7 @@ spec:
         - name: controller
           # This is the Go import path for the binary that is containerized
           # and substituted here.
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/controller@sha256:cb49a3e48804f52b5a55a7e0fd7c8662bae092bfbb9e6dd9134c8962d0799e65
+          image: {{ .Values.images.controller.registry }}/{{ .Values.images.controller.repository }}:{{ .Values.images.controller.tag }}
           resources:
             requests:
               cpu: 100m
@@ -317,7 +317,7 @@ spec:
         - name: domain-mapping
           # This is the Go import path for the binary that is containerized
           # and substituted here.
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/domain-mapping@sha256:c746bb5ce65b28655a54b601cbf2d489db30e8673f3c8b9c269b4ee50eb4502c
+          image: {{ .Values.images.domainMapping.registry }}/{{ .Values.images.domainMapping.repository }}:{{ .Values.images.domainMapping.tag }}
           resources:
             requests:
               cpu: 30m
@@ -392,7 +392,7 @@ spec:
         - name: domainmapping-webhook
           # This is the Go import path for the binary that is containerized
           # and substituted here.
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/domain-mapping-webhook@sha256:687d5a14aa94e17872d05df845d4b8c779daac401feee6d90b0f0a6fa7b594d8
+          image: {{ .Values.images.domainMappingWebhook.registry }}/{{ .Values.images.domainMappingWebhook.repository }}:{{ .Values.images.domainMappingWebhook.tag }}
           resources:
             requests:
               cpu: 100m
@@ -483,7 +483,7 @@ spec:
         - name: controller
           # This is the Go import path for the binary that is containerized
           # and substituted here.
-          image: gcr.io/knative-releases/knative.dev/net-istio/cmd/controller@sha256:f7ee8b0170fba628b396c6fd6ac7a6644c4b06880913a4505ef227dbbc352091
+          image: {{ .Values.images.netIstioController.registry }}/{{ .Values.images.netIstioController.repository }}:{{ .Values.images.netIstioController.tag }}
           resources:
             requests:
               cpu: 30m
@@ -543,7 +543,7 @@ spec:
         - name: webhook
           # This is the Go import path for the binary that is containerized
           # and substituted here.
-          image: gcr.io/knative-releases/knative.dev/net-istio/cmd/webhook@sha256:43293c73a6d49cf8af20f0a8822f74c6b6a23484757fecbd00b97e7aedbb2fc0
+          image: {{ .Values.images.netIstioWebhook.registry }}/{{ .Values.images.netIstioWebhook.repository }}:{{ .Values.images.netIstioWebhook.tag }}
           resources:
             requests:
               cpu: 20m
@@ -617,7 +617,7 @@ spec:
         - name: webhook
           # This is the Go import path for the binary that is containerized
           # and substituted here.
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/webhook@sha256:d512342e1a1ec454ceade96923e21c24ec0f2cb780e86ced8e66eb62033c74b5
+          image: {{ .Values.images.webhook.registry }}/{{ .Values.images.webhook.repository }}:{{ .Values.images.webhook.tag }}
           resources:
             requests:
               cpu: 100m

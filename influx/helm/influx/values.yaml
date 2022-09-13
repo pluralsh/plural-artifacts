@@ -1,12 +1,14 @@
 kapacitor:
   image:
     repository: dkr.plural.sh/influx/kapacitor
+    tag: 1.5.9-alpine
   influxURL: http://influxdb:8086
   existingSecret: influxdb-auth
 
 chronograf:
   image:
     repository: dkr.plural.sh/influx/chronograf
+    tag: 1.8.8
   persistence:
     enabled: true
   updateStrategy: 
@@ -28,6 +30,7 @@ chronograf:
 telegraf:
   image:
     repo: dkr.plural.sh/influx/telegraf
+    tag: 1.19-alpine
   config:
     outputs:
     - influxdb:
@@ -38,6 +41,7 @@ telegraf:
 telegraf-ds:
   image:
     repo: dkr.plural.sh/influx/telegraf
+    tag: 1.19-alpine
   config:
     outputs:
     - influxdb:
@@ -47,6 +51,8 @@ telegraf-ds:
   
 telegraf-operator:
   image:
+    # setting tag not supported
+    #TODO: create upstream PR that allows for setting the operator tag
     repository: dkr.plural.sh/influx/quay.io/influxdb/telegraf-operator
     sidecarImage: dkr.plural.sh/influx/telegraf:1.19-alpine
   certManager:
@@ -65,6 +71,7 @@ telegraf-operator:
 influxdb:
   image:
     repository: dkr.plural.sh/influx/influxdb
+    tag: 1.8.6-alpine
   initScripts:
     enabled: true
   

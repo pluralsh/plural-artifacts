@@ -38,7 +38,7 @@ kubeflowComponents:
 replicaCount: 1
 
 image:
-  repository: public.ecr.aws/j1r0q0g6/notebooks/central-dashboard
+  repository: dkr.plural.sh/kubeflow/j1r0q0g6/notebooks/central-dashboard
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: v1.4
