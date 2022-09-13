@@ -64,6 +64,12 @@ spec:
             - name: VALHEIM_PLUS
               value: {{ .Values.mods.valheimplus | quote }}
             {{- end }}
+            {{- if .Values.extraEnvVars }}
+            {{- range $key, $value := .Values.extraEnvVars }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+            {{- end }}
           ports:
             - name: game
               containerPort: {{ .Values.service.port }}
