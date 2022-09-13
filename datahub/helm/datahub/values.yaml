@@ -4,12 +4,36 @@
 
 replicaCount: 1
 
+postgres:
+  team: plural
+  user: datahub
+  dbName: datahub
+  ownerChart: datahub
+
 # Default configuration for pre-requisites to get you started
 # Copy this file and update to the configuration of choice
 datahub:
+  #elasticsearchSetupJob:
+  #  enabled: true
+  #  extraEnv:
+  #    - name: ELASTICSEARCH_VERIFY_CERTS
+  #      value: "false"
+  mysqlSetupJob:
+    enabled: false
+  postgresqlSetupJob:
+    enabled: true
+    image:
+      repository: acryldata/datahub-postgres-setup
+      tag: "v0.8.41"
+    podSecurityContext:
+      fsGroup: 1000
+    securityContext:
+      runAsUser: 1000
+    podAnnotations: { }
   global:
+    graph_service_impl: "elasticsearch"
     elasticsearch:
-      host: "elasticsearch-es-http.elasticsearch"
+      host: "elasticsearch-es-http.elasticsearch.svc"
       port: "9200"
       useSSL: "true"
       auth:
@@ -17,43 +41,37 @@ datahub:
         password:
           secretRef: elasticsearch-es-elastic-user
           secretKey: elastic
+      verify-certs: "false"
+      extraEnv:
+        - name: ELASTICSEARCH_VERIFY_CERTS
+          value: "false"
+        - name: ELASTICSEARCH_SSL_KEYSTORE_FILE
+          value: "something"
     kafka:
       bootstrap:
-        server: "kafka-kafka-bootstrap.kafka.svc.local:9092"
+        server: "kafka-kafka-bootstrap.kafka.svc:9092"
       zookeeper:
         server: "kafka-zookeeper-client.kafka.svc.local:2181"
-      ## For AWS MSK set this to a number larger than 1
-      # partitions: 3
-      # replicationFactor: 3
-      #schemaregistry:
-        #url: "http://prerequisites-cp-schema-registry:8081"
-        # type: AWS_GLUE
-        # glue:
-        #   region: us-east-1
-        #   registry: datahub
-    ##  Add below to enable SSL for kafka
-    #  credentialsAndCertsSecrets:
-    #    name: datahub-certs
-    #    path: /mnt/datahub/certs
-    #    secureEnv:
-    #      ssl.key.password: datahub.linkedin.com.KeyPass
-    #      ssl.keystore.password: datahub.linkedin.com.KeyStorePass
-    #      ssl.truststore.password: datahub.linkedin.com.TrustStorePass
-    #      kafkastore.ssl.truststore.password: datahub.linkedin.com.TrustStorePass
+    sql:
+      datasource:
+        hostForpostgresqlClient: "plural-datahub"
+        host: "plural-datahub"
+        port: "5432"
+        #url: "jdbc:mysql://prerequisites-mysql:3306/datahub?verifyServerCertificate=false&useSSL=true&useUnicode=yes&characterEncoding=UTF-8&enabledTLSProtocols=TLSv1.2"
+        #driver: "com.mysql.cj.jdbc.Driver"
+        username: "datahub"
+        password:
+          secretRef: datahub.plural-datahub.credentials.postgresql.acid.zalan.do
+          secretKey: password
+        url: postgresql://$(username):$(password)@plural-datahub:5432/datahub
   prerequisites:
-    elasticsearch:
-      enabled: false   # set this to false, if you want to provide your own ES instance.
+    #elasticsearch:
+    #  enabled: true   # set this to false, if you want to provide your own ES instance.
     neo4j:
-      enabled: false  # set this to true, if you have a license for the enterprise edition
+      enabled: false
     neo4j-community:
-      enabled: true   # set this to false, if you have a license for the enterprise edition
-      acceptLicenseAgreement: "yes"
-      defaultDatabase: "graph.db"
-      # For better security, add password to neo4j-secrets k8s secret and uncomment below
-      existingPasswordSecret: neo4j-secrets
+      enabled: false   # set this to false, if you have a license for the enterprise edition
     mysql:
       enabled: false
-
-    # Bitnami version of Kafka that deploys open source Kafka https://artifacthub.io/packages/helm/bitnami/kafka
     kafka:
-      enabled: true
+      enabled: false
