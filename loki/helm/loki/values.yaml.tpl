@@ -3,14 +3,15 @@
 {{ $monitoringNamespace := namespace "monitoring" }}
 redisPassword: {{ $redisValues.redis.password }}
 loki-distributed:
+  {{- if eq .Provider "google" }}
   serviceAccount:
-    {{- if eq .Provider "google" }}
     create: false
-    {{- end }}
-    {{- if eq .Provider "aws" }}
+  {{- end }}
+  {{- if eq .Provider "aws" }}
+  serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-loki"
-    {{- end }}
+  {{- end }}
   loki:
     structuredConfig:
       common:

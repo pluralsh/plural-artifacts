@@ -157,7 +157,7 @@ loki-distributed:
         write_dedupe_cache_config:
           redis:
             endpoint: redis-master.redis:6379
-            db: 7
+            db: 6
             password: ${REDIS_PASSWORD}
       compactor:
         shared_store: filesystem
@@ -173,7 +173,7 @@ loki-distributed:
           cache:
             redis:
               endpoint: redis-master.redis:6379
-              db: 8
+              db: 6
               password: ${REDIS_PASSWORD}
             enable_fifocache: true
             fifocache:
@@ -196,7 +196,7 @@ loki-distributed:
         index_queries_cache_config:
           redis:
             endpoint: redis-master.redis:6379
-            db: 9
+            db: 6
             password: ${REDIS_PASSWORD}
         aws:
           s3: s3://eu-central-1
