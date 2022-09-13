@@ -279,8 +279,12 @@ kube-prometheus-stack:
 opentelemetry-operator:
   manager:
     image:
-      repository: dkr.plural.sh/monitoring/opentelemetry/opentelemetry-operator
-      tag: v0.33.0
+      repository: dkr.plural.sh/monitoring/open-telemetry/opentelemetry-operator/opentelemetry-operator
+      tag: v0.59.0
+    serviceMonitor:
+      enabled: true
+    prometheusRule:
+      enabled: true
   kubeRBACProxy:
     image:
       repository: dkr.plural.sh/monitoring/kubebuilder/kube-rbac-proxy
@@ -289,7 +293,7 @@ opentelemetry-operator:
     enabled: false
     image:
       repository: dkr.plural.sh/monitoring/otel/opentelemetry-collector
-      tag: 0.33.0
+      tag: 0.59.0
     tempoNamespace: grafana-tempo
 
 vpa:
