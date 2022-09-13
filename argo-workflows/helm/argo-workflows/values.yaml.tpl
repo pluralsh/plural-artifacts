@@ -95,10 +95,11 @@ adminServiceAccount:
 {{- end }}
 serviceAccount:
   create: true
+  {{- if eq .Provider "aws" }}
   annotations:
-    {{- if eq .Provider "aws" }}
     eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-argo-workflows"
-    {{- end }}
-    {{ if eq .Provider "google" }}
+  {{- end }}
+  {{ if eq .Provider "google" }}
+  annotations:
     iam.gke.io/gcp-service-account: {{ importValue "Terraform" "service_account_email" }}
-    {{ end }}
+  {{ end }}
