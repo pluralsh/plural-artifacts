@@ -70,6 +70,7 @@ config:
       bucketName: ""
   namespace:
     defaultLabels:
+      app.kubernetes.io/part-of: kubeflow-profile
       katib-metricscollector-injection: 'enabled'
       serving.kserve.io/inferenceservice: 'enabled'
       pipelines.kubeflow.org/enabled: 'true'
