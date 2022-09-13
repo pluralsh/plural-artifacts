@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 image:
-  repository: lloesche/valheim-server
+  repository: dkr.plural.sh/valheim/lloesche/valheim-server
   pullPolicy: IfNotPresent
   # This is the only available tag for this image.
   tag: latest
