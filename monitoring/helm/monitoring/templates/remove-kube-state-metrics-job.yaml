@@ -1,0 +1,29 @@
+# TODO: remove this job and push a new version
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ template "monitoring.fullname" . }}-kube-state-metrics-deployment-cleanup
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-weight": "3"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      name: {{ template "monitoring.fullname" . }}-kube-state-metrics-deployment-cleanup
+    spec:
+      serviceAccountName: opentelemetry-operator-controller-manager
+      containers:
+        - name: kubectl
+          image: bitnami/kubectl
+          imagePullPolicy: "IfNotPresent"
+          env:
+          - name: NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+          command:
+          - /bin/sh
+          - -c
+          - kubectl delete deployment -n ${NAMESPACE} monitoring-kube-state-metrics;
+      restartPolicy: OnFailure
