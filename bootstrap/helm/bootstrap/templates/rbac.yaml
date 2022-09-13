@@ -27,6 +27,7 @@ rules:
   - defaultstorageclasses
   - resourcegroups
   - licenses
+  - registrycredentials
   verbs:
   - create
   - delete

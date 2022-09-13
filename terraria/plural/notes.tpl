@@ -1,0 +1,1 @@
+Use `plural watch terraria` to track the status of your application
