@@ -95,6 +95,7 @@ variable "node_groups" {
       priority = "Regular"
       enable_auto_scaling = true
       availability_zones = ["1"]
+      mode = "System"
 
       node_count = null
       min_count = 1
@@ -124,6 +125,7 @@ variable "node_groups" {
       priority = "Regular"
       enable_auto_scaling = true
       availability_zones = ["2"]
+      mode = "System"
 
       node_count = null
       min_count = 1
@@ -153,6 +155,7 @@ variable "node_groups" {
       priority = "Regular"
       enable_auto_scaling = true
       availability_zones = ["3"]
+      mode = "System"
 
       node_count = null
       min_count = 1
