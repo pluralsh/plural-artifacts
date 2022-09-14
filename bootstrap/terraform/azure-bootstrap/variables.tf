@@ -101,6 +101,9 @@ variable "node_groups" {
       min_count = 1
       max_count = 9
 
+      spot_max_price = null
+      eviction_policy = null
+
       vm_size = "Standard_D2as_v5"
 
       os_disk_type = "Managed"
@@ -130,6 +133,9 @@ variable "node_groups" {
       node_count = null
       min_count = 1
       max_count = 9
+
+      spot_max_price = null
+      eviction_policy = null
 
       vm_size = "Standard_D2as_v5"
 
@@ -161,6 +167,9 @@ variable "node_groups" {
       min_count = 1
       max_count = 9
 
+      spot_max_price = null
+      eviction_policy = null
+
       vm_size = "Standard_D2as_v5"
 
       os_disk_type = "Managed"
@@ -185,6 +194,7 @@ variable "node_groups" {
       priority = "Spot"
       enable_auto_scaling = true
       availability_zones = ["1"]
+      mode = "User"
 
       node_count = null
       min_count = 0
@@ -219,6 +229,7 @@ variable "node_groups" {
       priority = "Spot"
       enable_auto_scaling = true
       availability_zones = ["2"]
+      mode = "User"
 
       node_count = null
       min_count = 0
@@ -253,6 +264,7 @@ variable "node_groups" {
       priority = "Spot"
       enable_auto_scaling = true
       availability_zones = ["3"]
+      mode = "User"
 
       node_count = null
       min_count = 0
@@ -288,10 +300,14 @@ variable "node_groups" {
       priority = "Regular"
       enable_auto_scaling = true
       availability_zones = ["1"]
+      mode = "User"
 
       node_count = null
       min_count = 0
       max_count = 9
+
+      spot_max_price = null
+      eviction_policy = null
 
       vm_size = "Standard_D4as_v5"
 
@@ -317,10 +333,14 @@ variable "node_groups" {
       priority = "Regular"
       enable_auto_scaling = true
       availability_zones = ["2"]
+      mode = "User"
 
       node_count = null
       min_count = 0
       max_count = 9
+
+      spot_max_price = null
+      eviction_policy = null
 
       vm_size = "Standard_D4as_v5"
 
@@ -346,10 +366,14 @@ variable "node_groups" {
       priority = "Regular"
       enable_auto_scaling = true
       availability_zones = ["3"]
+      mode = "User"
 
       node_count = null
       min_count = 0
       max_count = 9
+
+      spot_max_price = null
+      eviction_policy = null
 
       vm_size = "Standard_D4as_v5"
 
@@ -375,6 +399,7 @@ variable "node_groups" {
       priority = "Spot"
       enable_auto_scaling = true
       availability_zones = ["1"]
+      mode = "User"
 
       node_count = null
       min_count = 0
@@ -409,6 +434,7 @@ variable "node_groups" {
       priority = "Spot"
       enable_auto_scaling = true
       availability_zones = ["2"]
+      mode = "User"
 
       node_count = null
       min_count = 0
@@ -443,6 +469,7 @@ variable "node_groups" {
       priority = "Spot"
       enable_auto_scaling = true
       availability_zones = ["3"]
+      mode = "User"
 
       node_count = null
       min_count = 0
@@ -478,10 +505,14 @@ variable "node_groups" {
       priority = "Regular"
       enable_auto_scaling = true
       availability_zones = ["1"]
+      mode = "User"
 
       node_count = null
       min_count = 0
       max_count = 9
+
+      spot_max_price = null
+      eviction_policy = null
 
       vm_size = "Standard_D8as_v5"
 
@@ -507,10 +538,14 @@ variable "node_groups" {
       priority = "Regular"
       enable_auto_scaling = true
       availability_zones = ["2"]
+      mode = "User"
 
       node_count = null
       min_count = 0
       max_count = 9
+
+      spot_max_price = null
+      eviction_policy = null
 
       vm_size = "Standard_D8as_v5"
 
@@ -536,10 +571,14 @@ variable "node_groups" {
       priority = "Regular"
       enable_auto_scaling = true
       availability_zones = ["3"]
+      mode = "User"
 
       node_count = null
       min_count = 0
       max_count = 9
+
+      spot_max_price = null
+      eviction_policy = null
 
       vm_size = "Standard_D8as_v5"
 
@@ -565,6 +604,7 @@ variable "node_groups" {
       priority = "Spot"
       enable_auto_scaling = true
       availability_zones = ["1"]
+      mode = "User"
 
       node_count = null
       min_count = 0
@@ -599,6 +639,7 @@ variable "node_groups" {
       priority = "Spot"
       enable_auto_scaling = true
       availability_zones = ["2"]
+      mode = "User"
 
       node_count = null
       min_count = 0
@@ -633,6 +674,7 @@ variable "node_groups" {
       priority = "Spot"
       enable_auto_scaling = true
       availability_zones = ["3"]
+      mode = "User"
 
       node_count = null
       min_count = 0

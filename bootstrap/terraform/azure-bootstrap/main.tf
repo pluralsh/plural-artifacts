@@ -62,11 +62,14 @@ resource "azurerm_kubernetes_cluster_node_pool" "main" {
   priority              = each.value.priority
   enable_auto_scaling   = each.value.enable_auto_scaling
   zones                 = each.value.availability_zones
+  mode                  = each.value.mode
   orchestrator_version  = var.kubernetes_version
 
   node_count            = each.value.node_count
   min_count             = each.value.min_count
   max_count             = each.value.max_count
+  spot_max_price        = each.value.spot_max_price
+  eviction_policy       = each.value.eviction_policy
 
   vnet_subnet_id        = module.network.vnet_subnets[0]
 
