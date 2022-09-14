@@ -8,27 +8,27 @@ spec:
   - name: aws-bootstrap
     repo: bootstrap
     type: terraform
-    version: '>= 0.1.2'
+    version: '>= 0.1.1'
     optional: true
   - name: azure-bootstrap
     repo: bootstrap
     type: terraform
-    version: '>= 0.1.2'
+    version: '>= 0.1.1'
     optional: true
   - name: equinix-bootstrap
     repo: bootstrap
     type: terraform
-    version: '>= 0.1.2'
+    version: '>= 0.1.1'
     optional: true
   - name: gcp-bootstrap
     repo: bootstrap
     type: terraform
-    version: '>= 0.1.2'
+    version: '>= 0.1.1'
     optional: true
   - name: kind-bootstrap
     repo: bootstrap
     type: terraform
-    version: '>= 0.1.2'
+    version: '>= 0.1.1'
     optional: true
   providers:
     - aws
