@@ -8,6 +8,8 @@ namespace = {{ .Namespace | quote }}
 {{- if $bootstrapOutputs }}
 
 network_name = {{ $bootstrapOutputs.network.vnet_name | quote }}
+subnet_prefixes = [{{ (index $bootstrapOutputs.network.vnet_subnets_raw 0).address_prefix | quote }}]
+admin_username = {{ (index $bootstrapOutputs.cluster.cluster_raw.linux_profile 0).admin_username | quote }}
 
 {{- else }}
 

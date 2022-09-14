@@ -13,7 +13,7 @@ module "network" {
 }
 
 module "aks" {
-  source                           = "github.com/pluralsh/terraform-azurerm-aks?ref=plural"
+  source                           = "github.com/pluralsh/terraform-azurerm-aks?ref=plural-updated"
   resource_group_name              = data.azurerm_resource_group.group.name
   kubernetes_version               = var.kubernetes_version
   orchestrator_version             = var.kubernetes_version
@@ -29,7 +29,8 @@ module "aks" {
   sku_tier                         = "Paid"
   private_cluster_enabled          = var.private_cluster
   enable_http_application_routing  = true
-  enable_azure_policy              = true
+  azure_policy_enabled             = true
+  admin_username                   = var.admin_username
   enable_auto_scaling              = true
   agents_min_count                 = var.min_nodes
   agents_max_count                 = var.max_nodes
