@@ -64,23 +64,16 @@ resource "azurerm_kubernetes_cluster_node_pool" "main" {
   zones                 = each.value.availability_zones
   mode                  = each.value.mode
   orchestrator_version  = var.kubernetes_version
-
   node_count            = each.value.node_count
   min_count             = each.value.min_count
   max_count             = each.value.max_count
   spot_max_price        = each.value.spot_max_price
   eviction_policy       = each.value.eviction_policy
-
   vnet_subnet_id        = module.network.vnet_subnets[0]
-
   vm_size               = each.value.vm_size
-
   os_disk_type          = each.value.os_disk_type
-
   os_disk_size_gb       = each.value.os_disk_size_gb
-
   max_pods              = each.value.max_pods
-
 
   node_labels           = each.value.node_labels
   node_taints           = each.value.node_taints

@@ -91,27 +91,20 @@ variable "node_groups" {
   type        = any
   default = [
     {
-      name = "ssod1"
-      priority = "Regular"
+      name                = "ssod1"
+      priority            = "Regular"
       enable_auto_scaling = true
-      availability_zones = ["1"]
-      mode = "System"
-
-      node_count = null
-      min_count = 1
-      max_count = 9
-
-      spot_max_price = null
-      eviction_policy = null
-
-      vm_size = "Standard_D2as_v5"
-
-      os_disk_type = "Managed"
-
-      os_disk_size_gb = 50
-
-      max_pods = 110
-
+      availability_zones  = ["1"]
+      mode                = "System"
+      node_count          = null
+      min_count           = 1
+      max_count           = 9
+      spot_max_price      = null
+      eviction_policy     = null
+      vm_size             = "Standard_D2as_v5"
+      os_disk_type        = "Managed"
+      os_disk_size_gb     = 50
+      max_pods            = 110
 
       node_labels = {
         "plural.sh/capacityType" = "ON_DEMAND"
@@ -124,27 +117,20 @@ variable "node_groups" {
       }
     },
     {
-      name = "ssod2"
-      priority = "Regular"
+      name                = "ssod2"
+      priority            = "Regular"
       enable_auto_scaling = true
-      availability_zones = ["2"]
-      mode = "System"
-
-      node_count = null
-      min_count = 1
-      max_count = 9
-
-      spot_max_price = null
-      eviction_policy = null
-
-      vm_size = "Standard_D2as_v5"
-
-      os_disk_type = "Managed"
-
-      os_disk_size_gb = 50
-
-      max_pods = 110
-
+      availability_zones  = ["2"]
+      mode                = "System"
+      node_count          = null
+      min_count           = 1
+      max_count           = 9
+      spot_max_price      = null
+      eviction_policy     = null
+      vm_size             = "Standard_D2as_v5"
+      os_disk_type        = "Managed"
+      os_disk_size_gb     = 50
+      max_pods            = 110
 
       node_labels = {
         "plural.sh/capacityType" = "ON_DEMAND"
@@ -157,27 +143,20 @@ variable "node_groups" {
       }
     },
     {
-      name = "ssod3"
-      priority = "Regular"
+      name                = "ssod3"
+      priority            = "Regular"
       enable_auto_scaling = true
-      availability_zones = ["3"]
-      mode = "System"
-
-      node_count = null
-      min_count = 1
-      max_count = 9
-
-      spot_max_price = null
-      eviction_policy = null
-
-      vm_size = "Standard_D2as_v5"
-
-      os_disk_type = "Managed"
-
-      os_disk_size_gb = 50
-
-      max_pods = 110
-
+      availability_zones  = ["3"]
+      mode                = "System"
+      node_count          = null
+      min_count           = 1
+      max_count           = 9
+      spot_max_price      = null
+      eviction_policy     = null
+      vm_size             = "Standard_D2as_v5"
+      os_disk_type        = "Managed"
+      os_disk_size_gb     = 50
+      max_pods            = 110
 
       node_labels = {
         "plural.sh/capacityType" = "ON_DEMAND"
@@ -190,105 +169,90 @@ variable "node_groups" {
       }
     },
     {
-      name = "ssspot1"
-      priority = "Spot"
+      name                = "ssspot1"
+      priority            = "Spot"
       enable_auto_scaling = true
-      availability_zones = ["1"]
-      mode = "User"
-
-      node_count = null
-      min_count = 0
-      max_count = 9
-
-      spot_max_price = -1
-      eviction_policy = "Delete"
-
-      vm_size = "Standard_D2as_v5"
-
-      os_disk_type = "Managed"
-
-      os_disk_size_gb = 50
-
-      max_pods = 110
-
+      availability_zones  = ["1"]
+      mode                = "User"
+      node_count          = null
+      min_count           = 0
+      max_count           = 9
+      spot_max_price      = -1
+      eviction_policy     = "Delete"
+      vm_size             = "Standard_D2as_v5"
+      os_disk_type        = "Managed"
+      os_disk_size_gb     = 50
+      max_pods            = 110
 
       node_labels = {
         "plural.sh/capacityType" = "SPOT"
         "plural.sh/performanceType" = "SUSTAINED"
         "plural.sh/scalingGroup" = "small-sustained-spot"
+        "kubernetes.azure.com/scalesetpriority" = "spot"
       }
       node_taints = [
-        "plural.sh/capacityType=SPOT:NoSchedule"
+        "plural.sh/capacityType=SPOT:NoSchedule",
+        "kubernetes.azure.com/scalesetpriority=spot:NoSchedule"
       ]
       tags = {
         "ScalingGroup": "small-sustained-spot"
       }
     },
     {
-      name = "ssspot2"
-      priority = "Spot"
+      name                = "ssspot2"
+      priority            = "Spot"
       enable_auto_scaling = true
-      availability_zones = ["2"]
-      mode = "User"
-
-      node_count = null
-      min_count = 0
-      max_count = 9
-
-      spot_max_price = -1
-      eviction_policy = "Delete"
-
-      vm_size = "Standard_D2as_v5"
-
-      os_disk_type = "Managed"
-
-      os_disk_size_gb = 50
-
-      max_pods = 110
-
+      availability_zones  = ["2"]
+      mode                = "User"
+      node_count          = null
+      min_count           = 0
+      max_count           = 9
+      spot_max_price      = -1
+      eviction_policy     = "Delete"
+      vm_size             = "Standard_D2as_v5"
+      os_disk_type        = "Managed"
+      os_disk_size_gb     = 50
+      max_pods            = 110
 
       node_labels = {
         "plural.sh/capacityType" = "SPOT"
         "plural.sh/performanceType" = "SUSTAINED"
         "plural.sh/scalingGroup" = "small-sustained-spot"
+        "kubernetes.azure.com/scalesetpriority" = "spot"
       }
       node_taints = [
-        "plural.sh/capacityType=SPOT:NoSchedule"
+        "plural.sh/capacityType=SPOT:NoSchedule",
+        "kubernetes.azure.com/scalesetpriority=spot:NoSchedule"
       ]
       tags = {
         "ScalingGroup": "small-sustained-spot"
       }
     },
     {
-      name = "ssspot3"
-      priority = "Spot"
+      name                = "ssspot3"
+      priority            = "Spot"
       enable_auto_scaling = true
-      availability_zones = ["3"]
-      mode = "User"
-
-      node_count = null
-      min_count = 0
-      max_count = 9
-
-      spot_max_price = -1
-      eviction_policy = "Delete"
-
-      vm_size = "Standard_D2as_v5"
-
-      os_disk_type = "Managed"
-
-      os_disk_size_gb = 50
-
-      max_pods = 110
-
+      availability_zones  = ["3"]
+      mode                = "User"
+      node_count          = null
+      min_count           = 0
+      max_count           = 9
+      spot_max_price      = -1
+      eviction_policy     = "Delete"
+      vm_size             = "Standard_D2as_v5"
+      os_disk_type        = "Managed"
+      os_disk_size_gb     = 50
+      max_pods            = 110
 
       node_labels = {
         "plural.sh/capacityType" = "SPOT"
         "plural.sh/performanceType" = "SUSTAINED"
         "plural.sh/scalingGroup" = "small-sustained-spot"
+        "kubernetes.azure.com/scalesetpriority" = "spot"
       }
       node_taints = [
-        "plural.sh/capacityType=SPOT:NoSchedule"
+        "plural.sh/capacityType=SPOT:NoSchedule",
+        "kubernetes.azure.com/scalesetpriority=spot:NoSchedule"
       ]
       tags = {
         "ScalingGroup": "small-sustained-spot"
@@ -296,27 +260,20 @@ variable "node_groups" {
     },
 
     {
-      name = "msod1"
-      priority = "Regular"
+      name                = "msod1"
+      priority            = "Regular"
       enable_auto_scaling = true
-      availability_zones = ["1"]
-      mode = "User"
-
-      node_count = null
-      min_count = 0
-      max_count = 9
-
-      spot_max_price = null
-      eviction_policy = null
-
-      vm_size = "Standard_D4as_v5"
-
-      os_disk_type = "Managed"
-
-      os_disk_size_gb = 50
-
-      max_pods = 110
-
+      availability_zones  = ["1"]
+      mode                = "User"
+      node_count          = null
+      min_count           = 0
+      max_count           = 9
+      spot_max_price      = null
+      eviction_policy     = null
+      vm_size             = "Standard_D4as_v5"
+      os_disk_type        = "Managed"
+      os_disk_size_gb     = 50
+      max_pods            = 110
 
       node_labels = {
         "plural.sh/capacityType" = "ON_DEMAND"
@@ -329,27 +286,20 @@ variable "node_groups" {
       }
     },
     {
-      name = "msod2"
-      priority = "Regular"
+      name                = "msod2"
+      priority            = "Regular"
       enable_auto_scaling = true
-      availability_zones = ["2"]
-      mode = "User"
-
-      node_count = null
-      min_count = 0
-      max_count = 9
-
-      spot_max_price = null
-      eviction_policy = null
-
-      vm_size = "Standard_D4as_v5"
-
-      os_disk_type = "Managed"
-
-      os_disk_size_gb = 50
-
-      max_pods = 110
-
+      availability_zones  = ["2"]
+      mode                = "User"
+      node_count          = null
+      min_count           = 0
+      max_count           = 9
+      spot_max_price      = null
+      eviction_policy     = null
+      vm_size             = "Standard_D4as_v5"
+      os_disk_type        = "Managed"
+      os_disk_size_gb     = 50
+      max_pods            = 110
 
       node_labels = {
         "plural.sh/capacityType" = "ON_DEMAND"
@@ -362,27 +312,20 @@ variable "node_groups" {
       }
     },
     {
-      name = "msod3"
-      priority = "Regular"
+      name                = "msod3"
+      priority            = "Regular"
       enable_auto_scaling = true
-      availability_zones = ["3"]
-      mode = "User"
-
-      node_count = null
-      min_count = 0
-      max_count = 9
-
-      spot_max_price = null
-      eviction_policy = null
-
-      vm_size = "Standard_D4as_v5"
-
-      os_disk_type = "Managed"
-
-      os_disk_size_gb = 50
-
-      max_pods = 110
-
+      availability_zones  = ["3"]
+      mode                = "User"
+      node_count          = null
+      min_count           = 0
+      max_count           = 9
+      spot_max_price      = null
+      eviction_policy     = null
+      vm_size             = "Standard_D4as_v5"
+      os_disk_type        = "Managed"
+      os_disk_size_gb     = 50
+      max_pods            = 110
 
       node_labels = {
         "plural.sh/capacityType" = "ON_DEMAND"
@@ -395,105 +338,90 @@ variable "node_groups" {
       }
     },
     {
-      name = "msspot1"
-      priority = "Spot"
+      name                = "msspot1"
+      priority            = "Spot"
       enable_auto_scaling = true
-      availability_zones = ["1"]
-      mode = "User"
-
-      node_count = null
-      min_count = 0
-      max_count = 9
-
-      spot_max_price = -1
-      eviction_policy = "Delete"
-
-      vm_size = "Standard_D4as_v5"
-
-      os_disk_type = "Managed"
-
-      os_disk_size_gb = 50
-
-      max_pods = 110
-
+      availability_zones  = ["1"]
+      mode                = "User"
+      node_count          = null
+      min_count           = 0
+      max_count           = 9
+      spot_max_price      = -1
+      eviction_policy     = "Delete"
+      vm_size             = "Standard_D4as_v5"
+      os_disk_type        = "Managed"
+      os_disk_size_gb     = 50
+      max_pods            = 110
 
       node_labels = {
         "plural.sh/capacityType" = "SPOT"
         "plural.sh/performanceType" = "SUSTAINED"
         "plural.sh/scalingGroup" = "medium-sustained-spot"
+        "kubernetes.azure.com/scalesetpriority" = "spot"
       }
       node_taints = [
-        "plural.sh/capacityType=SPOT:NoSchedule"
+        "plural.sh/capacityType=SPOT:NoSchedule",
+        "kubernetes.azure.com/scalesetpriority=spot:NoSchedule"
       ]
       tags = {
         "ScalingGroup": "medium-sustained-spot"
       }
     },
     {
-      name = "msspot2"
-      priority = "Spot"
+      name                = "msspot2"
+      priority            = "Spot"
       enable_auto_scaling = true
-      availability_zones = ["2"]
-      mode = "User"
-
-      node_count = null
-      min_count = 0
-      max_count = 9
-
-      spot_max_price = -1
-      eviction_policy = "Delete"
-
-      vm_size = "Standard_D4as_v5"
-
-      os_disk_type = "Managed"
-
-      os_disk_size_gb = 50
-
-      max_pods = 110
-
+      availability_zones  = ["2"]
+      mode                = "User"
+      node_count          = null
+      min_count           = 0
+      max_count           = 9
+      spot_max_price      = -1
+      eviction_policy     = "Delete"
+      vm_size             = "Standard_D4as_v5"
+      os_disk_type        = "Managed"
+      os_disk_size_gb     = 50
+      max_pods            = 110
 
       node_labels = {
         "plural.sh/capacityType" = "SPOT"
         "plural.sh/performanceType" = "SUSTAINED"
         "plural.sh/scalingGroup" = "medium-sustained-spot"
+        "kubernetes.azure.com/scalesetpriority" = "spot"
       }
       node_taints = [
-        "plural.sh/capacityType=SPOT:NoSchedule"
+        "plural.sh/capacityType=SPOT:NoSchedule",
+        "kubernetes.azure.com/scalesetpriority=spot:NoSchedule"
       ]
       tags = {
         "ScalingGroup": "medium-sustained-spot"
       }
     },
     {
-      name = "msspot3"
-      priority = "Spot"
+      name                = "msspot3"
+      priority            = "Spot"
       enable_auto_scaling = true
-      availability_zones = ["3"]
-      mode = "User"
-
-      node_count = null
-      min_count = 0
-      max_count = 9
-
-      spot_max_price = -1
-      eviction_policy = "Delete"
-
-      vm_size = "Standard_D4as_v5"
-
-      os_disk_type = "Managed"
-
-      os_disk_size_gb = 50
-
-      max_pods = 110
-
+      availability_zones  = ["3"]
+      mode                = "User"
+      node_count          = null
+      min_count           = 0
+      max_count           = 9
+      spot_max_price      = -1
+      eviction_policy     = "Delete"
+      vm_size             = "Standard_D4as_v5"
+      os_disk_type        = "Managed"
+      os_disk_size_gb     = 50
+      max_pods            = 110
 
       node_labels = {
         "plural.sh/capacityType" = "SPOT"
         "plural.sh/performanceType" = "SUSTAINED"
         "plural.sh/scalingGroup" = "medium-sustained-spot"
+        "kubernetes.azure.com/scalesetpriority" = "spot"
       }
       node_taints = [
-        "plural.sh/capacityType=SPOT:NoSchedule"
+        "plural.sh/capacityType=SPOT:NoSchedule",
+        "kubernetes.azure.com/scalesetpriority=spot:NoSchedule"
       ]
       tags = {
         "ScalingGroup": "medium-sustained-spot"
@@ -501,27 +429,20 @@ variable "node_groups" {
     },
 
     {
-      name = "lsod1"
-      priority = "Regular"
+      name                = "lsod1"
+      priority            = "Regular"
       enable_auto_scaling = true
-      availability_zones = ["1"]
-      mode = "User"
-
-      node_count = null
-      min_count = 0
-      max_count = 9
-
-      spot_max_price = null
-      eviction_policy = null
-
-      vm_size = "Standard_D8as_v5"
-
-      os_disk_type = "Managed"
-
-      os_disk_size_gb = 50
-
-      max_pods = 110
-
+      availability_zones  = ["1"]
+      mode                = "User"
+      node_count          = null
+      min_count           = 0
+      max_count           = 9
+      spot_max_price      = null
+      eviction_policy     = null
+      vm_size             = "Standard_D8as_v5"
+      os_disk_type        = "Managed"
+      os_disk_size_gb     = 50
+      max_pods            = 110
 
       node_labels = {
         "plural.sh/capacityType" = "ON_DEMAND"
@@ -534,27 +455,20 @@ variable "node_groups" {
       }
     },
     {
-      name = "lsod2"
-      priority = "Regular"
+      name                = "lsod2"
+      priority            = "Regular"
       enable_auto_scaling = true
-      availability_zones = ["2"]
-      mode = "User"
-
-      node_count = null
-      min_count = 0
-      max_count = 9
-
-      spot_max_price = null
-      eviction_policy = null
-
-      vm_size = "Standard_D8as_v5"
-
-      os_disk_type = "Managed"
-
-      os_disk_size_gb = 50
-
-      max_pods = 110
-
+      availability_zones  = ["2"]
+      mode                = "User"
+      node_count          = null
+      min_count           = 0
+      max_count           = 9
+      spot_max_price      = null
+      eviction_policy     = null
+      vm_size             = "Standard_D8as_v5"
+      os_disk_type        = "Managed"
+      os_disk_size_gb     = 50
+      max_pods            = 110
 
       node_labels = {
         "plural.sh/capacityType" = "ON_DEMAND"
@@ -567,27 +481,20 @@ variable "node_groups" {
       }
     },
     {
-      name = "lsod3"
-      priority = "Regular"
+      name                = "lsod3"
+      priority            = "Regular"
       enable_auto_scaling = true
-      availability_zones = ["3"]
-      mode = "User"
-
-      node_count = null
-      min_count = 0
-      max_count = 9
-
-      spot_max_price = null
-      eviction_policy = null
-
-      vm_size = "Standard_D8as_v5"
-
-      os_disk_type = "Managed"
-
-      os_disk_size_gb = 50
-
-      max_pods = 110
-
+      availability_zones  = ["3"]
+      mode                = "User"
+      node_count          = null
+      min_count           = 0
+      max_count           = 9
+      spot_max_price      = null
+      eviction_policy     = null
+      vm_size             = "Standard_D8as_v5"
+      os_disk_type        = "Managed"
+      os_disk_size_gb     = 50
+      max_pods            = 110
 
       node_labels = {
         "plural.sh/capacityType" = "ON_DEMAND"
@@ -600,105 +507,90 @@ variable "node_groups" {
       }
     },
     {
-      name = "lsspot1"
-      priority = "Spot"
+      name                = "lsspot1"
+      priority            = "Spot"
       enable_auto_scaling = true
-      availability_zones = ["1"]
-      mode = "User"
-
-      node_count = null
-      min_count = 0
-      max_count = 9
-
-      spot_max_price = -1
-      eviction_policy = "Delete"
-
-      vm_size = "Standard_D8as_v5"
-
-      os_disk_type = "Managed"
-
-      os_disk_size_gb = 50
-
-      max_pods = 110
-
+      availability_zones  = ["1"]
+      mode                = "User"
+      node_count          = null
+      min_count           = 0
+      max_count           = 9
+      spot_max_price      = -1
+      eviction_policy     = "Delete"
+      vm_size             = "Standard_D8as_v5"
+      os_disk_type        = "Managed"
+      os_disk_size_gb     = 50
+      max_pods            = 110
 
       node_labels = {
         "plural.sh/capacityType" = "SPOT"
         "plural.sh/performanceType" = "SUSTAINED"
         "plural.sh/scalingGroup" = "large-sustained-spot"
+        "kubernetes.azure.com/scalesetpriority" = "spot"
       }
       node_taints = [
-        "plural.sh/capacityType=SPOT:NoSchedule"
+        "plural.sh/capacityType=SPOT:NoSchedule",
+        "kubernetes.azure.com/scalesetpriority=spot:NoSchedule"
       ]
       tags = {
         "ScalingGroup": "large-sustained-spot"
       }
     },
     {
-      name = "lsspot2"
-      priority = "Spot"
+      name                = "lsspot2"
+      priority            = "Spot"
       enable_auto_scaling = true
-      availability_zones = ["2"]
-      mode = "User"
-
-      node_count = null
-      min_count = 0
-      max_count = 9
-
-      spot_max_price = -1
-      eviction_policy = "Delete"
-
-      vm_size = "Standard_D8as_v5"
-
-      os_disk_type = "Managed"
-
-      os_disk_size_gb = 50
-
-      max_pods = 110
-
+      availability_zones  = ["2"]
+      mode                = "User"
+      node_count          = null
+      min_count           = 0
+      max_count           = 9
+      spot_max_price      = -1
+      eviction_policy     = "Delete"
+      vm_size             = "Standard_D8as_v5"
+      os_disk_type        = "Managed"
+      os_disk_size_gb     = 50
+      max_pods            = 110
 
       node_labels = {
         "plural.sh/capacityType" = "SPOT"
         "plural.sh/performanceType" = "SUSTAINED"
         "plural.sh/scalingGroup" = "large-sustained-spot"
+        "kubernetes.azure.com/scalesetpriority" = "spot"
       }
       node_taints = [
-        "plural.sh/capacityType=SPOT:NoSchedule"
+        "plural.sh/capacityType=SPOT:NoSchedule",
+        "kubernetes.azure.com/scalesetpriority=spot:NoSchedule"
       ]
       tags = {
         "ScalingGroup": "large-sustained-spot"
       }
     },
     {
-      name = "lsspot3"
-      priority = "Spot"
+      name                = "lsspot3"
+      priority            = "Spot"
       enable_auto_scaling = true
-      availability_zones = ["3"]
-      mode = "User"
-
-      node_count = null
-      min_count = 0
-      max_count = 9
-
-      spot_max_price = -1
-      eviction_policy = "Delete"
-
-      vm_size = "Standard_D8as_v5"
-
-      os_disk_type = "Managed"
-
-      os_disk_size_gb = 50
-
-      max_pods = 110
-
+      availability_zones  = ["3"]
+      mode                = "User"
+      node_count          = null
+      min_count           = 0
+      max_count           = 9
+      spot_max_price      = -1
+      eviction_policy     = "Delete"
+      vm_size             = "Standard_D8as_v5"
+      os_disk_type        = "Managed"
+      os_disk_size_gb     = 50
+      max_pods            = 110
 
       node_labels = {
         "plural.sh/capacityType" = "SPOT"
         "plural.sh/performanceType" = "SUSTAINED"
         "plural.sh/scalingGroup" = "large-sustained-spot"
+        "kubernetes.azure.com/scalesetpriority" = "spot"
       }
       node_taints = [
-        "plural.sh/capacityType=SPOT:NoSchedule"
+        "plural.sh/capacityType=SPOT:NoSchedule",
+        "kubernetes.azure.com/scalesetpriority=spot:NoSchedule"
       ]
       tags = {
         "ScalingGroup": "large-sustained-spot"
