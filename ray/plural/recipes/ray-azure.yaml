@@ -1,0 +1,19 @@
+name: ray-azure
+description: Installs ray on an azure aks cluster
+provider: AZURE
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-azure
+sections:
+- name: ray
+  configuration:
+  - name: hostname
+    documentation: domain on which you'd like to host RAY's page
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: azure
+  - type: HELM
+    name: ray

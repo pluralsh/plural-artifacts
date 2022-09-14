@@ -1,0 +1,19 @@
+name: ray-aws
+description: Installs ray on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+sections:
+- name: ray
+  configuration:
+  - name: hostname
+    documentation: domain on which you'd like to host RAY's page
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: ray
