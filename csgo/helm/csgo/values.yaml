@@ -1,0 +1,71 @@
+# Default values for valheim.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  repository: cm2network/csgo
+  pullPolicy: IfNotPresent
+  # Available tags:
+  # - latest
+  #   This is the defacto image. If you are unsure about what your needs are, you probably want to use this one.
+  #   It is a bare-minimum CSGO dedicated server containing no 3rd party plugins.
+  # - metamod
+  #   This is a specialized image. It contains the plugin environment Metamod:Source which can be found in the
+  #   addons directory.
+  # - sourcemod
+  #   This is another specialized image. It contains both Metamod:Source and the popular server plugin SourceMod
+  #   which can be found in the addons directory. SourceMod supports a wide variety of additional plugins.
+  tag: latest
+
+serviceAccount:
+  create: true
+  name: ""
+
+# Minimum requirements configuration for 2-3 players server.
+resources:
+  limits:
+    cpu: 4
+    memory: 6Gi
+  requests:
+    cpu: 3
+    memory: 4Gi
+
+service:
+  type: LoadBalancer
+  port: 2456
+
+storage:
+  server:
+    size: 5Gi
+    path: /opt/valheim
+  game:
+    size: 1Gi
+    path: /config
+
+config:
+
+  env:
+    # Required to be listed & reachable, retrieve token here: https://steamcommunity.com/dev/managegameservers
+    SRCDS_TOKEN: "changeme"
+    # Value can be overridden in server.cfg
+    SRCDS_RCONPW: "changeme"
+    # Value can be overridden in server.cfg
+    SRCDS_PW: "changeme"
+    SRCDS_PORT: 27015
+    SRCDS_TV_PORT: 27020
+    SRCDS_LAN: "0"
+    SRCDS_FPSMAX: 300
+    SRCDS_TICKRATE: 128
+    SRCDS_MAXPLAYERS: 14
+    SRCDS_STARTMAP: "de_dust2"
+    SRCDS_REGION: 3
+    SRCDS_MAPGROUP: "mg_active"
+    SRCDS_GAMETYPE: 0
+    SRCDS_GAMEMODE: 1
+    SRCDS_HOSTNAME: "New CSGO Server"
+    SRCDS_WORKSHOP_START_MAP: 0
+    SRCDS_HOST_WORKSHOP_COLLECTION: 0
+    # Rrequired to use host_workshop_map
+    SRCDS_WORKSHOP_AUTHKEY: ""
+    # Pass additional arguments to SRCDS. Make sure to escape correctly!
+    ADDITIONAL_ARGS: ""

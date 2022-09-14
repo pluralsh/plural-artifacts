@@ -1,0 +1,6 @@
+name: 'Counter-Strike: Global Offensive'
+description: 'Counter-Strike: Global Offensive deployed on plural'
+category: PRODUCTIVITY
+private: true
+icon: plural/icons/csgo.png
+notes: plural/notes.tpl

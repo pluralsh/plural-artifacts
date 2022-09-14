@@ -1,0 +1,1 @@
+Use `plural watch csgo` to track the status of your application

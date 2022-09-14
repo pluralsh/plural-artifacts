@@ -1,0 +1,15 @@
+name: csgo-aws
+description: Installs CSGO game server
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+
+sections:
+- name: csgo
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: csgo

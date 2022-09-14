@@ -1,0 +1,15 @@
+name: csgo-azure
+description: Installs CSGO game server
+provider: AZURE
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+
+sections:
+- name: csgo
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: csgo
