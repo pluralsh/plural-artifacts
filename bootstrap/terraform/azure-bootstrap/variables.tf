@@ -91,14 +91,14 @@ variable "node_groups" {
   type        = any
   default = [
     {
-      name = "ssod"
+      name = "ssod1"
       priority = "Regular"
       enable_auto_scaling = true
-      availability_zones = ["1", "2", "3"]
+      availability_zones = ["1"]
 
       node_count = null
-      min_count = 3
-      max_count = 27
+      min_count = 1
+      max_count = 9
 
       vm_size = "Standard_D2as_v5"
 
@@ -120,14 +120,140 @@ variable "node_groups" {
       }
     },
     {
-      name = "ssspot"
+      name = "ssod2"
+      priority = "Regular"
+      enable_auto_scaling = true
+      availability_zones = ["2"]
+
+      node_count = null
+      min_count = 1
+      max_count = 9
+
+      vm_size = "Standard_D2as_v5"
+
+      os_disk_type = "Managed"
+
+      os_disk_size_gb = 50
+
+      max_pods = 110
+
+
+      node_labels = {
+        "plural.sh/capacityType" = "ON_DEMAND"
+        "plural.sh/performanceType" = "SUSTAINED"
+        "plural.sh/scalingGroup" = "small-sustained-on-demand"
+      }
+      node_taints = []
+      tags = {
+        "ScalingGroup": "small-sustained-on-demand"
+      }
+    },
+    {
+      name = "ssod3"
+      priority = "Regular"
+      enable_auto_scaling = true
+      availability_zones = ["3"]
+
+      node_count = null
+      min_count = 1
+      max_count = 9
+
+      vm_size = "Standard_D2as_v5"
+
+      os_disk_type = "Managed"
+
+      os_disk_size_gb = 50
+
+      max_pods = 110
+
+
+      node_labels = {
+        "plural.sh/capacityType" = "ON_DEMAND"
+        "plural.sh/performanceType" = "SUSTAINED"
+        "plural.sh/scalingGroup" = "small-sustained-on-demand"
+      }
+      node_taints = []
+      tags = {
+        "ScalingGroup": "small-sustained-on-demand"
+      }
+    },
+    {
+      name = "ssspot1"
       priority = "Spot"
       enable_auto_scaling = true
-      availability_zones = ["1", "2", "3"]
+      availability_zones = ["1"]
 
       node_count = null
       min_count = 0
-      max_count = 27
+      max_count = 9
+
+      spot_max_price = -1
+      eviction_policy = "Delete"
+
+      vm_size = "Standard_D2as_v5"
+
+      os_disk_type = "Managed"
+
+      os_disk_size_gb = 50
+
+      max_pods = 110
+
+
+      node_labels = {
+        "plural.sh/capacityType" = "SPOT"
+        "plural.sh/performanceType" = "SUSTAINED"
+        "plural.sh/scalingGroup" = "small-sustained-spot"
+      }
+      node_taints = [
+        "plural.sh/capacityType=SPOT:NoSchedule"
+      ]
+      tags = {
+        "ScalingGroup": "small-sustained-spot"
+      }
+    },
+    {
+      name = "ssspot2"
+      priority = "Spot"
+      enable_auto_scaling = true
+      availability_zones = ["2"]
+
+      node_count = null
+      min_count = 0
+      max_count = 9
+
+      spot_max_price = -1
+      eviction_policy = "Delete"
+
+      vm_size = "Standard_D2as_v5"
+
+      os_disk_type = "Managed"
+
+      os_disk_size_gb = 50
+
+      max_pods = 110
+
+
+      node_labels = {
+        "plural.sh/capacityType" = "SPOT"
+        "plural.sh/performanceType" = "SUSTAINED"
+        "plural.sh/scalingGroup" = "small-sustained-spot"
+      }
+      node_taints = [
+        "plural.sh/capacityType=SPOT:NoSchedule"
+      ]
+      tags = {
+        "ScalingGroup": "small-sustained-spot"
+      }
+    },
+    {
+      name = "ssspot3"
+      priority = "Spot"
+      enable_auto_scaling = true
+      availability_zones = ["3"]
+
+      node_count = null
+      min_count = 0
+      max_count = 9
 
       spot_max_price = -1
       eviction_policy = "Delete"
@@ -155,14 +281,14 @@ variable "node_groups" {
     },
 
     {
-      name = "msod"
+      name = "msod1"
       priority = "Regular"
       enable_auto_scaling = true
-      availability_zones = ["1", "2", "3"]
+      availability_zones = ["1"]
 
       node_count = null
       min_count = 0
-      max_count = 27
+      max_count = 9
 
       vm_size = "Standard_D4as_v5"
 
@@ -184,14 +310,140 @@ variable "node_groups" {
       }
     },
     {
-      name = "msspot"
-      priority = "Spot"
+      name = "msod2"
+      priority = "Regular"
       enable_auto_scaling = true
-      availability_zones = ["1", "2", "3"]
+      availability_zones = ["2"]
 
       node_count = null
       min_count = 0
-      max_count = 27
+      max_count = 9
+
+      vm_size = "Standard_D4as_v5"
+
+      os_disk_type = "Managed"
+
+      os_disk_size_gb = 50
+
+      max_pods = 110
+
+
+      node_labels = {
+        "plural.sh/capacityType" = "ON_DEMAND"
+        "plural.sh/performanceType" = "SUSTAINED"
+        "plural.sh/scalingGroup" = "medium-sustained-on-demand"
+      }
+      node_taints = []
+      tags = {
+        "ScalingGroup": "medium-sustained-on-demand"
+      }
+    },
+    {
+      name = "msod3"
+      priority = "Regular"
+      enable_auto_scaling = true
+      availability_zones = ["3"]
+
+      node_count = null
+      min_count = 0
+      max_count = 9
+
+      vm_size = "Standard_D4as_v5"
+
+      os_disk_type = "Managed"
+
+      os_disk_size_gb = 50
+
+      max_pods = 110
+
+
+      node_labels = {
+        "plural.sh/capacityType" = "ON_DEMAND"
+        "plural.sh/performanceType" = "SUSTAINED"
+        "plural.sh/scalingGroup" = "medium-sustained-on-demand"
+      }
+      node_taints = []
+      tags = {
+        "ScalingGroup": "medium-sustained-on-demand"
+      }
+    },
+    {
+      name = "msspot1"
+      priority = "Spot"
+      enable_auto_scaling = true
+      availability_zones = ["1"]
+
+      node_count = null
+      min_count = 0
+      max_count = 9
+
+      spot_max_price = -1
+      eviction_policy = "Delete"
+
+      vm_size = "Standard_D4as_v5"
+
+      os_disk_type = "Managed"
+
+      os_disk_size_gb = 50
+
+      max_pods = 110
+
+
+      node_labels = {
+        "plural.sh/capacityType" = "SPOT"
+        "plural.sh/performanceType" = "SUSTAINED"
+        "plural.sh/scalingGroup" = "medium-sustained-spot"
+      }
+      node_taints = [
+        "plural.sh/capacityType=SPOT:NoSchedule"
+      ]
+      tags = {
+        "ScalingGroup": "medium-sustained-spot"
+      }
+    },
+    {
+      name = "msspot2"
+      priority = "Spot"
+      enable_auto_scaling = true
+      availability_zones = ["2"]
+
+      node_count = null
+      min_count = 0
+      max_count = 9
+
+      spot_max_price = -1
+      eviction_policy = "Delete"
+
+      vm_size = "Standard_D4as_v5"
+
+      os_disk_type = "Managed"
+
+      os_disk_size_gb = 50
+
+      max_pods = 110
+
+
+      node_labels = {
+        "plural.sh/capacityType" = "SPOT"
+        "plural.sh/performanceType" = "SUSTAINED"
+        "plural.sh/scalingGroup" = "medium-sustained-spot"
+      }
+      node_taints = [
+        "plural.sh/capacityType=SPOT:NoSchedule"
+      ]
+      tags = {
+        "ScalingGroup": "medium-sustained-spot"
+      }
+    },
+    {
+      name = "msspot3"
+      priority = "Spot"
+      enable_auto_scaling = true
+      availability_zones = ["3"]
+
+      node_count = null
+      min_count = 0
+      max_count = 9
 
       spot_max_price = -1
       eviction_policy = "Delete"
@@ -219,14 +471,14 @@ variable "node_groups" {
     },
 
     {
-      name = "lsod"
+      name = "lsod1"
       priority = "Regular"
       enable_auto_scaling = true
-      availability_zones = ["1", "2", "3"]
+      availability_zones = ["1"]
 
       node_count = null
       min_count = 0
-      max_count = 27
+      max_count = 9
 
       vm_size = "Standard_D8as_v5"
 
@@ -248,14 +500,140 @@ variable "node_groups" {
       }
     },
     {
-      name = "lsspot"
-      priority = "Spot"
+      name = "lsod2"
+      priority = "Regular"
       enable_auto_scaling = true
-      availability_zones = ["1", "2", "3"]
+      availability_zones = ["2"]
 
       node_count = null
       min_count = 0
-      max_count = 27
+      max_count = 9
+
+      vm_size = "Standard_D8as_v5"
+
+      os_disk_type = "Managed"
+
+      os_disk_size_gb = 50
+
+      max_pods = 110
+
+
+      node_labels = {
+        "plural.sh/capacityType" = "ON_DEMAND"
+        "plural.sh/performanceType" = "SUSTAINED"
+        "plural.sh/scalingGroup" = "large-sustained-on-demand"
+      }
+      node_taints = []
+      tags = {
+        "ScalingGroup": "large-sustained-on-demand"
+      }
+    },
+    {
+      name = "lsod3"
+      priority = "Regular"
+      enable_auto_scaling = true
+      availability_zones = ["3"]
+
+      node_count = null
+      min_count = 0
+      max_count = 9
+
+      vm_size = "Standard_D8as_v5"
+
+      os_disk_type = "Managed"
+
+      os_disk_size_gb = 50
+
+      max_pods = 110
+
+
+      node_labels = {
+        "plural.sh/capacityType" = "ON_DEMAND"
+        "plural.sh/performanceType" = "SUSTAINED"
+        "plural.sh/scalingGroup" = "large-sustained-on-demand"
+      }
+      node_taints = []
+      tags = {
+        "ScalingGroup": "large-sustained-on-demand"
+      }
+    },
+    {
+      name = "lsspot1"
+      priority = "Spot"
+      enable_auto_scaling = true
+      availability_zones = ["1"]
+
+      node_count = null
+      min_count = 0
+      max_count = 9
+
+      spot_max_price = -1
+      eviction_policy = "Delete"
+
+      vm_size = "Standard_D8as_v5"
+
+      os_disk_type = "Managed"
+
+      os_disk_size_gb = 50
+
+      max_pods = 110
+
+
+      node_labels = {
+        "plural.sh/capacityType" = "SPOT"
+        "plural.sh/performanceType" = "SUSTAINED"
+        "plural.sh/scalingGroup" = "large-sustained-spot"
+      }
+      node_taints = [
+        "plural.sh/capacityType=SPOT:NoSchedule"
+      ]
+      tags = {
+        "ScalingGroup": "large-sustained-spot"
+      }
+    },
+    {
+      name = "lsspot2"
+      priority = "Spot"
+      enable_auto_scaling = true
+      availability_zones = ["2"]
+
+      node_count = null
+      min_count = 0
+      max_count = 9
+
+      spot_max_price = -1
+      eviction_policy = "Delete"
+
+      vm_size = "Standard_D8as_v5"
+
+      os_disk_type = "Managed"
+
+      os_disk_size_gb = 50
+
+      max_pods = 110
+
+
+      node_labels = {
+        "plural.sh/capacityType" = "SPOT"
+        "plural.sh/performanceType" = "SUSTAINED"
+        "plural.sh/scalingGroup" = "large-sustained-spot"
+      }
+      node_taints = [
+        "plural.sh/capacityType=SPOT:NoSchedule"
+      ]
+      tags = {
+        "ScalingGroup": "large-sustained-spot"
+      }
+    },
+    {
+      name = "lsspot3"
+      priority = "Spot"
+      enable_auto_scaling = true
+      availability_zones = ["3"]
+
+      node_count = null
+      min_count = 0
+      max_count = 9
 
       spot_max_price = -1
       eviction_policy = "Delete"
