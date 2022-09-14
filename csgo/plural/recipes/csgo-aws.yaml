@@ -20,7 +20,7 @@ sections:
     optional: true
     validation:
       type: REGEX
-      regex: '^.{5,}$'
+      regex: '^$|^.{5,}$'
       message: password needs to have at least 5 characters
   - name: tickrate
     documentation: tickrate of your server
