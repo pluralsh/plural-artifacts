@@ -18,4 +18,4 @@ spec:
     node_resource_group: node_resource_group
   provider_wirings:
     cluster: module.azure-bootstrap.cluster
-  providerVsn: "0.1.2"
+  provider_vsn: "0.1.2"
