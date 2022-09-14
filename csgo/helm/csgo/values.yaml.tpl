@@ -1,3 +1,5 @@
+{{ $password := default "" .Values.password }}
+
 provider: {{ .Provider }}
 hostname: {{ .Values.hostname }}
 
@@ -8,8 +10,10 @@ service:
 config:
   settings:
     token: {{ .Values.token }}
+    {{ if $password }}
     password: {{ .Values.password }}
-    rconPassword: {{ .Values.rconPassword }}
+    {{ end }}
+    rconPassword: {{ dedupe . "csgo.config.settings.rconPassword" (randAlphaNum 12) }}
     tickrate: {{ .Values.tickrate }}
     maxPlayers: {{ .Values.maxPlayers }}
     fpsMax: {{ .Values.fpsMax }}

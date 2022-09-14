@@ -22,13 +22,6 @@ sections:
       type: REGEX
       regex: '^.{5,}$'
       message: password needs to have at least 5 characters
-  - name: rconPassword
-    documentation: password for RCON (remote console) access on the server. Minimum 5 characters.
-    type: STRING
-    validation:
-      type: REGEX
-      regex: '^.{5,}$'
-      message: rcon password needs to have at least 5 characters
   - name: tickrate
     documentation: tickrate of your server
     type: STRING
