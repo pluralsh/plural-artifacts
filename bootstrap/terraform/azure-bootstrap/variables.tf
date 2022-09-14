@@ -14,7 +14,7 @@ variable "resource_group" {
 
 variable "kubernetes_version" {
   type = string
-  default = "1.21.9"
+  default = "1.22.11"
 }
 
 variable "address_space" {
@@ -106,6 +106,40 @@ variable "node_groups" {
         "ScalingGroup": "small-sustained-on-demand"
       }
     },
+    {
+      name = "ssspot"
+      priority = "Spot"
+      enable_auto_scaling = true
+      availability_zones = ["1", "2", "3"]
+
+      node_count = null
+      min_count = 0
+      max_count = 27
+
+      spot_max_price = -1
+      eviction_policy = "Delete"
+
+      vm_size = "Standard_D2as_v5"
+
+      os_disk_type = "Managed"
+
+      os_disk_size_gb = 50
+
+      max_pods = 110
+
+
+      node_labels = {
+        "plural.sh/capacityType" = "SPOT"
+        "plural.sh/performanceType" = "SUSTAINED"
+        "plural.sh/scalingGroup" = "small-sustained-spot"
+      }
+      node_taints = [
+        "plural.sh/capacityType=SPOT:NoSchedule"
+      ]
+      tags = {
+        "ScalingGroup": "small-sustained-spot"
+      }
+    },
 
     {
       name = "msod"
@@ -136,6 +170,40 @@ variable "node_groups" {
         "ScalingGroup": "medium-sustained-on-demand"
       }
     },
+    {
+      name = "msspot"
+      priority = "Spot"
+      enable_auto_scaling = true
+      availability_zones = ["1", "2", "3"]
+
+      node_count = null
+      min_count = 0
+      max_count = 27
+
+      spot_max_price = -1
+      eviction_policy = "Delete"
+
+      vm_size = "Standard_D4as_v5"
+
+      os_disk_type = "Managed"
+
+      os_disk_size_gb = 50
+
+      max_pods = 110
+
+
+      node_labels = {
+        "plural.sh/capacityType" = "SPOT"
+        "plural.sh/performanceType" = "SUSTAINED"
+        "plural.sh/scalingGroup" = "medium-sustained-spot"
+      }
+      node_taints = [
+        "plural.sh/capacityType=SPOT:NoSchedule"
+      ]
+      tags = {
+        "ScalingGroup": "medium-sustained-spot"
+      }
+    },
 
     {
       name = "lsod"
@@ -164,6 +232,40 @@ variable "node_groups" {
       node_taints = []
       tags = {
         "ScalingGroup": "large-sustained-on-demand"
+      }
+    },
+    {
+      name = "lsspot"
+      priority = "Spot"
+      enable_auto_scaling = true
+      availability_zones = ["1", "2", "3"]
+
+      node_count = null
+      min_count = 0
+      max_count = 27
+
+      spot_max_price = -1
+      eviction_policy = "Delete"
+
+      vm_size = "Standard_D8as_v5"
+
+      os_disk_type = "Managed"
+
+      os_disk_size_gb = 50
+
+      max_pods = 110
+
+
+      node_labels = {
+        "plural.sh/capacityType" = "SPOT"
+        "plural.sh/performanceType" = "SUSTAINED"
+        "plural.sh/scalingGroup" = "large-sustained-spot"
+      }
+      node_taints = [
+        "plural.sh/capacityType=SPOT:NoSchedule"
+      ]
+      tags = {
+        "ScalingGroup": "large-sustained-spot"
       }
     }
   ]

@@ -58,29 +58,30 @@ resource "azurerm_kubernetes_cluster_node_pool" "main" {
 
   kubernetes_cluster_id = module.aks.aks_id
 
-  name = each.value.name
-  priority = each.value.priority
-  enable_auto_scaling = each.value.enable_auto_scaling
-  zones = each.value.availability_zones
+  name                  = each.value.name
+  priority              = each.value.priority
+  enable_auto_scaling   = each.value.enable_auto_scaling
+  zones                 = each.value.availability_zones
+  orchestrator_version  = var.kubernetes_version
 
-  node_count = each.value.node_count
-  min_count = each.value.min_count
-  max_count = each.value.max_count
+  node_count            = each.value.node_count
+  min_count             = each.value.min_count
+  max_count             = each.value.max_count
 
-  vnet_subnet_id = module.network.vnet_subnets[0]
+  vnet_subnet_id        = module.network.vnet_subnets[0]
 
-  vm_size = each.value.vm_size
+  vm_size               = each.value.vm_size
 
-  os_disk_type = each.value.os_disk_type
+  os_disk_type          = each.value.os_disk_type
 
-  os_disk_size_gb = each.value.os_disk_size_gb
+  os_disk_size_gb       = each.value.os_disk_size_gb
 
-  max_pods = each.value.max_pods
+  max_pods              = each.value.max_pods
 
 
-  node_labels = each.value.node_labels
-  node_taints = each.value.node_taints
-  tags = each.value.tags
+  node_labels           = each.value.node_labels
+  node_taints           = each.value.node_taints
+  tags                  = each.value.tags
 }
 
 data "azurerm_resource_group" "node_group" {
