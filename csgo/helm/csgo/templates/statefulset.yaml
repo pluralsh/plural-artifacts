@@ -41,7 +41,7 @@ spec:
       initContainers:
       - name: "init-{{ .Chart.Name }}"
         image: gcr.io/pluralsh/busybox:latest
-        command: ["/bin/sh", "-c", "cp /config/autoexec.cfg /config/server.cfg /config/gamemodes.txt /config/gamemodes_server.txt /server/csgo/cfg/ && chmod -R 777 /server/csgo/cfg"]
+        command: ["/bin/sh", "-c", "mkdir -p /server/csgo/cfg && cp /config/autoexec.cfg /config/server.cfg /config/gamemodes.txt /config/gamemodes_server.txt /server/csgo/cfg/ && chmod -R 777 /server/csgo/cfg"]
         volumeMounts:
           - name: server
             mountPath: /server

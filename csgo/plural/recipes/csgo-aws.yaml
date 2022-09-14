@@ -16,7 +16,7 @@ sections:
     type: STRING
   - name: password
     documentation: password that will be required when joining the server. Minimum 5 characters (leave empty to disable).
-    type: STRING
+    type: PASSWORD
     optional: true
     validation:
       type: REGEX
