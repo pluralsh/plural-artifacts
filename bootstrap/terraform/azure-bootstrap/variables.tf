@@ -1,3 +1,8 @@
+variable "network_name" {
+  type = string
+  default = "plural-vnet"
+}
+
 variable "subnet_name" {
   type = string
   default = "plural-subnet"
