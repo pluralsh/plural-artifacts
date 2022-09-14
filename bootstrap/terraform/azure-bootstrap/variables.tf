@@ -8,6 +8,19 @@ variable "subnet_name" {
   default = "plural-subnet"
 }
 
+variable "network_plugin" {
+  description = "Network plugin to use for networking."
+  type        = string
+  default     = "azure"
+  nullable    = false
+}
+
+variable "network_policy" {
+  description = " (Optional) Sets up network policy to be used with Azure CNI. Network policy allows us to control the traffic flow between pods. Currently supported values are calico and azure. Changing this forces a new resource to be created."
+  type        = string
+  default     = "azure"
+}
+
 variable "resource_group" {
   type = string
 }

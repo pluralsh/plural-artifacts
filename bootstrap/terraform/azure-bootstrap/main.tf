@@ -19,7 +19,7 @@ module "aks" {
   orchestrator_version             = var.kubernetes_version
   prefix                           = var.name
   cluster_name                     = var.name
-  network_plugin                   = "azure"
+  network_plugin                   = var.network_plugin
   vnet_subnet_id                   = module.network.vnet_subnets[0]
   os_disk_size_gb                  = var.node_groups[0].os_disk_size_gb
   os_disk_type                     = var.node_groups[0].os_disk_type
@@ -45,7 +45,7 @@ module "aks" {
 
   agents_tags = var.node_groups[0].tags
 
-  network_policy                 = "azure"
+  network_policy                 = var.network_policy
   net_profile_dns_service_ip     = "10.0.0.10"
   net_profile_docker_bridge_cidr = "170.10.0.1/16"
   net_profile_service_cidr       = "10.0.0.0/16"
