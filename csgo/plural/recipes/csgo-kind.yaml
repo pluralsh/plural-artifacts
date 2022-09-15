@@ -30,7 +30,7 @@ sections:
       type: REGEX
       regex: '^(64|128)*$'
       message: 'must be one of: 64, 128'
-  - name: maxplayers
+  - name: maxPlayers
     documentation: how many slots should your server have
     type: STRING
     default: 10

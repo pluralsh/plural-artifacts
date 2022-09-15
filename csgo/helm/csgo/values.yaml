@@ -36,7 +36,7 @@ service:
   gotvPort: 27020
 
 storage:
-  size: 15Gi
+  size: 45Gi
   path: /home/steam/csgo-dedicated
 
 config:

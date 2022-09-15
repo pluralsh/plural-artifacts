@@ -11,13 +11,13 @@ spec:
     matchLabels:
       {{- include "csgo.selectorLabels" . | nindent 6 }}
   volumeClaimTemplates:
-  - metadata:
-      name: server
-    spec:
-      accessModes: ["ReadWriteOnce"]
-      resources:
-        requests:
-          storage: {{ .Values.storage.size }}
+    - metadata:
+        name: server
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: {{ .Values.storage.size }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -35,58 +35,58 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       volumes:
-      - name: config
-        configMap:
-          name: {{ template "csgo.fullname" . }}
+        - name: config
+          configMap:
+            name: {{ template "csgo.fullname" . }}
       initContainers:
-      - name: "init-{{ .Chart.Name }}"
-        image: gcr.io/pluralsh/busybox:latest
-        command: ["/bin/sh", "-c", "mkdir -p /server/csgo/cfg && cp /config/autoexec.cfg /config/server.cfg /config/gamemodes.txt /config/gamemodes_server.txt /server/csgo/cfg/ && chmod -R 777 /server/csgo/cfg"]
-        volumeMounts:
-          - name: server
-            mountPath: /server
-          - name: config
-            mountPath: /config
+        - name: "init-{{ .Chart.Name }}"
+          image: gcr.io/pluralsh/busybox:latest
+          command: ["/bin/sh", "-c", "mkdir -p /server/csgo/cfg && cp /config/autoexec.cfg /config/server.cfg /config/gamemodes.txt /config/gamemodes_server.txt /server/csgo/cfg/ && chmod -R 777 /server"]
+          volumeMounts:
+            - name: server
+              mountPath: /server
+            - name: config
+              mountPath: /config
       containers:
-      - name: {{ .Chart.Name }}
-        securityContext:
+        - name: {{ .Chart.Name }}
+          securityContext:
           {{- toYaml .Values.securityContext | nindent 12 }}
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
-        env:
-          - name: SRCDS_TOKEN
-            value: {{ .Values.config.settings.token }}
-          - name: SRCDS_RCONPW
-            value: {{ .Values.config.settings.rconPassword }}
-          - name: SRCDS_PW
-            value: {{ .Values.config.settings.password }}
-          - name: SRCDS_PORT
-            value: {{ .Values.service.port | quote }}
-          - name: SRCDS_TV_PORT
-            value: {{ .Values.service.gotvPort | quote }}
-          - name: SRCDS_TICKRATE
-            value: {{ .Values.config.settings.tickrate | quote }}
-          - name: SRCDS_MAXPLAYERS
-            value: {{ .Values.config.settings.maxPlayers | quote }}
-          - name: SRCDS_FPSMAX
-            value: {{ .Values.config.settings.fpsMax | quote }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: SRCDS_TOKEN
+              value: {{ .Values.config.settings.token }}
+            - name: SRCDS_RCONPW
+              value: {{ .Values.config.settings.rconPassword }}
+            - name: SRCDS_PW
+              value: {{ .Values.config.settings.password }}
+            - name: SRCDS_PORT
+              value: {{ .Values.service.port | quote }}
+            - name: SRCDS_TV_PORT
+              value: {{ .Values.service.gotvPort | quote }}
+            - name: SRCDS_TICKRATE
+              value: {{ .Values.config.settings.tickrate | quote }}
+            - name: SRCDS_MAXPLAYERS
+              value: {{ .Values.config.settings.maxPlayers | quote }}
+            - name: SRCDS_FPSMAX
+              value: {{ .Values.config.settings.fpsMax | quote }}
           {{- if .Values.config.extraEnv }}
           {{- range $key, $value := .Values.config.extraEnv }}
-          - name: {{ $key }}
-            value: {{ $value | quote }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
           {{- end }}
           {{- end }}
-        ports:
-          - name: game
-            containerPort: {{ .Values.service.port }}
-            protocol: UDP
-          - name: gotv
-            containerPort: {{ .Values.service.gotvPort }}
-            protocol: UDP
-        volumeMounts:
-          - name: server
-            mountPath: {{ .Values.storage.path }}
-        resources:
+          ports:
+            - name: game
+              containerPort: {{ .Values.service.port }}
+              protocol: UDP
+            - name: gotv
+              containerPort: {{ .Values.service.gotvPort }}
+              protocol: UDP
+          volumeMounts:
+            - name: server
+              mountPath: {{ .Values.storage.path }}
+          resources:
           {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
