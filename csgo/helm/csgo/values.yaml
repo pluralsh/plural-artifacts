@@ -3,18 +3,15 @@
 # Declare variables to be passed into your templates.
 
 image:
-  repository: cm2network/csgo
+  repository: timche/csgo
   pullPolicy: IfNotPresent
   # Available tags:
   # - latest
-  #   This is the defacto image. If you are unsure about what your needs are, you probably want to use this one.
-  #   It is a bare-minimum CSGO dedicated server containing no 3rd party plugins.
-  # - metamod
-  #   This is a specialized image. It contains the plugin environment Metamod:Source which can be found in the
-  #   addons directory.
+  #   Vanilla CS:GO server.
+  # - pug-practice
+  #   Vanilla CS:GO server with untouched Metamod:Source, SourceMod, PugSetup and PracticeMode (by splewis).
   # - sourcemod
-  #   This is another specialized image. It contains both Metamod:Source and the popular server plugin SourceMod
-  #   which can be found in the addons directory. SourceMod supports a wide variety of additional plugins.
+  #   Vanilla CS:GO server with untouched Metamod:Source and SourceMod.
   tag: latest
 
 serviceAccount:
@@ -33,27 +30,19 @@ resources:
 service:
   type: LoadBalancer
   port: 27015
-  gotvPort: 27020
+
+tv:
+  enabled: "false"
+  port: 27020
 
 storage:
   size: 45Gi
-  path: /home/steam/csgo-dedicated
+  path: /home/csgo/server
+  config:
+    size: 1Gi
+    path: /usr/csgo/cfg
 
 config:
-  autoexec: |
-    log on // This is set to turn on logging! Don't put this in your server.cfg
-    hostname "Counter-Strike: Global Offensive Dedicated Server by Plural"
-    rcon_password ""
-    sv_password "" //Only set this if you intend to have a private server!
-    sv_cheats 0 //This should always be set, so you know it's not on
-    sv_lan 0 //This should always be set, so you know it's not on
-    exec banned_user.cfg
-    exec banned_ip.cfg
-  server: |
-    mp_autoteambalance 1
-    mp_limitteams 1
-    writeid
-    writeip
   settings:
     # Required to be listed & reachable, retrieve token here: https://steamcommunity.com/dev/managegameservers
     token: ""
@@ -61,18 +50,11 @@ config:
     rconPassword: ""
     tickrate: 128
     maxPlayers: 10
-    fpsMax: 300
   extraEnv:
-    SRCDS_LAN: "0"
-    SRCDS_STARTMAP: "de_dust2"
-    SRCDS_REGION: 3
-    SRCDS_MAPGROUP: "mg_active"
-    SRCDS_GAMETYPE: 0
-    SRCDS_GAMEMODE: 1
-    SRCDS_HOSTNAME: "Plural CS:GO Server"
-    SRCDS_WORKSHOP_START_MAP: 0
-    SRCDS_HOST_WORKSHOP_COLLECTION: 0
-    # Required to use host_workshop_map
-    SRCDS_WORKSHOP_AUTHKEY: ""
-    # Pass additional arguments to SRCDS. Make sure to escape correctly!
+    CSGO_MAP: "de_dust2"
+    CSGO_MAP_GROUP: "mg_active"
+    CSGO_HOSTNAME: "Plural CS:GO Server"
+    # Required to use workshop maps
+    CSGO_WS_API_KEY: ""
+    # Pass additional arguments. Make sure to escape correctly!
     ADDITIONAL_ARGS: ""

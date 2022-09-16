@@ -1,11 +1,19 @@
 {{ $password := default "" .Values.password }}
+{{ $tvEnabled := "false" }}
+
+{{ if eq .Values.tvEnabled "y" }}
+{{ $tvEnabled := "true" }}
+{{ end }}
 
 provider: {{ .Provider }}
 hostname: {{ .Values.hostname }}
 
 service:
   port: {{ .Values.port }}
-  gotvPort: {{ .Values.gotvPort }}
+
+tv:
+  enabled: {{ $tvEnabled }}
+  port: {{ .Values.tvPort }}
 
 config:
   settings:
@@ -16,4 +24,3 @@ config:
     rconPassword: {{ dedupe . "csgo.config.settings.rconPassword" (randAlphaNum 12) }}
     tickrate: {{ .Values.tickrate }}
     maxPlayers: {{ .Values.maxPlayers }}
-    fpsMax: {{ .Values.fpsMax }}

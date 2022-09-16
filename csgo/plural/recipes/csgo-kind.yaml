@@ -34,16 +34,20 @@ sections:
     documentation: how many slots should your server have
     type: STRING
     default: 10
-  - name: fpsMax
-    documentation: max fps config for your server
-    type: STRING
-    default: 300
   - name: port
     documentation: port on which your server will be exposed
     type: STRING
     default: 27015
-  - name: gotvPort
-    documentation: port on which your GO TV will be exposed
+  - name: tvEnabled
+    documentation: if go tv should be enabled (Y/n)
+    type: STRING
+    validation:
+      type: REGEX
+      regex: '^[yn]*$'
+      message: 'must be one of: y, n'
+    default: y
+  - name: tvPort
+    documentation: port on which your GO TV will be exposed (if enabled)
     type: STRING
     default: 27020
   items:

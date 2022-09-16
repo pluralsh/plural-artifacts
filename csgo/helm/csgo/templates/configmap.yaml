@@ -5,19 +5,19 @@ metadata:
   labels:
     {{- include "csgo.labels" . | nindent 4 }}
 data:
-  autoexec.cfg: |
 {{- if .Values.config.autoexec }}
+  autoexec.cfg: |
 {{ .Values.config.autoexec | indent 4 }}
 {{- end }}
-  server.cfg: |
 {{- if .Values.config.server }}
+  server.cfg: |
 {{ .Values.config.server | indent 4 }}
 {{- end }}
-  gamemodes.txt: |
 {{- if .Values.config.gamemodes }}
+  gamemodes.txt: |
 {{ .Values.config.gamemodes | indent 4 }}
 {{- end }}
-  gamemodes_server.txt: |
 {{- if .Values.config.gamemodes_server }}
+  gamemodes_server.txt: |
 {{ .Values.config.gamemodes_server | indent 4 }}
 {{- end }}
