@@ -17,3 +17,5 @@ sections:
     name: aws
   - type: HELM
     name: ray
+  - type: HELM
+    name: kuberay-operator

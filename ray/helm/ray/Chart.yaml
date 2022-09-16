@@ -5,10 +5,6 @@ type: application
 version: 0.1.0
 appVersion: "2.0.0"
 dependencies:
-  - name: kuberay-operator
-    version: 0.3.0
-    repository: "https://ray-project.github.io/kuberay"
-  - name: ray-cluster
-    version: 0.3.0
-    repository: "https://kevin85421.github.io/kuberay/"
-
+- name: ray-cluster
+  version: 0.3.0
+  repository: https://ray-project.github.io/kuberay

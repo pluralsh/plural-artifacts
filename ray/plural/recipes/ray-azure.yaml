@@ -17,3 +17,5 @@ sections:
     name: azure
   - type: HELM
     name: ray
+  - type: HELM
+    name: kuberay-operator

@@ -1,9 +1,6 @@
 dependencies:
-- name: kuberay-operator
-  repository: https://ray-project.github.io/kuberay
-  version: 0.3.0
 - name: ray-cluster
   repository: https://kevin85421.github.io/kuberay/
   version: 0.3.0
-digest: sha256:d98e4564868924f3651338cfd32e204d18296e851c77c5aa56533d20a72ca578
-generated: "2022-09-14T10:45:34.158517+03:00"
+digest: sha256:8f229a5a7b164efbf87a2b360d5fad06e1075d484a60f40b3da7de251cfa0a08
+generated: "2022-09-16T15:09:52.994733+02:00"

@@ -17,3 +17,5 @@ sections:
     name: gcp
   - type: HELM
     name: ray
+  - type: HELM
+    name: kuberay-operator
