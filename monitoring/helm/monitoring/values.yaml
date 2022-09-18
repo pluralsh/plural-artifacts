@@ -140,6 +140,8 @@ kube-prometheus-stack:
   defaultRules:
     additionalRuleLabels:
       namespace: monitoring
+    disabled:
+      KubeProxyDown: true
 
   grafana:
     enabled: false
