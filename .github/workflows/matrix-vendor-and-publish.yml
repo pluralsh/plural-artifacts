@@ -124,6 +124,8 @@ jobs:
     steps:
     - name: Install skopeo
       run: |
+        sudo apt-get update
+        sudo apt-get install -y libgpgme-dev libassuan-dev libbtrfs-dev libdevmapper-dev pkg-config
         git clone https://github.com/pluralsh/skopeo.git
         cd skopeo
         make binary
