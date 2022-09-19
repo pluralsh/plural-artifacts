@@ -91,7 +91,7 @@ jobs:
           echo "${VENDOR_MATRIX_JSON}"
           
           CONTINUE_VENDOR_JOB="no"
-          if [[ "${VENDOR_MATRIX_PROJECTS_JSON}" != "[]" && ${{ github.event_name }} != 'pull_request' ]]
+          if [[ "${VENDOR_MATRIX_PROJECTS_JSON}" != "[]" ]]
           then
             CONTINUE_VENDOR_JOB="yes"
           fi
@@ -122,6 +122,8 @@ jobs:
     strategy:
       matrix: ${{ fromJson(needs.build-matrix.outputs.vendor_matrix) }}
     steps:
+    - name: Install skopeo
+      run: sudo apt-get install -y skopeo
     - uses: actions/checkout@v2
     - uses: google-github-actions/auth@v0
       with:
@@ -139,11 +141,14 @@ jobs:
         username: mjg@plural.sh
         password: ${{ secrets.PLURAL_ACCESS_TOKEN }}
     - name: "Vendor image"
-      uses: ./.github/actions/vendor
-      id: vendor
-      with:
-        img: ${{ matrix.image }}
-        repo: ${{ matrix.repository }}
+      run: |
+        skopeo sync --all --preserve-digests --src yaml --dest docker ${{ matrix.repository }}/skopeo.yaml dkr.plural.sh/${{ matrix.repository }}/grafana
+    # - name: "Vendor image"
+    #   uses: ./.github/actions/vendor
+    #   id: vendor
+    #   with:
+    #     img: ${{ matrix.image }}
+    #     repo: ${{ matrix.repository }}
   deploy:
     if: always() && (needs.build-matrix.outputs.continue_app_apply == 'yes')
     name: Upload Plural artifacts
