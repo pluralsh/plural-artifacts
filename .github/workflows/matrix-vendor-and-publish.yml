@@ -67,9 +67,6 @@ jobs:
           ### Image vendoring section ###
           ###############################
 
-          ### IMAGE_VENDOR_FILES=$(for CHANGED_DIR in ${CHANGED_DIRS}; do find ${CHANGED_DIR} -name "vendor_images.yaml"; done | sort -u)
-          ### echo "${IMAGE_VENDOR_FILES}"
-
           VENDOR_MATRIX_PROJECTS_JSON="["
           VENDOR_MATRIX_INCLUDE_JSON="["
 
@@ -149,10 +146,10 @@ jobs:
         password: ${{ secrets.PLURAL_ACCESS_TOKEN }}
     - name: "Vendor images to Plural"
       run: |
-        skopeo sync --scoped --scoped-append-registry=false --dry-run --all --src yaml --dest docker ${{ matrix.skopeo_file }} dkr.plural.sh/${{ matrix.repository }}
+        skopeo sync --scoped --scoped-append-registry=false --dry-run --all --preserve-digests --src yaml --dest docker ${{ matrix.skopeo_file }} dkr.plural.sh/${{ matrix.repository }}
     - name: "Vendor images to GCR"
       run: |
-        skopeo sync --scoped --scoped-append-registry=false --dry-run --all --src yaml --dest docker ${{ matrix.skopeo_file }} gcr.io/pluralsh
+        skopeo sync --scoped --scoped-append-registry=false --dry-run --all --preserve-digests --src yaml --dest docker ${{ matrix.skopeo_file }} gcr.io/pluralsh
     # - name: "Vendor image"
     #   uses: ./.github/actions/vendor
     #   id: vendor
