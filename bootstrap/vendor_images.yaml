@@ -1,6 +1,6 @@
 docker.io:
   images:
-    prom/statsd-exporter: []
+    # prom/statsd-exporter: [] # TODO: check if this is actually used. 
   images-by-tag-regex:
     amazon/aws-efs-csi-driver: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
     appscode/kubed: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
