@@ -67,19 +67,20 @@ jobs:
           ### Image vendoring section ###
           ###############################
 
-          IMAGE_VENDOR_FILES=$(for CHANGED_DIR in ${CHANGED_DIRS}; do find ${CHANGED_DIR} -name "vendor_images"; done | sort -u)
-          echo "${IMAGE_VENDOR_FILES}"
+          ### IMAGE_VENDOR_FILES=$(for CHANGED_DIR in ${CHANGED_DIRS}; do find ${CHANGED_DIR} -name "vendor_images.yaml"; done | sort -u)
+          ### echo "${IMAGE_VENDOR_FILES}"
+
           VENDOR_MATRIX_PROJECTS_JSON="["
           VENDOR_MATRIX_INCLUDE_JSON="["
 
-          for IMAGE_VENDOR_FILE in ${IMAGE_VENDOR_FILES}; do
-            REPO=$(dirname ${IMAGE_VENDOR_FILE})
-            VENDOR_MATRIX_PROJECTS_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${REPO}")
+          for APP_FOLDER in ${APP_FOLDERS}; do
+            if [[ "${APP_FOLDER}" != "."* ]]; then
+              REPO=${APP_FOLDER}
+              SKOPEO_FILE=$(find ${REPO} -name "vendor_images.yaml")
 
-            while IFS="" read -r IMAGE || [ -n "${IMAGE}" ]
-            do
-              VENDOR_MATRIX_INCLUDE_JSON+="{\"repository\": \"${REPO}\", \"image\": \"${IMAGE}\"}"
-            done < ${IMAGE_VENDOR_FILE}
+              VENDOR_MATRIX_PROJECTS_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${REPO}")
+              VENDOR_MATRIX_INCLUDE_JSON+="{\"repository\": \"${REPO}\", \"skopeo_file\": \"${SKOPEO_FILE}\"}"
+            fi
           done
 
           VENDOR_MATRIX_INCLUDE_JSON="${VENDOR_MATRIX_INCLUDE_JSON//\}\{/\}, \{}"
@@ -120,7 +121,7 @@ jobs:
       contents: 'read'
       id-token: 'write'
     strategy:
-      matrix: ${{ fromJson(needs.build-matrix.outputs.app_apply_matrix) }}
+      matrix: ${{ fromJson(needs.build-matrix.outputs.vendor_matrix) }}
     steps:
     - name: Install skopeo
       run: |
@@ -148,7 +149,7 @@ jobs:
         password: ${{ secrets.PLURAL_ACCESS_TOKEN }}
     - name: "Vendor image"
       run: |
-        skopeo sync --scoped --scoped-append-registry=false --dry-run --all --src yaml --dest docker ${{ matrix.repository }}/skopeo.yaml dkr.plural.sh/${{ matrix.repository }}
+        skopeo sync --scoped --scoped-append-registry=false --dry-run --all --src yaml --dest docker ${{ matrix.skopeo_file }} dkr.plural.sh/${{ matrix.repository }}
     # - name: "Vendor image"
     #   uses: ./.github/actions/vendor
     #   id: vendor
