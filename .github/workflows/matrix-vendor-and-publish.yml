@@ -142,7 +142,7 @@ jobs:
         password: ${{ secrets.PLURAL_ACCESS_TOKEN }}
     - name: "Vendor image"
       run: |
-        skopeo sync --all --preserve-digests --src yaml --dest docker ${{ matrix.repository }}/skopeo.yaml dkr.plural.sh/${{ matrix.repository }}/grafana
+        skopeo sync --all --src yaml --dest docker ${{ matrix.repository }}/skopeo.yaml dkr.plural.sh/${{ matrix.repository }}/grafana
     # - name: "Vendor image"
     #   uses: ./.github/actions/vendor
     #   id: vendor
