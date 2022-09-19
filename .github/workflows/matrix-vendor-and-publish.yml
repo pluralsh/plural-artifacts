@@ -75,8 +75,11 @@ jobs:
               REPO=${APP_FOLDER}
               SKOPEO_FILE=$(find ${REPO} -name "vendor_images.yaml")
 
-              VENDOR_MATRIX_PROJECTS_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${REPO}")
-              VENDOR_MATRIX_INCLUDE_JSON+="{\"repository\": \"${REPO}\", \"skopeo_file\": \"${SKOPEO_FILE}\"}"
+              if [[ "${SKOPEO_FILE}" != "" ]]; then
+
+                VENDOR_MATRIX_PROJECTS_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${REPO}")
+                VENDOR_MATRIX_INCLUDE_JSON+="{\"repository\": \"${REPO}\", \"skopeo_file\": \"${SKOPEO_FILE}\"}"
+              fi
             fi
           done
 
