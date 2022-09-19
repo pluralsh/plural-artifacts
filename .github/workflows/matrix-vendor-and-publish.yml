@@ -120,7 +120,7 @@ jobs:
       contents: 'read'
       id-token: 'write'
     strategy:
-      matrix: ${{ fromJson(needs.build-matrix.outputs.vendor_matrix) }}
+      matrix: ${{ fromJson(needs.build-matrix.outputs.app_apply_matrix) }}
     steps:
     - name: Install skopeo
       run: |
