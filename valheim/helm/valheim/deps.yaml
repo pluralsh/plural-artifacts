@@ -11,5 +11,5 @@ spec:
     version: '>= 0.5.1'
   - type: terraform
     name: kube
-    repo: terraria
+    repo: valheim
     version: '>= 0.1.0'
