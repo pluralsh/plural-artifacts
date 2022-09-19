@@ -122,6 +122,7 @@ jobs:
     strategy:
       matrix: ${{ fromJson(needs.build-matrix.outputs.vendor_matrix) }}
     steps:
+    - uses: actions/setup-go@v3
     - name: Install skopeo
       run: |
         git clone https://github.com/pluralsh/skopeo.git
