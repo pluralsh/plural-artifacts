@@ -150,10 +150,10 @@ jobs:
         password: ${{ secrets.PLURAL_ACCESS_TOKEN }}
     - name: "Vendor images to Plural"
       run: |
-        skopeo sync --retry-times 5 --scoped --scoped-append-registry=false --all --src yaml --dest docker ${{ matrix.skopeo_file }} dkr.plural.sh/${{ matrix.repository }}
+        skopeo sync --keep-going --retry-times 5 --scoped --scoped-append-registry=false --all --src yaml --dest docker ${{ matrix.skopeo_file }} dkr.plural.sh/${{ matrix.repository }}
     - name: "Vendor images to GCR"
       run: |
-        skopeo sync --retry-times 5 --scoped --scoped-append-registry=false --all --src yaml --dest docker ${{ matrix.skopeo_file }} gcr.io/pluralsh
+        skopeo sync --keep-going --retry-times 5 --scoped --scoped-append-registry=false --all --src yaml --dest docker ${{ matrix.skopeo_file }} gcr.io/pluralsh
     # - name: "Vendor image"
     #   uses: ./.github/actions/vendor
     #   id: vendor
