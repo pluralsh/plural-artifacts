@@ -1,0 +1,9 @@
+docker.io:
+  images-by-tag-regex:
+    chronograf: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    influxdb: ^v?[0-9]+\.[0-9]+?\.[0-9]+(-alpine)?$
+    kapacitor: ^v?[0-9]+\.[0-9]+?\.[0-9]+-alpine$
+    telegraf: ^v?[0-9]+\.[0-9]+?\.[0-9]+-alpine$
+quay.io:
+  images-by-tag-regex:
+    influxdb/telegraf-operator: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
