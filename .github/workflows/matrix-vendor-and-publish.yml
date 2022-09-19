@@ -128,8 +128,8 @@ jobs:
         sudo apt-get install -y libgpgme-dev libassuan-dev libbtrfs-dev libdevmapper-dev pkg-config
         git clone https://github.com/pluralsh/skopeo.git
         cd skopeo
-        make binary
-        make install
+        make bin/skopeo
+        sudo make install
     - uses: actions/checkout@v2
     - uses: google-github-actions/auth@v0
       with:
