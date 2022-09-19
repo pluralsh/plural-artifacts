@@ -26,7 +26,7 @@ sections:
       optional: true
       validation:
         type: REGEX
-        regex: '^.{5,}$'
+        regex: '^$|^.{5,}$'
         message: password needs to have at least 5 characters
     - name: mod
       documentation: if BepInEx or Valheim Plus mod should be enabled (leave empty to disable)
