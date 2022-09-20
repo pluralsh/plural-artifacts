@@ -1,0 +1,3 @@
+gcr.io:
+  images:
+    spark-operator/spark-operator: []

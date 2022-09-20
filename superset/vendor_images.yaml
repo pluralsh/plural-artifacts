@@ -1,0 +1,8 @@
+docker.io:
+  images:
+    apache/superset:
+    - latest
+    - master
+    - 737d4dcf0cd36eb4c2c54a4e4d3ea5b0761810a0 # TODO: no good way to get the newer tags
+  # images-by-tag-regex:
+  #   apache/superset: ^[a-z0-9]{40}$ # TODO: no good way to get the newer tags

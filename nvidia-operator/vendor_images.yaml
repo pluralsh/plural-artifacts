@@ -1,0 +1,15 @@
+nvcr.io:
+  images:
+    # nvidia/driver: [] # TODO: figure out what to do for this image
+    # nvidia/cloud-native/nvidia-fs: [] # TODO: figure out what to do for this image
+    # nvidia/k8s/container-toolkit: [] # TODO: figure out what to do for this image
+    # nvidia/k8s-device-plugin: [] # TODO: figure out what to do for this image
+    nvidia/cloud-native/dcgm: []
+    # nvidia/k8s/dcgm-exporter: [] # TODO: figure out what to do for this image
+    nvidia/cloud-native/k8s-mig-manager: []
+    # nvidia/cuda: [] # TODO: figure out what to do for this image
+  images-by-tag-regex:
+    nvidia/gpu-operator: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    nvidia/cloud-native/gpu-operator-validator: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    nvidia/cloud-native/k8s-driver-manager: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    # nvidia/gpu-feature-discovery: ^v?[0-9]+\.[0-9]+?\.[0-9]+$ # TODO: we should onboard the upstream feature discovery and vendor those images instead
