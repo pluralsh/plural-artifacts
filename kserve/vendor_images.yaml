@@ -1,0 +1,23 @@
+docker.io:
+  images-by-tag-regex:
+    kserve/agent: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    kserve/kserve-controller: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    kserve/lgbserver: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    kserve/paddleserver: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    kserve/pmmlserver: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    kserve/sklearnserver: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    tensorflow/serving: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    kserve/torchserve-kfs: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    kserve/xgbserver: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    seldonio/mlserver: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    kserve/storage-initializer: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    kserve/modelmesh-controller: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    kserve/modelmesh: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    kserve/modelmesh-runtime-adapter: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    kserve/rest-proxy: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    kserve/alibi-explainer: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    kserve/art-explainer: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    kserve/aix-explainer: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+nvcr.io:
+  images:
+    nvidia/tritonserver: []

@@ -1,0 +1,35 @@
+# public.ecr.aws: # TODO: login to ECR in GH
+#   images-by-tag-regex:
+#     public.ecr.aws/aws-controllers-k8s/iam-controller: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+#     j1r0q0g6/notebooks/central-dashboard: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+#     public.ecr.aws/j1r0q0g6/notebooks/jupyter-web-app: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+#     public.ecr.aws/j1r0q0g6/notebooks/notebook-controller: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+#     public.ecr.aws/j1r0q0g6/notebooks/admission-webhook: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+#     public.ecr.aws/j1r0q0g6/notebooks/tensorboards-web-app: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+#     public.ecr.aws/j1r0q0g6/notebooks/tensorboard-controller: master-18264c8f
+#     public.ecr.aws/j1r0q0g6/training/training-operator: 174e8813666951ded505daf334a37f60fd50c18d
+docker.io:
+  images-by-tag-regex:
+    kubeflowkatib/katib-new-ui: ^v?[0-9]+\.[0-9]+?\.[0-9]+$ # TODO: check if the "new-ui" is actually still being used and vendor other katib images
+    kubeflowkatib/katib-controller: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    kubeflowkatib/katib-db-manager: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    kserve/models-web-app: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    # davidspek/volumes-web-app:0.5.4 # TODO: decide what to do with this
+    # davidspek/kubeflow-pvcviewer-controller:0.7 # TODO: decide what to do with this
+ghcr.io:
+  images:
+    pluralsh/kubeflow-profile-controller: []
+gcr.io:
+  images-by-tag-regex:
+    ml-pipeline/frontend: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    ml-pipeline/api-server: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    ml-pipeline/persistenceagent: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    ml-pipeline/scheduledworkflow: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    ml-pipeline/viewer-crd-controller: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    ml-pipeline/visualization-server: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    ml-pipeline/workflow-controller: ^v?[0-9]+\.[0-9]+?\.[0-9]+.*
+    ml-pipeline/cache-server: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    ml-pipeline/cache-deployer: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    ml-pipeline/metadata-envoy: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    tfx-oss-public/ml_metadata_store_server: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    ml-pipeline/metadata-writer: ^v?[0-9]+\.[0-9]+?\.[0-9]+$

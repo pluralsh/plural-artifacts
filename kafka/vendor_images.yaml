@@ -1,0 +1,3 @@
+quay.io:
+  images-by-tag-regex:
+    strimzi/operator: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
