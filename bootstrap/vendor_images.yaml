@@ -14,6 +14,7 @@ docker.io:
     equinix/cloud-provider-equinix-metal: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
 k8s.gcr.io:
   images-by-tag-regex:
+    autoscaling/cluster-autoscaler: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
     provider-aws/aws-ebs-csi-driver: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
     sig-storage/csi-attacher: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
     sig-storage/csi-node-driver-registrar: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
