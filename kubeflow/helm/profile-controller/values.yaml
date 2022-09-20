@@ -16,7 +16,7 @@ image:
   repository: ghcr.io/pluralsh/kubeflow-profile-controller
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: 0.1.12
+  tag: 0.1.13
 
 kfam:
   image:
@@ -70,6 +70,7 @@ config:
       bucketName: ""
   namespace:
     defaultLabels:
+      app.kubernetes.io/part-of: kubeflow-profile
       katib-metricscollector-injection: 'enabled'
       serving.kserve.io/inferenceservice: 'enabled'
       pipelines.kubeflow.org/enabled: 'true'
