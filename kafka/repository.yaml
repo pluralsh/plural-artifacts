@@ -2,6 +2,7 @@ name: kafka
 description: An open-source distributed event streaming platform.
 category: MESSAGING
 icon: plural/icons/kafka.png
+notes: plural/notes.tpl
 homepage: https://kafka.apache.org/
 gitUrl: https://github.com/apache/kafka
 tags:
