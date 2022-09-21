@@ -2,7 +2,7 @@ apiVersion: v2
 name: ray
 description: helm chart for ray
 type: application
-version: 0.1.0
+version: 0.1.1
 appVersion: "2.0.0"
 dependencies:
   - name: ray-cluster
