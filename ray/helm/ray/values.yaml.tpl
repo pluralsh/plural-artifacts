@@ -9,6 +9,7 @@ secrets:
   redis_host: redis-master.{{ namespace "redis" }}
 
 ingress:
+  svc: something
   hosts:
    - host: {{ .Values.hostname }}
      paths:
