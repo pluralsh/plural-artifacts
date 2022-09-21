@@ -1,0 +1,6 @@
+dependencies:
+- name: kuberay-operator
+  repository: https://kevin85421.github.io/kuberay
+  version: 0.3.0
+digest: sha256:abb43e05246ec58ef6137df26d2d1692f59066058695b84d17986e5622d82690
+generated: "2022-09-21T15:06:07.583379+02:00"
