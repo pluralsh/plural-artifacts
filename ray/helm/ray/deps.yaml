@@ -13,10 +13,6 @@ spec:
     name: ingress-nginx
     repo: ingress-nginx
     version: ">= 0.1.2"
-  - type: helm
-    name: ray
-    repo: kuberay-operator
-    version: '>= 0.1.0'
   - type: terraform
     name: aws
     repo: ray
