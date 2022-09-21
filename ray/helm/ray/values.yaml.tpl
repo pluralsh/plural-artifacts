@@ -5,11 +5,19 @@ global:
     - description: ray web ui
       url: {{ .Values.hostname }}
 
-#secrets:
-#  redis_host: redis-master.{{ namespace "redis" }}
+secrets:
+  redis_host: redis-master.{{ namespace "redis" }}
 
 ingress:
-  host: {{ .Values.hostname }}
+  hosts:
+   - host: {{ .Values.hostname }}
+     paths:
+       - path: /
+         pathType: ImplementationSpecific
+  tls:
+   - secretName: ray-tls
+     hosts:
+       - {{ .Values.hostname }}
 
 ray-cluster:
   head:

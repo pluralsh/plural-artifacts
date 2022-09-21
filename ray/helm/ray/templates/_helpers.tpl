@@ -34,19 +34,20 @@ Create chart name and version as used by the chart label.
 Common labels
 */}}
 {{- define "ray-plural.labels" -}}
-helm.sh/chart: {{ include "ray.chart" . }}
-{{ include "ray.selectorLabels" . }}
+helm.sh/chart: {{ include "ray-plural.chart" . }}
+{{ include "ray-plural.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
+
 {{/*
 Selector labels
 */}}
 {{- define "ray-plural.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "ray.name" . }}
+app.kubernetes.io/name: {{ include "ray-plural.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
@@ -55,7 +56,7 @@ Create the name of the service account to use
 */}}
 {{- define "ray-plural.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "ray.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "ray-plural.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
