@@ -1,0 +1,6 @@
+dependencies:
+- name: ray-cluster
+  repository: https://kevin85421.github.io/kuberay
+  version: 0.3.0
+digest: sha256:6c93f72eaa2b5509f781a4dc6d4346fd4c0ed52b8dea2cb101539be73f77c2fd
+generated: "2022-09-21T15:06:00.290541+02:00"

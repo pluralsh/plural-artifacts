@@ -1,0 +1,6 @@
+name: ray
+description: ray deployed on plural
+category: PRODUCTIVITY
+private: true
+icon: plural/icons/ray.png
+notes: plural/notes.tpl
