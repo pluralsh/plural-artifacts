@@ -10,7 +10,7 @@ oauthSecretName: postgres-operator
 image:
   registry: dkr.plural.sh
   repository: postgres/acid/postgres-operator
-  tag: v1.8.2-6-g8c94e377-dirty
+  tag: v1.8.2-7-g73a0dfee-dirty
   pullPolicy: "IfNotPresent"
 
   # Optionally specify an array of imagePullSecrets.
