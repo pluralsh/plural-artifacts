@@ -7,4 +7,4 @@ appVersion: "1.0"
 dependencies:
 - name: kuberay-operator
   version: 0.3.0
-  repository: https://kevin85421.github.io/kuberay/index.yaml
+  repository: https://kevin85421.github.io/kuberay
