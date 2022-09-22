@@ -6,10 +6,10 @@ docker.io:
     kserve/paddleserver: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
     kserve/pmmlserver: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
     kserve/sklearnserver: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
-    tensorflow/serving: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    # tensorflow/serving: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
     kserve/torchserve-kfs: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
     kserve/xgbserver: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
-    seldonio/mlserver: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    # seldonio/mlserver: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
     kserve/storage-initializer: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
     kserve/modelmesh-controller: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
     kserve/modelmesh: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
@@ -18,6 +18,6 @@ docker.io:
     kserve/alibi-explainer: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
     kserve/art-explainer: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
     kserve/aix-explainer: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
-nvcr.io:
-  images:
-    nvidia/tritonserver: []
+# nvcr.io:
+#   images:
+#     nvidia/tritonserver: []
