@@ -44,7 +44,7 @@ configGeneral:
   # Select if setup uses endpoints (default), or configmaps to manage leader (DCS=k8s)
   # kubernetes_use_configmaps: false
   # Spilo docker image
-  docker_image: registry.opensource.zalan.do/acid/spilo-14:2.1-p6
+  docker_image: "dkr.plural.sh/postgres/acid/spilo-14:2.1-p6"
   # min number of instances in Postgres cluster. -1 = no limit
   min_instances: -1
   # max number of instances in Postgres cluster. -1 = no limit
@@ -295,7 +295,7 @@ configAwsOrGcp:
 # configure K8s cron job managed by the operator
 configLogicalBackup:
   # image for pods of the logical backup job (example runs pg_dumpall)
-  logical_backup_docker_image: "registry.opensource.zalan.do/acid/logical-backup:v1.8.2"
+  logical_backup_docker_image: "dkr.plural.sh/postgres/acid/logical-backup:v1.8.2"
   # path of google cloud service account json file
   # logical_backup_google_application_credentials: ""
 
@@ -360,7 +360,7 @@ configConnectionPooler:
   # db user for pooler to use
   connection_pooler_user: "pooler"
   # docker image
-  connection_pooler_image: "registry.opensource.zalan.do/acid/pgbouncer:master-16"
+  connection_pooler_image: "dkr.plural.sh/postgres/acid/pgbouncer:master-24"
   # max db connections the pooler should hold
   connection_pooler_max_db_connections: 60
   # default pooling mode
