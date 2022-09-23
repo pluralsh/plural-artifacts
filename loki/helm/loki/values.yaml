@@ -240,8 +240,11 @@ promtail:
     operator: Exists
   - effect: NoExecute
     operator: Exists
+  serviceMonitor:
+    enabled: true
   config:
-    lokiAddress: http://loki-loki-distributed-gateway/loki/api/v1/push
+    clients:
+    - url: http://loki-loki-distributed-gateway/loki/api/v1/push
     snippets:
       pipelineStages:
         - docker:
