@@ -42,6 +42,16 @@ configKubernetes:
   pod_environment_secret: plural-postgres-s3
 {{ end }}
 
+{{- if eq .Provider "aws" }}
+configKubernetes:
+  pod_service_account_definition: |
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      annotations:
+        eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-postgres"
+{{- end }}
+
 {{ if or (eq .Provider "azure") (eq .Provider "equinix") (eq .Provider "kind") }}
 configSecret:
   enabled: true
