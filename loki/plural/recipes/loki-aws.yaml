@@ -1,0 +1,20 @@
+name: loki-aws
+description: Installs loki on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: redis
+  name: aws-redis
+sections:
+- name: loki
+  configuration:
+  - name: lokiBucket
+    type: BUCKET
+    default: loki
+    documentation: bucket to store the logs in
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: loki
