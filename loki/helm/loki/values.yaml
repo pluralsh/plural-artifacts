@@ -55,6 +55,10 @@ loki-distributed:
         name: redis-password
   gateway:
     enabled: true
+    image:
+      registry: dkr.plural.sh
+      repository: loki/nginxinc/nginx-unprivileged
+      tag: 1.19-alpine
   compactor:
     enabled: true
     extraArgs:
@@ -113,8 +117,9 @@ loki-distributed:
       enabled: true
   loki:
     image:
-      registry: gcr.io
-      repository: pluralsh/grafana/loki
+      registry: dkr.plural.sh
+      repository: loki/grafana/loki
+      tag: 2.6.1
     config: ""
     structuredConfig:
       auth_enabled: false
@@ -147,6 +152,7 @@ loki-distributed:
         reject_old_samples: true
         reject_old_samples_max_age: 168h
         max_cache_freshness_per_query: 10m
+        split_queries_by_interval: 15m
       chunk_store_config:
         max_look_back_period: 0s
         chunk_cache_config:
@@ -167,7 +173,6 @@ loki-distributed:
       query_range:
         align_queries_with_step: true
         max_retries: 5
-        split_queries_by_interval: 15m
         cache_results: true
         results_cache:
           cache:
@@ -222,8 +227,9 @@ loki-distributed:
 
 promtail:
   image:
-    registry: gcr.io
-    repository: pluralsh/grafana/promtail
+    registry: dkr.plural.sh
+    repository: loki/grafana/promtail
+    tag: 2.6.1
   podAnnotations:
     prometheus.io/scrape: "true"
     prometheus.io/port: "3101"
