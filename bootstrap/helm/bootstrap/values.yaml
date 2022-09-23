@@ -35,7 +35,7 @@ pluralToken: plrl-api-token
 plural:
   image:
     repository: dkr.plural.sh/bootstrap/plural-operator
-    tag: v0.3.4
+    tag: 0.4.0
 
 imagePullSecrets:
 - name: plural-creds

@@ -84,6 +84,15 @@ rules:
   - update
   - patch
 - apiGroups:
+  - ""
+  resources:
+  - configmaps
+  - secrets
+  verbs:
+  - get
+  - watch
+  - list
+- apiGroups:
   - batch
   resources:
   - jobs
