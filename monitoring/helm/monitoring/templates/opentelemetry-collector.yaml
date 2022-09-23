@@ -1,11 +1,12 @@
-{{- if .Capabilities.APIVersions.Has "opentelemetry.io/v1alpha1" }}
-{{- if index .Values "opentelemetry-operator" "collector" "enabled" }}
+{{ $operatorValues := index .Values "opentelemetry-operator" }}
+{{- if index $operatorValues.collector.enabled }}
 apiVersion: opentelemetry.io/v1alpha1
 kind: OpenTelemetryCollector
 metadata:
   name: plural-otel
 spec:
   mode: deployment # This configuration is omittable.
+  image: {{ $operatorValues.collector.image.repository }}:{{ $operatorValues.collector.image.tag }}
   ports:
   - name: prom-export
     port: 8889
@@ -24,7 +25,8 @@ spec:
         endpoint: "0.0.0.0:8889"
       otlp:
         endpoint: "grafana-tempo-tempo-distributed-distributor.{{ index .Values "opentelemetry-operator" "collector" "tempoNamespace" }}:55680"
-        insecure: true
+        tls:
+          insecure: true
 
     processors:
       batch:
@@ -45,5 +47,4 @@ spec:
           receivers: [opencensus]
           processors: [batch]
           exporters: [prometheus]
-{{- end }}
 {{- end }}

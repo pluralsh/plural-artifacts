@@ -2,11 +2,11 @@ apiVersion: v2
 name: monitoring
 description: A Helm chart for Kubernetes
 type: application
-version: 0.2.11
+version: 0.2.17
 appVersion: "0.1.0"
 dependencies:
 - name: kube-prometheus-stack
-  version: 21.x.x
+  version: 39.13.0
   repository: https://prometheus-community.github.io/helm-charts
 - name: loki
   version: 2.9.1
@@ -15,8 +15,8 @@ dependencies:
   version: 3.11.0
   repository: https://grafana.github.io/helm-charts
 - name: opentelemetry-operator
-  version: 0.3.4
-  repository: https://pluralsh.github.io/plural-helm-charts
+  version: 0.12.0
+  repository: https://open-telemetry.github.io/opentelemetry-helm-charts
 - name: vpa
   version: 0.4.2
   repository: https://charts.fairwinds.com/stable
