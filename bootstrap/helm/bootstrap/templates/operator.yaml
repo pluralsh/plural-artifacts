@@ -23,12 +23,19 @@ spec:
         - /manager
         args:
         - --leader-elect
-        - --oauth-sidecar-config-path=/tmp/k8s-webhook-server/config/oauth-sidecar-config.yaml
         image: "{{ .Values.plural.image.repository }}:{{ .Values.plural.image.tag }}"
         imagePullPolicy: Always
         name: manager
         securityContext:
           allowPrivilegeEscalation: false
+        env:
+        - name: PLURAL_OAUTH_SIDECAR_CONFIG_NAMESPACE
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+        - name: PLURAL_OAUTH_SIDECAR_CONFIG_NAME
+          value: plural-operator-oauth-sidecar-config
         ports:
         - containerPort: 8081
           name: health
@@ -59,15 +66,10 @@ spec:
         - mountPath: /tmp/k8s-webhook-server/serving-certs
           name: webhook-cert
           readOnly: true
-        - mountPath: /tmp/k8s-webhook-server/config
-          name: sidecar-config
       volumes:
       - name: webhook-cert
         secret:
           defaultMode: 420
           secretName: plural-operator-webhook-server-cert
-      - configMap:
-          name: plural-operator-oauth-sidecar-config
-        name: sidecar-config
       serviceAccountName: plural-operator
       terminationGracePeriodSeconds: 10
