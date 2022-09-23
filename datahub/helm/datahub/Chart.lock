@@ -1,7 +1,7 @@
 dependencies:
 - name: datahub
   repository: https://helm.datahubproject.io
-  version: 0.2.87
+  version: 0.2.105
 - name: postgres
   repository: https://pluralsh.github.io/module-library
   version: 0.1.5
