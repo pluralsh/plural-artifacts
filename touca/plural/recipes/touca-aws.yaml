@@ -1,0 +1,22 @@
+name: touca-aws
+description: Installs Touca on an EKS cluster
+provider: AWS
+oidcSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
+  domainKey: hostname
+sections:
+- name: touca
+  configuration:
+  - name: hostname
+    type: DOMAIN
+    documentation: the fully qualified domain name your touca instance will be available at
+  - name: privateHostname
+    documentation: a private dns name to securely access the touca api from
+    type: DOMAIN
+    optional: true
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: touca

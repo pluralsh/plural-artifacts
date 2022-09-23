@@ -1,0 +1,12 @@
+name: touca
+description: Continuous regression testing for critical software workflows
+category: DATA
+icon: plural/icons/touca.png
+notes: plural/notes.tpl
+gitUrl: https://github.com/trytouca/trytouca
+homepage: https://touca.io
+oauthSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
+tags:
+- tag: software-testing
