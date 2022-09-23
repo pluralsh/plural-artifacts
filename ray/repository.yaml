@@ -4,3 +4,8 @@ category: PRODUCTIVITY
 private: true
 icon: plural/icons/ray.png
 notes: plural/notes.tpl
+homepage: https://www.ray.io/
+gitUrl: https://github.com/ray-project/ray
+tags:
+  - tag: AI
+  - tag: automation
