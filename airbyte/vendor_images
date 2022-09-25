@@ -5,3 +5,5 @@ airbyte/webapp:0.40.3
 airbyte/worker:0.40.3
 bitnami/kubectl:latest
 temporalio/auto-setup:1.16.3
+airbyte/metrics-reporter:0.40.3
+airbyte/metrics-reporter:0.39.14-alpha
