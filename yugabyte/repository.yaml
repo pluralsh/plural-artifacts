@@ -8,3 +8,4 @@ gitUrl: https://github.com/yugabyte/yugabyte-db
 homepage: https://www.yugabyte.com/
 tags:
 - tag: postgres
+- tag: cassandra
