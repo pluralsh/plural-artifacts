@@ -1,10 +1,6 @@
 name: yugabyte-azure
 description: Installs yugabyte on an aws eks cluster
 provider: AZURE
-oidcSettings:
-  uriFormat: https://{domain}/oauth2/callback
-  authMethod: POST
-  domainKey: hostname
 dependencies:
 - repo: bootstrap
   name: azure-k8s

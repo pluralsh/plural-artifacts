@@ -1,7 +1,7 @@
 yugabyte:
   Image:
     repository: dkr.plural.sh/yugabyte/yugabytedb/yugabyte
-    tag: 2.15.1.0-b175
+    tag: 2.15.2.0-b87
   autoMultiAz:
     enabled: true
     image:

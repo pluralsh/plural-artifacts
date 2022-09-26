@@ -1,10 +1,6 @@
 name: yugabyte-gcp
 description: Installs yugabyte on an aws eks cluster
 provider: GCP
-oidcSettings:
-  uriFormat: https://{domain}/oauth2/callback
-  authMethod: POST
-  domainKey: hostname
 dependencies:
 - repo: bootstrap
   name: gcp-k8s

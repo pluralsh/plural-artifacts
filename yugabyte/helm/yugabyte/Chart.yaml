@@ -2,13 +2,9 @@ apiVersion: v2
 name: yugabyte
 description: helm chart for yugabyte
 type: application
-version: 0.1.1
-appVersion: "v2.15.1"
+version: 0.1.2
+appVersion: "2.15.2"
 dependencies:
 - name: yugabyte
-  version: 2.15.3
+  version: 2.15.4
   repository: https://pluralsh.github.io/plural-helm-charts
-- name: oidc-config
-  version: 0.1.6
-  repository: https://pluralsh.github.io/module-library
-  condition: oidc-config.enabled
