@@ -60,3 +60,8 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{- define "airbyte-plural.database.url" -}}
+{{- $db := .Values.airbyte.externalDatabase -}}
+{{- printf "jdbc:postgresql://%s:5432/%s" $db.host $db.database -}}
+{{- end -}}
