@@ -1,6 +1,6 @@
 dependencies:
 - name: yugabyte
   repository: https://pluralsh.github.io/plural-helm-charts
-  version: 2.15.4
-digest: sha256:32e606c6b4ac7dd34fd26733ec96cdc676ec3e496a7dad9cecfccda9f17ada14
-generated: "2022-09-26T13:44:39.10492+02:00"
+  version: 2.15.5
+digest: sha256:aacf8de5203f970e38c95af432df25dc7e3f707fdab891527a0ef97a54d3e625
+generated: "2022-09-26T15:37:55.809419+02:00"
