@@ -13,13 +13,10 @@ postgres:
 # Default configuration for pre-requisites to get you started
 # Copy this file and update to the configuration of choice
 datahub:
-  #elasticsearchSetupJob:
-  #  enabled: true
-  #  extraEnv:
-  #    - name: ELASTICSEARCH_VERIFY_CERTS
-  #      value: "false"
   mysqlSetupJob:
     enabled: false
+  kafkaSetupJob:
+    enabled: true
   postgresqlSetupJob:
     enabled: true
     image:
@@ -36,17 +33,14 @@ datahub:
       host: "elasticsearch-es-http.elasticsearch.svc"
       port: "9200"
       useSSL: "true"
+      skipcheck: "true"
+      insecure: "true"
       auth:
         username: elastic
         password:
           secretRef: elasticsearch-es-elastic-user
           secretKey: elastic
       verify-certs: "false"
-      extraEnv:
-        - name: ELASTICSEARCH_VERIFY_CERTS
-          value: "false"
-        - name: ELASTICSEARCH_SSL_KEYSTORE_FILE
-          value: "something"
     kafka:
       bootstrap:
         server: "kafka-kafka-bootstrap.kafka.svc:9092"
@@ -58,15 +52,17 @@ datahub:
         host: "plural-datahub"
         port: "5432"
         #url: "jdbc:mysql://prerequisites-mysql:3306/datahub?verifyServerCertificate=false&useSSL=true&useUnicode=yes&characterEncoding=UTF-8&enabledTLSProtocols=TLSv1.2"
-        #driver: "com.mysql.cj.jdbc.Driver"
+        url: "jdbc:postgresql://plural-datahub:5432/datahub?verifyServerCertificate=false&useSSL=true&useUnicode=yes&characterEncoding=UTF-8&enabledTLSProtocols=TLSv1.2"
+        #driver: "com.postgresql.cj.jdbc.Driver"
+        driver: "org.postgresql.Driver"
         username: "datahub"
         password:
           secretRef: datahub.plural-datahub.credentials.postgresql.acid.zalan.do
           secretKey: password
-        url: postgresql://$(username):$(password)@plural-datahub:5432/datahub
+        #url: postgresql://$(username):$(password)@plural-datahub:5432/datahub
   prerequisites:
-    #elasticsearch:
-    #  enabled: true   # set this to false, if you want to provide your own ES instance.
+    elasticsearch:
+      enabled: false   # set this to false, if you want to provide your own ES instance.
     neo4j:
       enabled: false
     neo4j-community:
