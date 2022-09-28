@@ -3,7 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: kuberay-operator-dashboard
-  labels: {{ include "ray.labels" . | nindent 4 }}
+  labels: {{ include "kuberay-operator-plural.labels" . | nindent 4 }}
     grafana_dashboard: kuberay-operator-dashboard
   annotations:
     k8s-sidecar-target-directory: /tmp/dashboards/Ray Dashboards
