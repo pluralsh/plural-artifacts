@@ -48,3 +48,4 @@ oauth2-proxy:
 {{ if .Values.users }}
 users:
 {{ toYaml .Values.users | nindent 2 }}
+{{ end }}
