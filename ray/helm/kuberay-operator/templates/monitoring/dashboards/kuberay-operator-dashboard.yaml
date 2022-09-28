@@ -1,0 +1,13 @@
+{{- if .Values.metrics.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kuberay-operator-dashboard
+  labels: {{ include "ray.labels" . | nindent 4 }}
+    grafana_dashboard: kuberay-operator-dashboard
+  annotations:
+    k8s-sidecar-target-directory: /tmp/dashboards/Ray Dashboards
+data:
+  kuberay-operator-dashboard.json: |-
+{{ .Files.Get "grafana-dashboards/KubeRay-Controller-Runtime-Controllers-1650108080992.json" | indent 4 }}
+{{- end }}

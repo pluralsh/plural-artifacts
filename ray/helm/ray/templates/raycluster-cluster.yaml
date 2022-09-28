@@ -1,0 +1,170 @@
+apiVersion: ray.io/v1alpha1
+kind: RayCluster
+metadata:
+  labels:
+{{- include "ray.labels" . | nindent 4 }}
+  name: {{ include "ray.fullname" . }}
+spec:
+  {{- if .Values.head.rayVersion }}
+  rayVersion: {{ .Values.head.rayVersion }}
+  {{- end }}
+  enableInTreeAutoscaling: {{ .Values.autoscaling.enabled }}
+  {{- with .Values.autoscaling.options }}
+  autoscalerOptions:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  headGroupSpec:
+    serviceType: {{ .Values.head.serviceType }}
+    rayStartParams:
+      {{- if .Values.dashboard.enabled }}
+      dashboard-host: '0.0.0.0'
+      dashboard-port: {{ .Values.dashboard.port | quote }}
+      {{- end }}
+    {{- range $key, $val := .Values.head.rayStartParams }}
+      {{ $key }}: {{ $val | quote }}
+    {{- end }}
+    template:
+      {{- if or .Values.head.labels .Values.head.annotations }}
+      metadata:
+        {{- with .Values.head.labels }}
+        labels:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.head.annotations }}
+        annotations:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+      {{- end }}
+      spec:
+        {{- with .Values.imagePullSecrets }}
+        imagePullSecrets:
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with .Values.head.initContainers }}
+        initContainers:
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+        containers:
+          - name: ray-head
+            image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+            imagePullPolicy: {{ .Values.image.pullPolicy }}
+            resources: {{- toYaml .Values.head.container.resources | nindent 14 }}
+            {{- with .Values.head.container.env }}
+            env:
+              {{- toYaml . | nindent 14}}
+            {{- end}}
+            {{- with .Values.head.container.envFrom }}
+            envFrom:
+              {{- toYaml . | nindent 14}}
+            {{- end }}
+            ports:
+              - containerPort: 6379
+                name: gcs
+              - containerPort: 10001
+                name: client
+              {{- if .Values.dashboard.enabled }}
+              - containerPort: {{ .Values.dashboard.port }}
+                name: dashboard
+              {{- end }}
+            {{- with .Values.head.container.extraPorts }}
+              {{- toYaml . | nindent 14}}
+            {{- end }}
+            {{- with .Values.head.container.volumeMounts }}
+            volumeMounts: {{- toYaml . | nindent 12 }}
+            {{- end }}
+            {{- with .Values.head.container.lifecycle }}
+            lifecycle:
+            {{- toYaml . | nindent 14 }}
+            {{- end }}
+          {{- with .Values.head.extraContainers }}
+          {{- toYaml . | nindent 10 }}
+          {{- end }}
+        {{- with .Values.head.volumes }}
+        volumes: {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.head.affinity}}
+        affinity: {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.head.tolerations }}
+        tolerations: {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.head.nodeSelector }}
+        nodeSelector: {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.head.podSecurityContext }}
+        securityContext: {{- toYaml . | nindent 10 }}
+        {{- end }}
+  workerGroupSpecs:
+  {{- range $workerGroup := .Values.workers }}
+  - replicas: {{ $workerGroup.replicas }}
+    minReplicas: {{ $workerGroup.minReplicas }}
+    maxReplicas: {{ $workerGroup.maxReplicas }}
+    groupName: {{ $workerGroup.groupName }}
+    rayStartParams:
+    {{- range $key, $val := $workerGroup.rayStartParams }}
+      {{ $key }}: {{ $val | quote }}
+    {{- end }}
+    template:
+      {{- if or $workerGroup.labels $workerGroup.annotations }}
+      metadata:
+        {{- with $workerGroup.labels }}
+        labels:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with $workerGroup.annotations }}
+        annotations:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+      {{- end }}
+      spec:
+        {{- with $.Values.imagePullSecrets }}
+        imagePullSecrets:
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with $workerGroup.initContainers }}
+        initContainers:
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+        containers:
+          - name: ray-worker
+            image: {{ $.Values.image.repository }}:{{ $.Values.image.tag }}
+            imagePullPolicy: {{ $.Values.image.pullPolicy }}
+            resources: {{- toYaml $workerGroup.container.resources | nindent 14 }}
+            {{- with $workerGroup.container.env }}
+            env:
+              {{- toYaml . | nindent 14}}
+            {{- end}}
+            {{- with $workerGroup.container.envFrom }}
+            envFrom:
+              {{- toYaml . | nindent 14}}
+            {{- end }}
+            {{- with $workerGroup.container.extraPorts }}
+            ports:
+              {{- toYaml . | nindent 14}}
+            {{- end }}
+            {{- with $workerGroup.container.volumeMounts }}
+            volumeMounts: {{- toYaml . | nindent 12 }}
+            {{- end }}
+            {{- with $workerGroup.container.lifecycle }}
+            lifecycle:
+            {{- toYaml . | nindent 14 }}
+            {{- end }}
+          {{- with $workerGroup.extraContainers }}
+          {{- toYaml . | nindent 10 }}
+          {{- end }}
+        {{- with $workerGroup.volumes }}
+        volumes: {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with $workerGroup.affinity}}
+        affinity: {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with $workerGroup.tolerations }}
+        tolerations: {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with $workerGroup.nodeSelector }}
+        nodeSelector: {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with $workerGroup.podSecurityContext }}
+        securityContext: {{- toYaml . | nindent 10 }}
+        {{- end }}
+    {{- end }}

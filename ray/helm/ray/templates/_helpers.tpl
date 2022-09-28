@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "ray-plural.name" -}}
+{{- define "ray.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "ray-plural.fullname" -}}
+{{- define "ray.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,45 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "ray-plural.chart" -}}
+{{- define "ray.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{/*
+The name of the head service created by the operator or oauth2-proxy if it is enabled.
+*/}}
+{{- define "ray.serviceName" -}}
+{{- printf "%s-%s" (include "ray.fullname" .) "head-svc" }}
+{{- end }}
+
+{{/*
+The name of the head service created by the operator or oauth2-proxy if it is enabled.
+*/}}
+{{- define "ray.ingressServiceName" -}}
+{{- if index .Values "oauth2-proxy" "enabled" }}
+{{- template "oauth2-proxy.fullname" (index .Subcharts "oauth2-proxy") }}
+{{- else }}
+{{- printf "%s-%s" (include "ray.fullname" .) "head-svc" }}
+{{- end }}
+{{- end }}
+
+{{/*
+The dashboard port of the head service or oauth2-proxy if it is enabled.
+*/}}
+{{- define "ray.ingressServicePort" -}}
+{{- if index .Values "oauth2-proxy" "enabled" }}
+{{- index .Values "oauth2-proxy" "service" "portNumber" }}
+{{- else }}
+{{- .Values.dashboard.port }}
+{{- end }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "ray-plural.labels" -}}
-helm.sh/chart: {{ include "ray-plural.chart" . }}
-{{ include "ray-plural.selectorLabels" . }}
+{{- define "ray.labels" -}}
+helm.sh/chart: {{ include "ray.chart" . }}
+{{ include "ray.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -46,17 +75,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "ray-plural.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "ray-plural.name" . }}
+{{- define "ray.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "ray.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "ray-plural.serviceAccountName" -}}
+{{- define "ray.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "ray-plural.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "ray.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
