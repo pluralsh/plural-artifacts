@@ -1,0 +1,59 @@
+descheduler:
+  image:
+    repository: k8s.gcr.io/descheduler/descheduler
+    # Overrides the image tag whose default is the chart version
+    tag: v0.21.0
+  kind: CronJob
+  schedule: "*/1 * * * *"
+  cmdOptions:
+    v: 9
+    dry-run:
+  deschedulerPolicy:
+    # nodeSelector: "key1=value1,key2=value2"
+    # maxNoOfPodsToEvictPerNode: 10
+    # maxNoOfPodsToEvictPerNamespace: 10
+    # ignorePvcPods: true
+    evictLocalStoragePods: true
+    strategies:
+      HighNodeUtilization:
+        enabled: true
+        params:
+          nodeFit: true
+          nodeResourceUtilizationThresholds:
+            thresholds:
+              cpu : 50
+              memory: 25
+              pods: 50
+      RemoveDuplicates:
+        enabled: false
+      RemovePodsHavingTooManyRestarts:
+        enabled: false
+        params:
+          podsHavingTooManyRestarts:
+            podRestartThreshold: 100
+            includingInitContainers: true
+      RemovePodsViolatingNodeTaints:
+        enabled: false
+      RemovePodsViolatingNodeAffinity:
+        enabled: false
+        params:
+          nodeAffinityType:
+          - requiredDuringSchedulingIgnoredDuringExecution
+      RemovePodsViolatingInterPodAntiAffinity:
+        enabled: false
+      RemovePodsViolatingTopologySpreadConstraint:
+        enabled: false
+        params:
+          includeSoftConstraints: false
+      LowNodeUtilization:
+        enabled: false
+        params:
+          nodeResourceUtilizationThresholds:
+            thresholds:
+              cpu: 20
+              memory: 20
+              pods: 20
+            targetThresholds:
+              cpu: 50
+              memory: 50
+              pods: 50

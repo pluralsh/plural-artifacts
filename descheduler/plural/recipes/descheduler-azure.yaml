@@ -1,0 +1,16 @@
+name: descheduler-azure
+description: Installs descheduler on an aws eks cluster
+provider: AZURE
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+
+
+sections:
+- name: descheduler
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: azure
+  - type: HELM
+    name: descheduler

@@ -1,0 +1,10 @@
+apiVersion: v2
+name: descheduler
+description: helm chart for descheduler
+type: application
+version: 0.1.0
+appVersion: "v0.25.0"
+dependencies:
+- name: descheduler
+  version: 0.25.0
+  repository: https://kubernetes-sigs.github.io/descheduler/

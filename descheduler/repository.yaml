@@ -1,0 +1,6 @@
+name: descheduler
+description: descheduler deployed on plural
+category: DEVOPS
+private: true
+icon: plural/icons/descheduler.png
+notes: plural/notes.tpl
