@@ -140,6 +140,33 @@ variable "single_az_node_groups" {
         "plural.sh/scalingGroup" = "small-burst-on-demand"
       }
     }
+    medium_burst_on_demand = {
+      name = "medium-burst-on-demand"
+      instance_types = ["t3.xlarge", "t3a.xlarge"]
+      capacity_type = "ON_DEMAND"
+      k8s_labels = {
+        "plural.sh/capacityType" = "ON_DEMAND"
+        "plural.sh/performanceType" = "BURST"
+        "plural.sh/scalingGroup" = "medium-burst-on-demand"
+      }
+    }
+    large_burst_on_demand = {
+      name = "large-burst-on-demand"
+      instance_types = ["t3.2xlarge", "t3a.2xlarge"]
+      capacity_type = "ON_DEMAND"
+      k8s_labels = {
+        "plural.sh/capacityType" = "ON_DEMAND"
+        "plural.sh/performanceType" = "BURST"
+        "plural.sh/scalingGroup" = "large-burst-on-demand"
+      }
+    }
+  }
+  description = "Node groups to add to your cluster. A single managed node group will be created in each availability zone."
+}
+
+variable "multi_az_node_groups" {
+  type = any
+  default = {
     small_burst_spot = {
       name = "small-burst-spot"
       capacity_type = "SPOT"
@@ -155,16 +182,6 @@ variable "single_az_node_groups" {
         effect = "NO_SCHEDULE"
       }]
     }
-    medium_burst_on_demand = {
-      name = "medium-burst-on-demand"
-      instance_types = ["t3.xlarge", "t3a.xlarge"]
-      capacity_type = "ON_DEMAND"
-      k8s_labels = {
-        "plural.sh/capacityType" = "ON_DEMAND"
-        "plural.sh/performanceType" = "BURST"
-        "plural.sh/scalingGroup" = "medium-burst-on-demand"
-      }
-    }
     medium_burst_spot = {
       name = "medium-burst-spot"
       instance_types = ["t3.xlarge", "t3a.xlarge"]
@@ -179,16 +196,6 @@ variable "single_az_node_groups" {
         value = "SPOT"
         effect = "NO_SCHEDULE"
       }]
-    }
-    large_burst_on_demand = {
-      name = "large-burst-on-demand"
-      instance_types = ["t3.2xlarge", "t3a.2xlarge"]
-      capacity_type = "ON_DEMAND"
-      k8s_labels = {
-        "plural.sh/capacityType" = "ON_DEMAND"
-        "plural.sh/performanceType" = "BURST"
-        "plural.sh/scalingGroup" = "large-burst-on-demand"
-      }
     }
     large_burst_spot = {
       name = "large-burst-spot"
@@ -207,12 +214,6 @@ variable "single_az_node_groups" {
       }]
     }
   }
-  description = "Node groups to add to your cluster. A single managed node group will be created in each availability zone."
-}
-
-variable "multi_az_node_groups" {
-  type = any
-  default = {}
   description = "Node groups to add to your cluster. A single managed node group will be created across all availability zones."
 }
 
