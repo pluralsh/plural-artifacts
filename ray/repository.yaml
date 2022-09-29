@@ -1,7 +1,7 @@
 name: ray
 description: ray deployed on plural
-category: PRODUCTIVITY
-private: true
+category: DATA
+private: false
 icon: plural/icons/ray.png
 notes: plural/notes.tpl
 homepage: https://www.ray.io/

@@ -3,7 +3,7 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": "-- Grafana --",
+        "datasource": "${data_source}",
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -35,7 +35,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "P1809F7CD0C75ACF3"
+        "uid": "${data_source}"
       },
       "fieldConfig": {
         "defaults": {
@@ -91,10 +91,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${data_source}"
           },
           "exemplar": true,
-          "expr": "histogram_quantile(0.50, sum(rate(controller_runtime_reconcile_time_seconds_bucket{job=\"$Service\",controller=~\"$Controller\"}[$__rate_interval])) by (job,le,controller))",
+          "expr": "histogram_quantile(0.50, sum(rate(controller_runtime_reconcile_time_seconds_bucket{job=\"$Service\"}[$__rate_interval])) by (job,le,controller))",
           "format": "time_series",
           "instant": false,
           "interval": "",
@@ -105,10 +105,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${data_source}"
           },
           "exemplar": true,
-          "expr": "histogram_quantile(0.95, sum(rate(controller_runtime_reconcile_time_seconds_bucket{job=~\"$Service\",}[$__rate_interval])) by (job,le,controller))",
+          "expr": "histogram_quantile(0.95, sum(rate(controller_runtime_reconcile_time_seconds_bucket{job=~\"$Service\"}[$__rate_interval])) by (job,le,controller))",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "{{job}} - {{controller}} - 95%",
@@ -117,10 +117,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${data_source}"
           },
           "exemplar": true,
-          "expr": "sum(rate(controller_runtime_reconcile_time_seconds_sum{job=~\"$Service\",}[$__rate_interval])) by (job,controller) / sum(rate(controller_runtime_reconcile_time_seconds_count{job=~\"$Service\",}[$__rate_interval])) by (job,controller)",
+          "expr": "sum(rate(controller_runtime_reconcile_time_seconds_sum{job=~\"$Service\"}[$__rate_interval])) by (job,controller) / sum(rate(controller_runtime_reconcile_time_seconds_count{job=~\"$Service\"}[$__rate_interval])) by (job,controller)",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "{{job}} - {{controller}} - mean",
@@ -164,7 +164,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "P1809F7CD0C75ACF3"
+        "uid": "${data_source}"
       },
       "fieldConfig": {
         "defaults": {
@@ -220,7 +220,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${data_source}"
           },
           "exemplar": true,
           "expr": "ceil(sum(increase(controller_runtime_reconcile_total{job=\"$Service\"}[$__rate_interval])) by (job,controller,result))",
@@ -276,7 +276,7 @@
       "dataFormat": "timeseries",
       "datasource": {
         "type": "prometheus",
-        "uid": "P1809F7CD0C75ACF3"
+        "uid": "${data_source}"
       },
       "gridPos": {
         "h": 8,
@@ -296,7 +296,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${data_source}"
           },
           "exemplar": true,
           "expr": "sum(rate(controller_runtime_reconcile_time_seconds_bucket{job=~\"$Service\"}[$__rate_interval])) by (job,le,controller)",
@@ -342,7 +342,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "P1809F7CD0C75ACF3"
+        "uid": "${data_source}"
       },
       "fieldConfig": {
         "defaults": {
@@ -416,7 +416,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${data_source}"
           },
           "exemplar": true,
           "expr": "rate(ray_operator_clusters_created_total{service=\"$Service\"}[30m])",
@@ -431,7 +431,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "P1809F7CD0C75ACF3"
+        "uid": "${data_source}"
       },
       "fieldConfig": {
         "defaults": {
@@ -505,7 +505,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${data_source}"
           },
           "exemplar": true,
           "expr": "rate(ray_operator_clusters_successful_total{service=\"$Service\"}[30m])",
@@ -520,7 +520,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "P1809F7CD0C75ACF3"
+        "uid": "${data_source}"
       },
       "fieldConfig": {
         "defaults": {
@@ -594,7 +594,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P1809F7CD0C75ACF3"
+            "uid": "${data_source}"
           },
           "exemplar": true,
           "expr": "rate(ray_operator_clusters_failed_total{service=\"$Service\"}[30m])",
@@ -615,22 +615,39 @@
     "list": [
       {
         "current": {
+            "selected": false,
+            "text": "Prometheus",
+            "value": "Prometheus"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "data_source",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "current": {
           "selected": false,
           "text": "ray-system",
           "value": "ray-system"
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "P1809F7CD0C75ACF3"
+          "uid": "${data_source}"
         },
-        "definition": "label_values(controller_runtime_active_workers, namespace)",
+        "definition": "label_values(ray_operator_clusters_created_total, namespace)",
         "hide": 0,
         "includeAll": false,
         "multi": false,
         "name": "Namespace",
         "options": [],
         "query": {
-          "query": "label_values(controller_runtime_active_workers, namespace)",
+          "query": "label_values(ray_operator_clusters_created_total, namespace)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 2,
@@ -647,7 +664,7 @@
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "P1809F7CD0C75ACF3"
+          "uid": "${data_source}"
         },
         "definition": "label_values(controller_runtime_active_workers{namespace=\"$Namespace\"}, service)",
         "hide": 0,
@@ -660,58 +677,6 @@
           "refId": "StandardVariableQuery"
         },
         "refresh": 2,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "type": "query"
-      },
-      {
-        "current": {
-          "selected": false,
-          "text": "kuberay-operator-56758d8596-c6c8d",
-          "value": "kuberay-operator-56758d8596-c6c8d"
-        },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "P1809F7CD0C75ACF3"
-        },
-        "definition": "label_values(controller_runtime_active_workers{namespace=\"$Namespace\", service=\"$Service\"},  pod)",
-        "hide": 0,
-        "includeAll": false,
-        "multi": false,
-        "name": "Pod",
-        "options": [],
-        "query": {
-          "query": "label_values(controller_runtime_active_workers{namespace=\"$Namespace\", service=\"$Service\"},  pod)",
-          "refId": "StandardVariableQuery"
-        },
-        "refresh": 2,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "type": "query"
-      },
-      {
-        "current": {
-          "selected": false,
-          "text": "raycluster-controller",
-          "value": "raycluster-controller"
-        },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "P1809F7CD0C75ACF3"
-        },
-        "definition": "label_values(controller_runtime_active_workers{namespace=\"$Namespace\", service=\"$Service\", pod=\"$Pod\"},  controller)",
-        "hide": 0,
-        "includeAll": false,
-        "multi": true,
-        "name": "Controller",
-        "options": [],
-        "query": {
-          "query": "label_values(controller_runtime_active_workers{namespace=\"$Namespace\", service=\"$Service\", pod=\"$Pod\"},  controller)",
-          "refId": "StandardVariableQuery"
-        },
-        "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,

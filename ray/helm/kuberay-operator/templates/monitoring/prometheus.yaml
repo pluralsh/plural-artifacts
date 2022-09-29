@@ -7,9 +7,8 @@ metadata:
   name: {{ include "kuberay-operator-plural.fullname" . }}-operator-monitor
 spec:
   endpoints:
-  - interval: 1m
+  - interval: 15s
     path: /metrics
-    scrapeTimeout: 10s
     port: http
   jobLabel: {{ include "kuberay-operator-plural.fullname" . }}-kuberay-operator
   namespaceSelector:
@@ -17,5 +16,5 @@ spec:
     - {{ .Release.Namespace }}
   selector:
     matchLabels:
-      {{- include "kuberay-operator-plural.selectorLabels" . | nindent 4 }}
+      {{- include "kuberay-operator-plural.selectorLabels" . | nindent 6 }}
 {{- end }}
