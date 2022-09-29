@@ -2,9 +2,10 @@ apiVersion: v2
 name: ray
 description: helm chart for ray
 type: application
-version: 0.1.2
+version: 0.1.3
 appVersion: "2.0.0"
 dependencies:
-  - name: ray-cluster
-    version: 0.3.0
-    repository: https://kevin85421.github.io/kuberay
+- name: oauth2-proxy
+  version: 6.2.7
+  repository: https://oauth2-proxy.github.io/manifests
+  condition: oauth2-proxy.enabled

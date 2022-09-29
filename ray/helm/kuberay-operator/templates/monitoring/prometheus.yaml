@@ -1,0 +1,20 @@
+{{- if .Values.metrics.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    {{- include "kuberay-operator-plural.labels" . | nindent 4 }}
+  name: {{ include "kuberay-operator-plural.fullname" . }}-operator-monitor
+spec:
+  endpoints:
+  - interval: 15s
+    path: /metrics
+    port: http
+  jobLabel: {{ include "kuberay-operator-plural.fullname" . }}-kuberay-operator
+  namespaceSelector:
+    matchNames:
+    - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      {{- include "kuberay-operator-plural.selectorLabels" . | nindent 6 }}
+{{- end }}

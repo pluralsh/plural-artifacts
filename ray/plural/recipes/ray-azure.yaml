@@ -1,13 +1,15 @@
 name: ray-azure
 description: Installs ray on an azure aks cluster
 provider: AZURE
+oidcSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
+  domainKey: hostname
 dependencies:
 - repo: bootstrap
   name: azure-k8s
 - repo: ingress-nginx
   name: ingress-nginx-azure
-- repo: redis
-  name: azure-redis
 sections:
 - name: ray
   configuration:

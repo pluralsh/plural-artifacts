@@ -1,13 +1,15 @@
 name: ray-gcp
 description: Installs ray on an gcp gke cluster
 provider: GCP
+oidcSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
+  domainKey: hostname
 dependencies:
 - repo: bootstrap
   name: gcp-k8s
 - repo: ingress-nginx
   name: ingress-nginx-gcp
-- repo: redis
-  name: gcp-redis
 sections:
 - name: ray
   configuration:

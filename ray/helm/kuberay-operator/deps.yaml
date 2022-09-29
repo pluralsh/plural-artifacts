@@ -13,10 +13,6 @@ spec:
     name: ingress-nginx
     repo: ingress-nginx
     version: ">= 0.1.2"
-  - type: helm
-    name: redis
-    repo: redis
-    version: '>= 0.1.11'
   - type: terraform
     name: aws
     repo: ray
