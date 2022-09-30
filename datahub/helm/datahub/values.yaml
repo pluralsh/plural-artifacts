@@ -18,7 +18,7 @@ datahub:
   kafkaSetupJob:
     enabled: true
   postgresqlSetupJob:
-    enabled: false
+    enabled: true
     image:
       repository: acryldata/datahub-postgres-setup
       tag: "v0.8.41"
