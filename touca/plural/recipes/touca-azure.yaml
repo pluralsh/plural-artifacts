@@ -1,13 +1,13 @@
 name: touca-azure
-description: Installs Touca on an EKS cluster
-provider: AWS
+description: Installs Touca on an AKS cluster
+provider: AZURE
 dependencies:
 - repo: bootstrap
-  name: aws-k8s
+  name: azure-k8s
 - repo: ingress-nginx
-  name: ingress-nginx-aws
+  name: ingress-nginx-azure
 - repo: mongodb
-  name: mongodb-aws
+  name: mongodb-azure
 sections:
 - name: touca
   configuration:

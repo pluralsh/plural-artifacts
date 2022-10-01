@@ -6,7 +6,7 @@ metadata:
   name: {{ .Release.Name }}-touca-cmp
   namespace: {{ .Release.Name }}-touca
 spec:
-  replicas: 1
+  replicas: {{ .Values.toucaCmp.replicas }}
   selector:
     matchLabels:
       cmp: {{ .Release.Name }}-touca-cmp
@@ -16,13 +16,12 @@ spec:
         cmp: {{ .Release.Name }}-touca-cmp
     spec:
       containers:
-      - image: {{ .Values.toucaCmp.dockerRepoName | default "touca" | lower }}/touca-cmp:{{ .Values.toucaCmp.dockerImageTag }}
+      - image: {{ .Values.global.dockerRepoName | default "touca" | lower }}/touca-cmp:{{ .Values.global.dockerImageTag }}
         name: {{ .Release.Name }}-touca-cmp
+        envFrom:
+        - secretRef:
+            name: touca-env
         env:
-        - name: MINIO_USER
-          value: toucauser
-        - name: MINIO_PASS
-          value: toucapass
         - name: API_URL
           value: "http://{{ .Release.Name }}-touca-api:8081"
         - name: MINIO_HOST

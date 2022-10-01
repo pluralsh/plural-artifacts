@@ -1,0 +1,23 @@
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  application: true
+  description: Deploys hydra crafted for the target cloud
+spec:
+  dependencies:
+  - type: helm
+    name: bootstrap
+    repo: bootstrap
+    version: '>= 0.5.1'
+  - type: helm
+    name: ingress-nginx
+    repo: ingress-nginx
+    version: ">= 0.1.7"
+  - type: helm
+    name: mongodb-community
+    repo: mongodb
+    version: '>= 0.1.4'
+  - type: terraform
+    name: kube
+    repo: touca
+    version: '>= 0.1.0'

@@ -1,17 +1,31 @@
-toucaApp:
-  dockerRepoName: "touca"
+global:
+  dockerRepoName: touca
   dockerImageTag: "1.6"
+
+toucaApp:
+  replicas: 1
 
 toucaApi:
-  dockerRepoName: "touca"
-  dockerImageTag: "1.6"
+  replicas: 1
+
+mongoNamespace: mongodb
 
 toucaCmp:
-  dockerRepoName: "touca"
-  dockerImageTag: "1.6"
+  replicas: 1
+
+
+minio:
+  user: touca
+  password: CHANGEME
 
 volume:
   scName: "ebs-sc"
+  size: 4Gi
+
+redis:
+  volume:
+    size: 3Gi
 
 ingress:
   enabled: true
+  host: touca.example.com

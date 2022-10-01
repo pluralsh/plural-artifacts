@@ -13,7 +13,7 @@ spec:
     - {{ .Release.Name }}.trytouca.com
     secretName: touca-tls-cert
   rules:
-  - host: {{ .Release.Name }}.trytouca.com
+  - host: {{ .Values.ingress.host }}
     http:
       paths:
       - pathType: Prefix

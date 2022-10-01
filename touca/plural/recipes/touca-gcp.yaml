@@ -1,13 +1,13 @@
-name: touca-azure
-description: Installs Touca on an EKS cluster
-provider: AWS
+name: touca-gcp
+description: Installs Touca on an GKE cluster
+provider: GCP
 dependencies:
 - repo: bootstrap
-  name: aws-k8s
+  name: gcp-k8s
 - repo: ingress-nginx
-  name: ingress-nginx-aws
+  name: ingress-nginx-gcp
 - repo: mongodb
-  name: mongodb-aws
+  name: mongodb-gcp
 sections:
 - name: touca
   configuration:

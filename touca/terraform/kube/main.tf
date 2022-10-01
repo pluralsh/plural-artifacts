@@ -4,7 +4,6 @@ resource "kubernetes_namespace" "touca" {
     labels = {
       "app.kubernetes.io/managed-by" = "plural"
       "app.plural.sh/name" = "touca"
-      "platform.plural.sh/sync-target" = "pg"
     }
   }
 }
