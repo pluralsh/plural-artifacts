@@ -1,6 +1,10 @@
 name: datahub-aws
 description: Installs datahub on an aws eks cluster
 provider: AWS
+oidcSettings:
+  authMethod: POST
+  uriFormat: https://{domain}/callback/oidc
+  domainKey: hostname
 dependencies:
 - repo: bootstrap
   name: aws-k8s

@@ -1,40 +1,161 @@
-# Default values for datahub.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
-replicaCount: 1
-
 postgres:
   team: plural
   user: datahub
   dbName: datahub
   ownerChart: datahub
+  infix: '-postgres'
+  annotations:
+    helm.sh/hook: pre-install
+    helm.sh/hook-weight: "-10"
+
+oidcClientSecret: ""
+adminPassword: changeme #TODO: expose this to the user in the notes
 
 # Default configuration for pre-requisites to get you started
 # Copy this file and update to the configuration of choice
 datahub:
+  datahub-frontend:
+    image:
+      repository: linkedin/datahub-frontend-react
+      tag: v0.8.45
+    service:
+      type: ClusterIP
+    resources:
+      requests:
+        cpu: 10m
+        memory: 400Mi
+      limits:
+        memory: 400Mi
+    extraVolumes:
+    - name: basic-auth-password
+      secret:
+        secretName: datahub-basic-auth
+    extraVolumeMounts:
+    - name: basic-auth-password
+      mountPath: /datahub-frontend/conf/user.props
+      subPath: user.props
+    ingress:
+      enabled: true
+      className: nginx
+      annotations:
+        kubernetes.io/tls-acme: "true"
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+    # oidcAuthentication:
+    #   enabled: false
+    #   clientId: your-client-id
+    #   clientSecretRef:
+    #     secretRef: <secret-ref>
+    #     secretKey: <secret-key>
+    # extraEnvs:
+    # - name: AUTH_OIDC_DISCOVERY_URI
+    #   value: "https://***************/auth/realms/******/.well-known/openid-configuration"
+    # - name: AUTH_OIDC_SCOPE
+    #   value: "openid profile offline_access"
+    # # - name: AUTH_OIDC_JIT_PROVISIONING_ENABLED
+    # #   value: "true"
+    # # - name: AUTH_OIDC_PRE_PROVISIONING_REQUIRED
+    # #   value: "false"
+    # - name: AUTH_OIDC_EXTRACT_GROUPS_ENABLED
+    #   value: "true"
+    # - name: AUTH_OIDC_GROUPS_CLAIM
+    #   value: "groups"
+    # # - name: AUTH_JAAS_ENABLED
+    # #   value: "false"
+
+
+  datahub-gms:
+    image:
+      repository: linkedin/datahub-gms
+      tag: "v0.8.45"
+    service:
+      type: ClusterIP
+    resources:
+      requests:
+        cpu: 30m
+        memory: 900Mi
+      limits:
+        memory: 900Mi
+      # TODO: set resources for gms and add runbook
+
+  acryl-datahub-actions:
+    enabled: true
+    image:
+      repository: acryldata/datahub-actions
+      tag: "v0.0.7"
+    resources:
+      limits:
+        memory: 512Mi
+      requests:
+        cpu: 50m
+        memory: 256Mi
+
+  datahub-mae-consumer:
+    image:
+      repository: linkedin/datahub-mae-consumer
+      tag: "v0.8.45"
+
+  datahub-mce-consumer:
+    image:
+      repository: linkedin/datahub-mce-consumer
+      tag: "v0.8.45"
+
+  datahub-ingestion-cron:
+    enabled: false
+    image:
+      repository: acryldata/datahub-ingestion
+      tag: "v0.8.45"
+
   mysqlSetupJob:
     enabled: false
-  kafkaSetupJob:
-    enabled: true
+
   postgresqlSetupJob:
     enabled: true
     image:
       repository: acryldata/datahub-postgres-setup
-      tag: "v0.8.41"
+      tag: "v0.8.45"
+    resources:
+      requests:
+        cpu: 5m
+        memory: 50Mi
     podSecurityContext:
       fsGroup: 1000
     securityContext:
       runAsUser: 1000
     podAnnotations: { }
+  
+  #TODO: move the setup jobs to this chart and don't
+  elasticsearchSetupJob:
+    enabled: true
+    image:
+      repository: davidspek/datahub-elasticsearch-setup
+      tag: v0.8.45-cleanup-2
+    resources: #TODO: for datahub helm chart to make resources of jobs configurable
+      requests:
+        cpu: 5m
+        memory: 5Mi
+
+  kafkaSetupJob:
+    enabled: true
+    image:
+      repository: linkedin/datahub-kafka-setup
+      tag: "v0.8.45"
+    resources:
+      requests:
+        cpu: 0.4
+        memory: 60Mi
+
   global:
+    datahub:
+      monitoring:
+        enablePrometheus: true
     graph_service_impl: "elasticsearch"
     elasticsearch:
       host: "elasticsearch-es-http.elasticsearch.svc"
       port: "9200"
       useSSL: "false"
-      skipcheck: "true"
-      insecure: "true"
+      skipcheck: "false"
+      insecure: "false"
       auth:
         username: elastic
         password:
@@ -46,16 +167,18 @@ datahub:
         server: "kafka-kafka-bootstrap.kafka.svc:9092"
       zookeeper:
         server: "kafka-zookeeper-client.kafka.svc:2181"
+      schemaregistry:
+        url: "http://kafka-schema-registry.kafka.svc:8081"
     sql:
       datasource:
-        hostForpostgresqlClient: "plural-datahub"
-        host: "plural-datahub:5432"
+        hostForpostgresqlClient: "plural-postgres-datahub"
+        host: "plural-postgres-datahub:5432"
         port: "5432"
-        url: "jdbc:postgresql://plural-datahub:5432/datahub?verifyServerCertificate=false&useSSL=true&useUnicode=yes&characterEncoding=UTF-8&enabledTLSProtocols=TLSv1.2"
+        url: "jdbc:postgresql://plural-postgres-datahub:5432/datahub?verifyServerCertificate=false&useSSL=true&useUnicode=yes&characterEncoding=UTF-8&enabledTLSProtocols=TLSv1.2"
         driver: "org.postgresql.Driver"
         username: "datahub"
         password:
-          secretRef: datahub.plural-datahub.credentials.postgresql.acid.zalan.do
+          secretRef: datahub.plural-postgres-datahub.credentials.postgresql.acid.zalan.do
           secretKey: password
   prerequisites:
     elasticsearch:

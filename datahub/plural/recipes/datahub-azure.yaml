@@ -1,6 +1,10 @@
 name: datahub-azure
 description: Installs datahub on an azure eks cluster
 provider: AZURE
+oidcSettings:
+  authMethod: POST
+  uriFormat: https://{domain}/callback/oidc
+  domainKey: hostname
 dependencies:
 - repo: bootstrap
   name: azure-k8s

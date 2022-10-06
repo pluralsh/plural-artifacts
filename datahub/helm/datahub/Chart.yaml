@@ -9,5 +9,5 @@ dependencies:
   version: 0.2.105
   repository: "https://helm.datahubproject.io"
 - name: postgres
-  version: 0.1.5
+  version: 0.1.6
   repository: https://pluralsh.github.io/module-library
