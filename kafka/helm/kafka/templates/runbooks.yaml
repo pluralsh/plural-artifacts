@@ -23,6 +23,18 @@ spec:
       format: memory
       legend: $pod
       query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"kafka-kafka-[0-9]+"}) by (pod)
+  - name: kafka-cpu-limit
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"kafka-kafka-[0-9]+"}[5m])) by (pod)
+  - name: kafka-memory-limit
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"kafka-kafka-[0-9]+"}) by (pod)
   - name: zk-cpu
     type: prometheus
     prometheus:
@@ -30,6 +42,18 @@ spec:
       legend: $pod
       query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"kafka-zookeeper-[0-9]+"}[5m])) by (pod)
   - name: zk-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"kafka-zookeeper-[0-9]+"}) by (pod)
+  - name: zk-cpu-limit
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"kafka-zookeeper-[0-9]+"}[5m])) by (pod)
+  - name: zk-memory-limit
     type: prometheus
     prometheus:
       format: memory
@@ -69,6 +93,20 @@ spec:
         valueFrom: zk-memory
       - path: 
         - kafka
+        - zookeeper
+        - resources
+        - limits
+        - cpu
+        valueFrom: zk-cpu-limit
+      - path:
+        - kafka
+        - zookeeper
+        - resources
+        - limits
+        - memory
+        valueFrom: zk-memory-limit
+      - path: 
+        - kafka
         - kafka
         - resources
         - requests
@@ -81,4 +119,18 @@ spec:
         - requests
         - memory
         valueFrom: kafka-memory
+      - path: 
+        - kafka
+        - kafka
+        - resources
+        - limits
+        - cpu
+        valueFrom: kafka-cpu-limit
+      - path:
+        - kafka
+        - kafka
+        - resources
+        - limits
+        - memory
+        valueFrom: kafka-memory-limit
       

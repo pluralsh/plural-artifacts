@@ -3,6 +3,12 @@ strimzi-kafka-operator:
   defaultImageRegistry: dkr.plural.sh
   defaultImageRepository: kafka/strimzi
   defaultImageTag: 0.24.0
+  resources:
+    limits:
+      memory: 384Mi
+    requests:
+      memory: 384Mi
+      cpu: 20m
   # image:
   #   registry: dkr.plural.sh
   #   repository: kafka/strimzi/operator
@@ -29,6 +35,13 @@ kafka:
     transaction.state.log.min.isr: 2
     log.message.format.version: "2.8"
     inter.broker.protocol.version: "2.8"
+  resources:
+    requests:
+      cpu: 100m
+      memory: 1Gi
+    limits:
+      memory: 1Gi
+      cpu: ""
 
 entityOperator:
   topicOperator: {}
@@ -36,6 +49,12 @@ entityOperator:
 
 zookeeper:
   replicas: 3
+  resources:
+    requests:
+      cpu: 10m
+      memory: 400Mi
+    limits:
+      memory: 400Mi
   storage:
     type: persistent-claim
     size: 100Gi
@@ -53,6 +72,12 @@ schema-registry:
     registry: dkr.plural.sh
     repository: kafka/bitnami/schema-registry
     tag: 7.2.2
+  resources:
+    requests:
+      cpu: 20m
+      memory: 280Mi
+    limits:
+      memory: 400Mi
   kafka:
     enabled: false
   externalKafka:
