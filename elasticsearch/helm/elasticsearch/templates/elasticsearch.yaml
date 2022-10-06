@@ -5,6 +5,10 @@ metadata:
   labels:
   {{ include "elasticsearch.labels" . | nindent 4 }}
 spec:
+  http:
+    tls:
+      selfSignedCertificate:
+        disabled: true
   nodeSets:
     - config:
         node.store.allow_mmap: false
