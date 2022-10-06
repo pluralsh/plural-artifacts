@@ -1,5 +1,13 @@
 strimzi-kafka-operator:
   watchAnyNamespace: true
+  defaultImageRegistry: dkr.plural.sh
+  defaultImageRepository: kafka/strimzi
+  defaultImageTag: 0.24.0
+  # image:
+  #   registry: dkr.plural.sh
+  #   repository: kafka/strimzi/operator
+  #   name: ""
+  #   tag: 0.24.0
 
 create: true
 
@@ -38,3 +46,15 @@ zookeeper:
       configMapKeyRef:
         name: kafka-metrics
         key: zookeeper-metrics-config.yml
+
+schema-registry:
+  enabled: true
+  image:
+    registry: dkr.plural.sh
+    repository: kafka/bitnami/schema-registry
+    tag: 7.2.2
+  kafka:
+    enabled: false
+  externalKafka:
+    brokers:
+      - PLAINTEXT://kafka-kafka-bootstrap.kafka.svc:9092

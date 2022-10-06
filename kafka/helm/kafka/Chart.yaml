@@ -5,6 +5,10 @@ type: application
 version: 0.1.21
 appVersion: "1.16.0"
 dependencies:
-  - name: strimzi-kafka-operator
-    version: 0.24.0
-    repository: https://strimzi.io/charts/
+- name: strimzi-kafka-operator
+  version: 0.24.0
+  repository: https://strimzi.io/charts/
+- name: schema-registry
+  version: 5.1.7
+  repository: https://charts.bitnami.com/bitnami
+  condition: schema-registry.enabled
