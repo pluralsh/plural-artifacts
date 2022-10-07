@@ -21,7 +21,7 @@ dashboard:
 oauth2-proxy:
   enabled: true
   config:
-    clientID: {{ .OIDC.ClientID }}
+    clientID: {{ .OIDC.ClientId }}
     clientSecret: {{ .OIDC.ClientSecret }}
     cookieSecret: {{ dedupe . "ray.oauth2-proxy.config.cookieSecret" (randAlphaNum 32) }}
   alphaConfig:
