@@ -23,9 +23,9 @@ datahub:
     resources:
       requests:
         cpu: 10m
-        memory: 400Mi
+        memory: 500Mi
       limits:
-        memory: 400Mi
+        memory: 500Mi
     extraVolumes:
     - name: basic-auth-password
       secret:
@@ -41,6 +41,8 @@ datahub:
         kubernetes.io/tls-acme: "true"
         cert-manager.io/cluster-issuer: letsencrypt-prod
         nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+        nginx.ingress.kubernetes.io/use-regex: 'false'
+        nginx.ingress.kubernetes.io/proxy-buffer-size: 256k
     # oidcAuthentication:
     #   enabled: false
     #   clientId: your-client-id

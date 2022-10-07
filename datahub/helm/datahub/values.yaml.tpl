@@ -33,7 +33,7 @@ datahub:
     - name: AUTH_OIDC_DISCOVERY_URI
       value: {{ .OIDC.Configuration.Issuer }}.well-known/openid-configuration
     - name: AUTH_OIDC_SCOPE
-      value: "openid profile offline_access"
+      value: "openid offline_access"
     - name: AUTH_OIDC_JIT_PROVISIONING_ENABLED
       value: "true"
     - name: AUTH_OIDC_PRE_PROVISIONING_REQUIRED
