@@ -46,5 +46,7 @@ datahub:
       value: email
     - name: AUTH_OIDC_CLIENT_AUTHENTICATION_METHOD
       value: client_secret_post
+    - name: PAC4J_SESSIONSTORE_PROVIDER
+      value: PlayCacheSessionStore
 oidcClientSecret: {{ .OIDC.ClientSecret }}
   {{- end }}
