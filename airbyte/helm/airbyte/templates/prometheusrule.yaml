@@ -37,4 +37,26 @@ spec:
       annotations:
         summary: airbyte db's memory has gotten too high
         description: the memory utilization of your plural airbyte db is higher than recommended
+---
 {{- end }}
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: airbyte-rules
+  namespace: {{ .Release.Namespace }}
+  labels:
+    prometheus: example
+    role: alert-rules
+spec:
+  groups:
+  - name: airbyte
+    rules:
+    - alert: AirbyteJobFail
+      for: 0m
+      expr: min(airbyte_job_failed_by_release_stage) > 0
+      labels:
+        severity: warning
+        namespace: {{ .Release.Namespace }}
+      annotations:
+        summary: an airbyte job has failed
+        description: try finding the job in the airbyte ui and manually restarting it
