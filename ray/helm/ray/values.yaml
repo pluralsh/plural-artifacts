@@ -23,6 +23,8 @@ dashboard:
       kubernetes.io/tls-acme: "true"
       cert-manager.io/cluster-issuer: letsencrypt-prod
       nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+      nginx.ingress.kubernetes.io/proxy-buffer-size: 256k
+      nginx.ingress.kubernetes.io/use-regex: 'false'
     hosts:
      - host: example.com
        paths:
@@ -47,6 +49,14 @@ autoscaling:
       requests:
         cpu: 500m
         memory: 512Mi
+
+gitSync:
+  enabled: false
+  repo: ""
+  branch: main
+  period: 30s
+  password: ""
+  username: ""
 
 head:
   serviceType: ClusterIP
@@ -89,9 +99,9 @@ head:
 
 workers:
 - groupName: small-group
-  replicas: 1
-  minReplicas: 1
-  maxReplicas: 300
+  replicas: 0
+  minReplicas: 0
+  maxReplicas: 10
   labels: {}
   annotations: {}
   rayStartParams:
@@ -118,7 +128,19 @@ workers:
           command: ["/bin/sh","-c","ray stop"]
   nodeSelector: {}
   tolerations: []
+  # - key: "plural.sh/capacityType"
+  #   operator: "Equal"
+  #   value: "SPOT"
+  #   effect: "NoSchedule"
   affinity: {}
+  #   nodeAffinity:
+  #     requiredDuringSchedulingIgnoredDuringExecution:
+  #       nodeSelectorTerms:
+  #       - matchExpressions:
+  #         - key: plural.sh/capacityType
+  #           operator: In
+  #           values:
+  #           - SPOT
   securityContext: {}
   volumes: []
     # - name: log-volume
