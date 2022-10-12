@@ -50,3 +50,16 @@ oauth2-proxy:
 users:
 {{ toYaml .Values.users | nindent 2 }}
 {{ end }}
+
+{{- if .Values.gitSync.enabled }}
+gitSync:
+  enabled: true
+  repo: {{ .Values.gitSync.repo }}
+  {{- if .Values.gitSync.password }}
+  password: {{ .Values.gitSync.password }}
+  username: {{ .Values.gitSync.username }}
+  {{- end }}
+  {{- if .Values.gitSync.branch }}
+  branch: {{ .Values.gitSync.branch }}
+  {{- end }}
+{{- end }}

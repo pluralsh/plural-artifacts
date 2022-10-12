@@ -2,6 +2,7 @@ apiVersion: ray.io/v1alpha1
 kind: RayCluster
 metadata:
   labels:
+    ray.io/cluster: {{ include "ray.fullname" . }}
 {{- include "ray.labels" . | nindent 4 }}
   name: {{ include "ray.fullname" . }}
 spec:
@@ -69,18 +70,66 @@ spec:
             {{- with .Values.head.container.extraPorts }}
               {{- toYaml . | nindent 14}}
             {{- end }}
+            {{- if or .Values.gitSync.enabled .Values.head.container.volumeMounts }}
+            volumeMounts:
             {{- with .Values.head.container.volumeMounts }}
-            volumeMounts: {{- toYaml . | nindent 12 }}
+              {{- toYaml . | nindent 12 }}
+            {{- end }}
+            {{- if .Values.gitSync.enabled }}
+            - name: git-sync
+              mountPath: /home/ray/git-sync
+            {{- end }}
             {{- end }}
             {{- with .Values.head.container.lifecycle }}
             lifecycle:
             {{- toYaml . | nindent 14 }}
             {{- end }}
+          {{- if .Values.gitSync.enabled }}
+          - name: git-sync
+            image: k8s.gcr.io/git-sync/git-sync:v3.6.1
+            env:
+            - name: GIT_SYNC_REPO
+              value: {{ .Values.gitSync.repo }}
+            - name: GIT_SYNC_BRANCH
+              value: {{ .Values.gitSync.branch }}
+            - name: GIT_SYNC_ROOT
+              value: /home/ray/git-sync
+            - name: GIT_SYNC_PERIOD
+              value: {{ .Values.gitSync.period }}
+            {{- if .Values.gitSync.password }}
+            - name: GIT_SYNC_PASSWORD_FILE
+              value: /etc/git-secret/password
+            {{- end }}
+            {{- if .Values.gitSync.username }}
+            - name: GIT_SYNC_USERNAME
+              value: {{ .Values.gitSync.username }}
+            {{- end }}
+            volumeMounts:
+            - name: git-sync
+              mountPath: /home/ray/git-sync
+            {{- if .Values.gitSync.password }}
+            - name: git-sync-password
+              mountPath: /etc/git-secret/password
+              subPath: password
+            {{- end }}
+          {{- end }}
           {{- with .Values.head.extraContainers }}
           {{- toYaml . | nindent 10 }}
           {{- end }}
+        {{- if or .Values.gitSync.enabled .Values.head.volumes }}
+        volumes:
         {{- with .Values.head.volumes }}
-        volumes: {{- toYaml . | nindent 10 }}
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- if .Values.gitSync.enabled }}
+          - name: git-sync
+            emptyDir: {}
+          {{- if .Values.gitSync.password }}
+          - name: git-sync-password
+            secret:
+              secretName: {{ include "ray.fullname" . }}-git-password # todo: add secret file and template name into here
+          {{- end }}
+        {{- end }}
         {{- end }}
         {{- with .Values.head.affinity}}
         affinity: {{- toYaml . | nindent 10 }}
