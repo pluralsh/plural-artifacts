@@ -1,4 +1,4 @@
-name: aws-efs
+name: aws-keda
 description: Creates and configures an EFS instance for use with kubernetes
 provider: AWS
 dependencies:
