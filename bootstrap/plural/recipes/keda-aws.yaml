@@ -1,0 +1,12 @@
+name: aws-efs
+description: Creates and configures an EFS instance for use with kubernetes
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+sections:
+- name: bootstrap
+  configuration: []
+  items:
+  - type: HELM
+    name: keda

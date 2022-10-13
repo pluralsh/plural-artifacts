@@ -1,0 +1,5 @@
+keda:
+  serviceAccount:
+    create: true
+  crds:
+    install: false
