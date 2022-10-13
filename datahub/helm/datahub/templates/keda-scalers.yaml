@@ -1,0 +1,65 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: datahub-acryl-datahub-actions
+  {{- if .Values.paused }}
+  annotations:
+    autoscaling.keda.sh/paused-replicas: "0"
+  {{- end }}
+spec:
+  scaleTargetRef:
+    name: datahub-acryl-datahub-actions
+    apiVersion: apps/v1
+    kind: Deployment
+  pollingInterval: 30
+  cooldownPeriod: 300
+  minReplicaCount: 1
+  maxReplicaCount: 1
+  triggers: []
+    # - type: example-trigger
+    #   metadata:
+    #     property: examle-property
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: datahub-datahub-frontend
+  {{- if .Values.paused }}
+  annotations:
+    autoscaling.keda.sh/paused-replicas: "0"
+  {{- end }}
+spec:
+  scaleTargetRef:
+    name: datahub-datahub-frontend
+    apiVersion: apps/v1
+    kind: Deployment
+  pollingInterval: 30
+  cooldownPeriod: 300
+  minReplicaCount: 1
+  maxReplicaCount: 1
+  triggers: []
+    # - type: example-trigger
+    #   metadata:
+    #     property: examle-property
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: datahub-datahub-gms
+  {{- if .Values.paused }}
+  annotations:
+    autoscaling.keda.sh/paused-replicas: "0"
+  {{- end }}
+spec:
+  scaleTargetRef:
+    name: datahub-datahub-gms
+    apiVersion: apps/v1
+    kind: Deployment
+  pollingInterval: 30
+  cooldownPeriod: 300
+  minReplicaCount: 1
+  maxReplicaCount: 1
+  triggers: []
+    # - type: example-trigger
+    #   metadata:
+    #     property: examle-property

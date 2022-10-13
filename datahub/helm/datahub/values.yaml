@@ -11,6 +11,8 @@ postgres:
 oidcClientSecret: ""
 adminPassword: changeme #TODO: expose this to the user in the notes
 
+paused: false
+
 # Default configuration for pre-requisites to get you started
 # Copy this file and update to the configuration of choice
 datahub:

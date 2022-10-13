@@ -1,0 +1,7 @@
+<root gap='medium'>
+  <box pad='small' gap='medium' direction='row' align='center'>
+    <button label='Pause' action='pause' primary='true' headline='true' />
+    <input placeholder="false" label='Pause the application' name='paused'>
+    </input>
+  </box>
+</root>
