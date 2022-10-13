@@ -13,6 +13,11 @@ adminPassword: changeme #TODO: expose this to the user in the notes
 
 paused: false
 
+cronSchedule:
+  enabled: false
+  start: 30 * * * *
+  end: 45 * * * *
+
 # Default configuration for pre-requisites to get you started
 # Copy this file and update to the configuration of choice
 datahub:
@@ -148,6 +153,8 @@ datahub:
       requests:
         cpu: 0.4
         memory: 60Mi
+  datahubUpgrade:
+    enabled: false
 
   global:
     datahub:

@@ -13,9 +13,21 @@ spec:
     kind: Deployment
   pollingInterval: 30
   cooldownPeriod: 300
+  {{- if not .Values.cronSchedule.enabled }}
   minReplicaCount: 1
+  {{- end }}
   maxReplicaCount: 1
+  {{- if .Values.cronSchedule.enabled }}
+  triggers:
+  - type: cron
+    metadata:
+      timezone: UTC
+      start: {{ .Values.cronSchedule.start }}
+      end: {{ .Values.cronSchedule.end }}
+      desiredReplicas: '1'
+  {{- else }}
   triggers: []
+  {{- end }}
     # - type: example-trigger
     #   metadata:
     #     property: examle-property
@@ -35,9 +47,21 @@ spec:
     kind: Deployment
   pollingInterval: 30
   cooldownPeriod: 300
+  {{- if not .Values.cronSchedule.enabled }}
   minReplicaCount: 1
+  {{- end }}
   maxReplicaCount: 1
+  {{- if .Values.cronSchedule.enabled }}
+  triggers:
+  - type: cron
+    metadata:
+      timezone: UTC
+      start: {{ .Values.cronSchedule.start }}
+      end: {{ .Values.cronSchedule.end }}
+      desiredReplicas: '1'
+  {{- else }}
   triggers: []
+  {{- end }}
     # - type: example-trigger
     #   metadata:
     #     property: examle-property
@@ -57,9 +81,21 @@ spec:
     kind: Deployment
   pollingInterval: 30
   cooldownPeriod: 300
+  {{- if not .Values.cronSchedule.enabled }}
   minReplicaCount: 1
+  {{- end }}
   maxReplicaCount: 1
+  {{- if .Values.cronSchedule.enabled }}
+  triggers:
+  - type: cron
+    metadata:
+      timezone: UTC
+      start: {{ .Values.cronSchedule.start }}
+      end: {{ .Values.cronSchedule.end }}
+      desiredReplicas: '1'
+  {{- else }}
   triggers: []
+  {{- end }}
     # - type: example-trigger
     #   metadata:
     #     property: examle-property

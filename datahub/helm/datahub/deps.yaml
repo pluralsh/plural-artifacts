@@ -24,7 +24,7 @@ spec:
   - type: helm
     name: kafka
     repo: kafka
-    version: '>= 0.1.22'
+    version: '>= 0.1.21'
   - type: terraform
     name: aws
     repo: datahub

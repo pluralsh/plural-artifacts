@@ -21,3 +21,23 @@ spec:
         - datahub
         - paused
         valueFrom: paused
+  - name: applyCron
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+      - path: 
+        - datahub
+        - cronSchedule
+        - enabled
+        valueFrom: cronEnabled
+      - path: 
+        - datahub
+        - cronSchedule
+        - start
+        valueFrom: cronStart
+      - path: 
+        - datahub
+        - cronSchedule
+        - end
+        valueFrom: cronEnd
