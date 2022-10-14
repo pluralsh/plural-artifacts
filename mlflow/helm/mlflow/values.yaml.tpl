@@ -48,3 +48,18 @@ serviceAccount:
   annotations:
     eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-mlflow"
 {{- end }}
+
+{{ if .Values.privateHostname }}
+private:
+  ingress:
+    enabled: true
+    tls:
+    - hosts:
+      - {{ .Values.privateHostname }}
+      secretName: mlflow-private-tls
+    hosts:
+    - host: {{ .Values.privateHostname }}
+      paths:
+      - path: '/.*'
+        pathType: ImplementationSpecific
+{{ end }}

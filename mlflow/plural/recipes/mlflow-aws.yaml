@@ -22,6 +22,10 @@ sections:
   - name: hostname
     documentation: FQDN to use for your MLFlow installation
     type: DOMAIN
+  - name: privateHostname
+    documentation: a private dns name to securely access MLFlow
+    type: DOMAIN
+    optional: true
   items:
   - type: TERRAFORM
     name: aws
