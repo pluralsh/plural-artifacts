@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "datahub.name" -}}
+{{- define "datahub-plural.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "datahub.fullname" -}}
+{{- define "datahub-plural.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "datahub.chart" -}}
+{{- define "datahub-plural.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "datahub.labels" -}}
-helm.sh/chart: {{ include "datahub.chart" . }}
-{{ include "datahub.selectorLabels" . }}
+{{- define "datahub-plural.labels" -}}
+helm.sh/chart: {{ include "datahub-plural.chart" . }}
+{{ include "datahub-plural.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,17 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "datahub.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "datahub.name" . }}
+{{- define "datahub-plural.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "datahub-plural.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "datahub.serviceAccountName" -}}
+{{- define "datahub-plural.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "datahub.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "datahub-plural.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}

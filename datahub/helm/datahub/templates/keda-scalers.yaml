@@ -1,14 +1,14 @@
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
-  name: datahub-acryl-datahub-actions
+  name: {{ template "acryl-datahub-actions.fullname" (index .Subcharts "datahub" "Subcharts" "acryl-datahub-actions") }}
   {{- if .Values.paused }}
   annotations:
     autoscaling.keda.sh/paused-replicas: "0"
   {{- end }}
 spec:
   scaleTargetRef:
-    name: datahub-acryl-datahub-actions
+    name: {{ template "acryl-datahub-actions.fullname" (index .Subcharts "datahub" "Subcharts" "acryl-datahub-actions") }}
     apiVersion: apps/v1
     kind: Deployment
   pollingInterval: 30
@@ -28,21 +28,18 @@ spec:
   {{- else }}
   triggers: []
   {{- end }}
-    # - type: example-trigger
-    #   metadata:
-    #     property: examle-property
 ---
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
-  name: datahub-datahub-frontend
+  name: {{ template "datahub-frontend.fullname" (index .Subcharts "datahub" "Subcharts" "datahub-frontend") }}
   {{- if .Values.paused }}
   annotations:
     autoscaling.keda.sh/paused-replicas: "0"
   {{- end }}
 spec:
   scaleTargetRef:
-    name: datahub-datahub-frontend
+    name: {{ template "datahub-frontend.fullname" (index .Subcharts "datahub" "Subcharts" "datahub-frontend") }}
     apiVersion: apps/v1
     kind: Deployment
   pollingInterval: 30
@@ -62,21 +59,18 @@ spec:
   {{- else }}
   triggers: []
   {{- end }}
-    # - type: example-trigger
-    #   metadata:
-    #     property: examle-property
 ---
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
-  name: datahub-datahub-gms
+  name: {{ template "datahub-gms.fullname" (index .Subcharts "datahub" "Subcharts" "datahub-gms") }}
   {{- if .Values.paused }}
   annotations:
     autoscaling.keda.sh/paused-replicas: "0"
   {{- end }}
 spec:
   scaleTargetRef:
-    name: datahub-datahub-gms
+    name: {{ template "datahub-gms.fullname" (index .Subcharts "datahub" "Subcharts" "datahub-gms") }}
     apiVersion: apps/v1
     kind: Deployment
   pollingInterval: 30
@@ -96,6 +90,3 @@ spec:
   {{- else }}
   triggers: []
   {{- end }}
-    # - type: example-trigger
-    #   metadata:
-    #     property: examle-property

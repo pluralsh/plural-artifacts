@@ -1,0 +1,45 @@
+{{- if .Values.kedaRunbookEnabled }}
+apiVersion: platform.plural.sh/v1alpha1
+kind: Runbook
+metadata:
+  name: keda-pausing
+  labels:
+    platform.plural.sh/pinned: 'true'
+{{ include "datahub.labels" . | indent 4 }}
+spec:
+  name: Pause Datahub
+  description: pause datahub
+  display: |-
+{{ .Files.Get "runbooks/keda-pausing.xml" | indent 4 }}
+  datasources: []
+  actions:
+  - name: pause
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+      - path: 
+        - datahub
+        - paused
+        valueFrom: paused
+  - name: applyCron
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+      - path: 
+        - datahub
+        - cronSchedule
+        - enabled
+        valueFrom: cronEnabled
+      - path: 
+        - datahub
+        - cronSchedule
+        - start
+        valueFrom: cronStart
+      - path: 
+        - datahub
+        - cronSchedule
+        - end
+        valueFrom: cronEnd
+{{- end }}

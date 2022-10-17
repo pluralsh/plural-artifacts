@@ -4,12 +4,9 @@ postgres:
   dbName: datahub
   ownerChart: datahub
   infix: '-postgres'
-  annotations:
-    helm.sh/hook: pre-install
-    helm.sh/hook-weight: "-10"
 
 oidcClientSecret: ""
-adminPassword: changeme #TODO: expose this to the user in the notes
+adminPassword: changeme
 
 paused: false
 
@@ -18,15 +15,30 @@ cronSchedule:
   start: 30 * * * *
   end: 45 * * * *
 
+kedaRunbookEnabled: false
+
+setupJobs:
+  elasticsearchSetupJob:
+    enabled: true
+  postgresqlSetupJob:
+    enabled: true
+  kafkaSetupJob:
+    enabled: true
+
+datahubUpgrade:
+  enabled: true
+
 # Default configuration for pre-requisites to get you started
 # Copy this file and update to the configuration of choice
 datahub:
   datahub-frontend:
     image:
-      repository: linkedin/datahub-frontend-react
-      tag: v0.8.45
+      repository: dkr.plural.sh/datahub/linkedin/datahub-frontend-react
+      tag: v0.9.0
     service:
       type: ClusterIP
+    serviceMonitor:
+      create: true
     resources:
       requests:
         cpu: 10m
@@ -50,33 +62,18 @@ datahub:
         nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
         nginx.ingress.kubernetes.io/use-regex: 'false'
         nginx.ingress.kubernetes.io/proxy-buffer-size: 256k
-    # oidcAuthentication:
-    #   enabled: false
-    #   clientId: your-client-id
-    #   clientSecretRef:
-    #     secretRef: <secret-ref>
-    #     secretKey: <secret-key>
-    # extraEnvs:
-    # - name: AUTH_OIDC_DISCOVERY_URI
-    #   value: "https://***************/auth/realms/******/.well-known/openid-configuration"
-    # - name: AUTH_OIDC_SCOPE
-    #   value: "openid profile offline_access"
-    # # - name: AUTH_OIDC_JIT_PROVISIONING_ENABLED
-    # #   value: "true"
-    # # - name: AUTH_OIDC_PRE_PROVISIONING_REQUIRED
-    # #   value: "false"
-    # - name: AUTH_OIDC_EXTRACT_GROUPS_ENABLED
-    #   value: "true"
-    # - name: AUTH_OIDC_GROUPS_CLAIM
-    #   value: "groups"
-    # # - name: AUTH_JAAS_ENABLED
-    # #   value: "false"
-
 
   datahub-gms:
     image:
-      repository: linkedin/datahub-gms
-      tag: "v0.8.45"
+      repository: dkr.plural.sh/datahub/linkedin/datahub-gms
+      tag: v0.9.0
+    serviceMonitor:
+      create: true
+    extraInitContainers:
+    - name: wait-for-pg
+      image: gcr.io/pluralsh/library/busybox:1.35.0
+      imagePullPolicy: IfNotPresent
+      command: [ "/bin/sh", "-c", "until nc -zv plural-postgres-datahub 5432 -w1; do echo 'waiting for db'; sleep 1; done" ]
     service:
       type: ClusterIP
     resources:
@@ -90,8 +87,8 @@ datahub:
   acryl-datahub-actions:
     enabled: true
     image:
-      repository: acryldata/datahub-actions
-      tag: "v0.0.7"
+      repository: dkr.plural.sh/datahub/acryldata/datahub-actions
+      tag: v0.0.7
     resources:
       limits:
         memory: 512Mi
@@ -101,28 +98,37 @@ datahub:
 
   datahub-mae-consumer:
     image:
-      repository: linkedin/datahub-mae-consumer
-      tag: "v0.8.45"
+      repository: dkr.plural.sh/datahub/linkedin/datahub-mae-consumer
+      tag: v0.9.0
+    serviceMonitor:
+      create: true
 
   datahub-mce-consumer:
     image:
-      repository: linkedin/datahub-mce-consumer
-      tag: "v0.8.45"
+      repository: dkr.plural.sh/datahub/linkedin/datahub-mce-consumer
+      tag: v0.9.0
+    serviceMonitor:
+      create: true
 
   datahub-ingestion-cron:
     enabled: false
     image:
-      repository: acryldata/datahub-ingestion
-      tag: "v0.8.45"
+      repository: dkr.plural.sh/datahub/acryldata/datahub-ingestion
+      tag: v0.9.0
 
   mysqlSetupJob:
     enabled: false
 
   postgresqlSetupJob:
-    enabled: true
+    enabled: false
+    initContainers:
+    - name: wait-for-pg
+      image: gcr.io/pluralsh/library/busybox:1.35.0
+      imagePullPolicy: IfNotPresent
+      command: [ "/bin/sh", "-c", "until nc -zv plural-postgres-datahub 5432 -w1; do echo 'waiting for db'; sleep 1; done" ]
     image:
-      repository: acryldata/datahub-postgres-setup
-      tag: "v0.8.45"
+      repository: dkr.plural.sh/datahub/acryldata/datahub-postgres-setup
+      tag: v0.9.0
     resources:
       requests:
         cpu: 5m
@@ -133,33 +139,38 @@ datahub:
       runAsUser: 1000
     podAnnotations: { }
   
-  #TODO: move the setup jobs to this chart and don't
   elasticsearchSetupJob:
-    enabled: true
+    enabled: false
     image:
-      repository: davidspek/datahub-elasticsearch-setup
-      tag: v0.8.45-cleanup-2
-    resources: #TODO: for datahub helm chart to make resources of jobs configurable
+      repository: dkr.plural.sh/datahub/acryldata/datahub-elasticsearch-setup
+      tag: v0.8.45-cleanup
+    resources:
       requests:
         cpu: 5m
         memory: 5Mi
 
   kafkaSetupJob:
-    enabled: true
+    enabled: false
     image:
-      repository: linkedin/datahub-kafka-setup
-      tag: "v0.8.45"
+      repository: dkr.plural.sh/datahub/linkedin/datahub-kafka-setup
+      tag: v0.9.0
     resources:
       requests:
         cpu: 0.4
         memory: 60Mi
+
   datahubUpgrade:
     enabled: false
+    image:
+      repository: dkr.plural.sh/datahub/acryldata/datahub-upgrade
+      tag: v0.9.0
 
   global:
     datahub:
       monitoring:
         enablePrometheus: true
+      metadata_service_authentication:
+        enabled: true
     graph_service_impl: "elasticsearch"
     elasticsearch:
       host: "elasticsearch-es-http.elasticsearch.svc"
