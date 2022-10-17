@@ -1,0 +1,10 @@
+linkedin/datahub-frontend-react:v0.8.45
+linkedin/datahub-gms:v0.8.45
+acryldata/datahub-actions:v0.0.7
+linkedin/datahub-mae-consumer:v0.8.45
+linkedin/datahub-mce-consumer:v0.8.45
+acryldata/datahub-ingestion:v0.8.45
+acryldata/datahub-postgres-setup:v0.8.45
+linkedin/datahub-kafka-setup:v0.8.45
+acryldata/datahub-upgrade:v0.8.45
+linkedin/datahub-elasticsearch-setup:v0.8.45
