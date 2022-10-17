@@ -1,7 +1,7 @@
 name: datahub
 description: datahub deployed on plural
 category: DATA
-private: true
+private: false
 icon: plural/icons/datahub.png
 notes: plural/notes.tpl
 homepage: https://datahubproject.io/

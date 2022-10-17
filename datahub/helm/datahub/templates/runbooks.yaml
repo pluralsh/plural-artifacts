@@ -6,7 +6,7 @@ metadata:
     platform.plural.sh/pinned: 'true'
 {{ include "datahub-plural.labels" . | indent 4 }}
 spec:
-  name: Datahub Scaling
+  name: DataHub Scaling
   description: overview of how to optimally scale your kafka cluster
   display: |-
 {{ .Files.Get "runbooks/datahub-scaling.xml" | indent 4 }}
