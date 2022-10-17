@@ -1,0 +1,14 @@
+name: datahub
+description: datahub deployed on plural
+category: DATA
+private: false
+icon: plural/icons/datahub.png
+notes: plural/notes.tpl
+homepage: https://datahubproject.io/
+gitUrl: https://github.com/datahub-project/datahub
+oauthSettings:
+  uriFormat: https://{domain}/callback/oidc
+  authMethod: POST
+tags:
+  - tag: data
+  - tag: data-catalog

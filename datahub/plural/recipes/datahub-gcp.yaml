@@ -1,0 +1,29 @@
+name: datahub-gcp
+description: Installs datahub on an GCP eks cluster
+provider: GCP
+oidcSettings:
+  authMethod: POST
+  uriFormat: https://{domain}/callback/oidc
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+- repo: postgres
+  name: gcp-postgres
+- name: elasticsearch-gcp
+  repo: elasticsearch
+- repo: kafka
+  name: gcp-kafka
+sections:
+- name: datahub
+  configuration:
+  - name: hostname
+    documentation: domain on which you'd like to host datahub's page
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: datahub

@@ -1,4 +1,4 @@
-REPO elasticsearch
+REPO datahub
 ATTRIBUTES Plural repository.yaml
 
 TF terraform/*
