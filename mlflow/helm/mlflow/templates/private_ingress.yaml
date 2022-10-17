@@ -1,9 +1,10 @@
 {{- if .Values.private.ingress.enabled -}}
 {{- $fullName := .Values.private.ingress.service.name -}}
-{{- $svcPort := .Values.private.ingress.service.port -}}
-{{- if and .Values.private.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
-  {{- if not (hasKey .Values.private.ingress.annotations "kubernetes.io/ingress.class") }}
-  {{- $_ := set .Values.private.ingress.annotations "kubernetes.io/ingress.class" .Values.private.ingress.className}}
+{{- $svcPort := .Values.service.port -}}
+{{- $oidcConfig := index .Values "oidc-config" -}}
+{{- if and .Values.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
+  {{- if not (hasKey .Values.ingress.annotations "kubernetes.io/ingress.class") }}
+  {{- $_ := set .Values.ingress.annotations "kubernetes.io/ingress.class" .Values.ingress.className}}
   {{- end }}
 {{- end }}
 {{- if semverCompare ">=1.19-0" .Capabilities.KubeVersion.GitVersion -}}
@@ -18,17 +19,17 @@ metadata:
   name: {{ $fullName }}
   labels:
     {{- include "mlflow.labels" . | nindent 4 }}
-  {{- with .Values.private.ingress.annotations }}
+  {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  {{- if and .Values.private.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
-  ingressClassName: {{ .Values.private.ingress.className }}
+  {{- if and .Values.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
+  ingressClassName: {{ .Values.ingress.className }}
   {{- end }}
-  {{- if .Values.private.ingress.tls }}
+  {{- if .Values.ingress.tls }}
   tls:
-    {{- range .Values.private.ingress.tls }}
+    {{- range .Values.ingress.tls }}
     - hosts:
         {{- range .hosts }}
         - {{ . | quote }}
@@ -37,7 +38,7 @@ spec:
     {{- end }}
   {{- end }}
   rules:
-    {{- range .Values.private.ingress.hosts }}
+    {{- range .Values.ingress.hosts }}
     - host: {{ .host | quote }}
       http:
         paths:
@@ -47,6 +48,17 @@ spec:
             pathType: {{ .pathType }}
             {{- end }}
             backend:
+              {{- if $oidcConfig.enabled }}
+              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
+              service:
+                name: {{ $oidcConfig.service.name }}
+                port:
+                  number: 80
+              {{- else }}
+              serviceName: {{ $oidcConfig.service.name }}
+              servicePort: 80
+              {{- end }}
+              {{- else }}
               {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
               service:
                 name: {{ $fullName }}
@@ -55,6 +67,7 @@ spec:
               {{- else }}
               serviceName: {{ $fullName }}
               servicePort: {{ $svcPort }}
+              {{- end }}
               {{- end }}
           {{- end }}
     {{- end }}

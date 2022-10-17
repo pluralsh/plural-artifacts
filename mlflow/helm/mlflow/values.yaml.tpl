@@ -27,7 +27,7 @@ oidc-config:
 {{ end }}
 
 ingress:
-  enabled: true
+  enabled: false
   hosts:
     - host: {{ .Values.hostname }}
       paths:

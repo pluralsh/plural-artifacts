@@ -5,6 +5,9 @@ type: application
 version: 0.1.8
 appVersion: "v1.27.0"
 dependencies:
+- name: config-overlays
+  version: 0.1.1
+  repository: https://pluralsh.github.io/module-library
 - name: postgres
   version: 0.1.5
   repository: https://pluralsh.github.io/module-library
