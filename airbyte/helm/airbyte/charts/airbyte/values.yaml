@@ -10,6 +10,8 @@ global:
 airbyteS3Bucket: airbyte-dev-logs
 airbyteS3Region: ''
 
+extraEnv: []
+
 ## @section Common Parameters
 
 ## @param nameOverride String to partially override airbyte.fullname template with a string (will prepend the release name)
