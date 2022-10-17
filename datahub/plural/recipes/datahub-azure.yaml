@@ -24,6 +24,6 @@ sections:
     type: DOMAIN
   items:
   - type: TERRAFORM
-    name: azure
+    name: kube
   - type: HELM
     name: datahub

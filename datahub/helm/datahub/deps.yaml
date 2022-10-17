@@ -24,19 +24,9 @@ spec:
   - type: helm
     name: kafka
     repo: kafka
-    version: '>= 0.1.21'
+    version: '>= 0.1.22'
   - type: terraform
-    name: aws
+    name: kube
     repo: datahub
     version: '>= 0.1.0'
-    optional: true
-  - type: terraform
-    name: azure
-    repo: datahub
-    version: '>= 0.1.0'
-    optional: true
-  - type: terraform
-    name: gcp
-    repo: datahub
-    version: '>= 0.1.0'
-    optional: true
+  
