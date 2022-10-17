@@ -41,7 +41,6 @@ kafka:
       memory: 1Gi
     limits:
       memory: 1Gi
-      cpu: ""
 
 entityOperator:
   topicOperator: {}
