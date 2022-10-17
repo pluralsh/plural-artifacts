@@ -1,0 +1,11 @@
+name: elasticsearch
+description: de facto open source search databse
+category: DATABASE
+private: false
+icon: plural/icons/elastic.png
+notes: plural/notes.tpl
+homepage: https://www.elastic.co/
+gitUrl: https://github.com/elastic/cloud-on-k8s
+tags:
+  - tag: data
+  - tag: data-catalog
