@@ -17,25 +17,17 @@
             <box gap='xsmall'>
                 <input placeholder="250m" label='MLFlow CPU Request' name='mlflow-cpu'>
                     <valueFrom
-                            datasource="controller"
+                            datasource="server"
                             doc="kubernetes.raw"
                             path="spec.template.spec.containers[0].resources.requests.cpu" />
                 </input>
                 <input placeholder="1Gi" label='MLFlow Memory Request' name='mlflow-memory'>
                     <valueFrom
-                            datasource="controller"
+                            datasource="server"
                             doc="kubernetes.raw"
                             path="spec.template.spec.containers[0].resources.requests.memory" />
                 </input>
             </box>
         </box>
-    </box>
-    <box width='100%' gap='small'>
-        <text size='small'>Be sure to scale your MLFlow component within your node's capacity, listed here:</text>
-        <table width='100%' datasource='nodes' path='nodes'>
-            <tableColumn path='metadata.name' header='name' width='33%' />
-            <tableColumn path='status.capacity.cpu' header='cpu' width='33%' />
-            <tableColumn path='status.capacity.memory' header='memory' width='33%' />
-        </table>
     </box>
 </root>

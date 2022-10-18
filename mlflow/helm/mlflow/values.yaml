@@ -133,45 +133,14 @@ config:
 config-overlays:
   configOverlays:
     mlflow-cpu:
-      #labels:
-      #  platform.plural.sh/component: mongo
-      #  platform.plural.sh/kind: statefulset
-      #  platform.plural.sh/resource: cpu
       spec:
         name: mlflow cpu
         documentation: cpu requests for mlfow
         updates:
           - path: ['mlflow', 'resources', 'requests', 'cpu']
     mlflow-mem:
-      #labels:
-      #  platform.plural.sh/component: mongo
-      #  platform.plural.sh/kind: statefulset
-      #  platform.plural.sh/resource: cpu
       spec:
         name: mlflow memory
         documentation: memory requests for mlfow
         updates:
           - path: ['mlflow', 'resources', 'requests', 'memory']
-
-#configOverlays:
-#  - name: mlflow-cpu
-    #labels:
-    #  platform.plural.sh/component: airbyte-webapp
-    #  platform.plural.sh/kind: deployment
-    #  platform.plural.sh/resource: cpu
-#    spec:
-#      name: mlflow container cpu
-#      documentation: cpu requests for MLFlow deployment
-#      updates:
-#        - path: ["mlflow", "resources", "requests", "cpu"]
-#  - name: mlflow-mem
-    #labels:
-    #  platform.plural.sh/component: airbyte-webapp
-    #  platform.plural.sh/kind: deployment
-    #  platform.plural.sh/resource: memory
-#    spec:
-#      name: mlflow container memory
-#      documentation: memory requests for mlflow deployment
-#      updates:
-#        - path:
-#            [ "mlflow", "resources", "requests", "memory" ]

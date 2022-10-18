@@ -28,8 +28,6 @@ spec:
     kubernetes:
       resource: deployment
       name: mlflow
-  - name: nodes
-    type: nodes
   actions:
   - name: scale
     action: config
