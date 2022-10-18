@@ -13,12 +13,12 @@ grafana:
     pspEnabled: false
 
   image:
-    repository: gcr.io/pluralsh/grafana/grafana
-    tag: 9.2.0
+    repository: dkr.plural.sh/grafana/grafana/grafana
+    tag: 9.2.1
   initChownData:
     image:
-      repository: gcr.io/pluralsh/busybox
-      tag: latest
+      repository: gcr.io/pluralsh/library/busybox
+      tag: 1.35.0
   downloadDashboardsImage:
     repository: gcr.io/pluralsh/curlimages/curl
   grafana.ini:
@@ -30,47 +30,8 @@ grafana:
   - grafana-worldmap-panel
   - natel-discrete-panel
   - grafana-oncall-app
-  # dashboardProviders:
-  #   dashboardproviders.yaml:
-  #     apiVersion: 1
-  #     providers:
-  #     - name: default
-  #       orgId: 1
-  #       folder: ''
-  #       type: file
-  #       updateIntervalSeconds: 10
-  #       disableDeletion: true
-  #       editable: true
-  #       options:
-  #         path: /var/lib/grafana/dashboards/default
-  #     - name: sidecar
-  #       orgId: 1
-  #       folder: ''
-  #       type: file
-  #       updateIntervalSeconds: 10
-  #       disableDeletion: true
-  #       editable: true
-  #       options:
-  #         path: /var/lib/grafana/dashboards/sidecar
-  # dashboards:
-  #   default:
-  #     kubernetes-overview:
-  #       gnetId: 10856
-  #       revision: 1
-  #       uid: 'kubernetes-overview'
-  #       datasource: Prometheus
-  #     kubernetes-deepdive:
-  #       gnetId: 8588
-  #       revision: 1
-  #       uid: 'kubernetes-deepdive'
-  #       datasource: Prometheus
-  #     node-overview:
-  #       gnetId: 1860
-  #       revision: 16
-  #       uid: 'node-overview'
-  #       datasource: Prometheus
   service:
-    type: NodePort
+    type: ClusterIP
   persistence:
     enabled: true
     type: statefulset
@@ -89,7 +50,8 @@ grafana:
       enabled: true
       searchNamespace: ALL
     plugins:
-      enabled: true
+      enabled: false
+      searchNamespace: ALL
   ingress:
     enabled: true
     path: /.*
