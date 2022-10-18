@@ -44,3 +44,6 @@ oncall:
   externalRabbitmq:
     port: "5672"
     protocol: amqp
+  env:
+  - name: FEATURE_WEB_SCHEDULES_ENABLED
+    value: "true"
