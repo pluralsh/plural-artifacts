@@ -1,0 +1,40 @@
+postgres:
+  team: plural
+  user: oncall
+  dbName: oncall
+  ownerChart: oncall
+  infix: '-postgres'
+
+oncall:
+  image:
+    repository: davidspek/oncall
+    tag: v1.0.40-migrate-fix-3
+  ingress:
+    enabled: false
+  ingress-nginx:
+    enabled: false
+  cert-manager:
+    enabled: false
+  mariadb:
+    enabled: false
+  postgresql:
+    enabled: false
+  rabbitmq:
+    enabled: false
+  redis:
+    enabled: false
+  grafana:
+    enabled: false
+  database:
+    type: postgresql
+  externalPostgresql:
+    host: plural-postgres-oncall
+    port: "5432"
+    db_name: oncall
+    user: oncall
+    password:
+    existingSecret: oncall.plural-postgres-oncall.credentials.postgresql.acid.zalan.do
+    passwordKey: password
+  externalRabbitmq:
+    port: "5672"
+    protocol: amqp

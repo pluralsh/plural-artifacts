@@ -1,0 +1,1 @@
+Use `plural watch oncall` to track the status of your application

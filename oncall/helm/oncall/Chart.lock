@@ -1,0 +1,9 @@
+dependencies:
+- name: postgres
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.6
+- name: oncall
+  repository: file://../../../../oncall/helm/oncall
+  version: 1.0.5
+digest: sha256:3838efd429cf67c683c7ea2aabd8ad74754414a41dd97307df3c16633997ff6e
+generated: "2022-10-18T15:32:48.208483+02:00"

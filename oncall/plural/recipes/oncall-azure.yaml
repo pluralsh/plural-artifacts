@@ -1,0 +1,22 @@
+name: oncall-azure
+description: Installs oncall on an aws eks cluster
+provider: AZURE
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-azure
+- repo: rabbitmq
+  name: rabbitmq-azure
+- repo: redis
+  name: azure-redis
+- repo: postgres
+  name: azure-postgres
+sections:
+- name: oncall
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: oncall
