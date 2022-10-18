@@ -1,9 +1,12 @@
 dependencies:
+- name: config-overlays
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.1
 - name: postgres
   repository: https://pluralsh.github.io/module-library
   version: 0.1.5
 - name: oidc-config
   repository: https://pluralsh.github.io/module-library
   version: 0.1.6
-digest: sha256:7030b7705752817c5bdb7d71b8ff558cae5ad6204e3b7b588916489f9147cd85
-generated: "2022-07-28T17:03:49.705024344+02:00"
+digest: sha256:602786a7c49906b2fe790f383c37826f4d8521ebad1f3078022804473f104f72
+generated: "2022-10-17T17:21:33.703709+03:00"

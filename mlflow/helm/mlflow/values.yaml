@@ -42,6 +42,23 @@ service:
   type: ClusterIP
   port: 80
 
+private:
+  ingress:
+    enabled: false
+    className: internal-nginx
+    annotations:
+      kubernetes.io/tls-acme: "true"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      # Extend timeout to allow long running queries.
+      nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/use-regex: "true"
+    service:
+      name: mlflow
+      port: 80
+
 ingress:
   enabled: false
   className: nginx
@@ -59,7 +76,7 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-resources: {}
+resources:
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -67,9 +84,9 @@ resources: {}
   # limits:
   #   cpu: 100m
   #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
 
 autoscaling:
   enabled: false
@@ -112,3 +129,18 @@ config:
     host: plural-mlflow
     port: '5432'
     dbname: mlflow
+
+config-overlays:
+  configOverlays:
+    mlflow-cpu:
+      spec:
+        name: mlflow cpu
+        documentation: cpu requests for mlfow
+        updates:
+          - path: ['mlflow', 'resources', 'requests', 'cpu']
+    mlflow-mem:
+      spec:
+        name: mlflow memory
+        documentation: memory requests for mlfow
+        updates:
+          - path: ['mlflow', 'resources', 'requests', 'memory']
