@@ -14,7 +14,10 @@ dependencies:
   name: aws-postgres
 sections:
 - name: oncall
-  configuration: []
+  configuration:
+  - name: hostname
+    documentation: public domain to host oncall on
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: kube

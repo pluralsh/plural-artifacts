@@ -11,6 +11,12 @@ oncall:
     tag: v1.0.40-migrate-fix-3
   ingress:
     enabled: false
+    className: nginx
+    annotations: 
+      kubernetes.io/tls-acme: "true"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+      nginx.ingress.kubernetes.io/use-regex: 'false'
   ingress-nginx:
     enabled: false
   cert-manager:
