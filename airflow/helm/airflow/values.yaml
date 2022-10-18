@@ -251,7 +251,7 @@ airflow:
     executor: CeleryExecutor
     image:
       repository: dkr.plural.sh/airflow/apache/airflow
-      tag: 2.1.4-python3.8
+      tag: 2.1.4-python3.8-dbt
 
     config:
       ## security
