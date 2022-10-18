@@ -14,7 +14,7 @@ grafana:
 
   image:
     repository: gcr.io/pluralsh/grafana/grafana
-    tag: 8.3.2
+    tag: 9.2.0
   initChownData:
     image:
       repository: gcr.io/pluralsh/busybox
@@ -29,6 +29,7 @@ grafana:
   plugins:
   - grafana-worldmap-panel
   - natel-discrete-panel
+  - grafana-oncall-app
   # dashboardProviders:
   #   dashboardproviders.yaml:
   #     apiVersion: 1
@@ -87,6 +88,8 @@ grafana:
     datasources:
       enabled: true
       searchNamespace: ALL
+    plugins:
+      enabled: true
   ingress:
     enabled: true
     path: /.*
