@@ -79,7 +79,7 @@ jobs:
         username: mjg@plural.sh
         password: ${{ secrets.PLURAL_ACCESS_TOKEN }}
     - run: |
-        docker build -t gcr.io/pluralsh/apache/airflow:2.1.4-python3.8-plrl-2 -t dkr.plural.sh/airflow/apache/airflow:2.1.4-python3.8-plrl-2 airflow
-        docker push gcr.io/pluralsh/apache/airflow:2.1.4-python3.8-plrl-2
-        docker push dkr.plural.sh/airflow/apache/airflow:2.1.4-python3.8-plrl-2
+        docker build -t gcr.io/pluralsh/apache/airflow:2.1.4-python3.8-dbt -t dkr.plural.sh/airflow/apache/airflow:2.1.4-python3.8-dbt airflow
+        docker push gcr.io/pluralsh/apache/airflow:2.1.4-python3.8-dbt
+        docker push dkr.plural.sh/airflow/apache/airflow:2.1.4-python3.8-dbt
   
