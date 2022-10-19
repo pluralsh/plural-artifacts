@@ -14,20 +14,20 @@ postgres:
 
 configOverlays:
 - name: web-cpu
-  labels:
-    platform.plural.sh/component: calendso
-    platform.plural.sh/kind: deployment
-    platform.plural.sh/resource: cpu
+  #labels:
+    #platform.plural.sh/component: calendso
+    #platform.plural.sh/kind: deployment
+    #platform.plural.sh/resource: cpu
   spec:
     name: web cpu
     documentation: cpu requests for calendso webapp deployment
     updates:
     - path: ['calendso', 'resources', 'requests', 'cpu']
 - name: web-mem
-  labels:
-    platform.plural.sh/component: calendso
-    platform.plural.sh/kind: deployment
-    platform.plural.sh/resource: memory
+  #labels:
+    #platform.plural.sh/component: calendso
+    #platform.plural.sh/kind: deployment
+    #platform.plural.sh/resource: memory
   spec:
     name: web memory
     documentation: memory requests for calendso webapp deployment
