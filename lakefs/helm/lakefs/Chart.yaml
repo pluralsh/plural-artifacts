@@ -2,10 +2,9 @@ apiVersion: v2
 name: lakefs
 description: helm chart for lakefs
 type: application
-version: 0.1.0
+version: 0.1.1
 appVersion: "0.68.0"
-
 dependencies:
 - name: postgres
-  version: 0.1.5
+  version: 0.1.7
   repository: https://pluralsh.github.io/module-library
