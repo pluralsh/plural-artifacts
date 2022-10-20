@@ -36,3 +36,11 @@ grafana:
       role_attribute_path: "null"
       groups_attribute_path: groups
   {{ end }}
+  {{- if .Configuration.loki }}
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      deleteDatasources:
+      - name: Loki
+        orgId: 1
+{{- end }}

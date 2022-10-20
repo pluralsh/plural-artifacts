@@ -14,7 +14,7 @@ data:
       access: proxy
       orgId: 1
       uid: loki-distributed
-      url: http://loki-loki-distributed-gateway.loki
+      url: http://{{ template "loki.gatewayFullname" (index .Subcharts "loki-distributed") }}.{{ .Release.Namespace }}
       jsonData:
         manageAlerts: true
         alertmanagerUid: alertmanager

@@ -14,7 +14,7 @@ data:
       access: proxy
       orgId: 1
       uid: prometheus
-      url: http://monitoring-prometheus.monitoring:9090
+      url: http://{{ template "kube-prometheus-stack.prometheus.crname" (index .Subcharts "kube-prometheus-stack") }}.{{ .Release.Namespace }}:9090
       jsonData:
         manageAlerts: true
         alertmanagerUid: alertmanager
@@ -35,9 +35,10 @@ data:
       access: proxy
       orgId: 1
       uid: alertmanager
-      url: http://monitoring-alertmanager.monitoring:9093
+      url: http://{{ template "kube-prometheus-stack.alertmanager.crname" (index .Subcharts "kube-prometheus-stack") }}.{{ .Release.Namespace }}:9093
       jsonData:
         implementation: prometheus
+{{- if .Values.loki.enabled }}
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -55,7 +56,7 @@ data:
       access: proxy
       orgId: 1
       uid: loki
-      url: http://monitoring-loki.monitoring:3100
+      url: http://{{ template "loki.fullname" .Subcharts.loki }}.{{ .Release.Namespace }}:3100
       jsonData:
         manageAlerts: true
         alertmanagerUid: alertmanager
@@ -65,3 +66,4 @@ data:
             name: TraceID
             url: "$${__value.raw}"
             datasourceUid: tempo
+{{- end }}

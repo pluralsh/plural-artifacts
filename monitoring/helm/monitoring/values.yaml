@@ -3,6 +3,7 @@ global:
     pspEnabled: false
 
 loki:
+  enabled: true
   rbac:
     pspEnabled: false
   image:
@@ -14,6 +15,7 @@ loki:
     prometheus.io/path: /metrics
     prometheus.io/scheme: http
 promtail:
+  enabled: true
   image:
     registry: dkr.plural.sh
     repository: monitoring/grafana/promtail
