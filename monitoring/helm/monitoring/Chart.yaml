@@ -11,9 +11,11 @@ dependencies:
 - name: loki
   version: 2.9.1
   repository: https://grafana.github.io/helm-charts
+  condition: loki.enabled
 - name: promtail
   version: 3.11.0
   repository: https://grafana.github.io/helm-charts
+  condition: promtail.enabled
 - name: opentelemetry-operator
   version: 0.12.0
   repository: https://open-telemetry.github.io/opentelemetry-helm-charts

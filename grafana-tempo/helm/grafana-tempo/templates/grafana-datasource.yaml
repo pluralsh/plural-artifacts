@@ -14,11 +14,15 @@ data:
       access: proxy
       orgId: 1
       uid: tempo
-      url: http://grafana-tempo-tempo-distributed-query-frontend.grafana-tempo:3100
+      url: http://{{ template "tempo.queryFrontendFullname" (index .Subcharts "tempo-distributed") }}.{{ .Release.Namespace }}:3100
       jsonData:
         tracesToLogs:
-            datasourceUid: loki
-            tags:
-              - cluster
-              - namespace
-              - pod
+          {{- if eq .Values.lokiMode "distributed" }}
+          datasourceUid: loki-distributed
+          {{- else }}
+          datasourceUid: loki
+          {{- end }}
+          tags:
+            - cluster
+            - namespace
+            - pod

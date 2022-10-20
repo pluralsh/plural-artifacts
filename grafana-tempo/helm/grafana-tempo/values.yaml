@@ -2,6 +2,9 @@ provider: aws
 tempoStorageIdentityId: 
 tempoStorageIdentityClientId: 
 
+# can be simple or distributed
+lokiMode: simple
+
 tempo-distributed:
   tempo:
     image:
