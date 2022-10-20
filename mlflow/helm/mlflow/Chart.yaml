@@ -2,11 +2,11 @@ apiVersion: v2
 name: mlflow
 description: helm chart for mlflow
 type: application
-version: 0.1.8
+version: 0.1.9
 appVersion: "v1.27.0"
 dependencies:
 - name: postgres
-  version: 0.1.5
+  version: 0.1.7
   repository: https://pluralsh.github.io/module-library
 - name: oidc-config
   version: 0.1.6
