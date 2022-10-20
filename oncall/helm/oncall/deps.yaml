@@ -14,6 +14,10 @@ spec:
     repo: ingress-nginx
     version: ">= 0.1.2"
   - type: helm
+    name: grafana
+    repo: grafana
+    version: ">= 0.2.13"
+  - type: helm
     name: cluster-operator
     repo: rabbitmq
     version: '>= 0.1.8'

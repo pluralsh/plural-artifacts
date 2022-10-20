@@ -6,6 +6,8 @@ dependencies:
   name: gcp-k8s
 - repo: ingress-nginx
   name: ingress-nginx-gcp
+- repo: grafana
+  name: gcp-grafana
 - repo: postgres
   name: gcp-postgres
 - repo: rabbitmq
