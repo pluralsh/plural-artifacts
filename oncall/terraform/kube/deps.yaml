@@ -1,0 +1,41 @@
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  description: oncall kubernetes setup
+  version: 0.1.0
+spec:
+  dependencies:
+  - name: aws-bootstrap
+    repo: bootstrap
+    type: terraform
+    version: '>= 0.1.1'
+    optional: true
+  - name: azure-bootstrap
+    repo: bootstrap
+    type: terraform
+    version: '>= 0.1.1'
+    optional: true
+  - name: equinix-bootstrap
+    repo: bootstrap
+    type: terraform
+    version: '>= 0.1.1'
+    optional: true
+  - name: gcp-bootstrap
+    repo: bootstrap
+    type: terraform
+    version: '>= 0.1.1'
+    optional: true
+  - name: kind-bootstrap
+    repo: bootstrap
+    type: terraform
+    version: '>= 0.1.1'
+    optional: true
+  outputs:
+    rabbitmq_password: rabbitmq_password
+    rabbitmq_username: rabbitmq_username
+  providers:
+  - aws
+  - azure
+  - equinix
+  - gcp
+  - kind
