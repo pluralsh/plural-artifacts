@@ -23,3 +23,14 @@ oncall:
   externalRedis:
     host: redis-master.{{ $redisNamespace }}
     password: {{ $redisValues.redis.password }}
+  {{ if .SMTP }}
+  oncall:
+    smtp:
+      enabled: true
+      host: {{ .SMTP.Server }}
+      port: {{ .SMTP.Port }}
+      username: {{ .SMTP.User }}
+      password: {{ .SMTP.Password }}
+      fromEmail: {{ .SMTP.Sender }}
+      tls: true
+  {{ end }}

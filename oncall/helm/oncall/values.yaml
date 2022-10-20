@@ -8,7 +8,7 @@ postgres:
 oncall:
   image:
     repository: davidspek/oncall
-    tag: v1.0.40-migrate-fix-3
+    tag: v1.0.41-smtp
   ingress:
     enabled: false
     className: nginx

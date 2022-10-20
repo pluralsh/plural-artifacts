@@ -16,6 +16,8 @@ data:
       uid: loki-distributed
       url: http://loki-loki-distributed-gateway.loki
       jsonData:
+        manageAlerts: true
+        alertmanagerUid: alertmanager
         derivedFields:
           - datasourceName: Tempo
             matcherRegex: "traceID=(\\w+)"
