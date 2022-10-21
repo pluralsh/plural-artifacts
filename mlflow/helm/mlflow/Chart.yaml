@@ -6,7 +6,7 @@ version: 0.1.11
 appVersion: "v1.27.0"
 dependencies:
 - name: postgres
-  version: 0.1.9
+  version: 0.1.10
   repository: https://pluralsh.github.io/module-library
 - name: oidc-config
   version: 0.1.6
