@@ -1,4 +1,4 @@
-name: vendor-and-publish
+name: vendor-images-cron
 
 on:
   workflow_dispatch:
