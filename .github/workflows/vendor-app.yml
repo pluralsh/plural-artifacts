@@ -1,0 +1,49 @@
+name: vendor-application-images
+
+on:
+  workflow_dispatch:
+    inputs:
+      application:
+        description: 'Application to vendor images for'     
+        required: true
+jobs:
+  vendor-plural:
+    name: Vendor application images ${{ github.event.inputs.application }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    steps:
+    - name: Install skopeo
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libgpgme-dev libassuan-dev libbtrfs-dev libdevmapper-dev pkg-config
+        git clone https://github.com/pluralsh/skopeo.git
+        cd skopeo
+        make bin/skopeo
+        sudo make install-binary
+        cd ..
+    - uses: actions/checkout@v2
+    - uses: google-github-actions/auth@v0
+      with:
+        workload_identity_provider: 'projects/${{ secrets.GOOGLE_PROJECT_ID }}/locations/global/workloadIdentityPools/github/providers/github'
+        service_account: 'terraform@pluralsh.iam.gserviceaccount.com'
+        token_format: 'access_token'
+        create_credentials_file: true
+    - uses: google-github-actions/setup-gcloud@v0.3.0
+    - name: Login to gcr
+      run: gcloud auth configure-docker -q
+    - name: Login to plural registry
+      uses: docker/login-action@v1
+      with:
+        registry: dkr.plural.sh
+        username: mjg@plural.sh
+        password: ${{ secrets.PLURAL_ACCESS_TOKEN }}
+    - name: "Vendor images to Plural"
+      continue-on-error: true
+      run: |
+        skopeo sync --keep-going --retry-times 5 --scoped --scoped-append-registry=false --all --src yaml --dest docker ${{ github.event.inputs.application }}/vendor_images.yaml dkr.plural.sh/${{ github.event.inputs.application }}
+    - name: "Vendor images to GCR"
+      continue-on-error: true
+      run: |
+        skopeo sync --keep-going --retry-times 5 --scoped --scoped-append-registry=false --all --src yaml --dest docker ${{ github.event.inputs.application }}/vendor_images.yaml gcr.io/pluralsh
