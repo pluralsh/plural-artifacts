@@ -1,0 +1,4 @@
+ghcr.io:
+  images-by-tag-regex:
+    kyverno/kyverno: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    kyverno/kyvernopre: ^v?[0-9]+\.[0-9]+?\.[0-9]+$

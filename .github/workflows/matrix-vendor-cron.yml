@@ -1,11 +1,9 @@
-name: vendor-and-publish
+name: vendor-images-cron
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
+  # schedule:
+  # - cron: "*/5 * * * *"
 jobs:
   build-matrix:
     name: Create Build Matrix
@@ -19,53 +17,11 @@ jobs:
     - name: generate matrix
       id: generate-matrix
       run: |
-          if [ ${{ github.event_name }} == 'pull_request' ];
-          then
-            echo "running because of PR"
-            CHANGED_DIRS=$(git diff --name-only ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }} | xargs -I {} dirname {})
-            echo "${CHANGED_DIRS}"
-          else
-            CHANGED_DIRS=$(git diff --name-only ${{ github.event.before }}..${{ github.event.after }} | xargs -I {} dirname {})
-            echo "${CHANGED_DIRS}"
-          fi
-
-          ############################
-          ### Plural apply section ###
-          ############################
-
-          APP_FOLDERS=$(for CHANGED_DIR in ${CHANGED_DIRS}; do echo ${CHANGED_DIR} | awk -F "/" '{print $1}'; done | sort -u)
-          echo "${APP_FOLDERS}"
-          APP_APPLY_MATRIX_PROJECTS_JSON="["
-          APP_APPLY_MATRIX_INCLUDE_JSON="["
-
-          for APP_FOLDER in ${APP_FOLDERS}; do
-            if [[ "${APP_FOLDER}" != "."* ]]; then
-              REPO=${APP_FOLDER}
-              PLURALFILE=$(find ${REPO} -name "Pluralfile")
-              APP_APPLY_MATRIX_PROJECTS_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${REPO}")
-              APP_APPLY_MATRIX_INCLUDE_JSON+="{\"repository\": \"${REPO}\", \"pluralfile\": \"${PLURALFILE}\"}"
-            fi
-          done
-
-          APP_APPLY_MATRIX_INCLUDE_JSON="${APP_APPLY_MATRIX_INCLUDE_JSON//\}\{/\}, \{}"
-          APP_APPLY_MATRIX_INCLUDE_JSON+="]"
-          APP_APPLY_MATRIX_PROJECTS_JSON="${APP_APPLY_MATRIX_PROJECTS_JSON//\"\"/\", \"}"
-          APP_APPLY_MATRIX_PROJECTS_JSON+="]"
-          echo "{$APP_APPLY_MATRIX_PROJECTS_JSON}"
-          APP_APPLY_MATRIX_JSON="{\"include\": ${APP_APPLY_MATRIX_INCLUDE_JSON}}"
-          echo "${APP_APPLY_MATRIX_JSON}"
-          
-          CONTINUE_APP_APPLY_JOB="no"
-          if [[ "${APP_APPLY_MATRIX_PROJECTS_JSON}" != "[]" && ${{ github.event_name }} != 'pull_request' ]]
-          then
-            CONTINUE_APP_APPLY_JOB="yes"
-          fi
-
-          echo "${CONTINUE_APP_APPLY_JOB}"
-
           ###############################
           ### Image vendoring section ###
           ###############################
+
+          APP_FOLDERS=$(find . -name "vendor_images.yaml" | awk -F "/" '{print $2}' | sort -u )
 
           VENDOR_MATRIX_PROJECTS_JSON="["
           VENDOR_MATRIX_INCLUDE_JSON="["
@@ -92,7 +48,7 @@ jobs:
           echo "${VENDOR_MATRIX_JSON}"
           
           CONTINUE_VENDOR_JOB="no"
-          if [[ "${VENDOR_MATRIX_PROJECTS_JSON}" != "[]" && ${{ github.event_name }} != 'pull_request' ]]
+          if [[ "${VENDOR_MATRIX_PROJECTS_JSON}" != "[]" ]]
           then
             CONTINUE_VENDOR_JOB="yes"
           fi
@@ -105,13 +61,9 @@ jobs:
 
           echo "::set-output name=continue_vendor::${CONTINUE_VENDOR_JOB}"
           echo "::set-output name=vendor_matrix::${VENDOR_MATRIX_JSON}"
-          echo "::set-output name=continue_app_apply::${CONTINUE_APP_APPLY_JOB}"
-          echo "::set-output name=app_apply_matrix::${APP_APPLY_MATRIX_JSON}"
     outputs:
       vendor_matrix: ${{ steps.generate-matrix.outputs.vendor_matrix }}
       continue_vendor: ${{ steps.generate-matrix.outputs.continue_vendor }}
-      app_apply_matrix: ${{ steps.generate-matrix.outputs.app_apply_matrix }}
-      continue_app_apply: ${{ steps.generate-matrix.outputs.continue_app_apply }}
   vendor-plural:
     if: needs.build-matrix.outputs.continue_vendor == 'yes'
     name: Vendor application images
@@ -156,40 +108,3 @@ jobs:
       continue-on-error: true
       run: |
         skopeo sync --keep-going --retry-times 5 --scoped --scoped-append-registry=false --all --src yaml --dest docker ${{ matrix.skopeo_file }} gcr.io/pluralsh
-    # - name: "Vendor image"
-    #   uses: ./.github/actions/vendor
-    #   id: vendor
-    #   with:
-    #     img: ${{ matrix.image }}
-    #     repo: ${{ matrix.repository }}
-  deploy:
-    if: always() && (needs.build-matrix.outputs.continue_app_apply == 'yes')
-    name: Upload Plural artifacts
-    runs-on: ubuntu-latest
-    strategy:
-      matrix: ${{ fromJson(needs.build-matrix.outputs.app_apply_matrix) }}
-    needs:
-    - build-matrix
-    - vendor-plural
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-    steps:
-    - uses: actions/checkout@v2
-    - uses: hashicorp/setup-terraform@v1
-    - uses: azure/setup-helm@v1
-      with:
-        version: latest
-    - name: installing plural
-      uses: pluralsh/setup-plural@v0.1.3
-      with: 
-        config: ${{ secrets.PLURAL_CONF }}
-        vsn: 0.3.17
-    - run: plural apply -f ${{ matrix.pluralfile }}
-    - uses: 8398a7/action-slack@v3
-      with:
-        status: ${{ job.status }}
-        fields: workflow,job,repo,message,commit,author
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }} # required
-      if: always()

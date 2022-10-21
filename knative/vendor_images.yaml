@@ -1,0 +1,14 @@
+gcr.io:
+  images-by-tag-regex:
+    knative-releases/knative.dev/serving/cmd/activator: ^v?1\.[0-9]+?\.[0-9]+$
+    knative-releases/knative.dev/serving/cmd/autoscaler: ^v?1\.[0-9]+?\.[0-9]+$
+    knative-releases/knative.dev/serving/cmd/controller: ^v?1\.[0-9]+?\.[0-9]+$
+    knative-releases/knative.dev/serving/cmd/domain-mapping: ^v?1\.[0-9]+?\.[0-9]+$
+    knative-releases/knative.dev/serving/cmd/domain-mapping-webhook: ^v?1\.[0-9]+?\.[0-9]+$
+    knative-releases/knative.dev/serving/cmd/webhook: ^v?1\.[0-9]+?\.[0-9]+$
+    knative-releases/knative.dev/serving/cmd/queue: ^v?1\.[0-9]+?\.[0-9]+$
+    knative-releases/knative.dev/net-istio/cmd/controller: ^v?1\.[0-9]+?\.[0-9]+$
+    knative-releases/knative.dev/net-istio/cmd/webhook: ^v?1\.[0-9]+?\.[0-9]+$
+    knative-releases/knative.dev/eventing/cmd/controller: ^v?1\.[0-9]+?\.[0-9]+$
+    knative-releases/knative.dev/eventing/cmd/mtping: ^v?1\.[0-9]+?\.[0-9]+$
+    knative-releases/knative.dev/eventing/cmd/webhook: ^v?1\.[0-9]+?\.[0-9]+$
