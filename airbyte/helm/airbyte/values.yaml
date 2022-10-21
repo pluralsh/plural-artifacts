@@ -17,19 +17,12 @@ test-base:
   promoteTag: warm
 
 postgres:
-  clone: null
-  replicas: 1
-  storage:
-    size: 25Gi
-  resources: {}
-  default:
-    resources:
-      requests:
-        cpu: 100m
-        memory: 100Mi
-      limits:
-        cpu: "2"
-        memory: 1Gi
+  enabled: true
+  team: plural
+  user: airbyte
+  dbName: airbyte
+  ownerChart: airbyte
+  infix: ""
 
 oidcProxy:
   enabled: false
@@ -178,7 +171,7 @@ airbyte:
   version: 0.39.14-alpha
 
   postgresql:
-    enabled: true
+    enabled: false
   minio:
     enabled: false
 
