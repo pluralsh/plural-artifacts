@@ -170,7 +170,6 @@ jobs:
       matrix: ${{ fromJson(needs.build-matrix.outputs.app_apply_matrix) }}
     needs:
     - build-matrix
-    - vendor-plural
     permissions:
       contents: 'read'
       id-token: 'write'
