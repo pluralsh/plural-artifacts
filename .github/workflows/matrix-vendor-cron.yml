@@ -2,8 +2,8 @@ name: vendor-images-cron
 
 on:
   workflow_dispatch:
-  # schedule:
-  # - cron: "*/5 * * * *"
+  schedule:
+  - cron: "0 0 * * *"
 jobs:
   build-matrix:
     name: Create Build Matrix

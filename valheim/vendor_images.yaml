@@ -1,0 +1,4 @@
+docker.io:
+  images:
+    lloesche/valheim-server:
+    - latest
