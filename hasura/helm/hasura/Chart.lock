@@ -2,5 +2,8 @@ dependencies:
 - name: hasura
   repository: https://charts.platy.plus
   version: 1.1.6
-digest: sha256:f65c891fac1c05373cbd7c67a2e856b977162f076faea8714a01322121439181
-generated: "2022-01-05T15:29:16.355196-05:00"
+- name: postgres
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.11
+digest: sha256:6d3f7b95128b928098a775a921383623c90b923ec0a11ae70646526b4812a4c1
+generated: "2022-10-21T17:56:10.881956+02:00"
