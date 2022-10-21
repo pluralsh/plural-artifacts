@@ -25,12 +25,10 @@ hasura:
       username: hasura
       database: hasura
       password: {{ $postgresPwd }}
-  postgresql:
-    operatorEnabled: true
   {{ else }}
   pgClient:
     external: 
       enabled: true
-  postgresql:
-    operatorEnabled: false
+postgres:
+  enabled: false
   {{ end }}
