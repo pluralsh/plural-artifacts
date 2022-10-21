@@ -6,7 +6,7 @@ version: 0.1.5
 appVersion: "v1.0.0"
 dependencies:
 - name: postgres
-  version: 0.1.8
+  version: 0.1.10
   repository: https://pluralsh.github.io/module-library
 - name: oncall
   version: 1.0.7
