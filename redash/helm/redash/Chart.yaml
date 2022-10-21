@@ -2,12 +2,12 @@ apiVersion: v2
 name: redash
 description: helm chart for redash
 type: application
-version: 0.1.1
+version: 0.1.2
 appVersion: "8.0.0.b32245"
 dependencies:
-  - name: redash
-    version: "3.0.0"
-    repository: "https://getredash.github.io/contrib-helm-chart/"
-  - name: postgres
-    version: 0.1.5
-    repository: https://pluralsh.github.io/module-library
+- name: redash
+  version: "3.0.0"
+  repository: "https://getredash.github.io/contrib-helm-chart/"
+- name: postgres
+  version: 0.1.11
+  repository: https://pluralsh.github.io/module-library

@@ -16,6 +16,7 @@ postgres:
   user: redash
   dbName: redash
   ownerChart: redash
+  infix: ""
 
 ingress:
   enabled: true
