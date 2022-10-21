@@ -57,6 +57,7 @@ postgres:
   user: metabase
   dbName: metabase
   ownerChart: metabase
+  infix: ""
 
 database:
   secret: metabase.plural-metabase.credentials.postgresql.acid.zalan.do

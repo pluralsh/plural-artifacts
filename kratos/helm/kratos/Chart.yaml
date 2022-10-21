@@ -2,11 +2,11 @@ apiVersion: v2
 name: kratos
 description: helm chart for kratos
 type: application
-version: 0.1.15
-appVersion: "v1.0.0"
+version: 0.1.16
+appVersion: "v0.8.2"
 dependencies:
 - name: postgres
-  version: 0.1.7
+  version: 0.1.10
   repository: https://pluralsh.github.io/module-library
 - name: kratos
   repository: https://k8s.ory.sh/helm/charts

@@ -7,6 +7,7 @@ postgres:
   dbName: dagster
   ownerChart: dagster
   password: REPLACE_ME
+  infix: ""
 
 oidcProxy:
   enabled: false

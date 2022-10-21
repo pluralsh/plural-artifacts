@@ -33,6 +33,7 @@ postgres:
   user: lightdash
   dbName: lightdash
   ownerChart: lightdash
+  infix: ""
 
 ingress:
   enabled: true

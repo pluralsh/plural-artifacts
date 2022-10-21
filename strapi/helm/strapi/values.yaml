@@ -68,6 +68,7 @@ postgres:
   user: strapi
   dbName: strapi
   ownerChart: strapi
+  infix: ""
 
 database:
   type: postgresdb

@@ -100,6 +100,7 @@ postgres:
   user: mlflow
   dbName: mlflow
   ownerChart: mlflow
+  infix: ""
 
 config:
   artifact:
