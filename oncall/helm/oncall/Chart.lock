@@ -1,9 +1,9 @@
 dependencies:
 - name: postgres
   repository: https://pluralsh.github.io/module-library
-  version: 0.1.7
+  version: 0.1.10
 - name: oncall
   repository: https://pluralsh.github.io/plural-helm-charts
   version: 1.0.7
-digest: sha256:770ae2e2364cb2a82353d0c49bc77f61a049726cfe96859bbdd7cdd788d9193e
-generated: "2022-10-20T15:58:22.478456+02:00"
+digest: sha256:7738c3f43d656a074d6ad1e9fcc46428137005741da856339be614cca43a3ac1
+generated: "2022-10-21T15:36:46.037921+02:00"

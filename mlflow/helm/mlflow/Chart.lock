@@ -1,9 +1,9 @@
 dependencies:
 - name: postgres
   repository: https://pluralsh.github.io/module-library
-  version: 0.1.7
+  version: 0.1.10
 - name: oidc-config
   repository: https://pluralsh.github.io/module-library
   version: 0.1.6
-digest: sha256:9437fd29aa7d5a95ac5fe365d7ef7e8d5a4fc5c26d31d546d9ad0519895f96a1
-generated: "2022-10-20T17:05:19.882466+02:00"
+digest: sha256:9d13157c887d8d240bc7b805ec3cc69465671d9f2844ae35cc9640905064418b
+generated: "2022-10-21T15:35:21.45383+02:00"

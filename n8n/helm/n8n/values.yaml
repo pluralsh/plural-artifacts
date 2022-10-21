@@ -64,6 +64,7 @@ postgres:
   user: n8n
   dbName: n8n
   ownerChart: n8n
+  infix: ""
 
 database:
   type: postgresdb
