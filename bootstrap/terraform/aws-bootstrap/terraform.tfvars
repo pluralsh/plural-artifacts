@@ -16,3 +16,5 @@ database_subnets = yamldecode(<<EOT
 EOT
 )
 {{- end }}
+
+aws_region = {{ .Region | quote }}
