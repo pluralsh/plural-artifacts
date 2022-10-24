@@ -131,7 +131,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "pg_static{release=\"$release\", instance=\"$instance\"}",
+          "expr": "pg_static{namespace=\"$namespace\", pod=\"$pod\"}",
           "format": "time_series",
           "instant": true,
           "intervalFactor": 1,
@@ -215,7 +215,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "pg_postmaster_start_time_seconds{release=\"$release\", instance=\"$instance\"} * 1000",
+          "expr": "pg_postmaster_start_time_seconds{namespace=\"$namespace\", pod=\"$pod\"} * 1000",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "",
@@ -298,7 +298,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "SUM(pg_stat_database_tup_fetched{datname=~\"$datname\", instance=~\"$instance\"})",
+          "expr": "SUM(pg_stat_database_tup_fetched{datname=~\"$datname\", pod=~\"$pod\"})",
           "format": "time_series",
           "intervalFactor": 2,
           "refId": "A",
@@ -381,7 +381,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "SUM(pg_stat_database_tup_inserted{release=\"$release\", datname=~\"$datname\", instance=~\"$instance\"})",
+          "expr": "SUM(pg_stat_database_tup_inserted{namespace=\"$namespace\", datname=~\"$datname\", pod=~\"$pod\"})",
           "format": "time_series",
           "intervalFactor": 2,
           "refId": "A",
@@ -464,7 +464,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "SUM(pg_stat_database_tup_updated{datname=~\"$datname\", instance=~\"$instance\"})",
+          "expr": "SUM(pg_stat_database_tup_updated{datname=~\"$datname\", pod=~\"$pod\"})",
           "format": "time_series",
           "intervalFactor": 2,
           "refId": "A",
@@ -546,7 +546,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "pg_settings_max_connections{release=\"$release\", instance=\"$instance\"}",
+          "expr": "pg_settings_max_connections{namespace=\"$namespace\", pod=\"$pod\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A"
@@ -571,7 +571,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "${DS_PROMETHEUS}",
-      "description": "Average user and system CPU time spent in seconds.",
+      "description": "Average container CPU usage.",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -608,11 +608,25 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "avg(rate(process_cpu_seconds_total{release=\"$release\", instance=\"$instance\"}[5m]) * 1000)",
+          "expr": "rate(container_cpu_usage_seconds_total{namespace=\"$namespace\", pod=\"$pod\", container=\"postgres\"}[$__rate_interval])",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "CPU Time",
+          "legendFormat": "CPU Usage",
           "refId": "A"
+        },
+        {
+          "expr": "kube_pod_container_resource_requests{namespace=\"$namespace\", pod=\"$pod\", container=\"postgres\", resource=\"cpu\"}",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "CPU Request",
+          "refId": "B"
+        },
+        {
+          "expr": "kube_pod_container_resource_limits{namespace=\"$namespace\", pod=\"$pod\", container=\"postgres\", resource=\"cpu\"}",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "CPU Limit",
+          "refId": "C"
         }
       ],
       "thresholds": [],
@@ -635,7 +649,7 @@
       },
       "yaxes": [
         {
-          "format": "s",
+          "format": "none",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -662,7 +676,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "${DS_PROMETHEUS}",
-      "description": "Virtual and Resident memory size in bytes, averages over 5 min interval",
+      "description": "Memory Usage in bytes",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -699,25 +713,32 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "avg(rate(process_resident_memory_bytes{release=\"$release\", instance=\"$instance\"}[5m]))",
+          "expr": "container_memory_working_set_bytes{namespace=\"$namespace\", pod=\"$pod\", container=\"postgres\"}",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "Resident Mem",
+          "legendFormat": "Memory Usage",
           "refId": "A"
         },
         {
-          "expr": "avg(rate(process_virtual_memory_bytes{release=\"$release\", instance=\"$instance\"}[5m]))",
+          "expr": "kube_pod_container_resource_requests{namespace=\"$namespace\", pod=\"$pod\", container=\"postgres\", resource=\"memory\"}",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "Virtual Mem",
+          "legendFormat": "Memory Request",
           "refId": "B"
+        },
+        {
+          "expr": "kube_pod_container_resource_limits{namespace=\"$namespace\", pod=\"$pod\", container=\"postgres\", resource=\"memory\"}",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "Memory Limit",
+          "refId": "C"
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Average Memory Usage",
+      "title": "Memory Usage",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -761,7 +782,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "${DS_PROMETHEUS}",
-      "description": "Number of open file descriptors",
+      "description": "Number of inodes",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -798,10 +819,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "process_open_fds{release=\"$release\", instance=\"$instance\"}",
+          "expr": "container_fs_inodes_total{namespace=\"$namespace\", pod=\"$pod\", container=\"postgres\"}",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "Open FD",
+          "legendFormat": "Total Inodes",
           "refId": "A"
         }
       ],
@@ -809,7 +830,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Open File Descriptors",
+      "title": "Total Inodes",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -922,7 +943,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "pg_settings_shared_buffers_bytes{instance=\"$instance\"}",
+          "expr": "pg_settings_shared_buffers_bytes{pod=\"$pod\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A"
@@ -1003,7 +1024,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "pg_settings_effective_cache_size_bytes{instance=\"$instance\"}",
+          "expr": "pg_settings_effective_cache_size_bytes{pod=\"$pod\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A"
@@ -1084,7 +1105,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "pg_settings_maintenance_work_mem_bytes{instance=\"$instance\"}",
+          "expr": "pg_settings_maintenance_work_mem_bytes{pod=\"$pod\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A"
@@ -1165,7 +1186,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "pg_settings_work_mem_bytes{instance=\"$instance\"}",
+          "expr": "pg_settings_work_mem_bytes{pod=\"$pod\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "",
@@ -1248,7 +1269,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "pg_settings_max_wal_size_bytes{instance=\"$instance\"}",
+          "expr": "pg_settings_max_wal_size_bytes{pod=\"$pod\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A"
@@ -1329,7 +1350,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "pg_settings_random_page_cost{instance=\"$instance\"}",
+          "expr": "pg_settings_random_page_cost{pod=\"$pod\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A"
@@ -1491,7 +1512,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "pg_settings_max_worker_processes{instance=\"$instance\"}",
+          "expr": "pg_settings_max_worker_processes{pod=\"$pod\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A"
@@ -1572,7 +1593,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "pg_settings_max_parallel_workers{instance=\"$instance\"}",
+          "expr": "pg_settings_max_parallel_workers{pod=\"$pod\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A"
@@ -1649,7 +1670,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "pg_stat_activity_count{datname=~\"$datname\", instance=~\"$instance\", state=\"active\"} !=0",
+          "expr": "pg_stat_activity_count{datname=~\"$datname\", pod=~\"$pod\", state=\"active\"} !=0",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -1743,14 +1764,14 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(pg_stat_database_xact_commit{instance=\"$instance\", datname=~\"$datname\"}[5m])",
+          "expr": "irate(pg_stat_database_xact_commit{pod=\"$pod\", datname=~\"$datname\"}[5m])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{datname}} commits",
           "refId": "A"
         },
         {
-          "expr": "irate(pg_stat_database_xact_rollback{instance=\"$instance\", datname=~\"$datname\"}[5m])",
+          "expr": "irate(pg_stat_database_xact_rollback{pod=\"$pod\", datname=~\"$datname\"}[5m])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{datname}} rollbacks",
@@ -1844,7 +1865,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "pg_stat_database_tup_updated{datname=~\"$datname\", instance=~\"$instance\"} != 0",
+          "expr": "pg_stat_database_tup_updated{datname=~\"$datname\", pod=~\"$pod\"} != 0",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{datname}}",
@@ -1938,7 +1959,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "pg_stat_database_tup_fetched{datname=~\"$datname\", instance=~\"$instance\"} != 0",
+          "expr": "pg_stat_database_tup_fetched{datname=~\"$datname\", pod=~\"$pod\"} != 0",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{datname}}",
@@ -2032,7 +2053,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "pg_stat_database_tup_inserted{datname=~\"$datname\", instance=~\"$instance\"} != 0",
+          "expr": "pg_stat_database_tup_inserted{datname=~\"$datname\", pod=~\"$pod\"} != 0",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{datname}}",
@@ -2128,7 +2149,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "pg_locks_count{datname=~\"$datname\", instance=~\"$instance\", mode=~\"$mode\"} != 0",
+          "expr": "pg_locks_count{datname=~\"$datname\", pod=~\"$pod\", mode=~\"$mode\"} != 0",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{datname}},{{mode}}",
@@ -2223,7 +2244,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "pg_stat_database_tup_returned{datname=~\"$datname\", instance=~\"$instance\"} != 0",
+          "expr": "pg_stat_database_tup_returned{datname=~\"$datname\", pod=~\"$pod\"} != 0",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{datname}}",
@@ -2317,7 +2338,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "pg_stat_activity_count{datname=~\"$datname\", instance=~\"$instance\", state=~\"idle|idle in transaction|idle in transaction (aborted)\"}",
+          "expr": "pg_stat_activity_count{datname=~\"$datname\", pod=~\"$pod\", state=~\"idle|idle in transaction|idle in transaction (aborted)\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{datname}}, s: {{state}}",
@@ -2411,7 +2432,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "pg_stat_database_tup_deleted{datname=~\"$datname\", instance=~\"$instance\"} != 0",
+          "expr": "pg_stat_database_tup_deleted{datname=~\"$datname\", pod=~\"$pod\"} != 0",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{datname}}",
@@ -2501,7 +2522,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "pg_stat_database_blks_hit{instance=\"$instance\", datname=~\"$datname\"} / (pg_stat_database_blks_read{instance=\"$instance\", datname=~\"$datname\"} + pg_stat_database_blks_hit{instance=\"$instance\", datname=~\"$datname\"})",
+          "expr": "pg_stat_database_blks_hit{pod=\"$pod\", datname=~\"$datname\"} / (pg_stat_database_blks_read{pod=\"$pod\", datname=~\"$datname\"} + pg_stat_database_blks_hit{pod=\"$pod\", datname=~\"$datname\"})",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{ datname }}",
@@ -2589,35 +2610,35 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(pg_stat_bgwriter_buffers_backend{instance=\"$instance\"}[5m])",
+          "expr": "irate(pg_stat_bgwriter_buffers_backend{pod=\"$pod\"}[5m])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "buffers_backend",
           "refId": "A"
         },
         {
-          "expr": "irate(pg_stat_bgwriter_buffers_alloc{instance=\"$instance\"}[5m])",
+          "expr": "irate(pg_stat_bgwriter_buffers_alloc{pod=\"$pod\"}[5m])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "buffers_alloc",
           "refId": "B"
         },
         {
-          "expr": "irate(pg_stat_bgwriter_buffers_backend_fsync{instance=\"$instance\"}[5m])",
+          "expr": "irate(pg_stat_bgwriter_buffers_backend_fsync{pod=\"$pod\"}[5m])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "backend_fsync",
           "refId": "C"
         },
         {
-          "expr": "irate(pg_stat_bgwriter_buffers_checkpoint{instance=\"$instance\"}[5m])",
+          "expr": "irate(pg_stat_bgwriter_buffers_checkpoint{pod=\"$pod\"}[5m])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "buffers_checkpoint",
           "refId": "D"
         },
         {
-          "expr": "irate(pg_stat_bgwriter_buffers_clean{instance=\"$instance\"}[5m])",
+          "expr": "irate(pg_stat_bgwriter_buffers_clean{pod=\"$pod\"}[5m])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "buffers_clean",
@@ -2705,14 +2726,14 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(pg_stat_database_conflicts{instance=\"$instance\", datname=~\"$datname\"}[5m])",
+          "expr": "irate(pg_stat_database_conflicts{pod=\"$pod\", datname=~\"$datname\"}[5m])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{datname}} conflicts",
           "refId": "B"
         },
         {
-          "expr": "irate(pg_stat_database_deadlocks{instance=\"$instance\", datname=~\"$datname\"}[5m])",
+          "expr": "irate(pg_stat_database_deadlocks{pod=\"$pod\", datname=~\"$datname\"}[5m])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{datname}} deadlocks",
@@ -2800,7 +2821,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(pg_stat_database_temp_bytes{instance=\"$instance\", datname=~\"$datname\"}[5m])",
+          "expr": "irate(pg_stat_database_temp_bytes{pod=\"$pod\", datname=~\"$datname\"}[5m])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{datname}}",
@@ -2886,14 +2907,14 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(pg_stat_bgwriter_checkpoint_write_time{instance=\"$instance\"}[5m])",
+          "expr": "irate(pg_stat_bgwriter_checkpoint_write_time{pod=\"$pod\"}[5m])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "write_time - Total amount of time that has been spent in the portion of checkpoint processing where files are written to disk.",
           "refId": "B"
         },
         {
-          "expr": "irate(pg_stat_bgwriter_checkpoint_sync_time{instance=\"$instance\"}[5m])",
+          "expr": "irate(pg_stat_bgwriter_checkpoint_sync_time{pod=\"$pod\"}[5m])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "sync_time - Total amount of time that has been spent in the portion of checkpoint processing where files are synchronized to disk.",
@@ -3030,9 +3051,9 @@
         "multi": false,
         "name": "namespace",
         "options": [],
-        "query": "query_result(pg_exporter_last_scrape_duration_seconds)",
+        "query": "label_values(pg_exporter_last_scrape_duration_seconds, namespace)",
         "refresh": 2,
-        "regex": "/.*kubernetes_namespace=\"([^\"]+).*/",
+        "regex": "",
         "skipUrlSync": false,
         "sort": 1,
         "tagValuesQuery": "",
@@ -3048,35 +3069,13 @@
         "definition": "",
         "hide": 0,
         "includeAll": false,
-        "label": "Release",
+        "label": "Pod",
         "multi": false,
-        "name": "release",
+        "name": "pod",
         "options": [],
-        "query": "query_result(pg_exporter_last_scrape_duration_seconds{kubernetes_namespace=\"$namespace\"})",
-        "refresh": 2,
-        "regex": "/.*release=\"([^\"]+)/",
-        "skipUrlSync": false,
-        "sort": 1,
-        "tagValuesQuery": "",
-        "tags": [],
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
-      },
-      {
-        "allValue": null,
-        "current": {},
-        "datasource": "${DS_PROMETHEUS}",
-        "definition": "",
-        "hide": 0,
-        "includeAll": false,
-        "label": "Instance",
-        "multi": false,
-        "name": "instance",
-        "options": [],
-        "query": "query_result(pg_up{release=\"$release\"})",
+        "query": "label_values(pg_up{namespace=\"$namespace\"}, pod)",
         "refresh": 1,
-        "regex": "/.*instance=\"([^\"]+).*/",
+        "regex": "",
         "skipUrlSync": false,
         "sort": 1,
         "tagValuesQuery": "",
@@ -3096,7 +3095,7 @@
         "multi": true,
         "name": "datname",
         "options": [],
-        "query": "label_values(datname)",
+        "query": "label_values(pg_stat_database_tup_fetched{namespace=\"$namespace\", pod=\"$pod\"}, datname)",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
