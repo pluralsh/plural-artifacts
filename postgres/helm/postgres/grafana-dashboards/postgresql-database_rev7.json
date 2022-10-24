@@ -615,14 +615,14 @@
           "refId": "A"
         },
         {
-          "expr": "kube_pod_container_resource_requests{namespace=\"$namespace\", pod=\"$pod\", container=\"postgres\", resource=\"cpu\"}",
+          "expr": "kube_pod_container_resource_requests{namespace=\"$namespace\", pod=\"$pod\", container=\"postgres\", resource=\"cpu\", job=\"kube-state-metrics\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "CPU Request",
           "refId": "B"
         },
         {
-          "expr": "kube_pod_container_resource_limits{namespace=\"$namespace\", pod=\"$pod\", container=\"postgres\", resource=\"cpu\"}",
+          "expr": "kube_pod_container_resource_limits{namespace=\"$namespace\", pod=\"$pod\", container=\"postgres\", resource=\"cpu\", job=\"kube-state-metrics\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "CPU Limit",
@@ -720,14 +720,14 @@
           "refId": "A"
         },
         {
-          "expr": "kube_pod_container_resource_requests{namespace=\"$namespace\", pod=\"$pod\", container=\"postgres\", resource=\"memory\"}",
+          "expr": "kube_pod_container_resource_requests{namespace=\"$namespace\", pod=\"$pod\", container=\"postgres\", resource=\"memory\", job=\"kube-state-metrics\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "Memory Request",
           "refId": "B"
         },
         {
-          "expr": "kube_pod_container_resource_limits{namespace=\"$namespace\", pod=\"$pod\", container=\"postgres\", resource=\"memory\"}",
+          "expr": "kube_pod_container_resource_limits{namespace=\"$namespace\", pod=\"$pod\", container=\"postgres\", resource=\"memory\", job=\"kube-state-metrics\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "Memory Limit",
