@@ -177,18 +177,12 @@ superset:
     path: /.*
 
 postgres:
-  replicas: 1
-  storage:
-    size: 25Gi
-  resources: {}
-  default:
-    resources:
-      requests:
-        cpu: 100m
-        memory: 100Mi
-      limits:
-        cpu: '2'
-        memory: 1Gi
+  enabled: true
+  team: plural
+  user: superset
+  dbName: superset
+  ownerChart: superset
+  infix: ""
 
 
 exporter:
