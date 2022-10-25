@@ -175,7 +175,7 @@ jobs:
       id-token: 'write'
     steps:
     - uses: actions/checkout@v3
-    - uses: hashicorp/setup-terraform@v1
+    - uses: hashicorp/setup-terraform@v2
     - uses: azure/setup-helm@v2
       with:
         version: latest
