@@ -183,7 +183,7 @@ jobs:
       uses: pluralsh/setup-plural@v0.1.5
       with: 
         config: ${{ secrets.PLURAL_CONF }}
-        vsn: 0.3.17
+        vsn: 0.5.18
     - run: plural apply -f ${{ matrix.pluralfile }}
     - uses: 8398a7/action-slack@v3
       with:
