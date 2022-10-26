@@ -10,7 +10,7 @@ maintainers:
   email: mguarino46@gmail.com
 - name: David van der Spek
   email: david@plural.sh
-version: 0.8.56
+version: 0.8.57
 dependencies:
 - name: external-dns
   version: 4.11.0
