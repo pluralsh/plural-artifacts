@@ -34,7 +34,7 @@ resources:
     memory: 32Mi
 
 config:
-  enabledHA: true # if true, 3 servers spread across the availability zones will be deployed to ensure high availability
+  enableHA: true # if true, 3 servers spread across the availability zones will be deployed to ensure high availability
   networkCIDR: 10.8.0.1/24
   mtu: "8921"
 
@@ -47,3 +47,10 @@ config:
   # If different CIDRs are specified, only traffic to those networks is routed through wireguard on the client.
   allowedIPs: []
   # - "0.0.0.0/0"
+
+metrics:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    interval: 15s
+    scrapeTimeout: 5s

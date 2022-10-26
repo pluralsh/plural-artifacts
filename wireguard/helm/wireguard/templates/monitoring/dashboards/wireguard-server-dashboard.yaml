@@ -1,0 +1,13 @@
+{{- if .Values.metrics.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wireguard-server-dashboard
+  labels: {{ include "wireguard.labels" . | nindent 4 }}
+    grafana_dashboard: wireguard-server-dashboard
+  annotations:
+    k8s-sidecar-target-directory: /tmp/dashboards/WireGuard Dashboards
+data:
+  wireguard-server-dashboard.json: |-
+{{ .Files.Get "grafana-dashboards/wireguard-server-dashboard.json" | indent 4 }}
+{{- end }}
