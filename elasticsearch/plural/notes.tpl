@@ -1,1 +1,1 @@
-Use `plural watch datahub` to track the status of your application
+Use `plural watch elasticsearch` to track the status of your application
