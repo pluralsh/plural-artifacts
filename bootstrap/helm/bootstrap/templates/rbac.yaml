@@ -150,7 +150,7 @@ rules:
 - apiGroups:
   - vpn.plural.sh
   resources:
-  - wireguards
+  - wireguardservers
   verbs:
   - create
   - delete
@@ -162,13 +162,13 @@ rules:
 - apiGroups:
   - vpn.plural.sh
   resources:
-  - wireguards/finalizers
+  - wireguardservers/finalizers
   verbs:
   - update
 - apiGroups:
   - vpn.plural.sh
   resources:
-  - wireguards/status
+  - wireguardservers/status
   verbs:
   - get
   - patch
