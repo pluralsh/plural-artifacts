@@ -1,0 +1,6 @@
+apiVersion: v2
+name: wireguard
+description: helm chart for wireguard
+type: application
+version: 0.1.0
+appVersion: "v1.0.0"

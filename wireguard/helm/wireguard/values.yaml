@@ -1,0 +1,49 @@
+# Default values for wireguard.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: dkr.plural.sh/bootstrap/wireguard-server
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: 0.1.2
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: LoadBalancer
+  port: 51820
+  annotations: {}
+    # service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+    # service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+    # service.beta.kubernetes.io/aws-load-balancer-type: external
+    # service.beta.kubernetes.io/aws-load-balancer-healthcheck-protocol: HTTP
+    # service.beta.kubernetes.io/aws-load-balancer-healthcheck-port: "9586"
+    # service.beta.kubernetes.io/aws-load-balancer-healthcheck-path: "/metrics"
+
+resources:
+  limits:
+    # 1 client with a 4k youtube stream uses ~ 90m cpu, but since cpu limits in K8s are an anti-pattern it isn't set
+      # cpu: 90m
+    memory: 128Mi
+  requests:
+    cpu: 15m
+    memory: 32Mi
+
+config:
+  enabledHA: true # if true, 3 servers spread across the availability zones will be deployed to ensure high availability
+  networkCIDR: 10.8.0.1/24
+  mtu: "8921"
+
+  # DNS servers to add to the wireguard network. The KubeDNS server will be added by default
+  dns: []
+  # - "1.1.1.1"
+  # - "8.8.8.8"
+
+  # IPs that are routed through the wireguard network. 0.0.0.0/0 will route all traffic through wireguard.
+  # If different CIDRs are specified, only traffic to those networks is routed through wireguard on the client.
+  allowedIPs: []
+  # - "0.0.0.0/0"
