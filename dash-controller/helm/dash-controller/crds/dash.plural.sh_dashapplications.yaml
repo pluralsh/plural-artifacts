@@ -119,8 +119,8 @@ spec:
                   tls:
                     description: TLS configuration.
                     properties:
-                      hosts:
-                        description: Hosts included in the TLS certificate. The values
+                      host:
+                        description: Host included in the TLS certificate. The values
                           in
                         type: string
                       secretName:

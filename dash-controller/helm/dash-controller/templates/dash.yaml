@@ -15,3 +15,6 @@ spec:
     host: {{ .Values.dash.host }}
     ingressClassName: "nginx"
     path: "/"
+    tls:
+      host: {{ .Values.dash.host }}
+      secretName: dash-tls
