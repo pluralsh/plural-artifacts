@@ -1,0 +1,13 @@
+apiVersion: dash.plural.sh/v1alpha1
+kind: DashApplication
+metadata:
+  name: dash
+spec:
+  replicas: 1
+  container:
+    image: {{ .Values.dash.image }}
+    containerPort: {{ .Values.dash.containerPort }}
+  ingress:
+    host: {{ .Values.dash.host }}
+    ingressClassName: "nginx"
+    path: "/"

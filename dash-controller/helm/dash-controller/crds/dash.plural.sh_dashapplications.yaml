@@ -1,0 +1,143 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: dashapplications.dash.plural.sh
+spec:
+  group: dash.plural.sh
+  names:
+    kind: DashApplication
+    listKind: DashApplicationList
+    plural: dashapplications
+    singular: dashapplication
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - description: Application ready status
+      jsonPath: .status.ready
+      name: Ready
+      type: string
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              container:
+                description: Container spec
+                properties:
+                  args:
+                    description: Arguments to the entrypoint.
+                    items:
+                      type: string
+                    type: array
+                  command:
+                    description: Entrypoint array. Not executed within a shell.
+                    items:
+                      type: string
+                    type: array
+                  containerPort:
+                    description: ContainerPort port number for image container
+                    format: int32
+                    type: integer
+                  image:
+                    description: Image name
+                    type: string
+                required:
+                - containerPort
+                - image
+                type: object
+              ingress:
+                description: Ingress spec. If not specified only LoadBalancer service
+                  is created
+                properties:
+                  host:
+                    description: "Host is the fully qualified domain name of a network
+                      host, as defined by RFC 3986. Note the following deviations
+                      from the \"host\" part of the URI as defined in RFC 3986: 1.
+                      IPs are not allowed. Currently an IngressRuleValue can only
+                      apply to the IP in the Spec of the parent Ingress. 2. The `:`
+                      delimiter is not respected because ports are not allowed. Currently
+                      the port of an Ingress is implicitly :80 for http and :443 for
+                      https. Both these may change in the future. Incoming requests
+                      are matched against the host before the IngressRuleValue. If
+                      the host is unspecified, the Ingress routes all traffic based
+                      on the specified IngressRuleValue. \n Host can be \"precise\"
+                      which is a domain name without the terminating dot of a network
+                      host (e.g. \"foo.bar.com\") or \"wildcard\", which is a domain
+                      name prefixed with a single wildcard label (e.g. \"*.foo.com\").
+                      The wildcard character '*' must appear by itself as the first
+                      DNS label and matches only a single label. You cannot have a
+                      wildcard label by itself (e.g. Host == \"*\"). Requests will
+                      be matched against the Host field in the following way: 1. If
+                      Host is precise, the request matches this rule if the http host
+                      header is equal to Host. 2. If Host is a wildcard, then the
+                      request matches this rule if the http host header is to equal
+                      to the suffix (removing the first label) of the wildcard rule."
+                    type: string
+                  ingressClassName:
+                    description: IngressClassName is the name of an IngressClass cluster
+                      resource. Ingress controller implementations use this field
+                      to know whether they should be serving this Ingress resource,
+                      by a transitive connection (controller -> IngressClass -> Ingress
+                      resource). Although the `kubernetes.io/ingress.class` annotation
+                      (simple constant name) was never formally defined, it was widely
+                      supported by Ingress controllers to create a direct binding
+                      between Ingress controller and Ingress resources. Newly created
+                      Ingress resources should prefer using the field. However, even
+                      though the annotation is officially deprecated, for backwards
+                      compatibility reasons, ingress controllers should still honor
+                      that annotation if present.
+                    type: string
+                  path:
+                    description: Path is matched against the path of an incoming request.
+                      Currently it can contain characters disallowed from the conventional
+                      "path" part of a URL as defined by RFC 3986. Paths must begin
+                      with a '/' and must be present when using PathType with value
+                      "Exact" or "Prefix".
+                    type: string
+                type: object
+              labels:
+                additionalProperties:
+                  type: string
+                description: Labels for dash deployment
+                type: object
+              replicas:
+                description: Number of desired pods. This is a pointer to distinguish
+                  between explicit zero and not specified. Defaults to 1.
+                format: int32
+                type: integer
+              serviceAnnotations:
+                additionalProperties:
+                  type: string
+                description: ServiceAnnotations for dash k8s service
+                type: object
+            required:
+            - container
+            type: object
+          status:
+            properties:
+              ready:
+                description: Ready is true when the provider resource is ready.
+                type: boolean
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
