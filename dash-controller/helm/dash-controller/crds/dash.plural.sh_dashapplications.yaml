@@ -66,6 +66,11 @@ spec:
                 description: Ingress spec. If not specified only LoadBalancer service
                   is created
                 properties:
+                  annotations:
+                    additionalProperties:
+                      type: string
+                    description: Annotations for ingress
+                    type: object
                   host:
                     description: "Host is the fully qualified domain name of a network
                       host, as defined by RFC 3986. Note the following deviations

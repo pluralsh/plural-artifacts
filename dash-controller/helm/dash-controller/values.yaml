@@ -4,7 +4,7 @@ image:
   repository: ghcr.io/pluralsh/dash-controller
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: 0.0.9
+  tag: 0.1.0
 
 imagePullSecrets: []
 nameOverride: ""
@@ -55,6 +55,12 @@ tolerations: []
 affinity: {}
 
 dash:
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+    nginx.ingress.kubernetes.io/proxy-read-timeout: '3600'
+    nginx.ingress.kubernetes.io/proxy-send-timeout: '3600'
   image: ""
   containerPort: 8050
   host: ""
