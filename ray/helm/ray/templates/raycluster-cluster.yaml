@@ -176,7 +176,7 @@ spec:
         {{- end }}
         containers:
           - name: ray-worker
-            image: {{ $.Values.image.repository }}:{{ $.Values.image.tag }}
+            image: {{ $workerGroup.image.repository }}:{{ $workerGroup.image.tag }}
             imagePullPolicy: {{ $.Values.image.pullPolicy }}
             resources: {{- toYaml $workerGroup.container.resources | nindent 14 }}
             {{- with $workerGroup.container.env }}
