@@ -8,7 +8,16 @@ dependencies:
   name: ingress-nginx-azure
 sections:
 - name: dash-controller
-  configuration: []
+  configuration:
+  - name: dashImage
+    documentation: full image name for the dash application
+    type: STRING
+  - name: dashContainerPort
+    documentation: container port for the dash application
+    type: STRING
+  - name: dashDomain
+    documentation: fully qualified domain name for the dash instance
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: kube

@@ -5,9 +5,7 @@ metadata:
   labels:
     {{- include "dash-controller.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
       {{- include "dash-controller.selectorLabels" . | nindent 6 }}
