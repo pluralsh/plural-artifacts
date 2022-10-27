@@ -8,9 +8,9 @@ spec:
     image: {{ .Values.dash.image }}
     containerPort: {{ .Values.dash.containerPort }}
   ingress:
-    {{- with .Values.dash.annotations }}
+    {{- with .Values.dash.ingressAnnotations }}
     annotations:
-      {{- toYaml . | nindent 4 }}
+      {{- toYaml . | nindent 6 }}
     {{- end }}
     host: {{ .Values.dash.host }}
     ingressClassName: "nginx"
