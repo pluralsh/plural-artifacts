@@ -1,0 +1,6 @@
+name: dash-controller
+description: dash-controller deployed on plural
+category: DATA
+private: true
+icon: plural/icons/dash-controller.png
+notes: plural/notes.tpl

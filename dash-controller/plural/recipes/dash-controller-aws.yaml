@@ -1,0 +1,16 @@
+name: dash-controller-aws
+description: Installs dash-controller on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+sections:
+- name: dash-controller
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: dash-controller
