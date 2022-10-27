@@ -2,9 +2,9 @@
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: dash-controller-role
+  name: {{ include "dash-controller.fullname" . }}-cluster-role
   labels:
-    plural.sh/name: dash-controller
+    {{- include "dash-controller.labels" . | nindent 4 }}
 rules:
 - apiGroups: ["dash.plural.sh"]
   resources: ["dashapplications", "dashapplications/status"]
@@ -24,12 +24,12 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: dash-controller
   labels:
-    plural.sh/name: dash-controller
+    {{- include "dash-controller.labels" . | nindent 4 }}
 subjects:
   - kind: ServiceAccount
     name: {{ include "dash-controller.serviceAccountName" . }}
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: dash-controller-role
+  name: {{ include "dash-controller.fullname" . }}-cluster-role
   apiGroup: rbac.authorization.k8s.io
