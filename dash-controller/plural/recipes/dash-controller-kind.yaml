@@ -1,0 +1,25 @@
+name: dash-controller-kind
+description: Installs dash-controller on an kind cluster
+provider: KIND
+dependencies:
+- repo: bootstrap
+  name: kind-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-kind
+sections:
+- name: dash-controller
+  configuration:
+  - name: dashImage
+    documentation: full image name for the dash application
+    type: STRING
+  - name: dashContainerPort
+    documentation: container port for the dash application
+    type: STRING
+  - name: dashDomain
+    documentation: fully qualified domain name for the dash instance
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: dash-controller
