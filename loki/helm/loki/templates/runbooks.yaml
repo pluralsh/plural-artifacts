@@ -1,0 +1,269 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Runbook
+metadata:
+  name: scaling-manual
+  labels:
+    platform.plural.sh/pinned: 'true'
+{{ include "loki.labels" . | indent 4 }}
+spec:
+  name: Loki Scaling
+  description: overview of how to optimally scale your Loki deployment
+  display: |-
+{{ .Files.Get "runbooks/scaling-manual.xml" | indent 4 }}
+  datasources:
+  - name: loki-compactor-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~".+compactor.+"}[5m])) by (pod)
+  - name: loki-compactor-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~".+compactor.+"}) by (pod)
+  - name: loki-distributor-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"loki-loki-distributed-distributor.+"}[5m])) by (pod)
+  - name: loki-distributor-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"loki-loki-distributed-distributor.+"}) by (pod)
+  - name: loki-index-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"loki-loki-distributed-index.+"}[5m])) by (pod)
+  - name: loki-index-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"loki-loki-distributed-index.+"}) by (pod)
+  - name: loki-ingester-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"loki-loki-distributed-ingester.+"}[5m])) by (pod)
+  - name: loki-ingester-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"loki-loki-distributed-ingester.+"}) by (pod)
+  - name: loki-gateway-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"loki-loki-distributed-gateway.+"}[5m])) by (pod)
+  - name: loki-gateway-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"loki-loki-distributed-gateway.+"}) by (pod)
+  - name: loki-querier-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"loki-loki-distributed-querier.+"}[5m])) by (pod)
+  - name: loki-querier-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"loki-loki-distributed-querier.+"}) by (pod)
+  - name: loki-frontend-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"loki-loki-distributed-query-frontend.+"}[5m])) by (pod)
+  - name: loki-frontend-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"loki-loki-distributed-query-frontend.+"}) by (pod)
+  - name: loki-ruler-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"loki-loki-distributed-ruler.+"}[5m])) by (pod)
+  - name: loki-ruler-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"loki-loki-distributed-ruler.+"}) by (pod)
+  - name: loki-compactor
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: loki-loki-distributed-compactor
+  - name: loki-distributor
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: loki-loki-distributed-distributor
+  - name: loki-index
+    type: kubernetes
+    kubernetes:
+      resource: statefulset
+      name: loki-loki-distributed-index-gateway
+  - name: loki-ingester
+    type: kubernetes
+    kubernetes:
+      resource: statefulset
+      name: loki-loki-distributed-ingester
+  - name: loki-gateway
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: loki-loki-distributed-gateway
+  - name: loki-querier
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: loki-loki-distributed-querier
+  - name: loki-frontend
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: loki-loki-distributed-query-frontend
+  - name: loki-ruler
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: loki-loki-distributed-ruler
+  - name: nodes
+    type: nodes
+  actions:
+  - name: scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+        - path:
+            - loki-distributed
+            - compactor
+            - resources
+            - requests
+            - cpu
+          valueFrom: loki-compactor-cpu
+        - path:
+            - loki-distributed
+            - compactor
+            - resources
+            - requests
+            - memory
+          valueFrom: loki-compactor-memory
+        - path:
+            - loki-distributed
+            - distributor
+            - resources
+            - requests
+            - cpu
+          valueFrom: loki-distributor-cpu
+        - path:
+            - loki-distributed
+            - distributor
+            - resources
+            - requests
+            - memory
+          valueFrom: loki-distributor-memory
+        - path:
+            - loki-distributed
+            - indexGateway
+            - resources
+            - requests
+            - cpu
+          valueFrom: loki-index-cpu
+        - path:
+            - loki-distributed
+            - indexGateway
+            - resources
+            - requests
+            - memory
+          valueFrom: loki-index-memory
+        - path:
+            - loki-distributed
+            - ingester
+            - resources
+            - requests
+            - cpu
+          valueFrom: loki-ingester-cpu
+        - path:
+            - loki-distributed
+            - ingester
+            - resources
+            - requests
+            - memory
+          valueFrom: loki-ingester-memory
+        - path:
+            - loki-distributed
+            - gateway
+            - resources
+            - requests
+            - cpu
+          valueFrom: loki-gateway-cpu
+        - path:
+            - loki-distributed
+            - gateway
+            - resources
+            - requests
+            - memory
+          valueFrom: loki-gateway-memory
+        - path:
+            - loki-distributed
+            - querier
+            - resources
+            - requests
+            - cpu
+          valueFrom: loki-querier-cpu
+        - path:
+            - loki-distributed
+            - querier
+            - resources
+            - requests
+            - memory
+          valueFrom: loki-querier-cpu
+        - path:
+            - loki-distributed
+            - queryFrontend
+            - resources
+            - requests
+            - cpu
+          valueFrom: loki-frontend-cpu
+        - path:
+            - loki-distributed
+            - queryFrontend
+            - resources
+            - requests
+            - memory
+          valueFrom: loki-frontend-memory
+        - path:
+            - loki-distributed
+            - ruler
+            - resources
+            - requests
+            - cpu
+          valueFrom: loki-ruler-cpu
+        - path:
+            - loki-distributed
+            - ruler
+            - resources
+            - requests
+            - memory
+          valueFrom: loki-ruler-memory
