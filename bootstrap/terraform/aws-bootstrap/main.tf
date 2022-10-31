@@ -35,7 +35,7 @@ module "vpc" {
 }
 
 module "cluster" {
-  source          = "github.com/pluralsh/terraform-aws-eks?ref=always-create-auth-cm"
+  source          = "github.com/pluralsh/terraform-aws-eks?ref=output-service-cidr"
   cluster_name    = var.cluster_name
   cluster_version = "1.21"
   private_subnets = module.vpc.private_subnets_ids
