@@ -1,3 +1,18 @@
+{{- $bootstrapOutputs := .Applications.TerraformValues "bootstrap" }}
+
+
+{{- if $bootstrapOutputs }}
+config:
+  allowedIPs:
+  {{- if eq .Provider "aws" }}
+  - {{ $bootstrapOutputs.vpc_cidr | quote }}
+  - {{ $bootstrapOutputs.cluster_service_ipv4_cidr | quote }}
+  {{- if .Values.routePublicIPs }}
+  - "0.0.0.0/0"
+  {{- end }}
+  {{- end }}
+{{- end }}
+
 {{- if eq .Provider "aws" }}
 service:
   annotations:

@@ -45,8 +45,8 @@ config:
 
   # IPs that are routed through the wireguard network. 0.0.0.0/0 will route all traffic through wireguard.
   # If different CIDRs are specified, only traffic to those networks is routed through wireguard on the client.
-  allowedIPs: []
-  # - "0.0.0.0/0"
+  allowedIPs:
+  - "0.0.0.0/0"
 
 metrics:
   enabled: true
