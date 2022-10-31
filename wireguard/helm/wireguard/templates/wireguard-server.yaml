@@ -1,0 +1,29 @@
+apiVersion: vpn.plural.sh/v1alpha1
+kind: WireguardServer
+metadata:
+  name: {{ include "wireguard.fullname" . }}
+  labels:
+    {{- include "wireguard.labels" . | nindent 4 }}
+spec:
+  serviceType: {{ .Values.service.type }}
+  port: {{ .Values.service.port }}
+  wireguardImage: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+  networkCIDR: {{ .Values.config.networkCIDR }}
+  mtu: {{ .Values.config.mtu | quote }}
+  {{- with .Values.config.dns }}
+  dns:
+  {{- toYaml . | nindent 2 }}
+  {{- end }}
+  {{- with .Values.config.allowedIPs }}
+  allowedIPs:
+  {{- toYaml . | nindent 2 }}
+  {{- end }}
+  enableHA: {{ .Values.config.enableHA }}
+  {{- with .Values.resources }}
+  resources:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.service.annotations }}
+  serviceAnnotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}

@@ -1,0 +1,15 @@
+name: wireguard-gcp
+description: Installs wireguard on an aws eks cluster
+provider: GCP
+private: true
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+sections:
+- name: wireguard
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: wireguard
