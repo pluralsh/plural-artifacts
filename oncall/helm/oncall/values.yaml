@@ -7,7 +7,7 @@ postgres:
 
 oncall:
   image:
-    repository: davidspek/oncall
+    repository: grafana/oncall
     tag: v1.0.46
   ingress:
     enabled: false
