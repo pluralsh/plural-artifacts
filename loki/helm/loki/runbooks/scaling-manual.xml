@@ -241,7 +241,7 @@
         </box>
     </box>
     <box width='100%' gap='small'>
-        <text size='small'>Be sure to scale your dagster components within your node's capacity, listed here:</text>
+        <text size='small'>Be sure to scale your Loki components within your node's capacity, listed here:</text>
         <table width='100%' datasource='nodes' path='nodes'>
             <tableColumn path='metadata.name' header='name' width='33%' />
             <tableColumn path='status.capacity.cpu' header='cpu' width='33%' />
