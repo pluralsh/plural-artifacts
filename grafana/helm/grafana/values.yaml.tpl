@@ -40,7 +40,7 @@ grafana:
     smtp:
       enabled: true
       host: "{{ .SMTP.Server }}:{{ .SMTP.Port }}"
-      from_address: {{ .SMTP.Sender }}∂
+      from_address: {{ .SMTP.Sender }}
     {{- end }}
     {{- if .OIDC }}
     auth.generic_oauth:
