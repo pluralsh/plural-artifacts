@@ -8,13 +8,19 @@ test-base:
   testName: grafana-integration
   promoteTag: warm
 
+secret:
+  smtp:
+    enabled: false
+    user: ""
+    password: ""
+
 grafana:
   rbac:
     pspEnabled: false
 
   image:
     repository: dkr.plural.sh/grafana/grafana/grafana
-    tag: 9.2.2
+    tag: 9.2.3
   initChownData:
     image:
       repository: gcr.io/pluralsh/library/busybox
