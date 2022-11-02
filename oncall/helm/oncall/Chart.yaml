@@ -8,6 +8,9 @@ dependencies:
 - name: postgres
   version: 0.1.10
   repository: https://pluralsh.github.io/module-library
+- name: rabbitmq
+  version: 0.1.0
+  repository: https://pluralsh.github.io/module-library
 - name: oncall
-  version: 1.0.7
+  version: 1.0.10
   repository: https://pluralsh.github.io/plural-helm-charts
