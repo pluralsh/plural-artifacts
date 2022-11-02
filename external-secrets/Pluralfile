@@ -1,5 +1,5 @@
 REPO external-secrets
-ATTRIBUTES plural repository.yaml
+ATTRIBUTES Plural repository.yaml
 
 TF terraform/*
 HELM helm/*
