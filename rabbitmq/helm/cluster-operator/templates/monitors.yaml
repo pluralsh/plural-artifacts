@@ -21,19 +21,3 @@ spec:
       app.kubernetes.io/component: rabbitmq
   namespaceSelector:
     any: true
----
-apiVersion: monitoring.coreos.com/v1
-kind: PodMonitor
-metadata:
-  name: rabbitmq-cluster-operator
-  labels:
-{{ include "cluster-operator.labels" . | indent 4 }}
-spec:
-  podMetricsEndpoints:
-  - port: metrics
-  selector:
-    matchLabels:
-      app.kubernetes.io/component: rabbitmq-operator
-  namespaceSelector:
-    matchNames:
-    - {{ .Release.Namespace }}
