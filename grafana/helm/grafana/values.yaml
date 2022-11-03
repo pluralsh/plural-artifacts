@@ -14,6 +14,13 @@ secret:
     user: ""
     password: ""
 
+postgres:
+  enabled: false
+  team: plural
+  user: grafana
+  dbName: grafana
+  ownerChart: grafana
+
 grafana:
   rbac:
     pspEnabled: false
