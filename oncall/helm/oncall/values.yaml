@@ -17,9 +17,9 @@ oncall:
     tag: v1.0.49
   ingress:
     enabled: false
-    className: nginx
     annotations: 
       kubernetes.io/tls-acme: "true"
+      kubernetes.io/ingress.class: "nginx"
       cert-manager.io/cluster-issuer: letsencrypt-prod
       nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
       nginx.ingress.kubernetes.io/use-regex: 'false'
