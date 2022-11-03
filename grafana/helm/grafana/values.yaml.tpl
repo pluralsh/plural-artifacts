@@ -63,4 +63,19 @@ grafana:
       deleteDatasources:
       - name: Loki
         orgId: 1
-{{- end }}
+  {{- end }}
+  {{- if .Values.usePostgres }}
+  env:
+    GF_DATABASE_TYPE: postgres
+    GF_DATABASE_HOST: plural-postgres-grafana
+    GF_DATABASE_NAME: grafana
+    GF_DATABASE_USER: grafana
+    GF_DATABASE_SSL_MODE: require
+  envValueFrom:
+    GF_DATABASE_PASSWORD:
+      secretKeyRef:
+        name: grafana.plural-postgres-grafana.credentials.postgresql.acid.zalan.do
+        key: password
+postgres:
+  enabled: true
+  {{- end }}

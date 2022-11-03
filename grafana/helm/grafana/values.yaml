@@ -14,6 +14,15 @@ secret:
     user: ""
     password: ""
 
+postgres:
+  enabled: false
+  team: plural
+  user: grafana
+  dbName: grafana
+  ownerChart: grafana
+  storage:
+    size: 5Gi
+
 grafana:
   rbac:
     pspEnabled: false
