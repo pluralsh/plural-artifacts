@@ -2,7 +2,7 @@ apiVersion: v2
 name: oncall
 description: helm chart for oncall
 type: application
-version: 0.1.10
+version: 0.1.11
 appVersion: "v1.0.49"
 dependencies:
 - name: postgres
@@ -12,5 +12,5 @@ dependencies:
   version: 0.1.0
   repository: https://pluralsh.github.io/module-library
 - name: oncall
-  version: 1.0.10
+  version: 1.0.11
   repository: https://pluralsh.github.io/plural-helm-charts
