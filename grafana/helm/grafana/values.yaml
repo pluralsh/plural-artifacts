@@ -20,6 +20,8 @@ postgres:
   user: grafana
   dbName: grafana
   ownerChart: grafana
+  storage:
+    size: 5Gi
 
 grafana:
   rbac:
