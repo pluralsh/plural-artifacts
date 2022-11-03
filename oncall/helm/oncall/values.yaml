@@ -5,6 +5,12 @@ postgres:
   ownerChart: oncall
   infix: '-postgres'
 
+rabbitmq:
+  vhostName: oncall
+  cluster:
+    name: rabbitmq
+    namespace: rabbitmq  
+
 oncall:
   image:
     repository: grafana/oncall
@@ -44,6 +50,10 @@ oncall:
   externalRabbitmq:
     port: "5672"
     protocol: amqp
+    vhost: oncall
+    existingSecret: oncall-rabbitmq-user-credentials
+    passwordKey: password
+    usernameKey: username
   env:
   - name: FEATURE_WEB_SCHEDULES_ENABLED
     value: "true"

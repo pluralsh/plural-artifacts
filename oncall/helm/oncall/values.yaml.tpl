@@ -8,6 +8,10 @@ global:
     - description: oncall public endpoint
       url: {{ .Values.hostname }}
 
+rabbitmq:
+  cluster:
+    namespace: {{ $rabbitmqNamespace }}  
+
 oncall:
   base_url: {{ .Values.hostname }}
   ingress:
@@ -18,8 +22,6 @@ oncall:
         secretName: oncall-certificate-tls
   externalRabbitmq:
     host: rabbitmq.{{ $rabbitmqNamespace }}
-    user: {{ importValue "Terraform" "rabbitmq_username" }}
-    password: {{ importValue "Terraform" "rabbitmq_password" }}
   externalRedis:
     host: redis-master.{{ $redisNamespace }}
     password: {{ $redisValues.redis.password }}
