@@ -11,13 +11,13 @@ spec:
   display: |-
 {{ .Files.Get "runbooks/scaling-manual.xml" | indent 4 }}
   datasources:
-  - name: chatwoot-cpu
+  - name: chatwoot-web-cpu
     type: prometheus
     prometheus:
       format: cpu
       legend: $pod
       query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"chatwoot-web.+"}[5m])) by (pod)
-  - name: chatwoot-memory
+  - name: chatwoot-web-memory
     type: prometheus
     prometheus:
       format: memory
@@ -55,29 +55,65 @@ spec:
       updates:
         - path:
             - chatwoot
-            - chatwoot-web
+            - chatwoot
+            - web
             - resources
             - requests
             - cpu
-          valueFrom: chatwoot-cpu
+          valueFrom: chatwoot-web-cpu
         - path:
             - chatwoot
-            - chatwoot-web
+            - chatwoot
+            - web
             - resources
             - requests
             - memory
-          valueFrom: chatwoot-memory
+          valueFrom: chatwoot-web-memory
         - path:
             - chatwoot
-            - chatwoot-worker
+            - chatwoot
+            - web
+            - resources
+            - limits
+            - cpu
+          valueFrom: chatwoot-web-cpu-limit
+        - path:
+            - chatwoot
+            - chatwoot
+            - web
+            - resources
+            - limits
+            - memory
+          valueFrom: chatwoot-web-memory-limit
+        - path:
+            - chatwoot
+            - chatwoot
+            - worker
             - resources
             - requests
             - cpu
           valueFrom: chatwoot-worker-cpu
         - path:
             - chatwoot
-            - chatwoot-worker
+            - chatwoot
+            - worker
             - resources
             - requests
             - memory
           valueFrom: chatwoot-worker-memory
+        - path:
+            - chatwoot
+            - chatwoot
+            - worker
+            - resources
+            - limits
+            - cpu
+          valueFrom: chatwoot-worker-cpu-limit
+        - path:
+            - chatwoot
+            - chatwoot
+            - worker
+            - resources
+            - limits
+            - memory
+          valueFrom: chatwoot-worker-memory-limit
