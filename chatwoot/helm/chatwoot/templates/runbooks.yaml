@@ -1,0 +1,119 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Runbook
+metadata:
+  name: scaling-manual
+  labels:
+    platform.plural.sh/pinned: 'true'
+{{ include "chatwoot.labels" . | indent 4 }}
+spec:
+  name: Chatwoot Scaling
+  description: overview of how to optimally scale your Chatwoot cluster
+  display: |-
+{{ .Files.Get "runbooks/scaling-manual.xml" | indent 4 }}
+  datasources:
+  - name: chatwoot-web-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"chatwoot-web.+"}[5m])) by (pod)
+  - name: chatwoot-web-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"chatwoot-web.+"}) by (pod)
+  - name: chatwoot-worker-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"chatwoot-worker.+"}[5m])) by (pod)
+  - name: chatwoot-worker-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"chatwoot-worker.+"}) by (pod)
+  - name: chatwoot
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: chatwoot-web
+  - name: chatwoot-worker
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: chatwoot-worker
+  - name: nodes
+    type: nodes
+  actions:
+  - name: scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+        - path:
+            - chatwoot
+            - chatwoot
+            - web
+            - resources
+            - requests
+            - cpu
+          valueFrom: chatwoot-web-cpu
+        - path:
+            - chatwoot
+            - chatwoot
+            - web
+            - resources
+            - requests
+            - memory
+          valueFrom: chatwoot-web-memory
+        - path:
+            - chatwoot
+            - chatwoot
+            - web
+            - resources
+            - limits
+            - cpu
+          valueFrom: chatwoot-web-cpu-limit
+        - path:
+            - chatwoot
+            - chatwoot
+            - web
+            - resources
+            - limits
+            - memory
+          valueFrom: chatwoot-web-memory-limit
+        - path:
+            - chatwoot
+            - chatwoot
+            - worker
+            - resources
+            - requests
+            - cpu
+          valueFrom: chatwoot-worker-cpu
+        - path:
+            - chatwoot
+            - chatwoot
+            - worker
+            - resources
+            - requests
+            - memory
+          valueFrom: chatwoot-worker-memory
+        - path:
+            - chatwoot
+            - chatwoot
+            - worker
+            - resources
+            - limits
+            - cpu
+          valueFrom: chatwoot-worker-cpu-limit
+        - path:
+            - chatwoot
+            - chatwoot
+            - worker
+            - resources
+            - limits
+            - memory
+          valueFrom: chatwoot-worker-memory-limit
