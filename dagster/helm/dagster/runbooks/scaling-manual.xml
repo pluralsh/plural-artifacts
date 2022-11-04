@@ -31,7 +31,6 @@
         </box>
     </box>
     <box pad='small' gap='medium' direction='row' align='center'>
-        <button label='Scale' action='scale' primary='true' headline='true' />
         <box direction='row' align='center' gap='small'>
             <box gap='small' align='center'>
                 <timeseries datasource="dagster-dagit-cpu" label="Dagster Dagit CPU Usage" />
@@ -62,7 +61,6 @@
         </box>
     </box>
     <box pad='small' gap='medium' direction='row' align='center'>
-        <button label='Scale' action='scale' primary='true' headline='true' />
         <box direction='row' align='center' gap='small'>
             <box gap='small' align='center'>
                 <timeseries datasource="dagster-user-cpu" label="Dagster User Deployment CPU Usage" />
