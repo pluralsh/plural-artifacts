@@ -62,8 +62,6 @@ spec:
     kubernetes:
       resource: deployment
       name: argo-cd-argocd-server
-  - name: nodes
-    type: nodes
   actions:
   - name: scale
     action: config
@@ -86,6 +84,22 @@ spec:
         - requests
         - memory
         valueFrom: controller-memory
+      - path: 
+        - argo-cd
+        - argo-cd
+        - controller
+        - resources
+        - limits
+        - cpu
+        valueFrom: controller-cpu-limit
+      - path:
+        - argo-cd
+        - argo-cd
+        - controller
+        - resources
+        - limits
+        - memory
+        valueFrom: controller-memory-limit
       - path:
           - argo-cd
           - argo-cd
@@ -105,6 +119,22 @@ spec:
       - path:
           - argo-cd
           - argo-cd
+          - repoServer
+          - resources
+          - limits
+          - cpu
+        valueFrom: reposerver-cpu-limit
+      - path:
+          - argo-cd
+          - argo-cd
+          - repoServer
+          - resources
+          - limits
+          - memory
+        valueFrom: reposerver-memory-limit
+      - path:
+          - argo-cd
+          - argo-cd
           - server
           - resources
           - requests
@@ -118,4 +148,19 @@ spec:
           - requests
           - memory
         valueFrom: server-memory
-      
+      - path:
+          - argo-cd
+          - argo-cd
+          - server
+          - resources
+          - limits
+          - cpu
+        valueFrom: server-cpu-limit
+      - path:
+          - argo-cd
+          - argo-cd
+          - server
+          - resources
+          - limits
+          - memory
+        valueFrom: server-memory-limit

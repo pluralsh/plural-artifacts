@@ -4,13 +4,15 @@
         <box direction='row' align='center' gap='small'>
             <box gap='small' align='center'>
                 <timeseries datasource="argo-cd-controller-cpu" label="Controller CPU Usage" />
-                <text size='small'>You should set a reservation to
-                    roughly correspond to 60% utilization</text>
+                <text size='small'>You should set a requests to
+                    roughly correspond to 80% regular utilization</text>
+                <text size='small'>Normally a CPU limit is not required</text>
             </box>
             <box gap='small' align='center'>
                 <timeseries datasource="argo-cd-controller-memory" label="Controller Memory Usage" />
-                <text size='small'>You should set a reservation to
-                    roughly correspond to 80% utilization</text>
+                <text size='small'>You should set a requests to
+                    roughly correspond to 80% regular utilization</text>
+                <text size='small'>A memory limit should be set to avoid resource starvation</text>
             </box>
         </box>
         <box gap='xsmall'>
@@ -28,70 +30,116 @@
                         path="spec.template.spec.containers[0].resources.requests.memory" />
             </input>
             </box>
+            <box gap='xsmall'>
+            <input placeholder="250m" label='Controller CPU Limit' name='controller-cpu-limit'>
+                <valueFrom
+                        datasource="controller"
+                        doc="kubernetes.raw"
+                        path="spec.template.spec.containers[0].resources.limits.cpu" />
+            </input>
+            <input placeholder="1Gi" label='Controller Memory Limit' name='controller-memory-limit'>
+                <valueFrom
+                        datasource="controller"
+                        doc="kubernetes.raw"
+                        path="spec.template.spec.containers[0].resources.limits.memory" />
+            </input>
+            </box>
         </box>
     </box>
     <box pad='small' gap='medium' direction='row' align='center'>
         <box direction='row' align='center' gap='small'>
             <box gap='small' align='center'>
                 <timeseries datasource="argo-cd-reposerver-cpu" label="Repo Server CPU Usage" />
-                <text size='small'>You should set a reservation to
-                    roughly correspond to 60% utilization</text>
+                <text size='small'>You should set a requests to
+                    roughly correspond to 80% regular utilization</text>
+                <text size='small'>Normally a CPU limit is not required</text>
             </box>
             <box gap='small' align='center'>
                 <timeseries datasource="argo-cd-reposerver-memory" label="Repo Server Memory Usage" />
-                <text size='small'>You should set a reservation to
-                    roughly correspond to 80% utilization</text>
+                <text size='small'>You should set a requests to
+                    roughly correspond to 80% regular utilization</text>
+                <text size='small'>A memory limit should be set to avoid resource starvation</text>
             </box>
         </box>
         <box gap='xsmall'>
-            <input placeholder="250m" label='Repo Server CPU Request' name='reposerver-cpu'>
-                <valueFrom
-                        datasource="reposerver"
-                        doc="kubernetes.raw"
-                        path="spec.template.spec.containers[0].resources.requests.cpu" />
-            </input>
-            <input placeholder="1Gi" label='Repo Server Memory Request' name='reposerver-memory'>
-                <valueFrom
-                        datasource="reposerver"
-                        doc="kubernetes.raw"
-                        path="spec.template.spec.containers[0].resources.requests.memory" />
-            </input>
+            <box gap='xsmall'>
+                <input placeholder="250m" label='Repo Server CPU Request' name='reposerver-cpu'>
+                    <valueFrom
+                            datasource="reposerver"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.cpu" />
+                </input>
+                <input placeholder="1Gi" label='Repo Server Memory Request' name='reposerver-memory'>
+                    <valueFrom
+                            datasource="reposerver"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.memory" />
+                </input>
+            </box>
+            <box gap='xsmall'>
+                <input placeholder="250m" label='Repo Server CPU Limit' name='reposerver-cpu-limit'>
+                    <valueFrom
+                            datasource="reposerver"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.limits.cpu" />
+                </input>
+                <input placeholder="1Gi" label='Repo Server Memory Limit' name='reposerver-memory-limit'>
+                    <valueFrom
+                            datasource="reposerver"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.limits.memory" />
+                </input>
+            </box>
         </box>
     </box>
     <box pad='small' gap='medium' direction='row' align='center'>
         <box direction='row' align='center' gap='small'>
             <box gap='small' align='center'>
                 <timeseries datasource="argo-cd-server-cpu" label="Server CPU Usage" />
-                <text size='small'>You should set a reservation to
-                    roughly correspond to 60% utilization</text>
+                <text size='small'>You should set a requests to
+                    roughly correspond to 80% regular utilization</text>
+                <text size='small'>Normally a CPU limit is not required</text>
             </box>
             <box gap='small' align='center'>
                 <timeseries datasource="argo-cd-server-memory" label="Server Memory Usage" />
-                <text size='small'>You should set a reservation to
-                    roughly correspond to 80% utilization</text>
+                <text size='small'>You should set a requests to
+                    roughly correspond to 80% regular utilization</text>
+                <text size='small'>A memory limit should be set to avoid resource starvation</text>
             </box>
         </box>
         <box gap='xsmall'>
-            <input placeholder="250m" label='Server CPU Request' name='server-cpu'>
-                <valueFrom
-                        datasource="server"
-                        doc="kubernetes.raw"
-                        path="spec.template.spec.containers[0].resources.requests.cpu" />
-            </input>
-            <input placeholder="1Gi" label='Server Memory Request' name='server-memory'>
-                <valueFrom
-                        datasource="server"
-                        doc="kubernetes.raw"
-                        path="spec.template.spec.containers[0].resources.requests.memory" />
-            </input>
+            <box gap='xsmall'>
+                <input placeholder="250m" label='Server CPU Request' name='server-cpu'>
+                    <valueFrom
+                            datasource="server"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.cpu" />
+                </input>
+                <input placeholder="1Gi" label='Server Memory Request' name='server-memory'>
+                    <valueFrom
+                            datasource="server"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.memory" />
+                </input>
+            </box>
+            <box gap='xsmall'>
+                <input placeholder="250m" label='Server CPU Limit' name='server-cpu-limit'>
+                    <valueFrom
+                            datasource="server"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.limits.cpu" />
+                </input>
+                <input placeholder="1Gi" label='Server Memory Limit' name='server-memory-limit'>
+                    <valueFrom
+                            datasource="server"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.limits.memory" />
+                </input>
+            </box>
         </box>
     </box>
     <box width='100%' gap='small'>
-        <text size='small'>Be sure to scale your Argo-CD components within your node's capacity, listed here:</text>
-        <table width='100%' datasource='nodes' path='nodes'>
-            <tableColumn path='metadata.name' header='name' width='33%' />
-            <tableColumn path='status.capacity.cpu' header='cpu' width='33%' />
-            <tableColumn path='status.capacity.memory' header='memory' width='33%' />
-        </table>
+        <text size='small'>Be sure to scale your Argo-CD components within the capacity of your nodes.</text>
+        <text size='small'>By default this is a maximum of 8 CPU and 32 Gi memory.</text>
     </box>
 </root>

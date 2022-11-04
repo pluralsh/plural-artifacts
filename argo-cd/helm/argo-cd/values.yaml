@@ -190,8 +190,10 @@ argo-cd:
 
     resources:
       requests:
-        cpu: 250m
+        cpu: 100m
         memory: 256Mi
+      limits:
+        memory: 384Mi
 
     serviceAccount:
       create: true
@@ -581,7 +583,9 @@ argo-cd:
 
     resources:
       requests:
-        cpu: 50m
+        cpu: 5m
+        memory: 32Mi
+      limits:
         memory: 64Mi
 
     ## Certificate configuration
@@ -993,7 +997,9 @@ argo-cd:
 
     resources:
       requests:
-        cpu: 10m
+        cpu: 5m
+        memory: 32Mi
+      limits:
         memory: 64Mi
 
     ## Repo server service configuration
@@ -1270,3 +1276,9 @@ argocd-image-updater:
     enabled: true
     serviceMonitor:
       enabled: true
+  resources:
+    requests:
+      cpu: 5m
+      memory: 32Mi
+    limits:
+      memory: 64Mi
