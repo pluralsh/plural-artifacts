@@ -22,6 +22,40 @@ global:
     create: false
     defaultDenyIngress: false
 
+config-overlays:
+  configOverlays:
+    #airflow-registry:
+    #  spec:
+    #    name: Airflow Registry
+    #    documentation: docker repository to use for airflow (default is dkr.plural.sh/airflow/apache/airflow)
+    #    updates:
+    #      - path: ['airflow', 'airflow', 'airflow', 'image', 'repository']
+    #web-replicas:
+    #  spec:
+    #    name: Web Replicas
+    #    documentation: number of replicas for the web deployment
+    #    updates:
+    #      - path: ['airflow', 'airflow', 'web', 'replicas']
+    #    inputType: int
+    #worker-replicas:
+    #  spec:
+    #    name: Worker Replicas
+    #    documentation: number of replicas for the worker deployment
+    #    updates:
+    #      - path: ['airflow', 'airflow', 'workers', 'replicas']
+    #    inputType: int
+    controller-cpu:
+      #labels:
+      #  platform.plural.sh/component: argo-cd
+      #  platform.plural.sh/kind: deployment
+      #  platform.plural.sh/resource: cpu
+      spec:
+        name: controller cpu
+        documentation: cpu requests for controller deployment
+        updates:
+          - path: ['argo-cd', 'argo-cd', 'controller', 'resources', 'requests', 'cpu']
+
+
 argo-cd:
   ## ArgoCD configuration
   ## Ref: https://github.com/argoproj/argo-cd
@@ -144,13 +178,10 @@ argo-cd:
 
     priorityClassName: ""
 
-    resources: {}
-    #  limits:
-    #    cpu: 500m
-    #    memory: 512Mi
-    #  requests:
-    #    cpu: 250m
-    #    memory: 256Mi
+    resources:
+      requests:
+        cpu: 250m
+        memory: 256Mi
 
     serviceAccount:
       create: true
