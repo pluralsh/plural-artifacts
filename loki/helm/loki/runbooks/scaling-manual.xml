@@ -1,0 +1,251 @@
+<root gap='medium'>
+    <box pad='small' gap='medium' direction='row' align='center'>
+        <button label='Scale' action='scale' primary='true' headline='true' />
+        <box direction='row' align='center' gap='small'>
+            <box gap='small' align='center'>
+                <timeseries datasource="loki-compactor-cpu" label="Loki Compactor CPU Usage" />
+                <text size='small'>You should set a reservation to
+                    roughly correspond to 60% utilization</text>
+            </box>
+            <box gap='small' align='center'>
+                <timeseries datasource="loki-compactor-memory" label="Loki Compactor Memory Usage" />
+                <text size='small'>You should set a reservation to
+                    roughly correspond to 80% utilization</text>
+            </box>
+        </box>
+        <box gap='xsmall'>
+            <box gap='xsmall'>
+                <input placeholder="250m" label='Loki Compactor CPU Request' name='loki-compactor-cpu'>
+                    <valueFrom
+                            datasource="loki-compactor"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.cpu" />
+                </input>
+                <input placeholder="1Gi" label='Loki Compactor Memory Request' name='loki-compactor-memory'>
+                    <valueFrom
+                            datasource="loki-compactor"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.memory" />
+                </input>
+            </box>
+        </box>
+    </box>
+    <box pad='small' gap='medium' direction='row' align='center'>
+        <box direction='row' align='center' gap='small'>
+            <box gap='small' align='center'>
+                <timeseries datasource="loki-distributor-cpu" label="Loki Distributor CPU Usage" />
+                <text size='small'>You should set a reservation to
+                    roughly correspond to 60% utilization</text>
+            </box>
+            <box gap='small' align='center'>
+                <timeseries datasource="loki-distributor-memory" label="Loki Distributor Memory Usage" />
+                <text size='small'>You should set a reservation to
+                    roughly correspond to 80% utilization</text>
+            </box>
+        </box>
+        <box gap='xsmall'>
+            <box gap='xsmall'>
+                <input placeholder="250m" label='Loki Distributor CPU Request' name='loki-distributor-cpu'>
+                    <valueFrom
+                            datasource="loki-distributor"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.cpu" />
+                </input>
+                <input placeholder="1Gi" label='Loki Distributor Memory Request' name='loki-distributor-memory'>
+                    <valueFrom
+                            datasource="loki-distributor"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.memory" />
+                </input>
+            </box>
+        </box>
+    </box>
+    <box pad='small' gap='medium' direction='row' align='center'>
+        <box direction='row' align='center' gap='small'>
+            <box gap='small' align='center'>
+                <timeseries datasource="loki-index-cpu" label="Loki Index CPU Usage" />
+                <text size='small'>You should set a reservation to
+                    roughly correspond to 60% utilization</text>
+            </box>
+            <box gap='small' align='center'>
+                <timeseries datasource="loki-index-memory" label="Loki Index Memory Usage" />
+                <text size='small'>You should set a reservation to
+                    roughly correspond to 80% utilization</text>
+            </box>
+        </box>
+        <box gap='xsmall'>
+            <box gap='xsmall'>
+                <input placeholder="250m" label='Loki Distributor CPU Request' name='loki-index-cpu'>
+                    <valueFrom
+                            datasource="loki-index"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.cpu" />
+                </input>
+                <input placeholder="1Gi" label='Loki Distributor Memory Request' name='loki-index-memory'>
+                    <valueFrom
+                            datasource="loki-index"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.memory" />
+                </input>
+            </box>
+        </box>
+    </box>
+    <box pad='small' gap='medium' direction='row' align='center'>
+        <box direction='row' align='center' gap='small'>
+            <box gap='small' align='center'>
+                <timeseries datasource="loki-ingester-cpu" label="Loki Ingester CPU Usage" />
+                <text size='small'>You should set a reservation to
+                    roughly correspond to 60% utilization</text>
+            </box>
+            <box gap='small' align='center'>
+                <timeseries datasource="loki-ingester-memory" label="Loki Ingester Memory Usage" />
+                <text size='small'>You should set a reservation to
+                    roughly correspond to 80% utilization</text>
+            </box>
+        </box>
+        <box gap='xsmall'>
+            <box gap='xsmall'>
+                <input placeholder="250m" label='Loki Distributor CPU Request' name='loki-ingester-cpu'>
+                    <valueFrom
+                            datasource="loki-ingester"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.cpu" />
+                </input>
+                <input placeholder="1Gi" label='Loki Distributor Memory Request' name='loki-ingester-memory'>
+                    <valueFrom
+                            datasource="loki-ingester"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.memory" />
+                </input>
+            </box>
+        </box>
+    </box>
+    <box pad='small' gap='medium' direction='row' align='center'>
+        <box direction='row' align='center' gap='small'>
+            <box gap='small' align='center'>
+                <timeseries datasource="loki-gateway-cpu" label="Loki Gateway CPU Usage" />
+                <text size='small'>You should set a reservation to
+                    roughly correspond to 60% utilization</text>
+            </box>
+            <box gap='small' align='center'>
+                <timeseries datasource="loki-gateway-memory" label="Loki Gateway Memory Usage" />
+                <text size='small'>You should set a reservation to
+                    roughly correspond to 80% utilization</text>
+            </box>
+        </box>
+        <box gap='xsmall'>
+            <box gap='xsmall'>
+                <input placeholder="250m" label='Loki Gateway CPU Request' name='loki-gateway-cpu'>
+                    <valueFrom
+                            datasource="loki-gateway"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.cpu" />
+                </input>
+                <input placeholder="1Gi" label='Loki Gateway Memory Request' name='loki-gateway-memory'>
+                    <valueFrom
+                            datasource="loki-gateway"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.memory" />
+                </input>
+            </box>
+        </box>
+    </box>
+    <box pad='small' gap='medium' direction='row' align='center'>
+        <box direction='row' align='center' gap='small'>
+            <box gap='small' align='center'>
+                <timeseries datasource="loki-querier-cpu" label="Loki Querier CPU Usage" />
+                <text size='small'>You should set a reservation to
+                    roughly correspond to 60% utilization</text>
+            </box>
+            <box gap='small' align='center'>
+                <timeseries datasource="loki-querier-memory" label="Loki Querier Memory Usage" />
+                <text size='small'>You should set a reservation to
+                    roughly correspond to 80% utilization</text>
+            </box>
+        </box>
+        <box gap='xsmall'>
+            <box gap='xsmall'>
+                <input placeholder="250m" label='Loki Gateway CPU Request' name='loki-querier-cpu'>
+                    <valueFrom
+                            datasource="loki-querier"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.cpu" />
+                </input>
+                <input placeholder="1Gi" label='Loki Gateway Memory Request' name='loki-querier-memory'>
+                    <valueFrom
+                            datasource="loki-querier"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.memory" />
+                </input>
+            </box>
+        </box>
+    </box>
+    <box pad='small' gap='medium' direction='row' align='center'>
+        <box direction='row' align='center' gap='small'>
+            <box gap='small' align='center'>
+                <timeseries datasource="loki-frontend-cpu" label="Loki Frontend CPU Usage" />
+                <text size='small'>You should set a reservation to
+                    roughly correspond to 60% utilization</text>
+            </box>
+            <box gap='small' align='center'>
+                <timeseries datasource="loki-frontend-memory" label="Loki Frontend Memory Usage" />
+                <text size='small'>You should set a reservation to
+                    roughly correspond to 80% utilization</text>
+            </box>
+        </box>
+        <box gap='xsmall'>
+            <box gap='xsmall'>
+                <input placeholder="250m" label='Loki Frontend CPU Request' name='loki-frontend-cpu'>
+                    <valueFrom
+                            datasource="loki-frontend"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.cpu" />
+                </input>
+                <input placeholder="1Gi" label='Loki Frontend Memory Request' name='loki-frontend-memory'>
+                    <valueFrom
+                            datasource="loki-frontend"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.memory" />
+                </input>
+            </box>
+        </box>
+    </box>
+    <box pad='small' gap='medium' direction='row' align='center'>
+        <box direction='row' align='center' gap='small'>
+            <box gap='small' align='center'>
+                <timeseries datasource="loki-ruler-cpu" label="Loki Ruler CPU Usage" />
+                <text size='small'>You should set a reservation to
+                    roughly correspond to 60% utilization</text>
+            </box>
+            <box gap='small' align='center'>
+                <timeseries datasource="loki-ruler-memory" label="Loki Ruler Memory Usage" />
+                <text size='small'>You should set a reservation to
+                    roughly correspond to 80% utilization</text>
+            </box>
+        </box>
+        <box gap='xsmall'>
+            <box gap='xsmall'>
+                <input placeholder="250m" label='Loki Ruler CPU Request' name='loki-ruler-cpu'>
+                    <valueFrom
+                            datasource="loki-ruler"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.cpu" />
+                </input>
+                <input placeholder="1Gi" label='Loki Ruler Memory Request' name='loki-ruler-memory'>
+                    <valueFrom
+                            datasource="loki-ruler"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.memory" />
+                </input>
+            </box>
+        </box>
+    </box>
+    <box width='100%' gap='small'>
+        <text size='small'>Be sure to scale your Loki components within your node's capacity, listed here:</text>
+        <table width='100%' datasource='nodes' path='nodes'>
+            <tableColumn path='metadata.name' header='name' width='33%' />
+            <tableColumn path='status.capacity.cpu' header='cpu' width='33%' />
+            <tableColumn path='status.capacity.memory' header='memory' width='33%' />
+        </table>
+    </box>
+</root>

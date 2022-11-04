@@ -28,24 +28,40 @@ loki-distributed:
         name: redis-password
     persistence:
       enabled: true
+    resources:
+      requests:
+        cpu: 250m
+        memory: 256Mi
   distributor:
     extraArgs:
     - -config.expand-env=true
     extraEnvFrom:
     - secretRef:
         name: redis-password
+    resources:
+      requests:
+        cpu: 250m
+        memory: 256Mi
   querier:
     extraArgs:
     - -config.expand-env=true
     extraEnvFrom:
     - secretRef:
         name: redis-password
+    resources:
+      requests:
+        cpu: 250m
+        memory: 256Mi
   queryFrontend:
     extraArgs:
     - -config.expand-env=true
     extraEnvFrom:
     - secretRef:
         name: redis-password
+    resources:
+      requests:
+        cpu: 250m
+        memory: 256Mi
   tableManager:
     enabled: false
     extraArgs:
@@ -59,6 +75,10 @@ loki-distributed:
       registry: dkr.plural.sh
       repository: loki/nginxinc/nginx-unprivileged
       tag: 1.19-alpine
+    resources:
+      requests:
+        cpu: 250m
+        memory: 256Mi
   compactor:
     enabled: true
     extraArgs:
@@ -66,6 +86,10 @@ loki-distributed:
     extraEnvFrom:
     - secretRef:
         name: redis-password
+    resources:
+      requests:
+        cpu: 250m
+        memory: 256Mi
   ruler:
     enabled: true
     extraArgs:
@@ -73,6 +97,10 @@ loki-distributed:
     extraEnvFrom:
     - secretRef:
         name: redis-password
+    resources:
+      requests:
+        cpu: 250m
+        memory: 256Mi
     directories:
       fake:
         rules1.txt: |
@@ -115,6 +143,10 @@ loki-distributed:
         name: redis-password
     persistence:
       enabled: true
+    resources:
+      requests:
+        cpu: 250m
+        memory: 256Mi
   loki:
     image:
       registry: dkr.plural.sh
