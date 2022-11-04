@@ -35,18 +35,6 @@ spec:
       format: memory
       legend: $pod
       query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"dagster-dagit.+"}) by (pod)
-  - name: dagster-user-cpu
-    type: prometheus
-    prometheus:
-      format: cpu
-      legend: $pod
-      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"dagster-dagster.+"}[5m])) by (pod)
-  - name: dagster-user-memory
-    type: prometheus
-    prometheus:
-      format: memory
-      legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"dagster-dagster.+"}) by (pod)
   - name: dagster-daemon
     type: kubernetes
     kubernetes:
