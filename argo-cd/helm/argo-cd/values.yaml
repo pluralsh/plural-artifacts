@@ -24,36 +24,46 @@ global:
 
 config-overlays:
   configOverlays:
-    #airflow-registry:
-    #  spec:
-    #    name: Airflow Registry
-    #    documentation: docker repository to use for airflow (default is dkr.plural.sh/airflow/apache/airflow)
-    #    updates:
-    #      - path: ['airflow', 'airflow', 'airflow', 'image', 'repository']
-    #web-replicas:
-    #  spec:
-    #    name: Web Replicas
-    #    documentation: number of replicas for the web deployment
-    #    updates:
-    #      - path: ['airflow', 'airflow', 'web', 'replicas']
-    #    inputType: int
-    #worker-replicas:
-    #  spec:
-    #    name: Worker Replicas
-    #    documentation: number of replicas for the worker deployment
-    #    updates:
-    #      - path: ['airflow', 'airflow', 'workers', 'replicas']
-    #    inputType: int
     controller-cpu:
       #labels:
       #  platform.plural.sh/component: argo-cd
       #  platform.plural.sh/kind: deployment
       #  platform.plural.sh/resource: cpu
       spec:
-        name: controller cpu
-        documentation: cpu requests for controller deployment
+        name: Controller CPU Requests
+        documentation: CPU requests for controller deployment
         updates:
           - path: ['argo-cd', 'argo-cd', 'controller', 'resources', 'requests', 'cpu']
+    controller-memory:
+      spec:
+        name: Controller Memory Requests
+        documentation: Memory requests for controller deployment
+        updates:
+          - path: [ 'argo-cd', 'argo-cd', 'controller', 'resources', 'requests', 'memory' ]
+    server-cpu:
+      spec:
+        name: Server CPU Requests
+        documentation: CPU requests for server deployment
+        updates:
+          - path: ['argo-cd', 'argo-cd', 'server', 'resources', 'requests', 'cpu']
+    server-memory:
+      spec:
+        name: Server Memory Requests
+        documentation: Memory requests for server deployment
+        updates:
+          - path: [ 'argo-cd', 'argo-cd', 'server', 'resources', 'requests', 'memory' ]
+    repo-server-cpu:
+      spec:
+        name: Repo Server CPU Requests
+        documentation: CPU requests for repo server deployment
+        updates:
+          - path: [ 'argo-cd', 'argo-cd', 'repoServer', 'resources', 'requests', 'cpu' ]
+    repo-server-memory:
+      spec:
+        name: Repo Server Memory Requests
+        documentation: Memory requests for repo server deployment
+        updates:
+          - path: [ 'argo-cd', 'argo-cd', 'repoServer', 'resources', 'requests', 'memory' ]
 
 
 argo-cd:
@@ -569,13 +579,10 @@ argo-cd:
       #     - all
       # readOnlyRootFilesystem: true
 
-    resources: {}
-    #  limits:
-    #    cpu: 100m
-    #    memory: 128Mi
-    #  requests:
-    #    cpu: 50m
-    #    memory: 64Mi
+    resources:
+      requests:
+        cpu: 50m
+        memory: 64Mi
 
     ## Certificate configuration
     certificate:
@@ -984,13 +991,10 @@ argo-cd:
       #     - all
       # readOnlyRootFilesystem: true
 
-    resources: {}
-    #  limits:
-    #    cpu: 50m
-    #    memory: 128Mi
-    #  requests:
-    #    cpu: 10m
-    #    memory: 64Mi
+    resources:
+      requests:
+        cpu: 10m
+        memory: 64Mi
 
     ## Repo server service configuration
     service:

@@ -1,0 +1,121 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Runbook
+metadata:
+  name: scaling-manual
+  labels:
+    platform.plural.sh/pinned: 'true'
+{{ include "argo-cd-plural.labels" . | indent 4 }}
+spec:
+  name: Argo-CD Scaling
+  description: overview of how to optimally scale your Argo-CD cluster
+  display: |-
+{{ .Files.Get "runbooks/scaling-manual.xml" | indent 4 }}
+  datasources:
+  - name: argo-cd-controller-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"argo-cd-argocd-application-controller.+"}[5m])) by (pod)
+  - name: argo-cd-controller-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"argo-cd-argocd-application-controller.+"}) by (pod)
+  - name: argo-cd-reposerver-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"argo-cd-argocd-repo-server.+"}[5m])) by (pod)
+  - name: argo-cd-reposerver-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"argo-cd-argocd-repo-server.+"}) by (pod)
+  - name: argo-cd-server-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"argo-cd-argocd-server.+"}[5m])) by (pod)
+  - name: argo-cd-server-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"argo-cd-argocd-server.+"}) by (pod)
+  - name: controller
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: argo-cd-argocd-application-controller
+  - name: reposerver
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: argo-cd-argocd-repo-server
+  - name: server
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: argo-cd-argocd-server
+  - name: nodes
+    type: nodes
+  actions:
+  - name: scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+      - path: 
+        - argo-cd
+        - argo-cd
+        - controller
+        - resources
+        - requests
+        - cpu
+        valueFrom: controller-cpu
+      - path:
+        - argo-cd
+        - argo-cd
+        - controller
+        - resources
+        - requests
+        - memory
+        valueFrom: controller-memory
+      - path:
+          - argo-cd
+          - argo-cd
+          - repoServer
+          - resources
+          - requests
+          - cpu
+        valueFrom: reposerver-cpu
+      - path:
+          - argo-cd
+          - argo-cd
+          - repoServer
+          - resources
+          - requests
+          - memory
+        valueFrom: reposerver-memory
+      - path:
+          - argo-cd
+          - argo-cd
+          - server
+          - resources
+          - requests
+          - cpu
+        valueFrom: server-cpu
+      - path:
+          - argo-cd
+          - argo-cd
+          - server
+          - resources
+          - requests
+          - memory
+        valueFrom: server-memory
+      
