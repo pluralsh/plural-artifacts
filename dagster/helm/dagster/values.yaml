@@ -13,9 +13,18 @@ oidcProxy:
   enabled: false
 
 dagster:
+  daemon:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
   dagit:
     image:
       repository: dkr.plural.sh/dagster/dagster/dagster-celery-k8s
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
 
   ingress:
     enabled: true
@@ -52,6 +61,10 @@ dagster:
           repository: "docker.io/dagster/user-code-example"
           tag: latest
           pullPolicy: Always
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
         dagsterApiGrpcArgs:
           - "--python-file"
           - "/example_project/example_repo/repo.py"

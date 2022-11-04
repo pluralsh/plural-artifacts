@@ -1,0 +1,103 @@
+<root gap='medium'>
+    <box pad='small' gap='medium' direction='row' align='center'>
+        <button label='Scale' action='scale' primary='true' headline='true' />
+        <box direction='row' align='center' gap='small'>
+            <box gap='small' align='center'>
+                <timeseries datasource="dagster-daemon-cpu" label="Dagster Daemon CPU Usage" />
+                <text size='small'>You should set a reservation to
+                    roughly correspond to 60% utilization</text>
+            </box>
+            <box gap='small' align='center'>
+                <timeseries datasource="dagster-daemon-memory" label="Dagster Daemon Memory Usage" />
+                <text size='small'>You should set a reservation to
+                    roughly correspond to 80% utilization</text>
+            </box>
+        </box>
+        <box gap='xsmall'>
+            <box gap='xsmall'>
+                <input placeholder="250m" label='Dagster daemon CPU Request' name='dagster-daemon-cpu'>
+                    <valueFrom
+                            datasource="dagster-daemon"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.cpu" />
+                </input>
+                <input placeholder="1Gi" label='dagster Memory Request' name='dagster-daemon-memory'>
+                    <valueFrom
+                            datasource="dagster-daemon"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.memory" />
+                </input>
+            </box>
+        </box>
+    </box>
+    <box pad='small' gap='medium' direction='row' align='center'>
+        <button label='Scale' action='scale' primary='true' headline='true' />
+        <box direction='row' align='center' gap='small'>
+            <box gap='small' align='center'>
+                <timeseries datasource="dagster-dagit-cpu" label="Dagster Dagit CPU Usage" />
+                <text size='small'>You should set a reservation to
+                    roughly correspond to 60% utilization</text>
+            </box>
+            <box gap='small' align='center'>
+                <timeseries datasource="dagster-dagit-memory" label="Dagster Dagit Memory Usage" />
+                <text size='small'>You should set a reservation to
+                    roughly correspond to 80% utilization</text>
+            </box>
+        </box>
+        <box gap='xsmall'>
+            <box gap='xsmall'>
+                <input placeholder="250m" label='Dagster dagit CPU Request' name='dagster-dagit-cpu'>
+                    <valueFrom
+                            datasource="dagster-dagit"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.cpu" />
+                </input>
+                <input placeholder="1Gi" label='dagster Memory Request' name='dagster-dagit-memory'>
+                    <valueFrom
+                            datasource="dagster-dagit"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.memory" />
+                </input>
+            </box>
+        </box>
+    </box>
+    <box pad='small' gap='medium' direction='row' align='center'>
+        <button label='Scale' action='scale' primary='true' headline='true' />
+        <box direction='row' align='center' gap='small'>
+            <box gap='small' align='center'>
+                <timeseries datasource="dagster-user-cpu" label="Dagster User Deployment CPU Usage" />
+                <text size='small'>You should set a reservation to
+                    roughly correspond to 60% utilization</text>
+            </box>
+            <box gap='small' align='center'>
+                <timeseries datasource="dagster-user-memory" label="Dagster User Deployment Memory Usage" />
+                <text size='small'>You should set a reservation to
+                    roughly correspond to 80% utilization</text>
+            </box>
+        </box>
+        <box gap='xsmall'>
+            <box gap='xsmall'>
+                <input placeholder="250m" label='Dagster dagit CPU Request' name='dagster-dagit-cpu'>
+                    <valueFrom
+                            datasource="dagster-user"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.cpu" />
+                </input>
+                <input placeholder="1Gi" label='dagster Memory Request' name='dagster-dagit-memory'>
+                    <valueFrom
+                            datasource="dagster-user"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.memory" />
+                </input>
+            </box>
+        </box>
+    </box>
+    <box width='100%' gap='small'>
+        <text size='small'>Be sure to scale your dagster components within your node's capacity, listed here:</text>
+        <table width='100%' datasource='nodes' path='nodes'>
+            <tableColumn path='metadata.name' header='name' width='33%' />
+            <tableColumn path='status.capacity.cpu' header='cpu' width='33%' />
+            <tableColumn path='status.capacity.memory' header='memory' width='33%' />
+        </table>
+    </box>
+</root>
