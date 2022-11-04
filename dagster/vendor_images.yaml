@@ -4,4 +4,5 @@ docker.io:
     - "9.6.24"
   images-by-tag-regex:
     dagster/dagster-celery-k8s: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    dagster/user-code-example: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
     busybox: ^v?[0-9]+\.[0-9]+?\.[0-9]+$

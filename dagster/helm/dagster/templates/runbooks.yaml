@@ -57,13 +57,6 @@ spec:
     kubernetes:
       resource: deployment
       name: dagster-dagit
-  - name: dagster-user
-    type: kubernetes
-    kubernetes:
-      resource: deployment
-      name: dagster-dagster-user-deployments-k8s-example-user-code-1
-  - name: nodes
-    type: nodes
   actions:
   - name: scale
     action: config
@@ -72,19 +65,38 @@ spec:
       updates:
         - path:
             - dagster
-            - daemon
+            - dagster
+            - dagsterDaemon
             - resources
             - requests
             - cpu
           valueFrom: dagster-daemon-cpu
         - path:
             - dagster
-            - daemon
+            - dagster
+            - dagsterDaemon
             - resources
             - requests
             - memory
           valueFrom: dagster-daemon-memory
         - path:
+            - dagster
+            - dagster
+            - dagsterDaemon
+            - resources
+            - limits
+            - cpu
+          valueFrom: dagster-daemon-cpu-limit
+        - path:
+            - dagster
+            - dagster
+            - dagsterDaemon
+            - resources
+            - limits
+            - memory
+          valueFrom: dagster-daemon-memory-limit
+        - path:
+            - dagster
             - dagster
             - dagit
             - resources
@@ -93,6 +105,7 @@ spec:
           valueFrom: dagster-dagit-cpu
         - path:
             - dagster
+            - dagster
             - dagit
             - resources
             - requests
@@ -100,17 +113,17 @@ spec:
           valueFrom: dagster-dagit-memory
         - path:
             - dagster
-            - dagster-user-deployments
-            - deployments
+            - dagster
+            - dagit
             - resources
-            - requests
+            - limits
             - cpu
-          valueFrom: dagster-user-cpu
+          valueFrom: dagster-dagit-cpu-limit
         - path:
             - dagster
-            - dagster-user-deployments
-            - deployments
+            - dagster
+            - dagit
             - resources
-            - requests
+            - limits
             - memory
-          valueFrom: dagster-user-memory
+          valueFrom: dagster-dagit-memory-limit

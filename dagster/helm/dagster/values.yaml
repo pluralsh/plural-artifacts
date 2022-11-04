@@ -13,18 +13,34 @@ oidcProxy:
   enabled: false
 
 dagster:
-  daemon:
+  dagsterDaemon:
+    image:
+      repository: dkr.plural.sh/dagster/dagster/dagster-celery-k8s
+      tag: 1.0.16
     resources:
       requests:
-        cpu: 100m
-        memory: 128Mi
+        cpu: 15m
+        memory: 156Mi
+      limits:
+        memory: 256Mi
   dagit:
     image:
       repository: dkr.plural.sh/dagster/dagster/dagster-celery-k8s
+      tag: 1.0.16
     resources:
       requests:
-        cpu: 100m
-        memory: 128Mi
+        cpu: 25m
+        memory: 180Mi
+      limits:
+        memory: 256Mi
+  busybox:
+    image:
+      repository: dkr.plural.sh/dagster/library/busybox
+      tag: 1.35.0
+  pipelineRun:
+    image:
+      repository: dkr.plural.sh/dagster/dagster/user-code-example
+      tag: 1.0.16
 
   ingress:
     enabled: true
@@ -44,9 +60,18 @@ dagster:
 
   runLauncher:
     type: K8sRunLauncher
+    config:
+      celeryK8sRunLauncher:
+        image:
+          repository: dkr.plural.sh/dagster/dagster/dagster-celery-k8s
+          tag: 1.0.16
 
   postgresql:
     enabled: false
+    # image is still used for checks if the db is ready
+    image:
+      repository: dkr.plural.sh/dagster/library/postgres
+      tag: 9.6.24
     postgresqlHost: plural-dagster
     postgresqlUsername: dagster
     postgresqlDatabase: dagster
@@ -58,13 +83,15 @@ dagster:
     deployments:
       - name: "k8s-example-user-code-1"
         image:
-          repository: "docker.io/dagster/user-code-example"
-          tag: latest
+          repository: dkr.plural.sh/dagster/dagster/user-code-example
+          tag: 1.0.16
           pullPolicy: Always
         resources:
           requests:
-            cpu: 100m
-            memory: 128Mi
+            cpu: 20m
+            memory: 100Mi
+          limits:
+            memory: 160Mi
         dagsterApiGrpcArgs:
           - "--python-file"
           - "/example_project/example_repo/repo.py"
