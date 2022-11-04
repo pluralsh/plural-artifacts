@@ -1,0 +1,72 @@
+<root gap='medium'>
+    <box pad='small' gap='medium' direction='row' align='center'>
+        <button label='Scale' action='scale' primary='true' headline='true' />
+        <box direction='row' align='center' gap='small'>
+            <box gap='small' align='center'>
+                <timeseries datasource="chatwoot-cpu" label="Chatwoot CPU Usage" />
+                <text size='small'>You should set a reservation to
+                    roughly correspond to 60% utilization</text>
+            </box>
+            <box gap='small' align='center'>
+                <timeseries datasource="chatwoot-memory" label="Chatwoot Memory Usage" />
+                <text size='small'>You should set a reservation to
+                    roughly correspond to 80% utilization</text>
+            </box>
+        </box>
+        <box gap='xsmall'>
+            <box gap='xsmall'>
+                <input placeholder="250m" label='Chatwoot CPU Request' name='chatwoot-cpu'>
+                    <valueFrom
+                            datasource="chatwoot"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.cpu" />
+                </input>
+                <input placeholder="1Gi" label='chatwoot Memory Request' name='chatwoot-memory'>
+                    <valueFrom
+                            datasource="chatwoot"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.memory" />
+                </input>
+            </box>
+        </box>
+    </box>
+    <box pad='small' gap='medium' direction='row' align='center'>
+        <button label='Scale' action='scale' primary='true' headline='true' />
+        <box direction='row' align='center' gap='small'>
+            <box gap='small' align='center'>
+                <timeseries datasource="chatwoot-worker-cpu" label="Chatwoot Worker CPU Usage" />
+                <text size='small'>You should set a reservation to
+                    roughly correspond to 60% utilization</text>
+            </box>
+            <box gap='small' align='center'>
+                <timeseries datasource="chatwoot-worker-memory" label="Chatwoot Worker Memory Usage" />
+                <text size='small'>You should set a reservation to
+                    roughly correspond to 80% utilization</text>
+            </box>
+        </box>
+        <box gap='xsmall'>
+            <box gap='xsmall'>
+                <input placeholder="250m" label='Chatwoot worker CPU Request' name='chatwoot-worker-cpu'>
+                    <valueFrom
+                            datasource="chatwoot-worker"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.cpu" />
+                </input>
+                <input placeholder="1Gi" label='Chatwoot worker Memory Request' name='chatwoot-worker-memory'>
+                    <valueFrom
+                            datasource="chatwoot-worker"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.memory" />
+                </input>
+            </box>
+        </box>
+    </box>
+    <box width='100%' gap='small'>
+        <text size='small'>Be sure to scale your chatwoot components within your node's capacity, listed here:</text>
+        <table width='100%' datasource='nodes' path='nodes'>
+            <tableColumn path='metadata.name' header='name' width='33%' />
+            <tableColumn path='status.capacity.cpu' header='cpu' width='33%' />
+            <tableColumn path='status.capacity.memory' header='memory' width='33%' />
+        </table>
+    </box>
+</root>

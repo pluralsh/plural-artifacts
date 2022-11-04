@@ -20,6 +20,17 @@ chatwoot:
     host: redis
     password: redis
     port: 6379
+  chatwoot-web:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+  chatwoot-worker:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+
 
 configOverlays:
 - name: fb-app-id
