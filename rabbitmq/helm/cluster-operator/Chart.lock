@@ -1,0 +1,6 @@
+dependencies:
+- name: rabbitmq-cluster-operator
+  repository: https://pluralsh.github.io/plural-helm-charts
+  version: 3.1.2
+digest: sha256:8a666da25cd54552bdeef05180c15c5410025aad8e562e6bafaf5d61d15735a4
+generated: "2022-11-02T15:03:30.134075+01:00"

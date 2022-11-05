@@ -92,12 +92,20 @@ resource "azurerm_role_assignment" "aks-managed-identity" {
   depends_on = [module.aks]
 }
 
-resource "azurerm_role_assignment" "aks-network-identity" {
-  scope                = data.azurerm_resource_group.group.id
+resource "azurerm_role_assignment" "aks-network-identity-kubelet" {
+  scope                = module.network.vnet_id
   role_definition_name = "Network Contributor"
   principal_id         = module.aks.kubelet_identity[0].object_id
 
-  depends_on = [module.aks]
+  depends_on = [module.aks, module.network]
+}
+
+resource "azurerm_role_assignment" "aks-network-identity-ssi" {
+  scope                = module.network.vnet_id
+  role_definition_name = "Network Contributor"
+  principal_id         = module.aks.system_assigned_identity[0].principal_id
+
+  depends_on = [module.aks, module.network]
 }
 
 resource "azurerm_role_assignment" "aks-vm-contributor" {

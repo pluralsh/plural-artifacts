@@ -1,9 +1,9 @@
 dependencies:
 - name: postgres
   repository: https://pluralsh.github.io/module-library
-  version: 0.1.10
+  version: 0.1.12
 - name: dagster
   repository: https://dagster-io.github.io/helm
-  version: 0.15.6
-digest: sha256:2980e6e8d628a8f9453cf4d06a102f7017936cacdd96976625093be8350304a9
-generated: "2022-10-21T15:24:56.966081+02:00"
+  version: 1.0.16
+digest: sha256:e76be09a41529b40f877322fa43c27046aa2a87ec89088d2429fdfd742d5554e
+generated: "2022-11-04T15:10:49.148433+01:00"

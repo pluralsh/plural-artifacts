@@ -1,0 +1,23 @@
+{{- if .Values.metrics.enabled -}}
+{{- if .Values.metrics.serviceMonitor.enabled -}}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "wireguard.fullname" . }}
+  labels:
+    {{- include "wireguard.labels" . | nindent 4 }}
+spec:
+  endpoints:
+  - port: metrics
+    path: '/metrics'
+    interval: {{ .Values.metrics.serviceMonitor.interval }}
+    scrapeTimeout: {{ .Values.metrics.serviceMonitor.scrapeTimeout }}
+  namespaceSelector:
+    matchNames:
+    - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      wireguardserver.vpn.plural.sh: ""
+      wireguardserver.vpn.plural.sh/server-name: {{ include "wireguard.fullname" . }}
+{{- end }}
+{{- end }}

@@ -2,5 +2,8 @@ apiVersion: rabbitmq.com/v1beta1
 kind: RabbitmqCluster
 metadata:
   name: rabbitmq
+  annotations:
+    # allows us to use the messaging topology operator CRs in any namespace
+    rabbitmq.com/topology-allowed-namespaces: "*"
 spec:
 {{ toYaml .Values.cluster | nindent 2}}

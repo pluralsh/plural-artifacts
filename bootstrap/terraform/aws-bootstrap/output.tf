@@ -46,3 +46,16 @@ output "node_groups" {
 output "vpc" {
   value = module.vpc
 }
+
+output "vpc_cidr" {
+  value = module.vpc.vpc_cidr_block
+}
+
+
+output "cluster" {
+  value = module.cluster
+}
+
+output "cluster_service_ipv4_cidr" {
+  value = module.cluster.cluster_service_ipv4_cidr
+}

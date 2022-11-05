@@ -22,6 +22,50 @@ global:
     create: false
     defaultDenyIngress: false
 
+config-overlays:
+  configOverlays:
+    controller-cpu:
+      #labels:
+      #  platform.plural.sh/component: argo-cd
+      #  platform.plural.sh/kind: deployment
+      #  platform.plural.sh/resource: cpu
+      spec:
+        name: Controller CPU Requests
+        documentation: CPU requests for controller deployment
+        updates:
+          - path: ['argo-cd', 'argo-cd', 'controller', 'resources', 'requests', 'cpu']
+    controller-memory:
+      spec:
+        name: Controller Memory Requests
+        documentation: Memory requests for controller deployment
+        updates:
+          - path: [ 'argo-cd', 'argo-cd', 'controller', 'resources', 'requests', 'memory' ]
+    server-cpu:
+      spec:
+        name: Server CPU Requests
+        documentation: CPU requests for server deployment
+        updates:
+          - path: ['argo-cd', 'argo-cd', 'server', 'resources', 'requests', 'cpu']
+    server-memory:
+      spec:
+        name: Server Memory Requests
+        documentation: Memory requests for server deployment
+        updates:
+          - path: [ 'argo-cd', 'argo-cd', 'server', 'resources', 'requests', 'memory' ]
+    repo-server-cpu:
+      spec:
+        name: Repo Server CPU Requests
+        documentation: CPU requests for repo server deployment
+        updates:
+          - path: [ 'argo-cd', 'argo-cd', 'repoServer', 'resources', 'requests', 'cpu' ]
+    repo-server-memory:
+      spec:
+        name: Repo Server Memory Requests
+        documentation: Memory requests for repo server deployment
+        updates:
+          - path: [ 'argo-cd', 'argo-cd', 'repoServer', 'resources', 'requests', 'memory' ]
+
+
 argo-cd:
   ## ArgoCD configuration
   ## Ref: https://github.com/argoproj/argo-cd
@@ -144,13 +188,12 @@ argo-cd:
 
     priorityClassName: ""
 
-    resources: {}
-    #  limits:
-    #    cpu: 500m
-    #    memory: 512Mi
-    #  requests:
-    #    cpu: 250m
-    #    memory: 256Mi
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        memory: 384Mi
 
     serviceAccount:
       create: true
@@ -538,13 +581,12 @@ argo-cd:
       #     - all
       # readOnlyRootFilesystem: true
 
-    resources: {}
-    #  limits:
-    #    cpu: 100m
-    #    memory: 128Mi
-    #  requests:
-    #    cpu: 50m
-    #    memory: 64Mi
+    resources:
+      requests:
+        cpu: 5m
+        memory: 32Mi
+      limits:
+        memory: 64Mi
 
     ## Certificate configuration
     certificate:
@@ -953,13 +995,12 @@ argo-cd:
       #     - all
       # readOnlyRootFilesystem: true
 
-    resources: {}
-    #  limits:
-    #    cpu: 50m
-    #    memory: 128Mi
-    #  requests:
-    #    cpu: 10m
-    #    memory: 64Mi
+    resources:
+      requests:
+        cpu: 5m
+        memory: 32Mi
+      limits:
+        memory: 64Mi
 
     ## Repo server service configuration
     service:
@@ -1235,3 +1276,9 @@ argocd-image-updater:
     enabled: true
     serviceMonitor:
       enabled: true
+  resources:
+    requests:
+      cpu: 5m
+      memory: 32Mi
+    limits:
+      memory: 64Mi

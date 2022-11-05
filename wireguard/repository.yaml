@@ -1,0 +1,11 @@
+name: wireguard
+description: An extremely simple yet fast and modern VPN that utilizes state-of-the-art cryptography.
+category: SECURITY
+private: true
+icon: plural/icons/wireguard.png
+notes: plural/notes.tpl
+homepage: https://www.wireguard.com/
+gitUrl: https://github.com/WireGuard/wireguard-go
+tags:
+- tag: VPN
+- tag: wireguard

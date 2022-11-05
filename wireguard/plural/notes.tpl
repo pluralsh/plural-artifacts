@@ -1,0 +1,1 @@
+Use `plural watch wireguard` to track the status of your application
