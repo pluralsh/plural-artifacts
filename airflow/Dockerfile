@@ -1,4 +1,4 @@
-FROM gcr.io/pluralsh/apache/airflow:2.1.4-python3.8
+FROM apache/airflow:2.2.5-python3.8
 
 USER root
 RUN apt-get update && apt-get install git-all -y
