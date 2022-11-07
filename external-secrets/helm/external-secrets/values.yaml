@@ -4,23 +4,23 @@ clusterSecretStore:
 
 external-secrets:
   image:
-    repository: ghcr.io/external-secrets/external-secrets
-    tag: ""
+    repository: dkr.plural.sh/external-secrets/external-secrets/external-secrets
+    tag: v0.6.1
     resources: {}
   serviceMonitor:
     enabled: true
   installCRDs: false
   webhook:
     image:
-      repository: ghcr.io/external-secrets/external-secrets
-      tag: ""
+      repository: dkr.plural.sh/external-secrets/external-secrets/external-secrets
+      tag: v0.6.1
     resources: {}
     serviceMonitor:
       enabled: true
   certController:
     image:
-      repository: ghcr.io/external-secrets/external-secrets
-      tag: ""
+      repository: dkr.plural.sh/external-secrets/external-secrets/external-secrets
+      tag: v0.6.1
     resources: {}
     serviceMonitor:
       enabled: true
