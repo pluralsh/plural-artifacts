@@ -1,5 +1,5 @@
-touca/touca-api:1.6
-touca/touca-app:1.6
-touca/touca-cmp:1.6
+touca/touca-api:1.7
+touca/touca-app:1.7
+touca/touca-cmp:1.7
 redis:6-alpine
 minio/minio:RELEASE.2021-03-17T02-33-02Z
