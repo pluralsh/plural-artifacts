@@ -26,10 +26,10 @@ whitesource-renovate:
     renovateEndpoint: https://gitlab.com/api/v4/
     {{- end }}
     {{- if .Values.githubAppId }}
-    githubAppId: {{ .Values.githubAppId }}
+    githubAppId: {{ .Values.githubAppId | quote }}
     {{- end }}
     {{- if .Values.githubAppKey }}
-    githubAppKey: {{ .Values.githubAppKey }}
+    githubAppKey: {{ .Values.githubAppKey | quote }}
     {{- end }}
     {{- if .Values.webhookSecret }}
     webhookSecret: {{ .Values.webhookSecret }}

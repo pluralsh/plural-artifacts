@@ -1,7 +1,7 @@
 name: renovate-on-prem
 description: Universal dependency update tool that fits into your workflows.
 category: DEVOPS
-private: true
+private: false
 icon: plural/icons/renovate.png
 notes: plural/notes.tpl
 homepage: https://www.mend.io/free-developer-tools/renovate/on-premises/

@@ -2,7 +2,7 @@ apiVersion: v2
 name: renovate-on-prem
 description: helm chart for renovate-on-prem
 type: application
-version: 0.1.0
+version: 0.1.2
 appVersion: 2.6.0
 dependencies:
 - name: whitesource-renovate
