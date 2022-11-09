@@ -18,6 +18,10 @@ sections:
   - name: hostname
     documentation: FQDN to use for your Vault installation
     type: DOMAIN
+  - name: exposePrivate
+    documentation: Should vault only be exposed on the internal network?
+    type: BOOL
+    default: false
   items:
   - type: TERRAFORM
     name: aws
