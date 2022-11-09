@@ -1,0 +1,62 @@
+name: renovate-on-prem-azure
+description: Installs renovate-on-prem on an aws eks cluster
+provider: AZURE
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-azure
+sections:
+- name: renovate-on-prem
+  configuration:
+  - name: hostname
+    documentation: public domain to host oncall on
+    type: DOMAIN
+  - name: acceptTos
+    documentation: do you accept the WhiteSource Terms of Service. Please read https://www.whitesourcesoftware.com/terms-of-service/
+    default: true
+    type: BOOL
+  - name: licenseKey
+    documentation: renovate on-prem license key
+    type: PASSWORD
+  - name: platform
+    documentation: can be either github or gitlab
+    default: github
+    type: STRING
+  - name: githubAppId
+    documentation: The GitHub App ID provided by GitHub Enterprise when you provisioned the Renovate app.
+    type: STRING
+    condition:
+      operation: EQ
+      field: platform
+      value: github
+  - name: githubAppKey
+    documentation: A string representation of the private key provided by GitHub when you provisioned the Renovate app.
+    type: FILE
+    condition:
+      operation: EQ
+      field: platform
+      value: github
+  - name: webhookSecret
+    documentation: The webhook secret configured for the Renovate app.
+    type: STRING
+    optional: true
+  - name: renovateToken
+    documentation: A Personal Access Token for the GitLab bot account.
+    type: PASSWORD
+    condition:
+      operation: EQ
+      field: platform
+      value: gitlab
+  - name: githubComToken
+    documentation: A Personal Access Token for a valid user account on github.com. This is only used for retrieving changelogs and release notes from repositories hosted on github.com.
+    type: PASSWORD
+    condition:
+      operation: EQ
+      field: platform
+      value: gitlab
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: renovate-on-prem

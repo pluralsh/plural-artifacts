@@ -1,0 +1,1 @@
+Use `plural watch renovate-on-prem` to track the status of your application
