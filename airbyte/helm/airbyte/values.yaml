@@ -196,11 +196,11 @@ airbyte:
 
   bootloader:
     image:
-      tag: 0.39.14-alpha
+      tag: 0.40.18
 
   worker:
     image:
-      tag: 0.39.14-alpha
+      tag: 0.40.18
 
   scheduler:
     image:
@@ -208,11 +208,11 @@ airbyte:
 
   server:
     image:
-      tag: 0.39.14-alpha
+      tag: 0.40.18
 
   webapp:
     image:
-      tag: 0.39.14-alpha
+      tag: 0.40.18
 
     ingress:
       enabled: false

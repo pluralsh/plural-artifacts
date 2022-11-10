@@ -3,7 +3,7 @@ name: airbyte
 description: Unified data integration platform
 type: application
 version: 0.2.28
-appVersion: 0.39.14-alpha
+appVersion: 0.40.18
 dependencies:
 - name: airbyte
   version: 0.3.0
