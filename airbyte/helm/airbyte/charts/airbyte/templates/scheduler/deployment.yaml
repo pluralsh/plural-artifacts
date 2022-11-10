@@ -38,6 +38,10 @@ spec:
         - secretRef:
             name: airbyte-env
         env:
+        - name: DD_AGENT_HOST
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
         - name: DATABASE_PASSWORD
           valueFrom:
             secretKeyRef:
