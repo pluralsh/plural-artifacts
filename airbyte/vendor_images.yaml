@@ -1,9 +1,10 @@
 docker.io:
   images-by-tag-regex:
-    airbyte/bootloader: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
-    airbyte/scheduler: ^v?[0-9]+\.3[0-9]+?\.[0-9]+
-    airbyte/server: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
-    airbyte/webapp: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
-    airbyte/worker: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    airbyte/bootloader: ^v?[0-9]+\.[0-9]+?\.[0-9]+(-alpha)?$
+    airbyte/scheduler: ^v?[0-9]+\.3[0-9]+?\.[0-9]+(-alpha)?$
+    airbyte/server: ^v?[0-9]+\.[0-9]+?\.[0-9]+(-alpha)?$
+    airbyte/webapp: ^v?[0-9]+\.[0-9]+?\.[0-9]+(-alpha)?$
+    airbyte/worker: ^v?[0-9]+\.[0-9]+?\.[0-9]+(-alpha)?$
+    airbyte/metrics-reporter: ^v?[0-9]+\.[0-9]+?\.[0-9]+(-alpha)?$
     bitnami/kubectl: ^v1\.2[0-9]+?\.[0-9]+$
     temporalio/auto-setup: ^v?1+\.[0-9]+?\.[0-9]+$
