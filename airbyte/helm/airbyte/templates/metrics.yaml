@@ -23,6 +23,12 @@ spec:
         env:
         - name: AIRBYTE_VERSION
           value: {{ .Values.airbyte.version }}
+        - name: DD_AGENT_HOST
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+        - name: DD_DOGSTATSD_PORT
+          value: "8125"
         - name: DATABASE_PASSWORD
           valueFrom:
             secretKeyRef:
