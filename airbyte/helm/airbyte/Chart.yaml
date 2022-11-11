@@ -2,8 +2,8 @@ apiVersion: v2
 name: airbyte
 description: Unified data integration platform
 type: application
-version: 0.2.31
-appVersion: 0.39.14-alpha
+version: 0.2.32
+appVersion: 0.39.42-alpha
 dependencies:
 - name: airbyte
   version: 0.3.0
