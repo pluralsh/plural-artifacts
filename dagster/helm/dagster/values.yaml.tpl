@@ -83,7 +83,5 @@ dagster:
   runLauncher:
     config:
       k8sRunLauncher:
-      {{ if eq .Provider "aws" }}
         envSecrets:
         - name: dagster-aws-env
-      {{ end }}
