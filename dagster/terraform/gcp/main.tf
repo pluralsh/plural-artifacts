@@ -20,6 +20,7 @@ module "dagster-workload-identity" {
   namespace  = var.namespace
   project_id = var.project_id
   use_existing_k8s_sa = true
+  use_existing_gcp_sa = true 
   annotate_k8s_sa = false
   k8s_sa_name = "dagster"
   roles = ["roles/storage.admin"]
