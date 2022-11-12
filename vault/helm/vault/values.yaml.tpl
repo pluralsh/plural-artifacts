@@ -43,7 +43,7 @@ vault:
         cert-manager.io/cluster-issuer: letsencrypt-prod
         nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
         nginx.ingress.kubernetes.io/use-regex: "true"
-      ingressClassName: nginx
+      ingressClassName: {{ dedupe . "vault.vault.server.ingress.ingressClassName" "nginx" }}
       hosts:
       - host: {{ .Values.hostname }}
         paths: []
