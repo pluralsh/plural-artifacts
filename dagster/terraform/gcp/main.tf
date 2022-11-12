@@ -14,14 +14,14 @@ resource "google_service_account" "dagster" {
   display_name = "Plural Dagster"
 }
 
-module "console-workload-identity" {
+module "dagster-workload-identity" {
   source     = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
   name       = "${var.cluster_name}-dagster"
   namespace  = var.namespace
   project_id = var.project_id
   use_existing_k8s_sa = true
   annotate_k8s_sa = false
-  k8s_sa_name = "console"
+  k8s_sa_name = "dagster"
   roles = ["roles/storage.admin"]
 }
 
@@ -48,8 +48,8 @@ resource "kubernetes_secret" "dagster_s3_secret" {
   }
 
   data = {
-    "AWS_ACCESS_KEY_ID" = google_storage_hmac_key.airbyte.access_id
-    "AWS_SECRET_ACCESS_KEY" = google_storage_hmac_key.airbyte.secret
-    "GOOGLE_APPLICATION_CREDENTIALS" = base64decode(google_service_account_key.airbyte_key.private_key)
+    "AWS_ACCESS_KEY_ID" = google_storage_hmac_key.dagster.access_id
+    "AWS_SECRET_ACCESS_KEY" = google_storage_hmac_key.dagster.secret
+    "GOOGLE_APPLICATION_CREDENTIALS" = base64decode(google_service_account_key.dagster_key.private_key)
   }
 }
