@@ -40,6 +40,11 @@ spec:
             - name: http
               containerPort: 5678
               protocol: TCP
+          {{- if .Values.smtp }}
+          envFrom:
+            - secretRef:
+                name: n8n-smtp
+          {{- end }}
           env:
             - name: "N8N_PORT"
               value: "5678"
