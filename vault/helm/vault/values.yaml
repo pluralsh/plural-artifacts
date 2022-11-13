@@ -2,11 +2,12 @@ vault:
   injector:
     resources:
       requests:
-        memory: 256Mi
-        cpu: 250m
+        memory: 32Mi
+        cpu: 0.1m
       limits:
-        memory: 256Mi
-  
+        cpu: 0.2m
+        memory: 48Mi
+
   server:
     image:
       repository: "davidspek/vault"
@@ -18,10 +19,11 @@ vault:
     # Reference Architecture for a Small Cluster
     resources:
       requests:
-        memory: 1Gi
-        cpu: 500m
+        memory: 64Mi
+        cpu: 0.1m
       limits:
-        memory: 16Gi
+        cpu: 0.2m
+        memory: 96Mi
 
     volumes:
     - name: policies
