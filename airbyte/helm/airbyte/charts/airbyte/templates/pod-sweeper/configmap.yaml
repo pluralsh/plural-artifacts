@@ -5,4 +5,4 @@ metadata:
   name: {{ include "airbyte.fullname" . }}-sweep-pod-script
 data:
   sweep-pod.sh: |
-  {{- (.Files.Get "files/sweep-pod.sh") | nindent 4 }}
+    {{ include "airbyte.sweeper" . | nindent 4 }}

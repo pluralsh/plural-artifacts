@@ -12,6 +12,7 @@ airbyteS3Region: ''
 
 extraEnv: []
 
+
 ## @section Common Parameters
 
 ## @param nameOverride String to partially override airbyte.fullname template with a string (will prepend the release name)
@@ -226,7 +227,13 @@ podSweeper:
 
   ## @param podSweeper.podAnnotations [object] Add extra annotations to the podSweeper pod
   ##
-  podAnnotations: {}
+  podAnnotations:
+    component-vsn: '2'
+
+  timeouts:
+    success: '2 hours'
+    failure: '24 hours'
+  podTemplate: '{{range .items}} {{.metadata.name}} {{.status.phase}} {{.metadata.creationTimestamp}}{{"\n"}}{{end}}'
 
   ## Pod Sweeper app resource requests and limits
   ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
