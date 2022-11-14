@@ -58,6 +58,8 @@ spec:
               value: {{ .Values.database.port | quote }}
             - name: DB_POSTGRESDB_SSL_REJECT_UNAUTHORIZED
               value: "false"
+            - name: WEBHOOK_URL
+              value: {{ .Values.webhookUrl }}
             - name: DB_POSTGRESDB_USER
               valueFrom:
                 secretKeyRef:
