@@ -12,6 +12,7 @@ delete_worker_pod() {
 
 while :
 do
+    echo "checking for pods to clean up"
     # Shorter time window for completed pods
     SUCCESS_DATE_STR=`date -d 'now - {{ .Values.podSweeper.timeouts.success }}' --utc -Ins`
     SUCCESS_DATE=`date -d $SUCCESS_DATE_STR +%s`
@@ -21,6 +22,7 @@ do
     (
         IFS=$'\n'
         for POD in `get_worker_pods`; do
+            echo $POD
             IFS=' '
             POD_NAME=`echo $POD | cut -d " " -f 1`
             POD_STATUS=`echo $POD | cut -d " " -f 2`

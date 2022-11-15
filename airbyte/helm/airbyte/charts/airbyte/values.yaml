@@ -231,8 +231,8 @@ podSweeper:
     component-vsn: '2'
 
   timeouts:
-    success: '2 hours'
-    failure: '24 hours'
+    success: '10 minutes'
+    failure: '2 hours'
   podTemplate: '{{range .items}} {{.metadata.name}} {{.status.phase}} {{.metadata.creationTimestamp}}{{"\n"}}{{end}}'
 
   ## Pod Sweeper app resource requests and limits
