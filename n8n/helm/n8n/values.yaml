@@ -10,6 +10,8 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: "0.202.1"
 
+webhookUrl: https://example.com
+
 smtp:
 
 imagePullSecrets: []
