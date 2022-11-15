@@ -14,8 +14,9 @@ spec:
     metadata:
       labels:
         airbyte: pod-sweeper
-      {{- if .Values.podSweeper.podAnnotations }}
       annotations:
+        checksum/config: {{ include "airbyte.sweeper" . | sha256sum }}
+      {{- if .Values.podSweeper.podAnnotations }}
         {{- include "common.tplvalues.render" (dict "value" .Values.podSweeper.podAnnotations "context" $) | nindent 8 }}
       {{- end }}
     spec:
