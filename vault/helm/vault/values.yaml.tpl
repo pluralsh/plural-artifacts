@@ -37,7 +37,7 @@ vault:
     {{- end }}
 
     ingress:
-      {{- if not .Values.exposePrivate }}
+      {{- if .Values.exposePrivate }}
       ingressClassName: internal-nginx
       {{- else }}
       ingressClassName: nginx

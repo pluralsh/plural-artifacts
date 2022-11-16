@@ -21,7 +21,7 @@ sections:
   - name: exposePrivate
     documentation: Should vault only be exposed on the internal network?
     type: BOOL
-    default: false
+    default: true
   items:
   - type: TERRAFORM
     name: aws
