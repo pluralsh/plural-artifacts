@@ -56,14 +56,15 @@ postgres:
 {{ end }}
 
 airbyte:
-{{ if or (eq .Provider "google") (eq .Provider "azure") (eq .Provider "kind") }}
   airbyteS3Bucket: {{ .Values.airbyteBucket }}
+  {{ if eq .Provider "aws" }}
+  airbyteS3Region: {{ .Region }}
+  {{ end }}
   minio:
     accessKey:
       password: {{ importValue "Terraform" "access_key_id" }}
     secretKey:
       password: {{ importValue "Terraform" "secret_access_key" }}
-{{ end }}
 {{ if eq .Provider "google" }}
   airbyteS3Endpoint: https://storage.googleapis.com
 {{ end }}
@@ -72,15 +73,6 @@ airbyte:
 {{ end }}
 {{ if eq .Provider "kind" }}
   airbyteS3Endpoint: http://minio.{{ $minioNamespace }}:9000
-{{ end }}
-{{ if eq .Provider "aws" }}
-  airbyteS3Bucket: {{ .Values.airbyteBucket }}
-  airbyteS3Region: {{ .Region }}
-  minio:
-    accessKey:
-      password: {{ importValue "Terraform" "access_key_id" }}
-    secretKey:
-      password: {{ importValue "Terraform" "secret_access_key" }}
 {{ end }}
   webapp:
     {{ if .OIDC }}
