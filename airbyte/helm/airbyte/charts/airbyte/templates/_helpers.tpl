@@ -203,6 +203,10 @@ Returns the Airbyte Webapp Image
 {{- include "common.images.image" (dict "imageRoot" .Values.webapp.image "global" .Values.global) -}}
 {{- end -}}
 
+{{- define "airbyte.cronImage" -}}
+{{- include "common.images.image" (dict "imageRoot" .Values.cron.image "global" .Values.global) -}}
+{{- end -}}
+
 {{/*
 Returns the Airbyte podSweeper Image
 */}}

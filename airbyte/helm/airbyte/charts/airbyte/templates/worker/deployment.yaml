@@ -66,6 +66,11 @@ spec:
             secretKeyRef:
               name: {{ default "airbyte-env" .Values.googleCredentialsSecret }}
               key: GOOGLE_APPLICATION_CREDENTIALS
+        - name: MICRONAUT_ENVIRONMENTS    
+          valueFrom:
+            secretKeyRef:
+              name: airbyte-env
+              key: WORKERS_MICRONAUT_ENVIRONMENTS
         {{- if .Values.worker.extraEnv }}
         {{ .Values.worker.extraEnv | toYaml | nindent 8 }}
         {{- end }}

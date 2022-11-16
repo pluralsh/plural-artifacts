@@ -3,6 +3,15 @@ global:
     links:
     - description: airbyte web ui
       url: {{ .Values.hostname }}
+  {{ if ne .Provider "aws" }}
+  logs:
+    storage:
+      type: "MINIO"
+  state:
+    storage:
+      type: "MINIO"
+  {{ end }}
+    
 
 {{ if .OIDC }}
 {{ $prevSecret := dedupe . "airbyte.oidcProxy.cookieSecret" (randAlphaNum 32) }}
