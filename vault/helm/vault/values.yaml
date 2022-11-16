@@ -54,7 +54,15 @@ vault:
   
     standalone:
       enabled: false
-  
+
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/tls-acme: "true"
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+
     # Run Vault in HA mode.
     ha:
       enabled: true
@@ -107,6 +115,7 @@ vault:
     serviceType: ClusterIP
     serviceNodePort: null
     externalPort: 8200
+
   
     # For Added Security, edit the below
     #loadBalancerSourceRanges:

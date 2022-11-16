@@ -37,16 +37,10 @@ vault:
     {{- end }}
 
     ingress:
-      enabled: true
-      annotations:
-        kubernetes.io/tls-acme: "true"
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-        nginx.ingress.kubernetes.io/use-regex: "true"
       {{- if not .Values.exposePrivate }}
-      ingressClassName: nginx
-      {{- else }}
       ingressClassName: internal-nginx
+      {{- else }}
+      ingressClassName: nginx
       {{- end }}
       hosts:
       - host: {{ .Values.hostname }}
