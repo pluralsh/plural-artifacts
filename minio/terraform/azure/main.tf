@@ -15,6 +15,7 @@ data "azurerm_resource_group" "group" {
 data "azurerm_storage_account" "main" {
   name                     = var.storage_account_name
   resource_group_name      = data.azurerm_resource_group.group.name
+  allow_nested_items_to_be_public = false
 }
 
 resource "kubernetes_secret" "minio_azure_secret" {
