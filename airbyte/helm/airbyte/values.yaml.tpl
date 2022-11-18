@@ -1,9 +1,17 @@
+{{ $isGcp := or (eq .Provider "google") (eq .Provider "gcp") }}
 global:
   application:
     links:
     - description: airbyte web ui
       url: {{ .Values.hostname }}
-  {{ if ne .Provider "aws" }}
+  {{ if $isGcp }}
+  logs:
+    storage:
+      type: GCS
+  state:
+    storage:
+      type: GCS
+  {{ else }}
   logs:
     storage:
       type: "MINIO"
@@ -57,6 +65,11 @@ postgres:
 
 airbyte:
   airbyteS3Bucket: {{ .Values.airbyteBucket }}
+  {{ if $isGcp }}
+  airbyteGCSBucket: {{ .Values.airbyteBucket }}
+  googleApplicationCredentials: /secrets/gcs-log-creds/credentials.json
+  gcpCredentialsSecret: airbyte-gcp-credentials
+  {{ end }}
   {{ if eq .Provider "aws" }}
   airbyteS3Region: {{ .Region }}
   {{ end }}
@@ -74,6 +87,11 @@ airbyte:
 {{ if eq .Provider "kind" }}
   airbyteS3Endpoint: http://minio.{{ $minioNamespace }}:9000
 {{ end }}
+  {{ if $isGcp}}
+  worker:
+    containerOrchestrator:
+      enabled: false
+  {{ end }}
   webapp:
     {{ if .OIDC }}
     podLabels:
