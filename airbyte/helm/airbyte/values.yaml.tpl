@@ -11,7 +11,7 @@ global:
   state:
     storage:
       type: GCS
-  {{ else if ne .Provider "aws }}
+  {{ else if ne .Provider "aws" }}
   logs:
     storage:
       type: "MINIO"
