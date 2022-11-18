@@ -11,13 +11,20 @@ global:
   state:
     storage:
       type: GCS
-  {{ else }}
+  {{ else if ne .Provider "aws }}
   logs:
     storage:
       type: "MINIO"
   state:
     storage:
       type: "MINIO"
+  {{ else }}
+  logs:
+    storage:
+      type: "S3"
+  state:
+    storage:
+      type: "S3"
   {{ end }}
     
 
