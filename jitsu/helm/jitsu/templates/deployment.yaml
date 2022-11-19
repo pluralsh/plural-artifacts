@@ -28,11 +28,13 @@ spec:
       serviceAccountName: {{ include "jitsu.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if .Values.airbyte.enabled }}
       volumes:
         - name: docker-graph-storage
           emptyDir: {}
         - name: jitsu-workspace
           emptyDir: {}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -42,9 +44,11 @@ spec:
           envFrom:
             - secretRef:
                 name: jitsu-env
+          {{- if .Values.airbyte.enabled }}
           volumeMounts:
             - name: jitsu-workspace
               mountPath: /home/eventnative/data/airbyte
+          {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.service.containerPort }}
@@ -65,6 +69,7 @@ spec:
             periodSeconds: 5
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+        {{- if .Values.airbyte.enabled }}
         - name: dind-daemon
           image: docker:dind
           command: [ "dockerd", "--host", "tcp://127.0.0.1:2375" ]
@@ -75,6 +80,7 @@ spec:
               mountPath: /var/lib/docker
             - name: jitsu-workspace
               mountPath: /tmp/airbyte
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
