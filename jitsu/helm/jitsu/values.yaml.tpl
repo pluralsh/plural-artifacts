@@ -6,7 +6,7 @@ global:
       url: {{ .Values.hostname }}
 
 airbyte:
-{{ if .Values.airbyte.enabled }}
+{{ if .Values.airbyteEnabled }}
   enabled: true
 {{ else }}
   enabled: false
