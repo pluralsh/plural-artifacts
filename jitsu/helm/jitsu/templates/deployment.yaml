@@ -71,7 +71,7 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
         {{- if .Values.airbyte.enabled }}
         - name: dind-daemon
-          image: docker:dind
+          image: {{ .Values.airbyte.dindImage }}
           command: [ "dockerd", "--host", "tcp://127.0.0.1:2375" ]
           securityContext:
             privileged: true
