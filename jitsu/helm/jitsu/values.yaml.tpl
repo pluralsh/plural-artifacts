@@ -6,7 +6,11 @@ global:
       url: {{ .Values.hostname }}
 
 airbyte:
-  enabled: {{ .Values.airbyte.enabled }}
+{{ if .Values.airbyte.enabled }}
+  enabled: true
+{{ else }}
+  enabled: false
+{{ end }}
 
 ingress:
   host: {{ .Values.hostname }}
