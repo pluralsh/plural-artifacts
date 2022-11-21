@@ -2,8 +2,8 @@ apiVersion: v2
 name: oncall
 description: helm chart for oncall
 type: application
-version: 0.1.12
-appVersion: "v1.0.51"
+version: 0.1.13
+appVersion: "v1.1.0"
 dependencies:
 - name: postgres
   version: 0.1.10
