@@ -13,7 +13,7 @@ module "network" {
 }
 
 module "aks" {
-  source                           = "github.com/pluralsh/terraform-azurerm-aks?ref=plural-updated"
+  source                           = "github.com/pluralsh/terraform-azurerm-aks?ref=ea5c22775e0352ef6fe7a9abe2d94306029b6a6e" # branch auto-scaler-profile
   resource_group_name              = data.azurerm_resource_group.group.name
   kubernetes_version               = var.kubernetes_version
   orchestrator_version             = var.kubernetes_version
@@ -49,6 +49,10 @@ module "aks" {
   net_profile_dns_service_ip     = "10.0.0.10"
   net_profile_docker_bridge_cidr = "170.10.0.1/16"
   net_profile_service_cidr       = "10.0.0.0/16"
+
+  auto_scaler_profile_balance_similar_node_groups      = true
+  auto_scaler_profile_skip_nodes_with_local_storage    = false
+  auto_scaler_profile_scale_down_utilization_threshold = 0.7
 
   depends_on = [module.network]
 }
