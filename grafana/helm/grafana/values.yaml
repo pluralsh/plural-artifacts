@@ -29,7 +29,7 @@ grafana:
 
   image:
     repository: dkr.plural.sh/grafana/grafana/grafana
-    tag: 9.2.4
+    tag: 9.2.5
   initChownData:
     image:
       repository: gcr.io/pluralsh/library/busybox
