@@ -19,3 +19,7 @@ sections:
     name: bootstrap
   - type: HELM
     name: plural-certmanager-webhook
+  - type: HELM
+    name: aws-lb-controller
+  - type: HELM
+    name: calico

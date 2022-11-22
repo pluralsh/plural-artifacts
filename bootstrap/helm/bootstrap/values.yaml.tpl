@@ -93,25 +93,6 @@ cluster-autoscaler:
     enabled: true
 
 {{ if eq .Provider "aws"}}
-tigera-operator:
-  enabled: true
-  tigeraOperator:
-    image: pluralsh/quay.io/tigera/operator
-    registry: gcr.io
-  installation:
-    kubernetesProvider: EKS
-    registry: gcr.io/pluralsh/
-  calioctl:
-    image: gcr.io/pluralsh/calico/ctl
-    tag: master
-aws-load-balancer-controller:
-  enabled: true
-  clusterName: {{ .Cluster }}
-  serviceAccount:
-    create: true
-    name: alb-operator
-    annotations:
-      eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-alb"
 aws-ebs-csi-driver:
   enabled: true
   controller:

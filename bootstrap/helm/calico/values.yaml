@@ -1,0 +1,10 @@
+tigera-operator:
+  tigeraOperator:
+    registry: dkr.plural.sh/bootstrap
+    image: tigera/operator
+  installation:
+    kubernetesProvider: EKS
+    registry: dkr.plural.sh/bootstrap
+  calioctl:
+    image: dkr.plural.sh/bootstrap/calico/ctl
+    tag: v3.21.3

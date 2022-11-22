@@ -1,0 +1,11 @@
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  application: true
+  description: installs calico for AWS
+spec:
+  dependencies:
+  - type: terraform
+    name: aws-bootstrap
+    repo: bootstrap
+    version: '>= 0.1.2'

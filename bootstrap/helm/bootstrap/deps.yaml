@@ -4,6 +4,9 @@ metadata:
   application: true
   description: installs the needed dependencies for cluster setup
 spec:
+  breaking: true
+  instructions:
+    instructions: "Due to an improvement to our chart layout, users on AWS will need to run `plural bundle install bootstrap aws-k8s`."
   dependencies:
   - type: terraform
     name: aws-bootstrap

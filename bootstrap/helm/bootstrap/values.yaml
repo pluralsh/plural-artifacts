@@ -55,9 +55,6 @@ autoscaling:
     maxReplicas: 11
     targetCPUUtilizationPercentage: 50
 
-aws-load-balancer-controller:
-  enabled: false
-
 snapshot-validation-webhook:
   enabled: false
   image:
@@ -127,9 +124,6 @@ aws-ebs-csi-driver:
         requests:
           cpu: 10m
           memory: 24Mi
-
-tigera-operator:
-  enabled: false
 
 cert-manager:
   image:

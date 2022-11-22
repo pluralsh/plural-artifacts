@@ -26,10 +26,6 @@ dependencies:
   version: 9.11.0
   condition: cluster-autoscaler.enabled
   repository: https://pluralsh.github.io/plural-helm-charts
-- name: aws-load-balancer-controller
-  condition: aws-load-balancer-controller.enabled
-  version: 1.2.3
-  repository: https://aws.github.io/eks-charts
 - name: aws-ebs-csi-driver
   condition: aws-ebs-csi-driver.enabled
   version: 2.6.2
@@ -42,7 +38,3 @@ dependencies:
   condition: snapshot-controller.enabled
   version: 1.2.1
   repository: https://piraeus.io/helm-charts/
-- name: tigera-operator
-  version: v3.21.3
-  condition: tigera-operator.enabled
-  repository: https://docs.projectcalico.org/charts
