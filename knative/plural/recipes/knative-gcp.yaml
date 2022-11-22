@@ -8,8 +8,6 @@ dependencies:
   name: istio-gcp
 - repo: monitoring
   name: monitoring-gcp
-- repo: grafana-tempo
-  name: grafana-tempo-gcp
 sections:
 - name: knative
   configuration: []

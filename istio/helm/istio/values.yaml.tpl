@@ -98,13 +98,17 @@ provider: {{ .Provider }}
 
 {{ $monitoringNamespace := namespace "monitoring" }}
 {{ $grafanaNamespace := namespace "grafana" }}
+{{- if index .Configuration "grafana-tempo" }}
 {{ $tempoNamespace := namespace "grafana-tempo" }}
+{{- end }}
 monitoring:
   namespace: {{ $monitoringNamespace }}
   grafama:
     namespace: {{ $grafanaNamespace }}
   tracing:
+    {{- if index .Configuration "grafana-tempo" }}
     tempoNamespace: {{ $tempoNamespace }}
+    {{- end }}
 
 kiali-server:
   {{/* {{ if .OIDC }}
@@ -160,8 +164,10 @@ kiali-server:
       url: https://{{ .Configuration.grafana.hostname }}
       in_cluster_url: http://grafana.{{ $grafanaNamespace }}:80
     {{  end }}
+    {{- if index .Configuration "grafana-tempo" }}
     tracing:
       in_cluster_url: http://grafana-tempo-tempo-distributed-query-frontend.{{ $tempoNamespace }}:16686
+    {{- end }}
 
 {{ if .Configuration.kubeflow }}
 {{ $kubeflowNamespace := namespace "kubeflow" }}
