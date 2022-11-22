@@ -1,7 +1,7 @@
 global:
   image:
     repository: dkr.plural.sh/argo-cd/argoproj/argocd
-    tag: v2.1.1
+    tag: v2.1.16
     imagePullPolicy: IfNotPresent
   ## Annotations applied to all pods
   podAnnotations:
@@ -285,7 +285,7 @@ argo-cd:
 
     image:
       repository: dkr.plural.sh/argo-cd/dexidp/dex
-      tag: v2.30.0
+      tag: v2.30.3
       imagePullPolicy: IfNotPresent
     initImage:
       repository:
@@ -388,7 +388,7 @@ argo-cd:
 
     image:
       repository: redis
-      tag: 6.2.4-alpine
+      tag: 6.2.7-alpine
       imagePullPolicy: IfNotPresent
 
     ## Additional command line arguments to pass to redis-server
@@ -1263,7 +1263,7 @@ argocd-image-updater:
   image:
     repository: dkr.plural.sh/argo-cd/argoprojlabs/argocd-image-updater
     pullPolicy: IfNotPresent
-    tag: v0.10.1
+    tag: v0.10.3
   config:
     applicationsAPIKind: "kubernetes"
     argocd:
