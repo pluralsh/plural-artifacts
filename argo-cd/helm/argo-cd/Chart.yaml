@@ -9,7 +9,7 @@ dependencies:
   version: 0.1.1
   repository: https://pluralsh.github.io/module-library
 - name: argo-cd
-  version: 3.17.7
+  version: 5.14.1
   repository: https://argoproj.github.io/argo-helm
 - name: argocd-image-updater
   version: 0.8.1
