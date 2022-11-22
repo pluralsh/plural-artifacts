@@ -167,6 +167,7 @@ cluster-autoscaler:
   enabled: false
   replicaCount: 2
   image:
+    repository: gcr.io/pluralsh/autoscaling/cluster-autoscaler
     tag: v1.23.0
   expanderPriorities: |
     10:
@@ -178,7 +179,7 @@ cluster-autoscaler:
     40:
     - .*burst-spot.*
   extraArgs:
-    scale-down-utilization-threshold: 0.4
+    scale-down-utilization-threshold: 0.7
     skip-nodes-with-local-storage: false
     balance-similar-node-groups: true
     expander: "priority,least-waste"
