@@ -73,8 +73,8 @@ regcreds:
 provider: {{ .Provider }}
 ownerEmail: {{ .Config.Email }}
 
-cluster-autoscaler:
 {{ if eq (default "google" .Provider) "aws" }}
+cluster-autoscaler:
   enabled: true
   awsRegion: {{ .Region }}
 
