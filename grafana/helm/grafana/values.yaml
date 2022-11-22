@@ -4,9 +4,16 @@
 
 test-base:
   enabled: false
-  repository: grafana
+  application: grafana
   testName: grafana-integration
   promoteTag: warm
+  steps:
+  - name: watch
+    description: wait until the `grafana` app crd is ready
+    template:
+      container:
+        image: gcr.io/pluralsh/test-base:0.1.6
+        args: ["grafana"]
 
 secret:
   smtp:
@@ -29,7 +36,7 @@ grafana:
 
   image:
     repository: dkr.plural.sh/grafana/grafana/grafana
-    tag: 9.2.4
+    tag: 9.2.5
   initChownData:
     image:
       repository: gcr.io/pluralsh/library/busybox
