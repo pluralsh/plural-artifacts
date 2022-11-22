@@ -65,7 +65,7 @@ argo-cd:
         enabled: true
     image:
       repository: dkr.plural.sh/argo-cd/dexidp/dex
-      tag: v2.30.3
+      tag: v2.35.3
       imagePullPolicy: IfNotPresent
     resources: {}
     #  limits:
@@ -162,7 +162,7 @@ argocd-image-updater:
   image:
     repository: dkr.plural.sh/argo-cd/argoprojlabs/argocd-image-updater
     pullPolicy: IfNotPresent
-    tag: v0.10.3
+    tag: v0.11.3
   config:
     applicationsAPIKind: "kubernetes"
     argocd:
