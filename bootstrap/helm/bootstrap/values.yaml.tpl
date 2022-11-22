@@ -73,10 +73,9 @@ regcreds:
 provider: {{ .Provider }}
 ownerEmail: {{ .Config.Email }}
 
-cluster-autoscaler:
 {{ if eq (default "google" .Provider) "aws" }}
+cluster-autoscaler:
   enabled: true
-{{ end }}
   awsRegion: {{ .Region }}
 
   rbac:
@@ -91,6 +90,7 @@ cluster-autoscaler:
   autoDiscovery:
     clusterName: {{ .Cluster }}
     enabled: true
+{{ end }}
 
 {{ if eq .Provider "aws"}}
 tigera-operator:
