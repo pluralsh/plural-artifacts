@@ -50,9 +50,9 @@ module "aks" {
   net_profile_docker_bridge_cidr = "170.10.0.1/16"
   net_profile_service_cidr       = "10.0.0.0/16"
 
-  auto_scaler_profile_balance_similar_node_groups      = true
-  auto_scaler_profile_skip_nodes_with_local_storage    = false
-  auto_scaler_profile_scale_down_utilization_threshold = 0.7
+  auto_scaler_profile_balance_similar_node_groups      = var.auto_scaler_profile_balance_similar_node_groups
+  auto_scaler_profile_skip_nodes_with_local_storage    = var.auto_scaler_profile_skip_nodes_with_local_storage
+  auto_scaler_profile_scale_down_utilization_threshold = var.auto_scaler_profile_scale_down_utilization_threshold
 
   depends_on = [module.network]
 }
