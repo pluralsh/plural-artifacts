@@ -122,9 +122,9 @@ argo-cd:
     resources:
       requests:
         cpu: 5m
-        memory: 32Mi
-      limits:
         memory: 64Mi
+      limits:
+        memory: 128Mi
 
     ## Repo server metrics service configuration
     metrics:
