@@ -28,8 +28,8 @@ module "aks" {
   rbac_aad_managed                 = false
   sku_tier                         = "Paid"
   private_cluster_enabled          = var.private_cluster
-  enable_http_application_routing  = true
-  azure_policy_enabled             = true
+  enable_http_application_routing  = false
+  azure_policy_enabled             = false
   admin_username                   = var.admin_username
   enable_auto_scaling              = var.node_groups[0].enable_auto_scaling
   agents_min_count                 = var.node_groups[0].min_count
