@@ -13,7 +13,7 @@ module "network" {
 }
 
 module "aks" {
-  source                           = "github.com/pluralsh/terraform-azurerm-aks?ref=plural-updated"
+  source                           = "github.com/pluralsh/terraform-azurerm-aks?ref=ea5c22775e0352ef6fe7a9abe2d94306029b6a6e" # branch auto-scaler-profile
   resource_group_name              = data.azurerm_resource_group.group.name
   kubernetes_version               = var.kubernetes_version
   orchestrator_version             = var.kubernetes_version
@@ -28,8 +28,8 @@ module "aks" {
   rbac_aad_managed                 = false
   sku_tier                         = "Paid"
   private_cluster_enabled          = var.private_cluster
-  enable_http_application_routing  = true
-  azure_policy_enabled             = true
+  enable_http_application_routing  = false
+  azure_policy_enabled             = false
   admin_username                   = var.admin_username
   enable_auto_scaling              = var.node_groups[0].enable_auto_scaling
   agents_min_count                 = var.node_groups[0].min_count
@@ -49,6 +49,10 @@ module "aks" {
   net_profile_dns_service_ip     = "10.0.0.10"
   net_profile_docker_bridge_cidr = "170.10.0.1/16"
   net_profile_service_cidr       = "10.0.0.0/16"
+
+  auto_scaler_profile_balance_similar_node_groups      = var.auto_scaler_profile_balance_similar_node_groups
+  auto_scaler_profile_skip_nodes_with_local_storage    = var.auto_scaler_profile_skip_nodes_with_local_storage
+  auto_scaler_profile_scale_down_utilization_threshold = var.auto_scaler_profile_scale_down_utilization_threshold
 
   depends_on = [module.network]
 }

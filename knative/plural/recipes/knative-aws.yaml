@@ -8,8 +8,6 @@ dependencies:
   name: istio-aws
 - repo: monitoring
   name: monitoring-aws
-- repo: grafana-tempo
-  name: grafana-tempo-aws
 sections:
 - name: knative
   configuration: []
