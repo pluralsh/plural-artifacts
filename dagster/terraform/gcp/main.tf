@@ -9,18 +9,12 @@ resource "kubernetes_namespace" "dagster" {
   }
 }
 
-resource "google_service_account" "dagster" {
-  account_id   = "${var.cluster_name}-dagster"
-  display_name = "Plural Dagster"
-}
-
 module "dagster-workload-identity" {
   source              = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
-  name                = google_service_account.dagster.account_id
+  name                = "${var.cluster_name}-dagster-sa"
   namespace           = var.namespace
   project_id          = var.project_id
   use_existing_k8s_sa = true
-  use_existing_gcp_sa = true 
   annotate_k8s_sa     = false
   k8s_sa_name         = "dagster"
   roles               = ["roles/storage.admin"]
@@ -31,15 +25,15 @@ module "gcs_buckets" {
 
   project_id            = var.project_id
   bucket_names          = [var.dagster_bucket]
-  service_account_email = google_service_account.dagster.email
+  service_account_email = module.dagster-workload-identity.gcp_service_account_email
 }
 
 resource "google_storage_hmac_key" "dagster" {
-  service_account_email = google_service_account.dagster.email
+  service_account_email = module.dagster-workload-identity.gcp_service_account_email
 }
 
 resource "google_service_account_key" "dagster_key" {
-  service_account_id = google_service_account.dagster.name
+  service_account_id = module.dagster-workload-identity.gcp_service_account.name
 }
 
 resource "kubernetes_secret" "dagster_s3_secret" {
