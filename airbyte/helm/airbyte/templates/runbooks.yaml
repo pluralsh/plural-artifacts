@@ -1,0 +1,270 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Runbook
+metadata:
+  name: scaling-manual
+  labels:
+    platform.plural.sh/pinned: 'true'
+{{ include "airbyte.labels" . | indent 4 }}
+spec:
+  name: Airbyte Scaling
+  description: overview of how to optimally scale your Airbyte deployment
+  display: |-
+{{ .Files.Get "runbooks/scaling-manual.xml" | indent 4 }}
+  datasources:
+  - name: airbyte-webapp-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"airbyte-webapp.+"}[5m])) by (pod)
+  - name: airbyte-webapp-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"airbyte-webapp.+"}) by (pod)
+  - name: airbyte-worker-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"airbyte-worker.+"}[5m])) by (pod)
+  - name: airbyte-worker-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"airbyte-worker.+"}) by (pod)
+  # - name: argo-cd-server-cpu
+  #   type: prometheus
+  #   prometheus:
+  #     format: cpu
+  #     legend: $pod
+  #     query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"argo-cd-argocd-server.+"}[5m])) by (pod)
+  # - name: argo-cd-server-memory
+  #   type: prometheus
+  #   prometheus:
+  #     format: memory
+  #     legend: $pod
+  #     query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"argo-cd-argocd-server.+"}) by (pod)
+  # - name: argo-cd-applicationset-controller-cpu
+  #   type: prometheus
+  #   prometheus:
+  #     format: cpu
+  #     legend: $pod
+  #     query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"argo-cd-argocd-applicationset-controller.+"}[5m])) by (pod)
+  # - name: argo-cd-applicationset-controller-memory
+  #   type: prometheus
+  #   prometheus:
+  #     format: memory
+  #     legend: $pod
+  #     query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"argo-cd-argocd-applicationset-controller.+"}) by (pod)
+  # - name: argo-cd-notifications-controller-cpu
+  #   type: prometheus
+  #   prometheus:
+  #     format: cpu
+  #     legend: $pod
+  #     query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"argo-cd-argocd-notifications-controller.+"}[5m])) by (pod)
+  # - name: argo-cd-notifications-controller-memory
+  #   type: prometheus
+  #   prometheus:
+  #     format: memory
+  #     legend: $pod
+  #     query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"argo-cd-argocd-notifications-controller.+"}) by (pod)
+  - name: webapp
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: airbyte-webapp
+  - name: worker
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: airbyte-worker
+  # - name: server
+  #   type: kubernetes
+  #   kubernetes:
+  #     resource: deployment
+  #     name: argo-cd-argocd-server
+  # - name: applicationset-controller
+  #   type: kubernetes
+  #   kubernetes:
+  #     resource: deployment
+  #     name: argo-cd-argocd-applicationset-controller
+  # - name: notifications-controller
+  #   type: kubernetes
+  #   kubernetes:
+  #     resource: deployment
+  #     name: argo-cd-argocd-notifications-controller
+  actions:
+  - name: scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+      - path: 
+        - airbyte
+        - airbyte
+        - webapp
+        - resources
+        - requests
+        - cpu
+        valueFrom: webapp-cpu
+      - path:
+        - airbyte
+        - airbyte
+        - webapp
+        - resources
+        - requests
+        - memory
+        valueFrom: webapp-memory
+      - path: 
+        - airbyte
+        - airbyte
+        - webapp
+        - resources
+        - limits
+        - cpu
+        valueFrom: webapp-cpu-limit
+      - path:
+        - airbyte
+        - airbyte
+        - webapp
+        - resources
+        - limits
+        - memory
+        valueFrom: webapp-memory-limit
+      - path:
+        - airbyte
+        - airbyte
+        - worker
+        - resources
+        - requests
+        - cpu
+        valueFrom: worker-cpu
+      - path:
+        - airbyte
+        - airbyte
+        - worker
+        - resources
+        - requests
+        - memory
+        valueFrom: worker-memory
+      - path:
+        - airbyte
+        - airbyte
+        - worker
+        - resources
+        - limits
+        - cpu
+        valueFrom: worker-cpu-limit
+      - path:
+        - airbyte
+        - airbyte
+        - worker
+        - resources
+        - limits
+        - memory
+        valueFrom: worker-memory-limit
+      - path:
+        - airbyte
+        - airbyte
+        - worker
+        - replicaCount
+        valueFrom: worker-replica-count
+      # - path:
+      #     - argo-cd
+      #     - argo-cd
+      #     - server
+      #     - resources
+      #     - requests
+      #     - cpu
+      #   valueFrom: server-cpu
+      # - path:
+      #     - argo-cd
+      #     - argo-cd
+      #     - server
+      #     - resources
+      #     - requests
+      #     - memory
+      #   valueFrom: server-memory
+      # - path:
+      #     - argo-cd
+      #     - argo-cd
+      #     - server
+      #     - resources
+      #     - limits
+      #     - cpu
+      #   valueFrom: server-cpu-limit
+      # - path:
+      #     - argo-cd
+      #     - argo-cd
+      #     - server
+      #     - resources
+      #     - limits
+      #     - memory
+      #   valueFrom: server-memory-limit
+      # - path:
+      #     - argo-cd
+      #     - argo-cd
+      #     - applicationSet
+      #     - resources
+      #     - requests
+      #     - cpu
+      #   valueFrom: applicationset-controller-cpu
+      # - path:
+      #     - argo-cd
+      #     - argo-cd
+      #     - applicationSet
+      #     - resources
+      #     - requests
+      #     - memory
+      #   valueFrom: applicationset-controller-memory
+      # - path:
+      #     - argo-cd
+      #     - argo-cd
+      #     - applicationSet
+      #     - resources
+      #     - limits
+      #     - cpu
+      #   valueFrom: applicationset-controller-cpu-limit
+      # - path:
+      #     - argo-cd
+      #     - argo-cd
+      #     - applicationSet
+      #     - resources
+      #     - limits
+      #     - memory
+      #   valueFrom: applicationset-controller-memory-limit
+      # - path:
+      #     - argo-cd
+      #     - argo-cd
+      #     - notifications
+      #     - resources
+      #     - requests
+      #     - cpu
+      #   valueFrom: notifications-controller-cpu
+      # - path:
+      #     - argo-cd
+      #     - argo-cd
+      #     - notifications
+      #     - resources
+      #     - requests
+      #     - memory
+      #   valueFrom: notifications-controller-memory
+      # - path:
+      #     - argo-cd
+      #     - argo-cd
+      #     - notifications
+      #     - resources
+      #     - limits
+      #     - cpu
+      #   valueFrom: notifications-controller-cpu-limit
+      # - path:
+      #     - argo-cd
+      #     - argo-cd
+      #     - notifications
+      #     - resources
+      #     - limits
+      #     - memory
+      #   valueFrom: notifications-controller-memory-limit
