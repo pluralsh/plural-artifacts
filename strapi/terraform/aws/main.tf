@@ -11,22 +11,22 @@ resource "kubernetes_namespace" "strapi" {
   }
 }
 
-
-data "aws_iam_role" "postgres" {
-  name = "${var.cluster_name}-postgres"
+data "aws_eks_cluster" "cluster" {
+  name = var.cluster_name
 }
 
-resource "kubernetes_service_account" "postgres" {
-  metadata {
-    name      = "postgres-pod"
-    namespace = var.namespace
+module "s3_buckets" {
+  source = "github.com/pluralsh/module-library//terraform/s3-buckets"
+  bucket_names  = [var.strapiBucket]
+  policy_prefix = var.role_name
+}
 
-    annotations = {
-      "eks.amazonaws.com/role-arn" = data.aws_iam_role.postgres.arn
-    }
-  }
-
-  depends_on = [
-    kubernetes_namespace.strapi
-  ]
+module "assumable_role_mlflow" {
+  source                        = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
+  version                       = "3.14.0"
+  create_role                   = true
+  role_name                     = "${var.cluster_name}-${var.role_name}"
+  provider_url                  = replace(data.aws_eks_cluster.cluster.identity[0].oidc[0].issuer, "https://", "")
+  role_policy_arns              = [module.s3_buckets.policy_arn]
+  oidc_fully_qualified_subjects = ["system:serviceaccount:${var.namespace}:${var.serviceaccount_name}"]
 }

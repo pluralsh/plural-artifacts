@@ -17,6 +17,10 @@ sections:
   - name: hostname
     documentation: domain on which you'd like to host strapi's page
     type: DOMAIN
+  - name: strapiBucket
+    type: BUCKET
+    default: strapi
+    documentation: bucket to store uploaded assets in
   items:
   - type: TERRAFORM
     name: aws
