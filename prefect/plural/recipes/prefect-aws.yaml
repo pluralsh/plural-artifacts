@@ -1,0 +1,18 @@
+name: prefect-aws
+description: Installs prefect on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+- repo: postgres
+  name: aws-postgres
+sections:
+- name: prefect
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: prefect

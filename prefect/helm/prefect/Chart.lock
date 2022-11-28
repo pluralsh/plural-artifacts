@@ -1,0 +1,9 @@
+dependencies:
+- name: postgres
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.13
+- name: prefect-orion
+  repository: https://prefecthq.github.io/prefect-helm
+  version: 2022.11.11
+digest: sha256:547cce533f3bf1b2f34eba414c637405d321c9b4230e4d63228605348f52c175
+generated: "2022-11-28T14:53:30.741194+01:00"
