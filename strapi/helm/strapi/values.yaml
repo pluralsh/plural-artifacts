@@ -40,6 +40,27 @@ service:
   type: ClusterIP
   port: 1337
 
+configOverlays:
+- name: strapi-registry
+  spec:
+    name: Strapi Container Image
+    documentation: docker repository to use for strapi deployment (default is davidspek/strapi)
+    updates:
+      - path: ['strapi', 'strapi', 'image', 'repository']
+- name: strapi-cpu
+  spec:
+    name: Strapi CPU Requests
+    documentation: CPU requests for strapi deployment
+    updates:
+      - path: ['strapi', 'strapi', 'resources', 'requests', 'cpu' ]
+- name: strapi-memory
+  spec:
+    name: Strapi Memory Requests
+    documentation: CPU requests for strapi deployment
+    updates:
+      - path: ['strapi', 'strapi', 'resources', 'requests', 'memory' ]
+
+
 ingress:
   enabled: true
   className: nginx
