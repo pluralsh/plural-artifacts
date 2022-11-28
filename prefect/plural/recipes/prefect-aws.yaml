@@ -10,7 +10,10 @@ dependencies:
   name: aws-postgres
 sections:
 - name: prefect
-  configuration: []
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for your prefect installation
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: kube

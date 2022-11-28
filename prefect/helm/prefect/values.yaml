@@ -1,0 +1,25 @@
+prefect-orion:
+  ingress:
+    enabled: true
+    className: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      kubernetes.io/tls-acme: "true"
+    tls: true
+  postgresql:
+    useSubChart: false
+    auth:
+      database: prefect
+      username: prefect
+      password: ""
+      existingSecret: prefect-orion-connection
+    containerPorts:
+      postgresql: 5432
+    externalHostname: plural-postgres-prefect
+
+postgres:
+  team: plural
+  user: prefect
+  dbName: prefect
+  ownerChart: prefect
+  password: e8MSvib127PTSzMTbNtqKgrEiHzjYwiwX2VDO58eQtdAPKcZxQG7r1GEZvCE8EAt
