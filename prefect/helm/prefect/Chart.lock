@@ -5,8 +5,11 @@ dependencies:
 - name: prefect-orion
   repository: https://prefecthq.github.io/prefect-helm
   version: 2022.11.11
+- name: prefect-agent
+  repository: https://prefecthq.github.io/prefect-helm
+  version: 2022.11.11
 - name: oidc-config
   repository: https://pluralsh.github.io/module-library
   version: 0.1.6
-digest: sha256:d473310bae02167a7df6f8702a8491dbec5f1279178f76b9c9d41138776346da
-generated: "2022-11-29T12:27:13.668925+01:00"
+digest: sha256:35fd1fb591a7567c0ef11ceb486b531366cee39b4f77dc046700094f566fda4b
+generated: "2022-11-29T13:08:46.633982+01:00"

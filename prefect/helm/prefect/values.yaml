@@ -1,4 +1,8 @@
 prefect-orion:
+  orion:
+    image:
+      repository: prefecthq/prefect
+      prefectTag: 2-latest
   ingress:
     enabled: false
     className: nginx
@@ -16,6 +20,16 @@ prefect-orion:
     containerPorts:
       postgresql: 5432
     externalHostname: plural-postgres-prefect
+
+prefect-agent:
+  enabled: true
+  agent:
+    image:
+      repository: prefecthq/prefect
+      prefectTag: 2-latest
+    apiConfig: orion
+    orionApiConfig:
+      apiUrl: http://prefect-orion:4200/api
 
 postgres:
   team: plural
