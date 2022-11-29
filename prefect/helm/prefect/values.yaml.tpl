@@ -29,14 +29,13 @@ prefect-orion:
 ingress:
   enabled: true
   hosts:
-  - {{ .Values.hostname }}
+  - host: {{ .Values.hostname }}
     paths:
     - path: /
       pathType: ImplementationSpecific
   tls:
   - hosts:
     - {{ .Values.hostname }}
-    secretName: prefect-orion-oauth-tls
 {{- end }}
 
 {{- if .OIDC }}
