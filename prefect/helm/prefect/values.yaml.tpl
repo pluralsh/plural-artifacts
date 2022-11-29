@@ -36,6 +36,7 @@ ingress:
   tls:
   - hosts:
     - {{ .Values.hostname }}
+    secretName: {{ .Values.hostname }}-tls
 {{- end }}
 
 {{- if .OIDC }}

@@ -3,6 +3,12 @@ prefect-orion:
     image:
       repository: prefecthq/prefect
       prefectTag: 2.6.9-python3.10
+    resources:
+      requests:
+        cpu: 10m
+        memory: 256Mi
+      limits:
+        memory: 384Mi
   ingress:
     enabled: false
     className: nginx
@@ -27,6 +33,12 @@ prefect-agent:
     image:
       repository: prefecthq/prefect
       prefectTag: 2.6.9-python3.10
+    resources:
+      requests:
+        cpu: 10m
+        memory: 128Mi
+      limits:
+        memory: 256Mi
     apiConfig: orion
     orionApiConfig:
       apiUrl: http://prefect-orion:4200/api
