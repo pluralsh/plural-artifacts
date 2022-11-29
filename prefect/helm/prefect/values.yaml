@@ -1,0 +1,84 @@
+prefect-orion:
+  orion:
+    image:
+      repository: dkr.plural.sh/prefect/prefecthq/prefect
+      prefectTag: 2.6.9-python3.10
+    resources:
+      requests:
+        cpu: 10m
+        memory: 256Mi
+      limits:
+        memory: 384Mi
+  ingress:
+    enabled: false
+    className: internal-nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      kubernetes.io/tls-acme: "true"
+    tls: true
+  postgresql:
+    useSubChart: false
+    auth:
+      database: prefect
+      username: prefect
+      password: ""
+      existingSecret: prefect-orion-connection
+    containerPorts:
+      postgresql: 5432
+    externalHostname: plural-postgres-prefect
+
+prefect-agent:
+  enabled: true
+  agent:
+    image:
+      repository: dkr.plural.sh/prefect/prefecthq/prefect
+      prefectTag: 2.6.9-python3.10
+    resources:
+      requests:
+        cpu: 10m
+        memory: 128Mi
+      limits:
+        memory: 256Mi
+    apiConfig: orion
+    orionApiConfig:
+      apiUrl: http://prefect-orion:4200/api
+
+postgres:
+  team: plural
+  user: prefect
+  dbName: prefect
+  ownerChart: prefect
+  password: e8MSvib127PTSzMTbNtqKgrEiHzjYwiwX2VDO58eQtdAPKcZxQG7r1GEZvCE8EAt
+
+oidc-config:
+  enabled: false
+  secret:
+    name: prefect-proxy-config
+    upstream: http://localhost:4200
+  service:
+    name: prefect-oauth2-proxy
+    selector:
+      app.kubernetes.io/component: orion
+      app.kubernetes.io/instance: prefect
+      app.kubernetes.io/name: prefect-orion
+
+service:
+  type: ClusterIP
+  port: 80
+
+# used for OIDC since a different service and port is used
+ingress:
+  enabled: false
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
