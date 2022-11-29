@@ -1,6 +1,6 @@
 prefect-orion:
   ingress:
-    enabled: true
+    enabled: false
     className: nginx
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
@@ -23,3 +23,34 @@ postgres:
   dbName: prefect
   ownerChart: prefect
   password: e8MSvib127PTSzMTbNtqKgrEiHzjYwiwX2VDO58eQtdAPKcZxQG7r1GEZvCE8EAt
+
+oidc-config:
+  enabled: false
+  secret:
+    name: prefect-proxy-config
+  service:
+    name: prefect-oauth2-proxy
+    selector:
+      app.kubernetes.io/component: orion
+      app.kubernetes.io/instance: prefect
+      app.kubernetes.io/name: prefect-orion
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local

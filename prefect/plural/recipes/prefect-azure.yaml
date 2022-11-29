@@ -1,6 +1,10 @@
 name: prefect-azure
 description: Installs prefect on an aws eks cluster
 provider: AZURE
+oidcSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
+  domainKey: hostname
 dependencies:
 - repo: bootstrap
   name: azure-k8s
@@ -10,7 +14,10 @@ dependencies:
   name: azure-postgres
 sections:
 - name: prefect
-  configuration: []
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for your prefect installation
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: kube
