@@ -1,7 +1,6 @@
 name: prefect
 description: The easiest way to coordinate your dataflow
 category: DATA
-private: true
 icon: plural/icons/prefect.png
 notes: plural/notes.tpl
 homepage: https://www.prefect.io/
