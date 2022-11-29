@@ -7,8 +7,8 @@ db:
   username: ghost
 
 image:
-  repository: dkr.plural.sh/ghost/ghost
-  tag: 5.2-alpine
+  repository: dkr.plural.sh/ghost/library/ghost
+  tag: 5.24.1-alpine
   pullPolicy: IfNotPresent
 
 resources: {}
