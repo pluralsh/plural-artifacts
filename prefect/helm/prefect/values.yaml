@@ -11,7 +11,7 @@ prefect-orion:
         memory: 384Mi
   ingress:
     enabled: false
-    className: nginx
+    className: internal-nginx
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       kubernetes.io/tls-acme: "true"
