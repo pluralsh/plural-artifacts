@@ -4,8 +4,7 @@ description: A Helm chart for deploying sentry on plural
 type: application
 version: 0.2.15
 appVersion: "1.16.0"
-
 dependencies:
 - name: sentry
-  version: 11.3.0
-  repository: file://../../../../sentry-charts/sentry
+  version: 11.3.2
+  repository: https://pluralsh.github.io/plural-helm-charts

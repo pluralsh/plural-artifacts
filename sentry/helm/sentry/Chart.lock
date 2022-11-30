@@ -1,6 +1,6 @@
 dependencies:
 - name: sentry
-  repository: file://../../../../sentry-charts/sentry
-  version: 11.3.0
-digest: sha256:c48f77f631263700f3fa72c494d4fab83a5a516383ead579dda441833daf8b77
-generated: "2021-05-23T13:56:58.887417-04:00"
+  repository: https://pluralsh.github.io/plural-helm-charts
+  version: 11.3.2
+digest: sha256:1bb28089bd8f5d775cb57ac60486f79c43551ccf2efc3a7d60f1597b9efbc193
+generated: "2022-09-15T16:02:38.25437+02:00"
