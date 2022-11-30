@@ -6,7 +6,7 @@ on:
   pull_request:
 jobs:
   build:
-    name: Build
+    name: scan
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
@@ -19,7 +19,7 @@ jobs:
           hide-progress: false
           scan-ref: 'grafana'
           format: 'sarif'
-          output: 'trivy-results.sarif'
+          #output: 'trivy-results.sarif'
           security-checks: 'vuln,secret,config'
           exit-code: '1'
           ignore-unfixed: true
