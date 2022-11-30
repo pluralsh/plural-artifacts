@@ -79,7 +79,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Run Trivy vulnerability scanner in IaC mode
-        if: ${{ matrix.repository != 'dagster' }} || ${{ matrix.repository != 'bootstrap' }} # TODO: fix scanning for bootstrap and dagster
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'fs'
@@ -91,7 +90,7 @@ jobs:
           ignore-unfixed: true
           #severity: 'CRITICAL,HIGH'
       - name: Upload Trivy scan results to GitHub Security tab
-        if: ${{ matrix.repository != 'dagster' }} || ${{ matrix.repository != 'bootstrap' }} # TODO: fix scanning for bootstrap and dagster
+        continue-on-error: true # TODO: remove once https://github.com/aquasecurity/tfsec/issues/1955 is resolved
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: 'trivy-results.sarif'
