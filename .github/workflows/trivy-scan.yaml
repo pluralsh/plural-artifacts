@@ -25,7 +25,7 @@ jobs:
         with:
           scan-type: 'fs'
           hide-progress: false
-          scan-ref: 'grafana'
+          scan-ref: 'argo-cd'
           format: 'sarif'
           output: 'trivy-results.sarif'
           security-checks: 'vuln,secret,config'
