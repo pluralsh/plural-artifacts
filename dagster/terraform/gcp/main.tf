@@ -10,7 +10,7 @@ resource "kubernetes_namespace" "dagster" {
 }
 
 module "dagster-workload-identity" {
-  source              = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
+  source              = "terraform-google-modules/kubernetes-engine/google/modules/workload-identity"
   name                = "${var.cluster_name}-dagster-sa"
   namespace           = var.namespace
   project_id          = var.project_id
