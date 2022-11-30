@@ -236,3 +236,9 @@ sentry:
         enabled: true
         serviceMonitor:
           enabled: true
+  externalRedis:
+    host: redis-master.redis
+    password: ""
+
+  externalKafka:
+    host: kafka-kafka-bootstrap.kafka
