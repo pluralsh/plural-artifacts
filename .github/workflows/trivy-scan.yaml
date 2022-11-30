@@ -18,7 +18,7 @@ jobs:
           scan-type: 'fs'
           hide-progress: false
           scan-ref: 'grafana'
-          format: 'sarif'
+          format: 'github'
           #output: 'trivy-results.sarif'
           security-checks: 'vuln,secret,config'
           exit-code: '1'
