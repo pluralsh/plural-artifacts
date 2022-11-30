@@ -5,18 +5,18 @@
 replicaCount: 1
 
 postgres:
-  replicas: 1
-  storage:
-    size: 25Gi
-  resources: {}
-  default:
-    resources:
-      requests:
-        cpu: 100m
-        memory: 100Mi
-      limits:
-        cpu: '2'
-        memory: 1Gi
+  enabled: true
+  team: plural
+  user: sentry
+  dbName: sentry
+  ownerChart: sentry
+  infix: ""
+
+rabbitmq:
+  vhostName: sentry
+  cluster:
+    name: rabbitmq
+    namespace: rabbitmq 
 
 configOverlays:
 - name: web-cpu
@@ -151,6 +151,7 @@ sentry:
   rabbitmq:
     enabled: false
     host: rabbitmq.rabbitmq
+    vhost: sentry
 
   nginx:
     enabled: false
@@ -242,4 +243,9 @@ sentry:
         enabled: true
         serviceMonitor:
           enabled: true
-        
+  externalRedis:
+    host: redis-master.redis
+    password: ""
+
+  externalKafka:
+    host: kafka-kafka-bootstrap.kafka
