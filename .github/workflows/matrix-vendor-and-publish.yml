@@ -103,10 +103,10 @@ jobs:
           ### Output section ###
           ######################
 
-          echo "::set-output name=continue_vendor::${CONTINUE_VENDOR_JOB}"
-          echo "::set-output name=vendor_matrix::${VENDOR_MATRIX_JSON}"
-          echo "::set-output name=continue_app_apply::${CONTINUE_APP_APPLY_JOB}"
-          echo "::set-output name=app_apply_matrix::${APP_APPLY_MATRIX_JSON}"
+          echo "continue_vendor=${CONTINUE_VENDOR_JOB}" >> $GITHUB_OUTPUT
+          echo "vendor_matrix=${VENDOR_MATRIX_JSON}" >> $GITHUB_OUTPUT
+          echo "continue_app_apply=${CONTINUE_APP_APPLY_JOB}" >> $GITHUB_OUTPUT
+          echo "app_apply_matrix=${APP_APPLY_MATRIX_JSON}" >> $GITHUB_OUTPUT
     outputs:
       vendor_matrix: ${{ steps.generate-matrix.outputs.vendor_matrix }}
       continue_vendor: ${{ steps.generate-matrix.outputs.continue_vendor }}
