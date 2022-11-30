@@ -108,3 +108,33 @@ jobs:
       continue-on-error: true
       run: |
         skopeo sync --keep-going --retry-times 5 --scoped --scoped-append-registry=false --all --src yaml --dest docker ${{ matrix.skopeo_file }} gcr.io/pluralsh
+  trivy-scan:
+    name: Trivy IaC scan
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.build-matrix.outputs.vendor_matrix) }}
+    needs:
+    - build-matrix
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Run Trivy vulnerability scanner in IaC mode
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          hide-progress: false
+          scan-ref: ${{ matrix.repository }}
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          security-checks: 'vuln,secret,config'
+          ignore-unfixed: true
+          #severity: 'CRITICAL,HIGH'
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
