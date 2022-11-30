@@ -1,8 +1,13 @@
+{{- $rabbitmqNamespace := namespace "rabbitmq" }}
 global:
   application:
     links:
     - description: sentry web ui
       url: {{ .Values.hostname }}
+
+rabbitmq:
+  cluster:
+    namespace: {{ $rabbitmqNamespace }}  
 
 sentry:
   system:

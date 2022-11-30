@@ -1,9 +1,12 @@
 dependencies:
 - name: sentry
   repository: https://pluralsh.github.io/plural-helm-charts
-  version: 11.3.2
+  version: 11.3.3
 - name: postgres
   repository: https://pluralsh.github.io/module-library
-  version: 0.1.12
-digest: sha256:bb42760d1ea92a9260839e6f0a4d496404f5b2d50edc976f5efc791bc921aa90
-generated: "2022-10-24T18:18:43.342709+02:00"
+  version: 0.1.13
+- name: rabbitmq
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.0
+digest: sha256:a6f313004f4a04708f794e65065069e31dfd3c286983a7b426f204d257db6650
+generated: "2022-11-30T17:32:48.936765+01:00"

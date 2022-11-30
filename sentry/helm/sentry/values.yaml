@@ -12,6 +12,12 @@ postgres:
   ownerChart: sentry
   infix: ""
 
+rabbitmq:
+  vhostName: sentry
+  cluster:
+    name: rabbitmq
+    namespace: rabbitmq 
+
 configOverlays:
 - name: web-cpu
   labels:
@@ -145,6 +151,7 @@ sentry:
   rabbitmq:
     enabled: false
     host: rabbitmq.rabbitmq
+    vhost: sentry
 
   nginx:
     enabled: false
