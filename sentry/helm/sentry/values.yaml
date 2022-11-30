@@ -5,18 +5,12 @@
 replicaCount: 1
 
 postgres:
-  replicas: 1
-  storage:
-    size: 25Gi
-  resources: {}
-  default:
-    resources:
-      requests:
-        cpu: 100m
-        memory: 100Mi
-      limits:
-        cpu: '2'
-        memory: 1Gi
+  enabled: true
+  team: plural
+  user: sentry
+  dbName: sentry
+  ownerChart: sentry
+  infix: ""
 
 configOverlays:
 - name: web-cpu
@@ -242,4 +236,3 @@ sentry:
         enabled: true
         serviceMonitor:
           enabled: true
-        

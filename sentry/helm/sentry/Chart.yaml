@@ -8,3 +8,7 @@ dependencies:
 - name: sentry
   version: 11.3.2
   repository: https://pluralsh.github.io/plural-helm-charts
+- name: postgres
+  version: 0.1.12
+  repository: https://pluralsh.github.io/module-library
+  condition: postgres.enabled

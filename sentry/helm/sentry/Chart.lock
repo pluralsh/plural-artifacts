@@ -2,5 +2,8 @@ dependencies:
 - name: sentry
   repository: https://pluralsh.github.io/plural-helm-charts
   version: 11.3.2
-digest: sha256:1bb28089bd8f5d775cb57ac60486f79c43551ccf2efc3a7d60f1597b9efbc193
-generated: "2022-09-15T16:02:38.25437+02:00"
+- name: postgres
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.12
+digest: sha256:bb42760d1ea92a9260839e6f0a4d496404f5b2d50edc976f5efc791bc921aa90
+generated: "2022-10-24T18:18:43.342709+02:00"

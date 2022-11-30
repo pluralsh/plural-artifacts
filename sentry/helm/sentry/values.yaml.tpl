@@ -83,7 +83,3 @@ sentry:
   user:
     email: {{ .Values.adminEmail }}
     password: {{ dedupe . "sentry.sentry.user.password" (randAlphaNum 20) }}
-
-  postgresql:
-    postgresqlPassword: {{ dedupe . "sentry.sentry.postgresql.postgresqlPassword" (randAlphaNum 14) }}
-    postgresqlPostgresPassword: {{ dedupe . "sentry.sentry.postgresql.postgresqlPostgresPassword" (randAlphaNum 14) }}
