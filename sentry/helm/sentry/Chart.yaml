@@ -2,7 +2,7 @@ apiVersion: v2
 name: sentry
 description: A Helm chart for deploying sentry on plural
 type: application
-version: 0.2.15
+version: 0.2.16
 appVersion: "21.5.1"
 dependencies:
 - name: sentry
