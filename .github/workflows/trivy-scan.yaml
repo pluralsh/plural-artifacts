@@ -25,7 +25,7 @@ jobs:
         with:
           scan-type: 'fs'
           hide-progress: false
-          scan-ref: 'argo-cd'
+          scan-ref: 'postgres'
           format: 'sarif'
           output: 'trivy-results.sarif'
           security-checks: 'vuln,secret,config'
