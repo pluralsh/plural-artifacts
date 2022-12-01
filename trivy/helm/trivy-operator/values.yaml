@@ -2,3 +2,9 @@ trivy-operator:
   image:
     repository: "ghcr.io/aquasecurity/trivy-operator"
     tag: ""
+  serviceMonitor:
+    enabled: true
+  trivyOperator:
+    scanJobTolerations:
+    - key: ""
+      operator: "Exists"
