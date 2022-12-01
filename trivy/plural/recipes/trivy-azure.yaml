@@ -1,0 +1,14 @@
+name: trivy-azure
+description: Installs trivy on an aws eks cluster
+provider: AZURE
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+sections:
+- name: trivy
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: trivy-operator

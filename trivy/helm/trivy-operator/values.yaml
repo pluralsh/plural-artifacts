@@ -1,0 +1,4 @@
+trivy-operator:
+  image:
+    repository: "ghcr.io/aquasecurity/trivy-operator"
+    tag: ""

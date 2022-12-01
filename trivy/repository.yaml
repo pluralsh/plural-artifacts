@@ -1,0 +1,12 @@
+name: trivy
+description: Find vulnerabilities, misconfigurations, secrets, SBOM in containers, Kubernetes, code repositories, clouds and more
+category: SECURITY
+private: true
+icon: plural/icons/trivy.png
+notes: plural/notes.tpl
+homepage: https://trivy.dev/
+gitUrl: https://github.com/aquasecurity/trivy-operator
+tags:
+- tag: security
+- tag: vulnerability
+- tag: compliance

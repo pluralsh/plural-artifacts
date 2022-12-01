@@ -1,0 +1,14 @@
+name: trivy-gcp
+description: Installs trivy on an aws eks cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+sections:
+- name: trivy
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: trivy-operator
