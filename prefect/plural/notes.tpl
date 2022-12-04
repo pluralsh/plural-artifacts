@@ -1,0 +1,1 @@
+Use `plural watch prefect` to track the status of your application

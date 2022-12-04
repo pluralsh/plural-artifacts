@@ -47,10 +47,34 @@ spec:
       format: memory
       legend: $pod
       query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"argo-cd-argocd-server.+"}) by (pod)
+  - name: argo-cd-applicationset-controller-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"argo-cd-argocd-applicationset-controller.+"}[5m])) by (pod)
+  - name: argo-cd-applicationset-controller-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"argo-cd-argocd-applicationset-controller.+"}) by (pod)
+  - name: argo-cd-notifications-controller-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"argo-cd-argocd-notifications-controller.+"}[5m])) by (pod)
+  - name: argo-cd-notifications-controller-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"argo-cd-argocd-notifications-controller.+"}) by (pod)
   - name: controller
     type: kubernetes
     kubernetes:
-      resource: deployment
+      resource: statefulset
       name: argo-cd-argocd-application-controller
   - name: reposerver
     type: kubernetes
@@ -62,6 +86,16 @@ spec:
     kubernetes:
       resource: deployment
       name: argo-cd-argocd-server
+  - name: applicationset-controller
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: argo-cd-argocd-applicationset-controller
+  - name: notifications-controller
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: argo-cd-argocd-notifications-controller
   actions:
   - name: scale
     action: config
@@ -164,3 +198,67 @@ spec:
           - limits
           - memory
         valueFrom: server-memory-limit
+      - path:
+          - argo-cd
+          - argo-cd
+          - applicationSet
+          - resources
+          - requests
+          - cpu
+        valueFrom: applicationset-controller-cpu
+      - path:
+          - argo-cd
+          - argo-cd
+          - applicationSet
+          - resources
+          - requests
+          - memory
+        valueFrom: applicationset-controller-memory
+      - path:
+          - argo-cd
+          - argo-cd
+          - applicationSet
+          - resources
+          - limits
+          - cpu
+        valueFrom: applicationset-controller-cpu-limit
+      - path:
+          - argo-cd
+          - argo-cd
+          - applicationSet
+          - resources
+          - limits
+          - memory
+        valueFrom: applicationset-controller-memory-limit
+      - path:
+          - argo-cd
+          - argo-cd
+          - notifications
+          - resources
+          - requests
+          - cpu
+        valueFrom: notifications-controller-cpu
+      - path:
+          - argo-cd
+          - argo-cd
+          - notifications
+          - resources
+          - requests
+          - memory
+        valueFrom: notifications-controller-memory
+      - path:
+          - argo-cd
+          - argo-cd
+          - notifications
+          - resources
+          - limits
+          - cpu
+        valueFrom: notifications-controller-cpu-limit
+      - path:
+          - argo-cd
+          - argo-cd
+          - notifications
+          - resources
+          - limits
+          - memory
+        valueFrom: notifications-controller-memory-limit

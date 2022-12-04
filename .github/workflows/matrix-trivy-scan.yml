@@ -1,0 +1,96 @@
+name: trivy-cron
+
+on:
+  workflow_dispatch:
+  schedule:
+  - cron: "0 0 * * *"
+jobs:
+  build-matrix:
+    name: Create Build Matrix
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      id: set-matrix
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0 # No shallow clone, we need all history
+    - name: generate matrix
+      id: generate-matrix
+      run: |
+          ###############################
+          ### Image vendoring section ###
+          ###############################
+
+          APP_FOLDERS=$(find . -name "vendor_images.yaml" | awk -F "/" '{print $2}' | sort -u )
+
+          VENDOR_MATRIX_PROJECTS_JSON="["
+          VENDOR_MATRIX_INCLUDE_JSON="["
+
+          for APP_FOLDER in ${APP_FOLDERS}; do
+            if [[ "${APP_FOLDER}" != "."* ]]; then
+              REPO=${APP_FOLDER}
+              SKOPEO_FILE=$(find ${REPO} -name "vendor_images.yaml")
+
+              if [[ "${SKOPEO_FILE}" != "" ]]; then
+
+                VENDOR_MATRIX_PROJECTS_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${REPO}")
+                VENDOR_MATRIX_INCLUDE_JSON+="{\"repository\": \"${REPO}\", \"skopeo_file\": \"${SKOPEO_FILE}\"}"
+              fi
+            fi
+          done
+
+          VENDOR_MATRIX_INCLUDE_JSON="${VENDOR_MATRIX_INCLUDE_JSON//\}\{/\}, \{}"
+          VENDOR_MATRIX_INCLUDE_JSON+="]"
+          VENDOR_MATRIX_PROJECTS_JSON="${VENDOR_MATRIX_PROJECTS_JSON//\"\"/\", \"}"
+          VENDOR_MATRIX_PROJECTS_JSON+="]"
+          echo "{$VENDOR_MATRIX_PROJECTS_JSON}"
+          VENDOR_MATRIX_JSON="{\"include\": ${VENDOR_MATRIX_INCLUDE_JSON}}"
+          echo "${VENDOR_MATRIX_JSON}"
+          
+          CONTINUE_VENDOR_JOB="no"
+          if [[ "${VENDOR_MATRIX_PROJECTS_JSON}" != "[]" ]]
+          then
+            CONTINUE_VENDOR_JOB="yes"
+          fi
+
+          echo "${CONTINUE_VENDOR_JOB}"
+
+          ######################
+          ### Output section ###
+          ######################
+
+          echo "continue_vendor=${CONTINUE_VENDOR_JOB}" >> $GITHUB_OUTPUT
+          echo "vendor_matrix=${VENDOR_MATRIX_JSON}" >> $GITHUB_OUTPUT
+    outputs:
+      vendor_matrix: ${{ steps.generate-matrix.outputs.vendor_matrix }}
+      continue_vendor: ${{ steps.generate-matrix.outputs.continue_vendor }}
+  trivy-scan:
+    name: Trivy IaC scan
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.build-matrix.outputs.vendor_matrix) }}
+    needs:
+    - build-matrix
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Run Trivy vulnerability scanner in IaC mode
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          hide-progress: false
+          scan-ref: ${{ matrix.repository }}
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          security-checks: 'vuln,secret,config'
+          ignore-unfixed: true
+          #severity: 'CRITICAL,HIGH'
+      - name: Upload Trivy scan results to GitHub Security tab
+        continue-on-error: true # TODO: remove once https://github.com/aquasecurity/tfsec/issues/1955 is resolved
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-results.sarif'

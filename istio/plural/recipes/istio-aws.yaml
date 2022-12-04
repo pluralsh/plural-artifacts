@@ -6,8 +6,6 @@ dependencies:
   name: aws-k8s
 - repo: monitoring
   name: monitoring-aws
-- repo: grafana-tempo
-  name: grafana-tempo-aws
 - repo: ingress-nginx
   name: ingress-nginx-aws
 sections:

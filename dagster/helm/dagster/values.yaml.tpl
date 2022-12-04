@@ -27,6 +27,7 @@ dagster:
     deploymentLabels:
       security.plural.sh/inject-oauth-sidecar: "true"
     annotations:
+      app.plural.sh/dedupe-count: '1'
       security.plural.sh/oauth-env-secret: "dagster-proxy-config"
     {{ if eq .Provider "azure" }}
     envSecrets:

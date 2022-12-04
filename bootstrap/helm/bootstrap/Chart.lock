@@ -9,8 +9,8 @@ dependencies:
   repository: https://charts.jetstack.io
   version: v1.8.2
 - name: cluster-autoscaler
-  repository: https://pluralsh.github.io/plural-helm-charts
-  version: 9.11.0
+  repository: https://kubernetes.github.io/autoscaler
+  version: 9.21.0
 - name: aws-load-balancer-controller
   repository: https://aws.github.io/eks-charts
   version: 1.2.3
@@ -26,5 +26,5 @@ dependencies:
 - name: tigera-operator
   repository: https://docs.projectcalico.org/charts
   version: v3.21.3
-digest: sha256:1953fc906c0e59274fe7cfadc1ab753116602ee866f2effbcbc30e64fa980025
-generated: "2022-07-01T13:34:12.753712685+02:00"
+digest: sha256:eef8f75aae14b6ad2bcf74b524286a9b0377a8d29955016296847f9690d03c62
+generated: "2022-11-22T12:59:16.453867+01:00"

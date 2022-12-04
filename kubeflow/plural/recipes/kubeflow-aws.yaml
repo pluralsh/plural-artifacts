@@ -23,8 +23,6 @@ dependencies:
 # the following should be removed once transient recipe dependencies are fixed
 - repo: monitoring
   name: monitoring-aws
-- repo: grafana-tempo
-  name: grafana-tempo-aws
 - repo: ingress-nginx
   name: ingress-nginx-aws
 - repo: redis
