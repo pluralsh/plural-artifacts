@@ -1,4 +1,4 @@
-name: touca-azure
+name: touca-aws
 description: Installs Touca on an EKS cluster
 provider: AWS
 dependencies:
