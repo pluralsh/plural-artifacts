@@ -1,5 +1,5 @@
 name: touca-azure
-description: Installs Touca on an AKS cluster
+description: Installs touca on an AKS cluster
 provider: AZURE
 dependencies:
 - repo: bootstrap

@@ -4,7 +4,6 @@ metadata:
   labels:
     app: {{ .Release.Name }}-touca-app
   name: {{ .Release.Name }}-touca-app
-  namespace: {{ .Release.Name }}-touca
 spec:
   replicas: {{ .Values.toucaApp.replicas }}
   selector:
