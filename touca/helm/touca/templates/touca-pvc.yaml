@@ -3,9 +3,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: touca-ebs
   namespace: {{ .Release.Name }}-touca
-spec: 
+spec:
   accessModes:
     - ReadWriteOnce
-  resources: 
+  resources:
     requests:
       storage: {{ .Values.volume.size }}

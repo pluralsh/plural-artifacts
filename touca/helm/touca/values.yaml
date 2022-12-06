@@ -1,18 +1,13 @@
 global:
   dockerRepoName: touca
-  dockerImageTag: "1.6"
+  dockerImageName: touca
+  dockerImageTag: "1.8"
 
 toucaApp:
   replicas: 1
 
-toucaApi:
-  replicas: 1
 
 mongoNamespace: mongodb
-
-toucaCmp:
-  replicas: 1
-
 
 minio:
   user: touca
