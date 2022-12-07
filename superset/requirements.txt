@@ -5,3 +5,5 @@ pybigquery
 redis==3.2.1
 typing-extensions~=3.10
 snowflake-sqlalchemy~=1.2.4
+flask_oauthlib
+authlib
