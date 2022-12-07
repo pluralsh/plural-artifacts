@@ -1,4 +1,4 @@
-FROM apache/superset:3c41ff68a43b5ab6b871226a73de9f2129d64766
+FROM apache/superset:737d4dcf0cd36eb4c2c54a4e4d3ea5b0761810a0
 
 RUN pip install \
       psycopg2==2.8.5 \

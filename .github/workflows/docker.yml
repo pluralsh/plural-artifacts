@@ -79,7 +79,7 @@ jobs:
         username: mjg@plural.sh
         password: ${{ secrets.PLURAL_ACCESS_TOKEN }}
     - run: |
-        docker build -t gcr.io/pluralsh/apache/superset:1.16.0 -t dkr.plural.sh/superset/apache/superset:1.16.0 superset
-        docker push gcr.io/pluralsh/apache/superset:1.16.0
-        docker push dkr.plural.sh/superset/apache/superset:1.16.0
+        docker build -t gcr.io/pluralsh/apache/superset:2.0 -t dkr.plural.sh/superset/apache/superset:2.0 superset
+        docker push gcr.io/pluralsh/apache/superset:2.0
+        docker push dkr.plural.sh/superset/apache/superset:2.0
  
