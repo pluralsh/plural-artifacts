@@ -83,7 +83,15 @@ jobs:
         docker push gcr.io/pluralsh/apache/superset:2.0
         docker push dkr.plural.sh/superset/apache/superset:2.0
     - run: |
-        docker build -t gcr.io/pluralsh/apache/superset:plrl -t dkr.plural.sh/superset/apache/superset:plrl --build-arg BASE_IMG=3c41ff68a43b5ab6b871226a73de9f2129d64766 superset
-        docker push gcr.io/pluralsh/apache/superset:plrl
-        docker push dkr.plural.sh/superset/apache/superset:plrl
+        docker build -t gcr.io/pluralsh/apache/superset:1.3 -t dkr.plural.sh/superset/apache/superset:1.3 --build-arg BASE_IMG=3c41ff68a43b5ab6b871226a73de9f2129d64766 superset
+        docker push gcr.io/pluralsh/apache/superset:1.3
+        docker push dkr.plural.sh/superset/apache/superset:1.3
+    - run: |
+        docker build -t gcr.io/pluralsh/apache/superset:1.4 -t dkr.plural.sh/superset/apache/superset:1.4 --build-arg BASE_IMG=d29f6614161f3faeced218232d9aa1d0a9422ddb superset
+        docker push gcr.io/pluralsh/apache/superset:1.4
+        docker push dkr.plural.sh/superset/apache/superset:1.4
+    - run: |
+        docker build -t gcr.io/pluralsh/apache/superset:1.5 -t dkr.plural.sh/superset/apache/superset:1.5 --build-arg BASE_IMG=054e6b23348e4a26efbe50109def40e721e49a2c superset
+        docker push gcr.io/pluralsh/apache/superset:1.5
+        docker push dkr.plural.sh/superset/apache/superset:1.5
  
