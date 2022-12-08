@@ -4,7 +4,6 @@ metadata:
   labels:
     app: {{ .Release.Name }}-touca-app
   name: {{ .Release.Name }}-touca-app
-  namespace: {{ .Release.Name }}-touca
 spec:
   replicas: {{ .Values.toucaApp.replicas }}
   selector:
@@ -31,17 +30,10 @@ spec:
           value: "http://{{ .Release.Name }}-touca-app"
         - name: MINIO_HOST
           value: {{ .Release.Name }}-touca-minio
-        - name: MONGO_HOST
-          value: mongo-svc.{{ .Values.mongoNamespace }}
         - name: REDIS_HOST
           value: {{ .Release.Name }}-touca-redis
-        - name: MONGO_USER
+        - name: MONGO_URI
           valueFrom:
             secretKeyRef:
-              name: mongo-admin-admin
-              key: username
-        - name: MONGO_PASS
-          valueFrom:
-            secretKeyRef:
-              name: mongo-admin-admin
-              key: password
+              name: {{ .Values.mongoSecret }}
+              key: connectionString.standard

@@ -1,5 +1,5 @@
 name: touca-gcp
-description: Installs Touca on an GKE cluster
+description: Installs touca on an GKE cluster
 provider: GCP
 dependencies:
 - repo: bootstrap

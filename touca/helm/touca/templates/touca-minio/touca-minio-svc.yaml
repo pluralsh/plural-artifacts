@@ -4,7 +4,6 @@ metadata:
   labels:
     app: {{ .Release.Name }}-touca-minio
   name: {{ .Release.Name }}-touca-minio
-  namespace: {{ .Release.Name }}-touca
 spec:
   ports:
   - port: 9000

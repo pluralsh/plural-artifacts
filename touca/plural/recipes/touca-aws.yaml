@@ -1,5 +1,5 @@
 name: touca-aws
-description: Installs Touca on an EKS cluster
+description: Installs touca on an EKS cluster
 provider: AWS
 dependencies:
 - repo: bootstrap
