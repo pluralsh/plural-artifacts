@@ -2,11 +2,13 @@ apiVersion: v2
 name: superset
 description: A Helm chart for superset on plural
 type: application
-version: 0.2.5
-appVersion: "1.16.0"
+version: 0.2.6
+#appVersion: "1.16.0"
+appVersion: "2.0.1rc4"
 dependencies:
 - name: superset
-  version: 0.3.12
+  repository: http://apache.github.io/superset
+  version: 0.7.7
 - name: test-base
   repository: https://pluralsh.github.io/module-library
   version: 0.1.3

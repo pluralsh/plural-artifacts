@@ -117,6 +117,21 @@ superset:
     image:
       registry: gcr.io/pluralsh
       tag: 6.0.9-debian-10-r0
+    replica:
+      autoscaling:
+        enabled: false
+    cluster:
+      enabled: false
+    master:
+      statefulset:
+        labels:
+          label1Name: label1Value
+    securityContext:
+      enabled: false
+    containerSecurityContext:
+      enabled: false
+    sysctlImage:
+      enabled: false
 
   # configOverrides:
   #   statsd_conf: |
