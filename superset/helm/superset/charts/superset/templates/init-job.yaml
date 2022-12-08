@@ -18,10 +18,9 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ template "superset.name" . }}-init-db
+  name: superset-init-db-{{ .Release.Revision }}
   annotations:
-    "helm.sh/hook": post-install,post-upgrade
-    "helm.sh/hook-delete-policy": "before-hook-creation"
+    platform.plural.sh/ignore: 'true'
 spec:
   template:
     metadata:

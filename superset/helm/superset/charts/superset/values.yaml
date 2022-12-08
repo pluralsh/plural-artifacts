@@ -238,6 +238,12 @@ supersetNode:
         - secretRef:
             name: '{{ tpl .Values.envFromSecret . }}'
       command: [ "/bin/sh", "-c", "until nc -zv $DB_HOST $DB_PORT -w1; do echo 'waiting for db'; sleep 1; done" ]
+    - name: wait-for-migration
+      image: gcr.io/pluralsh/groundnuty/k8s-wait-for:v1.3
+      imagePullPolicy: Always
+      args:
+      - job
+      - superset-init-db-{{ .Release.Revision }}
   ## Annotations to be added to supersetNode deployment
   deploymentAnnotations: {}
   ## Annotations to be added to supersetNode pods
@@ -259,6 +265,12 @@ supersetWorker:
         - secretRef:
             name: '{{ tpl .Values.envFromSecret . }}'
       command: [ "/bin/sh", "-c", "until nc -zv $DB_HOST $DB_PORT -w1; do echo 'waiting for db'; sleep 1; done" ]
+    - name: wait-for-migration
+      image: gcr.io/pluralsh/groundnuty/k8s-wait-for:v1.3
+      imagePullPolicy: Always
+      args:
+      - job
+      - superset-init-db-{{ .Release.Revision }}
   ## Annotations to be added to supersetWorker deployment
   deploymentAnnotations: {}
   ## Annotations to be added to supersetWorker pods
@@ -282,6 +294,12 @@ supersetCeleryBeat:
         - secretRef:
             name: '{{ tpl .Values.envFromSecret . }}'
       command: [ "/bin/sh", "-c", "until nc -zv $DB_HOST $DB_PORT -w1; do echo 'waiting for db'; sleep 1; done" ]
+    - name: wait-for-migration
+      image: gcr.io/pluralsh/groundnuty/k8s-wait-for:v1.3
+      imagePullPolicy: Always
+      args:
+      - job
+      - superset-init-db-{{ .Release.Revision }}
   ## Annotations to be added to supersetCeleryBeat deployment
   deploymentAnnotations: {}
   ## Annotations to be added to supersetCeleryBeat pods
