@@ -101,7 +101,7 @@ configOverlays:
 superset:
   image:
     repository: dkr.plural.sh/superset/apache/superset
-    tag: '1.16.0'
+    tag: '1.5'
     pullPolicy: Always
 
   bootstrapScript: |
