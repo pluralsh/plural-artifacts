@@ -75,6 +75,7 @@ spec:
               doc="kubernetes.raw" 
               path="spec.template.spec.containers[0].resources.requests.memory" />
           </input>
+          <button label='Scale' action='scale' primary='true' headline="true" />
         </box>
       </box>
       <box width='100%' gap='small'>
