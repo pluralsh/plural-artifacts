@@ -1,6 +1,12 @@
 {{ $redisNamespace := namespace "redis" }}
 {{ $redisValues := .Applications.HelmValues "redis" }}
 {{ $monitoringNamespace := namespace "monitoring" }}
+global:
+  application:
+    links:
+    - description: loki api
+      url: https://{{ .Values.hostname }}
+
 redisPassword: {{ $redisValues.redis.password }}
 
 {{ if .Values.basicAuth }}
