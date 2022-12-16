@@ -57,6 +57,7 @@ vault:
 
     ingress:
       enabled: true
+      internalClassName: nginx
       annotations:
         kubernetes.io/tls-acme: "true"
         cert-manager.io/cluster-issuer: letsencrypt-prod

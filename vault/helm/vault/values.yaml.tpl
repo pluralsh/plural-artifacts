@@ -39,8 +39,6 @@ vault:
     ingress:
       {{- if .Values.exposePrivate }}
       ingressClassName: internal-nginx
-      {{- else }}
-      ingressClassName: nginx
       {{- end }}
       hosts:
       - host: {{ .Values.hostname }}
