@@ -186,6 +186,12 @@ airflow:
         enabled: true
     existingSecret: airflow-postgres-password
   
+  dags:
+    gitSync:
+      image:
+        gid: 0
+        uid: 50000
+
   pgbouncer:
     enabled: false
 

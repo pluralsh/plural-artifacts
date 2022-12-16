@@ -2,6 +2,12 @@ ingress-nginx:
   nameOverride: internal-ingress-nginx
   fullnameOverride: internal-ingress-nginx
   controller:
+    image:
+      registry: dkr.plural.sh/ingress-nginx
+      image: ingress-nginx/controller
+      tag: v1.5.1
+      digest: null
+      digestChroot: null
     ingressClass: k8s.io/internal-nginx
     electionID: internal-ingress-controller-leader
     ingressClassResource:

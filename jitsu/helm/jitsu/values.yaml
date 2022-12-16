@@ -84,6 +84,12 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
+# Access to additional sources through the airbyte.
+# It works with help of the Docker-In-Docker daemon.
+airbyte:
+  enabled: false
+  dindImage: docker:dind
+
 nodeSelector: {}
 
 tolerations: []

@@ -42,13 +42,22 @@ spec:
         - secretRef:
             name: airbyte-env
         env:
+        - name: DD_AGENT_HOST
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
         - name: DATABASE_PASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ include "airbyte.postgresql.secretName" . }}
               key: {{ include "airbyte.database.existingsecret.key" . }}
         - name: LOG_LEVEL
-          value: "{{ .Values.scheduler.log.level }}"
+          value: "{{ .Values.server.log.level }}"
+        - name: MICRONAUT_ENVIRONMENTS
+          valueFrom:
+            secretKeyRef:
+              name: airbyte-env
+              key: WORKERS_MICRONAUT_ENVIRONMENTS
         {{- if .Values.server.extraEnv }}
         {{ .Values.server.extraEnv | toYaml | nindent 8 }}
         {{- end }}

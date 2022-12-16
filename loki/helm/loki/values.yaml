@@ -59,6 +59,15 @@ loki-distributed:
       registry: dkr.plural.sh
       repository: loki/nginxinc/nginx-unprivileged
       tag: 1.19-alpine
+    ingress:
+      ingressClassName: nginx
+      annotations:
+        kubernetes.io/tls-acme: "true"
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+        nginx.ingress.kubernetes.io/auth-type: basic
+        nginx.ingress.kubernetes.io/auth-secret: basic-auth
+        nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required - foo'
   compactor:
     enabled: true
     extraArgs:
@@ -245,6 +254,7 @@ promtail:
   config:
     clients:
     - url: http://loki-loki-distributed-gateway/loki/api/v1/push
+      tenant_id: 1
     snippets:
       pipelineStages:
         - docker:

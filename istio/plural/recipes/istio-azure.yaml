@@ -6,8 +6,6 @@ dependencies:
   name: azure-k8s
 - repo: monitoring
   name: monitoring-azure
-- repo: grafana-tempo
-  name: grafana-tempo-azure
 - repo: ingress-nginx
   name: ingress-nginx-azure
 sections:

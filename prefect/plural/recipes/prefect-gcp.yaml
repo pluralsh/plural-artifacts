@@ -1,0 +1,25 @@
+name: prefect-gcp
+description: Installs prefect on an aws eks cluster
+provider: GCP
+oidcSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+- repo: postgres
+  name: gcp-postgres
+sections:
+- name: prefect
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for your prefect installation
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: prefect

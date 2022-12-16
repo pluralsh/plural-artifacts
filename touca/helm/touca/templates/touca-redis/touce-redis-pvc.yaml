@@ -2,10 +2,9 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: touca-redis
-  namespace: {{ .Release.Name }}-touca
-spec: 
+spec:
   accessModes:
     - ReadWriteOnce
-  resources: 
+  resources:
     requests:
       storage: {{ .Values.redis.volume.size }}

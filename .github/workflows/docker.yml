@@ -4,32 +4,6 @@ on:
   push:
     branches: [ main ]
 jobs:
-  docker-postgres:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-    steps:
-    - uses: actions/checkout@v3
-    - uses: google-github-actions/auth@v0
-      with:
-        workload_identity_provider: 'projects/${{ secrets.GOOGLE_PROJECT_ID }}/locations/global/workloadIdentityPools/github/providers/github'
-        service_account: 'terraform@pluralsh.iam.gserviceaccount.com'
-        token_format: 'access_token'
-        create_credentials_file: true
-    - uses: google-github-actions/setup-gcloud@v0.6.2
-    - name: Login to gcr
-      run: gcloud auth configure-docker -q
-    - name: Login to plural registry
-      uses: docker/login-action@v2
-      with:
-        registry: dkr.plural.sh
-        username: mjg@plural.sh
-        password: ${{ secrets.PLURAL_ACCESS_TOKEN }}
-    - run: |
-        docker build -f postgres/Dockerfile -t gcr.io/pluralsh/acid/spilo-13:2.0-p7 -t dkr.plural.sh/postgres/acid/spilo-13:2.0-p7 .
-        docker push gcr.io/pluralsh/acid/spilo-13:2.0-p7
-        docker push dkr.plural.sh/postgres/acid/spilo-13:2.0-p7
   docker-sentry:
     runs-on: ubuntu-latest
     permissions:
@@ -37,13 +11,13 @@ jobs:
       id-token: 'write'
     steps:
     - uses: actions/checkout@v3
-    - uses: google-github-actions/auth@v0
+    - uses: google-github-actions/auth@v1
       with:
         workload_identity_provider: 'projects/${{ secrets.GOOGLE_PROJECT_ID }}/locations/global/workloadIdentityPools/github/providers/github'
         service_account: 'terraform@pluralsh.iam.gserviceaccount.com'
         token_format: 'access_token'
         create_credentials_file: true
-    - uses: google-github-actions/setup-gcloud@v0.6.2
+    - uses: google-github-actions/setup-gcloud@v1.0.1
     - name: Login to gcr
       run: gcloud auth configure-docker -q
     - name: Login to plural registry
@@ -63,13 +37,13 @@ jobs:
       id-token: 'write'
     steps:
     - uses: actions/checkout@v3
-    - uses: google-github-actions/auth@v0
+    - uses: google-github-actions/auth@v1
       with:
         workload_identity_provider: 'projects/${{ secrets.GOOGLE_PROJECT_ID }}/locations/global/workloadIdentityPools/github/providers/github'
         service_account: 'terraform@pluralsh.iam.gserviceaccount.com'
         token_format: 'access_token'
         create_credentials_file: true
-    - uses: google-github-actions/setup-gcloud@v0.6.2
+    - uses: google-github-actions/setup-gcloud@v1.0.1
     - name: Login to gcr
       run: gcloud auth configure-docker -q
     - name: Login to plural registry
@@ -79,7 +53,45 @@ jobs:
         username: mjg@plural.sh
         password: ${{ secrets.PLURAL_ACCESS_TOKEN }}
     - run: |
-        docker build -t gcr.io/pluralsh/apache/airflow:2.1.4-python3.8-dbt-2 -t dkr.plural.sh/airflow/apache/airflow:2.1.4-python3.8-dbt-2 airflow
-        docker push gcr.io/pluralsh/apache/airflow:2.1.4-python3.8-dbt-2
-        docker push dkr.plural.sh/airflow/apache/airflow:2.1.4-python3.8-dbt-2
-  
+        docker build -t gcr.io/pluralsh/apache/airflow:2.2.5-python3.8-dbt -t dkr.plural.sh/airflow/apache/airflow:2.2.5-python3.8-dbt airflow
+        docker push gcr.io/pluralsh/apache/airflow:2.2.5-python3.8-dbt
+        docker push dkr.plural.sh/airflow/apache/airflow:2.2.5-python3.8-dbt
+  docker-superset:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    steps:
+    - uses: actions/checkout@v3
+    - uses: google-github-actions/auth@v1
+      with:
+        workload_identity_provider: 'projects/${{ secrets.GOOGLE_PROJECT_ID }}/locations/global/workloadIdentityPools/github/providers/github'
+        service_account: 'terraform@pluralsh.iam.gserviceaccount.com'
+        token_format: 'access_token'
+        create_credentials_file: true
+    - uses: google-github-actions/setup-gcloud@v1.0.1
+    - name: Login to gcr
+      run: gcloud auth configure-docker -q
+    - name: Login to plural registry
+      uses: docker/login-action@v2
+      with:
+        registry: dkr.plural.sh
+        username: mjg@plural.sh
+        password: ${{ secrets.PLURAL_ACCESS_TOKEN }}
+    - run: |
+        docker build -t gcr.io/pluralsh/apache/superset:2.0 -t dkr.plural.sh/superset/apache/superset:2.0 superset
+        docker push gcr.io/pluralsh/apache/superset:2.0
+        docker push dkr.plural.sh/superset/apache/superset:2.0
+    - run: |
+        docker build -t gcr.io/pluralsh/apache/superset:1.3 -t dkr.plural.sh/superset/apache/superset:1.3 --build-arg BASE_IMG=3c41ff68a43b5ab6b871226a73de9f2129d64766 superset
+        docker push gcr.io/pluralsh/apache/superset:1.3
+        docker push dkr.plural.sh/superset/apache/superset:1.3
+    - run: |
+        docker build -t gcr.io/pluralsh/apache/superset:1.4 -t dkr.plural.sh/superset/apache/superset:1.4 --build-arg BASE_IMG=d29f6614161f3faeced218232d9aa1d0a9422ddb superset
+        docker push gcr.io/pluralsh/apache/superset:1.4
+        docker push dkr.plural.sh/superset/apache/superset:1.4
+    - run: |
+        docker build -t gcr.io/pluralsh/apache/superset:1.5 -t dkr.plural.sh/superset/apache/superset:1.5 --build-arg BASE_IMG=054e6b23348e4a26efbe50109def40e721e49a2c superset
+        docker push gcr.io/pluralsh/apache/superset:1.5
+        docker push dkr.plural.sh/superset/apache/superset:1.5
+ 

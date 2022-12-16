@@ -39,6 +39,10 @@ spec:
         image: {{ include "airbyte.webappImage" . }}
         imagePullPolicy: "{{ .Values.webapp.image.pullPolicy }}"
         env:
+        - name: DD_AGENT_HOST
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
         - name: AIRBYTE_VERSION
           valueFrom:
             secretKeyRef:

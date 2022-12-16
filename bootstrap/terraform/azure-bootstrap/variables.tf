@@ -27,7 +27,7 @@ variable "resource_group" {
 
 variable "kubernetes_version" {
   type = string
-  default = "1.22.11"
+  default = "1.23.12"
 }
 
 variable "address_space" {
@@ -597,4 +597,22 @@ variable "node_groups" {
       }
     }
   ]
+}
+
+variable "auto_scaler_profile_balance_similar_node_groups" {
+  description = "Enable or Disable the balance similar node groups."
+  type        = bool
+  default     = true
+}
+
+variable "auto_scaler_profile_skip_nodes_with_local_storage" {
+  description = "Do not check nodes that have local storage, pods using it will not be moved."
+  type        = bool
+  default     = false
+}
+
+variable "auto_scaler_profile_scale_down_utilization_threshold" {
+  description = "The threshold in % under which a node is considered for scale down."
+  type        = number
+  default     = 0.7
 }

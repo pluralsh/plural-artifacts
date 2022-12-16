@@ -40,6 +40,11 @@ spec:
             - name: http
               containerPort: 5678
               protocol: TCP
+          {{- if .Values.smtp }}
+          envFrom:
+            - secretRef:
+                name: n8n-smtp
+          {{- end }}
           env:
             - name: "N8N_PORT"
               value: "5678"
@@ -53,6 +58,8 @@ spec:
               value: {{ .Values.database.port | quote }}
             - name: DB_POSTGRESDB_SSL_REJECT_UNAUTHORIZED
               value: "false"
+            - name: WEBHOOK_URL
+              value: {{ .Values.webhookUrl }}
             - name: DB_POSTGRESDB_USER
               valueFrom:
                 secretKeyRef:
