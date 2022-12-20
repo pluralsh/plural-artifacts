@@ -14,7 +14,7 @@ rabbitmq:
 oncall:
   image:
     repository: grafana/oncall
-    tag: v1.1.2
+    tag: v1.1.8
   ingress:
     enabled: false
     className: nginx

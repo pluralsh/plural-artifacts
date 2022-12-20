@@ -1,7 +1,20 @@
 {{ $redisNamespace := namespace "redis" }}
 {{ $redisValues := .Applications.HelmValues "redis" }}
 {{ $monitoringNamespace := namespace "monitoring" }}
+global:
+  application:
+    links:
+    - description: loki api
+      url: https://{{ .Values.hostname }}
+
 redisPassword: {{ $redisValues.redis.password }}
+
+{{ if .Values.basicAuth }}
+basicAuth:
+  user: {{ .Values.basicAuth.user }}
+  password: {{ .Values.basicAuth.password }}
+{{ end }}
+
 loki-distributed:
   {{- if eq .Provider "google" }}
   serviceAccount:
@@ -12,6 +25,20 @@ loki-distributed:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-loki"
   {{- end }}
+  {{ if and .Values.hostname .Values.basicAuth }}
+  gateway:
+    ingress:
+      enabled: true
+      hosts:
+      - host: {{ .Values.hostname | quote }}
+        paths:
+          - path: /
+            pathType: Prefix
+      tls:
+      - hosts:
+        - {{ .Values.hostname | quote }}
+        secretName: loki-tls
+  {{ end }}
   loki:
     structuredConfig:
       common:
