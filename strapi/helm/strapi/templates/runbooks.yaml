@@ -1,0 +1,64 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Runbook
+metadata:
+  name: scaling-manual
+  labels:
+    platform.plural.sh/pinned: 'true'
+{{ include "strapi.labels" . | indent 4 }}
+spec:
+  name: Strapi Scaling
+  description: overview of how to optimally scale your Strapi deployment
+  display: |-
+{{ .Files.Get "runbooks/scaling-manual.xml" | indent 4 }}
+  datasources:
+  - name: strapi-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ include "strapi.fullname" . }}.+"}[5m])) by (pod)
+  - name: strapi-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ include "strapi.fullname" . }}.+"}) by (pod)
+  - name: strapi
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: {{ include "strapi.fullname" . }}
+  actions:
+  - name: scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+      - path: 
+        - strapi
+        - resources
+        - requests
+        - cpu
+        valueFrom: strapi-cpu
+      - path:
+        - strapi
+        - resources
+        - requests
+        - memory
+        valueFrom: strapi-memory
+      - path: 
+        - strapi
+        - resources
+        - limits
+        - cpu
+        valueFrom: strapi-cpu-limit
+      - path:
+        - strapi
+        - resources
+        - limits
+        - memory
+        valueFrom: strapi-memory-limit
+      - path:
+        - strapi
+        - replicaCount
+        valueFrom: strapi-replicaCount
