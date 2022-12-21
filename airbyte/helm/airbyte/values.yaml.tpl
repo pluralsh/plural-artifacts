@@ -20,15 +20,20 @@ global:
     storage:
       type: "MINIO"
     externalMinio:
-      enabled: false
-      host: https://{{ .Configuration.minio.hostname }}
-      port: 443
+      enabled: true
+      endpoint: https://{{ .Configuration.minio.hostname }}
+    s3:
+      bucket: {{ .Values.airbyteBucket }}
   {{ else if eq .Provider "aws" }}
   logs:
     accessKey:
       password: {{ importValue "Terraform" "access_key_id" }}
+      existingSecret: airbyte-airbyte-secrets
+      existingSecretKey: AWS_ACCESS_KEY_ID
     secretKey:
       password: {{ importValue "Terraform" "secret_access_key" }}
+      existingSecret: airbyte-airbyte-secrets
+      existingSecretKey: AWS_SECRET_ACCESS_KEY
     storage:
       type: "S3"
     s3:
@@ -102,3 +107,9 @@ airbyte:
         paths:
         - path: '/.*'
           pathType: ImplementationSpecific
+  {{- if ne .Provider "aws" }}
+  minio:
+    auth:
+      rootUser: {{ importValue "Terraform" "access_key_id" }}
+      rootPassword: {{ importValue "Terraform" "secret_access_key" }}
+  {{- end }}
