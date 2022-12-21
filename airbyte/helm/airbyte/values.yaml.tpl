@@ -10,8 +10,7 @@ global:
       type: GCS
     gcs:
       bucket: {{ .Values.airbyteBucket }}
-      credentials: ""
-      credentialsJson: ""
+      credentialsJson: {{ importValue "Terraform" "credentials_json" }}
   {{ else if ne .Provider "aws" }}
   logs:
     accessKey:

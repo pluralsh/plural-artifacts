@@ -22,6 +22,8 @@ global:
       existingSecretKey: AWS_SECRET_ACCESS_KEY
     minio:
       enabled: false
+    s3:
+      bucket: "" # this needs to be an empty string, otherwise it will try to setup S3 when it's not enabled like when using GCS
 
 replicaCount: 1
 
