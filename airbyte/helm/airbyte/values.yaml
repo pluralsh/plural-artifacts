@@ -103,6 +103,11 @@ airbyte:
 
 oidc-config:
   enabled: false
+  service:
+    name: airbyte-oauth2-proxy
+  selector:
+    app.kubernetes.io/instance: airbyte
+    app.kubernetes.io/name: webapp
 
 test-base:
   enabled: false
