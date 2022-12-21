@@ -29,7 +29,7 @@ airbyte:
 
   temporal:
     image:
-      repository: airbyte/temporal-auto-setup
+      repository: dkr.plural.sh/airbyte/airbyte/temporal-auto-setup
       pullPolicy: IfNotPresent
       tag: 1.13.0
     extraEnv:
@@ -50,6 +50,7 @@ airbyte:
 
   worker:
     image:
+      repository: dkr.plural.sh/airbyte/airbyte/worker
       tag: 0.40.26
     
     log:
@@ -57,38 +58,44 @@ airbyte:
 
   cron:
     image:
+      repository: dkr.plural.sh/airbyte/airbyte/cron
       tag: 0.40.26
 
   server:
     image:
+      repository: dkr.plural.sh/airbyte/airbyte/server
       tag: 0.40.26
     
     log:
       level: INFO
 
-  connectorBuilderServer:
+  connector-builder-server:
     image:
+      repository: dkr.plural.sh/airbyte/airbyte/connector-builder-server
       tag: 0.40.26
 
   airbyte-bootloader:
     image:
+      repository: dkr.plural.sh/airbyte/airbyte/bootloader
       tag: 0.40.26
 
   pod-sweeper:
     image:
-      repository: bitnami/kubectl #TODO: change this image
-      tag: latest
+      repository: dkr.plural.sh/airbyte/bitnami/kubectl #TODO: change this image
+      tag: 1.25.5
 
   metrics:
     enabled: true
     image:
+      repository: dkr.plural.sh/airbyte/airbyte/metrics-reporter
       tag: 0.40.26
 
   webapp:
     image:
+      repository: dkr.plural.sh/airbyte/airbyte/webapp
       tag: 0.40.26
     podLabels:
-      airbyte: webapp
+      airbyte: webapp # TODO: this is here for backwards compatibility, remove in the future
 
     ingress:
       enabled: false
@@ -189,35 +196,6 @@ configOverlays:
       updates:
         - path:
             ["airbyte", "airbyte", "worker", "resources", "requests", "memory"]
-  - name: scheduler-cpu
-    labels:
-      platform.plural.sh/component: airbyte-scheduler
-      platform.plural.sh/kind: deployment
-      platform.plural.sh/resource: cpu
-    spec:
-      name: scheduler cpu
-      documentation: cpu requests for scheduler deployment
-      updates:
-        - path:
-            ["airbyte", "airbyte", "scheduler", "resources", "requests", "cpu"]
-  - name: scheduler-mem
-    labels:
-      platform.plural.sh/component: airbyte-scheduler
-      platform.plural.sh/kind: deployment
-      platform.plural.sh/resource: memory
-    spec:
-      name: scheduler memory
-      documentation: memory requests for scheduler deployment
-      updates:
-        - path:
-            [
-              "airbyte",
-              "airbyte",
-              "scheduler",
-              "resources",
-              "requests",
-              "memory",
-            ]
   - name: server-cpu
     labels:
       platform.plural.sh/component: airbyte-server
