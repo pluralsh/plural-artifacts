@@ -4,16 +4,86 @@
 
 global:
   imageRegistry: dkr.plural.sh/airbyte
+  metrics:
+    metricClient: otel
+    otelCollectorEndpoint: http://plural-otel-collector.monitoring:4317
 
 replicaCount: 1
 
-metrics:
-  client: otel
-  otelEndpoint: http://plural-otel-collector.monitoring:4317
-  ddAgentHost:
-    valueFrom:
-      fieldRef:
-        fieldPath: status.hostIP
+airbyte:
+  version: 0.40.18
+
+  postgresql:
+    enabled: false
+  minio:
+    enabled: false
+
+  temporal:
+    image:
+      tag: 1.16.2
+    extraEnv:
+      - name: SQL_TLS_ENABLED
+        value: "true"
+      - name: SQL_TLS
+        value: "true"
+      - name: SQL_TLS_DISABLE_HOST_VERIFICATION
+        value: "true"
+
+  externalDatabase:
+    database: airbyte
+    host: plural-airbyte
+    existingSecret: airbyte.plural-airbyte.credentials.postgresql.acid.zalan.do
+    existingSecretPasswordKey: password
+    user: airbyte
+    port: 5432
+
+  bootloader:
+    image:
+      tag: 0.40.18
+
+  worker:
+    image:
+      tag: 0.40.18
+    
+    log:
+      level: INFO
+
+  cron:
+    image:
+      tag: 0.40.9
+
+  server:
+    image:
+      tag: 0.40.18
+    
+    log:
+      level: INFO
+
+  webapp:
+    image:
+      tag: 0.40.18
+
+    ingress:
+      enabled: false
+      className: nginx
+      annotations:
+        kubernetes.io/tls-acme: "true"
+        # kubernetes.io/ingress.class: "nginx"
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        # Extend timeout to allow long running queries.
+        nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
+        nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+        nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+
+# metrics:
+#   client: otel
+#   otelEndpoint: http://plural-otel-collector.monitoring:4317
+#   ddAgentHost:
+#     valueFrom:
+#       fieldRef:
+#         fieldPath: status.hostIP
 
 oidc-config:
   enabled: false
@@ -174,70 +244,3 @@ configOverlays:
               "requests",
               "memory",
             ]
-
-airbyte:
-  version: 0.40.18
-
-  postgresql:
-    enabled: false
-  minio:
-    enabled: false
-
-  temporal:
-    image:
-      tag: 1.16.2
-    extraEnv:
-      - name: SQL_TLS_ENABLED
-        value: "true"
-      - name: SQL_TLS
-        value: "true"
-      - name: SQL_TLS_DISABLE_HOST_VERIFICATION
-        value: "true"
-
-  externalDatabase:
-    database: airbyte
-    host: plural-airbyte
-    existingSecret: airbyte.plural-airbyte.credentials.postgresql.acid.zalan.do
-    existingSecretPasswordKey: password
-    user: airbyte
-    port: 5432
-
-  bootloader:
-    image:
-      tag: 0.40.18
-
-  worker:
-    image:
-      tag: 0.40.18
-    
-    log:
-      level: INFO
-
-  cron:
-    image:
-      tag: 0.40.9
-
-  server:
-    image:
-      tag: 0.40.18
-    
-    log:
-      level: INFO
-
-  webapp:
-    image:
-      tag: 0.40.18
-
-    ingress:
-      enabled: false
-      className: nginx
-      annotations:
-        kubernetes.io/tls-acme: "true"
-        # kubernetes.io/ingress.class: "nginx"
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-        # Extend timeout to allow long running queries.
-        nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
-        nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
-        nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
-        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-        nginx.ingress.kubernetes.io/use-regex: "true"
