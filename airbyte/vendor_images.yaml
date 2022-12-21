@@ -9,5 +9,6 @@ docker.io:
     airbyte/metrics-reporter: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
     airbyte/connector-builder-server: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
     airbyte/temporal-auto-setup: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
-    bitnami/kubectl: ^v1\.2[0-9]+?\.[0-9]+$
-    # temporalio/auto-setup: ^v?1+\.[0-9]+?\.[0-9]+$
+    # temporalio/auto-setup: ^v?1+\.[0-9]+?\.[0-9]+$ # airbyte changed back to their own temporal image due to arm64 support issues
+    # the below regex can be used to limit the regex range so that only versions >= v1.25.0 are matched
+    bitnami/kubectl: (?:^v?1\.(?:(?:[^0-1]{1}[0-9]?)?(?:[2-9]{1}[5-9]))+?\.[0-9]+$)|(?:)(?:^v?[2-9]+\.[0-9]+?\.[0-9]+$)
