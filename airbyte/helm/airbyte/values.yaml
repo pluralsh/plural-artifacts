@@ -14,9 +14,11 @@ global:
     port: "5432"
   logs:
     accessKey:
+      # needed because otherwise the secret isn't loaded without externalMinio.enabled
       existingSecret: airbyte-airbyte-secrets
       existingSecretKey: AWS_ACCESS_KEY_ID
     secretKey:
+      # needed because otherwise the secret isn't loaded without externalMinio.enabled
       existingSecret: airbyte-airbyte-secrets
       existingSecretKey: AWS_SECRET_ACCESS_KEY
     minio:
