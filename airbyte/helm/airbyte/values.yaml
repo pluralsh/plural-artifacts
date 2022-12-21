@@ -78,6 +78,8 @@ airbyte:
   webapp:
     image:
       tag: 0.40.18
+    podLabels:
+      airbyte: webapp
 
     ingress:
       enabled: false
@@ -105,9 +107,9 @@ oidc-config:
   enabled: false
   service:
     name: airbyte-oauth2-proxy
-  selector:
-    app.kubernetes.io/instance: airbyte
-    app.kubernetes.io/name: webapp
+    selector:
+      app.kubernetes.io/instance: airbyte
+      app.kubernetes.io/name: webapp
 
 test-base:
   enabled: false

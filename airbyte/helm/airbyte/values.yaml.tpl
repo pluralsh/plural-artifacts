@@ -43,10 +43,6 @@ oidc-config:
     clientID: {{ .OIDC.ClientId }}
     clientSecret: {{ .OIDC.ClientSecret }}
     cookieSecret: {{ dedupe . "airbyte.oidc-config.secret.cookieSecret" $prevSecret }}
-  service:
-    selector: # todo: fix for removing old selector in template
-      app.kubernetes.io/name: webapp
-      app.kubernetes.io/instance: airbyte
   {{ if .Values.users }}
   users:
   {{ toYaml .Values.users | nindent 4 }}
