@@ -7,6 +7,20 @@ global:
   metrics:
     metricClient: otel
     otelCollectorEndpoint: http://plural-otel-collector.monitoring:4317
+  database:
+    secretName: airbyte.plural-airbyte.credentials.postgresql.acid.zalan.do
+    secretValue: password
+    host: plural-airbyte
+    port: "5432"
+  logs:
+    accessKey:
+      existingSecret: airbyte-airbyte-secrets
+      existingSecretKey: AWS_ACCESS_KEY_ID
+    secretKey:
+      existingSecret: airbyte-airbyte-secrets
+      existingSecretKey: AWS_SECRET_ACCESS_KEY
+    minio:
+      enabled: false
 
 replicaCount: 1
 
