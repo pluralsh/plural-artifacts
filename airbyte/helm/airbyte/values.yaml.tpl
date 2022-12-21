@@ -8,16 +8,22 @@ global:
   logs:
     storage:
       type: GCS
-  state:
-    storage:
-      type: GCS
+    gcs:
+      bucket: {{ .Values.airbyteBucket }}
+      credentials: ""
+      credentialsJson: ""
   {{ else if ne .Provider "aws" }}
   logs:
+    accessKey:
+      password: {{ importValue "Terraform" "access_key_id" }}
+    secretKey:
+      password: {{ importValue "Terraform" "secret_access_key" }}
     storage:
       type: "MINIO"
-  state:
-    storage:
-      type: "MINIO"
+    externalMinio:
+      enabled: false
+      host: https://{{ .Configuration.minio.hostname }}
+      port: 443
   {{ else if eq .Provider "aws" }}
   logs:
     accessKey:
@@ -72,11 +78,6 @@ postgres:
 {{ end }}
 
 airbyte:
-  {{ if $isGcp}}
-  worker:
-    containerOrchestrator:
-      enabled: false
-  {{ end }}
   webapp:
     {{ if .OIDC }}
     podLabels:
@@ -102,8 +103,3 @@ airbyte:
         paths:
         - path: '/.*'
           pathType: ImplementationSpecific
-      {{ if .OIDC }}
-      service:
-        name: airbyte-oauth2-proxy
-        port: 80
-      {{ end }}

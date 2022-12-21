@@ -3,7 +3,6 @@
 # Declare variables to be passed into your templates.
 
 global:
-  imageRegistry: dkr.plural.sh/airbyte
   metrics:
     metricClient: otel
     otelCollectorEndpoint: http://plural-otel-collector.monitoring:4317
@@ -27,7 +26,7 @@ global:
 replicaCount: 1
 
 airbyte:
-  version: 0.40.18
+  version: 0.40.26
 
   postgresql:
     enabled: false
@@ -36,7 +35,9 @@ airbyte:
 
   temporal:
     image:
-      tag: 1.16.2
+      repository: airbyte/temporal-auto-setup
+      pullPolicy: IfNotPresent
+      tag: 1.13.0
     extraEnv:
       - name: SQL_TLS_ENABLED
         value: "true"
@@ -53,31 +54,45 @@ airbyte:
     user: airbyte
     port: 5432
 
-  bootloader:
-    image:
-      tag: 0.40.18
-
   worker:
     image:
-      tag: 0.40.18
+      tag: 0.40.26
     
     log:
       level: INFO
 
   cron:
     image:
-      tag: 0.40.9
+      tag: 0.40.26
 
   server:
     image:
-      tag: 0.40.18
+      tag: 0.40.26
     
     log:
       level: INFO
 
+  connectorBuilderServer:
+    image:
+      tag: 0.40.26
+
+  airbyte-bootloader:
+    image:
+      tag: 0.40.26
+
+  pod-sweeper:
+    image:
+      repository: bitnami/kubectl #TODO: change this image
+      tag: latest
+
+  metrics:
+    enabled: true
+    image:
+      tag: 0.40.26
+
   webapp:
     image:
-      tag: 0.40.18
+      tag: 0.40.26
     podLabels:
       airbyte: webapp
 
@@ -94,14 +109,6 @@ airbyte:
         nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
         nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
         nginx.ingress.kubernetes.io/use-regex: "true"
-
-# metrics:
-#   client: otel
-#   otelEndpoint: http://plural-otel-collector.monitoring:4317
-#   ddAgentHost:
-#     valueFrom:
-#       fieldRef:
-#         fieldPath: status.hostIP
 
 oidc-config:
   enabled: false
