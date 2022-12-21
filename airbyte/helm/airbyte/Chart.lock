@@ -1,7 +1,7 @@
 dependencies:
 - name: airbyte
-  repository: https://pluralsh.github.io/plural-helm-charts
-  version: 0.40.41
+  repository: https://airbytehq.github.io/helm-charts
+  version: 0.43.6
 - name: postgres
   repository: https://pluralsh.github.io/module-library
   version: 0.1.11
@@ -11,5 +11,5 @@ dependencies:
 - name: test-base
   repository: https://pluralsh.github.io/module-library
   version: 0.1.3
-digest: sha256:5856f74958d751e13f6978dadff2f4788c76b976db8d612dc28070ec7fb27d03
-generated: "2022-11-16T15:57:06.388861+01:00"
+digest: sha256:57e785f7163442e3564bda6f908b673c9986e8c111bfe74582cb6bb071d9c50b
+generated: "2022-12-21T12:31:51.917565+01:00"
