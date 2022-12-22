@@ -70,7 +70,7 @@ oidc:
     client_options:
       identifier: {{ .OIDC.ClientId }}
       secret: {{ .OIDC.ClientSecret }}
-      redirect_uri: https://gitlab.{{ .Values.domain }}/users/auth/openid_connect/callback
+      redirect_uri: https://gitlab.{{ .Network.Subdomain }}/users/auth/openid_connect/callback
 {{ end }}
 
 {{ if .SMTP }}
