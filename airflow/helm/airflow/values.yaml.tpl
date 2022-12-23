@@ -97,11 +97,20 @@ airflow:
         # force users to re-auth after 30min of inactivity (to keep roles in sync)
         PERMANENT_SESSION_LIFETIME = 1800
   {{ end }}
+
   ingress:
     web:
       host: {{ $hostname }}
-      {{- if eq .Provider "kind" }}
+      {{ if and .Globals .Globals.CertIssuer }}
+      tls:
+        secretName: airflow-plural-tls
+      {{ end }}
       annotations:
+        plural.sh/dummy: 'true'
+      {{ if and .Globals .Globals.CertIssuer }}
+        cert-manager.io/cluster-issuer: {{ .Globals.CertIssuer }}
+      {{ end }}
+      {{- if eq .Provider "kind" }}
         external-dns.alpha.kubernetes.io/target: "127.0.0.1"
       {{- end }}
 
