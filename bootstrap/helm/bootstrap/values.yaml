@@ -1,4 +1,6 @@
-acme:
+acme: {}
+  # kid: ""
+  # secret: ""
 
 external-dns:
   serviceAccount:
