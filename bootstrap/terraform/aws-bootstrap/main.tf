@@ -37,7 +37,7 @@ module "vpc" {
 module "cluster" {
   source          = "github.com/pluralsh/terraform-aws-eks?ref=output-service-cidr"
   cluster_name    = var.cluster_name
-  cluster_version = "1.21"
+  cluster_version = var.kubernetes_version
   private_subnets = module.vpc.private_subnets_ids
   public_subnets  = module.vpc.public_subnets_ids
   worker_private_subnets = module.vpc.worker_private_subnets
