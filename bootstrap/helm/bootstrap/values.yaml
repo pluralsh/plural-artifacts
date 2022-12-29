@@ -1,4 +1,5 @@
-acme: {}
+acme:
+  enabled: false
   # kid: ""
   # secret: ""
 
