@@ -22,6 +22,8 @@ postgres:
   dbName: airflow
   ownerChart: airflow
   infix: ""
+  parameters:
+    max_connections: '101'
 
 exporter:
   image:
