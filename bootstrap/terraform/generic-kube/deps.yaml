@@ -1,0 +1,9 @@
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  description: Sets up an existing K8s cluster for use with Plural
+  version: 0.1.0
+spec:
+  dependencies: []
+  providers:
+  - generic

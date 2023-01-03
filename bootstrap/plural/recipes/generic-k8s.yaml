@@ -1,0 +1,14 @@
+name: generic-k8s
+description: Sets up an existing K8s cluster for use with Plural
+provider: GENERIC
+dependencies: []
+sections:
+- name: bootstrap
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: generic-kube
+  - type: HELM
+    name: bootstrap
+  - type: HELM
+    name: plural-certmanager-webhook
