@@ -10,6 +10,11 @@ external-dns:
   extraArgs:
     plural-cluster: {{ $providerArgs.cluster }}
     plural-provider: {{ $providerArgs.provider }}
+  {{ else if .Values.externaldns_provider }}
+  {{- range $key, $value := .Values.externaldns_provider }}
+  provider: {{ $key }}
+  {{ $key }}: {{ toYaml $value | nindent 4 }}
+  {{- end }}
   {{ else }}
   provider: {{ .Provider }}
   {{ end }}
@@ -25,14 +30,20 @@ external-dns:
     create: false
 {{ end }}
     name: {{ default "external-dns" .Values.externaldns_service_account }}
+    {{ if eq .Provider "aws" }}
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-externaldns"
+    {{ end }}
   domainFilters:
   - {{ .Network.Subdomain }}
+  {{ if eq .Provider "google" }}
   google:
     project: {{ .Project }}
+  {{ end }}
+  {{ if eq .Provider "aws" }}
   aws:
     region: {{ .Region }}
+  {{ end }}
   {{ if and (not $pluraldns) (eq .Provider "azure")}}
   azure:
     useManagedIdentityExtension: true
@@ -181,5 +192,12 @@ cert-manager:
 dnsSolver:
   cloudDNS:
     project: {{ .Project }}
+{{ end }}
+{{ end }}
+
+{{ if eq .Provider "generic" }}
+{{ if not $pluraldns }}
+dnsSolver:
+  {{ toYaml .Values.certmanager_dnsSolver | nindent 2 }}
 {{ end }}
 {{ end }}
