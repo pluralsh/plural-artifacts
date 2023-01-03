@@ -1,0 +1,14 @@
+name: ingress-nginx-generic
+description: Installs ingress-nginx on a generic kubernetes cluster
+provider: GENERIC
+dependencies:
+- repo: bootstrap
+  name: generic-k8s
+sections:
+- name: ingress-nginx
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: ingress-nginx

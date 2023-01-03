@@ -1,0 +1,44 @@
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  description: ingress-nginx kubernetes setup
+  version: 0.1.0
+spec:
+  dependencies:
+  - name: aws-bootstrap
+    repo: bootstrap
+    type: terraform
+    version: '>= 0.1.1'
+    optional: true
+  - name: azure-bootstrap
+    repo: bootstrap
+    type: terraform
+    version: '>= 0.1.1'
+    optional: true
+  - name: equinix-bootstrap
+    repo: bootstrap
+    type: terraform
+    version: '>= 0.1.1'
+    optional: true
+  - name: gcp-bootstrap
+    repo: bootstrap
+    type: terraform
+    version: '>= 0.1.1'
+    optional: true
+  - name: kind-bootstrap
+    repo: bootstrap
+    type: terraform
+    version: '>= 0.1.1'
+    optional: true
+  - name: generic-kube
+    repo: bootstrap
+    type: terraform
+    version: '>= 0.1.0'
+    optional: true
+  providers:
+  - aws
+  - azure
+  - equinix
+  - gcp
+  - generic
+  - kind
