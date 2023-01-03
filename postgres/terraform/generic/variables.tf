@@ -43,7 +43,7 @@ variable "minio_access_key" {
 }
 
 variable "minio_secret_key" {
-  desdescription = "MinIO secret key"
+  description = "MinIO secret key"
   type = string
   sensitive = true
 }
