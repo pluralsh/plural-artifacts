@@ -1,5 +1,5 @@
 configAwsOrGcp:
-{{ if or (eq .Provider "aws") (eq .Provider "azure") (eq .Provider "equinix") (eq .Provider "kind") }}
+{{ if or (eq .Provider "aws") (eq .Provider "azure") (eq .Provider "equinix") (eq .Provider "kind") (eq .Provider "generic") }}
   wal_s3_bucket: {{ .Values.wal_bucket }}
 {{ else if eq .Provider "google" }}
   additional_secret_mount: postgres-gcp-creds
@@ -36,8 +36,16 @@ configConfigMap:
   AWS_S3_FORCE_PATH_STYLE: "true"
   AWS_ENDPOINT: http://minio.{{ $minioNamespace }}:9000
   {{- end }}
+  {{- if eq .Provider "generic" }}
+  AWS_S3_FORCE_PATH_STYLE: "true"
+  {{- if .ObjectStorage.Insecure }}
+  AWS_ENDPOINT: https://{{ .ObjectStorage.Endpoint }}
+  {{- else }}
+  AWS_ENDPOINT: http://{{ .ObjectStorage.Endpoint }}
+  {{- end }}
+  {{- end }}
 
-{{ if or (eq .Provider "azure") (eq .Provider "equinix") (eq .Provider "kind") }}
+{{ if or (eq .Provider "azure") (eq .Provider "equinix") (eq .Provider "kind") (eq .Provider "generic") }}
 configKubernetes:
   pod_environment_secret: plural-postgres-s3
 {{ end }}
@@ -52,7 +60,7 @@ configKubernetes:
         eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-postgres"
 {{- end }}
 
-{{ if or (eq .Provider "azure") (eq .Provider "equinix") (eq .Provider "kind") }}
+{{ if or (eq .Provider "azure") (eq .Provider "equinix") (eq .Provider "kind") (eq .Provider "generic") }}
 configSecret:
   enabled: true
   env:
