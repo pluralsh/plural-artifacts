@@ -6,7 +6,7 @@ notes: plural/notes.tpl
 gitUrl: https://gitlab.com/gitlab-org/gitlab
 homepage: https://about.gitlab.com/
 oauthSettings:
-  uriFormat: https://{domain}/users/auth/plural/callback
+  uriFormat: https://{domain}/users/auth/openid_connect/callback
   authMethod: BASIC
 tags:
 - tag: ci
