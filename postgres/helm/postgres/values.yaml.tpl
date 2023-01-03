@@ -39,9 +39,9 @@ configConfigMap:
   {{- if eq .Provider "generic" }}
   AWS_S3_FORCE_PATH_STYLE: "true"
   {{- if .ObjectStorage.Insecure }}
-  AWS_ENDPOINT: https://{{ .ObjectStorage.Endpoint }}
+  AWS_ENDPOINT: https://{{ .ObjectStore.Endpoint }}
   {{- else }}
-  AWS_ENDPOINT: http://{{ .ObjectStorage.Endpoint }}
+  AWS_ENDPOINT: http://{{ .ObjectStore.Endpoint }}
   {{- end }}
   {{- end }}
 
