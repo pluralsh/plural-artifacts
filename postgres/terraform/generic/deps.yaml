@@ -1,0 +1,16 @@
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  description: postgres generic k8s setup
+  version: 0.1.0
+spec:
+  dependencies:
+  - name: generic-kube
+    repo: bootstrap
+    type: terraform
+    version: '>= 0.1.0'
+  providers:
+  - generic
+  outputs:
+    access_key_id: access_key_id
+    secret_access_key: secret_access_key
