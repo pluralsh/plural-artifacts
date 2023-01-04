@@ -88,7 +88,7 @@ module "multi_az_node_groups" {
 resource "aws_eks_addon" "vpc_cni" {
   cluster_name = module.cluster.cluster_id
   addon_name   = "vpc-cni"
-  addon_version     = "v1.11.3-eksbuild.1"
+  addon_version     = var.vpc_cni_addon_version
   resolve_conflicts = "OVERWRITE"
   tags = {
       "eks_addon" = "vpc-cni"
@@ -102,7 +102,7 @@ resource "aws_eks_addon" "vpc_cni" {
 resource "aws_eks_addon" "core_dns" {
   cluster_name      = module.cluster.cluster_id
   addon_name        = "coredns"
-  addon_version     = "v1.8.4-eksbuild.1"
+  addon_version     = var.core_dns_addon_version
   resolve_conflicts = "OVERWRITE"
   tags = {
       "eks_addon" = "coredns"
@@ -116,7 +116,7 @@ resource "aws_eks_addon" "core_dns" {
 resource "aws_eks_addon" "kube_proxy" {
   cluster_name      = module.cluster.cluster_id
   addon_name        = "kube-proxy"
-  addon_version     = "v1.21.14-eksbuild.2"
+  addon_version     = var.kube_proxy_addon_version
   resolve_conflicts = "OVERWRITE"
   tags = {
       "eks_addon" = "kube-proxy"
