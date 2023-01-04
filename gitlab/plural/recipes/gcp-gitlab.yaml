@@ -3,7 +3,7 @@ description: Installs gitlab on a GKE cluster
 provider: GCP
 oidcSettings:
   authMethod: BASIC
-  uriFormat: https://gitlab.{subdomain}/users/auth/plural/callback
+  uriFormat: https://gitlab.{subdomain}/users/auth/openid_connect/callback
   subdomain: true
 dependencies:
 - repo: bootstrap

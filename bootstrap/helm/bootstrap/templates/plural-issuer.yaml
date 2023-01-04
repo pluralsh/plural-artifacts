@@ -1,4 +1,4 @@
-{{ if .Values.acme }}
+{{ if and .Values.acme .Values.acme.enabled }}
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
