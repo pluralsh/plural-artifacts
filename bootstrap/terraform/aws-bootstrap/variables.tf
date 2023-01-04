@@ -7,6 +7,12 @@ Name for the vpc for the cluster
 EOF
 }
 
+variable "kubernetes_version" {
+  type = string
+  description = "Kubernetes version to use for the cluster"
+  default = "1.22"
+}
+
 variable "cluster_name" {
   type = string
   default = "plural"
