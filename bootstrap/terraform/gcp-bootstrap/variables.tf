@@ -318,3 +318,9 @@ variable "datapath_provider" {
   description = "The desired datapath provider for this cluster. By default, `DATAPATH_PROVIDER_UNSPECIFIED` enables the IPTables-based kube-proxy implementation. `ADVANCED_DATAPATH` enables Dataplane-V2 feature."
   default     = "ADVANCED_DATAPATH"
 }
+
+variable "release_channel" {
+  type        = string
+  description = "The release channel of this cluster. Accepted values are `UNSPECIFIED`, `RAPID`, `REGULAR` and `STABLE`. Defaults to `UNSPECIFIED`."
+  default     = null
+}
