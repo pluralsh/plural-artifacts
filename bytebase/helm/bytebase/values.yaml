@@ -4,6 +4,13 @@
 
 replicaCount: 1
 
+postgres:
+  enabled: true
+  team: plural
+  user: bytebase
+  dbName: bytebase
+  ownerChart: bytebase
+
 image:
   repository: bytebase/bytebase
   pullPolicy: IfNotPresent

@@ -11,7 +11,7 @@ sections:
   configuration:
   - name: hostname
     type: DOMAIN
-    documentation: fqdn you'll be deploying cal.com to
+    documentation: fqdn you'll be deploying bytebase to
   items:
   - type: TERRAFORM
     name: aws

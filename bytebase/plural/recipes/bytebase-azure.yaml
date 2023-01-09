@@ -4,14 +4,14 @@ provider: AZURE
 dependencies:
 - repo: bootstrap
   name: azure-k8s
-
 - repo: ingress-nginx
   name: ingress-nginx-azure
-
-
 sections:
 - name: bytebase
-  configuration: []
+  configuration:
+  - name: hostname
+    type: DOMAIN
+    documentation: fqdn you'll be deploying bytebase to
   items:
   - type: TERRAFORM
     name: azure
