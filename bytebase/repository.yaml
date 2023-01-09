@@ -1,0 +1,6 @@
+name: bytebase
+description: bytebase deployed on plural
+category: DEVOPS
+private: true
+icon: plural/icons/bytebase.png
+notes: plural/notes.tpl

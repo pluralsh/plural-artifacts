@@ -1,0 +1,1 @@
+Use `plural watch bytebase` to track the status of your application
