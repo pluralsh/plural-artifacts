@@ -4,14 +4,14 @@ provider: AWS
 dependencies:
 - repo: bootstrap
   name: aws-k8s
-
 - repo: ingress-nginx
   name: ingress-nginx-aws
-
-
 sections:
 - name: bytebase
-  configuration: []
+  configuration:
+  - name: hostname
+    type: DOMAIN
+    documentation: fqdn you'll be deploying cal.com to
   items:
   - type: TERRAFORM
     name: aws
