@@ -14,6 +14,6 @@ sections:
     documentation: fqdn you'll be deploying bytebase to
   items:
   - type: TERRAFORM
-    name: azure
+    name: kube
   - type: HELM
     name: bytebase
