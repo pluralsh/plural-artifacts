@@ -20,7 +20,7 @@ global:
 replicaCount: 1
 
 airbyte:
-  version: 0.40.26
+  version: 0.40.27
 
   postgresql:
     enabled: false
@@ -51,7 +51,7 @@ airbyte:
   worker:
     image:
       repository: dkr.plural.sh/airbyte/airbyte/worker
-      tag: 0.40.26
+      tag: 0.40.27
     
     log:
       level: INFO
@@ -59,12 +59,12 @@ airbyte:
   cron:
     image:
       repository: dkr.plural.sh/airbyte/airbyte/cron
-      tag: 0.40.26
+      tag: 0.40.27
 
   server:
     image:
       repository: dkr.plural.sh/airbyte/airbyte/server
-      tag: 0.40.26
+      tag: 0.40.27
     
     log:
       level: INFO
@@ -72,28 +72,28 @@ airbyte:
   connector-builder-server:
     image:
       repository: dkr.plural.sh/airbyte/airbyte/connector-builder-server
-      tag: 0.40.26
+      tag: 0.40.27
 
   airbyte-bootloader:
     image:
       repository: dkr.plural.sh/airbyte/airbyte/bootloader
-      tag: 0.40.26
+      tag: 0.40.27
 
   pod-sweeper:
     image:
-      repository: dkr.plural.sh/airbyte/bitnami/kubectl #TODO: change this image
+      repository: dkr.plural.sh/airbyte/bitnami/kubectl
       tag: 1.25.5
 
   metrics:
     enabled: true
     image:
       repository: dkr.plural.sh/airbyte/airbyte/metrics-reporter
-      tag: 0.40.26
+      tag: 0.40.27
 
   webapp:
     image:
       repository: dkr.plural.sh/airbyte/airbyte/webapp
-      tag: 0.40.26
+      tag: 0.40.27
 
     ingress:
       enabled: false

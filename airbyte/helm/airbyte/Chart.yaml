@@ -3,10 +3,10 @@ name: airbyte
 description: Unified data integration platform
 type: application
 version: 0.3.4
-appVersion: 0.40.26
+appVersion: 0.40.27
 dependencies:
 - name: airbyte
-  version: 0.43.6
+  version: 0.43.13
   repository: https://airbytehq.github.io/helm-charts
 - name: postgres
   version: 0.1.11
