@@ -94,8 +94,6 @@ airbyte:
     image:
       repository: dkr.plural.sh/airbyte/airbyte/webapp
       tag: 0.40.26
-    podLabels:
-      airbyte: webapp # TODO: this is here for backwards compatibility, remove in the future
 
     ingress:
       enabled: false

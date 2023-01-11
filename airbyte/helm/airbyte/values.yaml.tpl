@@ -93,7 +93,6 @@ airbyte:
     {{ end }}
     {{ end }}
     ingress:
-      enabled: false
       {{- if eq .Provider "kind" }}
       annotations:
         external-dns.alpha.kubernetes.io/target: "127.0.0.1"
