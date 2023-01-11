@@ -1,8 +1,9 @@
 lightdash:
-  configMap: false
   postgresql:
     enabled: false
-    #secretName: lightdash.plural-lightdash.credentials.postgresql.acid.zalan.do
+    secretName: lightdash.plural-lightdash.credentials.postgresql.acid.zalan.do
+  configMap:
+    PGSSLMODE: no-verify
   externalDatabase:
     existingSecret: lightdash.plural-lightdash.credentials.postgresql.acid.zalan.do
     existingSecretPasswordKey: postgresql-password
@@ -11,7 +12,7 @@ lightdash:
     password: "changeme"
     database: lightdash
     port: 5432
-    sslmode: no-verify
+    sslmode: disable
   #configMap:
     #PGSSLMODE: "prefer"
     # Example connection details for Lightdash postgres database - Change me!
