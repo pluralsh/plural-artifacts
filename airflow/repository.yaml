@@ -3,6 +3,7 @@ description: Open-source workflow management system that allows data engineers t
 category: DATA
 icon: plural/icons/airflow.png
 notes: plural/notes.tpl
+docs: plural/docs
 gitUrl: https://github.com/apache/airflow
 homepage: https://airflow.apache.org/
 oauthSettings:
