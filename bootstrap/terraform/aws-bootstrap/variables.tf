@@ -7,6 +7,30 @@ Name for the vpc for the cluster
 EOF
 }
 
+variable "kubernetes_version" {
+  type = string
+  description = "Kubernetes version to use for the cluster"
+  default = "1.22"
+}
+
+variable "vpc_cni_addon_version" {
+  type = string
+  default = "v1.12.0-eksbuild.2"
+  description = "The version of the VPC-CNI addon to use"
+}
+
+variable "core_dns_addon_version" {
+  type = string
+  default = "v1.8.7-eksbuild.1"
+  description = "The version of the CoreDNS addon to use"
+}
+
+variable "kube_proxy_addon_version" {
+  type = string
+  default = "v1.22.16-eksbuild.3"
+  description = "The version of the kube-proxy addon to use"
+}
+
 variable "cluster_name" {
   type = string
   default = "plural"
@@ -40,6 +64,13 @@ variable "worker_private_subnets" {
   default = ["10.0.16.0/20", "10.0.32.0/20", "10.0.48.0/20"]
 
   description = "Private subnets for the workers of the EKS cluster"
+}
+
+variable "database_subnets" {
+  type = list(string)
+  default = []
+
+  description = "A list of database subnets"
 }
 
 variable "instance_types" {
@@ -110,7 +141,7 @@ variable "node_groups_defaults" {
 
     instance_types = ["t3.large", "t3a.large"]
     disk_size = 50
-    ami_release_version = "1.21.5-20220123"
+    ami_release_version = "1.22.15-20221222"
     force_update_version = true
     ami_type = "AL2_x86_64"
     k8s_labels = {}
@@ -133,6 +164,33 @@ variable "single_az_node_groups" {
         "plural.sh/scalingGroup" = "small-burst-on-demand"
       }
     }
+    medium_burst_on_demand = {
+      name = "medium-burst-on-demand"
+      instance_types = ["t3.xlarge", "t3a.xlarge"]
+      capacity_type = "ON_DEMAND"
+      k8s_labels = {
+        "plural.sh/capacityType" = "ON_DEMAND"
+        "plural.sh/performanceType" = "BURST"
+        "plural.sh/scalingGroup" = "medium-burst-on-demand"
+      }
+    }
+    large_burst_on_demand = {
+      name = "large-burst-on-demand"
+      instance_types = ["t3.2xlarge", "t3a.2xlarge"]
+      capacity_type = "ON_DEMAND"
+      k8s_labels = {
+        "plural.sh/capacityType" = "ON_DEMAND"
+        "plural.sh/performanceType" = "BURST"
+        "plural.sh/scalingGroup" = "large-burst-on-demand"
+      }
+    }
+  }
+  description = "Node groups to add to your cluster. A single managed node group will be created in each availability zone."
+}
+
+variable "multi_az_node_groups" {
+  type = any
+  default = {
     small_burst_spot = {
       name = "small-burst-spot"
       capacity_type = "SPOT"
@@ -148,16 +206,6 @@ variable "single_az_node_groups" {
         effect = "NO_SCHEDULE"
       }]
     }
-    medium_burst_on_demand = {
-      name = "medium-burst-on-demand"
-      instance_types = ["t3.xlarge", "t3a.xlarge"]
-      capacity_type = "ON_DEMAND"
-      k8s_labels = {
-        "plural.sh/capacityType" = "ON_DEMAND"
-        "plural.sh/performanceType" = "BURST"
-        "plural.sh/scalingGroup" = "medium-burst-on-demand"
-      }
-    }
     medium_burst_spot = {
       name = "medium-burst-spot"
       instance_types = ["t3.xlarge", "t3a.xlarge"]
@@ -172,16 +220,6 @@ variable "single_az_node_groups" {
         value = "SPOT"
         effect = "NO_SCHEDULE"
       }]
-    }
-    large_burst_on_demand = {
-      name = "large-burst-on-demand"
-      instance_types = ["t3.2xlarge", "t3a.2xlarge"]
-      capacity_type = "ON_DEMAND"
-      k8s_labels = {
-        "plural.sh/capacityType" = "ON_DEMAND"
-        "plural.sh/performanceType" = "BURST"
-        "plural.sh/scalingGroup" = "large-burst-on-demand"
-      }
     }
     large_burst_spot = {
       name = "large-burst-spot"
@@ -200,12 +238,6 @@ variable "single_az_node_groups" {
       }]
     }
   }
-  description = "Node groups to add to your cluster. A single managed node group will be created in each availability zone."
-}
-
-variable "multi_az_node_groups" {
-  type = any
-  default = {}
   description = "Node groups to add to your cluster. A single managed node group will be created across all availability zones."
 }
 
@@ -245,4 +277,10 @@ variable "manual_roles" {
 variable "namespace" {
   type = string
   default = "bootstrap"
+}
+
+variable "aws_region" {
+  type = string
+  default = "us-east-2"
+  description = "The region you wish to deploy to"
 }

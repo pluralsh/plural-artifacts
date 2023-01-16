@@ -20,7 +20,9 @@ argo-workflows:
         cert-manager.io/cluster-issuer: letsencrypt-prod
         nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
         nginx.ingress.kubernetes.io/use-regex: "true"
+        {{- if .OIDC }}
         nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+        {{- end }}
       hosts:
         - {{ .Values.hostname }}
       paths:
@@ -54,6 +56,7 @@ argo-workflows:
     podSecurityContext:
       fsGroup: 65534
   useStaticCredentials: false
+  {{- end }}
 artifactRepository:
   archiveLogs: true
   {{ if eq .Provider "aws" }}
@@ -80,13 +83,23 @@ artifactRepository:
   gcs:
     bucket: {{ .Values.workflowBucket | quote }}
   {{ end }}
+{{- if .OIDC }}
+adminServiceAccount:
+  annotations:
+    {{ if .Values.adminGroup }}
+    workflows.argoproj.io/rbac-rule: "'{{ .Values.adminGroup }}' in groups"
+    {{ else }}
+    workflows.argoproj.io/rbac-rule: "email in ['{{ .Values.adminEmail }}']"
+    {{ end }}
+    workflows.argoproj.io/rbac-rule-precedence: "1"
+{{- end }}
 serviceAccount:
   create: true
+  {{- if eq .Provider "aws" }}
   annotations:
-    workflows.argoproj.io/rbac-rule: "email in ['{{ .Values.adminEmail }}']"
-    workflows.argoproj.io/rbac-rule-precedence: "1"
     eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-argo-workflows"
-    {{ if eq .Provider "google" }}
-    iam.gke.io/gcp-service-account: {{ importValue "Terraform" "service_account_email" }}
-    {{ end }}
   {{- end }}
+  {{ if eq .Provider "google" }}
+  annotations:
+    iam.gke.io/gcp-service-account: {{ importValue "Terraform" "service_account_email" }}
+  {{ end }}

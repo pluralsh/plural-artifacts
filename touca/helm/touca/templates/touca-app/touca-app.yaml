@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Release.Name }}-touca-app
+  name: {{ .Release.Name }}-touca-app
+spec:
+  replicas: {{ .Values.toucaApp.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-touca-app
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-touca-app
+    spec:
+      containers:
+      - image: {{ .Values.global.dockerRepoName | default "touca" | lower }}/{{ .Values.global.dockerImageName }}:{{ .Values.global.dockerImageTag }}
+        name: {{ .Release.Name }}-touca-app
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - secretRef:
+            name: touca-env
+        env:
+        - name: ENV_FILE
+          value: prod
+        - name: WEBAPP_ROOT
+          value: "http://{{ .Release.Name }}-touca-app"
+        - name: MINIO_HOST
+          value: {{ .Release.Name }}-touca-minio
+        - name: REDIS_HOST
+          value: {{ .Release.Name }}-touca-redis
+        - name: MONGO_URI
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.mongoSecret }}
+              key: connectionString.standard

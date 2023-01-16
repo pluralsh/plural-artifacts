@@ -1,0 +1,227 @@
+# Default values for ray-cluster.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  repository: dkr.plural.sh/ray/rayproject/ray
+  tag: 2.0.0
+  pullPolicy: IfNotPresent
+
+nameOverride: ""
+fullnameOverride: ""
+
+imagePullSecrets: []
+  # - name: an-existing-secret
+
+dashboard:
+  enabled: true
+  port: 8265
+  ingress:
+    enabled: false
+    className: nginx
+    annotations:
+      kubernetes.io/tls-acme: "true"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+      nginx.ingress.kubernetes.io/proxy-buffer-size: 256k
+      nginx.ingress.kubernetes.io/use-regex: 'false'
+    hosts:
+     - host: example.com
+       paths:
+         - path: /
+           pathType: ImplementationSpecific
+    tls:
+     - secretName: ray-dashboard-tls
+       hosts:
+         - example.com
+
+autoscaling:
+  enabled: true
+  options:
+    upscalingMode: Default # can be Default or Conservative
+    idleTimeoutSeconds: 60
+    # image: "" # by default will be the same as the head server image
+    imagePullPolicy: IfNotPresent
+    resources:
+      limits:
+        cpu: 500m
+        memory: 512Mi
+      requests:
+        cpu: 500m
+        memory: 512Mi
+
+gitSync:
+  enabled: false
+  repo: ""
+  branch: main
+  period: 30s
+  password: ""
+  username: ""
+
+head:
+  serviceType: ClusterIP
+  labels: {}
+  annotations: {}
+  rayStartParams:
+    block: 'true'
+  container:
+    resources:
+      limits:
+        cpu: 2
+        memory: 2G
+      requests:
+        cpu: 500m
+        memory: 1G
+    env: []
+    envFrom: []
+    # - secretRef:
+    #     name: my-env-secret
+    extraPorts:
+    - containerPort: 8080
+      name: metrics
+      protocol: TCP
+    volumeMounts: []
+    # - mountPath: /tmp/ray
+    #   name: log-volume
+    lifecycle:
+      preStop:
+        exec:
+          command: ["/bin/sh","-c","ray stop"]
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  podSecurityContext: {}
+  volumes: []
+    # - name: log-volume
+    #   emptyDir: {}
+  initContainers: []
+  extraContainers: []
+
+workers:
+- groupName: small-group
+  image:
+    repository: dkr.plural.sh/ray/rayproject/ray
+    tag: 2.0.0
+  replicas: 0
+  minReplicas: 0
+  maxReplicas: 10
+  labels: {}
+  annotations: {}
+  rayStartParams:
+    block: 'true'
+  container:
+    resources:
+      limits:
+        cpu: 1
+        memory: 1G
+      requests:
+        cpu: 500m
+        memory: 512Mi
+    env: []
+    envFrom: []
+    # - secretRef:
+    #     name: my-env-secret
+    extraPorts: []
+    volumeMounts: []
+    # - mountPath: /tmp/ray
+    #   name: log-volume
+    lifecycle:
+      preStop:
+        exec:
+          command: ["/bin/sh","-c","ray stop"]
+  nodeSelector: {}
+  tolerations: []
+  # - key: "plural.sh/capacityType"
+  #   operator: "Equal"
+  #   value: "SPOT"
+  #   effect: "NoSchedule"
+  affinity: {}
+  #   nodeAffinity:
+  #     requiredDuringSchedulingIgnoredDuringExecution:
+  #       nodeSelectorTerms:
+  #       - matchExpressions:
+  #         - key: plural.sh/capacityType
+  #           operator: In
+  #           values:
+  #           - SPOT
+  securityContext: {}
+  volumes: []
+    # - name: log-volume
+    #   emptyDir: {}
+  initContainers: []
+  extraContainers: []
+
+metrics:
+  enabled: true
+  prometheusRule:
+    enabled: true
+
+# basic auth users, username: password.
+users: {}
+
+oauth2-proxy:
+  enabled: false
+  fullnameOverride: ray-oauth2-proxy
+  image:
+    repository: dkr.plural.sh/oauth2-proxy/oauth2-proxy/oauth2-proxy
+    tag: v7.3.0
+
+  resources:
+    limits:
+      memory: 50Mi
+    requests:
+      cpu: 25m
+      memory: 50Mi
+
+  htpasswdFile:
+    enabled: false
+    existingSecret: httpaswd-users
+
+  config:
+    clientID: "XXXXXXX"
+    clientSecret: "XXXXXXX"
+    cookieSecret: "XXXXXXX"
+    configFile: ""
+  extraEnv:
+  - name: OAUTH2_PROXY_EMAIL_DOMAINS
+    value: "*"
+  - name: OAUTH2_PROXY_SKIP_PROVIDER_BUTTON
+    value: "true"
+  extraVolumes:
+  - name: oidc-secret
+    secret:
+      secretName: ray-oauth2-proxy
+  extraVolumeMounts:
+  - mountPath: /etc/oidc-secret/
+    name: oidc-secret
+
+  metrics:
+    enabled: true
+    servicemonitor:
+      enabled: true
+
+  alphaConfig:
+    enabled: true
+    # Add config annotations
+    annotations: {}
+    # Arbitrary configuration data to append to the server section
+    serverConfigData: {}
+    # Arbitrary configuration data to append to the metrics section
+    metricsConfigData: {}
+    # Arbitrary configuration data to append
+    configData:
+      providers:
+      - id: plural
+        name: Plural
+        provider: "oidc"
+        clientID: "XXXXXXX"
+        clientSecretFile: /etc/oidc-secret/client-secret
+        scope: "openid profile offline_access"
+        oidcConfig:
+          issuerURL: https://oidc.plural.sh/
+          emailClaim: email
+          groupsClaim: groups
+          userIDClaim: email
+          audienceClaims:
+          - aud
+    existingConfig: ray-oauth2-proxy-config

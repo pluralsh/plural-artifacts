@@ -1,7 +1,7 @@
 REPO elasticsearch
+ATTRIBUTES Plural repository.yaml
 
 TF terraform/*
 HELM helm/*
-CRD plural/crds/* helm/elasticsearch
 RECIPE plural/recipes/*
 TAG plural/tags/**/*

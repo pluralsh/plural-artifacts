@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-yugabytedb-dashboard
+  labels: {{ include "yugabyte-plural.labels" . | nindent 4 }}
+    grafana_dashboard: grafana-yugabytedb-dashboard
+  annotations:
+    k8s-sidecar-target-directory: /tmp/dashboards/YugabyteDB Dashboards
+data:
+  grafana-yugabytedb-dashboard.json: |-
+{{ .Files.Get "grafana-dashboards/yugabytedb_rev2.json" | indent 4 }}

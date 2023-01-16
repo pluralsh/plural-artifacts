@@ -1,5 +1,11 @@
 ingress-nginx:
   controller:
+    image:
+      registry: dkr.plural.sh/ingress-nginx
+      image: ingress-nginx/controller
+      tag: v1.5.1
+      digest: null
+      digestChroot: null
     admissionWebhooks:
       enabled: false
     config:
@@ -26,7 +32,7 @@ ingress-nginx:
     resources:
       requests:
         cpu: 100m
-        memory: 120Mi
+        memory: 250Mi
     topologySpreadConstraints:
     - maxSkew: 1
       topologyKey: topology.kubernetes.io/zone
@@ -38,7 +44,7 @@ ingress-nginx:
       enabled: true
       minReplicas: 2
       maxReplicas: 11
-      targetCPUUtilizationPercentage: 50
+      targetCPUUtilizationPercentage: ""
       targetMemoryUtilizationPercentage: 95
       behavior:
         scaleDown:

@@ -1,12 +1,12 @@
 dependencies:
+- name: config-overlays
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.1
 - name: argo-cd
   repository: https://argoproj.github.io/argo-helm
-  version: 3.17.4
+  version: 5.14.1
 - name: argocd-image-updater
-  repository: file://../../../../argo-helm/charts/argocd-image-updater/
-  version: 0.1.1
-- name: argocd-notifications
   repository: https://argoproj.github.io/argo-helm
-  version: 1.5.0
-digest: sha256:dcb9423da23bbba5f297623ff9b6cf64aba5ebf085e0cd8ac875e67533368ff0
-generated: "2021-09-02T13:28:34.179196335+02:00"
+  version: 0.8.1
+digest: sha256:b93d154c30b8de149cf8ae330bb14af0ef7bc30594c90822b0b8f3237312bf47
+generated: "2022-11-22T14:48:33.272116+01:00"

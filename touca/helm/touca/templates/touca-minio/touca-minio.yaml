@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Release.Name }}-touca-minio
+  name: {{ .Release.Name }}-touca-minio
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-touca-minio
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-touca-minio
+    spec:
+      containers:
+      - image: minio/minio:RELEASE.2021-03-17T02-33-02Z
+        name: {{ .Release.Name }}-touca-minio
+        envFrom:
+        - secretRef:
+            name: touca-env
+        command: [ "minio"]
+        args: [ "server", "/data"]
+        volumeMounts:
+        - mountPath: /data/
+          name: minio-volume
+      volumes:
+      - name: minio-volume
+        persistentVolumeClaim:
+          claimName: touca-ebs

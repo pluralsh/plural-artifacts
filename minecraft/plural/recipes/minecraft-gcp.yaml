@@ -1,0 +1,17 @@
+name: minecraft-gcp
+description: Installs minecraft on an aws eks cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+sections:
+- name: minecraft
+  configuration:
+  - name: hostname
+    documentation: fqdn for your metabase instance
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: minecraft

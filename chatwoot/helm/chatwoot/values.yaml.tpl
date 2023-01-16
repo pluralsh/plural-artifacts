@@ -16,27 +16,10 @@ chatwoot:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-chatwoot"
     {{- end }}
-  postgresql:
-    enabled: false
-    postgresqlHost: plural-postgres-chatwoot
-    postgresqlPort: 5432
-    postgresqlDatabase: chatwoot
-    postgresqlUsername: chatwoot
-    existingSecret: chatwoot.plural-postgres-chatwoot.credentials.postgresql.acid.zalan.do
-    existingSecretKey: password
   redis:
-    enabled: false
     host: redis-master.{{ $redisNamespace }}
     password: {{ $redisValues.redis.password }}
-    port: 6379
   ingress:
-    enabled: true
-    annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-prod
-      kubernetes.io/ingress.class: nginx
-      kubernetes.io/tls-acme: "true"
-      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     hosts:
       - host: {{ .Values.hostname }}
         paths:

@@ -4,19 +4,20 @@ provider: GCP
 dependencies:
 - repo: bootstrap
   name: gcp-k8s
-
 - repo: ingress-nginx
   name: ingress-nginx-gcp
-
 - repo: postgres
   name: gcp-postgres
-
 sections:
 - name: strapi
   configuration:
   - name: hostname
     documentation: domain on which you'd like to host strapi's page
     type: DOMAIN
+  - name: strapiBucket
+    documentation: bucket for uploading images and files
+    type: BUCKET
+    default: strapi
   items:
   - type: TERRAFORM
     name: gcp

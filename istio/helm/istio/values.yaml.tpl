@@ -98,14 +98,17 @@ provider: {{ .Provider }}
 
 {{ $monitoringNamespace := namespace "monitoring" }}
 {{ $grafanaNamespace := namespace "grafana" }}
+{{- if index .Configuration "grafana-tempo" }}
 {{ $tempoNamespace := namespace "grafana-tempo" }}
-{{ $grafanaCreds := secret $grafanaNamespace "grafana-credentials" }}
+{{- end }}
 monitoring:
   namespace: {{ $monitoringNamespace }}
   grafama:
     namespace: {{ $grafanaNamespace }}
   tracing:
+    {{- if index .Configuration "grafana-tempo" }}
     tempoNamespace: {{ $tempoNamespace }}
+    {{- end }}
 
 kiali-server:
   {{/* {{ if .OIDC }}
@@ -153,15 +156,18 @@ kiali-server:
     prometheus:
       url: http://monitoring-prometheus.{{ $monitoringNamespace }}:9090
     {{ if .Configuration.grafana }}
+    {{ $grafanaValues := .Applications.HelmValues "grafana" }}
     grafana:
       auth:
-        username: {{ ( index $grafanaCreds "admin-user") }}
-        password: {{ ( index $grafanaCreds "admin-password") }}
+        username: {{ $grafanaValues.grafana.grafana.admin.user }}
+        password: {{ $grafanaValues.grafana.grafana.admin.password }}
       url: https://{{ .Configuration.grafana.hostname }}
       in_cluster_url: http://grafana.{{ $grafanaNamespace }}:80
     {{  end }}
+    {{- if index .Configuration "grafana-tempo" }}
     tracing:
       in_cluster_url: http://grafana-tempo-tempo-distributed-query-frontend.{{ $tempoNamespace }}:16686
+    {{- end }}
 
 {{ if .Configuration.kubeflow }}
 {{ $kubeflowNamespace := namespace "kubeflow" }}

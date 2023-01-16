@@ -55,6 +55,12 @@ externalDnsIdentityClientId: {{ importValue "Terraform" "externaldns_msi_client_
 
 pluralToken: {{ .Config.Token }}
 
+{{ if .Acme }}
+acme:
+  kid: {{ .Acme.KeyId }}
+  secret: {{ .Acme.Secret }}
+{{ end }}
+
 {{ if $pluraldns }}
 {{ $eab := eabCredential $providerArgs.cluster $providerArgs.provider }}
 acmeServer: https://acme.zerossl.com/v2/DV90
@@ -73,10 +79,9 @@ regcreds:
 provider: {{ .Provider }}
 ownerEmail: {{ .Config.Email }}
 
-cluster-autoscaler:
 {{ if eq (default "google" .Provider) "aws" }}
+cluster-autoscaler:
   enabled: true
-{{ end }}
   awsRegion: {{ .Region }}
 
   rbac:
@@ -91,6 +96,7 @@ cluster-autoscaler:
   autoDiscovery:
     clusterName: {{ .Cluster }}
     enabled: true
+{{ end }}
 
 {{ if eq .Provider "aws"}}
 tigera-operator:

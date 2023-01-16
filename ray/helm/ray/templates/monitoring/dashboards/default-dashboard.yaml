@@ -1,0 +1,13 @@
+{{- if .Values.metrics.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ray-default-dashboard
+  labels: {{ include "ray.labels" . | nindent 4 }}
+    grafana_dashboard: ray-default-dashboard
+  annotations:
+    k8s-sidecar-target-directory: /tmp/dashboards/Ray Dashboards
+data:
+  ray-default-dashboard.json: |-
+{{ .Files.Get "grafana-dashboards/dashboard_default.json" | indent 4 }}
+{{- end }}

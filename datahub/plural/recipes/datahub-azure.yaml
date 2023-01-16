@@ -1,0 +1,29 @@
+name: datahub-azure
+description: Installs datahub on an azure eks cluster
+provider: AZURE
+oidcSettings:
+  authMethod: POST
+  uriFormat: https://{domain}/callback/oidc
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-azure
+- repo: postgres
+  name: azure-postgres
+- name: elasticsearch-azure
+  repo: elasticsearch
+- repo: kafka
+  name: azure-kafka
+sections:
+- name: datahub
+  configuration:
+  - name: hostname
+    documentation: domain on which you'd like to host datahub's page
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: datahub

@@ -4,8 +4,6 @@ metadata:
   name: operatorconfigurations.acid.zalan.do
   labels:
     app.kubernetes.io/name: postgres-operator
-  annotations:
-    "helm.sh/hook": crd-install
 spec:
   group: acid.zalan.do
   names:
@@ -63,11 +61,20 @@ spec:
           configuration:
             type: object
             properties:
+              crd_categories:
+                type: array
+                nullable: true
+                items:
+                  type: string
               docker_image:
                 type: string
-                default: "registry.opensource.zalan.do/acid/spilo-13:2.0-p7"
+                default: "registry.opensource.zalan.do/acid/spilo-14:2.1-p6"
+              enable_crd_registration:
+                type: boolean
+                default: true
               enable_crd_validation:
                 type: boolean
+                description: deprecated
                 default: true
               enable_lazy_spilo_upgrade:
                 type: boolean
@@ -84,16 +91,20 @@ spec:
               etcd_host:
                 type: string
                 default: ""
+              ignore_instance_limits_annotation_key:
+                type: string
               kubernetes_use_configmaps:
                 type: boolean
                 default: false
               max_instances:
                 type: integer
-                minimum: -1  # -1 = disabled
+                description: "-1 = disabled"
+                minimum: -1
                 default: -1
               min_instances:
                 type: integer
-                minimum: -1  # -1 = disabled
+                description: "-1 = disabled"
+                minimum: -1
                 default: -1
               resync_period:
                 type: string
@@ -121,6 +132,20 @@ spec:
               users:
                 type: object
                 properties:
+                  additional_owner_roles:
+                    type: array
+                    nullable: true
+                    items:
+                      type: string
+                  enable_password_rotation:
+                    type: boolean
+                    default: false
+                  password_rotation_interval:
+                    type: integer
+                    default: 90
+                  password_rotation_user_retention:
+                    type: integer
+                    default: 180
                   replication_username:
                      type: string
                      default: standby
@@ -133,12 +158,16 @@ spec:
                   major_version_upgrade_mode:
                     type: string
                     default: "off"
+                  major_version_upgrade_team_allow_list:
+                    type: array
+                    items:
+                      type: string
                   minimal_major_version:
                     type: string
-                    default: "9.5"
+                    default: "9.6"
                   target_major_version:
                     type: string
-                    default: "13"
+                    default: "14"
               kubernetes:
                 type: object
                 properties:
@@ -170,6 +199,9 @@ spec:
                     type: array
                     items:
                       type: string
+                  enable_cross_namespace_secret:
+                    type: boolean
+                    default: false
                   enable_init_containers:
                     type: boolean
                     default: true
@@ -182,6 +214,10 @@ spec:
                   enable_sidecars:
                     type: boolean
                     default: true
+                  ignored_annotations:
+                    type: array
+                    items:
+                      type: string
                   infrastructure_roles_secret_name:
                     type: string
                   infrastructure_roles_secrets:
@@ -218,6 +254,139 @@ spec:
                     type: array
                     items:
                       type: string
+                  liveness_probe:
+                    description: Probe describes a health check to be performed against
+                      a container to determine whether it is alive or ready to receive
+                      traffic.
+                    properties:
+                      exec:
+                        description: One and only one of the following should be specified.
+                          Exec specifies the action to take.
+                        properties:
+                          command:
+                            description: Command is the command line to execute inside
+                              the container, the working directory for the command  is
+                              root ('/') in the container's filesystem. The command
+                              is simply exec'd, it is not run inside a shell, so traditional
+                              shell instructions ('|', etc) won't work. To use a shell,
+                              you need to explicitly call out to that shell. Exit
+                              status of 0 is treated as live/healthy and non-zero
+                              is unhealthy.
+                            items:
+                              type: string
+                            type: array
+                        type: object
+                      failureThreshold:
+                        description: Minimum consecutive failures for the probe to
+                          be considered failed after having succeeded. Defaults to
+                          3. Minimum value is 1.
+                        format: int32
+                        type: integer
+                      httpGet:
+                        description: HTTPGet specifies the http request to perform.
+                        properties:
+                          host:
+                            description: Host name to connect to, defaults to the
+                              pod IP. You probably want to set "Host" in httpHeaders
+                              instead.
+                            type: string
+                          httpHeaders:
+                            description: Custom headers to set in the request. HTTP
+                              allows repeated headers.
+                            items:
+                              description: HTTPHeader describes a custom header to
+                                be used in HTTP probes
+                              properties:
+                                name:
+                                  description: The header field name
+                                  type: string
+                                value:
+                                  description: The header field value
+                                  type: string
+                              required:
+                              - name
+                              - value
+                              type: object
+                            type: array
+                          path:
+                            description: Path to access on the HTTP server.
+                            type: string
+                          port:
+                            anyOf:
+                            - type: integer
+                            - type: string
+                            description: Name or number of the port to access on the
+                              container. Number must be in the range 1 to 65535. Name
+                              must be an IANA_SVC_NAME.
+                            x-kubernetes-int-or-string: true
+                          scheme:
+                            description: Scheme to use for connecting to the host.
+                              Defaults to HTTP.
+                            type: string
+                        required:
+                        - port
+                        type: object
+                      initialDelaySeconds:
+                        description: 'Number of seconds after the container has started
+                          before liveness probes are initiated. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes'
+                        format: int32
+                        type: integer
+                      periodSeconds:
+                        description: How often (in seconds) to perform the probe.
+                          Default to 10 seconds. Minimum value is 1.
+                        format: int32
+                        type: integer
+                      successThreshold:
+                        description: Minimum consecutive successes for the probe to
+                          be considered successful after having failed. Defaults to
+                          1. Must be 1 for liveness and startup. Minimum value is
+                          1.
+                        format: int32
+                        type: integer
+                      tcpSocket:
+                        description: 'TCPSocket specifies an action involving a TCP
+                          port. TCP hooks not yet supported TODO: implement a realistic
+                          TCP lifecycle hook'
+                        properties:
+                          host:
+                            description: 'Optional: Host name to connect to, defaults
+                              to the pod IP.'
+                            type: string
+                          port:
+                            anyOf:
+                            - type: integer
+                            - type: string
+                            description: Number or name of the port to access on the
+                              container. Number must be in the range 1 to 65535. Name
+                              must be an IANA_SVC_NAME.
+                            x-kubernetes-int-or-string: true
+                        required:
+                        - port
+                        type: object
+                      terminationGracePeriodSeconds:
+                        description: Optional duration in seconds the pod needs to
+                          terminate gracefully upon probe failure. The grace period
+                          is the duration in seconds after the processes running in
+                          the pod are sent a termination signal and the time when
+                          the processes are forcibly halted with a kill signal. Set
+                          this value longer than the expected cleanup time for your
+                          process. If this value is nil, the pod's terminationGracePeriodSeconds
+                          will be used. Otherwise, this value overrides the value
+                          provided by the pod spec. Value must be non-negative integer.
+                          The value zero indicates stop immediately via the kill signal
+                          (no opportunity to shut down). This is a beta field and
+                          requires enabling ProbeTerminationGracePeriod feature gate.
+                          Minimum value is 1. spec.terminationGracePeriodSeconds is
+                          used if unset.
+                        format: int64
+                        type: integer
+                      timeoutSeconds:
+                        description: 'Number of seconds after which the probe times
+                          out. Defaults to 1 second. Minimum value is 1. More info:
+                          https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes'
+                        format: int32
+                        type: integer
+                    type: object
                   master_pod_move_timeout:
                     type: string
                     default: "20m"
@@ -225,6 +394,11 @@ spec:
                     type: object
                     additionalProperties:
                       type: string
+                  node_readiness_label_merge:
+                    type: string
+                    enum:
+                      - "AND"
+                      - "OR"
                   oauth_token_secret_name:
                     type: string
                     default: "postgresql-operator"
@@ -280,6 +454,7 @@ spec:
                     type: string
                     enum:
                       - "ebs"
+                      - "mixed"
                       - "pvc"
                       - "off"
                     default: "pvc"
@@ -319,6 +494,12 @@ spec:
               timeouts:
                 type: object
                 properties:
+                  patroni_api_check_interval:
+                    type: string
+                    default: "1s"
+                  patroni_api_check_timeout:
+                    type: string
+                    default: "5s"
                   pod_label_wait_timeout:
                     type: string
                     default: "10m"
@@ -350,7 +531,13 @@ spec:
                   enable_master_load_balancer:
                     type: boolean
                     default: true
+                  enable_master_pooler_load_balancer:
+                    type: boolean
+                    default: false
                   enable_replica_load_balancer:
+                    type: boolean
+                    default: false
+                  enable_replica_pooler_load_balancer:
                     type: boolean
                     default: false
                   external_traffic_policy:
@@ -388,6 +575,8 @@ spec:
                     type: string
                   log_s3_bucket:
                     type: string
+                  wal_az_storage_account:
+                    type: string
                   wal_gs_bucket:
                     type: string
                   wal_s3_bucket:
@@ -397,7 +586,7 @@ spec:
                 properties:
                   logical_backup_docker_image:
                     type: string
-                    default: "registry.opensource.zalan.do/acid/logical-backup:v1.6.3"
+                    default: "registry.opensource.zalan.do/acid/logical-backup:v1.8.2"
                   logical_backup_google_application_credentials:
                     type: string
                   logical_backup_job_prefix:
@@ -417,6 +606,8 @@ spec:
                   logical_backup_s3_secret_access_key:
                     type: string
                   logical_backup_s3_sse:
+                    type: string
+                  logical_backup_s3_retention_time:
                     type: string
                   logical_backup_schedule:
                     type: string
@@ -468,6 +659,7 @@ spec:
                       type: string
                     default:
                     - admin
+                    - cron_admin
                   role_deletion_suffix:
                     type: string
                     default: "_deleted"
@@ -532,7 +724,7 @@ spec:
                     default: "pooler"
                   connection_pooler_image:
                     type: string
-                    default: "registry.opensource.zalan.do/acid/pgbouncer:master-16"
+                    default: "registry.opensource.zalan.do/acid/pgbouncer:master-22"
                   connection_pooler_max_db_connections:
                     type: integer
                     default: 60

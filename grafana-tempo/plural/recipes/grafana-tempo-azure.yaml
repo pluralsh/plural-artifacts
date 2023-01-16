@@ -1,6 +1,7 @@
 name: grafana-tempo-azure
 description: Installs grafana-tempo on an azure aks cluster
 provider: GCP
+private: true
 dependencies:
 - repo: bootstrap
   name: azure-k8s

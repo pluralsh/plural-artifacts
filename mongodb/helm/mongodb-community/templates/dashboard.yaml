@@ -1,0 +1,115 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Dashboard
+metadata:
+  name: mongodb
+  labels:
+  {{ include "mongodb.labels" . | nindent 4 }}
+spec:
+  defaultTime: 1h
+  graphs:
+  - name: Uptime (minutes)
+    queries:
+    - legend: Uptime
+      query: mongodb_uptimeMillis
+  - name: Connections
+    queries:
+    - legend: Available
+      query: mongodb_connections_available
+    - legend: Active
+      query: mongodb_connections_active
+  - name: Mongo Pods Memory Usage in GB / Total Available on Cluster
+    queries:
+    - legend: Working
+      query: |
+        sum(container_memory_working_set_bytes{pod=~"$Cluster.*", container=~"mongodb.*"})
+    - legend: Available
+      query: :node_memory_MemAvailable_bytes:sum
+  - name: Mongo Pods CPU Usage / Total Available on Cluster
+    queries:
+    - legend: Usage
+      query: sum(rate(container_cpu_usage_seconds_total{pod=~"$Cluster.*", image!~"sha.*",
+        container=~"mongo.*"}[5m]))
+    - legend: Available
+      query: cluster:node_cpu:sum_rate5m
+  - name: Catalog Stats
+    queries:
+    - legend: Collections
+      query: max(mongodb_catalogStats_collections{pod=~"$Cluster.*"})
+    - legend: Capped Collections
+      query: max(mongodb_catalogStats_capped{pod=~"$Cluster.*"})
+    - legend: Timeseries
+      query: max(mongodb_catalogStats_timeseries{pod=~"$Cluster.*"})
+    - legend: Views
+      query: max(mongodb_catalogStats_views{pod=~"$Cluster.*"})
+  - name: Global Locks
+    queries:
+    - legend: Total
+      query: sum(mongodb_globalLock_activeClients_total{pod=~"$Cluster.*"})
+    - legend: Readers
+      query: sum(mongodb_globalLock_activeClients_readers{pod=~"$Cluster.*"})
+    - legend: Writers
+      query: sum(mongodb_globalLock_activeClients_writers{pod=~"$Cluster.*"})
+  - name: Cursors
+    queries:
+    - legendFormat: '$pod Open'
+      query: mongodb_metrics_cursor_open_total{pod=~"$Cluster.*"}
+    - legendFormat: '$pod Open No Timeout'
+      query: mongodb_metrics_cursor_open_noTimeout{pod=~"$Cluster.*"}
+    - legendFormat: '$pod Timed Out'
+      query: mongodb_metrics_cursor_timed_out{pod=~"$Cluster.*"}
+  - name: Documents
+    queries:
+    - legendFormat: '$pod Inserted'
+      query: mongodb_metrics_document_inserted{pod=~"$Cluster.*"}
+    - legendFormat: '$pod Returned'
+      query: mongodb_metrics_document_returned{pod=~"$Cluster.*"}
+    - legendFormat: '$pod Deleted'
+      query: mongodb_metrics_document_deleted{pod=~"$Cluster.*"}
+    - legendFormat: '$pod Updated'
+      query: mongodb_metrics_document_updated{pod=~"$Cluster.*"}
+  - name: Replication Network Usage
+    queries:
+    - legend: Total Usage
+      query: sum(mongodb_metrics_repl_network_bytes{pod=~"$Cluster.*"})
+  - name: Replication Operations
+    queries:
+    - legend: ""
+      query: sum(mongodb_metrics_repl_network_ops{pod=~"$Cluster.*"})
+  - name: Network Usage
+    queries:
+    - legend: Bytes In
+      query: max(mongodb_network_bytesIn{pod=~"$Cluster.*"})
+    - legend: Bytes Out
+      query: max(mongodb_network_bytesOut{pod=~"$Cluster.*"})
+  - name: Latencies
+    queries:
+    - legend: Reads
+      query: max(mongodb_opLatencies_reads_latency{pod=~"$Cluster.*"})
+    - legend: Commands
+      query: max(mongodb_opLatencies_commands_latency{pod=~"$Cluster.*"})
+    - legend: Transactions
+      query: max(mongodb_opLatencies_transactions_latency{pod=~"$Cluster.*"})
+    - legend: Writes
+      query: max(mongodb_opLatencies_writes_latency{pod=~"$Cluster.*"})
+  - name: Ops
+    queries:
+    - legend: Reads
+      query: max(mongodb_opLatencies_reads_ops{pod=~"$Cluster.*"})
+    - legend: Commands
+      query: max(mongodb_opLatencies_commands_ops{pod=~"$Cluster.*"})
+    - legend: Transactions
+      query: max(mongodb_opLatencies_transactions_ops{pod=~"$Cluster.*"})
+    - legend: Writes
+      query: max(mongodb_opLatencies_writes_ops{pod=~"$Cluster.*"})
+  labels:
+  - name: Cluster
+    query:
+      query: mongodb_connections_available
+      label: cluster_name
+  name: MongoDB Dashboard
+  timeslices:
+  - 1h
+  - 2h
+  - 6h
+  - 1d
+  - 7d

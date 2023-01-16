@@ -1,0 +1,9 @@
+reloader:
+  reloader:
+    reloadStrategy: annotations
+    deployment:
+      image:
+        name: dkr.plural.sh/reloader/stakater/reloader
+        tag: v0.0.118
+    podMonitor:
+      enabled: true

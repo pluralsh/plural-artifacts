@@ -2,8 +2,9 @@ apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
   description: Creates an EKS cluster and prepares it for bootstrapping
-  version: 0.1.39
+  version: 0.1.47
 spec:
+  breaking: true
   dependencies: []
   providers:
   - aws
@@ -18,5 +19,9 @@ spec:
     worker_role_arn: worker_role_arn
     node_groups: node_groups
     cluster_oidc_issuer_url: cluster_oidc_issuer_url
+    vpc: vpc
+    cluster: cluster
+    cluster_service_ipv4_cidr: cluster_service_ipv4_cidr
+    vpc_cidr: vpc_cidr
   provider_wirings:
     cluster: module.aws-bootstrap.cluster_name

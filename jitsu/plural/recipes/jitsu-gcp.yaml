@@ -17,6 +17,9 @@ sections:
   - name: apiHostname
     documentation: domain on which you'd like to host jitsu's api
     type: DOMAIN
+  - name: airbyteEnabled
+    documentation: enable docker-in-docker airbyte support
+    type: BOOL
   items:
   - type: TERRAFORM
     name: gcp

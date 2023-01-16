@@ -1,0 +1,20 @@
+name: elasticsearch-gcp
+description: Installs elasticsearch on an eks cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+sections:
+- name: elasticsearch
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: elasticsearch
+  configuration:
+  - name: hostname
+    documentation: hostname for your kibana instance
+    type: DOMAIN
+  

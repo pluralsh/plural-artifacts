@@ -241,7 +241,7 @@ EOF
 
 variable "kubernetes_version" {
   type = string
-  default = "1.22.8-gke.201"
+  default = "1.22.16-gke.2000"
 }
 
 variable "vpc_subnetwork_cidr_range" {
@@ -317,4 +317,23 @@ variable "datapath_provider" {
   type        = string
   description = "The desired datapath provider for this cluster. By default, `DATAPATH_PROVIDER_UNSPECIFIED` enables the IPTables-based kube-proxy implementation. `ADVANCED_DATAPATH` enables Dataplane-V2 feature."
   default     = "ADVANCED_DATAPATH"
+}
+
+variable "release_channel" {
+  type        = string
+  description = "The release channel of this cluster. Accepted values are `UNSPECIFIED`, `RAPID`, `REGULAR` and `STABLE`. Defaults to `UNSPECIFIED`."
+  default     = null
+}
+
+variable "regional_cluster" {
+  type        = bool
+  description = "Whether is a regional cluster (zonal cluster if set false. WARNING: changing this after cluster creation is destructive!)"
+  default     = true
+}
+
+
+variable "cluster_zones" {
+  type        = list(string)
+  description = "The zones to host the cluster in (optional if regional cluster / required if zonal)"
+  default     = []
 }

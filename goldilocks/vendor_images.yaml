@@ -1,0 +1,4 @@
+quay.io:
+  images:
+    fairwinds/goldilocks:
+    - v4.3.3

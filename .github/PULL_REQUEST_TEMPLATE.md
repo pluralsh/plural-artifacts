@@ -14,5 +14,19 @@
 <!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
 <!--- If you're unsure about any of these, don't hesitate to ask in our Discord. -->
 
-- [ ] My change requires a change to the documentation and I have updated the documentation accordingly.
-- [ ] I have added tests to cover my changes.
+- [ ]  No images hosted from dockerhub
+- [ ]  Are dashboards present to understand the health of the application.  There **must** be at least 1 of these
+    - [ ]  all databases should have dashboards
+    - [ ]  ideally also have at least cpu/mem utilization dashboards for webserver tier of the app
+    - [ ]  you can use `plural from-grafana` to convert a grafana dashboard found via google to our CRD
+- [ ]  Are scaling runbooks present
+    - [ ]  all databases **must** have scaling runbooks
+    - [ ]  you can use the charts in `pluralsh/module-library` to accelerate this
+- [ ]  do you need to add config overlays?
+    - [ ]  inputing secrets
+    - [ ]  configuring autoscaling
+- [ ]  If there’s a web-facing component to the app, we need to support OIDC authentication and setting up private networks if no authentication option is viable
+- [ ]  All major clouds must be supported
+    - [ ]  Azure
+    - [ ]  AWS
+    - [ ]  GCP

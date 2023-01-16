@@ -1,0 +1,11 @@
+name: loki
+description: A horizontally scalable, highly available, multi-tenant log aggregation system inspired by Prometheus.
+category: DEVOPS
+icon: plural/icons/loki.png
+notes: plural/notes.tpl
+private: false
+homepage: https://grafana.com/oss/loki/
+gitUrl: https://github.com/grafana/loki
+tags:
+- tag: observability
+- tag: logging

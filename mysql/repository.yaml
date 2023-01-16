@@ -1,5 +1,5 @@
 name: mysql
-description: open source rdbms
+description: An open-source relational database management system.
 category: DATABASE
 icon: plural/icons/mysql.png
 notes: plural/notes.tpl

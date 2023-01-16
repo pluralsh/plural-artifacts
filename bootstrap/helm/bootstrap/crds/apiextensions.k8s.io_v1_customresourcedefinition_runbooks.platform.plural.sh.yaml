@@ -2,7 +2,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.4.1
+    controller-gen.kubebuilder.io/version: v0.9.2
   creationTimestamp: null
   name: runbooks.platform.plural.sh
 spec:
@@ -55,6 +55,11 @@ spec:
                           items:
                             description: details for any statefulset resizes to apply
                             properties:
+                              force:
+                                description: force completion even if a recreation
+                                  of the statefulset fails (useful for some operator
+                                  interactions)
+                                type: boolean
                               name:
                                 description: name of statefulset
                                 type: string
@@ -237,9 +242,3 @@ spec:
     storage: true
     subresources:
       status: {}
-status:
-  acceptedNames:
-    kind: ""
-    plural: ""
-  conditions: []
-  storedVersions: []

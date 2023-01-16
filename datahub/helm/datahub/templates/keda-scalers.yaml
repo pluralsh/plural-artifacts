@@ -1,0 +1,94 @@
+{{- if .Capabilities.APIVersions.Has "scaledobjects.keda.sh/v1alpha1" }}
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: {{ template "acryl-datahub-actions.fullname" (index .Subcharts "datahub" "Subcharts" "acryl-datahub-actions") }}
+  {{- if .Values.paused }}
+  annotations:
+    autoscaling.keda.sh/paused-replicas: "0"
+  {{- end }}
+spec:
+  scaleTargetRef:
+    name: {{ template "acryl-datahub-actions.fullname" (index .Subcharts "datahub" "Subcharts" "acryl-datahub-actions") }}
+    apiVersion: apps/v1
+    kind: Deployment
+  pollingInterval: 30
+  cooldownPeriod: 300
+  {{- if not .Values.cronSchedule.enabled }}
+  minReplicaCount: 1
+  {{- end }}
+  maxReplicaCount: 1
+  {{- if .Values.cronSchedule.enabled }}
+  triggers:
+  - type: cron
+    metadata:
+      timezone: UTC
+      start: {{ .Values.cronSchedule.start }}
+      end: {{ .Values.cronSchedule.end }}
+      desiredReplicas: '1'
+  {{- else }}
+  triggers: []
+  {{- end }}
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: {{ template "datahub-frontend.fullname" (index .Subcharts "datahub" "Subcharts" "datahub-frontend") }}
+  {{- if .Values.paused }}
+  annotations:
+    autoscaling.keda.sh/paused-replicas: "0"
+  {{- end }}
+spec:
+  scaleTargetRef:
+    name: {{ template "datahub-frontend.fullname" (index .Subcharts "datahub" "Subcharts" "datahub-frontend") }}
+    apiVersion: apps/v1
+    kind: Deployment
+  pollingInterval: 30
+  cooldownPeriod: 300
+  {{- if not .Values.cronSchedule.enabled }}
+  minReplicaCount: 1
+  {{- end }}
+  maxReplicaCount: 1
+  {{- if .Values.cronSchedule.enabled }}
+  triggers:
+  - type: cron
+    metadata:
+      timezone: UTC
+      start: {{ .Values.cronSchedule.start }}
+      end: {{ .Values.cronSchedule.end }}
+      desiredReplicas: '1'
+  {{- else }}
+  triggers: []
+  {{- end }}
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: {{ template "datahub-gms.fullname" (index .Subcharts "datahub" "Subcharts" "datahub-gms") }}
+  {{- if .Values.paused }}
+  annotations:
+    autoscaling.keda.sh/paused-replicas: "0"
+  {{- end }}
+spec:
+  scaleTargetRef:
+    name: {{ template "datahub-gms.fullname" (index .Subcharts "datahub" "Subcharts" "datahub-gms") }}
+    apiVersion: apps/v1
+    kind: Deployment
+  pollingInterval: 30
+  cooldownPeriod: 300
+  {{- if not .Values.cronSchedule.enabled }}
+  minReplicaCount: 1
+  {{- end }}
+  maxReplicaCount: 1
+  {{- if .Values.cronSchedule.enabled }}
+  triggers:
+  - type: cron
+    metadata:
+      timezone: UTC
+      start: {{ .Values.cronSchedule.start }}
+      end: {{ .Values.cronSchedule.end }}
+      desiredReplicas: '1'
+  {{- else }}
+  triggers: []
+  {{- end }}
+{{- end }}

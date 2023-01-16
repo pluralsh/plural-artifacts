@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: minecraft-server
+  labels:
+    app: minecraft-server
+    {{ include "minecraft.labels" . | nindent 4 }}
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: {{ .Values.node.hostname }}
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
+    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: 'true'
+    service.beta.kubernetes.io/aws-load-balancer-type: external
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+    service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: '3600'
+spec:
+  type: LoadBalancer
+  ports:
+    - port: {{ .Values.minecraft.port }}
+      targetPort: minecraft
+      protocol: TCP
+      name: minecraft
+  selector:
+    app: minecraft-server

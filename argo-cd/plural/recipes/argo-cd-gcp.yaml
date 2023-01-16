@@ -21,21 +21,45 @@ sections:
   - name: adminGroup
     documentation: OIDC group that should receive admin permissions
     type: STRING
+  - name: configPrivateRepo
+    documentation: Configure access too private repositories
+    type: BOOL
+    default: false
   - name: credentialTemplateURL
     documentation: Domain for which to configure private repository credentials
     type: STRING
+    condition:
+      operation: EQ
+      field: configPrivateRepo
+      value: true
   - name: credentialUsername
     documentation: Username to access private repositories
     type: STRING
+    condition:
+      operation: EQ
+      field: configPrivateRepo
+      value: true
   - name: credentialPassword
     documentation: Password or Personal Access Token to access private repositories
-    type: STRING
+    type: PASSWORD
+    condition:
+      operation: EQ
+      field: configPrivateRepo
+      value: true
   - name: privateRepoName
     documentation: Name for the private repository to add
     type: STRING
+    condition:
+      operation: EQ
+      field: configPrivateRepo
+      value: true
   - name: privateRepoURL
     documentation: URL of the private repository
     type: STRING
+    condition:
+      operation: EQ
+      field: configPrivateRepo
+      value: true
   - name: enableImageUpdater
     type: BOOL
     documentation: Enable the Argo CD Image Updater

@@ -1,0 +1,44 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: LogFilter
+metadata:
+  name: externaldns
+  labels:
+{{ include "bootstrap.labels" . | indent 4 }}
+spec:
+  name: Externaldns Logs
+  description: stream of logs for dns creates/deletes
+  query: ''
+  labels:
+  - name: app
+    value: external-dns
+---
+apiVersion: platform.plural.sh/v1alpha1
+kind: LogFilter
+metadata:
+  name: cert-manager
+  labels:
+{{ include "bootstrap.labels" . | indent 4 }}
+spec:
+  name: Cert Manager Logs
+  description: stream of logs for certificate lifecycle events
+  query: ''
+  labels:
+  - name: app
+    value: cert-manager
+{{ $clusterAutoscaler := index .Values "cluster-autoscaler" }}
+{{ if $clusterAutoscaler.enabled }}
+---
+apiVersion: platform.plural.sh/v1alpha1
+kind: LogFilter
+metadata:
+  name: cluster-autoscaler
+  labels:
+{{ include "bootstrap.labels" . | indent 4 }}
+spec:
+  name: Cluster Autoscaler
+  description: stream of logs for cluster autoscaler events
+  query: ''
+  labels:
+  - name: app
+    value: aws-cluster-autoscaler
+{{ end }}

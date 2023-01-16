@@ -1,6 +1,7 @@
 name: grafana-tempo-gcp
 description: Installs grafana-tempo on a gcp gke cluster
 provider: GCP
+private: true
 dependencies:
 - repo: bootstrap
   name: gcp-k8s

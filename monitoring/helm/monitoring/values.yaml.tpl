@@ -12,6 +12,12 @@ kube-prometheus-stack:
         cluster: {{ .Cluster }}
 
 {{- if .Configuration }}
+{{- if .Configuration.loki }}
+loki:
+  enabled: false
+promtail:
+  enabled: false
+{{- end }}
 {{- if index .Configuration "grafana-tempo" }}
 {{ $tempoNamespace := namespace "grafana-tempo" }}
 opentelemetry-operator:

@@ -1,0 +1,34 @@
+global:
+  dockerRepoName: touca
+  dockerImageName: touca
+  dockerImageTag: latest
+
+toucaApp:
+  replicas: 1
+
+
+mongoNamespace: mongodb
+mongoSecret: mongo-admin-admin
+
+minio:
+  user: touca
+  password: CHANGEME
+
+volume:
+  scName: "ebs-sc"
+  size: 4Gi
+
+redis:
+  volume:
+    size: 3Gi
+
+ingress:
+  enabled: true
+  host: touca.example.com
+  className: nginx
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+    nginx.ingress.kubernetes.io/proxy-read-timeout: '3600'
+    nginx.ingress.kubernetes.io/proxy-send-timeout: '3600'

@@ -1,0 +1,117 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Runbook
+metadata:
+  name: scaling-manual
+  labels:
+    platform.plural.sh/pinned: 'true'
+{{ include "dagster.labels" . | indent 4 }}
+spec:
+  name: Dagster Scaling
+  description: overview of how to optimally scale your dagster cluster
+  display: |-
+{{ .Files.Get "runbooks/scaling-manual.xml" | indent 4 }}
+  datasources:
+  - name: dagster-daemon-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"dagster-daemon.+"}[5m])) by (pod)
+  - name: dagster-daemon-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"dagster-daemon.+"}) by (pod)
+  - name: dagster-dagit-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"dagster-dagit.+"}[5m])) by (pod)
+  - name: dagster-dagit-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"dagster-dagit.+"}) by (pod)
+  - name: dagster-daemon
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: dagster-daemon
+  - name: dagster-dagit
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: dagster-dagit
+  actions:
+  - name: scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+        - path:
+            - dagster
+            - dagster
+            - dagsterDaemon
+            - resources
+            - requests
+            - cpu
+          valueFrom: dagster-daemon-cpu
+        - path:
+            - dagster
+            - dagster
+            - dagsterDaemon
+            - resources
+            - requests
+            - memory
+          valueFrom: dagster-daemon-memory
+        - path:
+            - dagster
+            - dagster
+            - dagsterDaemon
+            - resources
+            - limits
+            - cpu
+          valueFrom: dagster-daemon-cpu-limit
+        - path:
+            - dagster
+            - dagster
+            - dagsterDaemon
+            - resources
+            - limits
+            - memory
+          valueFrom: dagster-daemon-memory-limit
+        - path:
+            - dagster
+            - dagster
+            - dagit
+            - resources
+            - requests
+            - cpu
+          valueFrom: dagster-dagit-cpu
+        - path:
+            - dagster
+            - dagster
+            - dagit
+            - resources
+            - requests
+            - memory
+          valueFrom: dagster-dagit-memory
+        - path:
+            - dagster
+            - dagster
+            - dagit
+            - resources
+            - limits
+            - cpu
+          valueFrom: dagster-dagit-cpu-limit
+        - path:
+            - dagster
+            - dagster
+            - dagit
+            - resources
+            - limits
+            - memory
+          valueFrom: dagster-dagit-memory-limit

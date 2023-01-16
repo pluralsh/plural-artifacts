@@ -1,5 +1,5 @@
 name: nocodb
-description: turn any database into a realtime editable spreadsheet
+description: An open-source alternative to Airtable that turns any database into a smart spreadsheet.
 category: PRODUCTIVITY
 icon: plural/icons/nocodb.png
 notes: plural/notes.tpl

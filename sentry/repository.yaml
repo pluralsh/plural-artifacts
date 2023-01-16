@@ -1,5 +1,5 @@
 name: sentry
-description: error monitoring for multiple languages and platforms
+description: A developer-first error tracking and performance monitoring platform.
 icon: plural/icons/sentry.png
 category: DEVOPS
 notes: plural/notes.tpl

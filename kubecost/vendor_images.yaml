@@ -1,0 +1,5 @@
+gcr.io:
+  images-by-tag-regex:
+    kubecost1/cost-model: ^prod-v?1\.[0-9]+?\.[0-9]+$
+    kubecost1/frontend: ^prod-v?1\.[0-9]+?\.[0-9]+$
+    kubecost1/server: ^prod-v?1\.[0-9]+?\.[0-9]+$

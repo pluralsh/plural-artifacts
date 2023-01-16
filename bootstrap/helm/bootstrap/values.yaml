@@ -1,3 +1,8 @@
+acme:
+  enabled: false
+  # kid: ""
+  # secret: ""
+
 external-dns:
   serviceAccount:
     name: external-dns
@@ -35,7 +40,7 @@ pluralToken: plrl-api-token
 plural:
   image:
     repository: dkr.plural.sh/bootstrap/plural-operator
-    tag: v0.3.4
+    tag: 0.5.2
 
 imagePullSecrets:
 - name: plural-creds
@@ -67,9 +72,6 @@ snapshot-validation-webhook:
     requests:
       cpu: 10m
       memory: 20Mi
-    limits:
-      cpu: 10m
-      memory: 20Mi
 
 snapshot-controller:
   enabled: false
@@ -78,9 +80,6 @@ snapshot-controller:
     tag: v4.2.1
   resources:
     requests:
-      cpu: 10m
-      memory: 20Mi
-    limits:
       cpu: 10m
       memory: 20Mi
 
@@ -102,16 +101,10 @@ aws-ebs-csi-driver:
       requests:
         cpu: 10m
         memory: 24Mi
-      limits:
-        cpu: 10m
-        memory: 24Mi
   sidecars:
     provisioner:
       resources:
         requests:
-          cpu: 10m
-          memory: 24Mi
-        limits:
           cpu: 10m
           memory: 24Mi
     attacher:
@@ -119,15 +112,9 @@ aws-ebs-csi-driver:
         requests:
           cpu: 10m
           memory: 24Mi
-        limits:
-          cpu: 10m
-          memory: 24Mi
     snapshotter:
       resources:
         requests:
-          cpu: 10m
-          memory: 24Mi
-        limits:
           cpu: 10m
           memory: 24Mi
     livenessProbe:
@@ -135,23 +122,14 @@ aws-ebs-csi-driver:
         requests:
           cpu: 10m
           memory: 145Mi
-        limits:
-          cpu: 10m
-          memory: 145Mi
     resizer:
       resources:
         requests:
           cpu: 10m
           memory: 37Mi
-        limits:
-          cpu: 10m
-          memory: 37Mi
     nodeDriverRegistrar:
       resources:
         requests:
-          cpu: 10m
-          memory: 24Mi
-        limits:
           cpu: 10m
           memory: 24Mi
 
@@ -194,6 +172,7 @@ cluster-autoscaler:
   enabled: false
   replicaCount: 2
   image:
+    repository: gcr.io/pluralsh/autoscaling/cluster-autoscaler
     tag: v1.23.0
   expanderPriorities: |
     10:
@@ -205,7 +184,7 @@ cluster-autoscaler:
     40:
     - .*burst-spot.*
   extraArgs:
-    scale-down-utilization-threshold: 0.4
+    scale-down-utilization-threshold: 0.7
     skip-nodes-with-local-storage: false
     balance-similar-node-groups: true
     expander: "priority,least-waste"

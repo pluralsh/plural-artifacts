@@ -69,6 +69,20 @@ spec:
         valueFrom: zk-memory
       - path: 
         - kafka
+        - zookeeper
+        - resources
+        - limits
+        - cpu
+        valueFrom: zk-cpu-limit
+      - path:
+        - kafka
+        - zookeeper
+        - resources
+        - limits
+        - memory
+        valueFrom: zk-memory-limit
+      - path: 
+        - kafka
         - kafka
         - resources
         - requests
@@ -81,4 +95,18 @@ spec:
         - requests
         - memory
         valueFrom: kafka-memory
+      - path: 
+        - kafka
+        - kafka
+        - resources
+        - limits
+        - cpu
+        valueFrom: kafka-cpu-limit
+      - path:
+        - kafka
+        - kafka
+        - resources
+        - limits
+        - memory
+        valueFrom: kafka-memory-limit
       

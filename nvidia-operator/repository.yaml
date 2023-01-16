@@ -1,5 +1,5 @@
 name: nvidia-operator
-description: Everything needed to schedule and monitor NVIDIA GPUs
+description: Allows administrators of Kubernetes clusters to manage GPU nodes just like CPU nodes in the cluster.
 category: DEVOPS
 icon: plural/icons/nvidia.png
 notes: plural/notes.tpl

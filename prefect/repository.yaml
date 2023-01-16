@@ -1,0 +1,12 @@
+name: prefect
+description: The easiest way to coordinate your dataflow
+category: DATA
+icon: plural/icons/prefect.png
+notes: plural/notes.tpl
+homepage: https://www.prefect.io/
+gitUrl: https://github.com/PrefectHQ/prefect
+oauthSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
+tags:
+- tag: data

@@ -1,0 +1,11 @@
+name: oncall
+description: oncall deployed on plural
+category: PRODUCTIVITY
+private: true
+icon: plural/icons/oncall.png
+notes: plural/notes.tpl
+homepage: https://grafana.com/oss/oncall
+gitUrl: https://github.com/grafana/oncall
+tags:
+- tag: grafana
+- tag: oncall

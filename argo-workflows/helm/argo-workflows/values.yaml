@@ -1,5 +1,9 @@
 serviceAccount:
   create: false
+
+adminServiceAccount:
+  annotations: {}
+
 oidcSecret:
   clientID: ""
   clientSecret: ""

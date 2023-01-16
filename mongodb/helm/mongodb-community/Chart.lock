@@ -1,0 +1,9 @@
+dependencies:
+- name: community-operator
+  repository: https://mongodb.github.io/helm-charts
+  version: 0.7.4
+- name: config-overlays
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.1
+digest: sha256:3e2744a9bdcec1f197734a50a87a2654bc99ab4ab1141ef54b97e68354072a03
+generated: "2022-08-09T17:32:53.562658-04:00"

@@ -4,21 +4,43 @@
 
 test-base:
   enabled: false
-  repository: grafana
+  application: grafana
   testName: grafana-integration
   promoteTag: warm
+  steps:
+  - name: watch
+    description: wait until the `grafana` app crd is ready
+    template:
+      container:
+        image: gcr.io/pluralsh/test-base:0.1.6
+        args: ["grafana"]
+
+secret:
+  smtp:
+    enabled: false
+    user: ""
+    password: ""
+
+postgres:
+  enabled: false
+  team: plural
+  user: grafana
+  dbName: grafana
+  ownerChart: grafana
+  storage:
+    size: 5Gi
 
 grafana:
   rbac:
     pspEnabled: false
 
   image:
-    repository: gcr.io/pluralsh/grafana/grafana
-    tag: 8.3.2
+    repository: dkr.plural.sh/grafana/grafana/grafana
+    tag: 9.2.5
   initChownData:
     image:
-      repository: gcr.io/pluralsh/busybox
-      tag: latest
+      repository: gcr.io/pluralsh/library/busybox
+      tag: 1.35.0
   downloadDashboardsImage:
     repository: gcr.io/pluralsh/curlimages/curl
   grafana.ini:
@@ -29,47 +51,9 @@ grafana:
   plugins:
   - grafana-worldmap-panel
   - natel-discrete-panel
-  # dashboardProviders:
-  #   dashboardproviders.yaml:
-  #     apiVersion: 1
-  #     providers:
-  #     - name: default
-  #       orgId: 1
-  #       folder: ''
-  #       type: file
-  #       updateIntervalSeconds: 10
-  #       disableDeletion: true
-  #       editable: true
-  #       options:
-  #         path: /var/lib/grafana/dashboards/default
-  #     - name: sidecar
-  #       orgId: 1
-  #       folder: ''
-  #       type: file
-  #       updateIntervalSeconds: 10
-  #       disableDeletion: true
-  #       editable: true
-  #       options:
-  #         path: /var/lib/grafana/dashboards/sidecar
-  # dashboards:
-  #   default:
-  #     kubernetes-overview:
-  #       gnetId: 10856
-  #       revision: 1
-  #       uid: 'kubernetes-overview'
-  #       datasource: Prometheus
-  #     kubernetes-deepdive:
-  #       gnetId: 8588
-  #       revision: 1
-  #       uid: 'kubernetes-deepdive'
-  #       datasource: Prometheus
-  #     node-overview:
-  #       gnetId: 1860
-  #       revision: 16
-  #       uid: 'node-overview'
-  #       datasource: Prometheus
+  - grafana-oncall-app
   service:
-    type: NodePort
+    type: ClusterIP
   persistence:
     enabled: true
     type: statefulset
@@ -86,6 +70,9 @@ grafana:
       folderAnnotation: k8s-sidecar-target-directory
     datasources:
       enabled: true
+      searchNamespace: ALL
+    plugins:
+      enabled: false
       searchNamespace: ALL
   ingress:
     enabled: true

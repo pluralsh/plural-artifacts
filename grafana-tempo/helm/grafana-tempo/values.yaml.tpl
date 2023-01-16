@@ -11,6 +11,10 @@ tempoStorageIdentityId: {{ importValue "Terraform" "tempo_msi_id" }}
 tempoStorageIdentityClientId: {{ importValue "Terraform" "tempo_msi_client_id" }}
 {{- end }}
 
+{{- if .Configuration.loki }}
+lokiMode: distributed
+{{- end }}
+
 tempo-distributed:
   serviceAccount:
     {{- if eq .Provider "google" }}

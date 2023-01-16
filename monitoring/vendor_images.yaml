@@ -1,0 +1,24 @@
+docker.io:
+  images-by-tag-regex:
+    grafana/loki: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    grafana/promtail: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    otel/opentelemetry-collector: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+quay.io:
+  images-by-tag-regex:
+    prometheus/node-exporter: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    prometheus-operator/prometheus-operator: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    prometheus-operator/prometheus-config-reloader: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    prometheus/alertmanager: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    prometheus/prometheus: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    thanos/thanos: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+ghcr.io:
+  images-by-tag-regex:
+    open-telemetry/opentelemetry-operator/opentelemetry-operator: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+k8s.gcr.io:
+  images-by-tag-regex:
+    kube-state-metrics/kube-state-metrics: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    autoscaling/vpa-recommender: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    autoscaling/vpa-updater: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+gcr.io:
+  images-by-tag-regex:
+    kubebuilder/kube-rbac-proxy: ^v?[0-9]+\.[0-9]+?\.[0-9]+$

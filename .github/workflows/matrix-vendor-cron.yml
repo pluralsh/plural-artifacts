@@ -1,0 +1,110 @@
+name: vendor-images-cron
+
+on:
+  workflow_dispatch:
+  schedule:
+  - cron: "0 0 * * *"
+jobs:
+  build-matrix:
+    name: Create Build Matrix
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      id: set-matrix
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0 # No shallow clone, we need all history
+    - name: generate matrix
+      id: generate-matrix
+      run: |
+          ###############################
+          ### Image vendoring section ###
+          ###############################
+
+          APP_FOLDERS=$(find . -name "vendor_images.yaml" | awk -F "/" '{print $2}' | sort -u )
+
+          VENDOR_MATRIX_PROJECTS_JSON="["
+          VENDOR_MATRIX_INCLUDE_JSON="["
+
+          for APP_FOLDER in ${APP_FOLDERS}; do
+            if [[ "${APP_FOLDER}" != "."* ]]; then
+              REPO=${APP_FOLDER}
+              SKOPEO_FILE=$(find ${REPO} -name "vendor_images.yaml")
+
+              if [[ "${SKOPEO_FILE}" != "" ]]; then
+
+                VENDOR_MATRIX_PROJECTS_JSON+=$(sed 's/^/"/;s/$/"/' <<< "${REPO}")
+                VENDOR_MATRIX_INCLUDE_JSON+="{\"repository\": \"${REPO}\", \"skopeo_file\": \"${SKOPEO_FILE}\"}"
+              fi
+            fi
+          done
+
+          VENDOR_MATRIX_INCLUDE_JSON="${VENDOR_MATRIX_INCLUDE_JSON//\}\{/\}, \{}"
+          VENDOR_MATRIX_INCLUDE_JSON+="]"
+          VENDOR_MATRIX_PROJECTS_JSON="${VENDOR_MATRIX_PROJECTS_JSON//\"\"/\", \"}"
+          VENDOR_MATRIX_PROJECTS_JSON+="]"
+          echo "{$VENDOR_MATRIX_PROJECTS_JSON}"
+          VENDOR_MATRIX_JSON="{\"include\": ${VENDOR_MATRIX_INCLUDE_JSON}}"
+          echo "${VENDOR_MATRIX_JSON}"
+          
+          CONTINUE_VENDOR_JOB="no"
+          if [[ "${VENDOR_MATRIX_PROJECTS_JSON}" != "[]" ]]
+          then
+            CONTINUE_VENDOR_JOB="yes"
+          fi
+
+          echo "${CONTINUE_VENDOR_JOB}"
+
+          ######################
+          ### Output section ###
+          ######################
+
+          echo "continue_vendor=${CONTINUE_VENDOR_JOB}" >> $GITHUB_OUTPUT
+          echo "vendor_matrix=${VENDOR_MATRIX_JSON}" >> $GITHUB_OUTPUT
+    outputs:
+      vendor_matrix: ${{ steps.generate-matrix.outputs.vendor_matrix }}
+      continue_vendor: ${{ steps.generate-matrix.outputs.continue_vendor }}
+  vendor-plural:
+    if: needs.build-matrix.outputs.continue_vendor == 'yes'
+    name: Vendor application images
+    needs: build-matrix
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    strategy:
+      matrix: ${{ fromJson(needs.build-matrix.outputs.vendor_matrix) }}
+    steps:
+    - name: Install skopeo
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libgpgme-dev libassuan-dev libbtrfs-dev libdevmapper-dev pkg-config
+        git clone https://github.com/pluralsh/skopeo.git
+        cd skopeo
+        make bin/skopeo
+        sudo make install-binary
+        cd ..
+    - uses: actions/checkout@v3
+    - uses: google-github-actions/auth@v1
+      with:
+        workload_identity_provider: 'projects/${{ secrets.GOOGLE_PROJECT_ID }}/locations/global/workloadIdentityPools/github/providers/github'
+        service_account: 'terraform@pluralsh.iam.gserviceaccount.com'
+        token_format: 'access_token'
+        create_credentials_file: true
+    - uses: google-github-actions/setup-gcloud@v1.0.1
+    - name: Login to gcr
+      run: gcloud auth configure-docker -q
+    - name: Login to plural registry
+      uses: docker/login-action@v2
+      with:
+        registry: dkr.plural.sh
+        username: mjg@plural.sh
+        password: ${{ secrets.PLURAL_ACCESS_TOKEN }}
+    - name: "Vendor images to Plural"
+      continue-on-error: true
+      run: |
+        skopeo sync --keep-going --retry-times 5 --scoped --scoped-append-registry=false --all --src yaml --dest docker ${{ matrix.skopeo_file }} dkr.plural.sh/${{ matrix.repository }}
+    - name: "Vendor images to GCR"
+      continue-on-error: true
+      run: |
+        skopeo sync --keep-going --retry-times 5 --scoped --scoped-append-registry=false --all --src yaml --dest docker ${{ matrix.skopeo_file }} gcr.io/pluralsh

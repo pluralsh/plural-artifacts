@@ -1,0 +1,25 @@
+secrets: {}
+
+whitesource-renovate:
+  image:
+    repository: dkr.plural.sh/renovate-on-prem/whitesource/renovate
+    tag: 2.6.0
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      kubernetes.io/tls-acme: "true"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+    hosts:
+      - renovate.example.com
+    tls:
+    - secretName: whitesource-renovate-tls
+      hosts:
+      - renovate.example.com
+  resources:
+    requests:
+      cpu: 600m
+      memory: 1Gi
+    limits:
+      memory: 2Gi

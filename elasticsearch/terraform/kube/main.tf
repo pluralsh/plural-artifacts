@@ -3,7 +3,8 @@ resource "kubernetes_namespace" "elasticsearch" {
     name = var.namespace
     labels = {
       "app.kubernetes.io/managed-by" = "plural"
-      "istio-injection" = "enabled"
+      "app.plural.sh/name" = "elasticsearch"
+      # "istio-injection" = "enabled"
     }
   }
 }

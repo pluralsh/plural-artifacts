@@ -1,0 +1,54 @@
+# Default values for valheim.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  repository: dkr.plural.sh/valheim/lloesche/valheim-server
+  pullPolicy: IfNotPresent
+  # This is the only available tag for this image.
+  tag: latest
+
+serviceAccount:
+  create: true
+  name: ""
+
+# Minimum requirements configuration for 2-3 players server.
+resources:
+  limits:
+    cpu: 4
+    memory: 6Gi
+  requests:
+    cpu: 3
+    memory: 4Gi
+
+service:
+  type: LoadBalancer
+  port: 2456
+
+storage:
+  server:
+    size: 5Gi
+    path: /opt/valheim
+  game:
+    size: 1Gi
+    path: /config
+
+# If both BepInEx and Valheim Plus mods are enabled, only Valheim Plus will be used
+mods:
+  bepinex: false
+  valheimplus: false
+
+extraEnvVars:
+  BACKUPS: false
+  # Hourly backups
+  BACKUPS_CRON: '0 * * * *'
+  # Number of days latest backups will be kept
+  BACKUPS_MAX_AGE: 3
+  # Hook that should be called after backup has been created.
+  # In example: upload backup to external storage
+  # Note: The string @BACKUP_FILE@ will be replaced by the full path of the created backup zip file.
+  POST_BACKUP_HOOK: ''
+  # Cron schedule for update checks. If found update will be
+  # executed only when there are no players on the server.
+  # By default it runs every 15 minutes.
+  UPDATE_CRON: '*/15 * * * *'
