@@ -7,6 +7,30 @@ Name for the vpc for the cluster
 EOF
 }
 
+variable "kubernetes_version" {
+  type = string
+  description = "Kubernetes version to use for the cluster"
+  default = "1.22"
+}
+
+variable "vpc_cni_addon_version" {
+  type = string
+  default = "v1.12.0-eksbuild.2"
+  description = "The version of the VPC-CNI addon to use"
+}
+
+variable "core_dns_addon_version" {
+  type = string
+  default = "v1.8.7-eksbuild.1"
+  description = "The version of the CoreDNS addon to use"
+}
+
+variable "kube_proxy_addon_version" {
+  type = string
+  default = "v1.22.16-eksbuild.3"
+  description = "The version of the kube-proxy addon to use"
+}
+
 variable "cluster_name" {
   type = string
   default = "plural"
@@ -117,7 +141,7 @@ variable "node_groups_defaults" {
 
     instance_types = ["t3.large", "t3a.large"]
     disk_size = 50
-    ami_release_version = "1.21.14-20220824"
+    ami_release_version = "1.22.15-20221222"
     force_update_version = true
     ami_type = "AL2_x86_64"
     k8s_labels = {}

@@ -1,0 +1,32 @@
+{{ if and .Values.acme .Values.acme.enabled }}
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: plural
+  labels:
+{{ include "bootstrap.labels" . | indent 4 }}
+spec:
+  acme:
+    email: {{ .Values.ownerEmail }}
+    server: https://dv.acme-v02.api.pki.goog/directory
+    externalAccountBinding:
+      keyID: {{ .Values.acme.kid }}
+      keySecretRef:
+        name: plural-eab-secret
+        key: eab-secret
+      keyAlgorithm: HS256
+    privateKeySecretRef:
+      name: plural-cert-manager-key
+    solvers:
+    - dns01:
+      {{ .Values.dnsSolver | toYaml | nindent 8 }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: plural-eab-secret
+  labels:
+{{ include "bootstrap.labels" . | indent 4 }}
+stringData:
+  eab-secret: {{ .Values.acme.secret }}
+{{ end }}
