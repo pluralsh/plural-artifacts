@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "airbyte.name" -}}
+{{- define "airbyte-plural.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "airbyte.fullname" -}}
+{{- define "airbyte-plural.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "airbyte.chart" -}}
+{{- define "airbyte-plural.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "airbyte.labels" -}}
-helm.sh/chart: {{ include "airbyte.chart" . }}
-{{ include "airbyte.selectorLabels" . }}
+{{- define "airbyte-plural.labels" -}}
+helm.sh/chart: {{ include "airbyte-plural.chart" . }}
+{{ include "airbyte-plural.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,23 +45,18 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "airbyte.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "airbyte.name" . }}
+{{- define "airbyte-plural.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "airbyte-plural.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "airbyte.serviceAccountName" -}}
+{{- define "airbyte-plural.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "airbyte.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "airbyte-plural.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
-
-{{- define "airbyte-plural.database.url" -}}
-{{- $db := .Values.airbyte.externalDatabase -}}
-{{- printf "jdbc:postgresql://%s:5432/%s" $db.host $db.database -}}
-{{- end -}}

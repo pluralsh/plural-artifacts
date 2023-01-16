@@ -8,25 +8,40 @@ global:
   logs:
     storage:
       type: GCS
-  state:
-    storage:
-      type: GCS
+    gcs:
+      bucket: {{ .Values.airbyteBucket }}
+      credentialsJson: {{ importValue "Terraform" "credentials_json" }}
   {{ else if ne .Provider "aws" }}
   logs:
+    accessKey:
+      password: {{ importValue "Terraform" "access_key_id" }}
+    secretKey:
+      password: {{ importValue "Terraform" "secret_access_key" }}
     storage:
       type: "MINIO"
-  state:
-    storage:
-      type: "MINIO"
-  {{ else }}
+    externalMinio:
+      enabled: true
+      endpoint: https://{{ .Configuration.minio.hostname }}
+    s3:
+      bucket: {{ .Values.airbyteBucket }}
+  {{ else if eq .Provider "aws" }}
   logs:
+    accessKey:
+      password: {{ importValue "Terraform" "access_key_id" }}
+      existingSecret: airbyte-airbyte-secrets
+      existingSecretKey: AWS_ACCESS_KEY_ID
+    secretKey:
+      password: {{ importValue "Terraform" "secret_access_key" }}
+      existingSecret: airbyte-airbyte-secrets
+      existingSecretKey: AWS_SECRET_ACCESS_KEY
     storage:
       type: "S3"
-  state:
-    storage:
-      type: "S3"
+    s3:
+      enabled: true
+      bucket: {{ .Values.airbyteBucket }}
+      bucketRegion: {{ .Region }}
   {{ end }}
-    
+
 
 {{ if .OIDC }}
 {{ $prevSecret := dedupe . "airbyte.oidcProxy.cookieSecret" (randAlphaNum 32) }}
@@ -38,10 +53,6 @@ oidc-config:
     clientID: {{ .OIDC.ClientId }}
     clientSecret: {{ .OIDC.ClientSecret }}
     cookieSecret: {{ dedupe . "airbyte.oidc-config.secret.cookieSecret" $prevSecret }}
-  service:
-    name: airbyte-oauth2-proxy
-    selector:
-      airbyte: webapp
   {{ if .Values.users }}
   users:
   {{ toYaml .Values.users | nindent 4 }}
@@ -71,34 +82,6 @@ postgres:
 {{ end }}
 
 airbyte:
-  airbyteS3Bucket: {{ .Values.airbyteBucket }}
-  {{ if $isGcp }}
-  airbyteGCSBucket: {{ .Values.airbyteBucket }}
-  googleApplicationCredentials: /secrets/gcs-log-creds/credentials.json
-  gcpCredentialsSecret: airbyte-gcp-credentials
-  {{ end }}
-  {{ if eq .Provider "aws" }}
-  airbyteS3Region: {{ .Region }}
-  {{ end }}
-  minio:
-    accessKey:
-      password: {{ importValue "Terraform" "access_key_id" }}
-    secretKey:
-      password: {{ importValue "Terraform" "secret_access_key" }}
-{{ if eq .Provider "google" }}
-  airbyteS3Endpoint: https://storage.googleapis.com
-{{ end }}
-{{ if eq .Provider "azure" }}
-  airbyteS3Endpoint: https://{{ .Configuration.minio.hostname }}
-{{ end }}
-{{ if eq .Provider "kind" }}
-  airbyteS3Endpoint: http://minio.{{ $minioNamespace }}:9000
-{{ end }}
-  {{ if $isGcp}}
-  worker:
-    containerOrchestrator:
-      enabled: false
-  {{ end }}
   webapp:
     {{ if .OIDC }}
     podLabels:
@@ -110,7 +93,6 @@ airbyte:
     {{ end }}
     {{ end }}
     ingress:
-      enabled: true
       {{- if eq .Provider "kind" }}
       annotations:
         external-dns.alpha.kubernetes.io/target: "127.0.0.1"
@@ -124,8 +106,9 @@ airbyte:
         paths:
         - path: '/.*'
           pathType: ImplementationSpecific
-      {{ if .OIDC }}
-      service:
-        name: airbyte-oauth2-proxy
-        port: 80
-      {{ end }}
+  {{- if ne .Provider "aws" }}
+  minio:
+    auth:
+      rootUser: {{ importValue "Terraform" "access_key_id" }}
+      rootPassword: {{ importValue "Terraform" "secret_access_key" }}
+  {{- end }}

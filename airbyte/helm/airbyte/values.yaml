@@ -3,20 +3,119 @@
 # Declare variables to be passed into your templates.
 
 global:
-  imageRegistry: dkr.plural.sh/airbyte
+  metrics:
+    metricClient: otel
+    otelCollectorEndpoint: http://plural-otel-collector.monitoring:4317
+  database:
+    secretName: airbyte.plural-airbyte.credentials.postgresql.acid.zalan.do
+    secretValue: password
+    host: plural-airbyte
+    port: "5432"
+  logs:
+    minio:
+      enabled: false
+    s3:
+      bucket: "" # this needs to be an empty string, otherwise it will try to setup S3 when it's not enabled like when using GCS
 
 replicaCount: 1
 
-metrics:
-  client: otel
-  otelEndpoint: http://plural-otel-collector.monitoring:4317
-  ddAgentHost:
-    valueFrom:
-      fieldRef:
-        fieldPath: status.hostIP
+airbyte:
+  version: 0.40.28
+
+  postgresql:
+    enabled: false
+  minio:
+    enabled: false
+
+  temporal:
+    image:
+      repository: dkr.plural.sh/airbyte/airbyte/temporal-auto-setup
+      pullPolicy: IfNotPresent
+      tag: 1.13.0
+    extraEnv:
+      - name: SQL_TLS_ENABLED
+        value: "true"
+      - name: SQL_TLS
+        value: "true"
+      - name: SQL_TLS_DISABLE_HOST_VERIFICATION
+        value: "true"
+
+  externalDatabase:
+    database: airbyte
+    host: plural-airbyte
+    existingSecret: airbyte.plural-airbyte.credentials.postgresql.acid.zalan.do
+    existingSecretPasswordKey: password
+    user: airbyte
+    port: 5432
+
+  worker:
+    image:
+      repository: dkr.plural.sh/airbyte/airbyte/worker
+      tag: 0.40.28
+    
+    log:
+      level: INFO
+
+  cron:
+    image:
+      repository: dkr.plural.sh/airbyte/airbyte/cron
+      tag: 0.40.28
+
+  server:
+    image:
+      repository: dkr.plural.sh/airbyte/airbyte/server
+      tag: 0.40.28
+    
+    log:
+      level: INFO
+
+  connector-builder-server:
+    image:
+      repository: dkr.plural.sh/airbyte/airbyte/connector-builder-server
+      tag: 0.40.28
+
+  airbyte-bootloader:
+    image:
+      repository: dkr.plural.sh/airbyte/airbyte/bootloader
+      tag: 0.40.28
+
+  pod-sweeper:
+    image:
+      repository: dkr.plural.sh/airbyte/bitnami/kubectl
+      tag: 1.25.5
+
+  metrics:
+    enabled: true
+    image:
+      repository: dkr.plural.sh/airbyte/airbyte/metrics-reporter
+      tag: 0.40.28
+
+  webapp:
+    image:
+      repository: dkr.plural.sh/airbyte/airbyte/webapp
+      tag: 0.40.28
+
+    ingress:
+      enabled: false
+      className: nginx
+      annotations:
+        kubernetes.io/tls-acme: "true"
+        # kubernetes.io/ingress.class: "nginx"
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        # Extend timeout to allow long running queries.
+        nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
+        nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+        nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        nginx.ingress.kubernetes.io/use-regex: "true"
 
 oidc-config:
   enabled: false
+  service:
+    name: airbyte-oauth2-proxy
+    selector:
+      app.kubernetes.io/instance: airbyte
+      app.kubernetes.io/name: webapp
 
 test-base:
   enabled: false
@@ -95,35 +194,6 @@ configOverlays:
       updates:
         - path:
             ["airbyte", "airbyte", "worker", "resources", "requests", "memory"]
-  - name: scheduler-cpu
-    labels:
-      platform.plural.sh/component: airbyte-scheduler
-      platform.plural.sh/kind: deployment
-      platform.plural.sh/resource: cpu
-    spec:
-      name: scheduler cpu
-      documentation: cpu requests for scheduler deployment
-      updates:
-        - path:
-            ["airbyte", "airbyte", "scheduler", "resources", "requests", "cpu"]
-  - name: scheduler-mem
-    labels:
-      platform.plural.sh/component: airbyte-scheduler
-      platform.plural.sh/kind: deployment
-      platform.plural.sh/resource: memory
-    spec:
-      name: scheduler memory
-      documentation: memory requests for scheduler deployment
-      updates:
-        - path:
-            [
-              "airbyte",
-              "airbyte",
-              "scheduler",
-              "resources",
-              "requests",
-              "memory",
-            ]
   - name: server-cpu
     labels:
       platform.plural.sh/component: airbyte-server
@@ -174,70 +244,3 @@ configOverlays:
               "requests",
               "memory",
             ]
-
-airbyte:
-  version: 0.40.18
-
-  postgresql:
-    enabled: false
-  minio:
-    enabled: false
-
-  temporal:
-    image:
-      tag: 1.16.2
-    extraEnv:
-      - name: SQL_TLS_ENABLED
-        value: "true"
-      - name: SQL_TLS
-        value: "true"
-      - name: SQL_TLS_DISABLE_HOST_VERIFICATION
-        value: "true"
-
-  externalDatabase:
-    database: airbyte
-    host: plural-airbyte
-    existingSecret: airbyte.plural-airbyte.credentials.postgresql.acid.zalan.do
-    existingSecretPasswordKey: password
-    user: airbyte
-    port: 5432
-
-  bootloader:
-    image:
-      tag: 0.40.18
-
-  worker:
-    image:
-      tag: 0.40.18
-    
-    log:
-      level: INFO
-
-  cron:
-    image:
-      tag: 0.40.9
-
-  server:
-    image:
-      tag: 0.40.18
-    
-    log:
-      level: INFO
-
-  webapp:
-    image:
-      tag: 0.40.18
-
-    ingress:
-      enabled: false
-      className: nginx
-      annotations:
-        kubernetes.io/tls-acme: "true"
-        # kubernetes.io/ingress.class: "nginx"
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-        # Extend timeout to allow long running queries.
-        nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
-        nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
-        nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
-        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-        nginx.ingress.kubernetes.io/use-regex: "true"
