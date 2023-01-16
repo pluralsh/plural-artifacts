@@ -130,6 +130,8 @@ postgres:
   dbName: airbyte
   ownerChart: airbyte
   infix: ""
+  parameters:
+    max_connections: '101'
 
 oidcProxy:
   enabled: false
