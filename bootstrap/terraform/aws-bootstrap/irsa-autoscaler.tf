@@ -30,6 +30,7 @@ data "aws_iam_policy_document" "cluster_autoscaler" {
       "autoscaling:DescribeTags",
       "ec2:DescribeLaunchTemplateVersions",
       "ec2:DescribeInstanceTypes",
+      "eks:DescribeNodegroup",
     ]
 
     resources = ["*"]
