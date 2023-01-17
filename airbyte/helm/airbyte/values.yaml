@@ -148,7 +148,7 @@ private:
       nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
       nginx.ingress.kubernetes.io/use-regex: "true"
     service:
-      name: airbyte-webapp
+      name: airbyte-airbyte-webapp-svc
       port: 80
 
 configOverlays:

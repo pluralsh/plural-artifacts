@@ -49,11 +49,11 @@ spec:
             backend:
               {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
               service:
-                name: {{ index $.Values "oidc-config" "service" "name" }}
+                name: oauth-proxy-svc
                 port:
                   number: {{ $svcPort }}
               {{- else }}
-              serviceName: {{ index $.Values "oidc-config" "service" "name" }}
+              serviceName: oauth-proxy-svc
               servicePort: {{ $svcPort }}
               {{- end }}
           {{- end }}
