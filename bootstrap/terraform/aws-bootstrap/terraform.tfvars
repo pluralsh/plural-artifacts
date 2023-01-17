@@ -19,6 +19,10 @@ EOT
 
 aws_region = {{ .Region | quote }}
 
+{{- if .Values.worker_private_subnet_ids }}
+worker_private_subnet_ids = {{ .Values.worker_private_subnet_ids | toJson }}
+{{- end }}
+
 {{- if .Values.disable_ebs_csi_driver }}
 enable_ebs_csi_driver = false
 {{- end }}
