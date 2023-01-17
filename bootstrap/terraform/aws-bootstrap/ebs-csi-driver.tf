@@ -5,7 +5,7 @@ module "assumable_role_ebs_csi" {
   create_role                   = true
   role_name                     = "${var.cluster_name}-ebs-csi"
   provider_url                  = replace(local.cluster_oidc_issuer_url, "https://", "")
-  role_policy_arns              = [aws_iam_policy.ebs_csi.arn]
+  role_policy_arns              = [aws_iam_policy.ebs_csi[0].arn]
   oidc_fully_qualified_subjects = ["system:serviceaccount:${var.namespace}:${var.ebs_csi_serviceaccount}"]
 }
 
