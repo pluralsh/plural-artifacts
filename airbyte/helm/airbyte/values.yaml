@@ -56,6 +56,9 @@ airbyte:
     log:
       level: INFO
 
+    containerOrchestrator:
+      image: dkr.plural.sh/airbyte/airbyte/container-orchestrator:0.40.28
+
   cron:
     image:
       repository: dkr.plural.sh/airbyte/airbyte/cron
