@@ -25,14 +25,20 @@ external-dns:
     create: false
 {{ end }}
     name: {{ default "external-dns" .Values.externaldns_service_account }}
+    {{- if eq .Provider "aws" }}
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-externaldns"
+    {{- end }}
   domainFilters:
   - {{ .Network.Subdomain }}
+  {{- if eq .Provider "google" }}
   google:
     project: {{ .Project }}
+  {{- end }}
+  {{- if eq .Provider "aws" }}
   aws:
     region: {{ .Region }}
+  {{- end }}
   {{ if and (not $pluraldns) (eq .Provider "azure")}}
   azure:
     useManagedIdentityExtension: true
@@ -101,6 +107,7 @@ cluster-autoscaler:
 {{ end }}
 
 {{ if eq .Provider "aws"}}
+{{- if not .Values.disable_calico}}
 tigera-operator:
   enabled: true
   tigeraOperator:
@@ -112,6 +119,7 @@ tigera-operator:
   calioctl:
     image: gcr.io/pluralsh/calico/ctl
     tag: master
+{{- end }}
 {{- if not .Values.disable_aws_lb_controller }}
 aws-load-balancer-controller:
   enabled: true
