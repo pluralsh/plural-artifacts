@@ -12,15 +12,15 @@ output "cluster_oidc_issuer_url" {
 }
 
 output "cluster_private_subnets" {
-  value = local.private_subnets
+  value = data.aws_subnet.private_subnets
 }
 
 output "cluster_worker_private_subnets" {
-  value = local.worker_private_subnets
+  value = data.aws_subnet.worker_private_subnets
 }
 
 output "cluster_public_subnets" {
-  value = local.public_subnets
+  value = data.aws_subnet.public_subnets
 }
 
 output "cluster_private_subnet_ids" {

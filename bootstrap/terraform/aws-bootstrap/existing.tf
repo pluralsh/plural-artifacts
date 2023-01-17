@@ -9,16 +9,16 @@ data "aws_vpc" "vpc" {
 }
 
 data "aws_subnet" "worker_private_subnets" {
-    for_each = toset(var.worker_private_subnet_ids)
-    id       = each.value
+    count = length(local.worker_private_subnet_ids)
+    id       = local.worker_private_subnet_ids[count.index]
 }
 
 data "aws_subnet" "private_subnets" {
-    for_each = toset(var.private_subnet_ids)
-    id       = each.value
+    count = length(local.private_subnet_ids)
+    id       = local.private_subnet_ids[count.index]
 }
   
 data "aws_subnet" "public_subnets" {
-    for_each = toset(var.public_subnet_ids)
-    id       = each.value
+    count = length(local.public_subnet_ids)
+    id       = local.public_subnet_ids[count.index]
 }
