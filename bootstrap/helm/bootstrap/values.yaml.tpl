@@ -132,6 +132,7 @@ aws-load-balancer-controller:
 {{- end }}
 {{- if not .Values.disable_ebs_csi_driver}}
 aws-ebs-csi-driver:
+  enabled: true
   controller:
     serviceAccount:
       name: ebs-csi-controller
