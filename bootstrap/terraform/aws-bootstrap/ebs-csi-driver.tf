@@ -1,5 +1,6 @@
 module "assumable_role_ebs_csi" {
   count = var.enable_ebs_csi_driver ? 1 : 0
+
   source                        = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
   version                       = "3.14.0"
   create_role                   = true
@@ -11,6 +12,7 @@ module "assumable_role_ebs_csi" {
 
 resource "aws_iam_policy" "ebs_csi" {
   count = var.enable_ebs_csi_driver ? 1 : 0
+
   name_prefix = "ebs-csi"
   description = "EKS EBS CSI policy for cluster ${local.cluster_id}"
   policy      = data.aws_iam_policy_document.ebs_csi.json

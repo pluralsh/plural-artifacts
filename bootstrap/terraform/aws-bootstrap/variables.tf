@@ -37,6 +37,12 @@ variable "enable_ebs_csi_driver" {
   description = "Whether to enable the EBS CSI driver"
 }
 
+variable "enable_cluster_autoscaler" {
+  type = bool
+  default = true
+  description = "Whether to enable the cluster autoscaler"
+}
+
 variable "create_cluster" {
   type = bool
   default = true

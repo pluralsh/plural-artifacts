@@ -80,6 +80,7 @@ provider: {{ .Provider }}
 ownerEmail: {{ .Config.Email }}
 
 {{ if eq (default "google" .Provider) "aws" }}
+{{- if not .Values.disable_cluster_autoscaler }} 
 cluster-autoscaler:
   enabled: true
   awsRegion: {{ .Region }}
@@ -96,6 +97,7 @@ cluster-autoscaler:
   autoDiscovery:
     clusterName: {{ .Cluster }}
     enabled: true
+{{- end }}
 {{ end }}
 
 {{ if eq .Provider "aws"}}
