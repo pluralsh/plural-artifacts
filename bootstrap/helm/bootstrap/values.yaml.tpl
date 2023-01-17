@@ -118,17 +118,14 @@ aws-load-balancer-controller:
     name: alb-operator
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-alb"
+{{- if not .Values.disable_ebs_csi_driver}}
 aws-ebs-csi-driver:
-  {{- if .Values.disable_ebs_csi_driver}}
-  enabled: false
-  {{- else}}
-  enabled: true
-  {{- end}}
   controller:
     serviceAccount:
       name: ebs-csi-controller
       annotations:
         eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-ebs-csi"
+  {{- end}}
 {{ end }}
 
 {{ if eq .Provider "aws" }}
