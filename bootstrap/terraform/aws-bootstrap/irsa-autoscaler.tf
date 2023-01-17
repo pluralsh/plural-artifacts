@@ -3,14 +3,14 @@ module "asummable_role_autoscaler" {
   version                       = "3.14.0"
   create_role                   = true
   role_name                     = "${var.cluster_name}-cluster-autoscaler"
-  provider_url                  = replace(module.cluster.cluster_oidc_issuer_url, "https://", "")
+  provider_url                  = replace(local.cluster_oidc_issuer_url, "https://", "")
   role_policy_arns              = [aws_iam_policy.cluster_autoscaler.arn]
   oidc_fully_qualified_subjects = ["system:serviceaccount:${var.namespace}:${var.autoscaler_serviceaccount}"]
 }
 
 resource "aws_iam_policy" "cluster_autoscaler" {
   name_prefix = "cluster-autoscaler"
-  description = "EKS cluster-autoscaler policy for cluster ${module.cluster.cluster_id}"
+  description = "EKS cluster-autoscaler policy for cluster ${local.cluster_id}"
   policy      = data.aws_iam_policy_document.cluster_autoscaler.json
 }
 

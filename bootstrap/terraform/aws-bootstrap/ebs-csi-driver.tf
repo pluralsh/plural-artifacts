@@ -3,14 +3,14 @@ module "assumable_role_ebs_csi" {
   version                       = "3.14.0"
   create_role                   = true
   role_name                     = "${var.cluster_name}-ebs-csi"
-  provider_url                  = replace(module.cluster.cluster_oidc_issuer_url, "https://", "")
+  provider_url                  = replace(local.cluster_oidc_issuer_url, "https://", "")
   role_policy_arns              = [aws_iam_policy.ebs_csi.arn]
   oidc_fully_qualified_subjects = ["system:serviceaccount:${var.namespace}:${var.ebs_csi_serviceaccount}"]
 }
 
 resource "aws_iam_policy" "ebs_csi" {
   name_prefix = "ebs-csi"
-  description = "EKS EBS CSI policy for cluster ${module.cluster.cluster_id}"
+  description = "EKS EBS CSI policy for cluster ${local.cluster_id}"
   policy      = data.aws_iam_policy_document.ebs_csi.json
 }
 

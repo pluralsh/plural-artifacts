@@ -3,14 +3,14 @@ module "assumable_role_certmanager" {
   version                       = "3.14.0"
   create_role                   = true
   role_name                     = "${var.cluster_name}-certmanager"
-  provider_url                  = replace(module.cluster.cluster_oidc_issuer_url, "https://", "")
+  provider_url                  = replace(local.cluster_oidc_issuer_url, "https://", "")
   role_policy_arns              = [aws_iam_policy.certmanager.arn]
   oidc_fully_qualified_subjects = ["system:serviceaccount:${var.namespace}:${var.certmanager_serviceaccount}"]
 }
 
 resource "aws_iam_policy" "certmanager" {
   name_prefix = "certmanager"
-  description = "certmanager permissions for ${module.cluster.cluster_id}"
+  description = "certmanager permissions for ${local.cluster_id}"
   policy      = <<-POLICY
     {
       "Version": "2012-10-17",

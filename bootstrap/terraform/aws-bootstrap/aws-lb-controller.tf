@@ -3,14 +3,14 @@ module "assumable_role_alb" {
   version                       = "3.14.0"
   create_role                   = true
   role_name                     = "${var.cluster_name}-alb"
-  provider_url                  = replace(module.cluster.cluster_oidc_issuer_url, "https://", "")
+  provider_url                  = replace(local.cluster_oidc_issuer_url, "https://", "")
   role_policy_arns              = [aws_iam_policy.alb.arn]
   oidc_fully_qualified_subjects = ["system:serviceaccount:${var.namespace}:${var.alb_serviceaccount}"]
 }
 
 resource "aws_iam_policy" "alb" {
   name_prefix = "alb-contrller"
-  description = "aws load balancer controller policy for cluster ${module.cluster.cluster_id}"
+  description = "aws load balancer controller policy for cluster ${local.cluster_id}"
   policy      = <<-POLICY
   {
     "Version": "2012-10-17",
