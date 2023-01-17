@@ -2,8 +2,12 @@ locals {
     sts_principal = "sts.${data.aws_partition.current.dns_suffix}"
 
     private_subnet_ids = var.create_cluster ? module.vpc.private_subnets_ids : var.private_subnet_ids
+
     public_subnet_ids = var.create_cluster ? module.vpc.public_subnets_ids : var.public_subnet_ids
+
     worker_subnet_ids = var.create_cluster ? module.vpc.worker_private_subnets_ids : var.worker_private_subnet_ids
+    worker_private_subnets = var.create_cluster ? module.vpc.worker_private_subnets : data.aws_subnet.worker_private_subnets[*]
+
     vpc_id = var.create_cluster ? module.vpc.vpc_id : data.aws_eks_cluster.cluster[0].vpc_config[0].vpc_id
     
     cluster_id = var.create_cluster ? module.cluster.cluster_id : data.aws_eks_cluster.cluster[0].id
