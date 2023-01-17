@@ -43,6 +43,12 @@ variable "enable_cluster_autoscaler" {
   description = "Whether to enable the cluster autoscaler"
 }
 
+variable "enable_aws_lb_controller" {
+  type = bool
+  default = true
+  description = "Whether to enable the AWS LB controller"
+}
+
 variable "create_cluster" {
   type = bool
   default = true

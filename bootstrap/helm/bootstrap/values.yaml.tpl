@@ -112,6 +112,7 @@ tigera-operator:
   calioctl:
     image: gcr.io/pluralsh/calico/ctl
     tag: master
+{{- if not .Values.disable_aws_lb_controller }}
 aws-load-balancer-controller:
   enabled: true
   clusterName: {{ .Cluster }}
@@ -120,6 +121,7 @@ aws-load-balancer-controller:
     name: alb-operator
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-alb"
+{{- end }}
 {{- if not .Values.disable_ebs_csi_driver}}
 aws-ebs-csi-driver:
   controller:

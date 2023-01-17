@@ -25,6 +25,9 @@ enable_ebs_csi_driver = false
 {{- if .Values.disable_cluster_autoscaler }}
 enable_cluster_autoscaler = false
 {{- end }}
+{{- if .Values.disable_aws_lb_controller }}
+enable_aws_lb_controller = false
+{{- end }}
 
 {{- if .BYOK }}
 {{- if .BYOK.enabled }}
