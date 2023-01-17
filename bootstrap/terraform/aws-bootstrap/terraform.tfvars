@@ -18,3 +18,12 @@ EOT
 {{- end }}
 
 aws_region = {{ .Region | quote }}
+{{- if .Values.disable_ebs_csi_driver }}
+enable_ebs_csi_driver = false
+{{- end }}
+
+{{- if .BYOK }}
+{{- if .BYOK.enabled }}
+create_cluster = false
+{{- end }}
+{{- end }}

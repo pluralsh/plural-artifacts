@@ -28,7 +28,7 @@ output "cluster_private_subnet_ids" {
 }
 
 output "cluster_worker_private_subnet_ids" {
-  value = local.private_subnet_ids
+  value = local.worker_subnet_ids
 }
 
 output "cluster_public_subnet_ids" {
