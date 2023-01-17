@@ -16,7 +16,7 @@ output "cluster_private_subnets" {
 }
 
 output "cluster_worker_private_subnets" {
-  value = module.vpc.worker_private_subnets
+  value = local.worker_private_subnets
 }
 
 output "cluster_public_subnets" {
