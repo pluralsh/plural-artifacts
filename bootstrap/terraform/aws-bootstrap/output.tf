@@ -4,7 +4,7 @@ output "cluster_name" {
 }
 
 output "cluster_endpoint" {
-  value = module.cluster.cluster_endpoint
+  value = local.cluster_endpoint
 }
 
 output "cluster_oidc_issuer_url" {
@@ -12,7 +12,7 @@ output "cluster_oidc_issuer_url" {
 }
 
 output "cluster_private_subnets" {
-  value = module.vpc.private_subnets
+  value = local.private_subnets
 }
 
 output "cluster_worker_private_subnets" {
@@ -20,7 +20,7 @@ output "cluster_worker_private_subnets" {
 }
 
 output "cluster_public_subnets" {
-  value = module.vpc.public_subnets
+  value = local.public_subnets
 }
 
 output "cluster_private_subnet_ids" {
@@ -28,7 +28,7 @@ output "cluster_private_subnet_ids" {
 }
 
 output "cluster_worker_private_subnet_ids" {
-  value = local.worker_subnet_ids
+  value = local.worker_private_subnet_ids
 }
 
 output "cluster_public_subnet_ids" {

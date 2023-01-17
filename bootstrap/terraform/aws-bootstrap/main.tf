@@ -41,7 +41,7 @@ module "cluster" {
   cluster_version  = var.kubernetes_version
   private_subnets  = local.private_subnet_ids
   public_subnets   = local.public_subnet_ids
-  worker_private_subnets = local.worker_subnet_ids
+  worker_private_subnets = local.worker_private_subnet_ids
   vpc_id           = local.vpc_id
   enable_irsa      = true
   write_kubeconfig = false
@@ -80,7 +80,7 @@ module "multi_az_node_groups" {
 
   node_groups            = var.create_cluster ? var.multi_az_node_groups : {}
   set_desired_size       = false
-  private_subnet_ids     = local.worker_subnet_ids
+  private_subnet_ids     = local.worker_private_subnet_ids
 
   ng_depends_on = [
     local.cluster_config

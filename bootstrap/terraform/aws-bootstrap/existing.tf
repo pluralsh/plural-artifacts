@@ -12,3 +12,13 @@ data "aws_subnet" "worker_private_subnets" {
     for_each = toset(var.worker_private_subnet_ids)
     id       = each.value
 }
+
+data "aws_subnet" "private_subnets" {
+    for_each = toset(var.private_subnet_ids)
+    id       = each.value
+}
+  
+data "aws_subnet" "public_subnets" {
+    for_each = toset(var.public_subnet_ids)
+    id       = each.value
+}
