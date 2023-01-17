@@ -137,16 +137,17 @@ aws-ebs-csi-driver:
       name: ebs-csi-controller
       annotations:
         eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-ebs-csi"
-  {{- end}}
-{{ end }}
-
-{{ if eq .Provider "aws" }}
+{{- end}}
+{{- if not .Values.disable_metrics_server}}
 metrics-server:
   enabled: true
+{{- end}}
+{{- if not .Values.disable_snapshot_controller}}
 snapshot-validation-webhook:
   enabled: true
 snapshot-controller:
   enabled: true
+{{- end}}
 {{ end }}
 
 {{ if $pluraldns }}
