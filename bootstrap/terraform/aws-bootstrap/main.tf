@@ -12,7 +12,7 @@ module "vpc" {
   worker_private_subnets = var.worker_private_subnets
   enable_dns_hostnames   = true
   enable_ipv6            = true
-  create_vpc             = var.create_cluster
+  create_vpc             = local.create_vpc
 
   database_subnets = var.database_subnets
 

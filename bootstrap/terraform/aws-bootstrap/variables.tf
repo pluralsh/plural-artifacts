@@ -55,6 +55,12 @@ variable "create_cluster" {
   description = "Whether to create a fresh cluster, or simply reference an existing one"
 }
 
+variable "create_vpc" {
+  type = bool
+  default = true
+  description = "Whether to create a fresh vpc, or simply reference an existing one"
+}
+
 variable "eks_oidc_root_ca_thumbprint" {
   type        = string
   description = "Thumbprint of Root CA for EKS OIDC, Valid until 2037"
