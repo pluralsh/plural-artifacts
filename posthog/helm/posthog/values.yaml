@@ -14,6 +14,17 @@ posthog:
     existingSecretPasswordKey: password
   pgbouncer:
     enabled: true # TODO: we should try using the pgbouncer managed by the postgres operator, need to upstream a change for this. see https://github.com/PostHog/charts-clickhouse/issues/280
+    env:
+    - name: PGBOUNCER_PORT
+      value: "6543"
+    - name: PGBOUNCER_MAX_CLIENT_CONN
+      value: "1000"
+    - name: PGBOUNCER_POOL_MODE
+      value: transaction
+    - name: PGBOUNCER_IGNORE_STARTUP_PARAMETERS
+      value: extra_float_digits
+    - name: PGBOUNCER_SERVER_TLS_SSLMODE
+      value: require
   redis:
     enabled: false
   externalRedis:
