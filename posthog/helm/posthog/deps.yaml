@@ -9,13 +9,26 @@ spec:
     name: bootstrap
     repo: bootstrap
     version: '>= 0.5.1'
-  
   - type: helm
     name: ingress-nginx
     repo: ingress-nginx
     version: ">= 0.1.2"
-  
-  
+  - type: helm
+    name: clickhouse
+    repo: clickhouse
+    version: ">= 0.1.0"
+  - type: helm
+    name: postgres
+    repo: postgres
+    version: ">= 0.1.0"
+  - type: helm
+    name: redis
+    repo: redis
+    version: '>= 0.1.6'
+  - type: helm
+    name: kafka
+    repo: kafka
+    version: '>= 0.1.22'
   - type: terraform
     name: aws
     repo: posthog

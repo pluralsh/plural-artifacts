@@ -72,7 +72,7 @@ posthog:
 
 clickhouse:
   # -- Whether to install clickhouse. If false, `clickhouse.host` must be set
-  enabled: true
+  enabled: false
   # -- Clickhouse cluster
   cluster: posthog
   # -- Clickhouse database
