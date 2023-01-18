@@ -56,14 +56,10 @@ posthog:
   externalObjectStorage:
     # -- Endpoint of the external object storage. e.g. https://s3.us-east-1.amazonaws.com
     endpoint: 
-    # -- Host of the external object storage. Deprecated: use endpoint instead
-    host:
-    # -- Port of the external object storage. Deprecated: use endpoint instead
-    port:
     # -- Bucket name to use.
     bucket:
     # -- Name of an existing Kubernetes secret object containing the `access_key_id` and `secret_access_key`. The secret has to contain the keys `root-user` and `root-password`).
-    existingSecret:
+    existingSecret: posthog-aws-s3-creds
   kafka:
     enabled: false
   externalKafka:

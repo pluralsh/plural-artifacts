@@ -41,5 +41,11 @@ posthog:
     from_email: {{ .SMTP.Sender }}
   {{- end }}
 
+  {{- if eq .Provider "aws" }}
+  externalObjectStorage:
+    endpoint: https://s3.{{ .Region }}.amazonaws.com
+    bucket: {{ .Values.posthogBucket }}
+  {{- end }}
+
 clickhouse:
   password: {{ $chPassword }}

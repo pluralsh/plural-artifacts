@@ -20,6 +20,9 @@ sections:
   - name: hostname
     documentation: FQDN to use for your posthog installation
     type: DOMAIN
+  - name: posthogBucket
+    documentation: S3 bucket to use for posthog
+    type: BUCKET
   - name: notificationEmail
     documentation: email for notifications to be sent to from the PostHog stack
     type: STRING
