@@ -4,6 +4,9 @@ kind: "ClickHouseInstallation"
 metadata:
   name: {{ template "posthog-plural.name" . }}-clickhouse
 spec:
+  defaults:
+    templates:
+      serviceTemplate: service-template
   configuration:
     users:
       {{- template "clickhouse.passwordValue" . }}
@@ -136,7 +139,7 @@ spec:
 
     serviceTemplates:
       - name: service-template
-        generateName: {{ template "posthog.clickhouse.fullname" . }}
+        generateName: {{ template "posthog-plural.name" . }}-clickhouse
         spec:
           ports:
             - name: http
