@@ -1,0 +1,7 @@
+REPO posthog
+ATTRIBUTES Plural repository.yaml
+
+TF terraform/*
+HELM helm/*
+RECIPE plural/recipes/*
+TAG plural/tags/**/*

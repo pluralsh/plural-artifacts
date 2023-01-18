@@ -1,0 +1,19 @@
+name: posthog-azure
+description: Installs posthog on an aws eks cluster
+provider: AZURE
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+
+- repo: ingress-nginx
+  name: ingress-nginx-azure
+
+
+sections:
+- name: posthog
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: azure
+  - type: HELM
+    name: posthog

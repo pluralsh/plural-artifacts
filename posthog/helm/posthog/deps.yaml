@@ -1,0 +1,33 @@
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  application: true
+  description: Deploys posthog crafted for the target cloud
+spec:
+  dependencies:
+  - type: helm
+    name: bootstrap
+    repo: bootstrap
+    version: '>= 0.5.1'
+  
+  - type: helm
+    name: ingress-nginx
+    repo: ingress-nginx
+    version: ">= 0.1.2"
+  
+  
+  - type: terraform
+    name: aws
+    repo: posthog
+    version: '>= 0.1.0'
+    optional: true
+  - type: terraform
+    name: azure
+    repo: posthog
+    version: '>= 0.1.0'
+    optional: true
+  - type: terraform
+    name: gcp
+    repo: posthog
+    version: '>= 0.1.0'
+    optional: true

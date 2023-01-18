@@ -1,0 +1,13 @@
+apiVersion: v2
+name: posthog
+description: helm chart for posthog
+type: application
+version: 0.1.0
+appVersion: "1.36.0"
+dependencies:
+- name: posthog
+  version: 21.0.0
+  repository: https://posthog.github.io/charts-clickhouse/
+- name: postgres
+  version: 0.1.5
+  repository: https://pluralsh.github.io/module-library

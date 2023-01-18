@@ -1,0 +1,58 @@
+posthog:
+  cloud: ""
+  image:
+    repository: posthog/posthog
+    tag: release-1.36.0
+  postgresql:
+    enabled: false
+  externalPostgresql:
+    postgresqlHost: plural-posthog
+    postgresqlPort: 5432
+    postgresqlDatabase: posthog
+    postgresqlUsername: posthog
+    existingSecret: posthog.plural-posthog.credentials.postgresql.acid.zalan.do
+    existingSecretPasswordKey: password
+  redis:
+    enabled: false
+  externalRedis:
+    host: ""
+    port: 6379
+    password: ""
+  clickhouse:
+    # -- Whether to install clickhouse. If false, `clickhouse.host` must be set
+    enabled: true
+  externalClickhouse:
+    # -- Host of the external cluster. This is required when clickhouse.enabled is false
+    host:
+    # -- Name of the external cluster to run DDL queries on. This is required when clickhouse.enabled is false
+    cluster:
+    # -- Database name for the external cluster
+    database: posthog
+    # -- User name for the external cluster to connect to the external cluster as
+    user:
+    # -- Password for the cluster. Ignored if existingClickhouse.existingSecret is set
+    password:
+    # -- Whether to use TLS connection connecting to ClickHouse
+    secure: false
+    # -- Whether to verify TLS connection connecting to ClickHouse
+    verify: false
+  externalObjectStorage:
+    # -- Endpoint of the external object storage. e.g. https://s3.us-east-1.amazonaws.com
+    endpoint: 
+    # -- Host of the external object storage. Deprecated: use endpoint instead
+    host:
+    # -- Port of the external object storage. Deprecated: use endpoint instead
+    port:
+    # -- Bucket name to use.
+    bucket:
+    # -- Name of an existing Kubernetes secret object containing the `access_key_id` and `secret_access_key`. The secret has to contain the keys `root-user` and `root-password`).
+    existingSecret:
+  kafka:
+  # -- Whether to deploy Kafka as part of this release. To use an external Kafka instance set this to `false` and configure the `externalKafka` values.
+    enabled: false
+
+postgres:
+  team: plural
+  user: posthog
+  dbName: posthog
+  ownerChart: posthog

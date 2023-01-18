@@ -1,0 +1,6 @@
+name: posthog
+description: posthog deployed on plural
+category: DATA
+private: true
+icon: plural/icons/posthog.png
+notes: plural/notes.tpl
