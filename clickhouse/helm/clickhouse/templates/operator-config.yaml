@@ -1,0 +1,7 @@
+apiVersion: clickhouse.altinity.com/v1
+kind: ClickHouseOperatorConfiguration
+metadata:
+  name: watch-all-namespaces
+spec:
+  watch:
+    namespaces: [".*"]
