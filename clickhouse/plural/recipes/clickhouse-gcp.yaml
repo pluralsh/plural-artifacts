@@ -4,13 +4,11 @@ provider: GCP
 dependencies:
 - repo: bootstrap
   name: gcp-k8s
-
-
 sections:
 - name: clickhouse
   configuration: []
   items:
   - type: TERRAFORM
-    name: gcp
+    name: kube
   - type: HELM
     name: clickhouse

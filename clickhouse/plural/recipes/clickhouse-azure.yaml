@@ -4,13 +4,11 @@ provider: AZURE
 dependencies:
 - repo: bootstrap
   name: azure-k8s
-
-
 sections:
 - name: clickhouse
   configuration: []
   items:
   - type: TERRAFORM
-    name: azure
+    name: kube
   - type: HELM
     name: clickhouse
