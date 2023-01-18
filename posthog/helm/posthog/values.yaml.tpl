@@ -7,6 +7,11 @@ global:
     - description: posthog web ui
       url: {{ .Values.hostname }}
 
+{{ $chPassword := dedupe . "posthog.secrets.clickhousePassword" (randAlphaNum 32) }}
+
+secrets:
+  clickhousePassword: {{ $chPassword }}
+
 posthog:
   {{ if or (eq .Provider "equinix") (eq .Provider "kind") }}
   cloud: other
@@ -25,3 +30,5 @@ posthog:
   ingress:
     hostname: {{ .Values.hostname }}
 
+clickhouse:
+  password: {{ $chPassword }}
