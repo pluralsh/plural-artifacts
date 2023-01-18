@@ -111,7 +111,7 @@ spec:
               image: {{ template "posthog.clickhouse.image" . }}
               env:
               - name: KEEPER_SERVERS
-                value: "3"
+                value: {{ .Values.clickhouse.layout.replicasCount | quote }}
               - name: RAFT_PORT
                 value: "9444"
               command:
