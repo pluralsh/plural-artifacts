@@ -13,9 +13,9 @@ secrets:
   {{- if .Values.slack.enabled }}
   slack:
     enabled: true
-    clientID: {{ .Values.slack.clientID }}
-    clientSecret: {{ .Values.slack.clientSecret }}
-    signingSecret: {{ .Values.slack.signingSecret }}
+    clientID: {{ .Values.slack.clientID | quote }}
+    clientSecret: {{ .Values.slack.clientSecret | quote }}
+    signingSecret: {{ .Values.slack.signingSecret | quote }}
   {{- end }}
 
 posthog:
