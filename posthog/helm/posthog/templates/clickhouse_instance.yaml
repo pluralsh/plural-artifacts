@@ -1,0 +1,175 @@
+{{- if .Values.clickhouse.enabled }}
+apiVersion: "clickhouse.altinity.com/v1"
+kind: "ClickHouseInstallation"
+metadata:
+  name: {{ template "posthog-plural.name" . }}-clickhouse
+spec:
+  configuration:
+    users:
+      {{- template "clickhouse.passwordValue" . }}
+      {{ .Values.clickhouse.user }}/networks/ip:
+        {{- range $.Values.clickhouse.allowedNetworkIps }}
+        - {{ . | quote }}
+        {{- end }}
+      {{ .Values.clickhouse.user }}/profile: default
+      {{ .Values.clickhouse.user }}/quota: default
+      {{- if .Values.clickhouse.backup.enabled }}
+      {{ .Values.clickhouse.backup.backup_user }}/networks/ip: "0.0.0.0/0"
+      {{ template "clickhouse.backupPasswordValue" . }}
+      {{- end}}
+      {{- if .Values.clickhouse.additionalUsersConfig }}
+      {{- .Values.clickhouse.additionalUsersConfig | toYaml | nindent 6 }}
+      {{- end}}
+    profiles:
+      {{- merge dict .Values.clickhouse.profiles .Values.clickhouse.defaultProfiles | toYaml | nindent 6 }}
+
+    clusters:
+      - name: {{ .Values.clickhouse.cluster | quote }}
+        templates:
+          podTemplate: pod-template
+          clusterServiceTemplate: service-template
+          {{- if and (.Values.clickhouse.persistence.enabled) (not .Values.clickhouse.persistence.existingClaim) }}
+          dataVolumeClaimTemplate: data-volumeclaim-template
+          {{- end }}
+        layout:
+          {{- toYaml .Values.clickhouse.layout | nindent 10 }}
+
+    settings:
+      {{- merge dict .Values.clickhouse.settings .Values.clickhouse.defaultSettings | toYaml | nindent 6 }}
+
+    files:
+      events.proto: |
+        syntax = "proto3";
+        message Event {
+          string uuid = 1;
+          string event = 2;
+          string properties = 3;
+          string timestamp = 4;
+          uint64 team_id = 5;
+          string distinct_id = 6;
+          string created_at = 7;
+          string elements_chain = 8;
+        }
+
+    zookeeper:
+      nodes:
+      {{- if .Values.clickhouse.externalZookeeper }}
+        {{- toYaml .Values.clickhouse.externalZookeeper.servers | nindent 8 }}
+      {{- end }}
+
+  templates:
+    podTemplates:
+      - name: pod-template
+          {{- if .Values.clickhouse.podAnnotations }}
+        metadata:
+          annotations: {{ toYaml .Values.clickhouse.podAnnotations | nindent 12 }}
+          {{- end }}
+        {{- if .Values.clickhouse.podDistribution }}
+        podDistribution: {{ toYaml .Values.clickhouse.podDistribution | nindent 12 }}
+        {{- end}}
+        spec:
+          {{- if .Values.clickhouse.affinity }}
+          affinity: {{ toYaml .Values.clickhouse.affinity | nindent 12 }}
+          {{- end }}
+          {{- if .Values.clickhouse.tolerations }}
+          tolerations: {{ toYaml .Values.clickhouse.tolerations | nindent 12 }}
+          {{- end }}
+          {{- if .Values.clickhouse.nodeSelector }}
+          nodeSelector: {{ toYaml .Values.clickhouse.nodeSelector | nindent 12 }}
+          {{- end }}
+
+          {{- if .Values.clickhouse.persistence.enabled }}
+          volumes:
+          {{- if .Values.clickhouse.persistence.existingClaim }}
+            - name: existing-volumeclaim
+              persistentVolumeClaim:
+                claimName: {{ .Values.clickhouse.persistence.existingClaim }}
+          {{- else }}
+            - name: data-volumeclaim-template
+              persistentVolumeClaim:
+                claimName: data-volumeclaim-template
+          {{- end }}
+          {{- end }}
+
+          {{- if .Values.clickhouse.securityContext.enabled }}
+          securityContext: {{- omit .Values.clickhouse.securityContext "enabled" | toYaml | nindent 12 }}
+          {{- end }}
+
+          {{- if .Values.clickhouse.image.pullSecrets }}
+          imagePullSecrets:
+            {{- range .Values.clickhouse.image.pullSecrets }}
+            - name: {{ . }}
+            {{- end }}
+          {{- end }}
+
+          containers:
+            - name: clickhouse
+              image: {{ template "posthog.clickhouse.image" . }}
+              command:
+                - /bin/bash
+                - -c
+                - /usr/bin/clickhouse-server --config-file=/etc/clickhouse-server/config.xml
+
+              ports:
+                - name: http
+                  containerPort: 8123
+                - name: client
+                  containerPort: 9000
+                - name: interserver
+                  containerPort: 9009
+              {{- if .Values.clickhouse.persistence.enabled }}
+              volumeMounts:
+              {{- if .Values.clickhouse.persistence.existingClaim }}
+                - name: existing-volumeclaim
+              {{- else }}
+                - name: data-volumeclaim-template
+              {{- end }}
+                  mountPath: /var/lib/clickhouse
+              {{- end }}
+
+              {{- if .Values.clickhouse.resources }}
+              resources: {{ toYaml .Values.clickhouse.resources | nindent 16 }}
+              {{- end }}
+            {{- if .Values.clickhouse.backup.enabled }}
+            - name: clickhouse-backup
+              image: {{ template "posthog_backup.clickhouse.image" . }}
+              imagePullPolicy: {{ .Values.clickhouse.backup.image.pullPolicy }}
+              command:
+                - /bin/bash
+                - -c
+                - /bin/clickhouse-backup server
+              {{- with .Values.clickhouse.backup.env }}
+              env:
+                {{- toYaml . | nindent 16 }}
+              {{- end}}
+              ports:
+                - name: backup-rest
+                  containerPort: 7171
+            {{- end }}
+
+    serviceTemplates:
+      - name: service-template
+        generateName: {{ template "posthog.clickhouse.fullname" . }}
+        spec:
+          ports:
+            - name: http
+              port: 8123
+            - name: tcp
+              port: 9000
+          type: {{ .Values.clickhouse.serviceType }}
+
+    {{- if and (.Values.clickhouse.persistence.enabled) (not .Values.clickhouse.persistence.existingClaim) }}
+    volumeClaimTemplates:
+      - name: data-volumeclaim-template
+        spec:
+          {{- if .Values.clickhouse.persistence.storageClass }}
+          storageClassName: {{ .Values.clickhouse.persistence.storageClass }}
+          {{- end }}
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: {{ .Values.clickhouse.persistence.size | quote }}
+    {{- end }}
+
+{{- end }}
