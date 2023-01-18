@@ -1,0 +1,16 @@
+name: clickhouse-aws
+description: Installs clickhouse on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+
+
+sections:
+- name: clickhouse
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: clickhouse

@@ -1,0 +1,6 @@
+apiVersion: v2
+name: clickhouse
+description: helm chart for clickhouse
+type: application
+version: 0.1.0
+appVersion: "v1.0.0"

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: zookeeper-dashboard
+  labels: {{ include "clickhouse.labels" . | nindent 4 }}
+    grafana_dashboard: zookeeper-dashboard
+  annotations:
+    k8s-sidecar-target-directory: /tmp/dashboards/ClickHouse Dashboards
+data:
+  Zookeeper_dashboard.json: |-
+{{ .Files.Get "grafana-dashboards/Zookeeper_dashboard.json" | indent 4 }}

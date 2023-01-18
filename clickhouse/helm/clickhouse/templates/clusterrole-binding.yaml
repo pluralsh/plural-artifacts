@@ -1,0 +1,14 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: clickhouse-operator
+  labels:
+    {{- include "clickhouse.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: clickhouse-operator
+subjects:
+- kind: ServiceAccount
+  name: {{ include "clickhouse.serviceAccountName" . }}
+  namespace: {{ .Release.Namespace }}

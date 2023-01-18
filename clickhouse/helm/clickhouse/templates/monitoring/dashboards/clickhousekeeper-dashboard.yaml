@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: clickhousekeeper-dashboard
+  labels: {{ include "clickhouse.labels" . | nindent 4 }}
+    grafana_dashboard: clickhousekeeper-dashboard
+  annotations:
+    k8s-sidecar-target-directory: /tmp/dashboards/ClickHouse Dashboards
+data:
+  ClickHouseKeeper_dashboard.json: |-
+{{ .Files.Get "grafana-dashboards/ClickHouseKeeper_dashboard.json" | indent 4 }}

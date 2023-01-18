@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: altinity-clickhouse-operator-dashboard
+  labels: {{ include "clickhouse.labels" . | nindent 4 }}
+    grafana_dashboard: altinity-clickhouse-operator-dashboard
+  annotations:
+    k8s-sidecar-target-directory: /tmp/dashboards/ClickHouse Dashboards
+data:
+  Altinity_ClickHouse_Operator_dashboard.json: |-
+{{ .Files.Get "grafana-dashboards/Altinity_ClickHouse_Operator_dashboard.json" | indent 4 }}
