@@ -20,6 +20,10 @@ sections:
   - name: hostname
     documentation: FQDN to use for your posthog installation
     type: DOMAIN
+  - name: notificationEmail
+    documentation: email for notifications to be sent to from the PostHog stack
+    type: STRING
+    optional: true
   items:
   - type: TERRAFORM
     name: aws
