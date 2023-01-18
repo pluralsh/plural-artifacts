@@ -2,16 +2,18 @@ posthog:
   cloud: ""
   image:
     repository: posthog/posthog
-    tag: release-1.36.0
+    tag: release-1.42.0
   postgresql:
     enabled: false
   externalPostgresql:
-    postgresqlHost: plural-posthog
+    postgresqlHost: plural-postgres-posthog
     postgresqlPort: 5432
     postgresqlDatabase: posthog
     postgresqlUsername: posthog
-    existingSecret: posthog.plural-posthog.credentials.postgresql.acid.zalan.do
+    existingSecret: posthog.plural-postgres-posthog.credentials.postgresql.acid.zalan.do
     existingSecretPasswordKey: password
+  pgbouncer:
+    enabled: false # we should try using the pgbouncer managed by the postgres operator
   redis:
     enabled: false
   externalRedis:
@@ -19,8 +21,7 @@ posthog:
     port: 6379
     password: ""
   clickhouse:
-    # -- Whether to install clickhouse. If false, `clickhouse.host` must be set
-    enabled: true
+    enabled: false
   externalClickhouse:
     # -- Host of the external cluster. This is required when clickhouse.enabled is false
     host:
@@ -48,8 +49,14 @@ posthog:
     # -- Name of an existing Kubernetes secret object containing the `access_key_id` and `secret_access_key`. The secret has to contain the keys `root-user` and `root-password`).
     existingSecret:
   kafka:
-  # -- Whether to deploy Kafka as part of this release. To use an external Kafka instance set this to `false` and configure the `externalKafka` values.
     enabled: false
+  externalKafka:
+  # - External Kafka brokers. Ignored if `kafka.enabled` is set to `true`. Multiple brokers can be provided as array/list.
+    brokers: []
+  zookeeper:
+    enabled: false
+  busybox:
+    image: busybox:1.34
 
 postgres:
   team: plural

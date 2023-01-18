@@ -1,9 +1,9 @@
 dependencies:
 - name: posthog
   repository: https://posthog.github.io/charts-clickhouse/
-  version: 21.0.0
+  version: 30.2.4
 - name: postgres
   repository: https://pluralsh.github.io/module-library
-  version: 0.1.5
-digest: sha256:2c7e2ec0a3e6d2421a0c1229d969efa116cd600e2f2464e44d1225955fcc97ab
-generated: "2022-06-07T18:38:56.568997732+02:00"
+  version: 0.1.13
+digest: sha256:a1fe949137d910caf97fcc32caa2e4fec9837b6ffe042b8dc424f9cdbcd829aa
+generated: "2022-12-20T12:44:01.857273+01:00"
