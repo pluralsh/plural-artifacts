@@ -59,6 +59,22 @@ airbyte:
     containerOrchestrator:
       image: dkr.plural.sh/airbyte/airbyte/container-orchestrator:0.40.28
 
+    livenessProbe:
+      enabled: true
+      initialDelaySeconds: 45
+      periodSeconds: 10
+      timeoutSeconds: 1
+      failureThreshold: 3
+      successThreshold: 1
+    
+    readinessProbe:
+      enabled: true
+      initialDelaySeconds: 45
+      periodSeconds: 10
+      timeoutSeconds: 1
+      failureThreshold: 3
+      successThreshold: 1
+
   cron:
     image:
       repository: dkr.plural.sh/airbyte/airbyte/cron
@@ -71,6 +87,22 @@ airbyte:
     
     log:
       level: INFO
+    
+    livenessProbe:
+      enabled: true
+      initialDelaySeconds: 45
+      periodSeconds: 10
+      timeoutSeconds: 1
+      failureThreshold: 3
+      successThreshold: 1
+    
+    readinessProbe:
+      enabled: true
+      initialDelaySeconds: 45
+      periodSeconds: 10
+      timeoutSeconds: 1
+      failureThreshold: 3
+      successThreshold: 1
 
   connector-builder-server:
     image:
@@ -133,6 +165,8 @@ postgres:
   dbName: airbyte
   ownerChart: airbyte
   infix: ""
+  parameters:
+    max_connections: '101'
 
 oidcProxy:
   enabled: false
