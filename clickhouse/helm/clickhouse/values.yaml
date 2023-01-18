@@ -1,12 +1,12 @@
 altinity-clickhouse-operator:
   operator:
     image:
-      repository: altinity/clickhouse-operator
+      repository: dkr.plural.sh/clickhouse/altinity/clickhouse-operator
       tag: 0.20.1
 
   metrics:
     image:
-      repository: altinity/metrics-exporter
+      repository: dkr.plural.sh/clickhouse/altinity/metrics-exporter
       tag: 0.20.1
 
   serviceMonitor:
