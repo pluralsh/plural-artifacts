@@ -31,6 +31,72 @@ variable "kube_proxy_addon_version" {
   description = "The version of the kube-proxy addon to use"
 }
 
+variable "enable_ebs_csi_driver" {
+  type = bool
+  default = true
+  description = "Whether to enable the EBS CSI driver"
+}
+
+variable "enable_cluster_autoscaler" {
+  type = bool
+  default = true
+  description = "Whether to enable the cluster autoscaler"
+}
+
+variable "enable_aws_lb_controller" {
+  type = bool
+  default = true
+  description = "Whether to enable the AWS LB controller"
+}
+
+variable "create_cluster" {
+  type = bool
+  default = true
+  description = "Whether to create a fresh cluster, or simply reference an existing one"
+}
+
+variable "create_vpc" {
+  type = bool
+  default = true
+  description = "Whether to create a fresh vpc, or simply reference an existing one"
+}
+
+variable "eks_oidc_root_ca_thumbprint" {
+  type        = string
+  description = "Thumbprint of Root CA for EKS OIDC, Valid until 2037"
+  default     = "9e99a48a9960b14926bb7f3b02e22da2b0ab7280"
+}
+
+variable "enable_irsa" {
+  type = bool
+  default = true
+  description = "whether to enable the irsa oidc provider for your cluster (only relevant for byok)"
+}
+
+variable "enable_vpc_s3_endpoint" {
+  type = bool
+  default = true
+  description = "whether to enable creation of a vpc endpoint to s3 to mitigate bandwidth cost (disable if one exists already)"
+}
+
+variable "private_subnet_ids" {
+  type = list(string)
+  default = []
+  description = "private subnet ids for your existing cluster (will be ignored if not deployed in BYOK mode)"
+}
+
+variable "worker_private_subnet_ids" {
+  type = list(string)
+  default = []
+  description = "private subnet ids for the worker nodes of your cluster (will be ignored if not deployed in BYOK mode)"
+}
+
+variable "public_subnet_ids" {
+  type = list(string)
+  default = []
+  description = "public subnet ids for your existing clsuter (will be ignored if not deployed in BYOK mode)"
+}
+
 variable "cluster_name" {
   type = string
   default = "plural"

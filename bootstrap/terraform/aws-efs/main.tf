@@ -107,7 +107,7 @@ resource "aws_efs_file_system" "efs_main" {
 
 resource "aws_efs_mount_target" "efs_mount_target" {
 
-  count = length(var.cluster_worker_private_subnets)
+  count = length(var.cluster_worker_private_subnets_ids)
 
   file_system_id = aws_efs_file_system.efs_main.id
   subnet_id      = var.cluster_worker_private_subnet_ids[count.index]
