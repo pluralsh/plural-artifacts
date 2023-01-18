@@ -50,7 +50,7 @@ posthog:
     # -- Key in the existingSecret containing the password value
     existingSecretPasswordKey: clickhousePassword
     # -- Whether to use TLS connection connecting to ClickHouse
-    secure: true
+    secure: false
     # -- Whether to verify TLS connection connecting to ClickHouse
     verify: false
   externalObjectStorage:
@@ -102,7 +102,7 @@ clickhouse:
   # -- Key in the existingSecret containing the password value
   existingSecretPasswordKey: ""
   # -- Whether to use TLS connection connecting to ClickHouse
-  secure: true
+  secure: false
   # -- Whether to verify TLS certificate on connection to ClickHouse
   verify: false
   # -- List of external Zookeeper servers to use.
