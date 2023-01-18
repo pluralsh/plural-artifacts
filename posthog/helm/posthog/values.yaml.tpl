@@ -1,5 +1,11 @@
 {{ $redisNamespace := namespace "redis" }}
+{{ $kafkaNamespace := namespace "kafka" }}
 {{ $redisValues := .Applications.HelmValues "redis" }}
+global:
+  application:
+    links:
+    - description: posthog web ui
+      url: {{ .Values.hostname }}
 
 posthog:
   {{ if or (eq .Provider "equinix") (eq .Provider "kind") }}
@@ -9,6 +15,13 @@ posthog:
   {{- else }}
   cloud: {{ .Provider }}
   {{- end }}
+  externalKafka:
+    brokers:
+    - kafka-kafka-brokers.{{ $kafkaNamespace }}.svc:9092
   externalRedis:
     host: redis-master.{{ $redisNamespace }}
     password: {{ $redisValues.redis.password }}
+  siteUrl: https://{{ .Values.hostname }}
+  ingress:
+    hostname: {{ .Values.hostname }}
+

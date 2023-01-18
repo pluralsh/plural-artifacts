@@ -16,7 +16,10 @@ dependencies:
   name: aws-kafka
 sections:
 - name: posthog
-  configuration: []
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for your posthog installation
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: aws

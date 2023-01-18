@@ -4,6 +4,6 @@ dependencies:
   version: 30.2.4
 - name: postgres
   repository: https://pluralsh.github.io/module-library
-  version: 0.1.14
-digest: sha256:5ee1e18d4343d94a4ce7f1282f885a5186bdbbaebde53efaa40e4b9aa64c8219
-generated: "2022-12-20T15:40:08.342472+01:00"
+  version: 0.1.16
+digest: sha256:00a7501bcb67f08a8c01c9bd9f4e791a8f9c57f129b107dea35e22823d9c6539
+generated: "2023-01-18T13:05:24.073592+01:00"
