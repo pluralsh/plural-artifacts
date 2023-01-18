@@ -7,6 +7,7 @@ spec:
   defaults:
     templates:
       serviceTemplate: service-template
+      replicaServiceTemplate: replica-service-template
   configuration:
     users:
       {{- template "clickhouse.passwordValue" . }}
@@ -30,7 +31,7 @@ spec:
       - name: {{ .Values.clickhouse.cluster | quote }}
         templates:
           podTemplate: pod-template
-          clusterServiceTemplate: service-template
+          clusterServiceTemplate: cluster-service-template
           {{- if and (.Values.clickhouse.persistence.enabled) (not .Values.clickhouse.persistence.existingClaim) }}
           dataVolumeClaimTemplate: data-volumeclaim-template
           {{- end }}
@@ -53,6 +54,19 @@ spec:
           string created_at = 7;
           string elements_chain = 8;
         }
+      keeper_config.xml: |
+        <clickhouse>
+            <include_from>/tmp/clickhouse-keeper/config.d/generated-keeper-settings.xml</include_from>
+            <keeper_server incl="keeper_server">
+                <path>/var/lib/clickhouse-keeper</path>
+                <tcp_port>2181</tcp_port>
+                <four_letter_word_white_list>*</four_letter_word_white_list>
+                <coordination_settings>
+                    <!-- <raft_logs_level>trace</raft_logs_level> -->
+                    <raft_logs_level>information</raft_logs_level>
+                </coordination_settings>
+            </keeper_server>
+        </clickhouse>
 
     zookeeper:
       nodes:
@@ -95,10 +109,47 @@ spec:
           containers:
             - name: clickhouse
               image: {{ template "posthog.clickhouse.image" . }}
+              env:
+              - name: KEEPER_SERVERS
+                value: "3"
+              - name: RAFT_PORT
+                value: "9444"
               command:
                 - /bin/bash
                 - -c
-                - /usr/bin/clickhouse-server --config-file=/etc/clickhouse-server/config.xml
+                - |
+                  HOST=`hostname -s` &&
+                  DOMAIN=`hostname -d` &&
+                  if [[ $HOST =~ (.*)-([0-9]+)-([0-9]+)$ ]]; then
+                      NAME=${BASH_REMATCH[1]}
+                      ORD=${BASH_REMATCH[2]}
+                      SUFFIX=${BASH_REMATCH[3]}
+                  else
+                      echo "Failed to parse name and ordinal of Pod"
+                      exit 1
+                  fi &&
+                  if [[ $DOMAIN =~ (.*)-([0-9]+)(.posthog.svc.cluster.local)$ ]]; then
+                      DOMAIN_NAME=${BASH_REMATCH[1]}
+                      DOMAIN_ORD=${BASH_REMATCH[2]}
+                      DOMAIN_SUFFIX=${BASH_REMATCH[3]}
+                  else
+                      echo "Failed to parse name and ordinal of Pod"
+                      exit 1
+                  fi &&
+                  export MY_ID=$((ORD+1)) &&
+                  mkdir -p /tmp/clickhouse-keeper/config.d/ &&
+                  {
+                    echo "<yandex><keeper_server>"
+                    echo "<server_id>${MY_ID}</server_id>"
+                    echo "<raft_configuration>"
+                    for (( i=1; i<=$KEEPER_SERVERS; i++ )); do
+                        echo "<server><id>${i}</id><hostname>$NAME-$((i-1))-${SUFFIX}.${DOMAIN_NAME}-$((i-1))${DOMAIN_SUFFIX}</hostname><port>${RAFT_PORT}</port></server>"
+                    done
+                    echo "</raft_configuration>"
+                    echo "</keeper_server></yandex>"
+                  } > /tmp/clickhouse-keeper/config.d/generated-keeper-settings.xml &&
+                  cat /tmp/clickhouse-keeper/config.d/generated-keeper-settings.xml &&
+                  /usr/bin/clickhouse-server --config-file=/etc/clickhouse-server/config.xml
 
               ports:
                 - name: http
@@ -139,14 +190,39 @@ spec:
 
     serviceTemplates:
       - name: service-template
-        generateName: {{ template "posthog-plural.name" . }}-clickhouse
+        generateName: service-{chi}
         spec:
           ports:
             - name: http
               port: 8123
             - name: tcp
               port: 9000
+            - name: clickhouse-keeper
+              port: 2181
           type: {{ .Values.clickhouse.serviceType }}
+      - name: cluster-service-template
+        generateName: service-{chi}-{cluster}
+        spec:
+          ports:
+            - name: http
+              port: 8123
+            - name: tcp
+              port: 9000
+          type: ClusterIP
+          clusterIP: None
+      - name: replica-service-template
+        generateName: service-{chi}-{shard}-{replica}
+        spec:
+          ports:
+            - name: http
+              port: 8123
+            - name: tcp
+              port: 9000
+            - name: clickhouse-keeper
+              port: 2181
+            - name: raft
+              port: 9444
+          type: ClusterIP
 
     {{- if and (.Values.clickhouse.persistence.enabled) (not .Values.clickhouse.persistence.existingClaim) }}
     volumeClaimTemplates:

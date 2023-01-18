@@ -9,5 +9,5 @@ dependencies:
   version: 30.2.4
   repository: https://posthog.github.io/charts-clickhouse/
 - name: postgres
-  version: 0.1.13
+  version: 0.1.14
   repository: https://pluralsh.github.io/module-library

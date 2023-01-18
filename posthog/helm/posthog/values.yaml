@@ -13,18 +13,18 @@ posthog:
     existingSecret: posthog.plural-postgres-posthog.credentials.postgresql.acid.zalan.do
     existingSecretPasswordKey: password
   pgbouncer:
-    enabled: false # we should try using the pgbouncer managed by the postgres operator
+    enabled: true # TODO: we should try using the pgbouncer managed by the postgres operator, need to upstream a change for this. see https://github.com/PostHog/charts-clickhouse/issues/280
   redis:
     enabled: false
   externalRedis:
-    host: ""
+    host: redis-master.redis
     port: 6379
     password: ""
   clickhouse:
     enabled: false
   externalClickhouse:
     # -- Host of the external cluster. This is required when clickhouse.enabled is false
-    host: posthog-clickhouse
+    host: service-posthog-clickhouse-posthog
     # -- Name of the external cluster to run DDL queries on. This is required when clickhouse.enabled is false
     cluster: posthog
     # -- Database name for the external cluster
@@ -52,7 +52,8 @@ posthog:
     enabled: false
   externalKafka:
   # - External Kafka brokers. Ignored if `kafka.enabled` is set to `true`. Multiple brokers can be provided as array/list.
-    brokers: []
+    brokers:
+    - kafka-kafka-brokers.kafka.svc:9092
   zookeeper:
     enabled: false
   busybox:
@@ -81,12 +82,8 @@ clickhouse:
   # -- List of external Zookeeper servers to use.
   externalZookeeper:
     servers:
-      - host: host1
-        port: 2181
-      - host: host2
-        port: 2181
-      - host: host3
-        port: 2181
+    - host: service-posthog-clickhouse
+      port: 2181
 
   image:
     # -- ClickHouse image repository.
@@ -174,7 +171,7 @@ clickhouse:
   ## section on clusters and layouts.
   layout:
     shardsCount: 1
-    replicasCount: 1
+    replicasCount: 3
 
   ## -- ClickHouse settings configuration.
   ## You can use this to override settings, for example `prometheus/port: 9363`
@@ -280,3 +277,4 @@ postgres:
   user: posthog
   dbName: posthog
   ownerChart: posthog
+  enableConnectionPooler: true
