@@ -71,8 +71,7 @@ posthog:
     image: busybox:1.34
 
 clickhouse:
-  # -- Whether to install clickhouse. If false, `clickhouse.host` must be set
-  enabled: false
+  enabled: true
   # -- Clickhouse cluster
   cluster: posthog
   # -- Clickhouse database
