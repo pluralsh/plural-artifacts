@@ -2,5 +2,9 @@ apiVersion: v2
 name: clickhouse
 description: helm chart for clickhouse
 type: application
-version: 0.1.0
-appVersion: "v1.0.0"
+version: 0.1.1
+appVersion: 0.20.1
+dependencies:
+- name: altinity-clickhouse-operator
+  version: 0.20.1
+  repository: https://raw.githubusercontent.com/Altinity/clickhouse-operator/gh-pages

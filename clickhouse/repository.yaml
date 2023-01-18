@@ -4,3 +4,7 @@ category: DATA
 private: true
 icon: plural/icons/clickhouse.png
 notes: plural/notes.tpl
+gitUrl: https://github.com/Altinity/clickhouse-operator
+homepage: https://altinity.com/kubernetes-operator/
+tags:
+- tag: analytics
