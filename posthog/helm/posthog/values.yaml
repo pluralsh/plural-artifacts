@@ -81,6 +81,11 @@ posthog:
 
 secrets:
   clickhousePassword: CHAMGE_ME
+  slack:
+    enabled: false
+    clientID: ""
+    clientSecret: ""
+    signingSecret: ""
 
 clickhouse:
   enabled: true

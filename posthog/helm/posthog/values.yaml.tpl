@@ -10,6 +10,13 @@ global:
 
 secrets:
   clickhousePassword: {{ $chPassword }}
+  {{- if .Values.slack.enabled }}
+  slack:
+    enabled: true
+    clientID: {{ .Values.slack.clientID }}
+    clientSecret: {{ .Values.slack.clientSecret }}
+    signingSecret: {{ .Values.slack.signingSecret }}
+  {{- end }}
 
 posthog:
   {{- if or (eq .Provider "equinix") (eq .Provider "kind") }}
@@ -31,6 +38,25 @@ posthog:
   siteUrl: https://{{ .Values.hostname }}
   ingress:
     hostname: {{ .Values.hostname }}
+
+  {{- if .Values.slack.enabled }}
+  env:
+  - name: SLACK_APP_CLIENT_ID
+    valueFrom:
+      secretKeyRef:
+        name: plural-posthog-slack-secret
+        key: clientID
+  - name: SLACK_APP_CLIENT_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: plural-posthog-slack-secret
+        key: clientSecret
+  - name: SLACK_APP_SIGNING_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: plural-posthog-slack-secret
+        key: signingSecret
+  {{- end }}
 
   {{- if .SMTP }}
   email:
