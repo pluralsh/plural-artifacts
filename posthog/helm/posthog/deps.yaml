@@ -16,7 +16,7 @@ spec:
   - type: helm
     name: clickhouse
     repo: clickhouse
-    version: ">= 0.1.0"
+    version: ">= 0.1.2"
   - type: helm
     name: postgres
     repo: postgres
