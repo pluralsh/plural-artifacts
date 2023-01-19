@@ -218,6 +218,8 @@ spec:
               port: 8123
             - name: tcp
               port: 9000
+            - name: interserver
+              port: 9009
             - name: clickhouse-keeper
               port: 2181
             - name: raft
