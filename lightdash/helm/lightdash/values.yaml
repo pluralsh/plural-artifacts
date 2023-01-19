@@ -7,6 +7,12 @@ lightdash:
     existingSecret: lightdash.plural-postgres-lightdash.credentials.postgresql.acid.zalan.do
     secretKeys:
       passwordKey: password
+  configMap:
+    PGSSLMODE: "no-verify"
+    PGHOST: "plural-postgres-lightdash"
+    PGPORT: "5432"
+    PGUSER: lightdash
+    PGDATABASE: "lightdash"
   resources:
     requests:
       cpu: '500m'
