@@ -113,6 +113,17 @@ airbyte:
     image:
       repository: dkr.plural.sh/airbyte/airbyte/bootloader
       tag: 0.40.28
+    extraInitContainers:
+    - name: wait-for-pg
+      image: gcr.io/pluralsh/busybox:latest
+      imagePullPolicy: IfNotPresent
+      command: [ "/bin/sh", "-c", "until nc -zv $DATABASE_HOST 5432 -w1; do echo 'waiting for db'; sleep 1; done" ]
+      env:
+      - name: DATABASE_HOST
+        valueFrom:
+          configMapKeyRef:
+            name: airbyte-airbyte-env
+            key: DATABASE_HOST
 
   pod-sweeper:
     image:
