@@ -1,0 +1,1 @@
+This chart will set up your minecraft server and expose it via a load balancer service over tcp

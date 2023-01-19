@@ -42,3 +42,20 @@ output "worker_role_arn" {
 output "node_groups" {
   value = [for d in merge(module.single_az_node_groups.node_groups, module.multi_az_node_groups.node_groups): d]
 }
+
+output "vpc" {
+  value = module.vpc
+}
+
+output "vpc_cidr" {
+  value = module.vpc.vpc_cidr_block
+}
+
+
+output "cluster" {
+  value = module.cluster
+}
+
+output "cluster_service_ipv4_cidr" {
+  value = module.cluster.cluster_service_ipv4_cidr
+}

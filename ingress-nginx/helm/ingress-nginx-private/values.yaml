@@ -2,6 +2,12 @@ ingress-nginx:
   nameOverride: internal-ingress-nginx
   fullnameOverride: internal-ingress-nginx
   controller:
+    image:
+      registry: dkr.plural.sh/ingress-nginx
+      image: ingress-nginx/controller
+      tag: v1.5.1
+      digest: null
+      digestChroot: null
     ingressClass: k8s.io/internal-nginx
     electionID: internal-ingress-controller-leader
     ingressClassResource:
@@ -40,7 +46,7 @@ ingress-nginx:
     resources:
       requests:
         cpu: 100m
-        memory: 120Mi
+        memory: 180Mi
     topologySpreadConstraints:
     - maxSkew: 1
       topologyKey: topology.kubernetes.io/zone
@@ -52,7 +58,7 @@ ingress-nginx:
       enabled: true
       minReplicas: 2
       maxReplicas: 11
-      targetCPUUtilizationPercentage: 50
+      targetCPUUtilizationPercentage: ""
       targetMemoryUtilizationPercentage: 95
       behavior:
         scaleDown:

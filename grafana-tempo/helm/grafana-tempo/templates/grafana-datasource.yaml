@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tempo-grafana-datasource
+  labels:
+    grafana_datasource: 'tempo'
+    {{ include "grafana-tempo.labels" . | nindent 4 }}
+data:
+  tempo-datasource.yaml: |-
+    apiVersion: 1
+    datasources:
+    - name: Tempo
+      type: tempo
+      access: proxy
+      orgId: 1
+      uid: tempo
+      url: http://{{ template "tempo.queryFrontendFullname" (index .Subcharts "tempo-distributed") }}.{{ .Release.Namespace }}:3100
+      jsonData:
+        tracesToLogs:
+          {{- if eq .Values.lokiMode "distributed" }}
+          datasourceUid: loki-distributed
+          {{- else }}
+          datasourceUid: loki
+          {{- end }}
+          tags:
+            - cluster
+            - namespace
+            - pod

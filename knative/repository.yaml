@@ -1,8 +1,9 @@
 name: knative
-description: serverless for kubernetes
+description: An open-source enterprise-level solution to build serverless and event-driven applications.
 category: DEVOPS
 icon: plural/icons/knative.png
 gitUrl: https://github.com/knative/serving
+notes: plural/notes.tpl
 homepage: https://knative.dev/docs/
 tags:
   - tag: functions

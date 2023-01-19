@@ -1,5 +1,5 @@
 name: vaultwarden
-description: Unofficial Bitwarden compatible server written in Rust
+description: An open-source password management solution for individuals, teams, and business organizations.
 category: SECURITY
 icon: plural/icons/vaultwarden.png
 notes: plural/notes.tpl

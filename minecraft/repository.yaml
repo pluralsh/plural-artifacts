@@ -1,0 +1,8 @@
+name: minecraft
+description: your very own minecraft server on kubernetes
+category: PRODUCTIVITY
+private: false
+icon: plural/icons/minecraft.png
+darkIcon: plural/icons/minecraft.png
+notes: plural/notes.tpl
+

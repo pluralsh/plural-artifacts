@@ -1,0 +1,19 @@
+name: redash-azure
+description: Installs redash on an azure aks cluster
+provider: AZURE
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-azure
+sections:
+- name: redash
+  configuration:
+    - name: hostname
+      documentation: domain on which you'd like to host redash's page
+      type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: azure
+  - type: HELM
+    name: redash

@@ -6,15 +6,14 @@ data:
   oauth-sidecar-config.yaml: |
     containers:
     - name: oauth2-proxy
-      image: quay.io/oauth2-proxy/oauth2-proxy:v7.2.0
+      image: dkr.plural.sh/oauth2-proxy/oauth2-proxy/oauth2-proxy:v7.3.0
       imagePullPolicy: IfNotPresent
       resources:
         requests:
-          cpu: 10m
-          memory: 20Mi
+          cpu: 25m
+          memory: 50Mi
         limits:
-          cpu: 10m
-          memory: 20Mi
+          memory: 50Mi
       ports:
       - name: oauth-http
         containerPort: 4180

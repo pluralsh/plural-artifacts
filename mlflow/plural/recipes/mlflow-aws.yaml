@@ -25,9 +25,5 @@ sections:
   items:
   - type: TERRAFORM
     name: aws
-  - type: TERRAFORM
-    name: aws-standalone
   - type: HELM
     name: mlflow
-  - type: HELM
-    name: mlflow-standalone

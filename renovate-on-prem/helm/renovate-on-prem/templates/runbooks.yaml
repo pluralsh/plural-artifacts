@@ -1,0 +1,64 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Runbook
+metadata:
+  name: scaling-manual
+  labels:
+    platform.plural.sh/pinned: 'true'
+{{ include "renovate-on-prem.labels" . | indent 4 }}
+spec:
+  name: Renovate Scaling
+  description: overview of how to optimally scale your Renovate deployment
+  display: |-
+{{ .Files.Get "runbooks/scaling-manual.xml" | indent 4 }}
+  datasources:
+  - name: renovate-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ template "whitesource-renovate.fullname" (index .Subcharts "whitesource-renovate") }}.+"}[5m])) by (pod)
+  - name: renovate-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "whitesource-renovate.fullname" (index .Subcharts "whitesource-renovate") }}.+"}) by (pod)
+  - name: renovate
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: {{ template "whitesource-renovate.fullname" (index .Subcharts "whitesource-renovate") }}
+  actions:
+  - name: scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+        - path:
+            - renovate-on-prem
+            - whitesource-renovate
+            - resources
+            - requests
+            - cpu
+          valueFrom: renovate-cpu
+        - path:
+            - renovate-on-prem
+            - whitesource-renovate
+            - resources
+            - requests
+            - memory
+          valueFrom: renovate-memory
+        - path:
+            - renovate-on-prem
+            - whitesource-renovate
+            - resources
+            - limits
+            - cpu
+          valueFrom: renovate-cpu-limit
+        - path:
+            - renovate-on-prem
+            - whitesource-renovate
+            - resources
+            - limits
+            - memory
+          valueFrom: renovate-memory-limit

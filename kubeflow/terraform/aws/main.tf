@@ -87,7 +87,7 @@ data "aws_eks_node_group" "main" {
 }
 
 module "node_groups" {
-  source                 = "github.com/pluralsh/module-library//terraform/eks-node-groups/single-az-node-groups?ref=7b6d3b1d1602e4265d6d3b172c38fe67d9a2c7fc"
+  source                 = "github.com/pluralsh/module-library//terraform/eks-node-groups/single-az-node-groups?ref=20e64863ffc5e361045db8e6b81b9d244a55809e"
   cluster_name           = var.cluster_name
   default_iam_role_arn   = var.node_role_arn
   tags                   = var.tags

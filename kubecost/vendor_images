@@ -1,3 +1,0 @@
-gcr.io/kubecost1/cost-model:prod-1.90.1
-gcr.io/kubecost1/frontend:prod-1.90.1
-gcr.io/kubecost1/server:prod-1.90.1

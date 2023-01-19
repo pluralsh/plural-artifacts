@@ -1,0 +1,168 @@
+# Default values for terraria.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  repository: dkr.plural.sh/terraria/ryshe/terraria
+  pullPolicy: IfNotPresent
+  # See https://hub.docker.com/r/ryshe/terraria/tags for the list of available tags.
+  # Please avoid the latest tags as Plural won't be able to control the upgrades.
+  # Default: tshock-1.4.3.6-4.5.18 - terraria server with tshock
+  # Popular tags:
+  #  - vanilla-1.4.3.6-4 - vanilla terraria server
+  tag: tshock-1.4.3.6-4.5.18
+
+serviceAccount:
+  create: true
+  name: ""
+
+resources:
+  limits:
+    cpu: 2
+    memory: 6Gi
+  requests:
+    cpu: 1
+    memory: 4Gi
+
+volume:
+  world:
+    storage: 2Gi
+    path: '/root/.local/share/Terraria/Worlds'
+  plugins:
+    storage: 1Gi
+    path: '/plugins'
+
+service:
+  type: LoadBalancer
+  port: 7777
+
+terraria:
+  # Override default arguments. It will ignore the worldsize.
+  args:
+  worldsize: small
+  settings:
+    InvasionMultiplier: 1
+    DefaultMaximumSpawns: 5
+    DefaultSpawnRate: 600
+    ServerPort: 7777
+    EnableWhitelist: false
+    InfiniteInvasion: false
+    PvPMode: normal
+    SpawnProtection: true
+    SpawnProtectionRadius: 10
+    MaxSlots: 8
+    RangeChecks: true
+    DisableBuild: false
+    SuperAdminChatRGB: [255, 0, 0]
+    SuperAdminChatPrefix: "(Admin) "
+    SuperAdminChatSuffix: ''
+    BackupInterval: 0
+    BackupKeepFor: 60
+    RememberLeavePos: false
+    HardcoreOnly: false
+    MediumcoreOnly: false
+    KickOnMediumcoreDeath: false
+    BanOnMediumcoreDeath: false
+    AutoSave: true
+    AnnounceSave: true
+    MaximumLoginAttempts: 3
+    ServerName: ''
+    UseServerName: false
+    StorageType: sqlite
+    MySqlHost: localhost:3306
+    MySqlDbName: ''
+    MySqlUsername: ''
+    MySqlPassword: ''
+    MediumcoreBanReason: Death results in a ban
+    MediumcoreKickReason: Death results in a kick
+    EnableIPBans: true
+    EnableUUIDBans: true
+    EnableBanOnUsernames: false
+    DefaultRegistrationGroupName: default
+    DefaultGuestGroupName: guest
+    DisableSpewLogs: true
+    DisableSecondUpdateLogs: false
+    HashAlgorithm: sha512
+    ServerFullReason: Server is full
+    WhitelistKickReason: You are not on the whitelist.
+    ServerFullNoReservedReason: Server is full. No reserved slots open.
+    SaveWorldOnCrash: true
+    EnableGeoIP: false
+    EnableTokenEndpointAuthentication: false
+    RestApiEnabled: true
+    RestApiPort: 7878
+    DisableTombstones: true
+    DisplayIPToAdmins: false
+    KickProxyUsers: true
+    DisableHardmode: false
+    DisableDungeonGuardian: false
+    DisableClownBombs: false
+    DisableSnowBalls: false
+    ChatFormat: "{1}{2}{3}: {4}"
+    ChatAboveHeadsFormat: "{2}"
+    ForceTime: normal
+    TileKillThreshold: 60
+    TilePlaceThreshold: 20
+    TileLiquidThreshold: 15
+    ProjectileThreshold: 50
+    HealOtherThreshold: 50
+    ProjIgnoreShrapnel: true
+    RequireLogin: false
+    DisableInvisPvP: false
+    MaxRangeForDisabled: 10
+    ServerPassword: ''
+    RegionProtectChests: false
+    RegionProtectGemLocks: true
+    DisableLoginBeforeJoin: false
+    DisableUUIDLogin: false
+    KickEmptyUUID: false
+    AllowRegisterAnyUsername: false
+    AllowLoginAnyUsername: true
+    MaxDamage: 1175
+    MaxProjDamage: 1175
+    KickOnDamageThresholdBroken: false
+    IgnoreProjUpdate: false
+    IgnoreProjKill: false
+    IgnoreNoClip: false
+    AllowIce: false
+    AllowCrimsonCreep: true
+    AllowCorruptionCreep: true
+    AllowHallowCreep: true
+    StatueSpawn200: 3
+    StatueSpawn600: 6
+    StatueSpawnWorld: 10
+    PreventBannedItemSpawn: false
+    PreventDeadModification: true
+    EnableChatAboveHeads: false
+    ForceXmas: false
+    AllowAllowedGroupsToSpawnBannedItems: false
+    IgnoreChestStacksOnLoad: false
+    LogPath: tshock
+    UseSqlLogs: false
+    RevertToTextLogsOnSqlFailures: 10
+    PreventInvalidPlaceStyle: true
+    BroadcastRGB: [127, 255, 212]
+    ApplicationRestTokens: {}
+    ReservedSlots: 20
+    LogRest: false
+    RespawnSeconds: 5
+    RespawnBossSeconds: 10
+    TilePaintThreshold: 15
+    ForceHalloween: false
+    AllowCutTilesAndBreakables: false
+    CommandSpecifier: "/"
+    CommandSilentSpecifier: "."
+    KickOnHardcoreDeath: false
+    BanOnHardcoreDeath: false
+    HardcoreBanReason: Death results in a ban
+    HardcoreKickReason: Death results in a kick
+    AnonymousBossInvasions: true
+    MaxHP: 500
+    MaxMP: 200
+    SaveWorldOnLastPlayerExit: true
+    BCryptWorkFactor: 7
+    MinimumPasswordLength: 4
+    RESTMaximumRequestsPerInterval: 5
+    RESTRequestBucketDecreaseIntervalMinutes: 1
+    RESTLimitOnlyFailedLoginRequests: true
+    ShowBackupAutosaveMessages: true

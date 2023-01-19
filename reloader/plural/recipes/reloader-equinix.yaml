@@ -1,0 +1,14 @@
+name: reloader-equinix
+description: Installs reloader on an Equinix kubernetes cluster
+provider: EQUINIX
+dependencies:
+- repo: bootstrap
+  name: equinix-k8s
+sections:
+- name: reloader
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: reloader

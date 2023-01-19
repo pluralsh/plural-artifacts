@@ -1,0 +1,7 @@
+docker.io:
+  images:
+    nginxinc/nginx-unprivileged:
+    - 1.19-alpine
+  images-by-tag-regex:
+    grafana/loki: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    grafana/promtail: ^v?[0-9]+\.[0-9]+?\.[0-9]+$

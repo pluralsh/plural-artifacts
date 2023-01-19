@@ -1,0 +1,32 @@
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  application: true
+  description: Deploys datahub crafted for the target cloud
+spec:
+  dependencies:
+  - type: helm
+    name: bootstrap
+    repo: bootstrap
+    version: '>= 0.5.1'
+  - type: helm
+    name: ingress-nginx
+    repo: ingress-nginx
+    version: ">= 0.1.2"
+  - type: helm
+    name: postgres
+    repo: postgres
+    version: ">= 0.1.6"
+  - type: helm
+    name: elasticsearch
+    repo: elasticsearch
+    version: '>= 0.1.10'
+  - type: helm
+    name: kafka
+    repo: kafka
+    version: '>= 0.1.22'
+  - type: terraform
+    name: kube
+    repo: datahub
+    version: '>= 0.1.0'
+  

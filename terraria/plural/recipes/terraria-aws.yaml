@@ -1,0 +1,34 @@
+name: terraria-aws
+description: Installs terraria game server
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+sections:
+- name: terraria
+  configuration:
+  - name: hostname
+    documentation: domain on which you'd like to host your terraria server
+    type: DOMAIN
+  - name: worldsize
+    documentation: size of the world you would like to be generated (small|medium|large)
+    type: STRING
+    default: small
+  - name: password
+    documentation: password that will be required when joining the server (leave empty to disable)
+    type: STRING
+    optional: true
+    default: ''
+  - name: restAPIEnabled
+    documentation: if additional rest API should be enabled and exposed on port 7878 (Y/n)
+    type: STRING
+    validation:
+      type: REGEX
+      regex: '^[yn]*$'
+      message: 'must be one of: y, n'
+    default: y
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: terraria

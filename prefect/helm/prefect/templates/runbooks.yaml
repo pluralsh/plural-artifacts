@@ -1,0 +1,117 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Runbook
+metadata:
+  name: scaling-manual
+  labels:
+    platform.plural.sh/pinned: 'true'
+{{ include "prefect.labels" . | indent 4 }}
+spec:
+  name: Prefect Scaling
+  description: overview of how to optimally scale your Prefect cluster
+  display: |-
+{{ .Files.Get "runbooks/scaling-manual.xml" | indent 4 }}
+  datasources:
+  - name: prefect-orion-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ template "common.names.fullname" (index .Subcharts "prefect-orion") }}.+"}[5m])) by (pod)
+  - name: prefect-orion-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "common.names.fullname" (index .Subcharts "prefect-orion") }}.+"}) by (pod)
+  - name: prefect-agent-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ template "common.names.fullname" (index .Subcharts "prefect-agent") }}.+"}[5m])) by (pod)
+  - name: prefect-agent-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "common.names.fullname" (index .Subcharts "prefect-agent") }}.+"}) by (pod)
+  - name: orion
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: {{ template "common.names.fullname" (index .Subcharts "prefect-orion") }}
+  - name: agent
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: {{ template "common.names.fullname" (index .Subcharts "prefect-agent") }}
+  actions:
+  - name: scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+      - path: 
+        - prefect
+        - prefect-orion
+        - orion
+        - resources
+        - requests
+        - cpu
+        valueFrom: orion-cpu
+      - path:
+        - prefect
+        - prefect-orion
+        - orion
+        - resources
+        - requests
+        - memory
+        valueFrom: orion-memory
+      - path: 
+        - prefect
+        - prefect-orion
+        - orion
+        - resources
+        - limits
+        - cpu
+        valueFrom: orion-cpu-limit
+      - path:
+        - prefect
+        - prefect-orion
+        - orion
+        - resources
+        - limits
+        - memory
+        valueFrom: orion-memory-limit
+      - path:
+        - prefect
+        - prefect-agent
+        - agent
+        - resources
+        - requests
+        - cpu
+        valueFrom: agent-cpu
+      - path:
+        - prefect
+        - prefect-agent
+        - agent
+        - resources
+        - requests
+        - memory
+        valueFrom: agent-memory
+      - path:
+        - prefect
+        - prefect-agent
+        - agent
+        - resources
+        - limits
+        - cpu
+        valueFrom: agent-cpu-limit
+      - path:
+        - prefect
+        - prefect-agent
+        - agent
+        - resources
+        - limits
+        - memory
+        valueFrom: agent-memory-limit

@@ -1,0 +1,11 @@
+name: yugabyte
+description: yugabyte deployed on plural
+category: DATABASE
+private: false
+icon: plural/icons/yugabyte.png
+notes: plural/notes.tpl
+gitUrl: https://github.com/yugabyte/yugabyte-db
+homepage: https://www.yugabyte.com/
+tags:
+- tag: postgres
+- tag: cassandra

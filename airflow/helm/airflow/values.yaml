@@ -16,18 +16,14 @@ test-base:
   promoteTag: warm
 
 postgres:
-  replicas: 1
-  storage:
-    size: 25Gi
-  resources: {}
-  default:
-    resources:
-      requests:
-        cpu: 100m
-        memory: 100Mi
-      limits:
-        cpu: '2'
-        memory: 1Gi
+  enabled: true
+  team: plural
+  user: airflow
+  dbName: airflow
+  ownerChart: airflow
+  infix: ""
+  parameters:
+    max_connections: '101'
 
 exporter:
   image:
@@ -192,6 +188,12 @@ airflow:
         enabled: true
     existingSecret: airflow-postgres-password
   
+  dags:
+    gitSync:
+      image:
+        gid: 0
+        uid: 50000
+
   pgbouncer:
     enabled: false
 
@@ -251,7 +253,7 @@ airflow:
     executor: CeleryExecutor
     image:
       repository: dkr.plural.sh/airflow/apache/airflow
-      tag: 2.1.4-python3.8
+      tag: 2.1.4-python3.8-dbt-2
 
     config:
       ## security

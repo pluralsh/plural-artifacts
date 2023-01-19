@@ -119,19 +119,13 @@ autoscaling:
   # targetMemoryUtilizationPercentage: 80
 
 postgres:
+  enabled: true
   password: '' # must change this
-  replicas: 1
-  storage:
-    size: 25Gi
-  resources: {}
-  default:
-    resources:
-      requests:
-        cpu: 100m
-        memory: 100Mi
-      limits:
-        cpu: '2'
-        memory: 1Gi
+  team: plural
+  user: nocodb
+  dbName: nocodb
+  ownerChart: nocodb
+  infix: ""
 
 nocodb:
   databaseUrl: ''

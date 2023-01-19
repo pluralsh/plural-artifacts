@@ -3,7 +3,7 @@ description: Installs trino on an aws eks cluster
 provider: AWS
 oidcSettings:
   uriFormat: https://{domain}/oauth2/callback
-  authMethod: POST
+  authMethod: BASIC
   domainKey: hostname
 dependencies:
 - repo: bootstrap

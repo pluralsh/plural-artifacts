@@ -1,0 +1,99 @@
+<root gap='medium'>
+    <box pad='small' gap='medium' direction='row' align='center'>
+        <button label='Scale' action='scale' primary='true' headline='true' />
+        <box direction='row' align='center' gap='small'>
+            <box gap='small' align='center'>
+                <timeseries datasource="dagster-daemon-cpu" label="Dagster Daemon CPU Usage" />
+                <text size='small'>You should set a requests to
+                    roughly correspond to 80% regular utilization</text>
+                <text size='small'>Normally a CPU limit is not required</text>
+            </box>
+            <box gap='small' align='center'>
+                <timeseries datasource="dagster-daemon-memory" label="Dagster Daemon Memory Usage" />
+                <text size='small'>You should set a requests to
+                    roughly correspond to 80% regular utilization</text>
+                <text size='small'>A memory limit should be set to avoid resource starvation</text>
+            </box>
+        </box>
+        <box gap='xsmall'>
+            <box gap='xsmall'>
+                <input placeholder="250m" label='Dagster Daemon CPU Request' name='dagster-daemon-cpu'>
+                    <valueFrom
+                            datasource="dagster-daemon"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.cpu" />
+                </input>
+                <input placeholder="1Gi" label='Dagster Daemon Memory Request' name='dagster-daemon-memory'>
+                    <valueFrom
+                            datasource="dagster-daemon"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.memory" />
+                </input>
+            </box>
+            <box gap='xsmall'>
+                <input placeholder="250m" label='Dagster Daemon CPU Limit' name='dagster-daemon-cpu-limit'>
+                    <valueFrom
+                            datasource="dagster-daemon"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.limits.cpu" />
+                </input>
+                <input placeholder="1Gi" label='Dagster Daemon Memory Limit' name='dagster-daemon-memory-limit'>
+                    <valueFrom
+                            datasource="dagster-daemon"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.limits.memory" />
+                </input>
+            </box>
+        </box>
+    </box>
+    <box pad='small' gap='medium' direction='row' align='center'>
+        <box direction='row' align='center' gap='small'>
+            <box gap='small' align='center'>
+                <timeseries datasource="dagster-dagit-cpu" label="Dagster Dagit CPU Usage" />
+                <text size='small'>You should set a requests to
+                    roughly correspond to 80% regular utilization</text>
+                <text size='small'>Normally a CPU limit is not required</text>
+            </box>
+            <box gap='small' align='center'>
+                <timeseries datasource="dagster-dagit-memory" label="Dagster Dagit Memory Usage" />
+                <text size='small'>You should set a requests to
+                    roughly correspond to 80% regular utilization</text>
+                <text size='small'>A memory limit should be set to avoid resource starvation</text>
+            </box>
+        </box>
+        <box gap='xsmall'>
+            <box gap='xsmall'>
+                <input placeholder="250m" label='Dagster Dagit CPU Request' name='dagster-dagit-cpu'>
+                    <valueFrom
+                            datasource="dagster-dagit"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.cpu" />
+                </input>
+                <input placeholder="1Gi" label='Dagster Dagit Memory Request' name='dagster-dagit-memory'>
+                    <valueFrom
+                            datasource="dagster-dagit"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.memory" />
+                </input>
+            </box>
+            <box gap='xsmall'>
+                <input placeholder="250m" label='Dagster Dagit CPU Limit' name='dagster-dagit-cpu-limit'>
+                    <valueFrom
+                            datasource="dagster-dagit"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.limits.cpu" />
+                </input>
+                <input placeholder="1Gi" label='Dagster Dagit Memory Limit' name='dagster-dagit-memory-limit'>
+                    <valueFrom
+                            datasource="dagster-dagit"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.limits.memory" />
+                </input>
+            </box>
+        </box>
+    </box>
+    <box width='100%' gap='small'>
+        <text size='small'>Be sure to scale your dagster components within the capacity of your nodes.</text>
+        <text size='small'>By default this is a maximum of 8 CPU and 32 Gi memory.</text>
+    </box>
+</root>

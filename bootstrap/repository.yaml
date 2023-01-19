@@ -1,8 +1,9 @@
 name: bootstrap
-description: cluster initialization resources for plural
+description: The cluster initialization resources for Plural.
 icon: plural/icons/k8s.png
 category: DEVOPS
 tags:
 - tag: externaldns
 - tag: ingress
 - tag: kubernetes
+- tag: auto-include

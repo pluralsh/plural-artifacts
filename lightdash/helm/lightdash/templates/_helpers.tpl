@@ -95,5 +95,3 @@ Add environment variables to configure database values
 {{- define "lightdash.database.port" -}}
 {{- ternary "5432" .Values.externalDatabase.port .Values.postgresql.enabled -}}
 {{- end -}}
-
-

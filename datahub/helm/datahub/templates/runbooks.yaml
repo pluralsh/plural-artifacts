@@ -1,0 +1,166 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Runbook
+metadata:
+  name: datahub-scaling
+  labels:
+    platform.plural.sh/pinned: 'true'
+{{ include "datahub-plural.labels" . | indent 4 }}
+spec:
+  name: DataHub Scaling
+  description: overview of how to optimally scale your kafka cluster
+  display: |-
+{{ .Files.Get "runbooks/datahub-scaling.xml" | indent 4 }}
+  datasources:
+  - name: actions-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ template "acryl-datahub-actions.fullname" (index .Subcharts "datahub" "Subcharts" "acryl-datahub-actions") }}-.*"}[5m])) by (pod)
+  - name: actions-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "acryl-datahub-actions.fullname" (index .Subcharts "datahub" "Subcharts" "acryl-datahub-actions") }}-.*"}) by (pod)
+  - name: frontend-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ template "datahub-frontend.fullname" (index .Subcharts "datahub" "Subcharts" "datahub-frontend") }}-.*"}[5m])) by (pod)
+  - name: frontend-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "datahub-frontend.fullname" (index .Subcharts "datahub" "Subcharts" "datahub-frontend") }}-.*"}) by (pod)
+  - name: gms-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ template "datahub-gms.fullname" (index .Subcharts "datahub" "Subcharts" "datahub-gms") }}-.*"}[5m])) by (pod)
+  - name: gms-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "datahub-gms.fullname" (index .Subcharts "datahub" "Subcharts" "datahub-gms") }}-.*"}) by (pod)
+  - name: actions
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: {{ template "acryl-datahub-actions.fullname" (index .Subcharts "datahub" "Subcharts" "acryl-datahub-actions") }}
+  - name: frontend
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name:  {{ template "datahub-frontend.fullname" (index .Subcharts "datahub" "Subcharts" "datahub-frontend") }}
+  - name: gms
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: {{ template "datahub-gms.fullname" (index .Subcharts "datahub" "Subcharts" "datahub-gms") }}
+  actions:
+  - name: scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+      - path: 
+        - datahub
+        - datahub
+        - acryl-datahub-actions
+        - resources
+        - requests
+        - cpu
+        valueFrom: actions-cpu
+      - path:
+        - datahub
+        - datahub
+        - acryl-datahub-actions
+        - resources
+        - requests
+        - memory
+        valueFrom: actions-memory
+      - path: 
+        - datahub
+        - datahub
+        - acryl-datahub-actions
+        - resources
+        - limits
+        - cpu
+        valueFrom: actions-cpu-limit
+      - path:
+        - datahub
+        - datahub
+        - acryl-datahub-actions
+        - resources
+        - limits
+        - memory
+        valueFrom: actions-memory-limit
+      - path: 
+        - datahub
+        - datahub
+        - datahub-frontend
+        - resources
+        - requests
+        - cpu
+        valueFrom: frontend-cpu
+      - path:
+        - datahub
+        - datahub
+        - datahub-frontend
+        - resources
+        - requests
+        - memory
+        valueFrom: frontend-memory
+      - path: 
+        - datahub
+        - datahub
+        - datahub-frontend
+        - resources
+        - limits
+        - cpu
+        valueFrom: frontend-cpu-limit
+      - path:
+        - datahub
+        - datahub
+        - datahub-frontend
+        - resources
+        - limits
+        - memory
+        valueFrom: frontend-memory-limit
+      - path: 
+        - datahub
+        - datahub
+        - datahub-gms
+        - resources
+        - requests
+        - cpu
+        valueFrom: gms-cpu
+      - path:
+        - datahub
+        - datahub
+        - datahub-gms
+        - resources
+        - requests
+        - memory
+        valueFrom: gms-memory
+      - path: 
+        - datahub
+        - datahub
+        - datahub-gms
+        - resources
+        - limits
+        - cpu
+        valueFrom: gms-cpu-limit
+      - path:
+        - datahub
+        - datahub
+        - datahub-gms
+        - resources
+        - limits
+        - memory
+        valueFrom: gms-memory-limit

@@ -1,0 +1,103 @@
+{{- if .Values.datahubUpgrade.enabled -}}
+# Job template for restoring indices by sending MAE corresponding to all entities in the local db
+# Creates a suspended cronJob that you can use to create an adhoc job when ready to run clean up.
+# Run the following command to do so
+# kubectl create job --from=cronjob/<<release-name>>-datahub-restore-indices-job-template datahub-restore-indices-job
+apiVersion: {{ include "datahub.cronjob.apiVersion" $}}
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-datahub-restore-indices-job-template
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+spec:
+  schedule: "* * * * *"
+  suspend: true
+  jobTemplate:
+    spec:
+      template:
+        {{- if or .Values.datahub.global.podLabels .Values.datahub.datahubUpgrade.podAnnotations }}
+        metadata:
+        {{- with .Values.datahub.datahubUpgrade.podAnnotations }}
+          annotations:
+            {{- toYaml . | nindent 12 }}
+        {{- end }}
+        {{- with .Values.datahub.global.podLabels }}
+          labels:
+            {{- range $key, $value := . }}
+            {{ $key }}: {{ $value | quote }}
+            {{- end }}
+        {{- end }}
+        {{- end }}
+        spec:
+        {{- with .Values.datahub.global.hostAliases }}
+          hostAliases:
+            {{- toYaml . | nindent 12 }}
+        {{- end }}
+        {{- with .Values.datahub.datahubUpgrade.serviceAccount }}
+          serviceAccountName: {{ . }}
+        {{- end }}
+        {{- with .Values.datahub.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 12 }}
+        {{- end }}
+          volumes:
+            {{- with .Values.datahub.global.credentialsAndCertsSecrets }}
+            - name: datahub-certs-dir
+              secret:
+                defaultMode: 0444
+                secretName: {{ .name }}
+            {{- end }}
+          {{- with .Values.datahub.datahubUpgrade.extraVolumes }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          restartPolicy: Never
+          securityContext:
+            {{- toYaml .Values.datahub.datahubUpgrade.podSecurityContext | nindent 12 }}
+          initContainers:
+          {{- with .Values.datahub.datahubUpgrade.extraInitContainers }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          containers:
+            - name: datahub-upgrade-job
+              image: "{{ .Values.datahub.datahubUpgrade.image.repository }}:{{ .Values.datahub.datahubUpgrade.image.tag }}"
+              imagePullPolicy: {{ .Values.datahub.datahubUpgrade.imagePullPolicy | default "IfNotPresent" }}
+              args:
+                - "-u"
+                - "RestoreIndices"
+                - "-a"
+                - "batchSize={{ .Values.datahub.datahubUpgrade.batchSize }}"
+                - "-a"
+                - "batchDelayMs={{ .Values.datahub.datahubUpgrade.batchDelayMs }}"
+              env:
+                {{- include "datahub.upgrade.env" . | nindent 16}}
+              {{- with .Values.datahub.datahubUpgrade.extraEnvs }}
+                {{- toYaml . | nindent 16 }}
+              {{- end }}
+              securityContext:
+                {{- toYaml .Values.datahub.datahubUpgrade.securityContext | nindent 16 }}
+              volumeMounts:
+              {{- with .Values.datahub.global.credentialsAndCertsSecrets }}
+                - name: datahub-certs-dir
+                  mountPath: {{ .path | default "/mnt/certs" }}
+              {{- end }}
+              {{- with .Values.datahub.datahubUpgrade.extraVolumeMounts }}
+                {{- toYaml . | nindent 16 }}
+              {{- end }}
+              resources:
+                {{- toYaml .Values.datahub.datahubUpgrade.restoreIndices.resources | nindent 16}}
+          {{- with .Values.datahub.datahubUpgrade.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.datahub.datahubUpgrade.affinity }}
+          affinity:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.datahub.datahubUpgrade.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+{{- end -}}

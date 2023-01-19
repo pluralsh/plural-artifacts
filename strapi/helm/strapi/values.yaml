@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: dkr.plural.sh/strapi/gittysachin/strapi
+  repository: davidspek/strapi
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "4.2.0"
+  tag: 0.1.2
 
 imagePullSecrets: []
 nameOverride: ""
@@ -37,9 +37,29 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  type: LoadBalancer
+  type: ClusterIP
   port: 1337
-  containerPort: 5678
+
+configOverlays:
+- name: strapi-registry
+  spec:
+    name: Strapi Container Image
+    documentation: docker repository to use for strapi deployment (default is davidspek/strapi)
+    updates:
+      - path: ['strapi', 'strapi', 'image', 'repository']
+- name: strapi-cpu
+  spec:
+    name: Strapi CPU Requests
+    documentation: CPU requests for strapi deployment
+    updates:
+      - path: ['strapi', 'strapi', 'resources', 'requests', 'cpu' ]
+- name: strapi-memory
+  spec:
+    name: Strapi Memory Requests
+    documentation: CPU requests for strapi deployment
+    updates:
+      - path: ['strapi', 'strapi', 'resources', 'requests', 'memory' ]
+
 
 ingress:
   enabled: true
@@ -63,6 +83,14 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
+extraEnv: []
+# - name: S3_BUCKET_NAME
+#   value: strapi
+# - name: AWS_REGION
+#   value: {{ .Region }}
+# - name: S3_URL
+#   value: yourBucketName.s3.yourRegion.amazonaws.com
+
 postgres:
   team: plural
   user: strapi
@@ -70,28 +98,32 @@ postgres:
   ownerChart: strapi
 
 database:
-  type: postgresdb
-  secret: strapi.plural-strapi.credentials.postgresql.acid.zalan.do
-  host: localhost
-  port: "5432"
+  type: postgres
+  host: plural-postgres-strapi
+  port: 5432
+  existingSecret: strapi.plural-postgres-strapi.credentials.postgresql.acid.zalan.do
+  userKey: username
+  passwordKey: password
 
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+
+secretEnvs:
+  APP_KEYS: ""
+  API_TOKEN_SALT: ""
+  ADMIN_JWT_SECRET: ""
+  JWT_SECRET: ""
+
+resources:
+  limits:
+    memory: 384Mi
+  requests:
+    cpu: 10m
+    memory: 200Mi
 
 autoscaling:
   enabled: false
   minReplicas: 1
   maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
+  # targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
 nodeSelector: {}
@@ -99,3 +131,5 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+topologySpreadConstraints: []

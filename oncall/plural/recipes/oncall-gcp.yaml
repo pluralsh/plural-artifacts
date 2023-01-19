@@ -1,0 +1,27 @@
+name: oncall-gcp
+description: Installs oncall on an aws eks cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+- repo: grafana
+  name: gcp-grafana
+- repo: postgres
+  name: gcp-postgres
+- repo: rabbitmq
+  name: rabbitmq-gcp
+- repo: redis
+  name: gcp-redis
+sections:
+- name: oncall
+  configuration:
+  - name: hostname
+    documentation: public domain to host oncall on
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: oncall

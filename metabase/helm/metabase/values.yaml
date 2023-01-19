@@ -8,7 +8,7 @@ image:
   repository: dkr.plural.sh/metabase/metabase/metabase
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: v0.41.5
+  tag: v0.45.1
 
 listen:
   host: "0.0.0.0"
@@ -57,6 +57,7 @@ postgres:
   user: metabase
   dbName: metabase
   ownerChart: metabase
+  infix: ""
 
 database:
   secret: metabase.plural-metabase.credentials.postgresql.acid.zalan.do

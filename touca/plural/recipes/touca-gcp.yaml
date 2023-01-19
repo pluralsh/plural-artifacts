@@ -1,0 +1,21 @@
+name: touca-gcp
+description: Installs touca on an GKE cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+- repo: mongodb
+  name: mongodb-gcp
+sections:
+- name: touca
+  configuration:
+  - name: hostname
+    type: DOMAIN
+    documentation: the fully qualified domain name your touca instance will be available at
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: touca

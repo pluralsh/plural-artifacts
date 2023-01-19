@@ -1,0 +1,4 @@
+docker.io:
+  images-by-tag-regex:
+    grafana/tempo-query: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    grafana/tempo: ^v?[0-9]+\.[0-9]+?\.[0-9]+$

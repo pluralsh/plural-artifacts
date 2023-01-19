@@ -1,0 +1,6 @@
+dependencies:
+- name: mlflow-operator
+  repository: https://pluralsh.github.io/plural-helm-charts
+  version: 0.1.4
+digest: sha256:2e82a3774b35423364db63a229d4fe1399dd22ab0d44600688caf18184d44aec
+generated: "2021-12-29T18:02:36.518428-05:00"

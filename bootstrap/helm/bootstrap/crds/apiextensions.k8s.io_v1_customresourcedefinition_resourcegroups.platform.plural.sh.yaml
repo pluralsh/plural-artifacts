@@ -2,7 +2,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.4.1
+    controller-gen.kubebuilder.io/version: v0.9.2
   creationTimestamp: null
   name: resourcegroups.platform.plural.sh
 spec:
@@ -100,6 +100,7 @@ spec:
                       type: object
                     type: array
                 type: object
+                x-kubernetes-map-type: atomic
             required:
             - selector
             type: object
@@ -111,9 +112,3 @@ spec:
     storage: true
     subresources:
       status: {}
-status:
-  acceptedNames:
-    kind: ""
-    plural: ""
-  conditions: []
-  storedVersions: []

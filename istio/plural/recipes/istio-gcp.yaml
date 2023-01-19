@@ -6,8 +6,6 @@ dependencies:
   name: gcp-k8s
 - repo: monitoring
   name: monitoring-gcp
-- repo: grafana-tempo
-  name: grafana-tempo-gcp
 - repo: ingress-nginx
   name: ingress-nginx-gcp
 sections:

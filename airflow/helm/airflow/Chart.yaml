@@ -2,7 +2,7 @@ apiVersion: v2
 name: airflow
 description: A Helm chart for airflow deployable on plural
 type: application
-version: 0.3.19
+version: 0.3.25
 appVersion: "1.16.0"
 sources:
   - https://github.com/pluralsh/plural-artifacts/airflow/helm/airflow
@@ -10,13 +10,17 @@ maintainers:
   - name: michaeljguarino
     email: mjg@plural.sh
 dependencies:
-  - name: config-overlays
-    version: 0.1.1
-    repository: https://pluralsh.github.io/module-library
-  - name: airflow
-    version: 8.5.2
-    repository: https://airflow-helm.github.io/charts
-  - name: test-base
-    repository: https://pluralsh.github.io/module-library
-    version: 0.1.3
-    condition: test-base.enabled
+- name: config-overlays
+  version: 0.1.1
+  repository: https://pluralsh.github.io/module-library
+- name: airflow
+  version: 8.5.2
+  repository: https://airflow-helm.github.io/charts
+- name: postgres
+  version: 0.1.16
+  repository: https://pluralsh.github.io/module-library
+  condition: postgres.enabled
+- name: test-base
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.3
+  condition: test-base.enabled

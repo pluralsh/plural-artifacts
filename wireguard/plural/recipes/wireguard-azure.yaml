@@ -1,0 +1,15 @@
+name: wireguard-azure
+description: Installs wireguard on an aws eks cluster
+provider: AZURE
+private: true
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+sections:
+- name: wireguard
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: wireguard

@@ -239,7 +239,7 @@ controller:
     repository: public.ecr.aws/j1r0q0g6/notebooks/notebook-controller
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: v1.4
+    tag: v1.5.0
 
   service:
     metrics:
@@ -292,7 +292,7 @@ podDefaults:
     repository: public.ecr.aws/j1r0q0g6/notebooks/admission-webhook
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: v1.4
+    tag: v1.5.0
   service:
     port: 443
 

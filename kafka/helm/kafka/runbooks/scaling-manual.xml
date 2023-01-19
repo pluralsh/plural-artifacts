@@ -28,34 +28,62 @@
             path="spec.template.spec.containers[0].resources.requests.memory" />
         </input>
       </box>
+      <box gap='xsmall'>
+        <input placeholder="250m" label='kafka CPU Limit' name='kafka-cpu-limit'>
+          <valueFrom 
+            datasource="kafka" 
+            doc="kubernetes.raw" 
+            path="spec.template.spec.containers[0].resources.limits.cpu" />
+        </input>
+        <input placeholder="1Gi" label='kafka Memory Limit' name='kafka-memory-limit'>
+          <valueFrom 
+            datasource="kafka" 
+            doc="kubernetes.raw" 
+            path="spec.template.spec.containers[0].resources.limits.memory" />
+        </input>
+      </box>
     </box>
   </box>
   <box pad='small' gap='medium' direction='row' align='center'>
     <box direction='row' align='center' gap='small'>
       <box gap='small' align='center'>
         <timeseries datasource="zk-cpu" label="Zookeeper CPU Usage" />
-        <text size='small'>You should set a reservation to 
+        <text size='small'>You should set a reservation to
           roughly correspond to 60% utilization</text>
       </box>
       <box gap='small' align='center'>
         <timeseries datasource="zk-memory" label="Zookeeper Memory Usage" />
-        <text size='small'>You should set a reservation to 
+        <text size='small'>You should set a reservation to
           roughly correspond to 80% utilization</text>
       </box>
     </box>
     <box gap='small'>
       <box gap='xsmall'>
         <input placeholder="250m" label='Zookeeper CPU Request' name='zk-cpu'>
-          <valueFrom 
-            datasource="zk" 
-            doc="kubernetes.raw" 
+          <valueFrom
+            datasource="zk"
+            doc="kubernetes.raw"
             path="spec.template.spec.containers[0].resources.requests.cpu" />
         </input>
         <input placeholder="1Gi" label='Zookeeper Memory Request' name='zk-memory'>
           <valueFrom
+            datasource="zk"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.requests.memory" />
+        </input>
+      </box>
+       <box gap='xsmall'>
+        <input placeholder="250m" label='Zookeeper CPU Limit' name='zk-cpu-limit'>
+          <valueFrom 
             datasource="zk" 
             doc="kubernetes.raw" 
-            path="spec.template.spec.containers[0].resources.requests.memory" />
+            path="spec.template.spec.containers[0].resources.limits.cpu" />
+        </input>
+        <input placeholder="1Gi" label='Zookeeper Memory Limit' name='zk-memory-limit'>
+          <valueFrom
+            datasource="zk" 
+            doc="kubernetes.raw" 
+            path="spec.template.spec.containers[0].resources.limits.memory" />
         </input>
       </box>
     </box>

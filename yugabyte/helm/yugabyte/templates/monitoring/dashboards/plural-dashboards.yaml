@@ -1,0 +1,1424 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Dashboard
+metadata:
+  name: yugabyte-master-servers
+  namespace: yugabyte
+spec:
+  name: Master Servers
+  timeslices:
+  - 1h
+  - 2h
+  - 6h
+  - 1d
+  - 7d
+  defaultTime: 1h
+  labels:
+  - name: dbcluster
+    query:
+      query: up{group="yb-master"}
+      label: node_prefix
+  graphs:
+  - name: Threads
+    queries:
+    - legend: Running
+      query: avg(threads_running{node_prefix="$dbcluster",export_type="master_export"})
+    - legend: Started
+      query: avg(threads_started{node_prefix="$dbcluster",export_type="master_export"})
+  - name: Master Log Ops / Sec / Node
+    queries:
+    - legend: Total Avg - Sync
+      query: avg(sum without (table_id, table_name) (rate(log_sync_latency_count{node_prefix="$dbcluster",export_type="master_export"}[5m])))
+    - legend: Total Avg - Commit
+      query: avg(sum without (table_id, table_name) (rate(log_group_commit_latency_count{node_prefix="$dbcluster",export_type="master_export"}[5m])))
+    - legend: Total Avg  - Append
+      query: avg(sum without (table_id, table_name) (rate(log_append_latency_count{node_prefix="$dbcluster",export_type="master_export"}[5m])))
+    - legendFormat: '$exported_instance - Sync'
+      query: avg by (exported_instance) (sum without (table_id, table_name) (rate(log_sync_latency_count{node_prefix="$dbcluster",export_type="master_export"}[5m])))
+    - legendFormat: '$exported_instance - Commit'
+      query: avg by (exported_instance) (sum without (table_id, table_name) (rate(log_group_commit_latency_count{node_prefix="$dbcluster",export_type="master_export"}[5m])))
+    - legendFormat: '$exported_instance - Append'
+      query: avg by (exported_instance) (sum without (table_id, table_name) (rate(log_append_latency_count{node_prefix="$dbcluster",export_type="master_export"}[5m])))
+  - name: Master Log Latency
+    queries:
+    - legend: Sync
+      query: avg(irate(log_sync_latency_sum{node_prefix="$dbcluster",export_type="master_export"}[5m]))
+        / avg(irate(log_sync_latency_count{node_prefix="$dbcluster",export_type="master_export"}[5m]))
+    - legend: Commit
+      query: avg(irate(log_group_commit_latency_sum{node_prefix="$dbcluster",export_type="master_export"}[5m]))
+        / avg(irate(log_group_commit_latency_count{node_prefix="$dbcluster",export_type="master_export"}[5m]))
+    - legend: Append
+      query: avg(irate(log_append_latency_sum{node_prefix="$dbcluster",export_type="master_export"}[5m]))
+        / avg(irate(log_append_latency_count{node_prefix="$dbcluster",export_type="master_export"}[5m]))
+  - name: Log Stats / Node
+    queries:
+    - legend: Total Avg - Log Bytes Read
+      query: avg(sum without (table_id, table_name) (log_reader_bytes_read{node_prefix="$dbcluster",export_type="master_export"}))
+        / 1024
+    - legend: Total Avg - Log Cache Size
+      query: avg(sum without (table_id, table_name) (log_cache_size{node_prefix="$dbcluster",export_type="master_export"}))
+        / 1024
+    - legendFormat: '$exported_instance - Log Bytes Read'
+      query: avg by (exported_instance) (sum without (table_id, table_name) (log_reader_bytes_read{node_prefix="$dbcluster",export_type="master_export"}))
+        / 1024
+    - legendFormat: '$exported_instance - Log Cache Size'
+      query: avg by (exported_instance) (sum without (table_id, table_name) (log_cache_size{node_prefix="$dbcluster",export_type="master_export"}))
+        / 1024
+  - name: Log Bytes Written / Sec / Node
+    queries:
+    - legend: Total Avg - Log Bytes Logged
+      query: avg(sum without (table_id, table_name) (rate(log_bytes_logged{node_prefix="$dbcluster",export_type="master_export"}[5m])))
+    - legendFormat: '$exported_instance - Log Bytes Logged'
+      query: avg by (exported_instance) (sum without (table_id, table_name) (rate(log_bytes_logged{node_prefix="$dbcluster",export_type="master_export"}[5m])))
+  - name: Glog messages
+    queries:
+    - legend: Info
+      query: sum(rate(glog_info_messages{node_prefix="$dbcluster",export_type="master_export"}[5m]))
+    - legend: Warning
+      query: sum(rate(glog_warning_messages{node_prefix="$dbcluster",export_type="master_export"}[5m]))
+    - legend: Error
+      query: sum(rate(glog_error_messages{node_prefix="$dbcluster",export_type="master_export"}[5m]))
+  - name: Log Bytes Read / Sec / Node
+    queries:
+    - legend: Total Avg - Log Bytes Read
+      query: avg(sum without (table_id, table_name) (rate(log_reader_bytes_read{node_prefix="$dbcluster",export_type="master_export"}[5m])))
+    - legendFormat: '$exported_instance - Log Bytes Read'
+      query: avg by (exported_instance) (sum without (table_id, table_name) (rate(log_reader_bytes_read{node_prefix="$dbcluster",export_type="master_export"}[5m])))
+  - name: RPC queue sizes (Master)
+    queries:
+    - legend: Master RPC
+      query: max(rpcs_in_queue_yb_master_MasterService{node_prefix="$dbcluster"})
+  - name: Log Cache Num Ops / Node
+    queries:
+    - legend: Total Avg - Num Ops
+      query: avg(sum without (table_id, table_name) (log_cache_num_ops{node_prefix="$dbcluster",export_type="master_export"}))
+    - legendFormat: '$exported_instance - Num Ops'
+      query: avg by (exported_instance) (sum without (table_id, table_name) (log_cache_num_ops{node_prefix="$dbcluster",export_type="master_export"}))
+        / 1024
+  - name: Total Ops / Sec
+    queries:
+    - legend: Write
+      query: sum(irate(rpc_latency_count{node_prefix="$dbcluster",export_type="master_export",saved_name="handler_latency_yb_tserver_TabletServerService_Write_count"}[5m]))
+    - legend: Read
+      query: sum(irate(rpc_latency_count{node_prefix="$dbcluster",export_type="master_export",saved_name="handler_latency_yb_tserver_TabletServerService_Read_count"}[5m]))
+  - name: Op / Sec / Node
+    queries:
+    - legendFormat: '$exported_instance - Write'
+      query: "avg by (exported_instance) (irate(rpc_latency_sum{node_prefix=\"$dbcluster\",export_type=\"master_export\",saved_name=\"handler_latency_yb_tserver_TabletServerService_Write_sum\"}[5m]))
+        / avg by (exported_instance) (irate(rpc_latency_count{node_prefix=\"$dbcluster\",export_type=\"master_export\",saved_name=\"handler_latency_yb_tserver_TabletServerService_Write_count\"}[5m]))\r"
+    - legendFormat: '$exported_instance - Read'
+      query: "avg by (exported_instance) (irate(rpc_latency_sum{node_prefix=\"$dbcluster\",export_type=\"master_export\",saved_name=\"handler_latency_yb_tserver_TabletServerService_Read_sum\"}[5m]))
+        / avg by (exported_instance) (irate(rpc_latency_count{node_prefix=\"$dbcluster\",export_type=\"master_export\",saved_name=\"handler_latency_yb_tserver_TabletServerService_Read_count\"}[5m]))\r"
+  - name: Average Latency
+    queries:
+    - legend: Read
+      query: "avg(irate(rpc_latency_sum{node_prefix=\"$dbcluster\",export_type=\"master_export\",saved_name=\"handler_latency_yb_tserver_TabletServerService_Read_sum\"}[5m]))
+        / avg(irate(rpc_latency_count{node_prefix=\"$dbcluster\",export_type=\"master_export\",saved_name=\"handler_latency_yb_tserver_TabletServerService_Read_count\"}[5m]))\r"
+    - legend: Write
+      query: "avg(irate(rpc_latency_sum{node_prefix=\"$dbcluster\",export_type=\"master_export\",saved_name=\"handler_latency_yb_tserver_TabletServerService_Write_sum\"}[5m]))
+        / avg(irate(rpc_latency_count{node_prefix=\"$dbcluster\",export_type=\"master_export\",saved_name=\"handler_latency_yb_tserver_TabletServerService_Write_count\"}[5m]))\r"
+  - name: Reactor Delays
+    queries:
+    - legend: Incoming Queue
+      query: "avg(irate(rpc_incoming_queue_time_sum{node_prefix=\"$dbcluster\",export_type=\"master_export\"}[5m]))
+        / avg(irate(rpc_incoming_queue_time_count{node_prefix=\"$dbcluster\",export_type=\"master_export\"}[5m]))\r"
+    - legend: Outbound transfer time
+      query: "avg(irate(handler_latency_outbound_transfer_sum{node_prefix=\"$dbcluster\",export_type=\"master_export\"}[5m]))
+        / avg(irate(handler_latency_outbound_transfer_count{node_prefix=\"$dbcluster\",export_type=\"master_export\"}[5m]))\r"
+    - legend: Outbound queue time
+      query: "avg(irate(handler_latency_outbound_call_queue_time_sum{node_prefix=\"$dbcluster\",export_type=\"master_export\"}[5m]))
+        / avg(irate(handler_latency_outbound_call_queue_time_count{node_prefix=\"$dbcluster\",export_type=\"master_export\"}[5m]))\r"
+---
+apiVersion: platform.plural.sh/v1alpha1
+kind: Dashboard
+metadata:
+  name: yugabyte-tablet-servers
+  namespace: yugabyte
+spec:
+  name: Tablet Servers
+  timeslices:
+  - 1h
+  - 2h
+  - 6h
+  - 1d
+  - 7d
+  defaultTime: 1h
+  labels:
+  - name: dbcluster
+    query:
+      query: up{group="yb-master"}
+      label: node_prefix
+  graphs:
+  - name: Average Latency
+    queries:
+    - legend: Read
+      query: "avg(irate(rpc_latency_sum{node_prefix=\"$dbcluster\",export_type=\"tserver_export\",saved_name=\"handler_latency_yb_tserver_TabletServerService_Read_sum\"}[5m]))
+        / avg(irate(rpc_latency_count{node_prefix=\"$dbcluster\",export_type=\"tserver_export\",saved_name=\"handler_latency_yb_tserver_TabletServerService_Read_count\"}[5m]))\r"
+    - legend: Write
+      query: "avg(irate(rpc_latency_sum{node_prefix=\"$dbcluster\",export_type=\"tserver_export\",saved_name=\"handler_latency_yb_tserver_TabletServerService_Write_sum\"}[5m]))
+        / avg(irate(rpc_latency_count{node_prefix=\"$dbcluster\",export_type=\"tserver_export\",saved_name=\"handler_latency_yb_tserver_TabletServerService_Write_count\"}[5m]))\r"
+  - name: Reactor Delays
+    queries:
+    - legend: Incoming Queue
+      query: "avg(irate(rpc_incoming_queue_time_sum{node_prefix=\"$dbcluster\",export_type=\"tserver_export\"}[5m]))
+        / avg(irate(rpc_incoming_queue_time_count{node_prefix=\"$dbcluster\",export_type=\"tserver_export\"}[5m]))\r"
+    - legend: Outbound transfer time
+      query: "avg(irate(handler_latency_outbound_transfer_sum{node_prefix=\"$dbcluster\",export_type=\"tserver_export\"}[5m]))
+        / avg(irate(handler_latency_outbound_transfer_count{node_prefix=\"$dbcluster\",export_type=\"tserver_export\"}[5m]))\r"
+    - legend: Outbound queue time
+      query: "avg(irate(handler_latency_outbound_call_queue_time_sum{node_prefix=\"$dbcluster\",export_type=\"tserver_export\"}[5m]))
+        / avg(irate(handler_latency_outbound_call_queue_time_count{node_prefix=\"$dbcluster\",export_type=\"tserver_export\"}[5m]))\r"
+  - name: Total Ops / Sec
+    queries:
+    - legend: Write
+      query: sum(irate(rpc_latency_count{node_prefix="$dbcluster",export_type="tserver_export",saved_name="handler_latency_yb_tserver_TabletServerService_Write_count"}[5m]))
+    - legend: Read
+      query: sum(irate(rpc_latency_count{node_prefix="$dbcluster",export_type="tserver_export",saved_name="handler_latency_yb_tserver_TabletServerService_Read_count"}[5m]))
+  - name: Op / Sec / Node
+    queries:
+    - legendFormat: '$exported_instance - Write'
+      query: "avg by (exported_instance) (irate(rpc_latency_sum{node_prefix=\"$dbcluster\",export_type=\"tserver_export\",saved_name=\"handler_latency_yb_tserver_TabletServerService_Write_sum\"}[5m]))
+        / avg by (exported_instance) (irate(rpc_latency_count{node_prefix=\"$dbcluster\",export_type=\"tserver_export\",saved_name=\"handler_latency_yb_tserver_TabletServerService_Write_count\"}[5m]))\r"
+    - legendFormat: '$exported_instance - Read'
+      query: "avg by (exported_instance) (irate(rpc_latency_sum{node_prefix=\"$dbcluster\",export_type=\"tserver_export\",saved_name=\"handler_latency_yb_tserver_TabletServerService_Read_sum\"}[5m]))
+        / avg by (exported_instance) (irate(rpc_latency_count{node_prefix=\"$dbcluster\",export_type=\"tserver_export\",saved_name=\"handler_latency_yb_tserver_TabletServerService_Read_count\"}[5m]))\r"
+  - name: Consensus Ops / Sec
+    queries:
+    - legend: UpdateConsensus
+      query: "sum(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_consensus_ConsensusService_UpdateConsensus_sum\"}[5m]))
+        / sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_consensus_ConsensusService_UpdateConsensus_count\"}[5m]))\r"
+    - legend: RequestConsensusVote
+      query: "sum(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_consensus_ConsensusService_RequestConsensusVote_sum\"}[5m]))
+        / sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_consensus_ConsensusService_RequestConsensusVote_count\"}[5m]))\r"
+  - name: Total Consensus Change Config
+    queries:
+    - legend: ChangeConfig
+      query: sum(rpc_latency{node_prefix="$dbcluster",saved_name="handler_latency_yb_consensus_ConsensusService_ChangeConfig"})
+    - legend: RunLeaderElection
+      query: sum(rpc_latency{node_prefix="$dbcluster",saved_name="handler_latency_yb_consensus_ConsensusService_RunLeaderElection"})
+    - legend: LeaderStepDown
+      query: sum(rpc_latency{node_prefix="$dbcluster",saved_name="handler_latency_yb_consensus_ConsensusService_LeaderStepDown"})
+    - legend: LeaderElectionLost
+      query: sum(rpc_latency{node_prefix="$dbcluster",saved_name="handler_latency_yb_consensus_ConsensusService_LeaderElectionLost"})
+  - name: Remote Bootstraps
+    queries:
+    - legend: remote bootstraps
+      query: sum(rpc_latency{node_prefix="$dbcluster",saved_name="handler_latency_yb_consensus_ConsensusService_StartRemoteBootstrap"})
+  - name: Consensus Rpc Latencies
+    queries:
+    - legend: UpdateConsensus
+      query: "avg(irate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_consensus_ConsensusService_UpdateConsensus_sum\"}[5m]))
+        / avg(irate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_consensus_ConsensusService_UpdateConsensus_count\"}[5m]))\r"
+    - legend: RequestConsensusVote
+      query: "avg(irate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_consensus_ConsensusService_RequestConsensusVote_sum\"}[5m]))
+        / avg(irate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_consensus_ConsensusService_RequestConsensusVote_count\"}[5m]))\r"
+  - name: Change Config Latency
+    queries:
+    - legend: ChangeConfig
+      query: "avg(irate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_consensus_ConsensusService_ChangeConfig_sum\"}[5m]))
+        / avg(irate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_consensus_ConsensusService_ChangeConfig_count\"}[5m]))\r"
+  - name: Threads
+    queries:
+    - legend: Running
+      query: avg(threads_running{node_prefix="$dbcluster",export_type="tserver_export"})
+    - legend: Started
+      query: avg(threads_started{node_prefix="$dbcluster",export_type="tserver_export"})
+  - name: Context Switches
+    queries:
+    - legend: Involuntary
+      query: avg(irate(involuntary_context_switches{node_prefix="$dbcluster"}[5m]))
+    - legend: Voluntary
+      query: avg(irate(voluntary_context_switches{node_prefix="$dbcluster"}[5m]))
+  - name: SpinLock Time/Server
+    queries:
+    - legend: SpinLock
+      query: avg(rate(spinlock_contention_time{node_prefix="$dbcluster"}[5m])) / 1000000
+  - name: TServer Log Latency
+    queries:
+    - legend: Sync
+      query: avg(irate(log_sync_latency_sum{node_prefix="$dbcluster",export_type="tserver_export"}[5m]))
+        / avg(irate(log_sync_latency_count{node_prefix="$dbcluster",export_type="tserver_export"}[5m]))
+    - legend: Commit
+      query: avg(irate(log_group_commit_latency_sum{node_prefix="$dbcluster",export_type="tserver_export"}[5m]))
+        / avg(irate(log_group_commit_latency_count{node_prefix="$dbcluster",export_type="tserver_export"}[5m]))
+    - legend: Append
+      query: avg(irate(log_append_latency_sum{node_prefix="$dbcluster",export_type="tserver_export"}[5m]))
+        / avg(irate(log_append_latency_count{node_prefix="$dbcluster",export_type="tserver_export"}[5m]))
+  - name: Log Bytes Written / Sec / Node
+    queries:
+    - legend: Total Avg - Log Bytes Logged
+      query: avg(sum without (table_id, table_name) (rate(log_bytes_logged{node_prefix="$dbcluster",export_type="tserver_export"}[5m])))
+    - legendFormat: '$exported_instance - Log Bytes Logged'
+      query: avg by (exported_instance) (sum without (table_id, table_name) (rate(log_bytes_logged{node_prefix="$dbcluster",export_type="tserver_export"}[5m])))
+  - name: Log Bytes Read / Sec / Node
+    queries:
+    - legend: Total Avg - Log Bytes Read
+      query: avg(sum without (table_id, table_name) (rate(log_reader_bytes_read{node_prefix="$dbcluster",export_type="tserver_export"}[5m])))
+    - legendFormat: '$exported_instance - Log Bytes Read'
+      query: avg by (exported_instance) (sum without (table_id, table_name) (rate(log_reader_bytes_read{node_prefix="$dbcluster",export_type="tserver_export"}[5m])))
+  - name: TServer Log Ops / Sec / Node
+    queries:
+    - legend: Total Avg - Sync
+      query: avg(sum without (table_id, table_name) (rate(log_sync_latency_count{node_prefix="$dbcluster",export_type="tserver_export"}[5m])))
+    - legend: Total Avg - Commit
+      query: avg(sum without (table_id, table_name) (rate(log_group_commit_latency_count{node_prefix="$dbcluster",export_type="tserver_export"}[5m])))
+    - legend: Total Avg  - Append
+      query: avg(sum without (table_id, table_name) (rate(log_append_latency_count{node_prefix="$dbcluster",export_type="tserver_export"}[5m])))
+    - legendFormat: '$exported_instance - Sync'
+      query: avg by (exported_instance) (sum without (table_id, table_name) (rate(log_sync_latency_count{node_prefix="$dbcluster",export_type="tserver_export"}[5m])))
+    - legendFormat: '$exported_instance - Commit'
+      query: avg by (exported_instance) (sum without (table_id, table_name) (rate(log_group_commit_latency_count{node_prefix="$dbcluster",export_type="tserver_export"}[5m])))
+    - legendFormat: '$exported_instance - Append'
+      query: avg by (exported_instance) (sum without (table_id, table_name) (rate(log_append_latency_count{node_prefix="$dbcluster",export_type="tserver_export"}[5m])))
+  - name: TServer TCMalloc Stats
+    queries:
+    - legend: In Use
+      query: avg(generic_current_allocated_bytes{node_prefix="$dbcluster"}) / 1048576
+    - legend: Total
+      query: avg(generic_heap_size{node_prefix="$dbcluster"}) / 1048576
+  - name: Log Stats / Node
+    queries:
+    - legend: Total Avg - Log Bytes Read
+      query: avg(sum without (table_id, table_name) (log_reader_bytes_read{node_prefix="$dbcluster",export_type="tserver_export"}))
+        / 1024
+    - legend: Total Avg - Log Cache Size
+      query: avg(sum without (table_id, table_name) (log_cache_size{node_prefix="$dbcluster",export_type="tserver_export"}))
+        / 1024
+    - legendFormat: '$exported_instance - Log Bytes Read'
+      query: avg by (exported_instance) (sum without (table_id, table_name) (log_reader_bytes_read{node_prefix="$dbcluster",export_type="tserver_export"}))
+        / 1024
+    - legendFormat: '$exported_instance - Log Cache Size'
+      query: avg by (exported_instance) (sum without (table_id, table_name) (log_cache_size{node_prefix="$dbcluster",export_type="tserver_export"}))
+        / 1024
+  - name: Log Cache Num Ops / Node
+    queries:
+    - legend: Total Avg - Num Ops
+      query: avg(sum without (table_id, table_name) (log_cache_num_ops{node_prefix="$dbcluster",export_type="tserver_export"}))
+    - legendFormat: '$exported_instance - Num Ops'
+      query: avg by (exported_instance) (sum without (table_id, table_name) (log_cache_num_ops{node_prefix="$dbcluster",export_type="tserver_export"}))
+        / 1024
+  - name: Glog messages
+    queries:
+    - legend: Info
+      query: sum(rate(glog_info_messages{node_prefix="$dbcluster",export_type="tserver_export"}[5m]))
+    - legend: Warning
+      query: sum(rate(glog_warning_messages{node_prefix="$dbcluster",export_type="tserver_export"}[5m]))
+    - legend: Error
+      query: sum(rate(glog_error_messages{node_prefix="$dbcluster",export_type="tserver_export"}[5m]))
+  - name: RPC queue sizes (Tserver)
+    queries:
+    - legend: Consensus
+      query: max(rpcs_in_queue_yb_consensus_ConsensusService{node_prefix="$dbcluster",export_type="tserver_export"})
+    - legend: Generic
+      query: max(rpcs_in_queue_yb_server_GenericService{node_prefix="$dbcluster",export_type="tserver_export"})
+    - legend: RemoteBootstrap
+      query: max(rpcs_in_queue_yb_tserver_RemoteBootstrapService{node_prefix="$dbcluster",export_type="tserver_export"})
+    - legend: TS RPC
+      query: max(rpcs_in_queue_yb_tserver_TabletServerService{node_prefix="$dbcluster",export_type="tserver_export"})
+    - legend: Backups
+      query: max(rpcs_in_queue_yb_tserver_TabletServerBackupService{node_prefix="$dbcluster",export_type="tserver_export"})
+    - legend: Admin
+      query: max(rpcs_in_queue_yb_tserver_TabletServerAdminService{node_prefix="$dbcluster",export_type="tserver_export"})
+    - legend: CDC
+      query: max(rpcs_in_queue_yb_cdc_CDCService{node_prefix="$dbcluster",export_type="tserver_export"})
+---
+apiVersion: platform.plural.sh/v1alpha1
+kind: Dashboard
+metadata:
+  name: yugabyte-ysql-ops-latency
+  namespace: yugabyte
+spec:
+  name: YSQL Ops & Latency
+  timeslices:
+  - 1h
+  - 2h
+  - 6h
+  - 1d
+  - 7d
+  defaultTime: 1h
+  labels:
+  - name: dbcluster
+    query:
+      query: up{group="yb-master"}
+      label: node_prefix
+  graphs:
+  - name: Total YSQL Ops / Sec
+    queries:
+    - legend: Select
+      query: sum(irate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_ysqlserver_SQLProcessor_SelectStmt_count"}[5m]))
+    - legend: Update
+      query: sum(irate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_ysqlserver_SQLProcessor_UpdateStmt_count"}[5m]))
+    - legend: Delete
+      query: sum(irate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_ysqlserver_SQLProcessor_DeleteStmt_count"}[5m]))
+    - legend: Insert
+      query: sum(irate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_ysqlserver_SQLProcessor_InsertStmt_count"}[5m]))
+    - legend: Other
+      query: sum(irate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_ysqlserver_SQLProcessor_OtherStmts_count"}[5m]))
+    - legend: Transaction
+      query: sum(irate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_ysqlserver_SQLProcessor_Transactions_count"}[5m]))
+  - name: YSQL Op Latency (Avg)
+    queries:
+    - legend: Select
+      query: "avg(irate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_ysqlserver_SQLProcessor_SelectStmt_sum\"}[5m]))
+        / avg(irate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_ysqlserver_SQLProcessor_SelectStmt_count\"}[5m]))\r"
+    - legend: Insert
+      query: "avg(irate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_ysqlserver_SQLProcessor_InsertStmt_sum\"}[5m]))
+        / avg(irate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_ysqlserver_SQLProcessor_InsertStmt_count\"}[5m]))\r"
+    - legend: Update
+      query: "avg(irate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_ysqlserver_SQLProcessor_UpdateStmt_sum\"}[5m]))
+        / avg(irate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_ysqlserver_SQLProcessor_UpdateStmt_count\"}[5m]))\r"
+    - legend: Delete
+      query: "avg(irate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_ysqlserver_SQLProcessor_DeleteStmt_sum\"}[5m]))
+        / avg(irate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_ysqlserver_SQLProcessor_DeleteStmt_count\"}[5m]))\r"
+    - legend: Other
+      query: "avg(irate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_ysqlserver_SQLProcessor_OtherStmts_sum\"}[5m]))
+        / avg(irate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_ysqlserver_SQLProcessor_OtherStmts_count\"}[5m]))\r"
+    - legend: Transaction
+      query: "avg(irate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_ysqlserver_SQLProcessor_Transactions_sum\"}[5m]))
+        / avg(irate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_ysqlserver_SQLProcessor_Transactions_count\"}[5m]))\r"
+  - name: Select - Op / Sec / Tserver
+    queries:
+    - legendFormat: $exported_instance
+      query: sum by (exported_instance) (irate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_ysqlserver_SQLProcessor_SelectStmt_count"}[5m]))
+  - name: Select - Op Latency (Avg) / Tserver
+    queries:
+    - legendFormat: $exported_instance
+      query: "avg by (exported_instance)(irate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_ysqlserver_SQLProcessor_SelectStmt_sum\"}[5m]))
+        / avg by (exported_instance)(irate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_ysqlserver_SQLProcessor_SelectStmt_count\"}[5m]))\r"
+  - name: Insert - Op / Sec / Tserver
+    queries:
+    - legendFormat: $exported_instance
+      query: sum by (exported_instance) (irate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_ysqlserver_SQLProcessor_InsertStmt_count"}[5m]))
+  - name: Insert - Op Latency (Avg) / Tserver
+    queries:
+    - legendFormat: $exported_instance
+      query: "avg by (exported_instance) (irate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_ysqlserver_SQLProcessor_InsertStmt_sum\"}[5m]))
+        / avg by (exported_instance) (irate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_ysqlserver_SQLProcessor_InsertStmt_count\"}[5m]))\r"
+  - name: Update - Op / Sec / Tserver
+    queries:
+    - legendFormat: $exported_instance
+      query: sum by (exported_instance) (irate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_ysqlserver_SQLProcessor_UpdateStmt_count"}[5m]))
+  - name: Update - Op Latency (Avg) / Tserver
+    queries:
+    - legendFormat: $exported_instance
+      query: "avg by (exported_instance) (irate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_ysqlserver_SQLProcessor_UpdateStmt_sum\"}[5m]))
+        / avg by (exported_instance) (irate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_ysqlserver_SQLProcessor_UpdateStmt_count\"}[5m]))\r"
+  - name: Delete - Op / Sec / Tserver
+    queries:
+    - legendFormat: $exported_instance
+      query: sum by (exported_instance) (irate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_ysqlserver_SQLProcessor_DeleteStmt_count"}[5m]))
+  - name: Delete - Op Latency (Avg) / Tserver
+    queries:
+    - legendFormat: $exported_instance
+      query: "avg by (exported_instance) (irate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_ysqlserver_SQLProcessor_DeleteStmt_sum\"}[5m]))
+        / avg by (exported_instance) (irate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_ysqlserver_SQLProcessor_DeleteStmt_count\"}[5m]))\r"
+  - name: Others - Op / Sec / Tserver
+    queries:
+    - legendFormat: $exported_instance
+      query: sum by (exported_instance) (irate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_ysqlserver_SQLProcessor_OtherStmts_count"}[5m]))
+  - name: Others - Op Latency (Avg) / Tserver
+    queries:
+    - legendFormat: $exported_instance
+      query: "avg by (exported_instance) (irate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_ysqlserver_SQLProcessor_OtherStmts_sum\"}[5m]))
+        / avg by (exported_instance) (irate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_ysqlserver_SQLProcessor_OtherStmts_count\"}[5m]))\r"
+  - name: Transactions - Op / Sec / Tserver
+    queries:
+    - legendFormat: $exported_instance
+      query: sum by (exported_instance) (irate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_ysqlserver_SQLProcessor_Transactions_count"}[5m]))
+  - name: Transactions - Op Latency (Avg) / Tserver
+    queries:
+    - legendFormat: $exported_instance
+      query: "avg by (exported_instance) (irate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_ysqlserver_SQLProcessor_Transactions_sum\"}[5m]))
+        / avg by (exported_instance) (irate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_ysqlserver_SQLProcessor_Transactions_count\"}[5m]))\r"
+---
+apiVersion: platform.plural.sh/v1alpha1
+kind: Dashboard
+metadata:
+  name: yugabyte-ycql-ops-latency
+  namespace: yugabyte
+spec:
+  name: YCQL Ops & Latency
+  timeslices:
+  - 1h
+  - 2h
+  - 6h
+  - 1d
+  - 7d
+  defaultTime: 1h
+  labels:
+  - name: dbcluster
+    query:
+      query: up{group="yb-master"}
+      label: node_prefix
+  graphs:
+  - name: Total YCQL Ops / Sec
+    queries:
+    - legend: Select
+      query: sum(irate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_cqlserver_SQLProcessor_SelectStmt_count"}[5m]))
+    - legend: Update
+      query: sum(irate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_cqlserver_SQLProcessor_UpdateStmt_count"}[5m]))
+    - legend: Delete
+      query: sum(irate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_cqlserver_SQLProcessor_DeleteStmt_count"}[5m]))
+    - legend: Insert
+      query: sum(irate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_cqlserver_SQLProcessor_InsertStmt_count"}[5m]))
+    - legend: Other
+      query: sum(irate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_cqlserver_SQLProcessor_OtherStmts_count"}[5m]))
+    - legend: Transaction
+      query: sum(irate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_cqlserver_SQLProcessor_Transaction_count"}[5m]))
+  - name: YCQL Op Latency (Avg)
+    queries:
+    - legend: Select
+      query: "avg(irate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_SQLProcessor_SelectStmt_sum\"}[5m]))
+        / avg(irate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_SQLProcessor_SelectStmt_count\"}[5m]))\r"
+    - legend: Insert
+      query: "avg(irate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_SQLProcessor_InsertStmt_sum\"}[5m]))
+        / avg(irate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_SQLProcessor_InsertStmt_count\"}[5m]))\r"
+    - legend: Update
+      query: "avg(irate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_SQLProcessor_UpdateStmt_sum\"}[5m]))
+        / avg(irate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_SQLProcessor_UpdateStmt_count\"}[5m]))\r"
+    - legend: Delete
+      query: "avg(irate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_SQLProcessor_DeleteStmt_sum\"}[5m]))
+        / avg(irate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_SQLProcessor_DeleteStmt_count\"}[5m]))\r"
+    - legend: Other
+      query: "avg(irate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_SQLProcessor_OtherStmts_sum\"}[5m]))
+        / avg(irate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_SQLProcessor_OtherStmts_count\"}[5m]))\r"
+    - legend: Transaction
+      query: "avg(irate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_SQLProcessor_Transaction_sum\"}[5m]))
+        / avg(irate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_SQLProcessor_Transaction_count\"}[5m]))\r"
+  - name: YCQL Op Latency (P95)
+    queries:
+    - legend: Select
+      query: max(rpc_latency{node_prefix="$dbcluster", quantile="p95",saved_name="handler_latency_yb_cqlserver_SQLProcessor_SelectStmt"})
+    - legend: Insert
+      query: max(rpc_latency{node_prefix="$dbcluster", quantile="p95",saved_name="handler_latency_yb_cqlserver_SQLProcessor_InsertStmt"})
+    - legend: Update
+      query: max(rpc_latency{node_prefix="$dbcluster", quantile="p95",saved_name="handler_latency_yb_cqlserver_SQLProcessor_UpdateStmt"})
+    - legend: Delete
+      query: max(rpc_latency{node_prefix="$dbcluster", quantile="p95",saved_name="handler_latency_yb_cqlserver_SQLProcessor_DeleteStmt"})
+    - legend: Other
+      query: max(rpc_latency{node_prefix="$dbcluster", quantile="p95",saved_name="handler_latency_yb_cqlserver_SQLProcessor_OtherStmts"})
+    - legend: Transaction
+      query: max(rpc_latency{node_prefix="$dbcluster", quantile="p95",saved_name="handler_latency_yb_cqlserver_SQLProcessor_Transaction"})
+  - name: YCQL Op Latency (P99)
+    queries:
+    - legend: Select
+      query: max(rpc_latency{node_prefix="$dbcluster", quantile="p99",saved_name="handler_latency_yb_cqlserver_SQLProcessor_SelectStmt"})
+    - legend: Insert
+      query: max(rpc_latency{node_prefix="$dbcluster", quantile="p99",saved_name="handler_latency_yb_cqlserver_SQLProcessor_InsertStmt"})
+    - legend: Update
+      query: max(rpc_latency{node_prefix="$dbcluster", quantile="p99",saved_name="handler_latency_yb_cqlserver_SQLProcessor_UpdateStmt"})
+    - legend: Delete
+      query: max(rpc_latency{node_prefix="$dbcluster", quantile="p99",saved_name="handler_latency_yb_cqlserver_SQLProcessor_DeleteStmt"})
+    - legend: Other
+      query: max(rpc_latency{node_prefix="$dbcluster", quantile="p99",saved_name="handler_latency_yb_cqlserver_SQLProcessor_OtherStmts"})
+    - legend: Transaction
+      query: max(rpc_latency{node_prefix="$dbcluster", quantile="p99",saved_name="handler_latency_yb_cqlserver_SQLProcessor_Transaction"})
+  - name: Select - Op / Sec / Tserver
+    queries:
+    - legendFormat: $exported_instance
+      query: sum by (exported_instance) (irate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_cqlserver_SQLProcessor_SelectStmt_count"}[5m]))
+  - name: Select - Op Latency (Avg) /  Tserver
+    queries:
+    - legendFormat: $exported_instance
+      query: "avg by (exported_instance) (irate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_SQLProcessor_SelectStmt_sum\"}[5m]))
+        / avg by (exported_instance) (irate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_SQLProcessor_SelectStmt_count\"}[5m]))\r"
+  - name: Update - Op / Sec / Tserver
+    queries:
+    - legendFormat: $exported_instance
+      query: sum by (exported_instance) (irate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_cqlserver_SQLProcessor_UpdateStmt_count"}[5m]))
+  - name: Update - Op Latency (Avg) / Tserver
+    queries:
+    - legendFormat: $exported_instance
+      query: "avg by (exported_instance) (irate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_SQLProcessor_UpdateStmt_sum\"}[5m]))
+        / avg by (exported_instance) (irate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_SQLProcessor_UpdateStmt_count\"}[5m]))\r"
+  - name: Delete - Op / Sec / Tserver
+    queries:
+    - legendFormat: $exported_instance
+      query: sum by (exported_instance) (irate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_cqlserver_SQLProcessor_DeleteStmt_count"}[5m]))
+  - name: Delete - Op Latency (Avg) / Tserver
+    queries:
+    - legendFormat: $exported_instance
+      query: "avg by (exported_instance) (irate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_SQLProcessor_DeleteStmt_sum\"}[5m]))
+        / avg by (exported_instance) (irate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_SQLProcessor_DeleteStmt_count\"}[5m]))\r"
+  - name: Insert - Op / Sec / Tserver
+    queries:
+    - legendFormat: $exported_instance
+      query: sum by (exported_instance) (irate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_cqlserver_SQLProcessor_InsertStmt_count"}[5m]))
+  - name: Insert - Op Latency (Avg) / Tserver
+    queries:
+    - legendFormat: $exported_instance
+      query: "avg by (exported_instance) (irate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_SQLProcessor_InsertStmt_sum\"}[5m]))
+        / avg by (exported_instance) (irate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_SQLProcessor_InsertStmt_count\"}[5m]))\r"
+  - name: Others - Op / Sec / Tserver
+    queries:
+    - legendFormat: $exported_instance
+      query: sum by (exported_instance) (irate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_cqlserver_SQLProcessor_OtherStmts_count"}[5m]))
+  - name: Others - Op Latency (Avg) / Tserver
+    queries:
+    - legendFormat: $exported_instance
+      query: "avg by (exported_instance) (irate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_SQLProcessor_OtherStmts_sum\"}[5m]))
+        / avg by (exported_instance) (irate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_SQLProcessor_OtherStmts_count\"}[5m]))\r"
+    - legend: Transaction
+      query: "avg by (exported_instance) (irate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_SQLProcessor_Transaction_sum\"}[5m]))
+        / avg by (exported_instance) (irate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_SQLProcessor_Transaction_count\"}[5m]))\r"
+  - name: Transaction - Op / Sec / Tserver
+    queries:
+    - legendFormat: $exported_instance
+      query: sum by (exported_instance) (irate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_cqlserver_SQLProcessor_Transaction_count"}[5m]))
+  - name: Transaction - Op Latency (Avg) / Tserver
+    queries:
+    - legendFormat: $exported_instance
+      query: "avg by (exported_instance) (irate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_SQLProcessor_Transaction_sum\"}[5m]))
+        / avg by (exported_instance) (irate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_SQLProcessor_Transaction_count\"}[5m]))\r"
+  - name: Reactor Delays
+    queries:
+    - legend: Incoming Queue
+      query: "avg(irate(rpc_incoming_queue_time_sum{node_prefix=\"$dbcluster\",group=\"ycql\"}[5m]))
+        / avg(irate(rpc_incoming_queue_time_count{node_prefix=\"$dbcluster\",group=\"ycql\"}[5m]))\r"
+    - legend: Outbound transfer time
+      query: "avg(irate(handler_latency_outbound_transfer_sum{node_prefix=\"$dbcluster\",group=\"ycql\"}[5m]))
+        / avg(irate(handler_latency_outbound_transfer_count{node_prefix=\"$dbcluster\",group=\"ycql\"}[5m]))\r"
+    - legend: Outbound queue time
+      query: "avg(irate(handler_latency_outbound_call_queue_time_sum{node_prefix=\"$dbcluster\",group=\"ycql\"}[5m]))
+        / avg(irate(handler_latency_outbound_call_queue_time_count{node_prefix=\"$dbcluster\",group=\"ycql\"}[5m]))\r"
+  - name: YCQL Inbound Connections
+    queries:
+    - legend: Connections Alive
+      query: avg(irate(rpc_connections_alive{node_prefix="$dbcluster",metric_id="yb.cqlserver"}[5m]))
+  - name: YCQL Latency Breakdown
+    queries:
+    - legend: Total
+      query: "sum(irate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_CQLServerService_ProcessRequest_sum\"}[5m]))
+        / sum(irate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_CQLServerService_ProcessRequest_count\"}[5m]))\r"
+    - legend: Parse
+      query: "sum(irate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_CQLServerService_ParseRequest_sum\"}[5m]))
+        / sum(irate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_CQLServerService_ParseRequest_count\"}[5m]))\r"
+    - legend: Analyze
+      query: "sum(irate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_CQLServerService_AnalyzeRequest_sum\"}[5m]))
+        / sum(irate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_CQLServerService_AnalyzeRequest_count\"}[5m]))\r"
+    - legend: Execute
+      query: "sum(irate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_CQLServerService_ExecuteRequest_sum\"}[5m]))
+        / sum(irate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_CQLServerService_ExecuteRequest_count\"}[5m]))\r"
+  - name: Response Size (bytes)
+    queries:
+    - legend: Response Size
+      query: "avg(irate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_SQLProcessor_ResponseSize_sum\"}[5m]))
+        / avg(irate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_cqlserver_SQLProcessor_ResponseSize_count\"}[5m]))\r"
+  - name: RPC queue sizes (YCQL)
+    queries:
+    - legend: YCQL RPC - Max
+      query: max(rpcs_in_queue_yb_cqlserver_CQLServerService{node_prefix="$dbcluster"})
+    - legendFormat: 'YCQL RPC - $exported_instance'
+      query: rpcs_in_queue_yb_cqlserver_CQLServerService{node_prefix="$dbcluster"}
+---
+apiVersion: platform.plural.sh/v1alpha1
+kind: Dashboard
+metadata:
+  name: yugabyte-yedis-ops-latency
+  namespace: yugabyte
+spec:
+  name: YEDIS Ops & Latency
+  timeslices:
+  - 1h
+  - 2h
+  - 6h
+  - 1d
+  - 7d
+  defaultTime: 1h
+  labels:
+  - name: dbcluster
+    query:
+      query: up{group="yb-master"}
+      label: node_prefix
+  graphs:
+  - name: Total YEDIS Ops / Sec
+    queries:
+    - legend: Get
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_get_count\"}[5m]))\r"
+    - legend: MGet
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_mget_count\"}[5m]))\r"
+    - legend: StrLen
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_strlen_count\"}[5m]))\r"
+    - legend: Exists
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_exists_count\"}[5m]))\r"
+    - legend: GetRange
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_getrange_count\"}[5m]))\r"
+    - legend: Set
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_set_count\"}[5m]))\r"
+    - legend: MSet
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_mset_count\"}[5m]))\r"
+    - legend: GetSet
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_getset_count\"}[5m]))\r"
+    - legend: Append
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_append_count\"}[5m]))\r"
+    - legend: Del
+      query: " sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_del_count\"}[5m]))\r"
+    - legend: SetRange
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_setrange_count\"}[5m]))\r"
+    - legend: Incr
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_incr_count\"}[5m]))\r"
+    - legend: TsGet
+      query: sum(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_tsget_count"}[5m]))
+    - legend: TsAdd
+      query: sum(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_tsadd_count"}[5m]))
+    - legend: TsRangeByTime
+      query: sum(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_tsrangebytime_count"}[5m]))
+    - legend: TsRem
+      query: sum(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_tsrem_count"}[5m]))
+    - legend: SMembers
+      query: sum(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_smembers_count"}[5m]))
+    - legend: SIsMember
+      query: sum(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_sismember_count"}[5m]))
+    - legend: SCard
+      query: sum(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_scard_count"}[5m]))
+    - legend: StrLen
+      query: sum(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_strlen_count"}[5m]))
+    - legend: SAdd
+      query: sum(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_sadd_count"}[5m]))
+    - legend: SRem
+      query: sum(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_srem_count"}[5m]))
+    - legend: Echo
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_echo_count\"}[5m]))\r"
+    - legend: Auth
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_auth_count\"}[5m]))\r"
+    - legend: Config
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_config_count\"}[5m]))\r"
+    - legend: Info
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_info_count\"}[5m]))\r"
+    - legend: Role
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_role_count\"}[5m]))\r"
+    - legend: Ping
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_ping_count\"}[5m]))\r"
+    - legend: Quit
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_quit_count\"}[5m]))\r"
+    - legend: FlushDB
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_flushdb_count\"}[5m]))\r"
+    - legend: Command
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_command_count\"}[5m]))\r"
+    - legend: HGet
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hget_count\"}[5m]))\r"
+    - legend: HMGet
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hmget_count\"}[5m]))\r"
+    - legend: HGetAll
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hgetall_count\"}[5m]))\r"
+    - legend: HKeys
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hkeys_count\"}[5m]))\r"
+    - legend: HVals
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hvals_count\"}[5m]))\r"
+    - legend: HLen
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hlen_count\"}[5m]))\r"
+    - legend: HExists
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hexists_count\"}[5m]))\r"
+    - legend: HStrLen
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hstrlen_count\"}[5m]))\r"
+    - legend: HSet
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hset_count\"}[5m]))\r"
+    - legend: HMSet
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hmset_count\"}[5m]))\r"
+    - legend: HDel
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hdel_count\"}[5m]))\r"
+    - legend: HIncrBy
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hincrby_count\"}[5m]))\r"
+  - name: YEDIS Op Latency (Avg)
+    queries:
+    - legend: Get
+      query: avg(rate(rpc_latency_sum{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_get_sum"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_get_count"}[5m]))
+    - legend: MGet
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_mget_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_mget_count\"}[5m]))\r"
+    - legend: StrLen
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_strlen_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_strlen_count\"}[5m]))\r"
+    - legend: Exists
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_exists_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_exists_count\"}[5m]))\r"
+    - legend: GetRange
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_getrange_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_getrange_count\"}[5m]))\r"
+    - legend: Set
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_set_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_set_count\"}[5m]))\r"
+    - legend: MSet
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_mset_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_mset_count\"}[5m]))\r"
+    - legend: GetSet
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_getset_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_getset_count\"}[5m]))\r"
+    - legend: Append
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_append_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_append_count\"}[5m]))\r"
+    - legend: Del
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_del_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_del_count\"}[5m]))\r"
+    - legend: SetRange
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_setrange_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_setrange_count\"}[5m]))\r"
+    - legend: Incr
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_incr_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_incr_count\"}[5m]))\r"
+    - legend: TsGet
+      query: avg(rate(rpc_latency_sum{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_tsget_sum"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_tsget_count"}[5m]))
+    - legend: TsAdd
+      query: avg(rate(rpc_latency_sum{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_tsadd_sum"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_tsadd_count"}[5m]))
+    - legend: TsRangeByTime
+      query: avg(rate(rpc_latency_sum{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_tsrangebytime_sum"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_tsrangebytime_count"}[5m]))
+    - legend: TsRem
+      query: avg(rate(rpc_latency_sum{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_tsrem_sum"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_tsrem_count"}[5m]))
+    - legend: SMembers
+      query: avg(rate(rpc_latency_sum{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_smembers_sum"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_smembers_count"}[5m]))
+    - legend: SIsMember
+      query: avg(rate(rpc_latency_sum{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_sismember_sum"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_sismember_count"}[5m]))
+    - legend: SCard
+      query: avg(rate(rpc_latency_sum{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_scard_sum"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_scard_count"}[5m]))
+    - legend: StrLen
+      query: avg(rate(rpc_latency_sum{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_strlen_sum"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_strlen_count"}[5m]))
+    - legend: SAdd
+      query: avg(rate(rpc_latency_sum{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_sadd_sum"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_sadd_count"}[5m]))
+    - legend: SRem
+      query: avg(rate(rpc_latency_sum{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_srem_sum"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_srem_count"}[5m]))
+    - legend: Echo
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_echo_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_echo_count\"}[5m]))\r"
+    - legend: Auth
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_auth_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_auth_count\"}[5m]))\r"
+    - legend: Config
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_config_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_config_count\"}[5m]))\r"
+    - legend: Info
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_info_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_info_count\"}[5m]))\r"
+    - legend: Role
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_role_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_role_count\"}[5m]))\r"
+    - legend: Ping
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_ping_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_ping_count\"}[5m]))\r"
+    - legend: Quit
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_quit_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_quit_count\"}[5m]))\r"
+    - legend: FlushDB
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_flushdb_sum\"}[5m]))
+        /avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_flushdb_count\"}[5m]))\r"
+    - legend: Command
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_command_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_command_count\"}[5m]))\r"
+    - legend: HGet
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hget_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hget_count\"}[5m]))\r"
+    - legend: HMGet
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hmget_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hmget_count\"}[5m]))\r"
+    - legend: HGetAll
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hgetall_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hgetall_count\"}[5m]))\r"
+    - legend: HKeys
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hkeys_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hkeys_count\"}[5m]))\r"
+    - legend: HVals
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hvals_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hvals_count\"}[5m]))\r"
+    - legend: HLen
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hlen_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hlen_count\"}[5m]))\r"
+    - legend: HExists
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hexists_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hexists_count\"}[5m]))\r"
+    - legend: HStrLen
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hstrlen_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hstrlen_count\"}[5m]))\r"
+    - legend: HSet
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hset_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hset_count\"}[5m]))\r"
+    - legend: HMSet
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hmset_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hmset_count\"}[5m]))\r"
+    - legend: HDel
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hdel_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hdel_count\"}[5m]))\r"
+    - legend: HIncrBy
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hincrby_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hincrby_count\"}[5m]))\r"
+  - name: YEDIS Op Latency (P95)
+    queries:
+    - legend: Get
+      query: max(rpc_latency{node_prefix="$dbcluster",quantile="p95",saved_name="handler_latency_yb_redisserver_RedisServerService_get"})
+    - legend: MGet
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p95\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_mget\"})\r"
+    - legend: StrLen
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p95\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_strlen\"})\r"
+    - legend: Exists
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p95\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_exists\"})\r"
+    - legend: GetRange
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p95\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_getrange\"})\r"
+    - legend: Set
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p95\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_set\"})\r"
+    - legend: MSet
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p95\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_mset\"})\r"
+    - legend: GetSet
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p95\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_getset\"})\r"
+    - legend: Append
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p95\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_append\"})\r"
+    - legend: Del
+      query: " max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p95\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_del\"})\r"
+    - legend: SetRange
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p95\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_setrange\"})\r"
+    - legend: Incr
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p95\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_incr\"})\r"
+    - legend: TsGet
+      query: max(rpc_latency{node_prefix="$dbcluster",quantile="p95",saved_name="handler_latency_yb_redisserver_RedisServerService_tsget"})
+    - legend: TsAdd
+      query: max(rpc_latency{node_prefix="$dbcluster",quantile="p95",saved_name="handler_latency_yb_redisserver_RedisServerService_tsadd"})
+    - legend: TsRangeByTime
+      query: max(rpc_latency{node_prefix="$dbcluster",quantile="p95",saved_name="handler_latency_yb_redisserver_RedisServerService_tsrangebytime"})
+    - legend: TsRem
+      query: max(rpc_latency{node_prefix="$dbcluster",quantile="p95",saved_name="handler_latency_yb_redisserver_RedisServerService_tsrem"})
+    - legend: SMembers
+      query: max(rpc_latency{node_prefix="$dbcluster",quantile="p95",saved_name="handler_latency_yb_redisserver_RedisServerService_smembers"})
+    - legend: SIsMember
+      query: max(rpc_latency{node_prefix="$dbcluster",quantile="p95",saved_name="handler_latency_yb_redisserver_RedisServerService_sismember"})
+    - legend: SCard
+      query: max(rpc_latency{node_prefix="$dbcluster",quantile="p95",saved_name="handler_latency_yb_redisserver_RedisServerService_scard"})
+    - legend: StrLen
+      query: max(rpc_latency{node_prefix="$dbcluster",quantile="p95",saved_name="handler_latency_yb_redisserver_RedisServerService_strlen"})
+    - legend: SAdd
+      query: max(rpc_latency{node_prefix="$dbcluster",quantile="p95",saved_name="handler_latency_yb_redisserver_RedisServerService_sadd"})
+    - legend: SRem
+      query: max(rpc_latency{node_prefix="$dbcluster",quantile="p95",saved_name="handler_latency_yb_redisserver_RedisServerService_srem"})
+    - legend: Echo
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p95\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_echo\"})\r"
+    - legend: Auth
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p95\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_auth\"})\r"
+    - legend: Config
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p95\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_config\"})\r"
+    - legend: Info
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p95\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_info\"})\r"
+    - legend: Role
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p95\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_role\"})\r"
+    - legend: Ping
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p95\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_ping\"})\r"
+    - legend: Quit
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p95\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_quit\"})\r"
+    - legend: FlushDB
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p95\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_flushdb\"})\r"
+    - legend: Command
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p95\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_command\"})\r"
+    - legend: HGet
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p95\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hget\"})\r"
+    - legend: HMGet
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p95\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hmget\"})\r"
+    - legend: HGetAll
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p95\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hgetall\"})\r"
+    - legend: HKeys
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p95\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hkeys\"})\r"
+    - legend: HVals
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p95\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hvals\"})\r"
+    - legend: HLen
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p95\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hlen\"})\r"
+    - legend: HExists
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p95\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hexists\"})\r"
+    - legend: HStrLen
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p95\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hstrlen\"})\r"
+    - legend: HSet
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p95\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hset\"})\r"
+    - legend: HMSet
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p95\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hmset\"})\r"
+    - legend: HDel
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p95\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hdel\"})\r"
+    - legend: HIncrBy
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p95\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hincrby\"})\r"
+  - name: YEDIS Op Latency (P99)
+    queries:
+    - legend: Get
+      query: max(rpc_latency{node_prefix="$dbcluster",quantile="p99",saved_name="handler_latency_yb_redisserver_RedisServerService_get"})
+    - legend: MGet
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p99\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_mget\"})\r"
+    - legend: StrLen
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p99\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_strlen\"})\r"
+    - legend: Exists
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p99\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_exists\"})\r"
+    - legend: GetRange
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p99\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_getrange\"})\r"
+    - legend: Set
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p99\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_set\"})\r"
+    - legend: MSet
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p99\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_mset\"})\r"
+    - legend: GetSet
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p99\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_getset\"})\r"
+    - legend: Append
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p99\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_append\"})\r"
+    - legend: Del
+      query: " max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p99\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_del\"})\r"
+    - legend: SetRange
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p99\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_setrange\"})\r"
+    - legend: Incr
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p99\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_incr\"})\r"
+    - legend: TsGet
+      query: max(rpc_latency{node_prefix="$dbcluster",quantile="p99",saved_name="handler_latency_yb_redisserver_RedisServerService_tsget"})
+    - legend: TsAdd
+      query: max(rpc_latency{node_prefix="$dbcluster",quantile="p99",saved_name="handler_latency_yb_redisserver_RedisServerService_tsadd"})
+    - legend: TsRangeByTime
+      query: max(rpc_latency{node_prefix="$dbcluster",quantile="p99",saved_name="handler_latency_yb_redisserver_RedisServerService_tsrangebytime"})
+    - legend: TsRem
+      query: max(rpc_latency{node_prefix="$dbcluster",quantile="p99",saved_name="handler_latency_yb_redisserver_RedisServerService_tsrem"})
+    - legend: SMembers
+      query: max(rpc_latency{node_prefix="$dbcluster",quantile="p99",saved_name="handler_latency_yb_redisserver_RedisServerService_smembers"})
+    - legend: SIsMember
+      query: max(rpc_latency{node_prefix="$dbcluster",quantile="p99",saved_name="handler_latency_yb_redisserver_RedisServerService_sismember"})
+    - legend: SCard
+      query: max(rpc_latency{node_prefix="$dbcluster",quantile="p99",saved_name="handler_latency_yb_redisserver_RedisServerService_scard"})
+    - legend: StrLen
+      query: max(rpc_latency{node_prefix="$dbcluster",quantile="p99",saved_name="handler_latency_yb_redisserver_RedisServerService_strlen"})
+    - legend: SAdd
+      query: max(rpc_latency{node_prefix="$dbcluster",quantile="p99",saved_name="handler_latency_yb_redisserver_RedisServerService_sadd"})
+    - legend: SRem
+      query: max(rpc_latency{node_prefix="$dbcluster",quantile="p99",saved_name="handler_latency_yb_redisserver_RedisServerService_srem"})
+    - legend: Echo
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p99\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_echo\"})\r"
+    - legend: Auth
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p99\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_auth\"})\r"
+    - legend: Config
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p99\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_config\"})\r"
+    - legend: Info
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p99\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_info\"})\r"
+    - legend: Role
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p99\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_role\"})\r"
+    - legend: Ping
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p99\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_ping\"})\r"
+    - legend: Quit
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p99\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_quit\"})\r"
+    - legend: FlushDB
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p99\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_flushdb\"})\r"
+    - legend: Command
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p99\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_command\"})\r"
+    - legend: HGet
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p99\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hget\"})\r"
+    - legend: HMGet
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p99\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hmget\"})\r"
+    - legend: HGetAll
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p99\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hgetall\"})\r"
+    - legend: HKeys
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p99\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hkeys\"})\r"
+    - legend: HVals
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p99\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hvals\"})\r"
+    - legend: HLen
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p99\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hlen\"})\r"
+    - legend: HExists
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p99\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hexists\"})\r"
+    - legend: HStrLen
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p99\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hstrlen\"})\r"
+    - legend: HSet
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p99\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hset\"})\r"
+    - legend: HMSet
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p99\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hmset\"})\r"
+    - legend: HDel
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p99\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hdel\"})\r"
+    - legend: HIncrBy
+      query: "max(rpc_latency{node_prefix=\"$dbcluster\",quantile=\"p99\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hincrby\"})\r"
+  - name: Total YEDIS Ops / Sec -- Hash
+    queries:
+    - legend: HGet
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hget_count\"}[5m]))\r"
+    - legend: HMGet
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hmget_count\"}[5m]))\r"
+    - legend: HGetAll
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hgetall_count\"}[5m]))\r"
+    - legend: HKeys
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hkeys_count\"}[5m]))\r"
+    - legend: HVals
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hvals_count\"}[5m]))\r"
+    - legend: HLen
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hlen_count\"}[5m]))\r"
+    - legend: HExists
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hexists_count\"}[5m]))\r"
+    - legend: HStrLen
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hstrlen_count\"}[5m]))\r"
+    - legend: HSet
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hset_count\"}[5m]))\r"
+    - legend: HMSet
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hmset_count\"}[5m]))\r"
+    - legend: HDel
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hdel_count\"}[5m]))\r"
+    - legend: HIncrBy
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hincrby_count\"}[5m]))\r"
+  - name: YEDIS Op Latency -- Hash
+    queries:
+    - legend: HGet
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hget_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hget_count\"}[5m]))\r"
+    - legend: HMGet
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hmget_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hmget_count\"}[5m]))\r"
+    - legend: HGetAll
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hgetall_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hgetall_count\"}[5m]))\r"
+    - legend: HKeys
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hkeys_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hkeys_count\"}[5m]))\r"
+    - legend: HVals
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hvals_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hvals_count\"}[5m]))\r"
+    - legend: HLen
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hlen_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hlen_count\"}[5m]))\r"
+    - legend: HExists
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hexists_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hexists_count\"}[5m]))\r"
+    - legend: HStrLen
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hstrlen_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hstrlen_count\"}[5m]))\r"
+    - legend: HSet
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hset_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hset_count\"}[5m]))\r"
+    - legend: HMSet
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hmset_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hmset_count\"}[5m]))\r"
+    - legend: HDel
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hdel_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hdel_count\"}[5m]))\r"
+    - legend: HIncrBy
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hincrby_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_hincrby_count\"}[5m]))\r"
+  - name: Total YEDIS Ops / Sec -- TS
+    queries:
+    - legend: TsGet
+      query: sum(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_tsget_count"}[5m]))
+    - legend: TsAdd
+      query: sum(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_tsadd_count"}[5m]))
+    - legend: TsRangeByTime
+      query: sum(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_tsrangebytime_count"}[5m]))
+    - legend: TsRem
+      query: sum(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_tsrem_count"}[5m]))
+  - name: YEDIS Op Latency -- TS
+    queries:
+    - legend: TsGet
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_tsget_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_tsget_count\"}[5m]))\r"
+    - legend: TsAdd
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_tsadd_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_tsadd_count\"}[5m]))\r"
+    - legend: TsRangeByTime
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_tsrangebytime_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_tsrangebytime_count\"}[5m]))\r"
+    - legend: TsRem
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_tsrem_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_tsrem_count\"}[5m]))\r"
+  - name: Total YEDIS Ops / Sec -- Set
+    queries:
+    - legend: SMembers
+      query: sum(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_smembers_count"}[5m]))
+    - legend: SIsMember
+      query: sum(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_sismember_count"}[5m]))
+    - legend: SCard
+      query: sum(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_scard_count"}[5m]))
+    - legend: StrLen
+      query: sum(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_strlen_count"}[5m]))
+    - legend: SAdd
+      query: sum(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_sadd_count"}[5m]))
+    - legend: SRem
+      query: sum(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_srem_count"}[5m]))
+  - name: YEDIS Op Latency -- Set
+    queries:
+    - legend: SMembers
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_smembers_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_smembers_count\"}[5m]))\r"
+    - legend: SIsMember
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_sismember_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_sismember_count\"}[5m]))\r"
+    - legend: SCard
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_scard_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_scard_count\"}[5m]))\r"
+    - legend: StrLen
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_strlen_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_strlen_count\"}[5m]))\r"
+    - legend: SAdd
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_sadd_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_sadd_count\"}[5m]))\r"
+    - legend: SRem
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_srem_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_srem_count\"}[5m]))\r"
+  - name: Total YEDIS Ops / Sec -- Sorted Set
+    queries:
+    - legend: ZAdd
+      query: sum(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_zadd_count"}[5m]))
+    - legend: ZRem
+      query: sum(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_zrem_count"}[5m]))
+    - legend: ZCard
+      query: sum(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_zcard_count"}[5m]))
+    - legend: ZRangeByScore
+      query: sum(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_zrevrange_count"}[5m]))
+    - legend: ZRevRange
+      query: sum(rate(rpc_latency_count{node_prefix="$dbcluster",saved_name="handler_latency_yb_redisserver_RedisServerService_zrangebyscore_count"}[5m]))
+  - name: YEDIS Op Latency -- Sorted Set
+    queries:
+    - legend: ZAdd
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_zadd_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_zadd_count\"}[5m]))\r"
+    - legend: ZRem
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_zrem_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_zrem_count\"}[5m]))\r"
+    - legend: ZCard
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_zcard_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_zcard_count\"}[5m]))\r"
+    - legend: ZRevRange
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_zrevrange_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_zrevrange_count\"}[5m]))\r"
+    - legend: ZRangeByScore
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_zrangebyscore_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_zrangebyscore_count\"}[5m]))\r"
+  - name: Total YEDIS Ops / Sec -- Str
+    queries:
+    - legend: Get
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_get_count\"}[5m]))\r"
+    - legend: MGet
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_mget_count\"}[5m]))\r"
+    - legend: StrLen
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_strlen_count\"}[5m]))\r"
+    - legend: Exists
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_exists_count\"}[5m]))\r"
+    - legend: GetRange
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_getrange_count\"}[5m]))\r"
+    - legend: Set
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_set_count\"}[5m]))\r"
+    - legend: MSet
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_mset_count\"}[5m]))\r"
+    - legend: GetSet
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_getset_count\"}[5m]))\r"
+    - legend: Append
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_append_count\"}[5m]))\r"
+    - legend: Del
+      query: " sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_del_count\"}[5m]))\r"
+    - legend: SetRange
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_setrange_count\"}[5m]))\r"
+    - legend: Incr
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_incr_count\"}[5m]))\r"
+  - name: YEDIS Op Latency -- Str
+    queries:
+    - legend: Get
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_get_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_get_count\"}[5m]))\r"
+    - legend: MGet
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_mget_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_mget_count\"}[5m]))\r"
+    - legend: StrLen
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_strlen_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_strlen_count\"}[5m]))\r"
+    - legend: Exists
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_exists_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_exists_count\"}[5m]))\r"
+    - legend: GetRange
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_getrange_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_getrange_count\"}[5m]))\r"
+    - legend: Set
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_set_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_set_count\"}[5m]))\r"
+    - legend: MSet
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_mset_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_mset_count\"}[5m]))\r"
+    - legend: GetSet
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_getset_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_getset_count\"}[5m]))\r"
+    - legend: Append
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_append_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_append_count\"}[5m]))\r"
+    - legend: Del
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_del_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_del_count\"}[5m]))\r"
+    - legend: SetRange
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_setrange_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_setrange_count\"}[5m]))\r"
+    - legend: Incr
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_incr_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_incr_count\"}[5m]))\r"
+  - name: Total YEDIS Ops / Sec -- Others
+    queries:
+    - legend: Echo
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_echo_count\"}[5m]))\r"
+    - legend: Auth
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_auth_count\"}[5m]))\r"
+    - legend: Config
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_config_count\"}[5m]))\r"
+    - legend: Info
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_info_count\"}[5m]))\r"
+    - legend: Role
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_role_count\"}[5m]))\r"
+    - legend: Ping
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_ping_count\"}[5m]))\r"
+    - legend: Quit
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_quit_count\"}[5m]))\r"
+    - legend: FlushDB
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_flushdb_count\"}[5m]))\r"
+    - legend: Command
+      query: "sum(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_command_count\"}[5m]))\r"
+  - name: YEDIS Op Latency -- Others
+    queries:
+    - legend: Echo
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_echo_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_echo_count\"}[5m]))\r"
+    - legend: Auth
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_auth_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_auth_count\"}[5m]))\r"
+    - legend: Config
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_config_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_config_count\"}[5m]))\r"
+    - legend: Info
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_info_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_info_count\"}[5m]))\r"
+    - legend: Role
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_role_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_role_count\"}[5m]))\r"
+    - legend: Ping
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_ping_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_ping_count\"}[5m]))\r"
+    - legend: Quit
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_quit_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_quit_count\"}[5m]))\r"
+    - legend: FlushDB
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_flushdb_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_flushdb_count\"}[5m]))\r"
+    - legend: Command
+      query: "avg(rate(rpc_latency_sum{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_command_sum\"}[5m]))
+        / avg(rate(rpc_latency_count{node_prefix=\"$dbcluster\",saved_name=\"handler_latency_yb_redisserver_RedisServerService_command_count\"}[5m]))\r"
+  - name: RPC queue sizes (YEDIS)
+    queries:
+    - legend: YEDIS RPC - Max
+      query: max(rpcs_in_queue_yb_redisserver_RedisServerService{node_prefix="$dbcluster"})
+    - legendFormat: 'YEDIS RPC - $exported_instance'
+      query: rpcs_in_queue_yb_redisserver_RedisServerService{node_prefix="$dbcluster"}
+  - name: YBClient Reactor Delays
+    queries:
+    - legend: Incoming Queue
+      query: "avg(irate(rpc_incoming_queue_time_sum{node_prefix=\"$dbcluster\",group=\"yedis\"}[5m]))
+        / avg(irate(rpc_incoming_queue_time_count{node_prefix=\"$dbcluster\",group=\"yedis\"}[5m]))\r"
+    - legend: Outbound transfer time
+      query: "avg(irate(handler_latency_outbound_transfer_sum{node_prefix=\"$dbcluster\",group=\"yedis\"}[5m]))
+        / avg(irate(handler_latency_outbound_transfer_count{node_prefix=\"$dbcluster\",group=\"yedis\"}[5m]))\r"
+    - legend: Outbound queue time
+      query: "avg(irate(handler_latency_outbound_call_queue_time_sum{node_prefix=\"$dbcluster\",group=\"yedis\"}[5m]))
+        / avg(irate(handler_latency_outbound_call_queue_time_count{node_prefix=\"$dbcluster\",group=\"yedis\"}[5m]))\r"
+---
+apiVersion: platform.plural.sh/v1alpha1
+kind: Dashboard
+metadata:
+  name: yugabyte-rocks-db
+  namespace: yugabyte
+spec:
+  name: RocksDB
+  timeslices:
+  - 1h
+  - 2h
+  - 6h
+  - 1d
+  - 7d
+  defaultTime: 1h
+  labels:
+  - name: dbcluster
+    query:
+      query: up{group="yb-master"}
+      label: node_prefix
+  graphs:
+  - name: LSM-DB Seek/Next Num Ops
+    queries:
+    - legend: Seek
+      query: avg(sum without (table_id, table_name) (rate(rocksdb_number_db_seek{node_prefix="$dbcluster"}[5m])))
+    - legend: Next
+      query: avg(sum without (table_id, table_name) (rate(rocksdb_number_db_next{node_prefix="$dbcluster"}[5m])))
+  - name: LSM-DB Seeks / Sec / Node
+    queries:
+    - legend: Seek
+      query: avg(sum without (table_id, table_name) (rate(rocksdb_number_db_seek{node_prefix="$dbcluster"}[5m])))
+  - name: SSTable size / Node
+    queries:
+    - legend: Size of SSTables
+      query: avg(sum without (table_id, table_name) (rocksdb_total_sst_file_size{node_prefix="$dbcluster"}))
+        / 1073741824
+  - name: Average SSTables / Node
+    queries:
+    - legend: Average SSTables / Node
+      query: avg(sum without (table_id, table_name) (rocksdb_current_version_num_sst_files{node_prefix="$dbcluster"}))
+  - name: LSM-DB Blooms usefulness
+    queries:
+    - legend: Blooms checked
+      query: avg(sum without (table_id, table_name) (rate(rocksdb_bloom_filter_checked{node_prefix="$dbcluster"}[5m])))
+    - legend: Blooms useful
+      query: 'avg(sum without (table_id, table_name) (rate(rocksdb_bloom_filter_useful{node_prefix="$dbcluster"}[5m]))) '
+  - name: LSM-DB Get Latencies
+    queries:
+    - legend: Get
+      query: "avg(sum without (table_id, table_name) (rate(rocksdb_db_get_micros_sum{node_prefix=\"$dbcluster\"}[5m])))
+        / avg(sum without (table_id, table_name) (rate(rocksdb_db_get_micros_count{node_prefix=\"$dbcluster\"}[5m]))\r)"
+  - name: LSM-DB Write Latencies
+    queries:
+    - legend: Write
+      query: "avg(sum without (table_id, table_name) (rate(rocksdb_db_write_micros_sum{node_prefix=\"$dbcluster\"}[5m])))
+        / avg(sum without (table_id, table_name) (rate(rocksdb_db_write_micros_count{node_prefix=\"$dbcluster\"}[5m]))\r)"
+  - name: LSM-DB Seek Latencies
+    queries:
+    - legend: Seek
+      query: "avg(sum without (table_id, table_name) (rate(rocksdb_db_seek_micros_sum{node_prefix=\"$dbcluster\"}[5m])))
+        / avg(sum without (table_id, table_name) (rate(rocksdb_db_seek_micros_count{node_prefix=\"$dbcluster\"}[5m]))\r)"
+  - name: LSM-DB Mutex Wait Latencies
+    queries:
+    - legend: Mutex
+      query: avg(sum without (table_id, table_name) (rate(rocksdb_db_mutex_wait_micros{node_prefix="$dbcluster"}[5m])))
+  - name: Cache Hit & Miss
+    queries:
+    - legend: Hit
+      query: avg(sum without (table_id, table_name) (rate(rocksdb_block_cache_hit{node_prefix="$dbcluster"}[5m])))
+    - legend: Miss
+      query: avg(sum without (table_id, table_name) (rate(rocksdb_block_cache_miss{node_prefix="$dbcluster"}[5m])))
+  - name: Block cache usage
+    queries:
+    - legend: Single Touch
+      query: avg(block_cache_single_touch_usage{node_prefix="$dbcluster"}) / 1073741824
+    - legend: Multi Touch
+      query: avg(block_cache_multi_touch_usage{node_prefix="$dbcluster"}) / 1073741824
+  - name: Cache Add
+    queries:
+    - legend: Add
+      query: avg(sum without (table_id, table_name) (rate(rocksdb_block_cache_add{node_prefix="$dbcluster"}[5m])))
+    - legend: Single Touch Add
+      query: avg(sum without (table_id, table_name) (rate(rocksdb_block_cache_single_touch_add{node_prefix="$dbcluster"}[5m])))
+    - legend: Multi Touch Add
+      query: avg(sum without (table_id, table_name) (rate(rocksdb_block_cache_multi_touch_add{node_prefix="$dbcluster"}[5m])))
+  - name: Stalls
+    queries:
+    - legend: Stalls
+      query: avg(sum without (table_id, table_name) (rate(rocksdb_stall_micros{node_prefix="$dbcluster"}[5m])))
+  - name: Rejections
+    queries:
+    - legend: Rejections
+      query: avg(sum without (table_id, table_name) (rate(majority_sst_files_rejections{node_prefix="$dbcluster"}[5m])))
+  - name: Flush write
+    queries:
+    - legend: Flush
+      query: avg(sum without (table_id, table_name) (rate(rocksdb_flush_write_bytes{node_prefix="$dbcluster"}[5m])))
+        / 1048576
+  - name: Compaction
+    queries:
+    - legend: Bytes Read
+      query: avg(sum without (table_id, table_name) (rate(rocksdb_compact_read_bytes{node_prefix="$dbcluster"}[5m])))
+        / 1048576
+    - legend: Bytes Written
+      query: avg(sum without (table_id, table_name) (rate(rocksdb_compact_write_bytes{node_prefix="$dbcluster"}[5m])))
+        / 1048576
+  - name: Compaction num files
+    queries:
+    - legend: Avg
+      query: "avg(sum without (table_id, table_name) (irate(rocksdb_numfiles_in_singlecompaction_sum{node_prefix=\"$dbcluster\"}[5m])))
+        / avg(sum without (table_id, table_name) (irate(rocksdb_numfiles_in_singlecompaction_count{node_prefix=\"$dbcluster\"}[5m]))\r)"
+  - name: Compaction time
+    queries:
+    - legend: Avg
+      query: "avg(sum without (table_id, table_name) (irate(rocksdb_compaction_times_micros_sum{node_prefix=\"$dbcluster\"}[5m])))
+        / avg(sum without (table_id, table_name) (irate(rocksdb_compaction_times_micros_count{node_prefix=\"$dbcluster\"}[5m]))\r)"

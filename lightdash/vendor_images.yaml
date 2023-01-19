@@ -1,0 +1,3 @@
+docker.io:
+  images-by-tag-regex:
+    lightdash/lightdash: ^v?[0-9]+\.[0-9]+?\.[0-9]+$

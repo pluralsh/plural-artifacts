@@ -1,0 +1,25 @@
+name: ray-gcp
+description: Installs ray on an gcp gke cluster
+provider: GCP
+oidcSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+sections:
+- name: ray
+  configuration:
+  - name: hostname
+    documentation: domain on which you'd like to host RAY's page
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: ray
+  - type: HELM
+    name: kuberay-operator

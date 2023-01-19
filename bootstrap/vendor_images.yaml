@@ -1,0 +1,33 @@
+docker.io:
+  images:
+    # prom/statsd-exporter: [] # TODO: check if this is actually used. 
+  images-by-tag-regex:
+    amazon/aws-efs-csi-driver: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    appscode/kubed: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    # bitnami/kubectl: ^v1\.2[0-9]+?\.[0-9]+$ #TODO: doesn't seem to be used
+    # bitnami/metrics-server: ^v?[0-9]+\.[0-9]+?\.[0-9]+$ # TODO: replace with official chart and image
+    calico/ctl: ^v3\.2[0-9]+?\.[0-9]+$
+    calico/kube-controllers: ^v3\.2[0-9]+?\.[0-9]+$
+    calico/node: ^v3\.2[0-9]+?\.[0-9]+$
+    calico/pod2daemon-flexvol: ^v3\.2[0-9]+?\.[0-9]+$
+    calico/typha: ^v3\.2[0-9]+?\.[0-9]+$
+    equinix/cloud-provider-equinix-metal: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+k8s.gcr.io:
+  images-by-tag-regex:
+    autoscaling/cluster-autoscaler: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    provider-aws/aws-ebs-csi-driver: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    sig-storage/csi-attacher: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    sig-storage/csi-node-driver-registrar: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    sig-storage/csi-provisioner: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    sig-storage/csi-resizer: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    sig-storage/csi-snapshotter: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    sig-storage/livenessprobe: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    sig-storage/snapshot-controller: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    sig-storage/snapshot-validation-webhook: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+quay.io:
+  images-by-tag-regex:
+    tigera/operator: ^v1\.[0-9]+?\.[0-9]+$
+    jetstack/cert-manager-cainjector: ^v1\.[0-9]+?\.[0-9]+$
+    jetstack/cert-manager-controller: ^v1\.[0-9]+?\.[0-9]+$
+    jetstack/cert-manager-webhook: ^v1\.[0-9]+?\.[0-9]+$
+    jetstack/cert-manager-ctl: ^v1\.[0-9]+?\.[0-9]+$

@@ -1,9 +1,9 @@
 dependencies:
 - name: postgres
   repository: https://pluralsh.github.io/module-library
-  version: 0.1.5
+  version: 0.1.10
 - name: kratos
   repository: https://k8s.ory.sh/helm/charts
   version: 0.21.8
-digest: sha256:43607fcc54904c3ede5237342432856bd9600809f999e78a1ad5bc762691dfed
-generated: "2022-02-21T14:37:27.53433-05:00"
+digest: sha256:ed780343affdf085051334f4f5a63146fd6c69757f8a8e6be222c34a98d10e7a
+generated: "2022-10-21T15:26:05.07271+02:00"

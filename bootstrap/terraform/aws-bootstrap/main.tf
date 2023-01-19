@@ -13,6 +13,8 @@ module "vpc" {
   enable_dns_hostnames   = true
   enable_ipv6            = true
 
+  database_subnets = var.database_subnets
+
   enable_nat_gateway = true
   single_nat_gateway = true
 
@@ -33,9 +35,9 @@ module "vpc" {
 }
 
 module "cluster" {
-  source          = "github.com/pluralsh/terraform-aws-eks?ref=always-create-auth-cm"
+  source          = "github.com/pluralsh/terraform-aws-eks?ref=output-service-cidr"
   cluster_name    = var.cluster_name
-  cluster_version = "1.21"
+  cluster_version = var.kubernetes_version
   private_subnets = module.vpc.private_subnets_ids
   public_subnets  = module.vpc.public_subnets_ids
   worker_private_subnets = module.vpc.worker_private_subnets
@@ -52,7 +54,7 @@ module "cluster" {
 }
 
 module "single_az_node_groups" {
-  source                 = "github.com/pluralsh/module-library//terraform/eks-node-groups/single-az-node-groups?ref=7b6d3b1d1602e4265d6d3b172c38fe67d9a2c7fc"
+  source                 = "github.com/pluralsh/module-library//terraform/eks-node-groups/single-az-node-groups?ref=20e64863ffc5e361045db8e6b81b9d244a55809e"
   cluster_name           = var.cluster_name
   default_iam_role_arn   = module.cluster.worker_iam_role_arn
   tags                   = {}
@@ -68,7 +70,7 @@ module "single_az_node_groups" {
 }
 
 module "multi_az_node_groups" {
-  source                 = "github.com/pluralsh/module-library//terraform/eks-node-groups/multi-az-node-groups?ref=aws-multi-az"
+  source                 = "github.com/pluralsh/module-library//terraform/eks-node-groups/multi-az-node-groups?ref=20e64863ffc5e361045db8e6b81b9d244a55809e"
   cluster_name           = var.cluster_name
   default_iam_role_arn   = module.cluster.worker_iam_role_arn
   tags                   = {}
@@ -86,7 +88,7 @@ module "multi_az_node_groups" {
 resource "aws_eks_addon" "vpc_cni" {
   cluster_name = module.cluster.cluster_id
   addon_name   = "vpc-cni"
-  addon_version     = "v1.10.1-eksbuild.1"
+  addon_version     = var.vpc_cni_addon_version
   resolve_conflicts = "OVERWRITE"
   tags = {
       "eks_addon" = "vpc-cni"
@@ -100,7 +102,7 @@ resource "aws_eks_addon" "vpc_cni" {
 resource "aws_eks_addon" "core_dns" {
   cluster_name      = module.cluster.cluster_id
   addon_name        = "coredns"
-  addon_version     = "v1.8.4-eksbuild.1"
+  addon_version     = var.core_dns_addon_version
   resolve_conflicts = "OVERWRITE"
   tags = {
       "eks_addon" = "coredns"
@@ -114,7 +116,7 @@ resource "aws_eks_addon" "core_dns" {
 resource "aws_eks_addon" "kube_proxy" {
   cluster_name      = module.cluster.cluster_id
   addon_name        = "kube-proxy"
-  addon_version     = "v1.21.2-eksbuild.2"
+  addon_version     = var.kube_proxy_addon_version
   resolve_conflicts = "OVERWRITE"
   tags = {
       "eks_addon" = "kube-proxy"

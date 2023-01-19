@@ -1,0 +1,215 @@
+postgres:
+  team: plural
+  user: datahub
+  dbName: datahub
+  ownerChart: datahub
+  infix: '-postgres'
+
+oidcClientSecret: ""
+adminPassword: changeme
+
+paused: false
+
+cronSchedule:
+  enabled: false
+  start: 30 * * * *
+  end: 45 * * * *
+
+kedaRunbookEnabled: false
+
+setupJobs:
+  elasticsearchSetupJob:
+    enabled: true
+  postgresqlSetupJob:
+    enabled: true
+  kafkaSetupJob:
+    enabled: true
+
+datahubUpgrade:
+  enabled: true
+
+# Default configuration for pre-requisites to get you started
+# Copy this file and update to the configuration of choice
+datahub:
+  datahub-frontend:
+    image:
+      repository: dkr.plural.sh/datahub/linkedin/datahub-frontend-react
+      tag: v0.9.0
+    service:
+      type: ClusterIP
+    serviceMonitor:
+      create: true
+    resources:
+      requests:
+        cpu: 10m
+        memory: 500Mi
+      limits:
+        memory: 500Mi
+    extraVolumes:
+    - name: basic-auth-password
+      secret:
+        secretName: datahub-basic-auth
+    extraVolumeMounts:
+    - name: basic-auth-password
+      mountPath: /datahub-frontend/conf/user.props
+      subPath: user.props
+    ingress:
+      enabled: true
+      className: nginx
+      annotations:
+        kubernetes.io/tls-acme: "true"
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+        nginx.ingress.kubernetes.io/use-regex: 'false'
+        nginx.ingress.kubernetes.io/proxy-buffer-size: 256k
+
+  datahub-gms:
+    image:
+      repository: dkr.plural.sh/datahub/linkedin/datahub-gms
+      tag: v0.9.0
+    serviceMonitor:
+      create: true
+    extraInitContainers:
+    - name: wait-for-pg
+      image: gcr.io/pluralsh/library/busybox:1.35.0
+      imagePullPolicy: IfNotPresent
+      command: [ "/bin/sh", "-c", "until nc -zv plural-postgres-datahub 5432 -w1; do echo 'waiting for db'; sleep 1; done" ]
+    service:
+      type: ClusterIP
+    resources:
+      requests:
+        cpu: 30m
+        memory: 900Mi
+      limits:
+        memory: 900Mi
+      # TODO: set resources for gms and add runbook
+
+  acryl-datahub-actions:
+    enabled: true
+    image:
+      repository: dkr.plural.sh/datahub/acryldata/datahub-actions
+      tag: v0.0.7
+    resources:
+      limits:
+        memory: 512Mi
+      requests:
+        cpu: 50m
+        memory: 256Mi
+
+  datahub-mae-consumer:
+    image:
+      repository: dkr.plural.sh/datahub/linkedin/datahub-mae-consumer
+      tag: v0.9.0
+    serviceMonitor:
+      create: true
+
+  datahub-mce-consumer:
+    image:
+      repository: dkr.plural.sh/datahub/linkedin/datahub-mce-consumer
+      tag: v0.9.0
+    serviceMonitor:
+      create: true
+
+  datahub-ingestion-cron:
+    enabled: false
+    image:
+      repository: dkr.plural.sh/datahub/acryldata/datahub-ingestion
+      tag: v0.9.0
+
+  mysqlSetupJob:
+    enabled: false
+
+  postgresqlSetupJob:
+    enabled: false
+    initContainers:
+    - name: wait-for-pg
+      image: gcr.io/pluralsh/library/busybox:1.35.0
+      imagePullPolicy: IfNotPresent
+      command: [ "/bin/sh", "-c", "until nc -zv plural-postgres-datahub 5432 -w1; do echo 'waiting for db'; sleep 1; done" ]
+    image:
+      repository: dkr.plural.sh/datahub/acryldata/datahub-postgres-setup
+      tag: v0.9.0
+    resources:
+      requests:
+        cpu: 5m
+        memory: 50Mi
+    podSecurityContext:
+      fsGroup: 1000
+    securityContext:
+      runAsUser: 1000
+    podAnnotations: { }
+  
+  elasticsearchSetupJob:
+    enabled: false
+    image:
+      repository: dkr.plural.sh/datahub/acryldata/datahub-elasticsearch-setup
+      tag: v0.8.45-cleanup
+    resources:
+      requests:
+        cpu: 5m
+        memory: 5Mi
+
+  kafkaSetupJob:
+    enabled: false
+    image:
+      repository: dkr.plural.sh/datahub/linkedin/datahub-kafka-setup
+      tag: v0.9.0
+    resources:
+      requests:
+        cpu: 0.4
+        memory: 60Mi
+
+  datahubUpgrade:
+    enabled: false
+    image:
+      repository: dkr.plural.sh/datahub/acryldata/datahub-upgrade
+      tag: v0.9.0
+
+  global:
+    datahub:
+      monitoring:
+        enablePrometheus: true
+      metadata_service_authentication:
+        enabled: true
+    graph_service_impl: "elasticsearch"
+    elasticsearch:
+      host: "elasticsearch-es-http.elasticsearch.svc"
+      port: "9200"
+      useSSL: "false"
+      skipcheck: "false"
+      insecure: "false"
+      auth:
+        username: elastic
+        password:
+          secretRef: elasticsearch-es-elastic-user
+          secretKey: elastic
+      verify-certs: "false"
+    kafka:
+      bootstrap:
+        server: "kafka-kafka-bootstrap.kafka.svc:9092"
+      zookeeper:
+        server: "kafka-zookeeper-client.kafka.svc:2181"
+      schemaregistry:
+        url: "http://kafka-schema-registry.kafka.svc:8081"
+    sql:
+      datasource:
+        hostForpostgresqlClient: "plural-postgres-datahub"
+        host: "plural-postgres-datahub:5432"
+        port: "5432"
+        url: "jdbc:postgresql://plural-postgres-datahub:5432/datahub?verifyServerCertificate=false&useSSL=true&useUnicode=yes&characterEncoding=UTF-8&enabledTLSProtocols=TLSv1.2"
+        driver: "org.postgresql.Driver"
+        username: "datahub"
+        password:
+          secretRef: datahub.plural-postgres-datahub.credentials.postgresql.acid.zalan.do
+          secretKey: password
+  prerequisites:
+    elasticsearch:
+      enabled: false   # set this to false, if you want to provide your own ES instance.
+    neo4j:
+      enabled: false
+    neo4j-community:
+      enabled: false   # set this to false, if you have a license for the enterprise edition
+    mysql:
+      enabled: false
+    kafka:
+      enabled: false

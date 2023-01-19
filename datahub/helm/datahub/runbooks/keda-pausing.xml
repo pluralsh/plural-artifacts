@@ -1,0 +1,16 @@
+<root gap='medium'>
+  <box pad='small' gap='medium' direction='row' align='center'>
+    <button label='Pause' action='pause' primary='true' headline='true' />
+    <input placeholder="" datatype='bool' label='Pause the application' name='paused'>
+    </input>
+  </box>
+  <box pad='small' gap='medium' direction='row' align='center'>
+    <button label='Apply Cron Schedule' action='applyCron' primary='true' headline='true' />
+     <input placeholder="" datatype='bool' label='Enable Cron Schedule' name='cronEnabled'>
+    </input>
+    <input placeholder="" label='Cron Schedule Start' name='cronStart'>
+    </input>
+    <input placeholder="" label='Cron Schedule End' name='cronEnd'>
+    </input>
+  </box>
+</root>

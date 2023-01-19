@@ -4,6 +4,7 @@ resource "kubernetes_namespace" "mlflow" {
     labels = {
       "app.kubernetes.io/managed-by" = "plural"
       "app.plural.sh/name" = "mlflow"
+      "platform.plural.sh/sync-target" = "pg"
     }
   }
 }

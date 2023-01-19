@@ -11,6 +11,7 @@ postgres:
   user: calendso
   dbName: calendso
   ownerChart: calendso
+  infix: ""
 
 configOverlays:
 - name: web-cpu
