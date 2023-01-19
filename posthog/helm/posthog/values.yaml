@@ -78,6 +78,13 @@ posthog:
       kubernetes.io/tls-acme: "true"
       cert-manager.io/cluster-issuer: letsencrypt-prod
     secretName: posthog-ingress-tls
+  prometheus-statsd-exporter:
+    enabled: true
+    image:
+      repository: dkr.plural.sh/posthog/prom/statsd-exporter
+      tag: v0.23.0
+    serviceMonitor:
+      enabled: true
 
 secrets:
   clickhousePassword: CHAMGE_ME
