@@ -177,13 +177,13 @@ configKubernetes:
   watched_namespace: "*"  # listen to all namespaces
 
   liveness_probe:
-    failureThreshold: 3
+    failureThreshold: 6
     httpGet:
       path: /readiness
       port: 8008
       scheme: HTTP
-    initialDelaySeconds: 10
-    periodSeconds: 10
+    initialDelaySeconds: 15
+    periodSeconds: 60
     successThreshold: 1
     timeoutSeconds: 5
 
