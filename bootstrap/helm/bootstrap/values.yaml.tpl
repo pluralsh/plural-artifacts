@@ -25,14 +25,20 @@ external-dns:
     create: false
 {{ end }}
     name: {{ default "external-dns" .Values.externaldns_service_account }}
+    {{- if eq .Provider "aws" }}
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-externaldns"
+    {{- end }}
   domainFilters:
   - {{ .Network.Subdomain }}
+  {{- if eq .Provider "google" }}
   google:
     project: {{ .Project }}
+  {{- end }}
+  {{- if eq .Provider "aws" }}
   aws:
     region: {{ .Region }}
+  {{- end }}
   {{ if and (not $pluraldns) (eq .Provider "azure")}}
   azure:
     useManagedIdentityExtension: true
@@ -80,6 +86,7 @@ provider: {{ .Provider }}
 ownerEmail: {{ .Config.Email }}
 
 {{ if eq (default "google" .Provider) "aws" }}
+{{- if not .Values.disable_cluster_autoscaler }} 
 cluster-autoscaler:
   enabled: true
   awsRegion: {{ .Region }}
@@ -96,9 +103,11 @@ cluster-autoscaler:
   autoDiscovery:
     clusterName: {{ .Cluster }}
     enabled: true
+{{- end }}
 {{ end }}
 
 {{ if eq .Provider "aws"}}
+{{- if not .Values.disable_calico}}
 tigera-operator:
   enabled: true
   tigeraOperator:
@@ -110,6 +119,8 @@ tigera-operator:
   calioctl:
     image: gcr.io/pluralsh/calico/ctl
     tag: master
+{{- end }}
+{{- if not .Values.disable_aws_lb_controller }}
 aws-load-balancer-controller:
   enabled: true
   clusterName: {{ .Cluster }}
@@ -118,6 +129,8 @@ aws-load-balancer-controller:
     name: alb-operator
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-alb"
+{{- end }}
+{{- if not .Values.disable_ebs_csi_driver}}
 aws-ebs-csi-driver:
   enabled: true
   controller:
@@ -125,15 +138,17 @@ aws-ebs-csi-driver:
       name: ebs-csi-controller
       annotations:
         eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-ebs-csi"
-{{ end }}
-
-{{ if eq .Provider "aws" }}
+{{- end}}
+{{- if not .Values.disable_metrics_server}}
 metrics-server:
   enabled: true
+{{- end}}
+{{- if not .Values.disable_snapshot_controller}}
 snapshot-validation-webhook:
   enabled: true
 snapshot-controller:
   enabled: true
+{{- end}}
 {{ end }}
 
 {{ if $pluraldns }}

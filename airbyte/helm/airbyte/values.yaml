@@ -19,6 +19,11 @@ global:
 
 replicaCount: 1
 
+bootloader:
+  image:
+    repository: dkr.plural.sh/airbyte/airbyte/bootloader
+    tag: 0.40.28
+
 airbyte:
   version: 0.40.28
 
@@ -56,6 +61,25 @@ airbyte:
     log:
       level: INFO
 
+    containerOrchestrator:
+      image: dkr.plural.sh/airbyte/airbyte/container-orchestrator:0.40.28
+
+    livenessProbe:
+      enabled: true
+      initialDelaySeconds: 45
+      periodSeconds: 10
+      timeoutSeconds: 1
+      failureThreshold: 3
+      successThreshold: 1
+    
+    readinessProbe:
+      enabled: true
+      initialDelaySeconds: 45
+      periodSeconds: 10
+      timeoutSeconds: 1
+      failureThreshold: 3
+      successThreshold: 1
+
   cron:
     image:
       repository: dkr.plural.sh/airbyte/airbyte/cron
@@ -68,6 +92,22 @@ airbyte:
     
     log:
       level: INFO
+    
+    livenessProbe:
+      enabled: true
+      initialDelaySeconds: 45
+      periodSeconds: 10
+      timeoutSeconds: 1
+      failureThreshold: 3
+      successThreshold: 1
+    
+    readinessProbe:
+      enabled: true
+      initialDelaySeconds: 45
+      periodSeconds: 10
+      timeoutSeconds: 1
+      failureThreshold: 3
+      successThreshold: 1
 
   connector-builder-server:
     image:
@@ -75,9 +115,21 @@ airbyte:
       tag: 0.40.28
 
   airbyte-bootloader:
+    enabled: false
     image:
       repository: dkr.plural.sh/airbyte/airbyte/bootloader
       tag: 0.40.28
+    extraInitContainers:
+    - name: wait-for-pg
+      image: gcr.io/pluralsh/busybox:latest
+      imagePullPolicy: IfNotPresent
+      command: [ "/bin/sh", "-c", "until nc -zv $DATABASE_HOST 5432 -w1; do echo 'waiting for db'; sleep 1; done" ]
+      env:
+      - name: DATABASE_HOST
+        valueFrom:
+          configMapKeyRef:
+            name: airbyte-airbyte-env
+            key: DATABASE_HOST
 
   pod-sweeper:
     image:
@@ -130,6 +182,8 @@ postgres:
   dbName: airbyte
   ownerChart: airbyte
   infix: ""
+  parameters:
+    max_connections: '101'
 
 oidcProxy:
   enabled: false
@@ -148,7 +202,7 @@ private:
       nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
       nginx.ingress.kubernetes.io/use-regex: "true"
     service:
-      name: airbyte-webapp
+      name: airbyte-airbyte-webapp-svc
       port: 80
 
 configOverlays:
