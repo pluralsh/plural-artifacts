@@ -1,4 +1,5 @@
 name: lightdash
+description: An open source alternative to looker built on dbt
 category: DATA
 private: false
 icon: plural/icons/lightdash.png
