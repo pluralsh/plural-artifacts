@@ -1,7 +1,7 @@
 name: lightdash
 description: Lightdash instantly turns your dbt project into a full-stack BI platform.
 category: DATA
-private: true
+private: false
 icon: plural/icons/lightdash.png
 notes: plural/notes.tpl
 homepage: https://www.lightdash.com/
