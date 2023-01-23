@@ -1,0 +1,9 @@
+dependencies:
+- name: bytebase
+  repository: https://bytebase.github.io/bytebase
+  version: 1.0.0
+- name: postgres
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.10
+digest: sha256:28a4d540efe01cc61657f8c4e172a6febf35f1652885cd403504617f40f9611f
+generated: "2023-01-09T17:28:42.495979+02:00"
