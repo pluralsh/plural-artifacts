@@ -3,6 +3,7 @@ description: An open-source modern data exploration and visualization platform.
 category: DATA
 icon: plural/icons/superset.png
 notes: plural/notes.tpl
+docs: plural/docs
 homepage: https://superset.apache.org/
 gitUrl: https://github.com/apache/superset
 oauthSettings:

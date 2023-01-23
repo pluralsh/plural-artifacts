@@ -60,3 +60,38 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Add environment variables to configure database values
+*/}}
+{{- define "lightdash.database.sslmode" -}}
+{{- ternary "disable" .Values.externalDatabase.sslmode .Values.postgresql.enabled -}}
+{{- end -}}
+
+{{/*
+Add environment variables to configure database values
+*/}}
+{{- define "lightdash.database.host" -}}
+{{- ternary (include "lightdash.postgresql.fullname" .) .Values.externalDatabase.host .Values.postgresql.enabled -}}
+{{- end -}}
+
+{{/*
+Add environment variables to configure database values
+*/}}
+{{- define "lightdash.database.user" -}}
+{{- ternary .Values.postgresql.postgresqlUsername .Values.externalDatabase.user .Values.postgresql.enabled -}}
+{{- end -}}
+
+{{/*
+Add environment variables to configure database values
+*/}}
+{{- define "lightdash.database.name" -}}
+{{- ternary .Values.postgresql.postgresqlDatabase .Values.externalDatabase.database .Values.postgresql.enabled -}}
+{{- end -}}
+
+{{/*
+Add environment variables to configure database values
+*/}}
+{{- define "lightdash.database.port" -}}
+{{- ternary "5432" .Values.externalDatabase.port .Values.postgresql.enabled -}}
+{{- end -}}
