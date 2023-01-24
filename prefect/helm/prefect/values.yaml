@@ -2,7 +2,7 @@ prefect-orion:
   orion:
     image:
       repository: dkr.plural.sh/prefect/prefecthq/prefect
-      prefectTag: 2.6.9-python3.10
+      prefectTag: 2.7.9-python3.10
     resources:
       requests:
         cpu: 10m
@@ -32,7 +32,7 @@ prefect-agent:
   agent:
     image:
       repository: dkr.plural.sh/prefect/prefecthq/prefect
-      prefectTag: 2.6.9-python3.10
+      prefectTag: 2.7.9-python3.10
     resources:
       requests:
         cpu: 10m
