@@ -1,7 +1,7 @@
 apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
-  description: strapi aws setup
+  description: strapi aws setup 
   version: 0.1.1
 spec:
   dependencies:
