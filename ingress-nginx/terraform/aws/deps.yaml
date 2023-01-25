@@ -1,8 +1,8 @@
 apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
-  description: ingress-nginx aws setup
-  version: 0.1.0
+  description: ingress-nginx aws setup 
+  version: 0.1.1
 spec:
   dependencies:
   - name: aws-bootstrap

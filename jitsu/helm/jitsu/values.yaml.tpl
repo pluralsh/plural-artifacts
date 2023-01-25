@@ -5,8 +5,10 @@ global:
     - description: jitsu web ui
       url: {{ .Values.hostname }}
 
+{{ if .Values.airbyteEnabled }}
 airbyte:
-  enabled: {{ .Values.airbyteEnabled | ternary "true" "false" }}
+  enabled: "true"
+{{ end }}
 
 ingress:
   host: {{ .Values.hostname }}

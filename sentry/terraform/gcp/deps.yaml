@@ -1,7 +1,7 @@
 apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
-  description: sentry gcp setup
+  description: sentry gcp setup 
   version: 0.1.2
 spec:
   dependencies:

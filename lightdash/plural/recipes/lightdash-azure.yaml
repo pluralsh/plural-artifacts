@@ -10,7 +10,10 @@ dependencies:
   name: azure-postgres
 sections:
 - name: lightdash
-  configuration: []
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for your Lightdash installation
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: azure

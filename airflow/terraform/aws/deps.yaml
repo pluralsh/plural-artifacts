@@ -7,5 +7,5 @@ dependencies:
 providers:
 - aws
 
-description: airflow aws setup
+description: airflow aws setup 
 version: 0.1.3

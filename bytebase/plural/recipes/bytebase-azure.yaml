@@ -1,0 +1,19 @@
+name: bytebase-azure
+description: Installs bytebase on an aws eks cluster
+provider: AZURE
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-azure
+sections:
+- name: bytebase
+  configuration:
+  - name: hostname
+    type: DOMAIN
+    documentation: fqdn you'll be deploying bytebase to
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: bytebase

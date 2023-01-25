@@ -25,6 +25,9 @@ prefect-orion:
     {{- end }}
     {{- end }}
 
+postgres:
+  password: {{ dedupe . "prefect.postgres.password" (randAlphaNum 24) }}
+
 {{- if .OIDC }}
 ingress:
   enabled: true

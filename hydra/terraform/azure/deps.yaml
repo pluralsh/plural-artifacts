@@ -1,7 +1,7 @@
 apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
-  description: hydra azure setup
+  description: hydra azure setup 
   version: 0.1.0
 spec:
   dependencies:
