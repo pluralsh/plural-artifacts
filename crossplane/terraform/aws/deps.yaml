@@ -7,5 +7,5 @@ dependencies:
 providers:
 - aws
 
-description: crossplane aws bootstrapping
+description: crossplane aws bootstrapping 
 version: 0.1.7

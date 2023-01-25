@@ -7,5 +7,5 @@ dependencies:
 providers:
 - equinix
 
-description: grafana equinix setup
+description: grafana equinix setup 
 version: 0.1.1

@@ -1,7 +1,7 @@
 apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
-  description: argo-cd azure setup
+  description: argo-cd azure setup 
   version: 0.1.2
 spec:
   dependencies:
