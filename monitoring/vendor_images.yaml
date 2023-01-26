@@ -19,6 +19,9 @@ k8s.gcr.io:
     kube-state-metrics/kube-state-metrics: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
     autoscaling/vpa-recommender: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
     autoscaling/vpa-updater: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+registry.k8s.io:
+  images-by-tag-regex:
+    ingress-nginx/kube-webhook-certgen: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
 gcr.io:
   images-by-tag-regex:
     kubebuilder/kube-rbac-proxy: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
