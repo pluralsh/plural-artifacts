@@ -1,4 +1,5 @@
 resource "kubernetes_namespace" "monitoring" {
+  count = var.create ? 1 : 0
   metadata {
     name = var.namespace
 
