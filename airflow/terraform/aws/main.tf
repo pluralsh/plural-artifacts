@@ -33,7 +33,15 @@ resource "aws_iam_policy" "airflow" {
 resource "aws_s3_bucket" "airflow" {
   bucket         = var.airflow_bucket
   acl            = "private"
-  force_destroy  = true
+  force_destroy  = var.force_destroy_bucket
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm     = "AES256"
+      }
+    }
+  }
 }
 
 data "aws_iam_policy_document" "airflow" {
