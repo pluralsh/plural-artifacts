@@ -24,6 +24,6 @@ variable "role_name" {
 
 variable "force_destroy_bucket" {
   type        = bool
-  default     = false
+  default     = true
   description = "If true, the bucket will be deleted even if it contains objects."
 }
