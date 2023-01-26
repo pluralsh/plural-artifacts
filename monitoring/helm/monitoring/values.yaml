@@ -164,7 +164,7 @@ kube-prometheus-stack:
     admissionWebhooks:
       patch:
         image:
-          repository: dkr.plural.sh/monitoring/ingress-nginx/kube-webhook-certgen
+          repository: gcr.io/pluralsh/ingress-nginx/kube-webhook-certgen
           tag: v1.0
           sha: ""
     image:
