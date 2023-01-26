@@ -17,6 +17,12 @@ variable "kubeflow_argo_serviceaccount" {
   default = "kubeflow-pipelines-argo-workflow-controller"
 }
 
+variable "force_destroy_pipelines_bucket" {
+  type        = bool
+  default     = true
+  description = "If true, the bucket will be deleted even if it contains objects."
+}
+
 variable "node_role_arn" {
   type = string
 }
