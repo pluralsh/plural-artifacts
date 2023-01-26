@@ -32,8 +32,17 @@ resource "aws_iam_policy" "chatwoot" {
 }
 
 resource "aws_s3_bucket" "chatwoot" {
-  bucket = var.chatwoot_bucket
-  acl    = "private"
+  bucket         = var.chatwoot_bucket
+  acl            = "private"
+  force_destroy  = var.force_destroy_bucket
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm     = "AES256"
+      }
+    }
+  }
 }
 
 data "aws_iam_policy_document" "chatwoot" {
