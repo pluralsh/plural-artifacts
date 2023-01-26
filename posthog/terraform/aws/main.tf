@@ -10,7 +10,7 @@ resource "kubernetes_namespace" "posthog" {
 }
 
 module "s3_buckets" {
-  source = "github.com/pluralsh/module-library//terraform/s3-buckets"
+  source = "github.com/pluralsh/module-library//terraform/s3-buckets?ref=bucket-protection"
   bucket_names = [var.posthog_bucket]
   policy_prefix = "posthog"
 }
