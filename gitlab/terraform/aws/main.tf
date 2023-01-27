@@ -49,55 +49,127 @@ resource "aws_iam_policy" "gitlab_runner" {
 resource "aws_s3_bucket" "registry" {
   bucket        = var.registry_bucket
   acl           = "private"
-  force_destroy = true
+  force_destroy = var.force_destroy_registry_bucket
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm     = "AES256"
+      }
+    }
+  }
 }
 
 resource "aws_s3_bucket" "lfs" {
   bucket        = var.lfs_bucket
   acl           = "private"
-  force_destroy = true
+  force_destroy = var.force_destroy_lfs_bucket
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm     = "AES256"
+      }
+    }
+  }
 }
 
 resource "aws_s3_bucket" "artifacts" {
   bucket        = var.artifacts_bucket
   acl           = "private"
-  force_destroy = true
+  force_destroy = var.force_destroy_artifacts_bucket
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm     = "AES256"
+      }
+    }
+  }
 }
 
 resource "aws_s3_bucket" "packages" {
   bucket        = var.packages_bucket
   acl           = "private"
-  force_destroy = true
+  force_destroy = var.force_destroy_packages_bucket
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm     = "AES256"
+      }
+    }
+  }
 }
 
 resource "aws_s3_bucket" "backups" {
   bucket        = var.backups_bucket
   acl           = "private"
-  force_destroy = true
+  force_destroy = var.force_destroy_backups_bucket
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm     = "AES256"
+      }
+    }
+  }
 }
 
 resource "aws_s3_bucket" "backups_tmp" {
   bucket        = var.backups_tmp_bucket
   acl           = "private"
-  force_destroy = true
+  force_destroy = var.force_destroy_backups_tmp_bucket
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm     = "AES256"
+      }
+    }
+  }
 }
 
 resource "aws_s3_bucket" "uploads" {
   bucket        = var.uploads_bucket
   acl           = "private"
-  force_destroy = true
+  force_destroy = var.force_destroy_uploads_bucket
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm     = "AES256"
+      }
+    }
+  }
 }
 
 resource "aws_s3_bucket" "terraform_state" {
   bucket        = var.terraform_bucket
   acl           = "private"
-  force_destroy = true
+  force_destroy = var.force_destroy_terraform_state_bucket
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm     = "AES256"
+      }
+    }
+  }
 }
 
 resource "aws_s3_bucket" "runner_cache" {
-  bucket = var.runner_cache_bucket
-  acl    = "private"
-  force_destroy = true
+  bucket        = var.runner_cache_bucket
+  acl           = "private"
+  force_destroy = var.force_destroy_runner_cache_bucket
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm     = "AES256"
+      }
+    }
+  }
 }
 
 data "aws_iam_policy_document" "gitlab" {

@@ -33,9 +33,17 @@ resource "aws_iam_policy" "mysql" {
 }
 
 resource "aws_s3_bucket" "wal" {
-  bucket = var.backup_bucket
-  acl    = "private"
-  force_destroy = true
+  bucket        = var.backup_bucket
+  acl           = "private"
+  force_destroy = var.force_destroy_bucket
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm     = "AES256"
+      }
+    }
+  }
 }
 
 data "aws_iam_policy_document" "mysql" {

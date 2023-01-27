@@ -10,9 +10,10 @@ resource "kubernetes_namespace" "dagster" {
 }
 
 module "s3_buckets" {
-  source = "github.com/pluralsh/module-library//terraform/s3-buckets"
-  bucket_names = [var.dagster_bucket]
+  source        = "github.com/pluralsh/module-library//terraform/s3-buckets?ref=bucket-protection"
+  bucket_names  = [var.dagster_bucket]
   policy_prefix = "dagster"
+  force_destroy = var.force_destroy_bucket
 }
 
 data "aws_eks_cluster" "cluster" {
