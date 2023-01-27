@@ -2,6 +2,7 @@ name: postgres
 description: An open-source relational database that supports both SQL and JSON querying.
 icon: plural/icons/postgres.png
 category: DATABASE
+docs: plural/docs
 homepage: https://postgres-operator.readthedocs.io/en/latest/
 gitUrl: https://github.com/zalando/postgres-operator
 tags:
