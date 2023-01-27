@@ -10,7 +10,7 @@ maintainers:
   email: mguarino46@gmail.com
 - name: David van der Spek
   email: david@plural.sh
-version: 0.8.62
+version: 0.8.63
 dependencies:
 - name: external-dns
   version: 4.11.0
@@ -22,6 +22,7 @@ dependencies:
 - name: cert-manager
   version: v1.8.2
   repository: https://charts.jetstack.io
+  condition: cert-manager.enabled
 - name: cluster-autoscaler
   version: 9.21.0
   condition: cluster-autoscaler.enabled

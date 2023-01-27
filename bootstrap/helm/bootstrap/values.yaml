@@ -137,6 +137,7 @@ tigera-operator:
   enabled: false
 
 cert-manager:
+  enabled: true
   image:
     repository: dkr.plural.sh/bootstrap/jetstack/cert-manager-controller
     tag: v1.8.2
