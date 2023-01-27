@@ -296,7 +296,7 @@ opentelemetry-operator:
   collector:
     enabled: true
     image:
-      repository: dkr.plural.sh/monitoring/otel/opentelemetry-collector
+      repository: gcr.io/pluralsh/otel/opentelemetry-collector
       tag: 0.59.0
     tempoNamespace: grafana-tempo
 
