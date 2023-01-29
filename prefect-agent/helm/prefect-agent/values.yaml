@@ -18,3 +18,9 @@ prefect-agent:
         memory: 128Mi
       limits:
         memory: 256Mi
+
+test-base:
+  enabled: false
+  repository: prefect-agent
+  testName: prefect-agent-integration
+  promoteTag: warm

@@ -2,5 +2,8 @@ dependencies:
 - name: prefect-agent
   repository: https://prefecthq.github.io/prefect-helm
   version: 2023.1.20
-digest: sha256:045704e65fc67ad8f8c06162bed929c88bdac84b40e5ffd44e59e23373ebc956
-generated: "2023-01-28T21:57:07.378251-05:00"
+- name: test-base
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.3
+digest: sha256:43cc800bbd91f6cbd223a40b04b2455a6b95f86921e32d5cf18841b4b3379c19
+generated: "2023-01-29T10:32:57.61544-05:00"
