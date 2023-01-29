@@ -1,0 +1,11 @@
+apiVersion: v2
+name: prefect-agent
+description: helm chart for prefect-agent
+type: application
+version: 0.1.0
+appVersion: v2.7.9
+dependencies:
+- name: prefect-agent
+  version: 2023.1.20
+  repository: https://prefecthq.github.io/prefect-helm
+  condition: prefect-agent.enabled

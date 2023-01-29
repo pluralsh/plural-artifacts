@@ -1,0 +1,6 @@
+dependencies:
+- name: prefect-agent
+  repository: https://prefecthq.github.io/prefect-helm
+  version: 2023.1.20
+digest: sha256:045704e65fc67ad8f8c06162bed929c88bdac84b40e5ffd44e59e23373ebc956
+generated: "2023-01-28T21:57:07.378251-05:00"

@@ -1,0 +1,1 @@
+apiKey: {{ .Values.apiKey | quote }}

@@ -1,0 +1,1 @@
+Use `plural watch prefect-agent` to track the status of your application
