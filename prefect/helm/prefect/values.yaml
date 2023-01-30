@@ -27,6 +27,12 @@ prefect-orion:
       postgresql: 5432
     externalHostname: plural-postgres-prefect
 
+test-base:
+  enabled: false
+  repository: prefect
+  testName: prefect-integration
+  promoteTag: warm
+
 prefect-agent:
   enabled: true
   agent:

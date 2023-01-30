@@ -1,0 +1,26 @@
+# Default values for prefect-agent.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+prefect-agent:
+  enabled: true
+  cloudApiConfig:
+    apiKeySecret:
+      name: prefect-api-key
+      key: key
+  agent:
+    image:
+      repository: dkr.plural.sh/prefect/prefecthq/prefect
+      prefectTag: 2.7.9-python3.10
+    resources:
+      requests:
+        cpu: 10m
+        memory: 128Mi
+      limits:
+        memory: 256Mi
+
+test-base:
+  enabled: false
+  repository: prefect-agent
+  testName: prefect-agent-integration
+  promoteTag: warm

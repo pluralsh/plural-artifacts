@@ -1,0 +1,17 @@
+name: prefect-agent-gcp
+description: Installs prefect-agent on an gcp GKE cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+sections:
+- name: prefect-agent
+  configuration:
+  - name: apiKey
+    documentation: the prefect cloud api key this agent connects with
+    type: PASSWORD
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: prefect-agent
