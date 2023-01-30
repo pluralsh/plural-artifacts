@@ -2,8 +2,8 @@ apiVersion: v2
 name: n8n
 description: helm chart for n8n
 type: application
-version: 0.1.6
-appVersion: "0.202.1"
+version: 0.1.7
+appVersion: "0.213.0"
 dependencies:
 - name: postgres
   version: 0.1.10
