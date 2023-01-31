@@ -152,7 +152,7 @@ datahub:
   kafkaSetupJob:
     enabled: false
     image:
-      repository: dkr.plural.sh/datahub/linkedin/datahub-kafka-setup
+      repository: gcr.io/pluralsh/linkedin/datahub-kafka-setup
       tag: v0.9.0
     resources:
       requests:
