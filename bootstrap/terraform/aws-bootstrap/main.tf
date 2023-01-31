@@ -78,7 +78,7 @@ module "multi_az_node_groups" {
   tags                   = {}
   node_groups_defaults   = var.node_groups_defaults
 
-  node_groups            = var.create_cluster ? var.multi_az_node_groups : {}
+  node_groups            =  try(var.create_cluster ? var.multi_az_node_groups : tomap(false), {})
   set_desired_size       = false
   private_subnet_ids     = local.worker_private_subnet_ids
 
