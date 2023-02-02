@@ -11,6 +11,9 @@ global:
     gcs:
       bucket: {{ .Values.airbyteBucket }}
       credentialsJson: {{ importValue "Terraform" "credentials_json" }}
+  state:
+    storage:
+      type: GCS
   {{ else if ne .Provider "aws" }}
   logs:
     accessKey:
@@ -40,6 +43,9 @@ global:
       enabled: true
       bucket: {{ .Values.airbyteBucket }}
       bucketRegion: {{ .Region }}
+  state:
+    storage:
+      type: S3
   {{ end }}
 
 
