@@ -1,6 +1,6 @@
 ## Configuring 
 
-Prefect agents allow for a single agent to poll multiple work queues for a lightweight and efficient deployment structure.  By default a work queue named `default` is associated with the Prefect Agent.  However, this can be overwritten with your own custom workspaces easily by modifying the `values.yaml` in your Plural config.
+Prefect agents allow for a single agent to poll multiple work queues for a lightweight and efficient deployment structure.  By default a work queue named `default` is associated with the Prefect Agent.  However, this can be overwritten with your own custom workqueues easily by modifying the `values.yaml` in your Plural config.
 
 ### Plural Build
 
