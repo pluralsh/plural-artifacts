@@ -118,7 +118,13 @@ superset:
       registry: gcr.io/pluralsh
       tag: 6.0.9-debian-10-r0
 
-  # configOverrides:
+  configOverrides:
+    pool_settings: |
+      SQLALCHEMY_POOL_SIZE = 25
+
+      SQLALCHEMY_MAX_OVERFLOW = 25
+
+      SQLALCHEMY_POOL_TIMEOUT = 180
   #   statsd_conf: |
   #     from superset.stats_logger import StatsdStatsLogger
   
