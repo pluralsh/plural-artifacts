@@ -12,6 +12,8 @@ image:
 
 webhookUrl: https://example.com
 
+encryptionSecret: CHANGEME
+
 smtp:
 
 imagePullSecrets: []
