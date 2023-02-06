@@ -168,6 +168,9 @@ oidc-config:
     selector:
       app.kubernetes.io/instance: airbyte
       app.kubernetes.io/name: webapp
+  secret:
+    env:
+      OAUTH2_PROXY_UPSTREAM_TIMEOUT: '120s'
 
 test-base:
   enabled: false
