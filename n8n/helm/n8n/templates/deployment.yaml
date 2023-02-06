@@ -70,6 +70,11 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.database.secret }}
                   key: password
+            - name: N8N_ENCRYPTION_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: n8n-encryption
+                  key: N8N_ENCRYPTION_KEY
           livenessProbe:
             httpGet:
               path: /

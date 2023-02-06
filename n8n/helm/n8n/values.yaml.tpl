@@ -6,6 +6,8 @@ global:
 
 webhookUrl: https://{{ .Values.hostname }}
 
+encryptionSecret: {{ dedupe . "n8n.encryptionSecret" (randAlphaNum 24) }}
+
 {{ if .SMTP }}
 smtp:
   host: {{ .SMTP.Server }}
