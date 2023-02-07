@@ -2,9 +2,12 @@ apiVersion: v2
 name: datadog
 description: helm chart for datadog
 type: application
-version: 0.1.1
+version: 0.1.2
 appVersion: "v1.0.0"
 dependencies:
+- name: config-overlays
+  version: 0.1.1
+  repository: https://pluralsh.github.io/module-library
 - name: datadog
   version: 2.36.1
   repository: https://helm.datadoghq.com
