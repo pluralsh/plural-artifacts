@@ -20,10 +20,8 @@ posthog:
         matchLabels:
           role: plugins
     env:
-    - name: DATABASE_URL
-      value: postgres://$(POSTHOG_DB_USER):$(POSTHOG_DB_PASSWORD)@$(POSTHOG_POSTGRES_HOST):$(POSTHOG_POSTGRES_PORT)/$(POSTHOG_DB_NAME)?sslmode=$(POSTHOG_POSTGRES_SSL_MODE)
-    - name: NODE_TLS_REJECT_UNAUTHORIZED
-      value: '0'
+    - name: DYNO # Needed to configure node to not check CA certs in the plugin server. See https://github.com/PostHog/posthog/blob/cfa94ebee3d1d4b113ad93cf1cfadc765fe7653f/plugin-server/src/utils/utils.ts#L385
+      value: 'true'
   events:
     resources:
       requests:
