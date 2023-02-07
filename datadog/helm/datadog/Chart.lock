@@ -1,6 +1,9 @@
 dependencies:
+- name: config-overlays
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.1
 - name: datadog
   repository: https://helm.datadoghq.com
   version: 2.36.1
-digest: sha256:ad07286aeca8f1ea830ceb09b85fcdc5f8c846fad42f831e8e0f045ac9adedbe
-generated: "2022-07-08T15:30:59.406273-04:00"
+digest: sha256:7a4c2407ca626a6f5fa55c740da78e9b297f2c4a6457412e31aefc08b6ef8d0b
+generated: "2023-02-07T16:53:03.533943-05:00"
