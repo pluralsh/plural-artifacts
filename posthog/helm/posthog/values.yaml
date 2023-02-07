@@ -4,6 +4,12 @@ posthog:
     repository: dkr.plural.sh/posthog/posthog/posthog
     tag: release-1.43.0
   plugins:
+    resources:
+      requests:
+        cpu: 20m
+        memory: 500Mi
+      limits:
+        memory: 1Gi
     livenessProbe:
       failureThreshold: 10
     topologySpreadConstraints:
@@ -19,6 +25,12 @@ posthog:
     - name: NODE_TLS_REJECT_UNAUTHORIZED
       value: '0'
   events:
+    resources:
+      requests:
+        cpu: 5m
+        memory: 400Mi
+      limits:
+        memory: 800Mi
     topologySpreadConstraints:
     - maxSkew: 1
       topologyKey: topology.kubernetes.io/zone
@@ -27,6 +39,12 @@ posthog:
         matchLabels:
           role: events
   web:
+    resources:
+      requests:
+        cpu: 10m
+        memory: 500Mi
+      limits:
+        memory: 1Gi
     topologySpreadConstraints:
     - maxSkew: 1
       topologyKey: topology.kubernetes.io/zone
@@ -41,6 +59,12 @@ posthog:
     startupProbe:
         initialDelaySeconds: 15
   worker:
+    resources:
+      requests:
+        cpu: 10m
+        memory: 500Mi
+      limits:
+        memory: 1Gi
     topologySpreadConstraints:
     - maxSkew: 1
       topologyKey: topology.kubernetes.io/zone

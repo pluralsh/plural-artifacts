@@ -6,7 +6,7 @@
         <timeseries datasource="clickhouse-cpu" label="PostHog ClickHouse CPU Usage" />
         <text size='small'>You should set a reservation to 
           roughly correspond to 80% utilization</text>
-        <text size='small'>A CPU limit should not be set</text>
+        <text size='small'>A CPU limit should generally not be set</text>
       </box>
       <box gap='small' align='center'>
         <timeseries datasource="clickhouse-memory" label="PostHog ClickHouse Memory Usage" />
