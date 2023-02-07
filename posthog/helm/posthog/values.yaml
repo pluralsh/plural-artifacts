@@ -3,17 +3,27 @@ posthog:
   image:
     repository: dkr.plural.sh/posthog/posthog/posthog
     tag: release-1.43.0
+  plugins:
+    livenessProbe:
+      failureThreshold: 10
+    env:
+    - name: DATABASE_URL
+      value: postgres://$(POSTHOG_DB_USER):$(POSTHOG_DB_PASSWORD)@$(POSTHOG_POSTGRES_HOST):$(POSTHOG_POSTGRES_PORT)/$(POSTHOG_DB_NAME)?sslmode=$(POSTHOG_POSTGRES_SSL_MODE)
+    - name: NODE_TLS_REJECT_UNAUTHORIZED
+      value: '0'
   postgresql:
     enabled: false
   externalPostgresql:
-    postgresqlHost: plural-postgres-posthog
+    postgresqlHost: plural-postgres-posthog-pooler
     postgresqlPort: 5432
     postgresqlDatabase: posthog
     postgresqlUsername: posthog
     existingSecret: posthog.plural-postgres-posthog.credentials.postgresql.acid.zalan.do
     existingSecretPasswordKey: password
+    usingPgbouncer: true
+    mode: require
   pgbouncer:
-    enabled: true # TODO: we should try using the pgbouncer managed by the postgres operator, need to upstream a change for this. see https://github.com/PostHog/charts-clickhouse/issues/280
+    enabled: false
     env:
     - name: PGBOUNCER_PORT
       value: "6543"
@@ -360,4 +370,4 @@ postgres:
   user: posthog
   dbName: posthog
   ownerChart: posthog
-  enableConnectionPooler: false # TODO: enable once upstream chart supports external pgbouncer
+  enableConnectionPooler: true

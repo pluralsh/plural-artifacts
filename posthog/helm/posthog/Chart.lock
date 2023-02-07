@@ -1,9 +1,9 @@
 dependencies:
 - name: posthog
-  repository: https://posthog.github.io/charts-clickhouse/
-  version: 30.3.1
+  repository: https://pluralsh.github.io/plural-helm-charts
+  version: 30.3.5
 - name: postgres
   repository: https://pluralsh.github.io/module-library
   version: 0.1.16
-digest: sha256:099a8b22d0754df90dd153c850f82cdcec8328febd1c588947c245f08d763ce0
-generated: "2023-01-18T16:30:22.137563+01:00"
+digest: sha256:1b89201a5fcfdf10946ed9fd1facd21baa6a391c2302850110b21c9a67e02239
+generated: "2023-02-07T15:45:03.052586+01:00"

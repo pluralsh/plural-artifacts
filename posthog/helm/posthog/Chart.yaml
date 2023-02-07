@@ -6,8 +6,8 @@ version: 0.1.7
 appVersion: "1.43.0"
 dependencies:
 - name: posthog
-  version: 30.3.1
-  repository: https://posthog.github.io/charts-clickhouse/
+  version: 30.3.5
+  repository: https://pluralsh.github.io/plural-helm-charts
 - name: postgres
   version: 0.1.16
   repository: https://pluralsh.github.io/module-library
