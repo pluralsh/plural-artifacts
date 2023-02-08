@@ -44,7 +44,7 @@ datahub:
         cpu: 10m
         memory: 500Mi
       limits:
-        memory: 500Mi
+        memory: 1Gi
     extraVolumes:
     - name: basic-auth-password
       secret:
