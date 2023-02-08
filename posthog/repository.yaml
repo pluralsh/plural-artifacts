@@ -1,7 +1,6 @@
 name: posthog
 description: The all-in-one platform for building better products.
 category: DATA
-private: true
 icon: plural/icons/posthog.png
 notes: plural/notes.tpl
 gitUrl: https://github.com/PostHog/posthog
