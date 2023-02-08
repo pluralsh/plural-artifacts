@@ -1,7 +1,6 @@
 name: clickhouse
 description: clickhouse deployed on plural
 category: DATA
-private: true
 icon: plural/icons/clickhouse.png
 notes: plural/notes.tpl
 gitUrl: https://github.com/Altinity/clickhouse-operator
