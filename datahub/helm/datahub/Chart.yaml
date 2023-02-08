@@ -2,7 +2,7 @@ apiVersion: v2
 name: datahub
 description: helm chart for datahub
 type: application
-version: 0.1.12
+version: 0.1.13
 appVersion: v0.9.0
 dependencies:
 - name: datahub
