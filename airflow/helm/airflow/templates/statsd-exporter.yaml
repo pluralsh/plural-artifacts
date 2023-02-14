@@ -40,6 +40,9 @@ spec:
             {{- else }}
             - --statsd.listen-tcp=
             {{- end }}
+            {{- if .Values.exporter.statsd.relayAddress }}
+            - --statsd.relay.address={{ .Values.exporter.statsd.relayAddress }}
+            {{- end }}
             - --statsd.cache-size={{ .Values.exporter.statsd.cacheSize }}
             - --statsd.event-queue-size={{ .Values.exporter.statsd.eventQueueSize }}
             - --statsd.event-flush-threshold={{ .Values.exporter.statsd.eventFlushThreshold }}
