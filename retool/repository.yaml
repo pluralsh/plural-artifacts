@@ -1,0 +1,11 @@
+name: retool
+description: retool deployed on plural
+category: PRODUCTIVITY
+private: false
+icon: plural/icons/retool.png
+darkIcon: plural/icons/retool-dark.jpeg
+homepage: https://retool.com
+gitUrl: https://github.com/tryretool/retool-onpremise
+notes: plural/notes.tpl
+tags:
+- tag: internal-tools

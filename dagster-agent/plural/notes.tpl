@@ -1,0 +1,1 @@
+Use `plural watch dagster-agent` to track the status of your application
