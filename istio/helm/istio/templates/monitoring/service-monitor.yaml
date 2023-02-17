@@ -1,0 +1,34 @@
+{{ if eq .Values.monitoring.enabled true }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: istio-component-monitor
+  labels: {{ include "istio.labels" . | nindent 4 }}
+spec:
+  jobLabel: istio
+  targetLabels: [app]
+  selector:
+    matchExpressions:
+    - {key: istio, operator: In, values: [pilot]}
+  namespaceSelector:
+    any: true
+  endpoints:
+  - port: http-monitoring
+    interval: 15s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: kiali-service-monitor
+  labels: {{ include "istio.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: kiali
+  namespaceSelector:
+    matchNames:
+    - {{ .Values.istio.namespace }}
+  endpoints:
+  - port: http-metrics
+    path: '/'
+{{ end }}

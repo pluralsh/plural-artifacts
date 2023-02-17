@@ -1,0 +1,21 @@
+name: istio-aws
+description: Installs istio on an eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: monitoring
+  name: monitoring-aws
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+sections:
+- name: istio
+  configuration:
+  - name: kialiHostname
+    documentation: FQDN to use for the Kiali installation
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: istio

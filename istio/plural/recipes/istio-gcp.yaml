@@ -1,0 +1,21 @@
+name: istio-gcp
+description: Installs istio on a GCP GKE cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: monitoring
+  name: monitoring-gcp
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+sections:
+- name: istio
+  configuration:
+  - name: kialiHostname
+    documentation: FQDN to use for the Kiali installation
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: istio
