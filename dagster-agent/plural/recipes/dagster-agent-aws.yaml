@@ -1,0 +1,17 @@
+name: dagster-agent-aws
+description: Installs dagster-agent on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+sections:
+- name: dagster-agent
+  configuration:
+  - name: agentToken
+    type: STRING
+    documentation: the dagster agent token to communicate with dagster cloud
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: dagster-agent

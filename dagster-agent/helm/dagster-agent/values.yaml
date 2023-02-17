@@ -1,0 +1,14 @@
+# Default values for dagster-agent.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+agentToken: CHANGEME
+
+dagster-cloud-agent:
+  dagsterCloudAgent:
+    podSecurityContext:
+      runAsUser: 1001
+  dagsterCloud:
+    deployment: prod

@@ -1,0 +1,9 @@
+dependencies:
+- name: postgres
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.5
+- name: retool
+  repository: https://charts.retool.com
+  version: 4.11.9
+digest: sha256:8a25a3d191fac807df695cb49afbd6d9e3692a3c49b8ee17b1d8fb196ab9914c
+generated: "2023-02-15T10:15:57.532679-05:00"

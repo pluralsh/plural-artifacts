@@ -1,0 +1,41 @@
+# Default values for retool.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+
+postgres:
+  team: plural
+  user: retool
+  dbName: retool
+  ownerChart: retool
+  infix: postgres
+
+retool:
+  image:
+    tag: 2.107.8
+
+  postgres:
+    enabled: false
+
+  config:
+    postgres:
+      host: plural-postgres-retool
+      port: 5432
+      db: retool
+      user: retool
+      passwordSecretName: retool.plural-postgres-retool.credentials.postgresql.acid.zalan.do
+      passwordSecretKey: password
+      ssl_enabled: true
+
+  ingress:
+    ingressClassName: nginx
+    annotations:
+      kubernetes.io/tls-acme: "true"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+
+    pathType: Prefix
+  
+  environmentVariables:
+  - name: POSTGRES_SSL_REJECT_UNAUTHORIZED
+    value: 'true'

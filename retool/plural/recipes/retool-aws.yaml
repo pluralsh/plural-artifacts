@@ -1,0 +1,24 @@
+name: retool-aws
+description: Installs retool on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+- repo: postgres
+  name: aws-postgres
+sections:
+- name: retool
+  configuration:
+  - name: hostname
+    type: DOMAIN
+    documentation: the domain name you want retool to be accessible from
+  - name: licenseKey
+    type: PASSWORD
+    documentation: your retool license key, accessible in the retool dashboard under self-hosted
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: retool
