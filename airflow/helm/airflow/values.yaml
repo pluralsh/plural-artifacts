@@ -54,7 +54,7 @@ exporter:
     additionalLabels: {}
 
   statsd:
-    relayAddress: "datadog.datadog:8125"
+    relayAddress: null
     # The UDP port on which to receive statsd metric lines.
     udpPort: 9125
 
