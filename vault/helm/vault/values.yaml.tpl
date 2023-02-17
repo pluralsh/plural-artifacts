@@ -1,3 +1,9 @@
+global:
+  application:
+    links:
+    - description: vault web ui
+      url: {{ .Values.hostname }}
+
 vault:
   server:
     extraEnvironmentVars:
