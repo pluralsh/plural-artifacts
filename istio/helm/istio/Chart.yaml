@@ -3,7 +3,7 @@ name: istio
 description: A chart bundling the istio operator for plural
 type: application
 version: 0.1.100
-appVersion: "1.10.3"
+appVersion: "1.10.4"
 dependencies:
 - name: istio-operator
   version: 1.7.0
