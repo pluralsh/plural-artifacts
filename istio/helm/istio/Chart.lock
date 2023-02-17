@@ -1,0 +1,9 @@
+dependencies:
+- name: istio-operator
+  repository: file://../../../../istio/manifests/charts/istio-operator
+  version: 1.7.0
+- name: kiali-server
+  repository: https://kiali.org/helm-charts
+  version: 1.37.0
+digest: sha256:10b858c65dfcd8753ef51b973744599299bc7920c58e07e9a66eaba03b54f121
+generated: "2021-10-01T14:59:12.877845849+02:00"
