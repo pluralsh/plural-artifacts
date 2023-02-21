@@ -242,8 +242,8 @@ kube-prometheus-stack:
         sha: ""
       resources:
         requests:
-          cpu: 1
-          memory: 1Gi
+          cpu: 200m
+          memory: 500Mi
         limits: {}
       prometheusExternalLabelName: cluster
       externalLabels:
