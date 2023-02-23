@@ -2,7 +2,7 @@ apiVersion: v2
 name: monitoring
 description: A Helm chart for Kubernetes
 type: application
-version: 0.2.22
+version: 0.2.23
 appVersion: "0.1.0"
 dependencies:
 - name: kube-prometheus-stack
@@ -19,6 +19,7 @@ dependencies:
 - name: opentelemetry-operator
   version: 0.12.0
   repository: https://open-telemetry.github.io/opentelemetry-helm-charts
+  condition: opentelemetry-operator.enabled
 - name: vpa
   version: 0.4.2
   repository: https://charts.fairwinds.com/stable
