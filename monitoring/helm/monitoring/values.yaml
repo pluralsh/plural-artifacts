@@ -295,7 +295,7 @@ opentelemetry-operator:
       repository: dkr.plural.sh/monitoring/kubebuilder/kube-rbac-proxy
       tag: v0.8.0
   collector:
-    enabled: true
+    enabled: false
     image:
       repository: gcr.io/pluralsh/otel/opentelemetry-collector
       tag: 0.59.0
