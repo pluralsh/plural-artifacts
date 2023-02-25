@@ -41,4 +41,4 @@ airbyte:
 
 ### redeploy
 
-From there, you should be able to run `plural build && plural deploy --commit "using existing postgres instance"` to use the managed sql instance
+From there, you should be able to run `plural build --only airbyte && plural deploy --commit "using existing postgres instance"` to use the managed sql instance
