@@ -1,0 +1,10 @@
+name: prefect-agent
+description: prefect agent preconfigured to securely connect to prefect cloud
+category: DATA
+icon: plural/icons/prefect.png
+private: false
+homepage: https://www.prefect.io/
+gitUrl: https://github.com/PrefectHQ/prefect
+notes: plural/notes.tpl
+tags:
+- tag: data

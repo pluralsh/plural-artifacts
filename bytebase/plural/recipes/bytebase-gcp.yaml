@@ -1,0 +1,19 @@
+name: bytebase-gcp
+description: Installs bytebase on an aws eks cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+sections:
+- name: bytebase
+  configuration:
+  - name: hostname
+    type: DOMAIN
+    documentation: fqdn you'll be deploying bytebase to
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: bytebase

@@ -4,19 +4,20 @@ provider: AZURE
 dependencies:
 - repo: bootstrap
   name: azure-k8s
-
 - repo: ingress-nginx
   name: ingress-nginx-azure
-
 - repo: postgres
   name: azure-postgres
-
 sections:
 - name: strapi
   configuration:
   - name: hostname
     documentation: domain on which you'd like to host strapi's page
     type: DOMAIN
+  - name: strapiBucket
+    default: strapi
+    documentation: bucket for uploading images and files
+    type: BUCKET
   items:
   - type: TERRAFORM
     name: azure

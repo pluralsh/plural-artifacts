@@ -22,11 +22,13 @@ postgres:
   dbName: airflow
   ownerChart: airflow
   infix: ""
+  parameters:
+    max_connections: '101'
 
 exporter:
   image:
-    repository: gcr.io/pluralsh/prom/statsd-exporter
-    tag: v0.20.2
+    repository: dkr.plural.sh/airflow/prom/statsd-exporter
+    tag: v0.22.8
     pullPolicy: IfNotPresent
   
   podSecurityContext: {}
@@ -52,6 +54,7 @@ exporter:
     additionalLabels: {}
 
   statsd:
+    relayAddress: null
     # The UDP port on which to receive statsd metric lines.
     udpPort: 9125
 
@@ -78,12 +81,48 @@ config-overlays:
   configOverlays:
     airflow-registry:
       spec:
+        folder: server
+        subfolder: image
         name: Airflow Registry
         documentation: docker repository to use for airflow (default is dkr.plural.sh/airflow/apache/airflow)
         updates:
         - path: ['airflow', 'airflow', 'airflow', 'image', 'repository']
+    airflow-tag:
+      spec:
+        folder: server
+        subfolder: image
+        name: Airflow Image Tag
+        documentation: docker repository tag to use for airflow (default is 2.1.4-python3.8-dbt-2)
+        updates:
+        - path: ['airflow', 'airflow', 'airflow', 'image', 'tag']
+    airflow-statsd-host:
+      spec:
+        folder: server
+        subfolder: metrics
+        name: statsd host
+        documentation: the hostname to publish statsd metrics, we default this to a prometheus statsd proxy but for datadog would be eg datadog.datadog
+        updates:
+        - path: ['airflow', 'airflow', 'airflow', 'config', 'AIRFLOW__METRICS__STATSD_HOST']
+    airflow-statsd-relay:
+      spec:
+        folder: server
+        subfolder: metrics
+        name: statsd relay
+        documentation: a hostname to relay statsd metrics to, this will preserve prometheus monitoring while also enabling additional metrics exports (default is datadog.datadog:8125)
+        updates:
+        - path: ['airflow', 'exporter', 'statsd', 'relayAddress']
+    airflow-statsd-port:
+      spec:
+        folder: server
+        subfolder: metrics
+        name: statsd port
+        documentation: the port to publish statsd metrics, datadog listens on 8125
+        updates:
+        - path: ['airflow', 'airflow', 'airflow', 'config', 'AIRFLOW__METRICS__STATSD_PORT']
     web-replicas:
       spec:
+        folder: server
+        subfolder: scaling
         name: Web Replicas
         documentation: number of replicas for the web deployment
         updates:
@@ -91,6 +130,8 @@ config-overlays:
         inputType: int
     worker-replicas:
       spec:
+        folder: server
+        subfolder: scaling
         name: Worker Replicas
         documentation: number of replicas for the worker deployment
         updates:
@@ -311,8 +352,8 @@ airflow:
 
     resources:
       requests:
-        cpu: "500m"
-        memory: "1Gi"
+        cpu: "100m"
+        memory: "500Mi"
 
   scheduler:
     livenessProbe: 
@@ -329,8 +370,8 @@ airflow:
     ##
     resources:
       requests:
-        cpu: "200m"
-        memory: "1Gi"
+        cpu: "100m"
+        memory: "500Mi"
 
     podDisruptionBudget:
       enabled: true

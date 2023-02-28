@@ -1,0 +1,1 @@
+agentToken: {{ .Values.agentToken }}

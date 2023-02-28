@@ -8,15 +8,34 @@ image:
   repository: dkr.plural.sh/n8n/n8nio/n8n
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "0.202.1"
+  tag: "0.213.0"
 
 webhookUrl: https://example.com
+
+encryptionSecret: CHANGEME
 
 smtp:
 
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
+
+
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 45
+  periodSeconds: 10
+  timeoutSeconds: 1
+  failureThreshold: 3
+  successThreshold: 1
+    
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 45
+  periodSeconds: 10
+  timeoutSeconds: 1
+  failureThreshold: 3
+  successThreshold: 1
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -51,7 +70,7 @@ ingress:
   annotations:
     kubernetes.io/tls-acme: "true"
     cert-manager.io/cluster-issuer: letsencrypt-prod
-    nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/use-regex: "true"
   #hosts:
   #  - host: chart-example.local

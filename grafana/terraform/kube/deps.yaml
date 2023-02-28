@@ -30,5 +30,5 @@ providers:
 - azure
 - equinix
 - kind
-description: grafana kubernetes setup
+description: grafana kubernetes setup 
 version: 0.1.0

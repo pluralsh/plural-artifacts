@@ -1,8 +1,8 @@
 apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
-  description: mlflow aws setup
-  version: 0.1.1
+  description: mlflow aws setup  
+  version: 0.1.2
 spec:
   breaking: true
   dependencies:

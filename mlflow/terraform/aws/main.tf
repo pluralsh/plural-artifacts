@@ -14,9 +14,10 @@ data "aws_eks_cluster" "cluster" {
 }
 
 module "s3_buckets" {
-  source = "github.com/pluralsh/module-library//terraform/s3-buckets"
+  source        = "github.com/pluralsh/module-library//terraform/s3-buckets?ref=bucket-protection"
   bucket_names  = [var.mlflow_bucket]
   policy_prefix = var.role_name
+  force_destroy = var.force_destroy_bucket
 }
 
 module "assumable_role_mlflow" {

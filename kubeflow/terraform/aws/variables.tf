@@ -17,6 +17,12 @@ variable "kubeflow_argo_serviceaccount" {
   default = "kubeflow-pipelines-argo-workflow-controller"
 }
 
+variable "force_destroy_pipelines_bucket" {
+  type        = bool
+  default     = true
+  description = "If true, the bucket will be deleted even if it contains objects."
+}
+
 variable "node_role_arn" {
   type = string
 }
@@ -37,7 +43,7 @@ variable "node_groups_defaults" {
 
     instance_types = ["t3.large", "t3a.large"]
     disk_size = 50
-    ami_release_version = "1.21.5-20220123"
+    ami_release_version = "1.22.15-20221222"
     force_update_version = true
     ami_type = "AL2_x86_64"
     k8s_labels = {}

@@ -2,9 +2,9 @@ apiVersion: v2
 name: strapi
 description: helm chart for strapi
 type: application
-version: 0.1.5
+version: 0.1.6
 appVersion: "4.2.0"
 dependencies:
 - name: postgres
-  version: 0.1.10
+  version: 0.1.13
   repository: https://pluralsh.github.io/module-library

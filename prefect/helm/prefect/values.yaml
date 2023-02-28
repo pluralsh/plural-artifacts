@@ -2,7 +2,7 @@ prefect-orion:
   orion:
     image:
       repository: dkr.plural.sh/prefect/prefecthq/prefect
-      prefectTag: 2.6.9-python3.10
+      prefectTag: 2.7.9-python3.10
     resources:
       requests:
         cpu: 10m
@@ -27,12 +27,18 @@ prefect-orion:
       postgresql: 5432
     externalHostname: plural-postgres-prefect
 
+test-base:
+  enabled: false
+  repository: prefect
+  testName: prefect-integration
+  promoteTag: warm
+
 prefect-agent:
   enabled: true
   agent:
     image:
       repository: dkr.plural.sh/prefect/prefecthq/prefect
-      prefectTag: 2.6.9-python3.10
+      prefectTag: 2.7.9-python3.10
     resources:
       requests:
         cpu: 10m

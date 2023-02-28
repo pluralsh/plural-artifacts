@@ -1,11 +1,13 @@
-dependencies:
-- name: aws-bootstrap
-  repo: bootstrap
-  type: terraform
-  version: '>= 0.1.1'
-
-providers:
-- aws
-
-description: airflow aws setup
-version: 0.1.3
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  description: airflow aws setup 
+  version: 0.1.4
+spec:
+  dependencies:
+  - name: aws-bootstrap
+    repo: bootstrap
+    type: terraform
+    version: '>= 0.1.1'
+  providers:
+  - aws

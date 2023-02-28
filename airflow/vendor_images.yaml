@@ -1,6 +1,7 @@
 docker.io:
   images:
-    # prom/statsd-exporter: [] # TODO: fix vendoring 0.4, 0.5 and 0.6 and re-enable. 
+    prom/statsd-exporter: # TODO: fix vendoring 0.4, 0.5 and 0.6 and re-enable. 
+    - v0.23.0
   images-by-tag-regex:
     apache/airflow: ^2\.[0-9]+?\.[0-9]+(-python3\.[0-9]+)?$
     bitnami/redis: ^7\.[0-9]+?\.[0-9]+$

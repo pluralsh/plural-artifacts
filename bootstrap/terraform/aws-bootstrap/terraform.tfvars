@@ -18,3 +18,23 @@ EOT
 {{- end }}
 
 aws_region = {{ .Region | quote }}
+
+{{- if .Values.worker_private_subnet_ids }}
+worker_private_subnet_ids = {{ .Values.worker_private_subnet_ids | toJson }}
+{{- end }}
+
+{{- if .Values.disable_ebs_csi_driver }}
+enable_ebs_csi_driver = false
+{{- end }}
+{{- if .Values.disable_cluster_autoscaler }}
+enable_cluster_autoscaler = false
+{{- end }}
+{{- if .Values.disable_aws_lb_controller }}
+enable_aws_lb_controller = false
+{{- end }}
+
+{{- if .BYOK }}
+{{- if .BYOK.enabled }}
+create_cluster = false
+{{- end }}
+{{- end }}

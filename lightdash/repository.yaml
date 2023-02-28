@@ -1,10 +1,12 @@
 name: lightdash
-description: Lightdash instantly turns your dbt project into a full-stack BI platform.
+description: An open source alternative to looker built on dbt
 category: DATA
-private: true
+private: false
 icon: plural/icons/lightdash.png
 notes: plural/notes.tpl
 homepage: https://www.lightdash.com/
 gitUrl: https://github.com/lightdash/lightdash
+icon: plural/icons/lightdash.png
 tags:
 - tag: bi
+

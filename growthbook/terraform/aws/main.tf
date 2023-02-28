@@ -9,9 +9,10 @@ resource "kubernetes_namespace" "growthbook" {
 }
 
 module "s3_buckets" {
-  source = "github.com/pluralsh/module-library//terraform/s3-buckets"
-  bucket_names = [var.growthbook_bucket]
+  source        = "github.com/pluralsh/module-library//terraform/s3-buckets?ref=bucket-protection"
+  bucket_names  = [var.growthbook_bucket]
   policy_prefix = "growthbook"
+  force_destroy = var.force_destroy_bucket
 }
 
 module "assumable_role_growthbook" {

@@ -11,7 +11,7 @@ resource "kubernetes_namespace" "ray" {
 
 module "single_az_node_groups" {
   count                  = "${var.create_single_az_node_groups ? 1 : 0}"
-  source                 = "github.com/pluralsh/module-library//terraform/eks-node-groups/single-az-node-groups?ref=df068595c3e91590d11e1ace11e1d688630f03d6"
+  source                 = "github.com/pluralsh/module-library//terraform/eks-node-groups/single-az-node-groups?ref=4554ffb2c881904efa644b5a77fdb6df359b9171"
   cluster_name           = var.cluster_name
   default_iam_role_arn   = var.node_role_arn
   tags                   = var.tags

@@ -3,6 +3,7 @@ description: An open-source data integration engine for modern data teams.
 category: DATA
 icon: plural/icons/airbyte.png
 notes: plural/notes.tpl
+docs: plural/docs
 gitUrl: https://github.com/airbytehq/airbyte
 homepage: https://www.airbyte.com
 oauthSettings:

@@ -24,3 +24,9 @@ variable "role_name" {
   default = "airflow"
   description = "name of the IAM role for airflow to assume"
 }
+
+variable "force_destroy_bucket" {
+  type        = bool
+  default     = true
+  description = "If true, the bucket will be deleted even if it contains objects."
+}

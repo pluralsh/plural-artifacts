@@ -61,7 +61,15 @@ resource "kubernetes_secret" "pipelines_s3_secret" {
 resource "aws_s3_bucket" "pipelines" {
   bucket        = var.pipelines_bucket
   acl           = "private"
-  force_destroy = true
+  force_destroy = var.force_destroy_pipelines_bucket
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm     = "AES256"
+      }
+    }
+  }
 }
 
 data "aws_iam_policy_document" "kubeflow" {
@@ -87,7 +95,7 @@ data "aws_eks_node_group" "main" {
 }
 
 module "node_groups" {
-  source                 = "github.com/pluralsh/module-library//terraform/eks-node-groups/single-az-node-groups?ref=7b6d3b1d1602e4265d6d3b172c38fe67d9a2c7fc"
+  source                 = "github.com/pluralsh/module-library//terraform/eks-node-groups/single-az-node-groups?ref=20e64863ffc5e361045db8e6b81b9d244a55809e"
   cluster_name           = var.cluster_name
   default_iam_role_arn   = var.node_role_arn
   tags                   = var.tags

@@ -1,0 +1,23 @@
+name: prefect-agent-azure
+description: Installs prefect-agent on an azure AKS cluster
+provider: AZURE
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+sections:
+- name: prefect-agent
+  configuration:
+  - name: apiKey
+    documentation: the prefect cloud api key this agent connects with
+    type: PASSWORD
+  - name: accountId
+    documentation: the account id of your Prefect environment
+    type: STRING
+  - name: workspaceId
+    documentation: the workspace id of your Prefect workspace
+    type: STRING
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: prefect-agent

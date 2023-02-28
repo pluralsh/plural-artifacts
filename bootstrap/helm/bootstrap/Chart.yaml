@@ -10,7 +10,7 @@ maintainers:
   email: mguarino46@gmail.com
 - name: David van der Spek
   email: david@plural.sh
-version: 0.8.58
+version: 0.8.63
 dependencies:
 - name: external-dns
   version: 4.11.0
@@ -22,13 +22,14 @@ dependencies:
 - name: cert-manager
   version: v1.8.2
   repository: https://charts.jetstack.io
+  condition: cert-manager.enabled
 - name: cluster-autoscaler
   version: 9.21.0
   condition: cluster-autoscaler.enabled
   repository: https://kubernetes.github.io/autoscaler
 - name: aws-load-balancer-controller
   condition: aws-load-balancer-controller.enabled
-  version: 1.2.3
+  version: 1.4.6
   repository: https://aws.github.io/eks-charts
 - name: aws-ebs-csi-driver
   condition: aws-ebs-csi-driver.enabled

@@ -12,6 +12,7 @@ module "vpc" {
   worker_private_subnets = var.worker_private_subnets
   enable_dns_hostnames   = true
   enable_ipv6            = true
+  create_vpc             = local.create_vpc
 
   database_subnets = var.database_subnets
 
@@ -35,15 +36,16 @@ module "vpc" {
 }
 
 module "cluster" {
-  source          = "github.com/pluralsh/terraform-aws-eks?ref=output-service-cidr"
-  cluster_name    = var.cluster_name
-  cluster_version = "1.21"
-  private_subnets = module.vpc.private_subnets_ids
-  public_subnets  = module.vpc.public_subnets_ids
-  worker_private_subnets = module.vpc.worker_private_subnets
-  vpc_id          = module.vpc.vpc_id
-  enable_irsa     = true
+  source           = "github.com/pluralsh/terraform-aws-eks?ref=output-service-cidr"
+  cluster_name     = var.cluster_name
+  cluster_version  = var.kubernetes_version
+  private_subnets  = local.private_subnet_ids
+  public_subnets   = local.public_subnet_ids
+  worker_private_subnets = local.worker_private_subnet_ids
+  vpc_id           = local.vpc_id
+  enable_irsa      = true
   write_kubeconfig = false
+  create_eks       = var.create_cluster
 
   node_groups_defaults = {}
 
@@ -54,41 +56,42 @@ module "cluster" {
 }
 
 module "single_az_node_groups" {
-  source                 = "github.com/pluralsh/module-library//terraform/eks-node-groups/single-az-node-groups?ref=df068595c3e91590d11e1ace11e1d688630f03d6"
+  source                 = "github.com/pluralsh/module-library//terraform/eks-node-groups/single-az-node-groups?ref=20e64863ffc5e361045db8e6b81b9d244a55809e"
   cluster_name           = var.cluster_name
   default_iam_role_arn   = module.cluster.worker_iam_role_arn
   tags                   = {}
   node_groups_defaults   = var.node_groups_defaults
 
-  node_groups            = var.single_az_node_groups
+  node_groups            = try(var.create_cluster ? var.single_az_node_groups : tomap(false), {})
   set_desired_size       = false
-  private_subnets        = module.vpc.worker_private_subnets
+  private_subnets        = var.create_cluster ? module.vpc.worker_private_subnets : []
 
   ng_depends_on = [
-    module.cluster.config_map_aws_auth
+    local.cluster_config
   ]
 }
 
 module "multi_az_node_groups" {
-  source                 = "github.com/pluralsh/module-library//terraform/eks-node-groups/multi-az-node-groups?ref=aws-multi-az"
+  source                 = "github.com/pluralsh/module-library//terraform/eks-node-groups/multi-az-node-groups?ref=20e64863ffc5e361045db8e6b81b9d244a55809e"
   cluster_name           = var.cluster_name
   default_iam_role_arn   = module.cluster.worker_iam_role_arn
   tags                   = {}
   node_groups_defaults   = var.node_groups_defaults
 
-  node_groups            = var.multi_az_node_groups
+  node_groups            =  try(var.create_cluster ? var.multi_az_node_groups : tomap(false), {})
   set_desired_size       = false
-  private_subnet_ids     = module.vpc.worker_private_subnets_ids
+  private_subnet_ids     = local.worker_private_subnet_ids
 
   ng_depends_on = [
-    module.cluster.config_map_aws_auth
+    local.cluster_config
   ]
 }
 
 resource "aws_eks_addon" "vpc_cni" {
-  cluster_name = module.cluster.cluster_id
+  count = var.create_cluster ? 1 : 0
+  cluster_name = local.cluster_id
   addon_name   = "vpc-cni"
-  addon_version     = "v1.11.3-eksbuild.1"
+  addon_version     = var.vpc_cni_addon_version
   resolve_conflicts = "OVERWRITE"
   tags = {
       "eks_addon" = "vpc-cni"
@@ -100,9 +103,10 @@ resource "aws_eks_addon" "vpc_cni" {
 }
 
 resource "aws_eks_addon" "core_dns" {
-  cluster_name      = module.cluster.cluster_id
+  count = var.create_cluster ? 1 : 0
+  cluster_name      = local.cluster_id
   addon_name        = "coredns"
-  addon_version     = "v1.8.4-eksbuild.1"
+  addon_version     = var.core_dns_addon_version
   resolve_conflicts = "OVERWRITE"
   tags = {
       "eks_addon" = "coredns"
@@ -114,9 +118,10 @@ resource "aws_eks_addon" "core_dns" {
 }
 
 resource "aws_eks_addon" "kube_proxy" {
-  cluster_name      = module.cluster.cluster_id
+  count = var.create_cluster ? 1 : 0
+  cluster_name      = local.cluster_id
   addon_name        = "kube-proxy"
-  addon_version     = "v1.21.14-eksbuild.2"
+  addon_version     = var.kube_proxy_addon_version
   resolve_conflicts = "OVERWRITE"
   tags = {
       "eks_addon" = "kube-proxy"
@@ -136,7 +141,5 @@ resource "kubernetes_namespace" "bootstrap" {
     }
   }
 
-  depends_on = [
-    module.cluster.cluster_id
-  ]
+  depends_on = [ local.cluster_id ]
 }

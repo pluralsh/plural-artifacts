@@ -1,39 +1,33 @@
 lightdash:
   image:
-    repository: dkr.plural.sh/lightdash/lightdash/lightdash
-    tag: 0.138.0
+    tag: ""
   postgresql:
     enabled: false
-    #secretName: lightdash.plural-lightdash.credentials.postgresql.acid.zalan.do
   externalDatabase:
-    existingSecret: lightdash.plural-lightdash.credentials.postgresql.acid.zalan.do
-    existingSecretPasswordKey: password
-    host: plural-lightdash
-    user: lightdash
-    password: "changeme"
-    database: lightdash
-    port: 5432
-  #configMap:
-    # Example connection details for Lightdash postgres database - Change me!
-  #  PGHOST: "plural-lightdash"
-  #  PGPORT: "5432"
-  #  PGUSER: lightdash
-  #  PGDATABASE: "lightdash"
-  #secrets:
-      # Password for postgres user above - Change me!
-  #  PGPASSWORD:
-
-    # If you know the public url of the finished Lightdash installation add it here
-    # you may have to return later and change this
-    SITE_URL: ""
-
+    existingSecret: lightdash.plural-postgres-lightdash.credentials.postgresql.acid.zalan.do
+    secretKeys:
+      passwordKey: password
+  configMap:
+    PGSSLMODE: "no-verify"
+    PGHOST: "plural-postgres-lightdash"
+    PGPORT: "5432"
+    PGUSER: lightdash
+    PGDATABASE: "lightdash"
+  resources:
+    requests:
+      cpu: '500m'
+      memory: '512Mi'
+  browserless-chrome:
+    resources:
+      requests:
+        memory: '512Mi'
+        cpu: '500m'
 
 postgres:
   team: plural
   user: lightdash
   dbName: lightdash
   ownerChart: lightdash
-  infix: ""
 
 ingress:
   enabled: true
@@ -43,6 +37,14 @@ ingress:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
     kubernetes.io/ingress.class: "nginx"
+
+configOverlays:
+- name: app-image
+  spec:
+    name: app image
+    documentation: Lightdash image version deployment
+    updates:
+    - path: ['lightdash', 'image', 'tag']
 
 
 

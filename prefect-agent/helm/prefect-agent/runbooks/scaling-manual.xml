@@ -1,0 +1,53 @@
+<root gap='medium'>
+    <button label='Scale' action='scale' primary='true' headline='true' />
+    <box pad='small' gap='medium' direction='row' align='center'>
+        <box direction='row' align='center' gap='small'>
+            <box gap='small' align='center'>
+                <timeseries datasource="prefect-agent-cpu" label="AgentCPU Usage" />
+                <text size='small'>You should set requests to
+                    roughly correspond to 80% regular utilization</text>
+                <text size='small'>Normally a CPU limit is not required</text>
+            </box>
+            <box gap='small' align='center'>
+                <timeseries datasource="prefect-agent-memory" label="Agent Memory Usage" />
+                <text size='small'>You should set requests to
+                    roughly correspond to 80% regular utilization</text>
+                <text size='small'>A memory limit should be set to avoid resource starvation</text>
+            </box>
+        </box>
+        <box gap='xsmall'>
+            <box gap='xsmall'>
+                <input placeholder="250m" label='Agent CPU Request' name='agent-cpu'>
+                    <valueFrom
+                            datasource="agent"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.cpu" />
+                </input>
+                <input placeholder="1Gi" label='Agent Memory Request' name='agent-memory'>
+                    <valueFrom
+                            datasource="agent"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.requests.memory" />
+                </input>
+            </box>
+            <box gap='xsmall'>
+                <input placeholder="250m" label='Agent CPU Limit' name='agent-cpu-limit'>
+                    <valueFrom
+                            datasource="agent"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.limits.cpu" />
+                </input>
+                <input placeholder="1Gi" label='Agent Memory Limit' name='agent-memory-limit'>
+                    <valueFrom
+                            datasource="agent"
+                            doc="kubernetes.raw"
+                            path="spec.template.spec.containers[0].resources.limits.memory" />
+                </input>
+            </box>
+        </box>
+    </box>
+    <box width='100%' gap='small'>
+        <text size='small'>Be sure to scale your Prefect components within the capacity of your nodes.</text>
+        <text size='small'>By default this is a maximum of 8 CPU and 32 Gi memory.</text>
+    </box>
+</root>

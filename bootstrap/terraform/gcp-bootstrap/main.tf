@@ -60,6 +60,9 @@ module "gke" {
   datapath_provider          = var.datapath_provider
   kubernetes_version         = var.kubernetes_version
   filestore_csi_driver       = true
+  release_channel            = var.release_channel
+  regional                   = var.regional_cluster
+  zones                      = var.cluster_zones
 
   node_pools = var.node_pools
 

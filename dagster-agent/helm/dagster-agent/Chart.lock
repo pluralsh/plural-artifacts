@@ -1,0 +1,6 @@
+dependencies:
+- name: dagster-cloud-agent
+  repository: https://dagster-io.github.io/helm-user-cloud
+  version: 1.1.8
+digest: sha256:d8a4f44f4f766593152729322f9fab278b5d46f3e1e3033437f1b92ca8c36067
+generated: "2023-02-15T10:16:04.063005-05:00"
