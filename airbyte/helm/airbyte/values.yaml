@@ -22,10 +22,10 @@ replicaCount: 1
 bootloader:
   image:
     repository: dkr.plural.sh/airbyte/airbyte/bootloader
-    tag: 0.40.32
+    tag: 0.41.0
 
 airbyte:
-  version: 0.40.32
+  version: 0.41.0
 
   postgresql:
     enabled: false
@@ -56,13 +56,13 @@ airbyte:
   worker:
     image:
       repository: dkr.plural.sh/airbyte/airbyte/worker
-      tag: 0.40.32
+      tag: 0.41.0
     
     log:
       level: INFO
 
     containerOrchestrator:
-      image: dkr.plural.sh/airbyte/airbyte/container-orchestrator:0.40.32
+      image: dkr.plural.sh/airbyte/airbyte/container-orchestrator:0.41.0
 
     livenessProbe:
       enabled: true
@@ -83,12 +83,12 @@ airbyte:
   cron:
     image:
       repository: dkr.plural.sh/airbyte/airbyte/cron
-      tag: 0.40.32
+      tag: 0.41.0
 
   server:
     image:
       repository: dkr.plural.sh/airbyte/airbyte/server
-      tag: 0.40.32
+      tag: 0.41.0
     
     log:
       level: INFO
@@ -112,13 +112,13 @@ airbyte:
   connector-builder-server:
     image:
       repository: dkr.plural.sh/airbyte/airbyte/connector-builder-server
-      tag: 0.40.32
+      tag: 0.41.0
 
   airbyte-bootloader:
     enabled: false
     image:
       repository: dkr.plural.sh/airbyte/airbyte/bootloader
-      tag: 0.40.32
+      tag: 0.41.0
     extraInitContainers:
     - name: wait-for-pg
       image: gcr.io/pluralsh/busybox:latest
@@ -140,12 +140,12 @@ airbyte:
     enabled: true
     image:
       repository: dkr.plural.sh/airbyte/airbyte/metrics-reporter
-      tag: 0.40.32
+      tag: 0.41.0
 
   webapp:
     image:
       repository: dkr.plural.sh/airbyte/airbyte/webapp
-      tag: 0.40.32
+      tag: 0.41.0
 
     ingress:
       enabled: false
