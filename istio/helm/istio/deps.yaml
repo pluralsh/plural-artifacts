@@ -1,0 +1,23 @@
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  application: true
+  description: deploys istio operator and istio itself
+spec:
+  dependencies:
+  - type: helm
+    name: bootstrap
+    repo: bootstrap
+    version: '>= 0.7.12'
+  - type: helm
+    name: monitoring
+    repo: monitoring
+    version: '>= 0.1.37'
+  - type: helm
+    name: ingress-nginx
+    repo: ingress-nginx
+    version: '>= 0.1.2'
+  - type: terraform
+    name: kube
+    repo: istio
+    version: '>= 0.1.4'

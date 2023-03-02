@@ -54,6 +54,8 @@ module "aks" {
   auto_scaler_profile_skip_nodes_with_local_storage    = var.auto_scaler_profile_skip_nodes_with_local_storage
   auto_scaler_profile_scale_down_utilization_threshold = var.auto_scaler_profile_scale_down_utilization_threshold
 
+  enable_log_analytics_workspace = var.enable_aks_insights
+
   depends_on = [module.network]
 }
 

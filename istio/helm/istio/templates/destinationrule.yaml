@@ -1,0 +1,30 @@
+{{- if .Values.istio.egressGateway.enabled }}
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: disable-mtls-for-sni-proxy
+  namespace: {{ .Values.istio.namespace }}
+spec:
+  host: sni-proxy.local
+  trafficPolicy:
+    tls:
+      mode: DISABLE
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: egressgateway-for-allowed-tlds
+  namespace: {{ .Values.istio.namespace }}
+spec:
+  host: istio-egressgateway.{{ .Values.istio.namespace }}.svc.cluster.local
+  subsets:
+    - name: allowed-tlds
+      trafficPolicy:
+        loadBalancer:
+          simple: ROUND_ROBIN
+        portLevelSettings:
+        - port:
+            number: 443
+          tls:
+            mode: ISTIO_MUTUAL
+{{- end }}

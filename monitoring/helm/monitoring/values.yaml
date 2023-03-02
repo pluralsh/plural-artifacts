@@ -140,8 +140,6 @@ kube-prometheus-stack:
     enabled: false
 
   defaultRules:
-    additionalRuleLabels:
-      namespace: monitoring
     rules:
       kubeProxy: false
 
@@ -242,8 +240,8 @@ kube-prometheus-stack:
         sha: ""
       resources:
         requests:
-          cpu: 1
-          memory: 1Gi
+          cpu: 200m
+          memory: 500Mi
         limits: {}
       prometheusExternalLabelName: cluster
       externalLabels:
@@ -281,6 +279,7 @@ kube-prometheus-stack:
       probeSelector: {}
 
 opentelemetry-operator:
+  enabled: false
   manager:
     image:
       repository: dkr.plural.sh/monitoring/open-telemetry/opentelemetry-operator/opentelemetry-operator
@@ -294,7 +293,7 @@ opentelemetry-operator:
       repository: dkr.plural.sh/monitoring/kubebuilder/kube-rbac-proxy
       tag: v0.8.0
   collector:
-    enabled: true
+    enabled: false
     image:
       repository: gcr.io/pluralsh/otel/opentelemetry-collector
       tag: 0.59.0

@@ -2,12 +2,12 @@ apiVersion: v2
 name: airbyte
 description: Unified data integration platform
 type: application
-version: 0.4.8
-appVersion: 0.40.28
+version: 0.4.14
+appVersion: 0.41.0
 dependencies:
 - name: airbyte
-  version: 0.43.18
-  repository: https://airbytehq.github.io/helm-charts
+  version: 0.43.22
+  repository: file://../../../../airbyte/charts/airbyte
 - name: postgres
   version: 0.1.16
   repository: https://pluralsh.github.io/module-library

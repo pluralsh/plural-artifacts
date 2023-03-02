@@ -17,7 +17,7 @@ you can use `plural crypto random` to generate a high-entropy password if that i
 
 ### redeploy
 
-Simply run `plural build && plural deploy --commit "enabling basic auth"` to wire in the credentials to our oauth proxy.  Occasionally you need to restart the web pods to get it to take, you can find them with:
+Simply run `plural build --only airbyte && plural deploy --commit "enabling basic auth"` to wire in the credentials to our oauth proxy.  Occasionally you need to restart the web pods to get it to take, you can find them with:
 
 ```sh
 kubectl get pods -n airbyte | grep airbyte-web

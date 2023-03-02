@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: istio-control-plane-dashboard
+  labels: {{ include "istio.labels" . | nindent 4 }}
+    grafana_dashboard: istio-control-plane-dashboard
+  annotations:
+    k8s-sidecar-target-directory: /tmp/dashboards/Istio Dashboards
+data:
+  istio-control-plane-dashboard.json: |-
+{{ .Files.Get "grafana-dashboards/istio-control-plane-dashboard_rev82.json" | indent 4 }}

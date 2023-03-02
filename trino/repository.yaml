@@ -4,6 +4,7 @@ category: DATABASE
 private: false
 icon: plural/icons/trino.png
 notes: plural/notes.tpl
+docs: plural/docs
 homepage: https://trino.io/
 gitUrl: https://github.com/trinodb/trino
 oauthSettings:

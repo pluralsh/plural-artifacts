@@ -15,6 +15,12 @@ s3access:
   secret_access_key: {{ importValue "Terraform" "secret_access_key" }}
 {{ end }}
 
+{{ if .Configuration.datadog }}
+exporter:
+  statsd:
+    relayAddress: "datadog.datadog:8125"
+{{ end }}
+
 {{ if not .Values.gitSyncDisabled }}
 sshConfig:
 {{ if .Values.hostname }}

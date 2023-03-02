@@ -4,11 +4,11 @@
 
 prefect-agent:
   enabled: true
-  cloudApiConfig:
-    apiKeySecret:
-      name: prefect-api-key
-      key: key
   agent:
+    cloudApiConfig:
+      apiKeySecret:
+        name: prefect-api-key
+        key: key
     image:
       repository: dkr.plural.sh/prefect/prefecthq/prefect
       prefectTag: 2.7.9-python3.10

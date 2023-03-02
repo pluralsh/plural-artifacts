@@ -616,3 +616,9 @@ variable "auto_scaler_profile_scale_down_utilization_threshold" {
   type        = number
   default     = 0.7
 }
+
+variable "enable_aks_insights" {
+  description = "enable aks logging and monitoring (defaults to false because it can be quite expensive)"
+  type        = bool
+  default     = false
+}

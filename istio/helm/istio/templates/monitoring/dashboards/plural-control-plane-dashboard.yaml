@@ -1,0 +1,167 @@
+{{ if eq .Values.monitoring.enabled true }}
+apiVersion: platform.plural.sh/v1alpha1
+kind: Dashboard
+metadata:
+  name: {{ template "istio.fullname" $ }}-control-plane-dashboard
+  labels: {{ include "istio.labels" . | nindent 4 }}
+spec:
+  defaultTime: 1h
+  graphs:
+  - name: Pilot Versions
+    queries:
+    - legendFormat: $tag
+      query: sum(istio_build{component="pilot"}) by (tag)
+  - name: Memory
+    format: bytes
+    queries:
+    - legend: Virtual Memory
+      query: process_virtual_memory_bytes{app="istiod"}
+    - legend: Resident Memory
+      query: process_resident_memory_bytes{app="istiod"}
+    - legend: heap sys
+      query: go_memstats_heap_sys_bytes{app="istiod"}
+    - legend: heap alloc
+      query: go_memstats_heap_alloc_bytes{app="istiod"}
+    - legend: Alloc
+      query: go_memstats_alloc_bytes{app="istiod"}
+    - legend: Heap in-use
+      query: go_memstats_heap_inuse_bytes{app="istiod"}
+    - legend: Stack in-use
+      query: go_memstats_stack_inuse_bytes{app="istiod"}
+    - legend: Discovery (container)
+      query: container_memory_working_set_bytes{container=~"discovery", pod=~"istiod-.*|istio-pilot-.*"}
+    - legend: Sidecar (container)
+      query: container_memory_working_set_bytes{container=~"istio-proxy", pod=~"istiod-.*|istio-pilot-.*"}
+  - name: CPU
+    queries:
+    - legend: Discovery (container)
+      query: sum(irate(container_cpu_usage_seconds_total{container="discovery", pod=~"istiod-.*|istio-pilot-.*"}[1m]))
+    - legend: Discovery (process)
+      query: irate(process_cpu_seconds_total{app="istiod"}[1m])
+    - legend: Sidecar (container)
+      query: sum(irate(container_cpu_usage_seconds_total{container="istio-proxy",
+        pod=~"istiod-.*|istio-pilot-.*"}[1m]))
+  - name: Disk
+    format: bytes
+    queries:
+    - legend: Discovery
+      query: container_fs_usage_bytes{container="discovery", pod=~"istiod-.*|istio-pilot-.*"}
+    - legend: Sidecar
+      query: container_fs_usage_bytes{container="istio-proxy", pod=~"istiod-.*|istio-pilot-.*"}
+  - name: Goroutines
+    queries:
+    - legend: Number of Goroutines
+      query: go_goroutines{app="istiod"}
+  - name: Pilot Pushes
+    queries:
+    - legend: Cluster
+      query: sum(irate(pilot_xds_pushes{type="cds"}[1m]))
+    - legend: Endpoints
+      query: sum(irate(pilot_xds_pushes{type="eds"}[1m]))
+    - legend: Listeners
+      query: sum(irate(pilot_xds_pushes{type="lds"}[1m]))
+    - legend: Routes
+      query: sum(irate(pilot_xds_pushes{type="rds"}[1m]))
+    - legend: Secrets
+      query: sum(irate(pilot_xds_pushes{type="sds"}[1m]))
+    - legend: Nametables
+      query: sum(irate(pilot_xds_pushes{type="nds"}[1m]))
+  - name: Pilot Errors
+    queries:
+    - legend: Rejected CDS Configs
+      query: sum(pilot_xds_cds_reject{app="istiod"}) or (absent(pilot_xds_cds_reject{app="istiod"})
+        - 1)
+    - legend: Rejected EDS Configs
+      query: sum(pilot_xds_eds_reject{app="istiod"}) or (absent(pilot_xds_eds_reject{app="istiod"})
+        - 1)
+    - legend: Rejected RDS Configs
+      query: sum(pilot_xds_rds_reject{app="istiod"}) or (absent(pilot_xds_rds_reject{app="istiod"})
+        - 1)
+    - legend: Rejected LDS Configs
+      query: sum(pilot_xds_lds_reject{app="istiod"}) or (absent(pilot_xds_lds_reject{app="istiod"})
+        - 1)
+    - legend: Write Timeouts
+      query: sum(rate(pilot_xds_write_timeout{app="istiod"}[1m]))
+    - legend: Internal Errors
+      query: sum(rate(pilot_total_xds_internal_errors{app="istiod"}[1m]))
+    - legend: Config Rejection Rate
+      query: sum(rate(pilot_total_xds_rejects{app="istiod"}[1m]))
+    - legend: Push Context Errors
+      query: sum(rate(pilot_xds_push_context_errors{app="istiod"}[1m]))
+    - legend: Push Timeouts
+      query: sum(rate(pilot_xds_write_timeout{app="istiod"}[1m]))
+  - name: Proxy Push Time
+    queries:
+    - legend: p50
+      query: histogram_quantile(0.5, sum(rate(pilot_proxy_convergence_time_bucket[1m]))
+        by (le))
+    - legend: p90
+      query: histogram_quantile(0.9, sum(rate(pilot_proxy_convergence_time_bucket[1m]))
+        by (le))
+    - legend: p99
+      query: histogram_quantile(0.99, sum(rate(pilot_proxy_convergence_time_bucket[1m]))
+        by (le))
+    - legend: p99.9
+      query: histogram_quantile(0.999, sum(rate(pilot_proxy_convergence_time_bucket[1m]))
+        by (le))
+  - name: Conflicts
+    queries:
+    - legend: Inbound Listeners
+      query: pilot_conflict_inbound_listener{app="istiod"}
+    - legend: Outbound Listeners (http over current tcp)
+      query: pilot_conflict_outbound_listener_http_over_current_tcp{app="istiod"}
+    - legend: Outbound Listeners (tcp over current tcp)
+      query: pilot_conflict_outbound_listener_tcp_over_current_tcp{app="istiod"}
+    - legend: Outbound Listeners (tcp over current http)
+      query: pilot_conflict_outbound_listener_tcp_over_current_http{app="istiod"}
+  - name: ADS Monitoring
+    queries:
+    - legend: Virtual Services
+      query: avg(pilot_virt_services{app="istiod"})
+    - legend: Services
+      query: avg(pilot_services{app="istiod"})
+    - legend: Connected Endpoints $pod
+      query: sum(pilot_xds{app="istiod"}) by (pod)
+  - name: Envoy Details
+    queries:
+    - legend: XDS Connections
+      query: sum(irate(envoy_cluster_upstream_cx_total{cluster_name="xds-grpc"}[1m]))
+    - legend: XDS Connection Failures
+      query: sum(irate(envoy_cluster_upstream_cx_connect_fail{cluster_name="xds-grpc"}[1m]))
+    - legend: Envoy Restarts
+      query: sum(increase(envoy_server_hot_restart_epoch[1m]))
+  - name: XDS Active Connections
+    queries:
+    - legend: XDS Active Connections
+      query: sum(envoy_cluster_upstream_cx_active{cluster_name="xds-grpc"})
+  - name: XDS Requests Size
+    queries:
+    - legend: XDS Response Bytes Max
+      query: max(rate(envoy_cluster_upstream_cx_rx_bytes_total{cluster_name="xds-grpc"}[1m]))
+    - legend: XDS Response Bytes Average
+      query: quantile(0.5, rate(envoy_cluster_upstream_cx_rx_bytes_total{cluster_name="xds-grpc"}[1m]))
+    - legend: XDS Request Bytes Max
+      query: max(rate(envoy_cluster_upstream_cx_tx_bytes_total{cluster_name="xds-grpc"}[1m]))
+    - legend: XDS Request Bytes Average
+      query: quantile(.5, rate(envoy_cluster_upstream_cx_tx_bytes_total{cluster_name="xds-grpc"}[1m]))
+  - name: Configuration Validation
+    queries:
+    - legend: Validations (Success)
+      query: sum(rate(galley_validation_passed[1m]))
+    - legend: Validation (Failure)
+      query: sum(rate(galley_validation_failed[1m]))
+  - name: Sidecar Injection
+    queries:
+    - legend: Injections (Success)
+      query: sum(rate(sidecar_injection_success_total[1m]))
+    - legend: Injections (Failure)
+      query: sum(rate(sidecar_injection_failure_total[1m]))
+  labels: []
+  name: Istio Control Plane Dashboard
+  timeslices:
+  - 1h
+  - 2h
+  - 6h
+  - 1d
+  - 7d
+{{ end }}

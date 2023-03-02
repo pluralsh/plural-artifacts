@@ -1,0 +1,17 @@
+name: dagster-agent-gcp
+description: Installs dagster-agent on an aws eks cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+sections:
+- name: dagster-agent
+  configuration:
+  - name: agentToken
+    type: STRING
+    documentation: the dagster agent token to communicate with dagster cloud
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: dagster-agent

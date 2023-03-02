@@ -35,7 +35,6 @@ module "minio" {
   minio_region = var.minio_region
   minio_namespace = var.minio_namespace
   bucket_names = [
-    var.resource_group,
     var.registry_bucket,
     var.artifacts_bucket,
     var.packages_bucket,
@@ -45,5 +44,5 @@ module "minio" {
     var.runner_cache_bucket,
     var.terraform_bucket
   ]
-  user_name = "sentry"
+  user_name = "gitlab"
 }
