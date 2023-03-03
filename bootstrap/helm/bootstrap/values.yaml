@@ -88,7 +88,6 @@ snapshot-controller:
 
 aws-ebs-csi-driver:
   enabled: false
-  useOldCSIDriver: true # TODO: this should actually be false for new deployments
   image:
     repository: public.ecr.aws/ebs-csi-driver/aws-ebs-csi-driver # TODO: this should be migrated to our vendored images
     tag: v1.16.1
