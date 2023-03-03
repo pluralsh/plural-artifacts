@@ -7,21 +7,39 @@ Name for the vpc for the cluster
 EOF
 }
 
+variable "cluster_enabled_log_types" {
+  default     = []
+  description = "A list of the desired control plane logging to enable. Supported options are: api, audit, authenticator, controllerManager, scheduler. For more information, see Amazon EKS Control Plane Logging documentation (https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html)"
+  type        = list(string)
+}
+
+variable "cluster_log_kms_key_id" {
+  default     = ""
+  description = "If a KMS Key ARN is set, this key will be used to encrypt the corresponding log group. Please be sure that the KMS Key has an appropriate key policy (https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/encrypt-log-data-kms.html)"
+  type        = string
+}
+
+variable "cluster_log_retention_in_days" {
+  default     = 90
+  description = "Number of days to retain log events. Default retention - 90 days."
+  type        = number
+}
+
 variable "kubernetes_version" {
   type = string
   description = "Kubernetes version to use for the cluster"
-  default = "1.22"
+  default = "1.23"
 }
 
 variable "vpc_cni_addon_version" {
   type = string
-  default = "v1.12.0-eksbuild.2"
+  default = "v1.12.5-eksbuild.1"
   description = "The version of the VPC-CNI addon to use"
 }
 
 variable "core_dns_addon_version" {
   type = string
-  default = "v1.8.7-eksbuild.1"
+  default = "v1.8.7-eksbuild.4"
   description = "The version of the CoreDNS addon to use"
 }
 
