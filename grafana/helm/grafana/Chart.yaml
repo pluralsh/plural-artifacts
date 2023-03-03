@@ -3,7 +3,7 @@ name: grafana
 description: A Helm chart for grafana on plural
 type: application
 version: 0.2.21
-appVersion: "9.2.5"
+appVersion: "9.4.3"
 dependencies:
 - name: grafana
   version: 6.51.3
