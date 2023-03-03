@@ -1,0 +1,34 @@
+name: posthog-aws
+description: Installs posthog on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+- repo: postgres
+  name: aws-postgres
+- repo: clickhouse
+  name: clickhouse-aws
+- repo: redis
+  name: aws-redis
+- repo: kafka
+  name: aws-kafka
+sections:
+- name: posthog
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for your posthog installation
+    type: DOMAIN
+  - name: posthogBucket
+    documentation: S3 bucket to use for posthog
+    type: BUCKET
+  - name: notificationEmail
+    documentation: email for notifications to be sent to from the PostHog stack
+    type: STRING
+    optional: true
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: posthog

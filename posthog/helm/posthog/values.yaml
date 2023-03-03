@@ -1,0 +1,432 @@
+posthog:
+  cloud: other
+  image:
+    repository: dkr.plural.sh/posthog/posthog/posthog
+    tag: release-1.43.0
+  plugins:
+    resources:
+      requests:
+        cpu: 20m
+        memory: 500Mi
+      limits:
+        memory: 1Gi
+    livenessProbe:
+      failureThreshold: 10
+    topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: topology.kubernetes.io/zone
+      whenUnsatisfiable: DoNotSchedule
+      labelSelector:
+        matchLabels:
+          role: plugins
+    env:
+    - name: DYNO # Needed to configure node to not check CA certs in the plugin server. See https://github.com/PostHog/posthog/blob/cfa94ebee3d1d4b113ad93cf1cfadc765fe7653f/plugin-server/src/utils/utils.ts#L385
+      value: 'true'
+  events:
+    resources:
+      requests:
+        cpu: 5m
+        memory: 400Mi
+      limits:
+        memory: 800Mi
+    topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: topology.kubernetes.io/zone
+      whenUnsatisfiable: DoNotSchedule
+      labelSelector:
+        matchLabels:
+          role: events
+  web:
+    resources:
+      requests:
+        cpu: 10m
+        memory: 500Mi
+      limits:
+        memory: 1Gi
+    topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: topology.kubernetes.io/zone
+      whenUnsatisfiable: DoNotSchedule
+      labelSelector:
+        matchLabels:
+          role: web
+    livenessProbe:
+      initialDelaySeconds: 10
+    readinessProbe:
+      initialDelaySeconds: 20
+    startupProbe:
+        initialDelaySeconds: 15
+  worker:
+    resources:
+      requests:
+        cpu: 10m
+        memory: 500Mi
+      limits:
+        memory: 1Gi
+    topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: topology.kubernetes.io/zone
+      whenUnsatisfiable: DoNotSchedule
+      labelSelector:
+        matchLabels:
+          role: worker
+  postgresql:
+    enabled: false
+  externalPostgresql:
+    postgresqlHost: plural-postgres-posthog-pooler
+    postgresqlPort: 5432
+    postgresqlDatabase: posthog
+    postgresqlUsername: posthog
+    existingSecret: posthog.plural-postgres-posthog.credentials.postgresql.acid.zalan.do
+    existingSecretPasswordKey: password
+    usingPgbouncer: true
+    mode: require
+  pgbouncer:
+    enabled: false
+    env:
+    - name: PGBOUNCER_PORT
+      value: "6543"
+    - name: PGBOUNCER_MAX_CLIENT_CONN
+      value: "1000"
+    - name: PGBOUNCER_POOL_MODE
+      value: transaction
+    - name: PGBOUNCER_IGNORE_STARTUP_PARAMETERS
+      value: extra_float_digits
+    - name: PGBOUNCER_SERVER_TLS_SSLMODE
+      value: require
+  redis:
+    enabled: false
+  externalRedis:
+    host: redis-master.redis
+    port: 6379
+    password: ""
+  clickhouse:
+    enabled: false
+  externalClickhouse:
+    # -- Host of the external cluster. This is required when clickhouse.enabled is false
+    host: service-posthog-clickhouse-posthog
+    # -- Name of the external cluster to run DDL queries on. This is required when clickhouse.enabled is false
+    cluster: posthog
+    # -- Database name for the external cluster
+    database: posthog
+    # -- User name for the external cluster to connect to the external cluster as
+    user: admin
+    # -- Password for the cluster. Ignored if existingClickhouse.existingSecret is set
+    password: ""
+    # -- Clickhouse existing secret name that needs to be in the namespace where
+    # posthog is deployed into. Will not use the above password value if set
+    existingSecret: plural-posthog-clickhouse-password
+    # -- Key in the existingSecret containing the password value
+    existingSecretPasswordKey: clickhousePassword
+    # -- Whether to use TLS connection connecting to ClickHouse
+    secure: false
+    # -- Whether to verify TLS connection connecting to ClickHouse
+    verify: false
+  externalObjectStorage:
+    # -- Endpoint of the external object storage. e.g. https://s3.us-east-1.amazonaws.com
+    endpoint: 
+    # -- Bucket name to use.
+    bucket:
+    # -- Name of an existing Kubernetes secret object containing the `access_key_id` and `secret_access_key`. The secret has to contain the keys `root-user` and `root-password`).
+    existingSecret: posthog-aws-s3-creds
+  kafka:
+    enabled: false
+  externalKafka:
+  # - External Kafka brokers. Ignored if `kafka.enabled` is set to `true`. Multiple brokers can be provided as array/list.
+    brokers:
+    - kafka-kafka-brokers.kafka.svc:9092
+  zookeeper:
+    enabled: false
+  busybox:
+    image: gcr.io/pluralsh/library/busybox:1.35.0
+  ingress:
+    enabled: true
+    type: nginx
+    letsencrypt: false
+    annotations:
+      kubernetes.io/tls-acme: "true"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+    secretName: posthog-ingress-tls
+  prometheus-statsd-exporter:
+    enabled: true
+    image:
+      repository: dkr.plural.sh/posthog/prom/statsd-exporter
+      tag: v0.23.0
+    serviceMonitor:
+      enabled: true
+      namespace: ''
+
+secrets:
+  clickhousePassword: CHAMGE_ME
+  slack:
+    enabled: false
+    clientID: ""
+    clientSecret: ""
+    signingSecret: ""
+
+clickhouse:
+  enabled: true
+  # -- Clickhouse cluster
+  cluster: posthog
+  # -- Clickhouse database
+  database: posthog
+  # -- Clickhouse user
+  user: admin
+  # -- Clickhouse password
+  password: CHAMGE_ME
+  # -- Clickhouse existing secret name that needs to be in the namespace where
+  # posthog is deployed into. Will not use the above password value if set
+  existingSecret: ""
+  # -- Key in the existingSecret containing the password value
+  existingSecretPasswordKey: ""
+  # -- Whether to use TLS connection connecting to ClickHouse
+  secure: false
+  # -- Whether to verify TLS certificate on connection to ClickHouse
+  verify: false
+  # -- List of external Zookeeper servers to use.
+  externalZookeeper:
+    servers:
+    - host: service-posthog-clickhouse-0-0
+      port: 9181
+    - host: service-posthog-clickhouse-0-1
+      port: 9181
+    - host: service-posthog-clickhouse-0-2
+      port: 9181
+
+  image:
+    # -- ClickHouse image repository.
+    repository: dkr.plural.sh/clickhouse/clickhouse/clickhouse-server
+    # -- ClickHouse image tag. Note: PostHog does not support all versions of ClickHouse. Please override the default only if you know what you are doing.
+    tag: "22.8.11.15"
+    # -- Image pull policy
+    pullPolicy: IfNotPresent
+    ## Optionally specify an array of imagePullSecrets.
+    ## Secrets must be manually created in the namespace.
+    ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+    ## Example:
+    ## pullSecrets:
+    ##   - myRegistryKeySecretName
+    ##
+    pullSecrets: []
+
+  # -- Toleration labels for clickhouse pod assignment
+  tolerations: []
+  # -- Affinity settings for clickhouse pod
+  affinity: {}
+  # -- Clickhouse resource requests/limits. See more at http://kubernetes.io/docs/user-guide/compute-resources/
+  resources:
+    requests:
+      cpu: 150m
+      memory: 300Mi
+    limits:
+      cpu: 500m
+      memory: 1Gi
+  securityContext:
+    enabled: true
+    runAsUser: 101
+    runAsGroup: 101
+    fsGroup: 101
+
+  # -- Kubernetes Service type.
+  serviceType: ClusterIP
+
+  # -- An allowlist of IP addresses or network masks the ClickHouse user is
+  # allowed to access from. By default anything within a private network will be
+  # allowed. This should suffice for most use case although to expose to other
+  # networks you will need to update this setting.
+  #
+  # For more details on usage, see https://posthog.com/docs/self-host/deploy/configuration#securing-clickhouse
+  allowedNetworkIps:
+    - "10.0.0.0/8"
+    - "172.16.0.0/12"
+    - "192.168.0.0/16"
+
+  persistence:
+    # -- Enable data persistence using PVC.
+    enabled: true
+
+    # -- Use a manually managed Persistent Volume and Claim.
+    #    If defined, PVC must be created manually before volume will be bound.
+    #
+    existingClaim: ""
+
+    # -- Persistent Volume Storage Class to use.
+    #    If defined, `storageClassName: <storageClass>`.
+    #    If set to `storageClassName: ""`, disables dynamic provisioning.
+    #    If undefined (the default) or set to `null`, no storageClassName spec is
+    #    set, choosing the default provisioner.
+    #
+    storageClass: null
+
+    # -- Persistent Volume size
+    size: 20Gi
+
+  ## -- Clickhouse user profile configuration.
+  ## You can use this to override profile settings, for example `default/max_memory_usage: 40000000000`
+  ## For the full list of settings, see:
+  ## - https://clickhouse.com/docs/en/operations/settings/settings-profiles/
+  ## - https://clickhouse.com/docs/en/operations/settings/settings/
+  profiles: {}
+
+  ## -- Default user profile configuration for Clickhouse. !!! Please DO NOT override this !!!
+  defaultProfiles:
+    default/allow_experimental_window_functions: "1"
+    default/allow_nondeterministic_mutations: "1"
+
+
+  ## -- Clickhouse cluster layout. (Experimental, use at own risk)
+  ## For a full list of options, see https://github.com/Altinity/clickhouse-operator/blob/master/docs/custom_resource_explained.md
+  ## section on clusters and layouts.
+  layout:
+    shardsCount: 1
+    replicasCount: 3
+    shards:
+      - files:
+          keeper_config.xml: |
+            <clickhouse>
+                <include_from>/tmp/clickhouse-keeper/config.d/generated-keeper-settings.xml</include_from>
+                <keeper_server incl="keeper_server">
+                    <path>/var/lib/clickhouse-keeper</path>
+                    <tcp_port>9181</tcp_port>
+                    <four_letter_word_white_list>*</four_letter_word_white_list>
+                    <coordination_settings>
+                        <!-- <raft_logs_level>trace</raft_logs_level> -->
+                        <raft_logs_level>information</raft_logs_level>
+                    </coordination_settings>
+                </keeper_server>
+            </clickhouse>
+        replicas:
+          - templates:
+              podTemplate: pod-template-clickhouse-keeper
+              replicaServiceTemplate: replica-service-template-clickhouse-keeper
+          - templates:
+              podTemplate: pod-template-clickhouse-keeper
+              replicaServiceTemplate: replica-service-template-clickhouse-keeper
+          - templates:
+              podTemplate: pod-template-clickhouse-keeper
+              replicaServiceTemplate: replica-service-template-clickhouse-keeper
+
+  ## -- ClickHouse settings configuration.
+  ## You can use this to override settings, for example `prometheus/port: 9363`
+  ## For the full list of settings, see:
+  ## - https://clickhouse.com/docs/en/operations/settings/settings/
+  settings: {}
+    # Uncomment those lines if you want to enable the built-in Prometheus HTTP endpoint in ClickHouse.
+    # prometheus/endpoint: /metrics
+    # prometheus/port: 9363
+    # prometheus/metrics: true
+    # prometheus/events: true
+    # prometheus/asynchronous_metrics: true
+
+  ## -- Default settings configuration for ClickHouse. !!! Please DO NOT override this !!!
+  defaultSettings:
+    default_database: "posthog"
+    format_schema_path: /etc/clickhouse-server/config.d/
+
+  ## -- specify additional user configs for ClickHouse. This will be added to
+  ## the users.xml configuration. See
+  ## https://github.com/Altinity/clickhouse-operator for details.
+  additionalUsersConfig:
+
+  ## -- ClickHouse pod(s) annotation.
+  podAnnotations:
+    # Uncomment those lines if you want Prometheus server to scrape ClickHouse pods metrics.
+    # prometheus.io/scrape: "true"
+    # prometheus.io/path: /metrics
+    # prometheus.io/port: "9363"
+
+  ## -- Clickhouse pod distribution.
+  podDistribution:
+    # Uncomment to have replicas of each shard reside on different hosts.
+  - scope: Shard
+    type: ShardAntiAffinity
+    topologyKey: kubernetes.io/hostname
+
+  ## -- Clickhouse pod topology spread constraint.
+  topologySpreadConstraints:
+  # spread the pods of this clickhouse installation across availability zones
+  - maxSkew: 1
+    topologyKey: topology.kubernetes.io/zone
+    whenUnsatisfiable: DoNotSchedule
+    labelSelector:
+      matchExpressions:
+      - key: clickhouse.altinity.com/chi
+        operator: In
+        values:
+        - posthog-clickhouse
+      # - key: clickhouse.altinity.com/shard
+      # - key: clickhouse.altinity.com/chi=posthog-clickhouse
+      #   operator
+      # matchLabels:
+      #   app.kubernetes.io/name: plural-api
+      #   app.kubernetes.io/instance: plural
+
+  client:
+    image:
+      # -- ClickHouse image repository.
+      repository: dkr.plural.sh/clickhouse/clickhouse/clickhouse-server
+      # -- ClickHouse image tag. Note: PostHog does not support all versions of ClickHouse. Please override the default only if you know what you are doing.
+      tag: "22.8.11.15"
+      # -- Image pull policy
+      pullPolicy: IfNotPresent
+      ## Optionally specify an array of imagePullSecrets.
+      ## Secrets must be manually created in the namespace.
+      ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+      ## Example:
+      ## pullSecrets:
+      ##   - myRegistryKeySecretName
+      ##
+      pullSecrets: []
+
+  backup:
+    # https://posthog.com/docs/self-host/runbook/clickhouse/backup
+    # https://github.com/AlexAkulov/clickhouse-backup
+    enabled: false
+    image:
+      # -- Clickhouse backup image repository.
+      repository: dkr.plural.sh/clickhouse/altinity/clickhouse-backup
+      # -- ClickHouse backup image tag.
+      tag: "1.5.0"
+      # -- Image pull policy
+      pullPolicy: IfNotPresent
+      ## Optionally specify an array of imagePullSecrets.
+      ## Secrets must be manually created in the namespace.
+      ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+      ## Example:
+      ## pullSecrets:
+      ##   - myRegistryKeySecretName
+      ##
+      pullSecrets: []
+
+    backup_user: backup
+    # password in plain text because it's using in cronjob
+    backup_password: backup_password
+    # -- Use an existing secret name in the deployed namespace for the backup
+    # password
+    existingSecret: ""
+    # -- Key in the existingSecret containing the password value
+    existingSecretPasswordKey: ""
+    backup_schedule: "0 0 * * *" # backup every day at 0:00
+    clickhouse_services: "chi-posthog-posthog-0-0" # use first replica in each shard, use `kubectl get svc | grep chi-posthog-posthog`
+
+    # All options: https://github.com/AlexAkulov/clickhouse-backup#default-config
+    env:
+      - name: LOG_LEVEL
+        value: "debug"
+      - name: ALLOW_EMPTY_BACKUPS
+        value: "true"
+      - name: API_LISTEN
+        value: "0.0.0.0:7171"
+      # INSERT INTO system.backup_actions to execute backup
+      - name: API_CREATE_INTEGRATION_TABLES
+        value: "true"
+      - name: BACKUPS_TO_KEEP_REMOTE
+        value: "0"
+      # Add settings for remote backup storage.
+
+postgres:
+  team: plural
+  user: posthog
+  dbName: posthog
+  ownerChart: posthog
+  enableConnectionPooler: true

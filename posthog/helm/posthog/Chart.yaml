@@ -1,0 +1,13 @@
+apiVersion: v2
+name: posthog
+description: helm chart for posthog
+type: application
+version: 0.1.9
+appVersion: "1.43.0"
+dependencies:
+- name: posthog
+  version: 30.3.6
+  repository: https://pluralsh.github.io/plural-helm-charts
+- name: postgres
+  version: 0.1.16
+  repository: https://pluralsh.github.io/module-library

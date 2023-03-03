@@ -1,0 +1,239 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Runbook
+metadata:
+  name: posthog-scaling
+  labels:
+    platform.plural.sh/pinned: 'true'
+    {{- include "posthog-plural.labels" . | nindent 4 }}
+spec:
+  name: PostHog Scaling
+  description: overview of how to scale your posthog deployment
+  display: |-
+{{ .Files.Get "runbooks/posthog-scaling.xml" | indent 4 }}
+  datasources:
+  - name: events-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ template "posthog.fullname" .Subcharts.posthog }}-events-.*"}[5m])) by (pod)
+  - name: events-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "posthog.fullname" .Subcharts.posthog }}-events-.*"}) by (pod)
+  - name: plugins-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ template "posthog.fullname" .Subcharts.posthog }}-plugins-.*"}[5m])) by (pod)
+  - name: plugins-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "posthog.fullname" .Subcharts.posthog }}-plugins-.*"}) by (pod)
+  - name: web-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ template "posthog.fullname" .Subcharts.posthog }}-web-.*"}[5m])) by (pod)
+  - name: web-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "posthog.fullname" .Subcharts.posthog }}-web-.*"}) by (pod)
+  - name: worker-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ template "posthog.fullname" .Subcharts.posthog }}-worker-.*"}[5m])) by (pod)
+  - name: worker-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "posthog.fullname" .Subcharts.posthog }}-worker-.*"}) by (pod)
+  - name: events
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: {{ template "posthog.fullname" .Subcharts.posthog }}-events
+  - name: plugins
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name:  {{ template "posthog.fullname" .Subcharts.posthog }}-plugins
+  - name: web
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: {{ template "posthog.fullname" .Subcharts.posthog }}-web
+  - name: worker
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: {{ template "posthog.fullname" .Subcharts.posthog }}-worker
+  actions:
+  - name: scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+      - path: 
+        - posthog
+        - posthog
+        - events
+        - resources
+        - requests
+        - cpu
+        valueFrom: events-cpu
+      - path:
+        - posthog
+        - posthog
+        - events
+        - resources
+        - requests
+        - memory
+        valueFrom: events-memory
+      - path: 
+        - posthog
+        - posthog
+        - events
+        - resources
+        - limits
+        - cpu
+        valueFrom: events-cpu-limit
+      - path:
+        - posthog
+        - posthog
+        - events
+        - resources
+        - limits
+        - memory
+        valueFrom: events-memory-limit
+      - path:
+        - posthog
+        - posthog
+        - events
+        - replicacount
+        valueFrom: events-replicas
+      - path: 
+        - posthog
+        - posthog
+        - plugins
+        - resources
+        - requests
+        - cpu
+        valueFrom: plugins-cpu
+      - path:
+        - posthog
+        - posthog
+        - plugins
+        - resources
+        - requests
+        - memory
+        valueFrom: plugins-memory
+      - path: 
+        - posthog
+        - posthog
+        - plugins
+        - resources
+        - limits
+        - cpu
+        valueFrom: plugins-cpu-limit
+      - path:
+        - posthog
+        - posthog
+        - plugins
+        - resources
+        - limits
+        - memory
+        valueFrom: plugins-memory-limit
+      - path:
+        - posthog
+        - posthog
+        - plugins
+        - replicacount
+        valueFrom: plugins-replicas
+      - path: 
+        - posthog
+        - posthog
+        - web
+        - resources
+        - requests
+        - cpu
+        valueFrom: web-cpu
+      - path:
+        - posthog
+        - posthog
+        - web
+        - resources
+        - requests
+        - memory
+        valueFrom: web-memory
+      - path: 
+        - posthog
+        - posthog
+        - web
+        - resources
+        - limits
+        - cpu
+        valueFrom: web-cpu-limit
+      - path:
+        - posthog
+        - posthog
+        - web
+        - resources
+        - limits
+        - memory
+        valueFrom: web-memory-limit
+      - path:
+        - posthog
+        - posthog
+        - web
+        - replicacount
+        valueFrom: web-replicas
+      - path: 
+        - posthog
+        - posthog
+        - worker
+        - resources
+        - requests
+        - cpu
+        valueFrom: worker-cpu
+      - path:
+        - posthog
+        - posthog
+        - worker
+        - resources
+        - requests
+        - memory
+        valueFrom: worker-memory
+      - path: 
+        - posthog
+        - posthog
+        - worker
+        - resources
+        - limits
+        - cpu
+        valueFrom: worker-cpu-limit
+      - path:
+        - posthog
+        - posthog
+        - worker
+        - resources
+        - limits
+        - memory
+        valueFrom: worker-memory-limit
+      - path:
+        - posthog
+        - posthog
+        - worker
+        - replicacount
+        valueFrom: worker-replicas

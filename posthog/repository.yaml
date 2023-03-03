@@ -1,0 +1,9 @@
+name: posthog
+description: The all-in-one platform for building better products.
+category: DATA
+icon: plural/icons/posthog.png
+notes: plural/notes.tpl
+gitUrl: https://github.com/PostHog/posthog
+homepage: https://posthog.com/
+tags:
+- tag: analytics
