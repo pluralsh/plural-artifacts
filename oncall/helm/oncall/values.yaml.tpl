@@ -14,6 +14,8 @@ rabbitmq:
 
 oncall:
   base_url: {{ .Values.hostname }}
+  externalGrafana:
+    url: https://{{ .Configuration.grafana.hostname }}
   ingress:
     enabled: true
     tls: 
