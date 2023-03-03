@@ -13,18 +13,18 @@ dependencies:
   version: 9.21.0
 - name: aws-load-balancer-controller
   repository: https://aws.github.io/eks-charts
-  version: 1.4.6
+  version: 1.4.8
 - name: aws-ebs-csi-driver
   repository: https://kubernetes-sigs.github.io/aws-ebs-csi-driver
-  version: 2.6.2
+  version: 2.17.1
 - name: snapshot-validation-webhook
   repository: https://piraeus.io/helm-charts/
-  version: 1.2.1
+  version: 1.7.1
 - name: snapshot-controller
   repository: https://piraeus.io/helm-charts/
-  version: 1.2.1
+  version: 1.7.2
 - name: tigera-operator
   repository: https://docs.projectcalico.org/charts
   version: v3.21.3
-digest: sha256:02eb7c03faeeff0fff9dc0608a1a510279613bd97c12c78d5da1d82c772e0719
-generated: "2022-12-28T12:21:07.207582+01:00"
+digest: sha256:5abae3d0f784453729c6b5b4ed809498a841d3e71a3bc8d926cc9b2409afcbb5
+generated: "2023-03-03T14:33:30.616069+01:00"

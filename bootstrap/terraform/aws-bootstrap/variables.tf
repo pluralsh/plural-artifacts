@@ -45,7 +45,7 @@ variable "core_dns_addon_version" {
 
 variable "kube_proxy_addon_version" {
   type = string
-  default = "v1.22.16-eksbuild.3"
+  default = "v1.23.15-eksbuild.1"
   description = "The version of the kube-proxy addon to use"
 }
 

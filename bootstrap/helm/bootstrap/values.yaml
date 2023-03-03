@@ -62,12 +62,15 @@ autoscaling:
 
 aws-load-balancer-controller:
   enabled: false
+  image:
+    repository: public.ecr.aws/eks/aws-load-balancer-controller # TODO: this should be migrated to our vendored images
+    tag: v2.4.7
 
 snapshot-validation-webhook:
   enabled: false
   image:
-    repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/snapshot-validation-webhook
-    tag: v4.2.1
+    repository: gcr.io/pluralsh/sig-storage/snapshot-validation-webhook
+    tag: v6.2.1
   resources:
     requests:
       cpu: 10m
@@ -76,8 +79,8 @@ snapshot-validation-webhook:
 snapshot-controller:
   enabled: false
   image:
-    repository: gcr.io/pluralsh/k8s.gcr.io/sig-storage/snapshot-controller
-    tag: v4.2.1
+    repository: gcr.io/pluralsh/sig-storage/snapshot-controller
+    tag: v6.2.1
   resources:
     requests:
       cpu: 10m
@@ -85,6 +88,10 @@ snapshot-controller:
 
 aws-ebs-csi-driver:
   enabled: false
+  useOldCSIDriver: true # TODO: this should actually be false for new deployments
+  image:
+    repository: public.ecr.aws/ebs-csi-driver/aws-ebs-csi-driver # TODO: this should be migrated to our vendored images
+    tag: v1.16.1
   storageClasses:
     - name: ebs-csi
       annotations:
@@ -96,7 +103,7 @@ aws-ebs-csi-driver:
       allowVolumeExpansion: true
   node:
     tolerateAllTaints: true
-  controller:
+  controller: # TODO: these should be migrated to our vendored images
     resources:
       requests:
         cpu: 10m
