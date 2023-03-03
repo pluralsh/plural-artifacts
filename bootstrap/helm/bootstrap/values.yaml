@@ -145,12 +145,17 @@ tigera-operator:
   tigeraOperator:
     image: pluralsh/tigera/operator
     registry: gcr.io
-    version: v1.23.4
+    version: v1.29.0
   installation:
     registry: gcr.io/pluralsh/
+    controlPlaneTolerations:
+    - operator: Exists
+      effect: NoSchedule
+    - operator: Exists
+      effect: NoExecute
   calioctl:
     image: gcr.io/pluralsh/calico/ctl
-    tag: v3.21.3
+    tag: v3.25.0
 
 cert-manager:
   enabled: true
