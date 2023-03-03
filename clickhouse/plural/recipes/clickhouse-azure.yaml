@@ -1,0 +1,14 @@
+name: clickhouse-azure
+description: Installs clickhouse on an aws eks cluster
+provider: AZURE
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+sections:
+- name: clickhouse
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: clickhouse
