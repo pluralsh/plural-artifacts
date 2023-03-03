@@ -142,6 +142,15 @@ aws-ebs-csi-driver:
 
 tigera-operator:
   enabled: false
+  tigeraOperator:
+    image: pluralsh/tigera/operator
+    registry: gcr.io
+    version: v1.23.4
+  installation:
+    registry: gcr.io/pluralsh/
+  calioctl:
+    image: gcr.io/pluralsh/calico/ctl
+    tag: v3.21.3
 
 cert-manager:
   enabled: true

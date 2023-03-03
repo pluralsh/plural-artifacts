@@ -24,7 +24,7 @@ dependencies:
   repository: https://piraeus.io/helm-charts/
   version: 1.7.2
 - name: tigera-operator
-  repository: https://docs.projectcalico.org/charts
+  repository: https://docs.tigera.io/calico/charts
   version: v3.21.3
-digest: sha256:5abae3d0f784453729c6b5b4ed809498a841d3e71a3bc8d926cc9b2409afcbb5
-generated: "2023-03-03T14:33:30.616069+01:00"
+digest: sha256:0c6ac11c32a0bd527a361bf7a0b12c9846c7395530ee4bd4d679ca3e5a4524e3
+generated: "2023-03-03T14:49:22.025112+01:00"
