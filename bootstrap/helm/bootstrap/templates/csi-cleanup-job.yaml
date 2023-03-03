@@ -1,0 +1,65 @@
+{{- if index .Values "aws-ebs-csi-driver" "enabled" -}}
+# TODO: remove this job and push a new version
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ebs-csi-upgrade-cleanup
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-weight": "3"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      name: ebs-csi-upgrade-cleanup
+    spec:
+      serviceAccountName: ebs-csi-upgrade-cealnup-job
+      containers:
+        - name: kubectl
+          image: bitnami/kubectl
+          imagePullPolicy: "IfNotPresent"
+          command:
+          - /bin/sh
+          - -c
+          - kubectl delete csidriver ebs.csi.aws.com
+      restartPolicy: OnFailure
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ebs-csi-upgrade-cealnup-job
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-weight": "3"
+    "helm.sh/hook-delete-policy": hook-succeeded
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: ebs-csi-upgrade-cealnup-job
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-weight": "3"
+    "helm.sh/hook-delete-policy": hook-succeeded
+rules:
+- apiGroups: ["storage.k8s.io"]
+  resources: ["csidrivers"]
+  verbs: ["delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: ebs-csi-upgrade-cealnup-job
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-weight": "3"
+    "helm.sh/hook-delete-policy": hook-succeeded
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: ebs-csi-upgrade-cealnup-job
+subjects:
+- kind: ServiceAccount
+  name: ebs-csi-upgrade-cealnup-job
+  namespace: {{ .Release.Namespace }}
+{{- end -}}

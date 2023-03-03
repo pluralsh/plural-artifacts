@@ -129,6 +129,21 @@
       "additionalBranchPrefix": ""
     },
     {
+      "description": "Group bytebase Helm updates",
+      "matchPaths": [
+        "bytebase"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "bytebase",
+      "additionalBranchPrefix": ""
+    },
+    {
       "description": "Group calendso Helm updates",
       "matchPaths": [
         "calendso"
@@ -159,6 +174,21 @@
       "additionalBranchPrefix": ""
     },
     {
+      "description": "Group clickhouse Helm updates",
+      "matchPaths": [
+        "clickhouse"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "clickhouse",
+      "additionalBranchPrefix": ""
+    },
+    {
       "description": "Group crossplane Helm updates",
       "matchPaths": [
         "crossplane"
@@ -171,6 +201,21 @@
         "helmv3"
       ],
       "groupName": "crossplane",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group dagster-agent Helm updates",
+      "matchPaths": [
+        "dagster-agent"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "dagster-agent",
       "additionalBranchPrefix": ""
     },
     {
@@ -864,6 +909,51 @@
       "additionalBranchPrefix": ""
     },
     {
+      "description": "Group posthog Helm updates",
+      "matchPaths": [
+        "posthog"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "posthog",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group prefect-agent Helm updates",
+      "matchPaths": [
+        "prefect-agent"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "prefect-agent",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group prefect Helm updates",
+      "matchPaths": [
+        "prefect"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "prefect",
+      "additionalBranchPrefix": ""
+    },
+    {
       "description": "Group rabbitmq Helm updates",
       "matchPaths": [
         "rabbitmq"
@@ -936,6 +1026,36 @@
         "helmv3"
       ],
       "groupName": "reloader",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group renovate-on-prem Helm updates",
+      "matchPaths": [
+        "renovate-on-prem"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "renovate-on-prem",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group retool Helm updates",
+      "matchPaths": [
+        "retool"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "retool",
       "additionalBranchPrefix": ""
     },
     {

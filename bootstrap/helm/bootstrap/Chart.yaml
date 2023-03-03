@@ -10,7 +10,7 @@ maintainers:
   email: mguarino46@gmail.com
 - name: David van der Spek
   email: david@plural.sh
-version: 0.8.63
+version: 0.8.64
 dependencies:
 - name: external-dns
   version: 4.11.0
@@ -29,21 +29,21 @@ dependencies:
   repository: https://kubernetes.github.io/autoscaler
 - name: aws-load-balancer-controller
   condition: aws-load-balancer-controller.enabled
-  version: 1.4.6
+  version: 1.4.8
   repository: https://aws.github.io/eks-charts
 - name: aws-ebs-csi-driver
   condition: aws-ebs-csi-driver.enabled
-  version: 2.6.2
+  version: 2.17.1
   repository: https://kubernetes-sigs.github.io/aws-ebs-csi-driver
 - name: snapshot-validation-webhook
   condition: snapshot-validation-webhook.enabled
-  version: 1.2.1
+  version: 1.7.1
   repository: https://piraeus.io/helm-charts/
 - name: snapshot-controller
   condition: snapshot-controller.enabled
-  version: 1.2.1
+  version: 1.7.2
   repository: https://piraeus.io/helm-charts/
 - name: tigera-operator
-  version: v3.21.3
+  version: v3.25.0
   condition: tigera-operator.enabled
-  repository: https://docs.projectcalico.org/charts
+  repository: https://docs.tigera.io/calico/charts
