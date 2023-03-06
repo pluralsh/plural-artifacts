@@ -7,7 +7,7 @@ dependencies:
   version: 6.2.12
 - name: cert-manager
   repository: https://charts.jetstack.io
-  version: v1.8.2
+  version: v1.11.0
 - name: cluster-autoscaler
   repository: https://kubernetes.github.io/autoscaler
   version: 9.21.0
@@ -26,5 +26,5 @@ dependencies:
 - name: tigera-operator
   repository: https://docs.tigera.io/calico/charts
   version: v3.25.0
-digest: sha256:11770c73ff95e96ea030b8486c572c9bda05b0081a1abc2e7715d48d1bf65740
-generated: "2023-03-07T12:42:03.478715+01:00"
+digest: sha256:9fadb7f71f575b576de76284f7c5dd69afb2d8ac255a81ed89b6df70f1e4f7ec
+generated: "2023-03-07T14:01:50.023381724+01:00"
