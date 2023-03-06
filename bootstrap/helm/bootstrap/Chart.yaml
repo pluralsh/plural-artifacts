@@ -10,7 +10,7 @@ maintainers:
   email: mguarino46@gmail.com
 - name: David van der Spek
   email: david@plural.sh
-version: 0.8.64
+version: 0.8.65
 dependencies:
 - name: external-dns
   version: 4.11.0
@@ -20,7 +20,7 @@ dependencies:
   condition: metrics-server.enabled
   repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
 - name: cert-manager
-  version: v1.8.2
+  version: v1.11.0
   repository: https://charts.jetstack.io
   condition: cert-manager.enabled
 - name: cluster-autoscaler
