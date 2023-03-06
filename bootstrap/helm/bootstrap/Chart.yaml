@@ -20,7 +20,7 @@ dependencies:
   condition: metrics-server.enabled
   repository: https://charts.bitnami.com/bitnami
 - name: cert-manager
-  version: v1.8.2
+  version: v1.11.0
   repository: https://charts.jetstack.io
   condition: cert-manager.enabled
 - name: cluster-autoscaler
