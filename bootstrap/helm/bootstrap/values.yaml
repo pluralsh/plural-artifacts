@@ -11,7 +11,6 @@ external-dns:
     registry: dkr.plural.sh
     repository: bootstrap/external-dns/external-dns
     tag: v0.13.2
-    pullPolicy: Always
     pullSecrets:
     - plural-creds
   sources:
@@ -23,7 +22,7 @@ external-dns:
   rbac:
     create: true
     serviceAccountName: external-dns
-  extraEnv:
+  extraEnvVars:
   - name: PLURAL_ACCESS_TOKEN
     valueFrom:
       secretKeyRef:
