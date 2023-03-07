@@ -239,6 +239,18 @@ instances are launched.
 EOF
 }
 
+variable "enable_nat" {
+  type = bool
+  default = false
+  description = "whether to create a NAT gateway for external cluster traffic"
+}
+
+variable "num_static_ips" {
+  type = number
+  default = 1
+  description = "the number of external static ips to expose"
+}
+
 variable "kubernetes_version" {
   type = string
   default = "1.22.17-gke.4300"
