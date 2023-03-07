@@ -13,33 +13,34 @@ module "network" {
 }
 
 module "aks" {
-  source                           = "github.com/pluralsh/terraform-azurerm-aks?ref=ea5c22775e0352ef6fe7a9abe2d94306029b6a6e" # branch auto-scaler-profile
-  resource_group_name              = data.azurerm_resource_group.group.name
-  kubernetes_version               = var.kubernetes_version
-  orchestrator_version             = var.kubernetes_version
-  prefix                           = var.name
-  cluster_name                     = var.name
-  network_plugin                   = var.network_plugin
-  vnet_subnet_id                   = module.network.vnet_subnets[0]
-  os_disk_size_gb                  = var.node_groups[0].os_disk_size_gb
-  os_disk_type                     = var.node_groups[0].os_disk_type
-  enable_role_based_access_control = true
-  rbac_aad_enabled                 = false 
-  rbac_aad_managed                 = false
-  sku_tier                         = "Paid"
-  private_cluster_enabled          = var.private_cluster
-  enable_http_application_routing  = false
-  azure_policy_enabled             = false
-  admin_username                   = var.admin_username
-  enable_auto_scaling              = var.node_groups[0].enable_auto_scaling
-  agents_min_count                 = var.node_groups[0].min_count
-  agents_max_count                 = var.node_groups[0].max_count
-  agents_count                     = var.node_groups[0].node_count  # Please set `agents_count` `null` while `enable_auto_scaling` is `true` to avoid possible `agents_count` changes.
-  agents_max_pods                  = var.node_groups[0].max_pods
-  agents_pool_name                 = var.node_groups[0].name
-  agents_availability_zones        = var.node_groups[0].availability_zones
-  agents_type                      = "VirtualMachineScaleSets"
-  agents_size                      = var.node_groups[0].vm_size
+  source                            = "github.com/pluralsh/terraform-azurerm-aks?ref=c23027ddf0f20cbbffa2ec08c4b94864a9c88b07" # branch updated-march-7-2023
+  resource_group_name               = data.azurerm_resource_group.group.name
+  kubernetes_version                = var.kubernetes_version
+  orchestrator_version              = var.kubernetes_version
+  prefix                            = var.name
+  cluster_name                      = var.name
+  network_plugin                    = var.network_plugin
+  vnet_subnet_id                    = module.network.vnet_subnets[0]
+  os_disk_size_gb                   = var.node_groups[0].os_disk_size_gb
+  os_disk_type                      = var.node_groups[0].os_disk_type
+  role_based_access_control_enabled = true
+  rbac_aad                          = false
+  rbac_aad_managed                  = false
+  sku_tier                          = "Paid"
+  private_cluster_enabled           = var.private_cluster
+  http_application_routing_enabled  = false
+  azure_policy_enabled              = false
+  admin_username                    = var.admin_username
+  enable_auto_scaling               = var.node_groups[0].enable_auto_scaling
+  agents_min_count                  = var.node_groups[0].min_count
+  agents_max_count                  = var.node_groups[0].max_count
+  agents_count                      = var.node_groups[0].node_count  # Please set `agents_count` `null` while `enable_auto_scaling` is `true` to avoid possible `agents_count` changes.
+  agents_max_pods                   = var.node_groups[0].max_pods
+  agents_pool_name                  = var.node_groups[0].name
+  agents_availability_zones         = var.node_groups[0].availability_zones
+  agents_type                       = "VirtualMachineScaleSets"
+  agents_size                       = var.node_groups[0].vm_size
+  auto_scaler_profile_enabled       = var.auto_scaler_profile_enabled
 
   agents_labels = var.node_groups[0].node_labels
 
@@ -53,8 +54,9 @@ module "aks" {
   auto_scaler_profile_balance_similar_node_groups      = var.auto_scaler_profile_balance_similar_node_groups
   auto_scaler_profile_skip_nodes_with_local_storage    = var.auto_scaler_profile_skip_nodes_with_local_storage
   auto_scaler_profile_scale_down_utilization_threshold = var.auto_scaler_profile_scale_down_utilization_threshold
+  auto_scaler_profile_new_pod_scale_up_delay           = var.auto_scaler_profile_new_pod_scale_up_delay
 
-  enable_log_analytics_workspace = var.enable_aks_insights
+  log_analytics_workspace_enabled = var.enable_aks_insights
 
   depends_on = [module.network]
 }
@@ -109,7 +111,7 @@ resource "azurerm_role_assignment" "aks-network-identity-kubelet" {
 resource "azurerm_role_assignment" "aks-network-identity-ssi" {
   scope                = module.network.vnet_id
   role_definition_name = "Network Contributor"
-  principal_id         = module.aks.system_assigned_identity[0].principal_id
+  principal_id         = module.aks.cluster_identity.principal_id
 
   depends_on = [module.aks, module.network]
 }
