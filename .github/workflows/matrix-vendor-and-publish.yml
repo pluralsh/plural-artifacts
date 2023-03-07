@@ -137,7 +137,7 @@ jobs:
       uses: aws-actions/configure-aws-credentials@v1
       with:
         role-to-assume: arn:aws:iam::312272277431:role/github-actions/plural-artifacts-ecr
-        aws-region: us-east-2
+        aws-region: us-east-1
         role-session-name: PluralArtifacts
     - name: Login to Amazon ECR Public
       id: login-ecr-public
