@@ -29,7 +29,9 @@ data "aws_iam_policy_document" "efs_csi" {
     resources = ["*"]
     actions = [
       "elasticfilesystem:DescribeAccessPoints",
-      "elasticfilesystem:DescribeFileSystems"
+      "elasticfilesystem:DescribeFileSystems",
+      "elasticfilesystem:DescribeMountTargets",
+      "ec2:DescribeAvailabilityZones"
     ]
   }
 
