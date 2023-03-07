@@ -12,7 +12,7 @@ output "node_resource_group" {
 }
 
 output "cluster_name" {
-  value = module.aks.cluster_name
+  value = module.aks.aks_name
 }
 
 output "resource_group_name" {

@@ -599,6 +599,18 @@ variable "node_groups" {
   ]
 }
 
+variable "auto_scaler_profile_enabled" {
+  description = "Enable or Disable configuring the autoscaler profile."
+  type        = bool
+  default     = true
+}
+
+variable "auto_scaler_profile_new_pod_scale_up_delay" {
+  description = "For scenarios like burst/batch scale where you don't want CA to act before the kubernetes scheduler could schedule all the pods, you can tell CA to ignore unscheduled pods before they're a certain age. Defaults to `10s`."
+  type        = string
+  default     = "0s"
+}
+
 variable "auto_scaler_profile_balance_similar_node_groups" {
   description = "Enable or Disable the balance similar node groups."
   type        = bool
@@ -613,8 +625,8 @@ variable "auto_scaler_profile_skip_nodes_with_local_storage" {
 
 variable "auto_scaler_profile_scale_down_utilization_threshold" {
   description = "The threshold in % under which a node is considered for scale down."
-  type        = number
-  default     = 0.7
+  type        = string
+  default     = "0.7"
 }
 
 variable "enable_aks_insights" {
