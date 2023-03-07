@@ -3,8 +3,8 @@ dependencies:
   repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
   version: 4.11.0
 - name: metrics-server
-  repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
-  version: 5.8.7
+  repository: https://charts.bitnami.com/bitnami
+  version: 6.2.12
 - name: cert-manager
   repository: https://charts.jetstack.io
   version: v1.8.2
@@ -26,5 +26,5 @@ dependencies:
 - name: tigera-operator
   repository: https://docs.tigera.io/calico/charts
   version: v3.25.0
-digest: sha256:647b4c784f1856bebff40ad9a3d7baca18bceb92530a3b5a7eb4ef19e6938829
-generated: "2023-03-03T15:04:43.051671+01:00"
+digest: sha256:11770c73ff95e96ea030b8486c572c9bda05b0081a1abc2e7715d48d1bf65740
+generated: "2023-03-07T12:42:03.478715+01:00"

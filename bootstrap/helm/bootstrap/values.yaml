@@ -216,7 +216,8 @@ cluster-autoscaler:
 metrics-server:
   enabled: false
   image:
-    registry: gcr.io/pluralsh
-    tag: 0.4.4-debian-10-r0
+    registry: gcr.io
+    repository: pluralsh/bitnami/metrics-server
+    tag: 0.6.2
   apiService:
     create: true
