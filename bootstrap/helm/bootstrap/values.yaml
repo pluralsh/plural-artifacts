@@ -193,7 +193,7 @@ cluster-autoscaler:
   replicaCount: 2
   image:
     repository: gcr.io/pluralsh/autoscaling/cluster-autoscaler
-    tag: v1.23.0
+    tag: v1.25.0
   expanderPriorities: |
     10:
     - .*sustained-on-demand.*

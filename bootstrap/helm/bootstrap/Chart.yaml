@@ -10,7 +10,7 @@ maintainers:
   email: mguarino46@gmail.com
 - name: David van der Spek
   email: david@plural.sh
-version: 0.8.67
+version: 0.8.68
 dependencies:
 - name: external-dns
   version: 6.14.1
@@ -24,7 +24,7 @@ dependencies:
   repository: https://charts.jetstack.io
   condition: cert-manager.enabled
 - name: cluster-autoscaler
-  version: 9.21.0
+  version: 9.25.0
   condition: cluster-autoscaler.enabled
   repository: https://kubernetes.github.io/autoscaler
 - name: aws-load-balancer-controller
