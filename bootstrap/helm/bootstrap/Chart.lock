@@ -10,7 +10,7 @@ dependencies:
   version: v1.11.0
 - name: cluster-autoscaler
   repository: https://kubernetes.github.io/autoscaler
-  version: 9.21.0
+  version: 9.25.0
 - name: aws-load-balancer-controller
   repository: https://aws.github.io/eks-charts
   version: 1.4.8
@@ -26,5 +26,5 @@ dependencies:
 - name: tigera-operator
   repository: https://docs.tigera.io/calico/charts
   version: v3.25.0
-digest: sha256:796372e24103f385e406da9768c33ad745df01ad73a11eaafdc6089cb9cab043
-generated: "2023-03-07T14:12:47.028519+01:00"
+digest: sha256:1d124ca9acb4e93009dfeb4273d149d075616babbad1fe3e5bb6c88540b5f96d
+generated: "2023-03-07T15:21:37.729265+01:00"
