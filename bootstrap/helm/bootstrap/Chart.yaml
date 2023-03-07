@@ -10,11 +10,11 @@ maintainers:
   email: mguarino46@gmail.com
 - name: David van der Spek
   email: david@plural.sh
-version: 0.8.66
+version: 0.8.67
 dependencies:
 - name: external-dns
-  version: 4.11.0
-  repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+  version: 6.14.1
+  repository: https://charts.bitnami.com/bitnami
 - name: metrics-server
   version: 6.2.12
   condition: metrics-server.enabled
