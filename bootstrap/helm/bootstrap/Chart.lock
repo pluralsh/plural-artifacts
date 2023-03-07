@@ -1,7 +1,7 @@
 dependencies:
 - name: external-dns
-  repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
-  version: 4.11.0
+  repository: https://charts.bitnami.com/bitnami
+  version: 6.14.1
 - name: metrics-server
   repository: https://charts.bitnami.com/bitnami
   version: 6.2.12
@@ -26,5 +26,5 @@ dependencies:
 - name: tigera-operator
   repository: https://docs.tigera.io/calico/charts
   version: v3.25.0
-digest: sha256:9fadb7f71f575b576de76284f7c5dd69afb2d8ac255a81ed89b6df70f1e4f7ec
-generated: "2023-03-07T14:01:50.023381724+01:00"
+digest: sha256:796372e24103f385e406da9768c33ad745df01ad73a11eaafdc6089cb9cab043
+generated: "2023-03-07T14:12:47.028519+01:00"

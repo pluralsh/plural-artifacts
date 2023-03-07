@@ -13,8 +13,8 @@ maintainers:
 version: 0.8.66
 dependencies:
 - name: external-dns
-  version: 4.11.0
-  repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+  version: 6.14.1
+  repository: https://charts.bitnami.com/bitnami
 - name: metrics-server
   version: 6.2.12
   condition: metrics-server.enabled
