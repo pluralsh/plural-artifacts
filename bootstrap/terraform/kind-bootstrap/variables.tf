@@ -13,5 +13,5 @@ variable "namespace" {
 variable "kubernetes_version" {
   type        = string
   description = "Kubernetes version to use"
-  default     = "v1.21.10"
+  default     = "v1.23.13"
 }
