@@ -13,14 +13,7 @@ metadata:
 spec:
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
-      annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       labels:
-      {{- with .Values.podLabels }}
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
         {{- include "mlflow.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
