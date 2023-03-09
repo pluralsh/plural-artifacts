@@ -1,16 +1,16 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: batch/v1
+kind: Job
 metadata:
-  name: {{ include "mlflow.fullname" . }}
+  name: {{ include "mlflow.fullname" . }}-db-migration-job
   labels:
     {{- include "mlflow.labels" . | nindent 4 }}
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    helm.sh/hook: pre-upgrade
+    helm.sh/hook-weight: "-5"
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
 spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-  {{- end }}
-  selector:
-    matchLabels:
-      {{- include "mlflow.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -38,19 +38,10 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
           - mlflow
-          - server
-          args:
-          - --backend-store-uri
+          - db
+          - upgrade
           - $(BACKEND_STORE_URI)
-          - --default-artifact-root
-          - $(ARTIFACT_ROOT)
-          - --host
-          - "0.0.0.0"
-          - --port
-          - "5000"
           env:
-          - name: ARTIFACT_ROOT
-            value: {{ .Values.config.artifact.defaultArtifactRoot }}
           - name: POSTGRES_USERNAME
             valueFrom:
               secretKeyRef:
@@ -63,18 +54,6 @@ spec:
                 key: {{ .Values.config.database.credentials.passwordKey }}
           - name: BACKEND_STORE_URI
             value: postgresql://$(POSTGRES_USERNAME):$(POSTGRES_PASSWORD)@{{ .Values.config.database.host }}:{{ .Values.config.database.port }}/{{ .Values.config.database.dbname }}
-          ports:
-            - name: http
-              containerPort: 5000
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

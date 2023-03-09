@@ -1,3 +1,4 @@
+{{ $isGcp := or (eq .Provider "google") (eq .Provider "gcp") }}
 global:
   application:
     links:
@@ -41,10 +42,18 @@ ingress:
 config:
   artifact:
     defaultArtifactRoot: s3://{{ .Values.mlflow_bucket }}/
+{{- else if $isGcp }}
+config:
+  artifact:
+    defaultArtifactRoot: gs://{{ .Values.mlflow_bucket }}/
 {{- end }}
 
 {{- if eq .Provider "aws" }}
 serviceAccount:
   annotations:
     eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-mlflow"
+{{- end }}
+{{- if $isGcp }}
+serviceAccount:
+  create: false
 {{- end }}
