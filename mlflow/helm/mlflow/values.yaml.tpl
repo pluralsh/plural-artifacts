@@ -56,4 +56,5 @@ serviceAccount:
 {{- if $isGcp }}
 serviceAccount:
   create: false
+  name: mlflow
 {{- end }}
