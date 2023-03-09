@@ -2,7 +2,7 @@ apiVersion: v2
 name: gitlab
 description: A Helm chart for gitlab on plural
 type: application
-version: 0.5.11
+version: 0.5.12
 appVersion: 15.2.2
 dependencies:
 - name: gitlab

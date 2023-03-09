@@ -57,6 +57,12 @@ global:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-gitlab"
 
+{{ if eq .Provider "google" }}
+serviceAccount:
+  create: false
+  name: gitlab-runner
+{{ end }}
+
 {{ if .OIDC }}
 oidc:
   name: openid_connect

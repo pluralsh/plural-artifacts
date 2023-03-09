@@ -10,6 +10,29 @@ resource "kubernetes_namespace" "gitlab" {
   }
 }
 
+
+module "gitlab-workload-identity" {
+  source     = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
+  name       = "${var.cluster_name}-gitlab"
+  namespace  = var.namespace
+  project_id = var.project_id
+  use_existing_k8s_sa = true
+  annotate_k8s_sa = false
+  k8s_sa_name = "gitlab"
+  roles = []
+}
+
+module "gitlab-runner-workload-identity" {
+  source     = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
+  name       = "${var.cluster_name}-gitlab-runner"
+  namespace  = var.namespace
+  project_id = var.project_id
+  use_existing_k8s_sa = true
+  annotate_k8s_sa = false
+  k8s_sa_name = "gitlab-runner"
+  roles = []
+}
+
 resource "kubernetes_service_account" "gitlab" {
   metadata {
     name      = "gitlab"
@@ -38,228 +61,46 @@ resource "kubernetes_service_account" "gitlab_runner" {
   ]
 }
 
-resource "google_storage_bucket" "registry_bucket" {
-  name = var.registry_bucket
-  project = var.gcp_project_id
+module "gcs_buckets" {
+  source = "github.com/pluralsh/module-library//terraform/gcs-buckets"
+
+  project_id            = var.project_id
+  location              = var.bucket_location
+  bucket_names          = [
+    var.registry_bucket,
+    var.packages_bucket,
+    var.artifacts_bucket,
+    var.backups_bucket,
+    var.backups_tmp_bucket,
+    var.lfs_bucket,
+    var.terraform_bucket,
+  ]
+  service_account_email = module.gitlab-workload-identity.gcp_service_account_email
+}
+
+resource "google_storage_bucket" "runner-cache" {
+  name          = var.runner_cache_bucket
+  project       = var.project_id
+  location      = var.bucket_location
   force_destroy = true
-  location = var.bucket_location
-  
-  lifecycle {
-    ignore_changes = [
-      location,
-    ]
-  }
 }
 
-resource "google_storage_bucket" "packages_bucket" {
-  name = var.packages_bucket
-  project = var.gcp_project_id
-  force_destroy = true
-  location = var.bucket_location
-  
-  lifecycle {
-    ignore_changes = [
-      location,
-    ]
-  }
-}
-
-resource "google_storage_bucket" "artifacts_bucket" {
-  name = var.artifacts_bucket
-  project = var.gcp_project_id
-  force_destroy = true
-  location = var.bucket_location
-  
-  lifecycle {
-    ignore_changes = [
-      location,
-    ]
-  }
-}
-
-resource "google_storage_bucket" "backups_bucket" {
-  name = var.backups_bucket
-  project = var.gcp_project_id
-  force_destroy = true
-  location = var.bucket_location
-  
-  lifecycle {
-    ignore_changes = [
-      location,
-    ]
-  }
-}
-
-resource "google_storage_bucket" "backups_tmp_bucket" {
-  name = var.backups_tmp_bucket
-  project = var.gcp_project_id
-  force_destroy = true
-  location = var.bucket_location
-  
-  lifecycle {
-    ignore_changes = [
-      location,
-    ]
-  }
-}
-
-resource "google_storage_bucket" "lfs_bucket" {
-  name = var.lfs_bucket
-  project = var.gcp_project_id
-  force_destroy = true
-  location = var.bucket_location
-  
-  lifecycle {
-    ignore_changes = [
-      location,
-    ]
-  }
-}
-
-resource "google_storage_bucket" "runner_cache" {
-  name = var.runner_cache_bucket
-  project = var.gcp_project_id
-  force_destroy = true
-  location = var.bucket_location
-  
-  lifecycle {
-    ignore_changes = [
-      location,
-    ]
-  }
-}
-
-resource "google_storage_bucket" "terraform_bucket" {
-  name = var.terraform_bucket
-  project = var.gcp_project_id
-  force_destroy = true
-  location = var.bucket_location
-  
-  lifecycle {
-    ignore_changes = [
-      location,
-    ]
-  }
-}
-
-resource "google_storage_bucket_iam_member" "registry" {
-  bucket = google_storage_bucket.registry_bucket.name
+resource "google_storage_bucket_iam_member" "gitlab-access" {
+  bucket = google_storage_bucket.runner-cache.name
   role = "roles/storage.admin"
-  member = "serviceAccount:${module.gitlab-workflow-identity.gcp_service_account_email}"
+  member = "serviceAccount:${module.gitlab-workload-identity.gcp_service_account_email}"
 
   depends_on = [
-    google_storage_bucket.registry_bucket,
+    google_storage_bucket.runner-cache,
   ]
 }
 
-resource "google_storage_bucket_iam_member" "packages" {
-  bucket = google_storage_bucket.packages_bucket.name
+resource "google_storage_bucket_iam_member" "runner-access" {
+  bucket = google_storage_bucket.runner-cache.name
   role = "roles/storage.admin"
-  member = "serviceAccount:${module.gitlab-workflow-identity.gcp_service_account_email}"
+  member = "serviceAccount:${module.gitlab-runner-workload-identity.gcp_service_account_email}"
 
   depends_on = [
-    google_storage_bucket.packages_bucket,
+    google_storage_bucket.runner-cache,
   ]
-}
-
-resource "google_storage_bucket_iam_member" "artifacts" {
-  bucket = google_storage_bucket.artifacts_bucket.name
-  role = "roles/storage.admin"
-  member = "serviceAccount:${module.gitlab-workflow-identity.gcp_service_account_email}"
-
-  depends_on = [
-    google_storage_bucket.artifacts_bucket,
-  ]
-}
-
-resource "google_storage_bucket_iam_member" "backups" {
-  bucket = google_storage_bucket.backups_bucket.name
-  role = "roles/storage.admin"
-  member = "serviceAccount:${module.gitlab-workflow-identity.gcp_service_account_email}"
-
-  depends_on = [
-    google_storage_bucket.backups_bucket,
-  ]
-}
-
-resource "google_storage_bucket_iam_member" "backups_tmp" {
-  bucket = google_storage_bucket.backups_tmp_bucket.name
-  role = "roles/storage.admin"
-  member = "serviceAccount:${module.gitlab-workflow-identity.gcp_service_account_email}"
-
-  depends_on = [
-    google_storage_bucket.backups_tmp_bucket,
-  ]
-}
-
-resource "google_storage_bucket_iam_member" "lfs" {
-  bucket = google_storage_bucket.lfs_bucket.name
-  role = "roles/storage.admin"
-  member = "serviceAccount:${module.gitlab-workflow-identity.gcp_service_account_email}"
-
-  depends_on = [
-    google_storage_bucket.lfs_bucket,
-  ]
-}
-
-resource "google_storage_bucket_iam_member" "runner-gitlab" {
-  bucket = google_storage_bucket.runner_cache_bucket.name
-  role = "roles/storage.admin"
-  member = "serviceAccount:${module.gitlab-workflow-identity.gcp_service_account_email}"
-
-  depends_on = [
-    google_storage_bucket.runner_cache_bucket,
-  ]
-}
-
-resource "google_storage_bucket_iam_member" "tf-gitlab" {
-  bucket = google_storage_bucket.terraform_bucket.name
-  role = "roles/storage.admin"
-  member = "serviceAccount:${module.gitlab-workflow-identity.gcp_service_account_email}"
-
-  depends_on = [
-    google_storage_bucket.terraform_bucket,
-  ]
-}
-
-resource "google_storage_bucket_iam_member" "runner" {
-  bucket = google_storage_bucket.runner_cache_bucket.name
-  role = "roles/storage.admin"
-  member = "serviceAccount:${module.gitlab-runner-workflow-identity.gcp_service_account_email}"
-
-  depends_on = [
-    google_storage_bucket.runner_cache_bucket,
-  ]
-}
-
-resource "google_storage_bucket_iam_member" "terraform" {
-  bucket = google_storage_bucket.terraform_bucket.name
-  role = "roles/storage.admin"
-  member = "serviceAccount:${module.gitlab-runner-workflow-identity.gcp_service_account_email}"
-
-  depends_on = [
-    google_storage_bucket.terraform_bucket,
-  ]
-}
-
-module "gitlab-workload-identity" {
-  source     = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
-  name       = "${var.cluster_name}-gitlab"
-  namespace  = var.namespace
-  project_id = var.project_id
-  use_existing_k8s_sa = true
-  annotate_k8s_sa = false
-  k8s_sa_name = "gitlab"
-  roles = []
-}
-
-module "gitlab-runner-workload-identity" {
-  source     = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
-  name       = "${var.cluster_name}-gitlab-runner"
-  namespace  = var.namespace
-  project_id = var.project_id
-  use_existing_k8s_sa = true
-  annotate_k8s_sa = false
-  k8s_sa_name = "gitlab-runner"
-  roles = []
 }
