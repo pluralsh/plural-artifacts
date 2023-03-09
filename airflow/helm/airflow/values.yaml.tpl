@@ -22,14 +22,18 @@ exporter:
 {{ end }}
 
 {{ if not .Values.gitSyncDisabled }}
+{{- if and .Values.private_key (ne .Values.private_key "") }}
 sshConfig:
-{{ if .Values.hostname }}
+  enabled: true
   id_rsa: {{ ternary .Values.private_key (dedupe . "airflow.sshConfig.id_rsa" "") (hasKey .Values "private_key") | quote }}
   id_rsa_pub: {{ ternary .Values.public_key (dedupe . "airflow.sshConfig.id_rsa_pub" "") (hasKey .Values "public_key") | quote }}
-{{ else }}
-  id_rsa: example
-  id_rsa_pub: example
-{{ end }}
+{{- end }}
+{{- if and .Values.gitAccessToken (ne .Values.gitAccessToken "") }}
+httpConfig:
+  enabled: true
+  username: {{ .Values.gitUser }}
+  password: {{ .Values.gitAccessToken }}
+{{- end }}
 {{ end }}
 
 {{ if .Values.postgresqlDisabled }}
@@ -182,9 +186,15 @@ airflow:
       branch: {{ .Values.branchName }}
       revision: HEAD
       syncWait: 60
+      {{- if and .Values.private_key (ne .Values.private_key "") }}
       sshSecret: airflow-ssh-config
       sshSecretKey: id_rsa
       sshKnownHosts: {{ knownHosts | quote }}
+      {{- else if and .Values.gitAccessToken (ne .Values.gitAccessToken "") }}
+      httpSecret: airflow-git-http-config
+      httpSecretUsernameKey: username
+      httpSecretPasswordKey: password
+      {{- end }}
       {{ else }}
       enabled: false  
       {{ end }}

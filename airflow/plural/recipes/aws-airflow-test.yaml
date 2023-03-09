@@ -1,4 +1,4 @@
-name: airflow-aws
+name: airflow-aws-test
 description: Installs airflow on an EKS cluster
 provider: AWS
 restricted: true
