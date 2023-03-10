@@ -14,6 +14,6 @@ sections:
         documentation: the fully qualified domain name your sftpgo instance will be available at
     items:
       - type: TERRAFORM
-        name: gcp
+        name: kube
       - type: HELM
         name: sftpgo
