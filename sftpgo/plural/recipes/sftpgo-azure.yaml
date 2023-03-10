@@ -1,5 +1,5 @@
 name: sftpgo-azure
-description: Installs sftpgo on an aws eks cluster
+description: Installs sftpgo on an azure aks cluster
 provider: AZURE
 dependencies:
   - repo: bootstrap

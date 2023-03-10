@@ -1,11 +1,11 @@
-name: sftpgo-gcp
-description: Installs sftpgo on an gcp gke cluster
-provider: GCP
+name: sftpgo-kind
+description: Installs sftpgo on an kind k8s cluster
+provider: KIND
 dependencies:
   - repo: bootstrap
-    name: gcp-k8s
+    name: kind-k8s
   - repo: ingress-nginx
-    name: ingress-nginx-gcp
+    name: ingress-nginx-kind
 sections:
   - name: sftpgo
     configuration:
