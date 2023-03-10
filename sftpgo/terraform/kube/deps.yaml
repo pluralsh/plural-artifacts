@@ -20,5 +20,13 @@ spec:
     type: terraform
     version: '>= 0.1.1'
     optional: true
+  - name: kind-bootstrap
+    repo: bootstrap
+    type: terraform
+    version: '>= 0.1.1'
+    optional: true
   providers:
-  - kube
+  - aws
+  - azure
+  - gcp
+  - kind
