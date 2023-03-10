@@ -1,0 +1,10 @@
+name: sftpgo
+description: Fully featured and highly configurable SFTP server with optional HTTP/S, FTP/S and WebDAV support - S3, Google Cloud Storage, Azure Blob
+category: DATA
+private: true
+icon: plural/icons/sftpgo.png
+notes: plural/notes.tpl
+gitUrl: https://github.com/drakkan/sftpgo/
+tags:
+- tag: data-storage
+- tag: sftp

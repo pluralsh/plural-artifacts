@@ -1,0 +1,11 @@
+apiVersion: v2
+name: sftpgo
+description: helm chart for sftpgo
+type: application
+version: 0.1.0
+icon: https://raw.githubusercontent.com/drakkan/sftpgo/main/img/logo.png
+appVersion: 2.4.3
+dependencies:
+  - name: sftpgo
+    version: 0.14.2
+    repository: https://charts.sagikazarmark.dev
