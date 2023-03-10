@@ -1,5 +1,5 @@
 REPO sftpgo
-ATTRIBUTES Walkoss repository.yaml
+ATTRIBUTES Plural repository.yaml
 
 TF terraform/*
 HELM helm/*
