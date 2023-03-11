@@ -15,7 +15,7 @@ spec:
     type: terraform
     version: '>= 0.1.1'
     optional: true
-  - name: awgcps-bootstrap
+  - name: gcp-bootstrap
     repo: bootstrap
     type: terraform
     version: '>= 0.1.1'
