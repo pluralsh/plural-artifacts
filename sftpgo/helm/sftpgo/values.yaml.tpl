@@ -25,3 +25,8 @@ sftpgo:
       service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: '3600'
     {{ end }}
   {{ end }}
+{{ if eq .Provider "google" }}
+  service:
+    annotations:
+      iam.gke.io/gcp-service-account: {{ importValue "Terraform" "gcp_sa_workload_identity_email" }}
+{{ end }}
