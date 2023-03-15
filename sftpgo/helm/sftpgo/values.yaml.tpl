@@ -26,7 +26,7 @@ sftpgo:
     {{ end }}
   {{ end }}
 {{ if eq .Provider "google" }}
-  service:
+  serviceAccount:
     annotations:
       iam.gke.io/gcp-service-account: {{ importValue "Terraform" "gcp_sa_workload_identity_email" }}
 
