@@ -1,5 +1,5 @@
 apiVersion: v2
-name: cluster-api-core
+name: cluster-api-operator
 description: A Helm chart for Kubernetes
 type: application
 appVersion: "1.0"
