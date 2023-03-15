@@ -349,3 +349,8 @@ variable "cluster_zones" {
   description = "The zones to host the cluster in (optional if regional cluster / required if zonal)"
   default     = []
 }
+
+variable "cluster_labels" {
+  type = map(string)
+  default = {}
+}
