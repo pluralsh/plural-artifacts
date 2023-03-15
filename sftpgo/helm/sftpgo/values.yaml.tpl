@@ -29,4 +29,5 @@ sftpgo:
   service:
     annotations:
       iam.gke.io/gcp-service-account: {{ importValue "Terraform" "gcp_sa_workload_identity_email" }}
+
 {{ end }}

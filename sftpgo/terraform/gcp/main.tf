@@ -16,5 +16,5 @@ module "sftpgo-workload-identity" {
   use_existing_k8s_sa = true
   annotate_k8s_sa     = false
   k8s_sa_name         = "sftpgo"
-  roles               = ["roles/storage.admin"] # TODO: allow to add custom roles through a tf var, default to empty list
+  roles               = var.roles
 }

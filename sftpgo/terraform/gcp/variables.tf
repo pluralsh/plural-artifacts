@@ -13,3 +13,9 @@ variable "project_id" {
 The ID of the project in which the resources belong.
 EOF
 }
+
+variable "roles" {
+  type        = list(string)
+  description = "A list of roles to be added to the sftpgo workload identity service account"
+  default     = []
+}
