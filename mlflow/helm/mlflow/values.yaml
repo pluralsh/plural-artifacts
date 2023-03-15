@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: dkr.plural.sh/mlflow/tracking
+  repository: davidspek/mlflow-tracking
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: 1.30.0
+  tag: 1.30.0-gcs
 
 imagePullSecrets: []
 nameOverride: ""
