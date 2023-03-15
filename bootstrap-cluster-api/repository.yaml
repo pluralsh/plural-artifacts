@@ -1,0 +1,5 @@
+name: bootstrap-cluster-api
+description: Creates k8s cluster.
+icon: plural/icons/k8s.png
+category: DEVOPS
+private: true

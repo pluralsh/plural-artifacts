@@ -1,0 +1,11 @@
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  application: true
+  description: installs the needed dependencies for cluster setup
+spec:
+  dependencies:
+    - type: helm
+      name: cluster-api-operator
+      repo: bootstrap-cluster-api
+      version: '>= 0.1.0'

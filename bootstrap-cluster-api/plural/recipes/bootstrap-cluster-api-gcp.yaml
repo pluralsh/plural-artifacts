@@ -1,0 +1,15 @@
+name: bootstrap-cluster-api-aws
+description: Spin up GCP cluster using cluster API
+provider: GCP
+dependencies: []
+sections:
+  - name: bootstrap-cluster-api
+    configuration:
+      - name: clusterName
+        documentation: cluster name
+        type: STRING
+    items:
+      - type: HELM
+        name: cluster-api-operator
+      - type: HELM
+        name: cluster-api-install

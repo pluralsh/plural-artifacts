@@ -1,0 +1,6 @@
+components:
+  version: v1.3.5
+
+infrastructure:
+  provider: aws
+  version: v2.0.2

@@ -1,0 +1,15 @@
+name: bootstrap-cluster-api-aws
+description: Spin up Azure cluster using cluster API
+provider: AZURE
+dependencies: []
+sections:
+  - name: bootstrap-cluster-api
+    configuration:
+      - name: clusterName
+        documentation: cluster name
+        type: STRING
+    items:
+      - type: HELM
+        name: cluster-api-operator
+      - type: HELM
+        name: cluster-api-install
