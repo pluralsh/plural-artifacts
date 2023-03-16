@@ -26,9 +26,9 @@ tests:
   - name: private_key
     repo: airflow
     key: private_key
-  # - name: passphrase
-  #   repo: airflow
-  #   key: passphrase
+  - name: passphrase
+    repo: airflow
+    key: passphrase
   - name: url
     repo: airflow
     key: dagRepo
@@ -42,16 +42,19 @@ sections:
   - name: hostname
     documentation: Fully Qualified Domain Name to use for your airflow installation, eg airflow.topleveldomain.com if topleveldomain.com is the domain you inputed for dns_domain above.
     type: DOMAIN
-  - name: gitUser
-    documentation: git username for git sync to download the dag repo, eg your github username
-    type: STRING
   - name: dagRepo
     type: STRING
-    documentation: Git Repo url for storing dags, can be a ssh url like git@github.com:pluralsh/airflow-dags.git or https url like https://github.com/pluralsh/airflow-dags.git
+    documentation: Git Repo url for storing dags, can be either an https or ssh url
   - name: gitAccessToken
     documentation: github/gitlab access token to use for http git authentication
     type: STRING
-    optional: true
+    condition:
+      operation: PREFIX
+      field: dagRepo
+      value: https
+  - name: gitUser
+    documentation: git username for git sync to download the dag repo, eg your github username
+    type: STRING
     condition:
       operation: PREFIX
       field: dagRepo
@@ -60,7 +63,6 @@ sections:
     documentation: path to the private key to use for git authentication
     type: FILE
     default: ~/.ssh/id_rsa
-    optional: true
     condition:
       operation: NOT
       field: gitAccessToken
@@ -68,7 +70,6 @@ sections:
     documentation: path to the public key to use for git authentication
     type: FILE
     default: ~/.ssh/id_rsa.pub
-    optional: true
     condition:
       operation: NOT
       field: gitAccessToken
