@@ -48,16 +48,16 @@ sections:
   - name: dagRepo
     type: STRING
     documentation: Git Repo url for storing dags, can be either an https or ssh url
-  - name: gitAccessToken
-    documentation: github/gitlab access token to use for http git authentication
-    type: PASSWORD
+  - name: gitUser
+    documentation: git username for git sync to download the dag repo, eg your github username
+    type: STRING
     condition:
       operation: PREFIX
       field: dagRepo
       value: https
-  - name: gitUser
-    documentation: git username for git sync to download the dag repo, eg your github username
-    type: STRING
+  - name: gitAccessToken
+    documentation: github/gitlab access token to use for http git authentication
+    type: PASSWORD
     condition:
       operation: PREFIX
       field: dagRepo
@@ -66,13 +66,6 @@ sections:
     documentation: path to the private key to use for git authentication
     type: FILE
     default: ~/.ssh/id_rsa
-    condition:
-      operation: NOT
-      field: gitAccessToken
-  - name: public_key
-    documentation: path to the public key to use for git authentication
-    type: FILE
-    default: ~/.ssh/id_rsa.pub
     condition:
       operation: NOT
       field: gitAccessToken

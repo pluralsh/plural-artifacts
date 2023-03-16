@@ -66,13 +66,6 @@ sections:
     condition:
       operation: NOT
       field: gitAccessToken
-  - name: public_key
-    documentation: path to the public key to use for git authentication
-    type: FILE
-    default: ~/.ssh/id_rsa.pub
-    condition:
-      operation: NOT
-      field: gitAccessToken
   - name: passphrase
     documentation: passphrase to use for encrypted private keys (leave empty if not applicable)
     type: PASSWORD
