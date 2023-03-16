@@ -45,16 +45,16 @@ sections:
   - name: dagRepo
     type: STRING
     documentation: Git Repo url for storing dags, can be either an https or ssh url
-  - name: gitAccessToken
-    documentation: github/gitlab access token to use for http git authentication
+  - name: gitUser
+    documentation: git username for git sync to download the dag repo, eg your github username
     type: STRING
     condition:
       operation: PREFIX
       field: dagRepo
       value: https
-  - name: gitUser
-    documentation: git username for git sync to download the dag repo, eg your github username
-    type: STRING
+  - name: gitAccessToken
+    documentation: github/gitlab access token to use for http git authentication
+    type: PASSWORD
     condition:
       operation: PREFIX
       field: dagRepo

@@ -50,8 +50,7 @@ sections:
     documentation: Git Repo url for storing dags, can be either an https or ssh url
   - name: gitAccessToken
     documentation: github/gitlab access token to use for http git authentication
-    type: STRING
-    optional: true
+    type: PASSWORD
     condition:
       operation: PREFIX
       field: dagRepo
@@ -67,7 +66,6 @@ sections:
     documentation: path to the private key to use for git authentication
     type: FILE
     default: ~/.ssh/id_rsa
-    optional: true
     condition:
       operation: NOT
       field: gitAccessToken
@@ -75,7 +73,6 @@ sections:
     documentation: path to the public key to use for git authentication
     type: FILE
     default: ~/.ssh/id_rsa.pub
-    optional: true
     condition:
       operation: NOT
       field: gitAccessToken

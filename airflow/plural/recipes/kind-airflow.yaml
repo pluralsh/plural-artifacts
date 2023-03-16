@@ -59,9 +59,16 @@ sections:
   - name: adminEmail
     type: STRING
     documentation: The email for the admin
+  - name: gitUser
+    documentation: git username for git sync to download the dag repo, eg your github username
+    type: STRING
+    condition:
+      operation: PREFIX
+      field: dagRepo
+      value: https
   - name: gitAccessToken
     documentation: github/gitlab access token to use for http git authentication
-    type: STRING
+    type: PASSWORD
     condition:
       operation: PREFIX
       field: dagRepo
