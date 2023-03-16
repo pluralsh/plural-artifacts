@@ -1,7 +1,9 @@
 name: bootstrap-cluster-api-aws
 description: Spin up AWS cluster using cluster API
 provider: AWS
-dependencies: []
+dependencies:
+- repo: cluster-api-operator
+  name: cluster-api-operator-aws
 sections:
   - name: bootstrap-cluster-api
     configuration:
@@ -10,6 +12,6 @@ sections:
         type: STRING
     items:
       - type: HELM
-        name: cluster-api-operator
-      - type: HELM
         name: cluster-api-install
+      - type: HELM
+        name: cluster-api-cluster

@@ -1,0 +1,28 @@
+provider: aws
+
+cert-manager:
+  enabled: true
+  image:
+    repository: dkr.plural.sh/bootstrap/jetstack/cert-manager-controller
+    tag: v1.11.0
+  webhook:
+    image:
+      repository: dkr.plural.sh/bootstrap/jetstack/cert-manager-webhook
+      tag: v1.11.0
+  cainjector:
+    image:
+      repository: dkr.plural.sh/bootstrap/jetstack/cert-manager-cainjector
+      tag: v1.11.0
+  startupapicheck:
+    image:
+      repository: dkr.plural.sh/bootstrap/jetstack/cert-manager-ctl
+      tag: v1.11.0
+  serviceAccount:
+    name: certmanager
+  prometheus:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+  securityContext:
+    fsGroup: 1000
+    runAsNonRoot: true

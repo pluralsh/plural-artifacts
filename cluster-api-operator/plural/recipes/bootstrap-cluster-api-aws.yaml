@@ -1,0 +1,10 @@
+name: cluster-api-operator-aws
+description: Spin up AWS cluster using cluster API
+provider: AWS
+dependencies: []
+sections:
+  - name: cluster-api-operator
+    configuration: []
+    items:
+      - type: HELM
+        name: cluster-api-operator

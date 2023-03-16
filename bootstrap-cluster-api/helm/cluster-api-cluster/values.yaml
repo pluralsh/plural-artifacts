@@ -1,0 +1,11 @@
+aws:
+  enabled: false
+  clusterName: aws-cluster
+  sshKeyName: "testkey"
+  kubernetesVersion: "1.21.7"
+  networking:
+    podCidr: 192.168.0.0/16
+  workerNodeGroups:
+    - name: pool-0
+      nodeCount: 3
+

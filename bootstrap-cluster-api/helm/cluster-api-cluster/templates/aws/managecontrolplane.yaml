@@ -1,0 +1,11 @@
+{{- if .Values.aws.enabled }}
+apiVersion: controlplane.cluster.x-k8s.io/v1beta2
+kind: AWSManagedControlPlane
+metadata:
+  name: {{ .Values.aws.clusterName }}-control-plane
+  namespace: {{ .Release.Namespace  }}
+spec:
+  region: {{ .Region  }}
+  sshKeyName: {{ .Values.aws.sshKeyName }}
+  version: {{ .Values.aws.kubernetesVersion }}
+{{- end }}

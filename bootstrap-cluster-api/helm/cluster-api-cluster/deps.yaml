@@ -9,3 +9,7 @@ spec:
       name: cluster-api-operator
       repo: cluster-api-operator
       version: '>= 0.1.0'
+    - type: helm
+      name: cluster-api-install
+      repo: bootstrap-cluster-api
+      version: '>= 0.1.0'

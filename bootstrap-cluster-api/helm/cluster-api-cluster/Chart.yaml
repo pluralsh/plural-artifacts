@@ -1,6 +1,6 @@
 apiVersion: v2
-name: cluster-api-install
+name: cluster-api-cluster
 description: A Helm chart for Kubernetes
 type: application
 appVersion: "1.0"
-version: 0.1.4
+version: 0.1.7

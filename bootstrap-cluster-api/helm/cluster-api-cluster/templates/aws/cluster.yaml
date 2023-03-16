@@ -1,0 +1,20 @@
+{{- if .Values.aws.enabled }}
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: Cluster
+metadata:
+  name: {{ .Values.aws.clusterName }}
+  namespace: {{ .Release.Namespace  }}
+spec:
+  clusterNetwork:
+    pods:
+      cidrBlocks:
+        - {{ .Values.aws.networking.podCidr }}
+  controlPlaneRef:
+    apiVersion: controlplane.cluster.x-k8s.io/v1beta2
+    kind: AWSManagedControlPlane
+    name: {{ .Values.aws.clusterName }}-control-plane
+  infrastructureRef:
+    apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
+    kind: AWSManagedCluster
+    name: {{ .Values.aws.clusterName }}
+{{- end }}

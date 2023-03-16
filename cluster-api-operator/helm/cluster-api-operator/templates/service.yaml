@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    clusterctl.cluster.x-k8s.io/core: capi-operator
+    control-plane: controller-manager
+  name: capi-operator-controller-manager-metrics-service
+spec:
+  ports:
+    - name: https
+      port: 8443
+      targetPort: https
+  selector:
+    clusterctl.cluster.x-k8s.io/core: capi-operator
+    control-plane: controller-manager
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    clusterctl.cluster.x-k8s.io/core: capi-operator
+  name: capi-operator-webhook-service
+spec:
+  ports:
+    - port: 443
+      targetPort: 9443
+  selector:
+    clusterctl.cluster.x-k8s.io/core: capi-operator
+    control-plane: controller-manager

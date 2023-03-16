@@ -1,0 +1,8 @@
+{{- if .Values.aws.enabled }}
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
+kind: AWSManagedCluster
+metadata:
+  name: {{ .Values.aws.clusterName }}
+  namespace: {{ .Release.Namespace  }}
+spec: {}
+{{- end }}
