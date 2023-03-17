@@ -2,6 +2,7 @@ name: aws-k8s
 description: Creates an eks cluster and installs the bootstrap chart
 provider: AWS
 dependencies: []
+primary: true
 sections:
 - name: bootstrap
   configuration:

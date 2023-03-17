@@ -1,6 +1,7 @@
 name: influx-gcp
 description: Installs influx on a gcp gke cluster
 provider: GCP
+primary: true
 oidcSettings:
   uriFormat: https://{domain}/oauth/plural/callback
   authMethod: POST
@@ -29,7 +30,8 @@ sections:
     documentation: name for the initial bootstrapped database
     type: STRING
   - name: influxdbHostname
-    documentation: external dns name for your influxdb instance (leave empty if you don't want ingress)
+    documentation: external dns name for your influxdb instance (leave empty if you
+      don't want ingress)
     type: DOMAIN
   items:
   - type: TERRAFORM

@@ -1,6 +1,7 @@
 name: aws-gitlab
 description: Installs gitlab on an EKS cluster
 provider: AWS
+primary: true
 oidcSettings:
   authMethod: BASIC
   uriFormat: https://gitlab.{subdomain}/users/auth/openid_connect/callback

@@ -1,6 +1,7 @@
 name: touca-aws
 description: Installs touca on an EKS cluster
 provider: AWS
+primary: true
 dependencies:
 - repo: bootstrap
   name: aws-k8s
@@ -13,7 +14,8 @@ sections:
   configuration:
   - name: hostname
     type: DOMAIN
-    documentation: the fully qualified domain name your touca instance will be available at
+    documentation: the fully qualified domain name your touca instance will be available
+      at
   items:
   - type: TERRAFORM
     name: kube

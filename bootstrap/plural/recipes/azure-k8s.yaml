@@ -1,6 +1,7 @@
 name: azure-k8s
 description: Constructs an AKS cluster and installs the bootstrap chart
 provider: AZURE
+primary: true
 dependencies: []
 sections:
 - name: bootstrap

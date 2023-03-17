@@ -1,6 +1,7 @@
 name: chatwoot-gcp
 description: Installs chatwoot on a gcp gke cluster
 provider: GCP
+primary: true
 dependencies:
 - repo: bootstrap
   name: gcp-k8s

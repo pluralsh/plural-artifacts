@@ -1,14 +1,16 @@
 name: gcp-postgres
 description: Installs postgres operator on a GKE cluster
 provider: GCP
+primary: true
 dependencies:
-  - repo: bootstrap
-    name: gcp-k8s
+- repo: bootstrap
+  name: gcp-k8s
 sections:
 - name: postgres
   configuration:
   - name: wal_bucket
-    documentation: Arbitrary name for google cloud storage bucket to store wal archives in, eg plural-wal-archives
+    documentation: Arbitrary name for google cloud storage bucket to store wal archives
+      in, eg plural-wal-archives
     type: BUCKET
     default: postgres-wal
   items:

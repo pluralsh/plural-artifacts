@@ -1,6 +1,7 @@
 name: azure-grafana
 description: Installs grafana on an AKS cluster
 provider: AZURE
+primary: true
 oidcSettings:
   authMethod: POST
   uriFormat: https://{domain}/login/generic_oauth

@@ -1,6 +1,7 @@
 name: renovate-on-prem-aws
 description: Installs renovate-on-prem on an aws eks cluster
 provider: AWS
+primary: true
 dependencies:
 - repo: bootstrap
   name: aws-k8s
@@ -24,14 +25,16 @@ sections:
     default: github
     type: STRING
   - name: githubAppId
-    documentation: The GitHub App ID provided by GitHub Enterprise when you provisioned the Renovate app.
+    documentation: The GitHub App ID provided by GitHub Enterprise when you provisioned
+      the Renovate app.
     type: STRING
     condition:
       operation: EQ
       field: platform
       value: github
   - name: githubAppKey
-    documentation: A string representation of the private key provided by GitHub when you provisioned the Renovate app.
+    documentation: A string representation of the private key provided by GitHub when
+      you provisioned the Renovate app.
     type: FILE
     condition:
       operation: EQ
@@ -49,7 +52,9 @@ sections:
       field: platform
       value: gitlab
   - name: githubComToken
-    documentation: A Personal Access Token for a valid user account on github.com. This is only used for retrieving changelogs and release notes from repositories hosted on github.com.
+    documentation: A Personal Access Token for a valid user account on github.com.
+      This is only used for retrieving changelogs and release notes from repositories
+      hosted on github.com.
     type: PASSWORD
     condition:
       operation: EQ

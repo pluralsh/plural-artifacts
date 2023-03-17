@@ -1,6 +1,7 @@
 name: rabbitmq-aws
 description: Deploys rabbitmq to our bootstrapped EKS cluster
 provider: AWS
+primary: true
 dependencies:
 - repo: bootstrap
   name: aws-k8s

@@ -1,6 +1,7 @@
 name: argo-workflows-aws
 description: Installs argo-workflows on an aws eks cluster
 provider: AWS
+primary: true
 oidcSettings:
   authMethod: POST
   uriFormat: https://{domain}/oauth2/callback

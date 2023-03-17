@@ -1,6 +1,7 @@
 name: kubeflow-aws
 description: Installs Kubeflow on an EKS cluster
 provider: AWS
+primary: true
 oidcSettings:
   uriFormat: https://{domain}/oauth2/callback
   authMethod: POST
@@ -20,7 +21,6 @@ dependencies:
   name: istio-aws
 - repo: nvidia-operator
   name: nvidia-operator-aws
-# the following should be removed once transient recipe dependencies are fixed
 - repo: monitoring
   name: monitoring-aws
 - repo: ingress-nginx
@@ -52,16 +52,6 @@ sections:
     name: notebooks
   - type: HELM
     name: training-operator
-  # - type: HELM
-  #   name: mpi
-  # - type: HELM
-  #   name: mxnet
-  # - type: HELM
-  #   name: pytorch
-  # - type: HELM
-  #   name: tensorflow
-  # - type: HELM
-  #   name: xgboost
   - type: HELM
     name: profile-controller
   - type: HELM

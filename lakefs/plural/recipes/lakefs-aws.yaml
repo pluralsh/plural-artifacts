@@ -1,16 +1,14 @@
 name: lakefs-aws
 description: Installs lakefs on an aws eks cluster
 provider: AWS
+primary: true
 dependencies:
 - repo: bootstrap
   name: aws-k8s
-
 - repo: ingress-nginx
   name: ingress-nginx-aws
-
 - repo: postgres
   name: aws-postgres
-
 sections:
 - name: lakefs
   configuration:

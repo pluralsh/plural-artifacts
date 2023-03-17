@@ -1,6 +1,7 @@
 name: metabase-gcp
 description: Installs metabase on a gcp gke cluster
 provider: GCP
+primary: true
 dependencies:
 - repo: bootstrap
   name: gcp-k8s

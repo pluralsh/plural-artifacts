@@ -1,6 +1,7 @@
 name: yugabyte-azure
 description: Installs yugabyte on an aws eks cluster
 provider: AZURE
+primary: true
 dependencies:
 - repo: bootstrap
   name: azure-k8s
@@ -11,7 +12,8 @@ sections:
   configuration:
   - name: hostname
     type: DOMAIN
-    documentation: the fully qualified domain name your yugabyte instance will be available at
+    documentation: the fully qualified domain name your yugabyte instance will be
+      available at
   items:
   - type: TERRAFORM
     name: kube

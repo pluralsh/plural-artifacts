@@ -1,6 +1,7 @@
 name: knative-operator-aws
 description: Installs the knative operator on an eks cluster
 provider: AWS
+primary: true
 dependencies:
 - repo: bootstrap
   name: aws-k8s

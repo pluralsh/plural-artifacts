@@ -1,6 +1,7 @@
 name: minio-azure
 description: Installs minio on an azure aks cluster
 provider: AZURE
+primary: true
 dependencies:
 - repo: bootstrap
   name: azure-k8s
@@ -12,10 +13,13 @@ sections:
 - name: minio
   configuration:
   - name: hostname
-    documentation: Fully Qualified Domain Name to use for your minio gateway installation, eg minio.topleveldomain.com if topleveldomain.com is the domain you inputed for dns_domain above.
+    documentation: Fully Qualified Domain Name to use for your minio gateway installation,
+      eg minio.topleveldomain.com if topleveldomain.com is the domain you inputed
+      for dns_domain above.
     type: DOMAIN
   - name: consoleHostname
-    documentation: domain name for the minio console.  This MUST be different from the domain for minio itself, configured earlier
+    documentation: domain name for the minio console.  This MUST be different from
+      the domain for minio itself, configured earlier
     type: DOMAIN
   items:
   - type: TERRAFORM

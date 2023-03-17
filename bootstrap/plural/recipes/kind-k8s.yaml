@@ -1,6 +1,7 @@
 name: kind-k8s
 description: Creates a kubernetes local cluster using KinD and installs the bootstrap chart
 provider: KIND
+primary: true
 dependencies: []
 sections:
 - name: bootstrap

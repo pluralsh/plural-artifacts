@@ -1,6 +1,7 @@
 name: datahub-azure
 description: Installs datahub on an azure eks cluster
 provider: AZURE
+primary: true
 oidcSettings:
   authMethod: POST
   uriFormat: https://{domain}/callback/oidc

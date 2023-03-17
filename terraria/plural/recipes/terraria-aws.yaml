@@ -1,6 +1,7 @@
 name: terraria-aws
 description: Installs terraria game server
 provider: AWS
+primary: true
 dependencies:
 - repo: bootstrap
   name: aws-k8s
@@ -15,16 +16,18 @@ sections:
     type: STRING
     default: small
   - name: password
-    documentation: password that will be required when joining the server (leave empty to disable)
+    documentation: password that will be required when joining the server (leave empty
+      to disable)
     type: STRING
     optional: true
     default: ''
   - name: restAPIEnabled
-    documentation: if additional rest API should be enabled and exposed on port 7878 (Y/n)
+    documentation: if additional rest API should be enabled and exposed on port 7878
+      (Y/n)
     type: STRING
     validation:
       type: REGEX
-      regex: '^[yn]*$'
+      regex: ^[yn]*$
       message: 'must be one of: y, n'
     default: y
   items:

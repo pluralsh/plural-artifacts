@@ -1,6 +1,7 @@
 name: elasticsearch-gcp
 description: Installs elasticsearch on an eks cluster
 provider: GCP
+primary: true
 dependencies:
 - repo: bootstrap
   name: gcp-k8s

@@ -1,6 +1,7 @@
 name: prefect-agent-aws
 description: Installs prefect-agent on an aws eks cluster
 provider: AWS
+primary: true
 dependencies:
 - repo: bootstrap
   name: aws-k8s

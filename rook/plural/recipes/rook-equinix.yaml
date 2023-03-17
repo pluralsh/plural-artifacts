@@ -1,6 +1,7 @@
 name: rook-equinix
 description: Installs rook on an equinix kubernetes cluster
 provider: EQUINIX
+primary: true
 dependencies:
 - repo: bootstrap
   name: equinix-kubernetes

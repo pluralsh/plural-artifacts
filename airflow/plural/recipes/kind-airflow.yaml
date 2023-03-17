@@ -1,6 +1,7 @@
 name: kind-airflow
 description: Installs airflow on an EKS cluster
 provider: KIND
+primary: true
 oidcSettings:
   authMethod: POST
   uriFormat: https://{domain}/oauth-authorized/plural
