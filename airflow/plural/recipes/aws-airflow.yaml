@@ -42,9 +42,6 @@ sections:
   - name: hostname
     documentation: Fully Qualified Domain Name to use for your airflow installation, eg airflow.topleveldomain.com if topleveldomain.com is the domain you inputed for dns_domain above.
     type: DOMAIN
-  - name: gitUser
-    documentation: git username for git sync to download the dag repo, eg your github username
-    type: STRING
   - name: dagRepo
     type: STRING
     documentation: Git Repo url for storing dags, can be either an https or ssh url
