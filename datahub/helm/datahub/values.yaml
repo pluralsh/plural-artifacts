@@ -18,15 +18,8 @@ cronSchedule:
 kedaRunbookEnabled: false
 
 setupJobs:
-  elasticsearchSetupJob:
-    enabled: true
   postgresqlSetupJob:
     enabled: true
-  kafkaSetupJob:
-    enabled: true
-
-datahubUpgrade:
-  enabled: true
 
 # Default configuration for pre-requisites to get you started
 # Copy this file and update to the configuration of choice
@@ -88,7 +81,7 @@ datahub:
     enabled: true
     image:
       repository: dkr.plural.sh/datahub/acryldata/datahub-actions
-      tag: v0.0.7
+      tag: v0.0.11
     resources:
       limits:
         memory: 512Mi
@@ -140,7 +133,7 @@ datahub:
     podAnnotations: { }
   
   elasticsearchSetupJob:
-    enabled: false
+    enabled: true
     image:
       repository: dkr.plural.sh/datahub/linkedin/datahub-elasticsearch-setup
       tag: v0.10.0
@@ -150,7 +143,7 @@ datahub:
         memory: 5Mi
 
   kafkaSetupJob:
-    enabled: false
+    enabled: true
     image:
       repository: gcr.io/pluralsh/linkedin/datahub-kafka-setup
       tag: v0.10.0
@@ -160,7 +153,7 @@ datahub:
         memory: 60Mi
 
   datahubUpgrade:
-    enabled: false
+    enabled: true
     image:
       repository: dkr.plural.sh/datahub/acryldata/datahub-upgrade
       tag: v0.10.0
@@ -202,6 +195,7 @@ datahub:
         password:
           secretRef: datahub.plural-postgres-datahub.credentials.postgresql.acid.zalan.do
           secretKey: password
+
   prerequisites:
     elasticsearch:
       enabled: false   # set this to false, if you want to provide your own ES instance.
