@@ -34,7 +34,7 @@ datahub:
   datahub-frontend:
     image:
       repository: dkr.plural.sh/datahub/linkedin/datahub-frontend-react
-      tag: v0.9.0
+      tag: v0.10.0
     service:
       type: ClusterIP
     serviceMonitor:
@@ -66,7 +66,7 @@ datahub:
   datahub-gms:
     image:
       repository: dkr.plural.sh/datahub/linkedin/datahub-gms
-      tag: v0.9.0
+      tag: v0.10.0
     serviceMonitor:
       create: true
     extraInitContainers:
@@ -99,14 +99,14 @@ datahub:
   datahub-mae-consumer:
     image:
       repository: dkr.plural.sh/datahub/linkedin/datahub-mae-consumer
-      tag: v0.9.0
+      tag: v0.10.0
     serviceMonitor:
       create: true
 
   datahub-mce-consumer:
     image:
       repository: dkr.plural.sh/datahub/linkedin/datahub-mce-consumer
-      tag: v0.9.0
+      tag: v0.10.0
     serviceMonitor:
       create: true
 
@@ -114,7 +114,7 @@ datahub:
     enabled: false
     image:
       repository: dkr.plural.sh/datahub/acryldata/datahub-ingestion
-      tag: v0.9.0
+      tag: v0.10.0
 
   mysqlSetupJob:
     enabled: false
@@ -128,7 +128,7 @@ datahub:
       command: [ "/bin/sh", "-c", "until nc -zv plural-postgres-datahub 5432 -w1; do echo 'waiting for db'; sleep 1; done" ]
     image:
       repository: dkr.plural.sh/datahub/acryldata/datahub-postgres-setup
-      tag: v0.9.0
+      tag: v0.10.0
     resources:
       requests:
         cpu: 5m
@@ -142,8 +142,8 @@ datahub:
   elasticsearchSetupJob:
     enabled: false
     image:
-      repository: dkr.plural.sh/datahub/acryldata/datahub-elasticsearch-setup
-      tag: v0.8.45-cleanup
+      repository: dkr.plural.sh/datahub/linkedin/datahub-elasticsearch-setup
+      tag: v0.10.0
     resources:
       requests:
         cpu: 5m
@@ -153,7 +153,7 @@ datahub:
     enabled: false
     image:
       repository: gcr.io/pluralsh/linkedin/datahub-kafka-setup
-      tag: v0.9.0
+      tag: v0.10.0
     resources:
       requests:
         cpu: 0.4
@@ -163,7 +163,7 @@ datahub:
     enabled: false
     image:
       repository: dkr.plural.sh/datahub/acryldata/datahub-upgrade
-      tag: v0.9.0
+      tag: v0.10.0
 
   global:
     datahub:
