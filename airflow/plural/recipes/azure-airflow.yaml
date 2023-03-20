@@ -17,9 +17,18 @@ tests:
 - name: git access
   type: GIT
   args:
+  - name: username
+    repo: airflow
+    key: gitUser
+  - name: password
+    repo: airflow
+    key: gitAccessToken
   - name: private_key
     repo: airflow
     key: private_key
+  - name: passphrase
+    repo: airflow
+    key: passphrase
   - name: url
     repo: airflow
     key: dagRepo
@@ -35,7 +44,7 @@ sections:
     type: DOMAIN
   - name: dagRepo
     type: STRING
-    documentation: Git Repo url for storing dags, should be a ssh url like git@github.com:pluralsh/airflow-dags.git
+    documentation: Git Repo url for storing dags, can be either an https or ssh url
   - name: branchName
     type: STRING
     documentation: The branch to sync from
@@ -51,14 +60,34 @@ sections:
   - name: adminEmail
     type: STRING
     documentation: The email for the admin
+  - name: gitUser
+    documentation: git username for git sync to download the dag repo, eg your github username
+    type: STRING
+    condition:
+      operation: PREFIX
+      field: dagRepo
+      value: https
+  - name: gitAccessToken
+    documentation: github/gitlab access token to use for http git authentication
+    type: PASSWORD
+    condition:
+      operation: PREFIX
+      field: dagRepo
+      value: https
   - name: private_key
     documentation: path to the private key to use for git authentication
     type: FILE
     default: ~/.ssh/id_rsa
-  - name: public_key
-    documentation: path to the public key to use for git authentication
-    type: FILE
-    default: ~/.ssh/id_rsa.pub
+    condition:
+      operation: NOT
+      field: gitAccessToken
+  - name: passphrase
+    documentation: passphrase to use for encrypted private keys (leave empty if not applicable)
+    type: PASSWORD
+    optional: true
+    condition:
+      operation: NOT
+      field: gitAccessToken
   items:
   - type: TERRAFORM
     name: azure
