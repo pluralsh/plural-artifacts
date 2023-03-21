@@ -21,8 +21,10 @@ exporter:
     relayAddress: "datadog.datadog:8125"
 {{ end }}
 
+{{ $sshCredentials := (or (and .Values.private_key (ne .Values.private_key "")) .airflow.sshConfig.id_rsa) }}
+
 {{ if not .Values.gitSyncDisabled }}
-{{- if and .Values.private_key (ne .Values.private_key "") }}
+{{- if $sshCredentials }}
 sshConfig:
   enabled: true
   id_rsa: {{ ternary .Values.private_key (dedupe . "airflow.sshConfig.id_rsa" "") (hasKey .Values "private_key") | quote }}
@@ -175,9 +177,6 @@ airflow:
   {{ end }}
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-airflow"
-
-  
-  {{ $sshCredentials := (or (and .Values.private_key (ne .Values.private_key "")) .airflow.sshConfig.id_rsa) }}
 
   dags:
     gitSync:
