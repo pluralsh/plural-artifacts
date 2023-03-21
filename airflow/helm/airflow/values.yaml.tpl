@@ -177,7 +177,7 @@ airflow:
       eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-airflow"
 
   
-  {{ $sshCredentials := (or (and .Values.private_key (ne .Values.private_key "")) .Values.sshConfig.id_rsa) }}
+  {{ $sshCredentials := (or (and .Values.private_key (ne .Values.private_key "")) .airflow.sshConfig.id_rsa) }}
 
   dags:
     gitSync:
