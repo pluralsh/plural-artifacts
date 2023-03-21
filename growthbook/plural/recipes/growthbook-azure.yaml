@@ -16,8 +16,7 @@ sections:
     documentation: the domain name for your growthbook instance
     type: DOMAIN
   - name: apiHostname
-    documentation: the domain name for the growthbook api (should be different from
-      hostname)
+    documentation: the domain name for the growthbook api (should be different from hostname)
     type: DOMAIN
   - name: growthbookBucket
     documentation: bucket for your growthbook instance

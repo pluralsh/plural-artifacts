@@ -18,4 +18,3 @@ sections:
   - name: hostname
     documentation: hostname for your kibana instance
     type: DOMAIN
-  

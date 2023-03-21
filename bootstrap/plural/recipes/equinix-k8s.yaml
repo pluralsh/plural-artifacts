@@ -14,9 +14,6 @@ sections:
     documentation: The the server plan of the x86 worker nodes
     type: STRING
     default: c3.small.x86
-  # - name: hostname
-  #   documentation: FQDN to use for your the Cilium Hubble UI
-  #   type: DOMAIN
   items:
   - type: TERRAFORM
     name: equinix-bootstrap

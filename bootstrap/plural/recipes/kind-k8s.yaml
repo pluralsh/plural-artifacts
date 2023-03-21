@@ -6,10 +6,6 @@ dependencies: []
 sections:
 - name: bootstrap
   configuration: []
-  # - name: worker_node_count_x86
-  #   documentation: The amount of x86 worker nodes to add to the cluster
-  #   type: INT
-  #   default: 3
   items:
   - type: TERRAFORM
     name: kind-bootstrap

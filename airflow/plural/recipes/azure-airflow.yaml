@@ -1,19 +1,19 @@
 name: airflow-azure
 description: Installs airflow on an AKS cluster
 provider: AZURE
-restricted: true
 primary: true
+restricted: true
 oidcSettings:
   authMethod: POST
   uriFormat: https://{domain}/oauth-authorized/plural
   domainKey: hostname
 dependencies:
-  - repo: bootstrap
-    name: azure-k8s
-  - repo: ingress-nginx
-    name: ingress-nginx-azure
-  - repo: postgres
-    name: azure-postgres
+- repo: bootstrap
+  name: azure-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-azure
+- repo: postgres
+  name: azure-postgres
 tests:
 - name: git access
   type: GIT

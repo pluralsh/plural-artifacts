@@ -26,4 +26,4 @@ for f in listdir(path):
         recipe = yaml.safe_load(file)
         recipe['primary'] = True
     with open(filename, 'w') as file:
-        yaml.dump(format(recipe), file, sort_keys=False)
+        yaml.dump(format(recipe), file, sort_keys=False, width=1000)

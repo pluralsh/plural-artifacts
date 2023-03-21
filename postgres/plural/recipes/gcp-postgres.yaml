@@ -9,8 +9,7 @@ sections:
 - name: postgres
   configuration:
   - name: wal_bucket
-    documentation: Arbitrary name for google cloud storage bucket to store wal archives
-      in, eg plural-wal-archives
+    documentation: Arbitrary name for google cloud storage bucket to store wal archives in, eg plural-wal-archives
     type: BUCKET
     default: postgres-wal
   items:

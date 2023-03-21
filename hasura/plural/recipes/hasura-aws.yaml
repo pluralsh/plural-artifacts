@@ -18,7 +18,5 @@ sections:
     name: hasura
   configuration:
   - name: hostname
-    documentation: Fully Qualified Domain Name to use for your hasura installation,
-      eg hasura.topleveldomain.com if topleveldomain.com is the domain you inputed
-      for dns_domain above.
+    documentation: Fully Qualified Domain Name to use for your hasura installation, eg hasura.topleveldomain.com if topleveldomain.com is the domain you inputed for dns_domain above.
     type: DOMAIN

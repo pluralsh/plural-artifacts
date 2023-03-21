@@ -17,9 +17,7 @@ sections:
 - name: superset
   configuration:
   - name: hostname
-    documentation: Fully Qualified Domain Name to use for your superset installation,
-      eg airflow.topleveldomain.com if topleveldomain.com is the domain you inputed
-      for dns_domain above.
+    documentation: Fully Qualified Domain Name to use for your superset installation, eg airflow.topleveldomain.com if topleveldomain.com is the domain you inputed for dns_domain above.
     type: DOMAIN
   - name: username
     type: STRING
