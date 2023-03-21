@@ -1,6 +1,7 @@
 name: datadog-aws
 description: Installs datadog on an aws eks cluster
 provider: AWS
+primary: true
 dependencies:
 - repo: bootstrap
   name: aws-k8s

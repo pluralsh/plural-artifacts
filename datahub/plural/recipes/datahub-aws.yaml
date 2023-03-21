@@ -1,6 +1,7 @@
 name: datahub-aws
 description: Installs datahub on an aws eks cluster
 provider: AWS
+primary: true
 oidcSettings:
   authMethod: POST
   uriFormat: https://{domain}/callback/oidc

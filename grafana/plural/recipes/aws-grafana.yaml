@@ -1,6 +1,7 @@
 name: aws-grafana
 description: Installs grafana on an EKS cluster
 provider: AWS
+primary: true
 oidcSettings:
   authMethod: POST
   uriFormat: https://{domain}/login/generic_oauth

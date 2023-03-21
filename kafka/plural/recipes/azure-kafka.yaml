@@ -1,6 +1,7 @@
 name: azure-kafka
 description: Installs kafka on an azure eks cluster
 provider: AZURE
+primary: true
 dependencies:
 - repo: bootstrap
   name: azure-k8s

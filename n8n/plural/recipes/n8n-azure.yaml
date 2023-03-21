@@ -1,6 +1,7 @@
 name: n8n-azure
 description: Installs n8n on an aws eks cluster
 provider: AZURE
+primary: true
 dependencies:
 - repo: bootstrap
   name: azure-k8s

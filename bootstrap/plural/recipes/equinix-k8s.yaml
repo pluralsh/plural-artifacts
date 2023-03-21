@@ -1,6 +1,7 @@
 name: equinix-k8s
 description: Creates a kubernetes cluster on Equinix Metal and installs the bootstrap chart
 provider: EQUINIX
+primary: true
 dependencies: []
 sections:
 - name: bootstrap
@@ -13,9 +14,6 @@ sections:
     documentation: The the server plan of the x86 worker nodes
     type: STRING
     default: c3.small.x86
-  # - name: hostname
-  #   documentation: FQDN to use for your the Cilium Hubble UI
-  #   type: DOMAIN
   items:
   - type: TERRAFORM
     name: equinix-bootstrap

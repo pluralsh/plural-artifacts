@@ -1,6 +1,7 @@
 name: goldilocks-gcp
 description: Installs goldilocks on a gcp gke cluster
 provider: GCP
+primary: true
 oidcSettings:
   uriFormat: https://{domain}/oauth2/callback
   authMethod: POST

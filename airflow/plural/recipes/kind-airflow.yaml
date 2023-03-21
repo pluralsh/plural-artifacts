@@ -1,17 +1,18 @@
 name: kind-airflow
 description: Installs airflow on an EKS cluster
 provider: KIND
+primary: true
 oidcSettings:
   authMethod: POST
   uriFormat: https://{domain}/oauth-authorized/plural
   domainKey: hostname
 dependencies:
-  - repo: bootstrap
-    name: kind-k8s
-  - repo: ingress-nginx
-    name: ingress-nginx-kind
-  - repo: postgres
-    name: kind-postgres
+- repo: bootstrap
+  name: kind-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-kind
+- repo: postgres
+  name: kind-postgres
 tests:
 - name: git access
   type: GIT

@@ -1,6 +1,7 @@
 name: strapi-aws
 description: Installs strapi on an aws eks cluster
 provider: AWS
+primary: true
 dependencies:
 - repo: bootstrap
   name: aws-k8s

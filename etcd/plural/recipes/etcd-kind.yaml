@@ -1,6 +1,7 @@
 name: etcd-kind
 description: Installs etcd on an kind eks cluster
 provider: KIND
+primary: true
 dependencies:
 - repo: bootstrap
   name: kind-k8s

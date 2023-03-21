@@ -1,6 +1,7 @@
 name: touca-azure
 description: Installs touca on an AKS cluster
 provider: AZURE
+primary: true
 dependencies:
 - repo: bootstrap
   name: azure-k8s

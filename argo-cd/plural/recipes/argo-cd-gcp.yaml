@@ -1,6 +1,7 @@
 name: argo-cd-gcp
 description: Installs argo-cd on a gcp gke cluster
 provider: GCP
+primary: true
 oidcSettings:
   authMethod: POST
   uriFormat: https://{domain}/auth/callback

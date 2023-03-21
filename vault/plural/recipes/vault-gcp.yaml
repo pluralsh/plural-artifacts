@@ -1,6 +1,7 @@
 name: vault-gcp
 description: Installs vault on a GCP GKE cluster
 provider: GCP
+primary: true
 oidcSettings:
   uriFormats:
   - https://{domain}/ui/vault/auth/oidc/oidc/callback

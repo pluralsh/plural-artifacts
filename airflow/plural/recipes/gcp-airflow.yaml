@@ -1,18 +1,19 @@
 name: airflow-gcp
 description: Installs airflow on a GKE cluster
 provider: GCP
+primary: true
 restricted: true
 oidcSettings:
   authMethod: POST
   uriFormat: https://{domain}/oauth-authorized/plural
   domainKey: hostname
 dependencies:
-  - repo: bootstrap
-    name: gcp-k8s
-  - repo: ingress-nginx
-    name: ingress-nginx-gcp
-  - repo: postgres
-    name: gcp-postgres
+- repo: bootstrap
+  name: gcp-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+- repo: postgres
+  name: gcp-postgres
 tests:
 - name: git access
   type: GIT
@@ -89,7 +90,7 @@ sections:
       operation: NOT
       field: gitAccessToken
   items:
-    - type: TERRAFORM
-      name: gcp
-    - type: HELM
-      name: airflow
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: airflow

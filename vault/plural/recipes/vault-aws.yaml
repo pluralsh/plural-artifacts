@@ -1,6 +1,7 @@
 name: vault-aws
 description: Installs vault on an AWS EKS cluster
 provider: AWS
+primary: true
 oidcSettings:
   uriFormats:
   - https://{domain}/ui/vault/auth/oidc/oidc/callback

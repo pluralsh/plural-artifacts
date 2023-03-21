@@ -1,6 +1,7 @@
 name: rabbitmq-azure
 description: Deploys rabbitmq on our bootstrapped AKS cluster
 provider: AZURE
+primary: true
 dependencies:
 - repo: bootstrap
   name: azure-k8s

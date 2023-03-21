@@ -1,6 +1,7 @@
 name: renovate-on-prem-azure
 description: Installs renovate-on-prem on an aws eks cluster
 provider: AZURE
+primary: true
 dependencies:
 - repo: bootstrap
   name: azure-k8s

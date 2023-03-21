@@ -1,6 +1,7 @@
 name: knative-gcp
 description: Installs knative on a GKE cluster
 provider: GCP
+primary: true
 dependencies:
 - repo: bootstrap
   name: gcp-k8s
@@ -16,5 +17,3 @@ sections:
     name: kube
   - type: HELM
     name: knative-serving
-  # - type: HELM
-  #   name: knative-eventing

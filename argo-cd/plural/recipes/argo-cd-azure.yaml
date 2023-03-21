@@ -1,6 +1,7 @@
 name: argo-cd-azure
 description: Installs argo-cd on an azure aks cluster
 provider: AZURE
+primary: true
 oidcSettings:
   authMethod: POST
   uriFormat: https://{domain}/auth/callback

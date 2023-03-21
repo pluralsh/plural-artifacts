@@ -1,6 +1,7 @@
 name: strapi-azure
 description: Installs strapi on an aws eks cluster
 provider: AZURE
+primary: true
 dependencies:
 - repo: bootstrap
   name: azure-k8s

@@ -1,6 +1,7 @@
 name: airbyte-kind
 description: Installs airbyte on a KinD Kubernetes cluster
 provider: KIND
+primary: true
 oidcSettings:
   uriFormat: https://{domain}/oauth2/callback
   authMethod: POST

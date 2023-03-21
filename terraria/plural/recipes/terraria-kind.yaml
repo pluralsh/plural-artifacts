@@ -1,6 +1,7 @@
 name: terraria-kind
 description: Installs terraria game server
 provider: KIND
+primary: true
 dependencies:
 - repo: bootstrap
   name: kind-k8s
@@ -24,7 +25,7 @@ sections:
     type: STRING
     validation:
       type: REGEX
-      regex: '^[yn]*$'
+      regex: ^[yn]*$
       message: 'must be one of: y, n'
     default: y
   items:

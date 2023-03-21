@@ -1,6 +1,7 @@
 name: gcp-sentry
 description: Installs sentry on a GKE cluster
 provider: GCP
+primary: true
 oidcSettings:
   authMethod: POST
   uriFormat: https://{domain}/auth/sso/

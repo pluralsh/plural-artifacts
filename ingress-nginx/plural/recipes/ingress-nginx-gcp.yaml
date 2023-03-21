@@ -1,6 +1,7 @@
 name: ingress-nginx-gcp
 description: Installs ingress-nginx on a gcp gke cluster
 provider: GCP
+primary: true
 dependencies:
 - repo: bootstrap
   name: gcp-k8s

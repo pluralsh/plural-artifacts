@@ -1,6 +1,7 @@
 name: azure-sentry
 description: installs sentry on an AKS cluster
 provider: AZURE
+primary: true
 oidcSettings:
   authMethod: POST
   uriFormat: https://{domain}/auth/sso/
