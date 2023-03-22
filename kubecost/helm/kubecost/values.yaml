@@ -29,8 +29,6 @@ oidcProxy:
     host: kubecost.david.onplural.sh
 
 cost-analyzer:
-  oidc:
-    enabled: true
   prometheus:
     kube-state-metrics:
       disabled: true
