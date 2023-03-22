@@ -1,0 +1,108 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Runbook
+metadata:
+  name: scaling-manual
+  labels:
+    platform.plural.sh/pinned: 'true'
+{{ include "elasticsearch.labels" . | indent 4 }}
+spec:
+  name: Elasticsearch Scaling
+  description: overview of how to optimally scale your Elasticsearch cluster
+  display: |-
+{{ .Files.Get "runbooks/scaling-manual.xml" | indent 4 }}
+  datasources:
+  - name: elastic-operator-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"elastic-operator.+"}[5m])) by (pod)
+  - name: elastic-operator-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"elastic-operator.+"}) by (pod)
+  - name: elasticsearch-es-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"elasticsearch-es-default.+"}[5m])) by (pod)
+  - name: elasticsearch-es-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"elasticsearch-es-default.+"}) by (pod)
+  - name: kibana-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"kibana.+"}[5m])) by (pod)
+  - name: kibana-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"kibana.+"}) by (pod)
+  - name: elastic-operator
+    type: kubernetes
+    kubernetes:
+      resource: statefulset
+      name: elastic-operator
+  - name: elastic-es
+    type: kubernetes
+    kubernetes:
+      resource: statefulset
+      name: elasticsearch-es-default
+  - name: kibana
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: kibana-kb
+  - name: nodes
+    type: nodes
+  actions:
+  - name: scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+        - path:
+            - eck-operator
+            - resources
+            - requests
+            - cpu
+          valueFrom: elastic-operator-cpu
+        - path:
+            - eck-operator
+            - resources
+            - requests
+            - memory
+          valueFrom: elastic-operator-memory
+        - path:
+            - elasticsearch
+            - resources
+            - requests
+            - cpu
+          valueFrom: elasticsearch-es-cpu
+        - path:
+            - elasticsearch
+            - resources
+            - requests
+            - memory
+          valueFrom: elasticsearch-es-memory
+        - path:
+            - kibana
+            - resources
+            - requests
+            - cpu
+          valueFrom: elasticsearch-es-cpu
+        - path:
+            - kibana
+            - resources
+            - requests
+            - memory
+          valueFrom: elasticsearch-es-memory

@@ -20,6 +20,11 @@ eck-operator:
   config:
     metricsPort: 9191
 
+  resources:
+    requests:
+      memory: 500Mi
+      cpu: 0.5
+
 ingress:
   enabled: true
   hostname: ''
