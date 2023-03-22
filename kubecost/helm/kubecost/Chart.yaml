@@ -2,11 +2,11 @@ apiVersion: v2
 name: kubecost
 description: chart for deploy kubecost
 type: application
-version: 0.1.22
+version: 0.1.23
 appVersion: "1.90.1"
 dependencies:
 - name: cost-analyzer
-  version: 1.90.1
+  version: 1.101.3
   repository: https://kubecost.github.io/cost-analyzer/
 - name: test-base
   repository: https://pluralsh.github.io/module-library
