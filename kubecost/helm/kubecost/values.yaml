@@ -45,13 +45,19 @@ cost-analyzer:
 
   grafana:
     sidecar:
-    datasources:
-      enabled: false
       dashboards:
         annotations:
           k8s-sidecar-target-directory: "/tmp/dashboards/KubeCost Dashboards"
+    datasources:
+      enabled: false
 
   serviceMonitor:
     enabled: true
   prometheusRule:
     enabled: true
+  initChownDataImage: gcr.io/pluralsh/library/busybox:1.35.0
+  imageVersion: prod-1.101.3
+  kubecostModel:
+    image: dkr.plural.sh/kubecost/kubecost1/cost-model
+  kubecostFrontend:
+    image: dkr.plural.sh/kubecost/kubecost1/frontend

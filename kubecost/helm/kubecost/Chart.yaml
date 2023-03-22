@@ -3,7 +3,7 @@ name: kubecost
 description: chart for deploy kubecost
 type: application
 version: 0.1.23
-appVersion: "1.90.1"
+appVersion: "1.101.3"
 dependencies:
 - name: cost-analyzer
   version: 1.101.3
