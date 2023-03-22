@@ -145,7 +145,7 @@ datahub:
   kafkaSetupJob:
     enabled: true
     image:
-      repository: gcr.io/pluralsh/linkedin/datahub-kafka-setup
+      repository: dkr.plural.sh/datahub/linkedin/datahub-kafka-setup
       tag: v0.10.0
     resources:
       requests:
@@ -166,7 +166,7 @@ datahub:
         enabled: true
     graph_service_impl: "elasticsearch"
     elasticsearch:
-      host: "elasticsearch-es-http.elasticsearch.svc"
+      host: "elasticsearch-es-http.elasticsearch"
       port: "9200"
       useSSL: "false"
       skipcheck: "false"
@@ -179,11 +179,11 @@ datahub:
       verify-certs: "false"
     kafka:
       bootstrap:
-        server: "kafka-kafka-bootstrap.kafka.svc:9092"
+        server: "kafka-kafka-bootstrap.kafka:9092"
       zookeeper:
-        server: "kafka-zookeeper-client.kafka.svc:2181"
+        server: "kafka-zookeeper-client.kafka:2181"
       schemaregistry:
-        url: "http://kafka-schema-registry.kafka.svc:8081"
+        url: "http://kafka-schema-registry.kafka:8081"
     sql:
       datasource:
         hostForpostgresqlClient: "plural-postgres-datahub"
