@@ -1,16 +1,14 @@
 name: lakefs-gcp
 description: Installs lakefs on an aws eks cluster
 provider: GCP
+primary: true
 dependencies:
 - repo: bootstrap
   name: gcp-k8s
-
 - repo: ingress-nginx
   name: ingress-nginx-gcp
-
 - repo: postgres
   name: gcp-postgres
-
 sections:
 - name: lakefs
   configuration:

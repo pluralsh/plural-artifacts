@@ -1,6 +1,7 @@
 name: reloader-equinix
 description: Installs reloader on an Equinix kubernetes cluster
 provider: EQUINIX
+primary: true
 dependencies:
 - repo: bootstrap
   name: equinix-k8s

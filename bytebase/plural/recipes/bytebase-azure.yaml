@@ -1,6 +1,7 @@
 name: bytebase-azure
 description: Installs bytebase on an aws eks cluster
 provider: AZURE
+primary: true
 dependencies:
 - repo: bootstrap
   name: azure-k8s

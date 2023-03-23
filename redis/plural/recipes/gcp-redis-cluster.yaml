@@ -1,4 +1,4 @@
-name: gcp-redis
+name: gcp-redis-cluster
 description: Installs redis on a GKE cluster
 provider: GCP
 dependencies:

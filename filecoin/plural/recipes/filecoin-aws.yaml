@@ -1,16 +1,17 @@
 name: filecoin-aws
 description: Installs filecoin on an aws eks cluster
 provider: AWS
+primary: true
 dependencies:
-- repo: bootstrap
-  name: aws-k8s
-- repo: bootstrap
-  name: aws-efs
+- name: aws-k8s
+  repo: bootstrap
+- name: aws-efs
+  repo: bootstrap
 sections:
-- name: filecoin
-  configuration: []
+- configuration: []
   items:
-  - type: TERRAFORM
-    name: aws
-  - type: HELM
-    name: filecoin
+  - name: aws
+    type: TERRAFORM
+  - name: filecoin
+    type: HELM
+  name: filecoin

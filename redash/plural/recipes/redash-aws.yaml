@@ -1,6 +1,7 @@
 name: redash-aws
 description: Installs redash on an aws eks cluster
 provider: AWS
+primary: true
 dependencies:
 - repo: bootstrap
   name: aws-k8s
@@ -9,12 +10,11 @@ dependencies:
 sections:
 - name: redash
   configuration:
-    - name: hostname
-      documentation: domain on which you'd like to host redash's page
-      type: DOMAIN
+  - name: hostname
+    documentation: domain on which you'd like to host redash's page
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: aws
   - type: HELM
     name: redash
-

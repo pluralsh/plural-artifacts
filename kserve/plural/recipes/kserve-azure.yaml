@@ -1,6 +1,7 @@
 name: kserve-azure
 description: Installs kserve on an aws eks cluster
 provider: AZURE
+primary: true
 dependencies:
 - repo: bootstrap
   name: azure-k8s

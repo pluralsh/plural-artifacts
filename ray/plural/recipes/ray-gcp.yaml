@@ -1,6 +1,7 @@
 name: ray-gcp
 description: Installs ray on an gcp gke cluster
 provider: GCP
+primary: true
 oidcSettings:
   uriFormat: https://{domain}/oauth2/callback
   authMethod: POST

@@ -1,11 +1,12 @@
 name: sftpgo-kind
 description: Installs sftpgo on an kind k8s cluster
 provider: KIND
+primary: true
 dependencies:
-  - repo: bootstrap
-    name: kind-k8s
-  - repo: ingress-nginx
-    name: ingress-nginx-kind
+- repo: bootstrap
+  name: kind-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-kind
 sections:
   - name: sftpgo
     configuration:

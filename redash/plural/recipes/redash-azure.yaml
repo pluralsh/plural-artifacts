@@ -1,6 +1,7 @@
 name: redash-azure
 description: Installs redash on an azure aks cluster
 provider: AZURE
+primary: true
 dependencies:
 - repo: bootstrap
   name: azure-k8s
@@ -9,9 +10,9 @@ dependencies:
 sections:
 - name: redash
   configuration:
-    - name: hostname
-      documentation: domain on which you'd like to host redash's page
-      type: DOMAIN
+  - name: hostname
+    documentation: domain on which you'd like to host redash's page
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: azure

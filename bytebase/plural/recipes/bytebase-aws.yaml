@@ -1,6 +1,7 @@
 name: bytebase-aws
 description: Installs bytebase on an aws eks cluster
 provider: AWS
+primary: true
 dependencies:
 - repo: bootstrap
   name: aws-k8s

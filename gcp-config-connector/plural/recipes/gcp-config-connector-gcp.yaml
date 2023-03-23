@@ -1,11 +1,10 @@
 name: gcp-config-connector-gcp
 description: Installs gcp-config-connector on an aws eks cluster
 provider: GCP
+primary: true
 dependencies:
 - repo: bootstrap
   name: gcp-k8s
-
-
 sections:
 - name: gcp-config-connector
   configuration: []

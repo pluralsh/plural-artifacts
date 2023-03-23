@@ -1,6 +1,7 @@
 name: wireguard-azure
 description: Installs wireguard on an aws eks cluster
 provider: AZURE
+primary: true
 private: true
 dependencies:
 - repo: bootstrap

@@ -1,14 +1,11 @@
 name: kind-k8s
 description: Creates a kubernetes local cluster using KinD and installs the bootstrap chart
 provider: KIND
+primary: true
 dependencies: []
 sections:
 - name: bootstrap
   configuration: []
-  # - name: worker_node_count_x86
-  #   documentation: The amount of x86 worker nodes to add to the cluster
-  #   type: INT
-  #   default: 3
   items:
   - type: TERRAFORM
     name: kind-bootstrap

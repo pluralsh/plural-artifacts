@@ -1,6 +1,7 @@
 name: istio-gcp
 description: Installs istio on a GCP GKE cluster
 provider: GCP
+primary: true
 dependencies:
 - repo: bootstrap
   name: gcp-k8s

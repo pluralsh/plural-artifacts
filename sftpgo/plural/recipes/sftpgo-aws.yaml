@@ -1,11 +1,12 @@
 name: sftpgo-aws
 description: Installs sftpgo on an aws eks cluster
 provider: AWS
+primary: true
 dependencies:
-  - repo: bootstrap
-    name: aws-k8s
-  - repo: ingress-nginx
-    name: ingress-nginx-aws
+- repo: bootstrap
+  name: aws-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-aws
 sections:
   - name: sftpgo
     configuration:

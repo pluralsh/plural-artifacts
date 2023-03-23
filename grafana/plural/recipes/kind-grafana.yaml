@@ -1,6 +1,7 @@
 name: kind-grafana
 description: Installs grafana on a KinD Kubernetes cluster
 provider: KIND
+primary: true
 oidcSettings:
   authMethod: POST
   uriFormat: https://{domain}/login/generic_oauth

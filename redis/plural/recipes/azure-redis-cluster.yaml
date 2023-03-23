@@ -1,4 +1,4 @@
-name: azure-redis
+name: azure-redis-cluster
 description: Installs redis on an azure aks cluster
 provider: AZURE
 dependencies:

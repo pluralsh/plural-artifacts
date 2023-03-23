@@ -1,6 +1,7 @@
 name: etcd-equinix
 description: Installs etcd on an Equinix Kubernetes cluster
 provider: EQUINIX
+primary: true
 dependencies:
 - repo: bootstrap
   name: equinix-kubernetes

@@ -1,6 +1,7 @@
 name: istio-aws
 description: Installs istio on an eks cluster
 provider: AWS
+primary: true
 dependencies:
 - repo: bootstrap
   name: aws-k8s

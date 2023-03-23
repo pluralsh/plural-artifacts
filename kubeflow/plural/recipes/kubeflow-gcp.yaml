@@ -1,6 +1,7 @@
 name: kubeflow-gcp
 description: Installs Kubeflow on a GKE cluster
 provider: GCP
+primary: true
 oidcSettings:
   uriFormat: https://{domain}/oauth2/callback
   authMethod: POST
@@ -18,7 +19,6 @@ dependencies:
   name: istio-gcp
 - repo: nvidia-operator
   name: nvidia-operator-gcp
-# the following should be removed once transient recipe dependencies are fixed
 - repo: monitoring
   name: monitoring-gcp
 - repo: ingress-nginx
@@ -38,8 +38,6 @@ sections:
   items:
   - type: TERRAFORM
     name: gcp
-  # - type: HELM
-  #   name: aws-iam-controller
   - type: HELM
     name: central-dashboard
   - type: HELM
@@ -50,16 +48,6 @@ sections:
     name: notebooks
   - type: HELM
     name: training-operator
-  # - type: HELM
-  #   name: mpi
-  # - type: HELM
-  #   name: mxnet
-  # - type: HELM
-  #   name: pytorch
-  # - type: HELM
-  #   name: tensorflow
-  # - type: HELM
-  #   name: xgboost
   - type: HELM
     name: profile-controller
   - type: HELM
