@@ -1,0 +1,31 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ .Release.Name }}-init-container-role
+  labels:
+    {{ include "datahub.labels" . | nindent 4 }}
+rules:
+- apiGroups: ["batch"]
+  resources: ["jobs"]
+  verbs: ["get", "watch", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ .Release.Name }}-init-container-role-binding
+  labels:
+    {{ include "datahub.labels" . | nindent 4 }}
+subjects:
+- kind: ServiceAccount
+  name: {{ include "datahub-gms.serviceAccountName" (index .Subcharts "datahub" "Subcharts" "datahub-gms") }}
+  namespace: {{ .Release.Namespace }}
+- kind: ServiceAccount
+  name: {{ include "datahub-frontend.serviceAccountName" (index .Subcharts "datahub" "Subcharts" "datahub-frontend") }}
+  namespace: {{ .Release.Namespace }}
+- kind: ServiceAccount
+  name: {{ include "acryl-datahub-actions.serviceAccountName" (index .Subcharts "datahub" "Subcharts" "acryl-datahub-actions") }}
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: Role
+  name: {{ .Release.Name }}-init-container-role
+  apiGroup: rbac.authorization.k8s.io

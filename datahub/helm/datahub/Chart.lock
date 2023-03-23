@@ -1,9 +1,9 @@
 dependencies:
 - name: datahub
-  repository: https://helm.datahubproject.io
-  version: 0.2.160
+  repository: https://pluralsh.github.io/plural-helm-charts
+  version: 0.2.161
 - name: postgres
   repository: https://pluralsh.github.io/module-library
   version: 0.1.10
-digest: sha256:f5e7d766da836741195be84ca452752887e16716e9df7ce8a9a1378b775a9dae
-generated: "2023-03-17T11:33:52.487485+01:00"
+digest: sha256:10f5dbe40ea0426502f85c03d4e7b28605984260c277df92c44e316387e68d74
+generated: "2023-03-23T11:40:39.910962+01:00"

@@ -2,12 +2,12 @@ apiVersion: v2
 name: datahub
 description: helm chart for datahub
 type: application
-version: 0.1.15
+version: 0.1.14
 appVersion: v0.10.0
 dependencies:
 - name: datahub
-  version: 0.2.160
-  repository: "https://helm.datahubproject.io"
+  version: 0.2.161
+  repository: https://pluralsh.github.io/plural-helm-charts
 - name: postgres
   version: 0.1.10
   repository: https://pluralsh.github.io/module-library
