@@ -2,17 +2,17 @@ apiVersion: v2
 name: prefect
 description: helm chart for prefect
 type: application
-version: 0.1.6
-appVersion: v2.7.9
+version: 0.1.7
+appVersion: v2.8.6
 dependencies:
 - name: postgres
   version: 0.1.13
   repository: https://pluralsh.github.io/module-library
 - name: prefect-orion
-  version: 2023.1.20
+  version: 2023.2.14
   repository: https://prefecthq.github.io/prefect-helm
 - name: prefect-agent
-  version: 2023.1.20
+  version: 2023.03.16
   repository: https://prefecthq.github.io/prefect-helm
   condition: prefect-agent.enabled
 - name: oidc-config
