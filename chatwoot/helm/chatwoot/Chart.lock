@@ -1,9 +1,9 @@
 dependencies:
 - name: chatwoot
-  repository: https://pluralsh.github.io/plural-helm-charts
-  version: 1.0.8
+  repository: https://chatwoot.github.io/charts
+  version: 1.0.17
 - name: postgres
   repository: https://pluralsh.github.io/module-library
   version: 0.1.12
-digest: sha256:099f895db46ed3b866fd4bd991b5e91e9cbf4c5cd939d9d6920d6e787b3ff9ff
-generated: "2022-11-04T13:47:47.838969+01:00"
+digest: sha256:90ca2015e8e84862f08c6eb67e483715448b5f99ba0d6dac8ad2032c82aa53a7
+generated: "2023-03-22T11:25:50.738161-04:00"
