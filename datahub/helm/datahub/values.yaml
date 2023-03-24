@@ -18,15 +18,8 @@ cronSchedule:
 kedaRunbookEnabled: false
 
 setupJobs:
-  elasticsearchSetupJob:
-    enabled: true
   postgresqlSetupJob:
     enabled: true
-  kafkaSetupJob:
-    enabled: true
-
-datahubUpgrade:
-  enabled: true
 
 # Default configuration for pre-requisites to get you started
 # Copy this file and update to the configuration of choice
@@ -34,7 +27,7 @@ datahub:
   datahub-frontend:
     image:
       repository: dkr.plural.sh/datahub/linkedin/datahub-frontend-react
-      tag: v0.9.0
+      tag: v0.10.0
     service:
       type: ClusterIP
     serviceMonitor:
@@ -66,7 +59,7 @@ datahub:
   datahub-gms:
     image:
       repository: dkr.plural.sh/datahub/linkedin/datahub-gms
-      tag: v0.9.0
+      tag: v0.10.0
     serviceMonitor:
       create: true
     extraInitContainers:
@@ -88,7 +81,7 @@ datahub:
     enabled: true
     image:
       repository: dkr.plural.sh/datahub/acryldata/datahub-actions
-      tag: v0.0.7
+      tag: v0.0.11
     resources:
       limits:
         memory: 512Mi
@@ -99,14 +92,14 @@ datahub:
   datahub-mae-consumer:
     image:
       repository: dkr.plural.sh/datahub/linkedin/datahub-mae-consumer
-      tag: v0.9.0
+      tag: v0.10.0
     serviceMonitor:
       create: true
 
   datahub-mce-consumer:
     image:
       repository: dkr.plural.sh/datahub/linkedin/datahub-mce-consumer
-      tag: v0.9.0
+      tag: v0.10.0
     serviceMonitor:
       create: true
 
@@ -114,7 +107,7 @@ datahub:
     enabled: false
     image:
       repository: dkr.plural.sh/datahub/acryldata/datahub-ingestion
-      tag: v0.9.0
+      tag: v0.10.0
 
   mysqlSetupJob:
     enabled: false
@@ -128,7 +121,7 @@ datahub:
       command: [ "/bin/sh", "-c", "until nc -zv plural-postgres-datahub 5432 -w1; do echo 'waiting for db'; sleep 1; done" ]
     image:
       repository: dkr.plural.sh/datahub/acryldata/datahub-postgres-setup
-      tag: v0.9.0
+      tag: v0.10.0
     resources:
       requests:
         cpu: 5m
@@ -140,30 +133,30 @@ datahub:
     podAnnotations: { }
   
   elasticsearchSetupJob:
-    enabled: false
+    enabled: true
     image:
-      repository: dkr.plural.sh/datahub/acryldata/datahub-elasticsearch-setup
-      tag: v0.8.45-cleanup
+      repository: dkr.plural.sh/datahub/linkedin/datahub-elasticsearch-setup
+      tag: v0.10.0
     resources:
       requests:
         cpu: 5m
         memory: 5Mi
 
   kafkaSetupJob:
-    enabled: false
+    enabled: true
     image:
       repository: gcr.io/pluralsh/linkedin/datahub-kafka-setup
-      tag: v0.9.0
+      tag: v0.10.0
     resources:
       requests:
         cpu: 0.4
         memory: 60Mi
 
   datahubUpgrade:
-    enabled: false
+    enabled: true
     image:
       repository: dkr.plural.sh/datahub/acryldata/datahub-upgrade
-      tag: v0.9.0
+      tag: v0.10.0
 
   global:
     datahub:
@@ -202,6 +195,7 @@ datahub:
         password:
           secretRef: datahub.plural-postgres-datahub.credentials.postgresql.acid.zalan.do
           secretKey: password
+
   prerequisites:
     elasticsearch:
       enabled: false   # set this to false, if you want to provide your own ES instance.

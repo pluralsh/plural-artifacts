@@ -1,6 +1,7 @@
 name: ingress-nginx-equinix
 description: Installs ingress-nginx on an equinix kubernetes cluster
 provider: EQUINIX
+primary: true
 dependencies:
 - repo: bootstrap
   name: equinix-kubernetes

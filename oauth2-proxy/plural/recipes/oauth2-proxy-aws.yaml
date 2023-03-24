@@ -1,6 +1,7 @@
 name: oauth2-proxy-aws
 description: Installs OAuth2-Proxy on an eks cluster
 provider: AWS
+primary: true
 dependencies:
 - repo: bootstrap
   name: aws-k8s

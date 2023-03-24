@@ -1,6 +1,7 @@
 name: argo-workflows-aws
 description: Installs argo-workflows on an aws eks cluster
 provider: AWS
+primary: true
 oidcSettings:
   authMethod: POST
   uriFormat: https://{domain}/oauth2/callback
@@ -24,7 +25,7 @@ sections:
   - name: adminGroup
     documentation: specify a user group to grant admin rights to
     type: STRING
-    optional: true 
+    optional: true
   items:
   - type: TERRAFORM
     name: aws

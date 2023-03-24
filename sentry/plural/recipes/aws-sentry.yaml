@@ -1,6 +1,7 @@
 name: aws-sentry
 description: installs sentry on an EKS cluster
 provider: AWS
+primary: true
 oidcSettings:
   authMethod: POST
   uriFormat: https://{domain}/auth/sso/

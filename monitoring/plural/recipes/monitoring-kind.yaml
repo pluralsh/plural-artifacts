@@ -1,6 +1,7 @@
 name: monitoring-kind
 description: Installs monitoring on a KinD Kubernetes cluster
 provider: KIND
+primary: true
 dependencies:
 - repo: bootstrap
   name: kind-k8s

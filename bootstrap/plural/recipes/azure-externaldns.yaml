@@ -8,7 +8,7 @@ sections:
 - name: bootstrap
   configuration:
   - name: dns_zone
-    documentation: the azure dns zone name to use for dns registration in this cluster 
+    documentation: the azure dns zone name to use for dns registration in this cluster
     type: STRING
   items:
   - type: TERRAFORM

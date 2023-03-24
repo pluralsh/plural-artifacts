@@ -1,6 +1,7 @@
 name: clickhouse-aws
 description: Installs clickhouse on an aws eks cluster
 provider: AWS
+primary: true
 dependencies:
 - repo: bootstrap
   name: aws-k8s

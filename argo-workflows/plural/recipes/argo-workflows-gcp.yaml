@@ -1,6 +1,7 @@
 name: argo-workflows-gcp
 description: Installs argo-workflows on a gke cluster
 provider: GCP
+primary: true
 oidcSettings:
   authMethod: POST
   uriFormat: https://{domain}/oauth2/callback

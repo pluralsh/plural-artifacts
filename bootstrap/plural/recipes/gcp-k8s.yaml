@@ -1,6 +1,7 @@
 name: gcp-k8s
 description: Constructs a gke cluster and installs the bootstrap chart
 provider: GCP
+primary: true
 dependencies: []
 sections:
 - name: bootstrap

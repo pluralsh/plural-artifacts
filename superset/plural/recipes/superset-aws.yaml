@@ -1,6 +1,7 @@
 name: superset-aws
 description: Installs superset on an EKS cluster
 provider: AWS
+primary: true
 oidcSettings:
   authMethod: POST
   uriFormat: https://{domain}/oauth-authorized/plural

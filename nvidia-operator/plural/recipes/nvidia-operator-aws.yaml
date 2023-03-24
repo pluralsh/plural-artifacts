@@ -1,6 +1,7 @@
 name: nvidia-operator-aws
 description: Installs nvidia-operator on an aws eks cluster
 provider: AWS
+primary: true
 dependencies:
 - repo: bootstrap
   name: aws-k8s

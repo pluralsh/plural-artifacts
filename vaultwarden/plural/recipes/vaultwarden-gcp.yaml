@@ -1,6 +1,7 @@
 name: vaultwarden-gcp
 description: Installs vaultwarden on a gcp gke cluster
 provider: GCP
+primary: true
 dependencies:
 - repo: bootstrap
   name: gcp-k8s

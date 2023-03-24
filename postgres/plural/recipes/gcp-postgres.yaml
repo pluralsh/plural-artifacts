@@ -1,9 +1,10 @@
 name: gcp-postgres
 description: Installs postgres operator on a GKE cluster
 provider: GCP
+primary: true
 dependencies:
-  - repo: bootstrap
-    name: gcp-k8s
+- repo: bootstrap
+  name: gcp-k8s
 sections:
 - name: postgres
   configuration:

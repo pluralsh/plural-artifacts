@@ -1,6 +1,7 @@
 name: vault-azure
 description: Installs vault on an Azure AKS cluster
 provider: AZURE
+primary: true
 oidcSettings:
   uriFormats:
   - https://{domain}/ui/vault/auth/oidc/oidc/callback

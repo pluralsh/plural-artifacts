@@ -1,6 +1,7 @@
 name: knative-aws
 description: Installs knative on an eks cluster
 provider: AWS
+primary: true
 dependencies:
 - repo: bootstrap
   name: aws-k8s
@@ -16,5 +17,3 @@ sections:
     name: kube
   - type: HELM
     name: knative-serving
-  # - type: HELM
-  #   name: knative-eventing

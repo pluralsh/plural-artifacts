@@ -1,6 +1,7 @@
 name: trino-aws
 description: Installs trino on an aws eks cluster
 provider: AWS
+primary: true
 oidcSettings:
   uriFormat: https://{domain}/oauth2/callback
   authMethod: BASIC

@@ -1,6 +1,7 @@
 name: goldilocks-azure
 description: Installs goldilocks on an azure aks cluster
 provider: AZURE
+primary: true
 oidcSettings:
   uriFormat: https://{domain}/oauth2/callback
   authMethod: POST

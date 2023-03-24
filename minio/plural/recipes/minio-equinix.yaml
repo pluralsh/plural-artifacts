@@ -1,6 +1,7 @@
 name: minio-equinix
 description: Installs minio on an Equinix Kubernetes cluster
 provider: EQUINIX
+primary: true
 dependencies:
 - repo: bootstrap
   name: equinix-kubernetes

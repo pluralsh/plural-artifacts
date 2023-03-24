@@ -1,6 +1,7 @@
 name: rabbitmq-gcp
 description: Deploys rabbitmq on our bootstrapped GKE cluster
 provider: GCP
+primary: true
 dependencies:
 - repo: bootstrap
   name: gcp-k8s
