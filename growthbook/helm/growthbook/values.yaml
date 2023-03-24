@@ -10,7 +10,7 @@ image:
   repository: dkr.plural.sh/growthbook/growthbook/growthbook
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: git-b9232c4
+  tag: 1.9.0
 
 env:
   rest: {}
