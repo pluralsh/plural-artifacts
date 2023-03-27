@@ -189,12 +189,12 @@ airflow:
       {{- if $sshCredentials }}
       sshSecret: airflow-ssh-config
       sshSecretKey: id_rsa
-      sshKnownHosts: {{ knownHosts | quote }}
+      sshKnownHosts: ""
       {{- else if and .Values.gitAccessToken (ne .Values.gitAccessToken "") }}
       httpSecret: airflow-git-http-config
       httpSecretUsernameKey: username
       httpSecretPasswordKey: password
       {{- end }}
       {{ else }}
-      enabled: false  
+      enabled: false
       {{ end }}
