@@ -1,6 +1,7 @@
 name: influx-gcp
 description: Installs influx on a gcp gke cluster
 provider: GCP
+primary: true
 oidcSettings:
   uriFormat: https://{domain}/oauth/plural/callback
   authMethod: POST

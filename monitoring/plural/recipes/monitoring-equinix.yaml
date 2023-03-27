@@ -1,6 +1,7 @@
 name: monitoring-equinix
 description: Installs monitoring on an Equinix Kubernetes cluster
 provider: EQUINIX
+primary: true
 dependencies:
 - repo: bootstrap
   name: equinix-kubernetes

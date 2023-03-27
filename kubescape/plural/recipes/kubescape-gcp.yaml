@@ -1,6 +1,7 @@
 name: kubescape-gcp
 description: Installs kubescape on an aws eks cluster
 provider: GCP
+primary: true
 dependencies:
 - repo: bootstrap
   name: gcp-k8s

@@ -354,3 +354,9 @@ variable "cluster_labels" {
   type = map(string)
   default = {}
 }
+
+variable "grant_registry_access" {
+  type        = bool
+  description = "Grants created cluster-specific service account storage.objectViewer and artifactregistry.reader roles."
+  default     = false
+}

@@ -1,6 +1,7 @@
 name: prefect-agent-gcp
 description: Installs prefect-agent on an gcp GKE cluster
 provider: GCP
+primary: true
 dependencies:
 - repo: bootstrap
   name: gcp-k8s

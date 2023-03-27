@@ -1,6 +1,7 @@
 name: calendso-aws
 description: Installs calendso on an aws eks cluster
 provider: AWS
+primary: true
 dependencies:
 - repo: bootstrap
   name: aws-k8s

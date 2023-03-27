@@ -1,6 +1,7 @@
 name: reloader-kind
 description: Installs reloader on a KinD cluster
 provider: KIND
+primary: true
 dependencies:
 - repo: bootstrap
   name: kind-k8s

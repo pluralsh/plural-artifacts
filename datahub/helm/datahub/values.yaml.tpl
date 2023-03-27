@@ -6,21 +6,20 @@ global:
 
 adminPassword: {{ dedupe . "datahub.adminPassword" (randAlphaNum 14) }}
 
+{{ $prevEncryptionKey := dedupe . "datahub.datahub.global.datahub.encryptionKey.provisionSecret.secretValues.encryptionKey" (randAlphaNum 20) }}
+{{ $prevSecret := dedupe . "datahub.datahub.global.datahub.metadata_service_authentication.provisionSecrets.secretValues.secret" (randAlphaNum 32) }}
+{{ $prevSigningKey := dedupe . "datahub.datahub.global.datahub.metadata_service_authentication.provisionSecrets.secretValues.signingKey" (randAlphaNum 32) }}
+{{ $prevSalt := dedupe . "datahub.datahub.global.datahub.metadata_service_authentication.provisionSecrets.secretValues.salt" (randAlphaNum 32) }}
+
+secrets:
+  encryption:
+    encryptionKey: {{ dedupe . "datahub.secrets.encryption.encryptionKey" $prevEncryptionKey }}
+  metadata_service_authentication:
+    secret: {{ dedupe . "datahub.secrets.metadata_service_authentication.secret" $prevSecret }}
+    signingKey: {{ dedupe . "datahub.secrets.metadata_service_authentication.signingKey" $prevSigningKey }}
+    salt:  {{ dedupe . "datahub.secrets.metadata_service_authentication.salt" $prevSalt }}
+
 datahub:
-  global:
-    datahub:
-      encryptionKey:
-        provisionSecret:
-          autoGenerate: false
-          secretValues:
-            encryptionKey: {{ dedupe . "datahub.datahub.global.datahub.encryptionKey.provisionSecret.secretValues.encryptionKey" (randAlphaNum 20) }}
-      metadata_service_authentication:
-        provisionSecrets:
-          autoGenerate: false
-          secretValues:
-            secret: {{ dedupe . "datahub.datahub.global.datahub.metadata_service_authentication.provisionSecrets.secretValues.secret" (randAlphaNum 32) }}
-            signingKey: {{ dedupe . "datahub.datahub.global.datahub.metadata_service_authentication.provisionSecrets.secretValues.signingKey" (randAlphaNum 32) }}
-            salt: {{ dedupe . "datahub.datahub.global.datahub.metadata_service_authentication.provisionSecrets.secretValues.salt" (randAlphaNum 32) }}
   datahub-frontend:
     ingress:
       hosts:

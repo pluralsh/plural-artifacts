@@ -17,16 +17,13 @@ cronSchedule:
 
 kedaRunbookEnabled: false
 
-setupJobs:
-  elasticsearchSetupJob:
-    enabled: true
-  postgresqlSetupJob:
-    enabled: true
-  kafkaSetupJob:
-    enabled: true
-
-datahubUpgrade:
-  enabled: true
+secrets:
+  encryption:
+    encryptionKey: ""
+  metadata_service_authentication:
+    secret: ""
+    signingKey: ""
+    salt: ""
 
 # Default configuration for pre-requisites to get you started
 # Copy this file and update to the configuration of choice
@@ -34,7 +31,7 @@ datahub:
   datahub-frontend:
     image:
       repository: dkr.plural.sh/datahub/linkedin/datahub-frontend-react
-      tag: v0.9.0
+      tag: v0.10.0
     service:
       type: ClusterIP
     serviceMonitor:
@@ -45,6 +42,11 @@ datahub:
         memory: 500Mi
       limits:
         memory: 1Gi
+    extraInitContainers:
+    - name: wait-for-gms
+      image: gcr.io/pluralsh/library/busybox:1.36.0
+      imagePullPolicy: IfNotPresent
+      command: [ "/bin/sh", "-c", "until nc -zv datahub-datahub-gms 8080 -w1; do echo 'waiting for gms'; sleep 1; done" ]
     extraVolumes:
     - name: basic-auth-password
       secret:
@@ -66,12 +68,28 @@ datahub:
   datahub-gms:
     image:
       repository: dkr.plural.sh/datahub/linkedin/datahub-gms
-      tag: v0.9.0
+      tag: v0.10.0
     serviceMonitor:
       create: true
     extraInitContainers:
+    - name: wait-for-elasticsearch-job
+      image: gcr.io/pluralsh/bitnami/kubectl:1.25.8
+      imagePullPolicy: IfNotPresent
+      command: [ "/bin/sh", "-c", "until kubectl wait --for=condition=complete --timeout=1s -n datahub job/datahub-elasticsearch-setup-job; do echo 'waiting for datahub-elasticsearch-setup-job'; sleep 1; done" ]
+    - name: wait-for-kafka-job
+      image: gcr.io/pluralsh/bitnami/kubectl:1.25.8
+      imagePullPolicy: IfNotPresent
+      command: [ "/bin/sh", "-c", "until kubectl wait --for=condition=complete --timeout=1s -n datahub job/datahub-kafka-setup-job; do echo 'waiting for datahub-kafka-setup-job'; sleep 1; done" ]
+    - name: wait-for-postgres-job
+      image: gcr.io/pluralsh/bitnami/kubectl:1.25.8
+      imagePullPolicy: IfNotPresent
+      command: [ "/bin/sh", "-c", "until kubectl wait --for=condition=complete --timeout=1s -n datahub job/datahub-postgresql-setup-job; do echo 'waiting for datahub-postgresql-setup-job'; sleep 1; done" ]
+    - name: wait-for-datahub-system-update-job
+      image: gcr.io/pluralsh/bitnami/kubectl:1.25.8
+      imagePullPolicy: IfNotPresent
+      command: [ "/bin/sh", "-c", "until kubectl wait --for=condition=complete --timeout=1s -n datahub job/datahub-datahub-system-update-job; do echo 'waiting for datahub-system-update-job'; sleep 1; done" ]
     - name: wait-for-pg
-      image: gcr.io/pluralsh/library/busybox:1.35.0
+      image: gcr.io/pluralsh/library/busybox:1.36.0
       imagePullPolicy: IfNotPresent
       command: [ "/bin/sh", "-c", "until nc -zv plural-postgres-datahub 5432 -w1; do echo 'waiting for db'; sleep 1; done" ]
     service:
@@ -86,27 +104,36 @@ datahub:
 
   acryl-datahub-actions:
     enabled: true
+    serviceAccount:
+      create: true
+    serviceMonitor:
+      create: true
     image:
       repository: dkr.plural.sh/datahub/acryldata/datahub-actions
-      tag: v0.0.7
+      tag: v0.0.11
     resources:
       limits:
         memory: 512Mi
       requests:
         cpu: 50m
         memory: 256Mi
+    extraInitContainers:
+    - name: wait-for-gms
+      image: gcr.io/pluralsh/library/busybox:1.36.0
+      imagePullPolicy: IfNotPresent
+      command: [ "/bin/sh", "-c", "until nc -zv datahub-datahub-gms 8080 -w1; do echo 'waiting for gms'; sleep 1; done" ]
 
   datahub-mae-consumer:
     image:
       repository: dkr.plural.sh/datahub/linkedin/datahub-mae-consumer
-      tag: v0.9.0
+      tag: v0.10.0
     serviceMonitor:
       create: true
 
   datahub-mce-consumer:
     image:
       repository: dkr.plural.sh/datahub/linkedin/datahub-mce-consumer
-      tag: v0.9.0
+      tag: v0.10.0
     serviceMonitor:
       create: true
 
@@ -114,25 +141,29 @@ datahub:
     enabled: false
     image:
       repository: dkr.plural.sh/datahub/acryldata/datahub-ingestion
-      tag: v0.9.0
+      tag: v0.10.0
 
   mysqlSetupJob:
     enabled: false
 
   postgresqlSetupJob:
-    enabled: false
-    initContainers:
-    - name: wait-for-pg
-      image: gcr.io/pluralsh/library/busybox:1.35.0
-      imagePullPolicy: IfNotPresent
-      command: [ "/bin/sh", "-c", "until nc -zv plural-postgres-datahub 5432 -w1; do echo 'waiting for db'; sleep 1; done" ]
+    enabled: true
     image:
       repository: dkr.plural.sh/datahub/acryldata/datahub-postgres-setup
-      tag: v0.9.0
+      tag: v0.10.0
+    extraInitContainers:
+    - name: wait-for-pg
+      image: gcr.io/pluralsh/library/busybox:1.36.0
+      imagePullPolicy: IfNotPresent
+      command: [ "/bin/sh", "-c", "until nc -zv plural-postgres-datahub 5432 -w1; do echo 'waiting for db'; sleep 1; done" ]
     resources:
       requests:
         cpu: 5m
         memory: 50Mi
+    annotations:
+      helm.sh/hook: post-install,pre-upgrade
+      # helm.sh/hook-weight: "-5"
+      # helm.sh/hook-delete-policy: before-hook-creation
     podSecurityContext:
       fsGroup: 1000
     securityContext:
@@ -140,68 +171,59 @@ datahub:
     podAnnotations: { }
   
   elasticsearchSetupJob:
-    enabled: false
+    enabled: true
     image:
-      repository: dkr.plural.sh/datahub/acryldata/datahub-elasticsearch-setup
-      tag: v0.8.45-cleanup
+      repository: dkr.plural.sh/datahub/linkedin/datahub-elasticsearch-setup
+      tag: v0.10.0
     resources:
       requests:
         cpu: 5m
         memory: 5Mi
+    annotations:
+      helm.sh/hook: post-install,pre-upgrade
+      # helm.sh/hook-weight: "-5"
+      # helm.sh/hook-delete-policy: before-hook-creation
 
   kafkaSetupJob:
-    enabled: false
+    enabled: true
     image:
-      repository: gcr.io/pluralsh/linkedin/datahub-kafka-setup
-      tag: v0.9.0
+      repository: dkr.plural.sh/datahub/linkedin/datahub-kafka-setup
+      tag: v0.10.0
     resources:
       requests:
         cpu: 0.4
         memory: 60Mi
+    annotations:
+      helm.sh/hook: post-install,pre-upgrade
+      # helm.sh/hook-weight: "-5"
+      # helm.sh/hook-delete-policy: before-hook-creation
 
   datahubUpgrade:
-    enabled: false
+    enabled: true
     image:
       repository: dkr.plural.sh/datahub/acryldata/datahub-upgrade
-      tag: v0.9.0
+      tag: v0.10.0
+    noCodeDataMigration:
+      sqlDbType: POSTGRES
+    extraInitContainers:
+    - name: wait-for-gms
+      image: gcr.io/pluralsh/library/busybox:1.36.0
+      imagePullPolicy: IfNotPresent
+      command: [ "/bin/sh", "-c", "until nc -zv datahub-datahub-gms 8080 -w1; do echo 'waiting for gms'; sleep 1; done" ]
+    # annotations:
+    #   helm.sh/hook: post-install,post-upgrade
+    #   helm.sh/hook-weight: "-2"
+    #   helm.sh/hook-delete-policy: before-hook-creation
 
-  global:
-    datahub:
-      monitoring:
-        enablePrometheus: true
-      metadata_service_authentication:
-        enabled: true
-    graph_service_impl: "elasticsearch"
-    elasticsearch:
-      host: "elasticsearch-es-http.elasticsearch.svc"
-      port: "9200"
-      useSSL: "false"
-      skipcheck: "false"
-      insecure: "false"
-      auth:
-        username: elastic
-        password:
-          secretRef: elasticsearch-es-elastic-user
-          secretKey: elastic
-      verify-certs: "false"
-    kafka:
-      bootstrap:
-        server: "kafka-kafka-bootstrap.kafka.svc:9092"
-      zookeeper:
-        server: "kafka-zookeeper-client.kafka.svc:2181"
-      schemaregistry:
-        url: "http://kafka-schema-registry.kafka.svc:8081"
-    sql:
-      datasource:
-        hostForpostgresqlClient: "plural-postgres-datahub"
-        host: "plural-postgres-datahub:5432"
-        port: "5432"
-        url: "jdbc:postgresql://plural-postgres-datahub:5432/datahub?verifyServerCertificate=false&useSSL=true&useUnicode=yes&characterEncoding=UTF-8&enabledTLSProtocols=TLSv1.2"
-        driver: "org.postgresql.Driver"
-        username: "datahub"
-        password:
-          secretRef: datahub.plural-postgres-datahub.credentials.postgresql.acid.zalan.do
-          secretKey: password
+  datahubSystemUpdate:
+    image:
+      repository: dkr.plural.sh/datahub/acryldata/datahub-upgrade
+      tag: v0.10.0
+    annotations:
+      helm.sh/hook: post-install,pre-upgrade
+    #   helm.sh/hook-weight: "-4"
+    #   helm.sh/hook-delete-policy: before-hook-creation
+
   prerequisites:
     elasticsearch:
       enabled: false   # set this to false, if you want to provide your own ES instance.
@@ -213,3 +235,49 @@ datahub:
       enabled: false
     kafka:
       enabled: false
+
+global:
+  datahub:
+    monitoring:
+      enablePrometheus: true
+    encryptionKey:
+      provisionSecret:
+        enabled: false
+    metadata_service_authentication:
+      enabled: true
+      systemClientSecret:
+        secretRef: "datahub-auth-secrets"
+        secretKey: "system_client_secret"
+      provisionSecrets:
+        enabled: false
+  graph_service_impl: "elasticsearch"
+  elasticsearch:
+    host: "elasticsearch-es-http.elasticsearch"
+    port: "9200"
+    useSSL: "false"
+    skipcheck: "false"
+    insecure: "false"
+    auth:
+      username: elastic
+      password:
+        secretRef: elasticsearch-es-elastic-user
+        secretKey: elastic
+    verify-certs: "false"
+  kafka:
+    bootstrap:
+      server: "kafka-kafka-bootstrap.kafka:9092"
+    zookeeper:
+      server: "kafka-zookeeper-client.kafka:2181"
+    schemaregistry:
+      url: "http://kafka-schema-registry.kafka:8081"
+  sql:
+    datasource:
+      hostForpostgresqlClient: "plural-postgres-datahub"
+      host: "plural-postgres-datahub:5432"
+      port: "5432"
+      url: "jdbc:postgresql://plural-postgres-datahub:5432/datahub?verifyServerCertificate=false&useSSL=true&useUnicode=yes&characterEncoding=UTF-8&enabledTLSProtocols=TLSv1.2"
+      driver: "org.postgresql.Driver"
+      username: "datahub"
+      password:
+        secretRef: datahub.plural-postgres-datahub.credentials.postgresql.acid.zalan.do
+        secretKey: password

@@ -1,6 +1,7 @@
 name: reloader-azure
 description: Installs reloader on an aws eks cluster
 provider: AZURE
+primary: true
 dependencies:
 - repo: bootstrap
   name: azure-k8s

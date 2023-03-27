@@ -1,6 +1,7 @@
 name: clickhouse-gcp
 description: Installs clickhouse on an aws eks cluster
 provider: GCP
+primary: true
 dependencies:
 - repo: bootstrap
   name: gcp-k8s

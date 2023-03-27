@@ -1,4 +1,4 @@
-name: aws-redis
+name: aws-redis-cluster
 description: Installs redis on an aws eks cluster
 provider: AWS
 dependencies:

@@ -1,6 +1,7 @@
 name: nvidia-operator-azure
 description: Installs nvidia-operator on an azure aks cluster
 provider: AZURE
+primary: true
 dependencies:
 - repo: bootstrap
   name: azure-k8s

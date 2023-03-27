@@ -1,6 +1,7 @@
 name: kyverno-gcp
 description: Installs kyverno on a gcp gke cluster
 provider: GCP
+primary: true
 dependencies:
 - repo: bootstrap
   name: gcp-kubernetes

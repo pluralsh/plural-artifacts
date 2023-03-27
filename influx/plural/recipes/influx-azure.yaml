@@ -1,6 +1,7 @@
 name: influx-azure
 description: Installs influx on an azure aks cluster
 provider: AZURE
+primary: true
 oidcSettings:
   uriFormat: https://{domain}/oauth/plural/callback
   authMethod: POST

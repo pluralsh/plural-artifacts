@@ -1,6 +1,7 @@
 name: elasticsearch-aws
 description: Installs elasticsearch on an eks cluster
 provider: AWS
+primary: true
 dependencies:
 - repo: bootstrap
   name: aws-k8s
@@ -17,4 +18,3 @@ sections:
   - name: hostname
     documentation: hostname for your kibana instance
     type: DOMAIN
-  

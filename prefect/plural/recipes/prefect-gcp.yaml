@@ -1,6 +1,7 @@
 name: prefect-gcp
 description: Installs prefect on an aws eks cluster
 provider: GCP
+primary: true
 oidcSettings:
   uriFormat: https://{domain}/oauth2/callback
   authMethod: POST

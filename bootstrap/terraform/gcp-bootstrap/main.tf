@@ -69,6 +69,7 @@ module "gke" {
     },
     var.cluster_labels,
   )
+  grant_registry_access      = var.grant_registry_access
 
   node_pools = var.node_pools
 

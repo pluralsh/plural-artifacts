@@ -1,17 +1,22 @@
 name: sftpgo-azure
 description: Installs sftpgo on an azure aks cluster
 provider: AZURE
+primary: true
 dependencies:
-  - repo: bootstrap
-    name: azure-k8s
-  - repo: ingress-nginx
-    name: ingress-nginx-azure
+- repo: bootstrap
+  name: azure-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-azure
 sections:
   - name: sftpgo
     configuration:
       - name: hostname
         type: DOMAIN
         documentation: the fully qualified domain name your sftpgo instance will be available at
+      - name: loadBalancerHostname
+        documentation: a dns name to access the enabled services (sftp on port 22, etc.)
+        type: DOMAIN
+        optional: true
     items:
       - type: TERRAFORM
         name: kube

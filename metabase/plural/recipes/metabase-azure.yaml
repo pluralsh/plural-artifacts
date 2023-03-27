@@ -1,6 +1,7 @@
 name: metabase-azure
 description: Installs metabase on an azure aks cluster
 provider: AZURE
+primary: true
 dependencies:
 - repo: bootstrap
   name: azure-k8s
