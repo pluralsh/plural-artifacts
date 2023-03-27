@@ -33,3 +33,9 @@ variable "cluster_name" {
   type = string
   default = "plural"
 }
+
+variable "roles" {
+  type        = list(string)
+  description = "A list of roles to be added to the airbyte workload identity service account"
+  default     = []
+}
