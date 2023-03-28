@@ -14,6 +14,11 @@ sections:
     type: BUCKET
     default: loki
     documentation: storage container to store the logs in
+  - name: hostname
+    type: domain
+    default: loki
+    documentation: the hostname you'll deploy loki with (will only be available on a private network)
+    optional: true
   items:
   - type: TERRAFORM
     name: azure
