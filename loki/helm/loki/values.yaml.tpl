@@ -29,6 +29,24 @@ loki-distributed:
   gateway:
     ingress:
       enabled: true
+      annotations:
+        nginx.ingress.kubernetes.io/auth-type: basic
+        nginx.ingress.kubernetes.io/auth-secret: basic-auth
+        nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required - foo'
+      hosts:
+      - host: {{ .Values.hostname | quote }}
+        paths:
+          - path: /
+            pathType: Prefix
+      tls:
+      - hosts:
+        - {{ .Values.hostname | quote }}
+        secretName: loki-tls
+  {{ else if .Values.hostname }}
+  gateway:
+    ingress:
+      enabled: true
+      ingressClassName: internal-nginx
       hosts:
       - host: {{ .Values.hostname | quote }}
         paths:
