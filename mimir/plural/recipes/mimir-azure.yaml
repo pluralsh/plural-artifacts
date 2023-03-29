@@ -1,0 +1,16 @@
+name: mimir-azure
+description: Installs mimir on an aws eks cluster
+provider: AZURE
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+
+
+sections:
+- name: mimir
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: azure
+  - type: HELM
+    name: mimir

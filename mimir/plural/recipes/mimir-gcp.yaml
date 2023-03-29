@@ -1,0 +1,16 @@
+name: mimir-gcp
+description: Installs mimir on an aws eks cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+
+
+sections:
+- name: mimir
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: mimir

@@ -1,0 +1,6 @@
+name: mimir
+description: mimir deployed on plural
+category: DEVOPS
+private: true
+icon: plural/icons/mimir.png
+notes: plural/notes.tpl
