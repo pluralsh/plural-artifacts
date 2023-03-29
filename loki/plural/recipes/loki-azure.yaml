@@ -17,8 +17,7 @@ sections:
     default: loki
     documentation: storage container to store the logs in
   - name: hostname
-    type: domain
-    default: loki
+    type: DOMAIN
     documentation: the hostname you'll deploy loki with (will only be available on a private network)
     optional: true
   items:
