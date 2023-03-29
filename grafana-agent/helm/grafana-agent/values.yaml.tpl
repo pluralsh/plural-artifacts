@@ -1,0 +1,3 @@
+logs:
+  agent:
+    lokiTenantId: {{ .Cluster }}

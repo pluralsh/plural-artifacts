@@ -1,0 +1,11 @@
+apiVersion: v2
+name: grafana-agent-operator
+description: helm chart for grafana-agent-operator
+type: application
+version: 0.1.0
+appVersion: v0.32.1
+dependencies:
+- name: grafana-agent-operator
+  version: 0.2.14
+  repository: https://grafana.github.io/helm-charts
+  condition: grafana-agent-operator.enabled

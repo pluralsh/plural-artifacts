@@ -1,0 +1,17 @@
+{{- if .Values.podLogs.enabled }}
+apiVersion: monitoring.grafana.com/v1alpha1
+kind: PodLogs
+metadata:
+  labels:
+    instance: primary
+  name: kubernetes-pods
+  namespace: grafana-agent
+spec:
+  pipelineStages:
+    - docker: {}
+  namespaceSelector:
+    matchNames:
+    - default
+  selector:
+    matchLabels: {}
+{{- end }}

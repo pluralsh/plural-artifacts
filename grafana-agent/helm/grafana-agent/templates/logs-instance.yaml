@@ -1,0 +1,19 @@
+{{- if .Values.logInstance.enabled }}
+apiVersion: monitoring.grafana.com/v1alpha1
+kind: LogsInstance
+metadata:
+  name: {{ include "grafana-agent-plural.fullname" . }}
+  labels:
+    {{- include "grafana-agent-plural.logsSelectorLabels" . | nindent 4 }}
+spec:
+  clients:
+  {{- range $key, $value := .Values.logInstance.clients }}
+  - {{ toYaml $value | nindent 4 }}
+  {{- end }}
+  {{- range $key, $value := .Values.logInstance }}
+  {{- if ne $key "clients" }}
+  {{ $key }}: 
+  {{- toYaml $value | nindent 4 }}
+  {{- end }}
+  {{- end }}
+{{- end }}

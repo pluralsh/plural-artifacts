@@ -1,0 +1,20 @@
+{{- if .Values.metricsInstance.enabled }}
+apiVersion: monitoring.grafana.com/v1alpha1
+kind: MetricsInstance
+metadata:
+  name: {{ include "grafana-agent-plural.fullname" . }}
+  labels:
+    {{- include "grafana-agent-plural.metricsSelectorLabels" . | nindent 4 }}
+spec:
+  remoteWrite:
+  {{- range $key, $value := .Values.metricsInstance.remoteWrite }}
+  - name: {{ $key | quote }}
+  {{- toYaml $value | nindent 4 }}
+  {{- end }}
+  {{- range $key, $value := .Values.metricsInstance }}
+  {{- if ne $key "remoteWrite" }}
+  {{ $key }}: 
+  {{- toYaml $value | nindent 4 }}
+  {{- end }}
+  {{- end }}
+{{- end }}

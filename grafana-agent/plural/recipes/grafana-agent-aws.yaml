@@ -1,0 +1,17 @@
+name: grafana-agent-aws
+description: Installs grafana-agent on an aws eks cluster
+provider: AWS
+primary: true
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+sections:
+- name: grafana-agent
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: grafana-agent
+  - type: HELM
+    name: grafana-agent-operator
