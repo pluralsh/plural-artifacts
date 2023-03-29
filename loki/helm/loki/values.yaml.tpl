@@ -15,6 +15,11 @@ basicAuth:
   password: {{ .Values.basicAuth.password }}
 {{ end }}
 
+{{- if (index .Configuration "grafana-agent") }}
+promtail:
+  enabled: false
+{{- end }}
+
 loki-distributed:
   {{- if eq .Provider "google" }}
   serviceAccount:

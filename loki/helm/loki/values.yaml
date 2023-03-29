@@ -232,6 +232,7 @@ loki-distributed:
               period: 24h
 
 promtail:
+  enabled: true
   image:
     registry: dkr.plural.sh
     repository: loki/grafana/promtail
