@@ -4,6 +4,9 @@ mimir-distributed:
     annotations:
       eks.amazonaws.com/role-arn: {{ importValue "Terraform" "iam_role_arn" }}
   {{- end }}
+  metaMonitoring:
+    serviceMonitor:
+      clusterLabel: {{ .Cluster }}
   mimir:
     structuredConfig:
       common:

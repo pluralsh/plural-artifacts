@@ -3,9 +3,9 @@ name: mimir
 description: helm chart for mimir
 type: application
 version: 0.1.0
-appVersion: 2.6.0
+appVersion: 2.7.1
 dependencies:
 - name: mimir-distributed
-  version: 4.1.0
+  version: 4.3.0
   repository: https://grafana.github.io/helm-charts
   condition: mimir.enabled

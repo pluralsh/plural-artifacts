@@ -5,3 +5,221 @@ mimir-distributed:
     structuredConfig:
       tenant_federation:
         enabled: true
+      ruler:
+        tenant_federation:
+          enabled: true
+      limits:
+        ruler_max_rules_per_rule_group: 80
+  metaMonitoring:
+    serviceMonitor:
+      enabled: true
+    prometheusRule:
+      enabled: true
+      mimirAlerts: true
+      mimirRules: true
+  alertmanager:
+    topologySpreadConstraints:
+      maxSkew: 1
+      topologyKey: topology.kubernetes.io/zone
+      whenUnsatisfiable: ScheduleAnyway
+    resources:
+      requests:
+        cpu: 10m
+        memory: 32Mi
+      limits:
+        memory: 128Mi
+    # replicas: 2
+    # resources:
+    #   limits:
+    #     memory: 1.4Gi
+    #   requests:
+    #     cpu: 1
+    #     memory: 1Gi
+    # zoneAwareReplication:
+    #   enabled: true
+  compactor:
+    persistentVolume:
+      size: 2Gi
+    resources:
+      requests:
+        cpu: 100m
+        memory: 512Mi
+    # persistentVolume:
+    #   size: 20Gi
+    # resources:
+    #   limits:
+    #     memory: 2.1Gi
+    #   requests:
+    #     cpu: 1
+    #     memory: 1.5Gi
+  distributor:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 512Mi
+    # replicas: 2
+    # resources:
+    #   limits:
+    #     memory: 5.7Gi
+    #   requests:
+    #     cpu: 2
+    #     memory: 4Gi
+  ingester:
+    replicas: 3
+    persistentVolume:
+      size: 10Gi
+    resources:
+      requests:
+        cpu: 100m
+        memory: 512Mi
+    # persistentVolume:
+    #   size: 50Gi
+    # resources:
+    #   limits:
+    #     memory: 12Gi
+    #   requests:
+    #     cpu: 3.5
+    #     memory: 8Gi
+    topologySpreadConstraints:
+      maxSkew: 1
+      topologyKey: topology.kubernetes.io/zone
+      whenUnsatisfiable: ScheduleAnyway
+  overrides_exporter:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+    # replicas: 1
+    # resources:
+    #   limits:
+    #     memory: 128Mi
+    #   requests:
+    #     cpu: 100m
+    #     memory: 128Mi
+  querier:
+    replicas: 2
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+    # replicas: 1
+    # resources:
+    #   limits:
+    #     memory: 5.6Gi
+    #   requests:
+    #     cpu: 2
+    #     memory: 4Gi
+  query_frontend:
+    replicas: 1
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+    # resources:
+    #   limits:
+    #     memory: 2.8Gi
+    #   requests:
+    #     cpu: 2
+    #     memory: 2Gi
+  ruler:
+    replicas: 1
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+    # resources:
+    #   limits:
+    #     memory: 2.8Gi
+    #   requests:
+    #     cpu: 1
+    #     memory: 2Gi
+  store_gateway:
+    persistentVolume:
+      size: 2Gi
+    resources:
+      requests:
+        cpu: 100m
+        memory: 512Mi
+    # persistentVolume:
+    #   size: 10Gi
+    # replicas: 3
+    # resources:
+    #   limits:
+    #     memory: 2.1Gi
+    #   requests:
+    #     cpu: 1
+    #     memory: 1.5Gi
+    topologySpreadConstraints:
+      maxSkew: 1
+      topologyKey: topology.kubernetes.io/zone
+      whenUnsatisfiable: ScheduleAnyway
+  gateway:
+    replicas: 1
+    # resources:
+    #   limits:
+    #     memory: 731Mi
+    #   requests:
+    #     cpu: 1
+    #     memory: 512Mi
+  memcached:
+    image:
+      # -- Memcached Docker image repository
+      repository: memcached
+      # -- Memcached Docker image tag
+      tag: 1.6.19-alpine
+  memcachedExporter:
+    # -- Whether memcached metrics should be exported
+    enabled: true
+
+    image:
+      repository: prom/memcached-exporter
+      tag: v0.11.2
+      pullPolicy: IfNotPresent
+
+    resources:
+      requests: {}
+      limits: {}
+  chunks-cache:
+    # -- Specifies whether memcached based chunks-cache should be enabled
+    enabled: false
+    # -- Amount of memory allocated to chunks-cache for object storage (in MB).
+    allocatedMemory: 8192
+
+    # -- Maximum item memory for chunks-cache (in MB).
+    maxItemMemory: 1
+    resources: null
+  index-cache:
+    # -- Specifies whether memcached based index-cache should be enabled
+    enabled: false
+    # -- Amount of memory allocated to index-cache for object storage (in MB).
+    allocatedMemory: 2048
+
+    # -- Maximum item index-cache for memcached (in MB).
+    maxItemMemory: 5
+    resources: null
+  metadata-cache:
+    # -- Specifies whether memcached based metadata-cache should be enabled
+    enabled: true
+    # -- Amount of memory allocated to metadata-cache for object storage (in MB).
+    allocatedMemory: 512
+
+    # -- Maximum item metadata-cache for memcached (in MB).
+    maxItemMemory: 1
+    resources: null
+  results-cache:
+    # -- Specifies whether memcached based results-cache should be enabled
+    enabled: false
+    # -- Amount of memory allocated to results-cache for object storage (in MB).
+    allocatedMemory: 512
+
+    # -- Maximum item results-cache for memcached (in MB).
+    maxItemMemory: 5
+    resources: null
+  rollout_operator:
+    resources:
+      limits:
+        cpu: "1"
+        memory: 200Mi
+      requests:
+        cpu: 100m
+        memory: 100Mi
