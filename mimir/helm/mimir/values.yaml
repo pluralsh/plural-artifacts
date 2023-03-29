@@ -1,3 +1,7 @@
 mimir-distributed:
   minio:
     enabled: false
+  mimir:
+    structuredConfig:
+      tenant_federation:
+        enabled: true
