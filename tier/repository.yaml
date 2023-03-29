@@ -1,7 +1,6 @@
 name: tier
 description: A single tool to configure, orchestrate and manage your entire billing stack
 category: PRODUCTIVITY
-private: true
 icon: plural/icons/tier.png
 notes: plural/notes.tpl
 homepage: https://tier.run/
