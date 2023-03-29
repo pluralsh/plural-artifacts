@@ -1,4 +1,7 @@
 mimir-distributed:
+  image:
+    repository: dkr.plural.sh/mimir/grafana/mimir
+    tag: 2.7.1
   minio:
     enabled: false
   mimir:
@@ -161,10 +164,18 @@ mimir-distributed:
     #   requests:
     #     cpu: 1
     #     memory: 512Mi
+    nginx:
+      image:
+        # -- The Docker registry for nginx image
+        registry: dkr.plural.sh
+        # -- The nginx image repository
+        repository: mimir/nginxinc/nginx-unprivileged
+        # -- The nginx image tag
+        tag: 1.23.3-alpine
   memcached:
     image:
       # -- Memcached Docker image repository
-      repository: memcached
+      repository: dkr.plural.sh/mimir/library/memcached
       # -- Memcached Docker image tag
       tag: 1.6.19-alpine
   memcachedExporter:
@@ -172,7 +183,7 @@ mimir-distributed:
     enabled: true
 
     image:
-      repository: prom/memcached-exporter
+      repository: dkr.plural.sh/mimir/prom/memcached-exporter
       tag: v0.11.2
       pullPolicy: IfNotPresent
 
