@@ -12,7 +12,7 @@ spec:
   {{- toYaml $value | nindent 4 }}
   {{- end }}
   {{- range $key, $value := .Values.metricsInstance }}
-  {{- if ne $key "remoteWrite" }}
+  {{- if and (ne $key "remoteWrite") (ne $key "enabled") }}
   {{ $key }}: 
   {{- toYaml $value | nindent 4 }}
   {{- end }}

@@ -38,8 +38,9 @@ data:
       access: proxy
       orgId: 1
       uid: mimir-alertmanager
-      url: http://{{ template "mimir.resourceName" (dict "ctx" (index .Subcharts "mimir-distributed") "component" "nginx") }}.{{ .Release.Namespace }}/alertmanager
+      url: http://{{ template "mimir.resourceName" (dict "ctx" (index .Subcharts "mimir-distributed") "component" "nginx") }}.{{ .Release.Namespace }}
       jsonData:
+        implementation: mimir
       {{- if .Values.datasource.clusterTenantHeader.enabled }}
         httpHeaderName1: 'X-Scope-OrgID'
       secureJsonData:

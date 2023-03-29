@@ -11,7 +11,7 @@ spec:
   - {{ toYaml $value | nindent 4 }}
   {{- end }}
   {{- range $key, $value := .Values.logInstance }}
-  {{- if ne $key "clients" }}
+  {{- if and (ne $key "clients") (ne $key "enabled") }}
   {{ $key }}: 
   {{- toYaml $value | nindent 4 }}
   {{- end }}

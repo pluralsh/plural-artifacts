@@ -2,16 +2,14 @@
 apiVersion: monitoring.grafana.com/v1alpha1
 kind: PodLogs
 metadata:
+  name: {{ include "grafana-agent-plural.fullname" . }}
   labels:
-    instance: primary
-  name: kubernetes-pods
-  namespace: grafana-agent
+    {{- include "grafana-agent-plural.labels" . | nindent 4 }}
 spec:
-  pipelineStages:
-    - docker: {}
-  namespaceSelector:
-    matchNames:
-    - default
-  selector:
-    matchLabels: {}
+  {{- range $key, $value := .Values.podLogs }}
+  {{- if ne $key "enabled" }}
+  {{ $key }}: 
+  {{- toYaml $value | nindent 4 }}
+  {{- end }}
+  {{- end }}
 {{- end }}

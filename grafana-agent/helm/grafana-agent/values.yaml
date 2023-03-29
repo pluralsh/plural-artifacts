@@ -1,6 +1,6 @@
 agent:
   # -- Enable the agent
-  enabled: false
+  enabled: true
   # -- The name of the cluster that will be added to the agent's external labels
   clusterName: ""
 
@@ -31,14 +31,15 @@ agent:
   runtimeClassName: ""
   portName: ""
 
-  metrics: {}
-    # instanceNamespaceSelector: {}
+  metrics:
+    scrapeInterval: 15s
+    instanceNamespaceSelector: {}
     #   test: test # TODO: we need to support this in the template so we can set empty values
   logs: {}
   integrations: {}
 
   serviceAccount:
-    create: false
+    create: true
     annotations: {}
     name: ""
 
@@ -47,16 +48,16 @@ agent:
   disableSupportBundle: false
 
 metricsInstance:
-  enabled: false
+  enabled: true
   remoteWrite:
     mimir:
       url: http://mimir-nginx.mimir/api/v1/push
       headers:
-        X-Scope-OrgID: mimir-cloud-2
-    test:
-      url: http://mimir-nginx.mimir/api/v1/push
-      headers:
-        X-Scope-OrgID: mimir-cloud-2
+        X-Scope-OrgID: plrltest2
+    # test:
+    #   url: http://mimir-nginx.mimir/api/v1/push
+    #   headers:
+    #     X-Scope-OrgID: plrltest2
   serviceMonitorNamespaceSelector: {}
   serviceMonitorSelector: {}
     # matchLabels:
@@ -77,29 +78,37 @@ metricsInstance:
     #   instance: primary
 
 logInstance:
-  enabled: false
+  enabled: true
   clients:
     loki:
-      url: http://mimir-nginx.mimir/loki/api/v1/push
-      tenantId: mimir-cloud-2
-    test:
-      url: http://mimir-nginx.mimir/loki/api/v1/push
-      tenantId: mimir-cloud-2
+      url: http://loki-loki-distributed-gateway.loki/loki/api/v1/push
+      tenantId: plrltest2
+      externalLabels:
+        cluster: plrltest2
   podLogsNamespaceSelector: {}
   podLogsSelector:  {}
 
 podLogs:
-  enabled: false
+  enabled: true
+  pipelineStages:
+    - docker: {}
+  namespaceSelector:
+    any: true
+  selector:
+    matchLabels: {}
 
 rbac:
   create: true
 
 
 traces:
-  enabled: false
+  enabled: true
   controller:
     type: deployment
   agent:
+    mimirHost: http://mimir-nginx.mimir
+    lokiHost: http://loki-loki-distributed-gateway.loki/loki/api/v1/push
+    lokiTenantId: ""
     configMap:
       content: |
         logging {
@@ -107,49 +116,31 @@ traces:
           format = "logfmt"
         }
 
-        discovery.kubernetes "pods" {
-          role = "pod"
-        }
-
-        discovery.kubernetes "nodes" {
-          role = "node"
-        }
-
-        discovery.kubernetes "services" {
-          role = "service"
-        }
-
-        discovery.kubernetes "endpoints" {
-          role = "endpoints"
-        }
-
-        discovery.kubernetes "endpointslices" {
-          role = "endpointslice"
-        }
-
-        discovery.kubernetes "ingresses" {
-          role = "ingress"
-        }
-
         mimir.rules.kubernetes "LABEL" {
-          address = "http://mimir-nginx.mimir"
-          tenant_id = "mimir-cloud"
+          address = {{ .Values.agent.mimirHost | quote }}
+          tenant_id = {{ .Values.agent.lokiTenantId | quote }}
         }
 
-        mimir.alertmanager_configs.kubernetes "main" {
-          address = "http://mimir-nginx.mimir"
-          tenant_id = "mimir-cloud"
+        loki.source.kubernetes_events "events" {
+          forward_to = [loki.write.local.receiver]
+        }
+
+        loki.write "local" {
+          endpoint {
+            url = {{ .Values.agent.lokiHost | quote }}
+            tenant_id = {{ .Values.agent.lokiTenantId | quote }}
+          }
         }
 
 logs:
-  enabled: true
+  enabled: false
   image:
     repository: grafana/agent
     tag: null
   controller:
-    type: daemonset
+    type: deployment
   agent:
-    lokiHost: http://loki-loki-distributed-gateway/loki/api/v1/push
+    lokiHost: http://loki-loki-distributed-gateway.loki/loki/api/v1/push
     lokiTenantId: ""
     configMap:
       content: |
@@ -173,8 +164,8 @@ logs:
 
         loki.write "local" {
           endpoint {
-            url = {{ .Values.agent.lokiHost }}
-            tenant_id = {{ .Values.agent.lokiTenantId }}
+            url = {{ .Values.agent.lokiHost | quote }}
+            tenant_id = {{ .Values.agent.lokiTenantId | quote }}
           }
         }
   configReloader:

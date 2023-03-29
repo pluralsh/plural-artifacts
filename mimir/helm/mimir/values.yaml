@@ -22,6 +22,8 @@ mimir-distributed:
           enabled: true
       limits:
         ruler_max_rules_per_rule_group: 80
+        max_global_series_per_user: 0 # TODO: check what we should actually set here
+        max_label_names_per_series: 45
   metaMonitoring:
     serviceMonitor:
       enabled: true
@@ -201,7 +203,7 @@ mimir-distributed:
       limits: {}
   chunks-cache:
     # -- Specifies whether memcached based chunks-cache should be enabled
-    enabled: false
+    enabled: true
     # -- Amount of memory allocated to chunks-cache for object storage (in MB).
     allocatedMemory: 8192
 
@@ -210,7 +212,7 @@ mimir-distributed:
     resources: null
   index-cache:
     # -- Specifies whether memcached based index-cache should be enabled
-    enabled: false
+    enabled: true
     # -- Amount of memory allocated to index-cache for object storage (in MB).
     allocatedMemory: 2048
 
@@ -228,7 +230,7 @@ mimir-distributed:
     resources: null
   results-cache:
     # -- Specifies whether memcached based results-cache should be enabled
-    enabled: false
+    enabled: true
     # -- Amount of memory allocated to results-cache for object storage (in MB).
     allocatedMemory: 512
 
