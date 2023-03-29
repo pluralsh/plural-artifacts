@@ -9,11 +9,9 @@ spec:
   - path: /metrics
     port: http-metrics
   namespaceSelector:
-    matchNames:
-      - {{ .Release.Namespace }}
+    any: true
   selector:
     matchLabels:
-      operator.agent.grafana.com/name: {{ include "grafana-agent-plural.fullname" . }}
       operated-agent: "true"
 ---
 apiVersion: monitoring.coreos.com/v1
