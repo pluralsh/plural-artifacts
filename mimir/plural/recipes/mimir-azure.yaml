@@ -1,14 +1,25 @@
 name: mimir-azure
 description: Installs mimir on an aws eks cluster
 provider: AZURE
+primary: true
 dependencies:
 - repo: bootstrap
   name: azure-k8s
-
-
 sections:
 - name: mimir
-  configuration: []
+  configuration:
+  - name: mimirBlocksBucket
+    type: BUCKET
+    default: mimir-blocks
+    documentation: bucket to store the mimir blocks in
+  - name: mimirAlertBucket
+    type: BUCKET
+    default: mimir-alertmanager
+    documentation: bucket for mimir alertmanager
+  - name: mimirRulerBucket
+    type: BUCKET
+    default: mimir-ruler
+    documentation: bucket for mimir ruler storage
   items:
   - type: TERRAFORM
     name: azure
