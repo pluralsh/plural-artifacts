@@ -1,5 +1,5 @@
 REPO tier
-ATTRIBUTES "SamuelGordalina" repository.yaml
+ATTRIBUTES Plural repository.yaml
 
 TF terraform/*
 HELM helm/*
