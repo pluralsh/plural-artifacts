@@ -11,7 +11,7 @@ mimir-distributed:
           {{- if eq .Provider "aws" }}
           backend: s3
           s3:
-            s3: s3://{{ .Region }}
+            endpoint: s3.{{ .Region }}.amazonaws.com
             region: {{ .Region }}
           {{- else if eq .Provider "google" }}
           backend: gcs
@@ -25,18 +25,19 @@ mimir-distributed:
           {{- end }}
       blocks_storage:
         {{- if eq .Provider "aws" }}
+        backend: s3
         s3:
           bucket_name: {{ .Values.mimirBlocksBucket }}
         {{- end }}
-
       alertmanager_storage:
         {{- if eq .Provider "aws" }}
+        backend: s3
         s3:
           bucket_name: {{ .Values.mimirAlertBucket }}
         {{- end }}
-
       ruler_storage:
         {{- if eq .Provider "aws" }}
+        backend: s3
         s3:
           bucket_name: {{ .Values.mimirRulerBucket }}
         {{- end }}
