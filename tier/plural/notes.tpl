@@ -1,0 +1,1 @@
+Use `plural watch tier` to track the status of your application

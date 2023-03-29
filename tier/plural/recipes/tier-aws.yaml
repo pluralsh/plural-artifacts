@@ -1,0 +1,16 @@
+name: tier-aws
+description: Installs tier on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+
+
+sections:
+- name: tier
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: tier
