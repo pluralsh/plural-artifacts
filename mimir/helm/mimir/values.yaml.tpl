@@ -5,6 +5,15 @@ global:
       name: mimir-azure-secret
 {{- end }}
 
+
+datasource:
+  clusterTenantHeader:
+    value: {{ .Cluster }}
+{{ if .Configuration.tempo }}
+  tempo:
+    enabled: true
+{{ end }}
+
 mimir-distributed:
   {{- if eq .Provider "aws" }}
   serviceAccount:

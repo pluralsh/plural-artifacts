@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mimir-grafana-datasources
+  labels:
+    grafana_datasource: 'mimir'
+    {{ include "mimir-plural.labels" . | nindent 4 }}
+data:
+  mimir-datasource.yaml: |-
+    apiVersion: 1
+    datasources:
+    - name: Mimir
+      type: prometheus
+      access: proxy
+      orgId: 1
+      uid: mimir
+      url: http://{{ template "mimir.resourceName" (dict "ctx" (index .Subcharts "mimir-distributed") "component" "nginx") }}.{{ .Release.Namespace }}/prometheus
+      jsonData:
+        manageAlerts: true
+        alertmanagerUid: mimir-alertmanager
+        prometheusType: Mimir
+        prometheusVersion: 2.4.0
+        {{- if .Values.datasource.tempo.enabled }}
+        exemplarTraceIdDestinations:
+        - datasourceUid: {{ .Values.datasource.tempo.id }}
+          name: traceID
+        {{- end }}
+      {{- if .Values.datasource.clusterTenantHeader.enabled }}
+        httpHeaderName1: 'X-Scope-OrgID'
+      secureJsonData:
+        httpHeaderValue1: {{ .Values.datasource.clusterTenantHeader.value }}
+      {{- end }}
+  mimir-alertmanager-datasource.yaml: |-
+    apiVersion: 1
+    datasources:
+    - name: Mimir Alertmanager
+      type: alertmanager
+      access: proxy
+      orgId: 1
+      uid: mimir-alertmanager
+      url: http://{{ template "mimir.resourceName" (dict "ctx" (index .Subcharts "mimir-distributed") "component" "nginx") }}.{{ .Release.Namespace }}/alertmanager
+      jsonData:
+      {{- if .Values.datasource.clusterTenantHeader.enabled }}
+        httpHeaderName1: 'X-Scope-OrgID'
+      secureJsonData:
+        httpHeaderValue1: {{ .Values.datasource.clusterTenantHeader.value }}
+      {{- end }}
