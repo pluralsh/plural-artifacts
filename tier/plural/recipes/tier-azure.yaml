@@ -1,16 +1,15 @@
 name: tier-azure
-description: Installs tier on an aws eks cluster
+description: Installs tier on an azure aks cluster
 provider: AZURE
 dependencies:
-- repo: bootstrap
-  name: azure-k8s
-
+  - repo: bootstrap
+    name: azure-k8s
 
 sections:
-- name: tier
-  configuration: []
-  items:
-  - type: TERRAFORM
-    name: azure
-  - type: HELM
-    name: tier
+  - name: tier
+    configuration: []
+    items:
+      - type: TERRAFORM
+        name: kube
+      - type: HELM
+        name: tier

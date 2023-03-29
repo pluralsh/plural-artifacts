@@ -1,16 +1,15 @@
 name: tier-gcp
-description: Installs tier on an aws eks cluster
+description: Installs tier on an gcp gke cluster
 provider: GCP
 dependencies:
-- repo: bootstrap
-  name: gcp-k8s
-
+  - repo: bootstrap
+    name: gcp-k8s
 
 sections:
-- name: tier
-  configuration: []
-  items:
-  - type: TERRAFORM
-    name: gcp
-  - type: HELM
-    name: tier
+  - name: tier
+    configuration: []
+    items:
+      - type: TERRAFORM
+        name: kube
+      - type: HELM
+        name: tier
