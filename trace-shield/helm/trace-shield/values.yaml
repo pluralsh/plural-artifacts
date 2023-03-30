@@ -82,6 +82,7 @@ tolerations: []
 affinity: {}
 
 postgresKratos:
+  enabled: true
   team: plural
   user: kratos
   dbName: kratos
@@ -92,6 +93,7 @@ postgresKratos:
       repository: gcr.io/pluralsh/prometheuscommunity/postgres-exporter
 
 postgresHydra:
+  enabled: true
   team: plural
   user: hydra
   dbName: hydra
@@ -102,6 +104,7 @@ postgresHydra:
       repository: gcr.io/pluralsh/prometheuscommunity/postgres-exporter
 
 postgresKeto:
+  enabled: true
   team: plural
   user: keto
   dbName: keto
@@ -145,127 +148,129 @@ oathkeeper:
           }
         ]
       }
-    managedAccessRules: true
-    accessRules: |
-      - id: ory:kratos:public
-        upstream:
-          url: http://oauth-stack-kratos-public
-          strip_path: /.ory/kratos/public
-          preserve_host: true
-        match:
-          url: https://kratos.mimir-cloud.pluraldev.sh/.ory/kratos/public/<**>
-          methods:
-            - GET
-            - POST
-            - PUT
-            - DELETE
-            - PATCH
-            - OPTIONS
-        authenticators:
-          - handler: noop
-        authorizer:
-          handler: allow
-        mutators:
-          - handler: noop
-      - id: ory:kratos-selfservice-ui-node:anonymous
-        upstream:
-          url: http://oauth-stack-kratos-selfservice-ui-node # TODO: use proper templating
-          preserve_host: true
-        match:
-          methods:
-            - GET
-            - POST # needed for consent
-          # TODO: cleanup templating
-          url: https://kratos.mimir-cloud.pluraldev.sh<{/,/registration,/welcome,/recovery,/verification,/login,/consent,/error,/404,/500,/**.css,/**.js,/**.png,/**.svg,/assets/**}>
-        authenticators:
-          - handler: noop
-        authorizer:
-          handler: allow
-        mutators:
-          - handler: noop
-            config: {}
-      - id: ory:kratos-selfservice-ui-node:protected
-        upstream:
-          url: http://oauth-stack-kratos-selfservice-ui-node # TODO: use proper templating
-          preserve_host: true
-        match:
-          methods:
-            - GET
-          # TODO: cleanup templating
-          url: https://kratos.mimir-cloud.pluraldev.sh/<{debug,dashboard,settings,sessions}{/,}>
-        authenticators:
-          - handler: cookie_session
-        authorizer:
-          handler: allow
-        mutators:
-          - handler: id_token
-        errors:
-          - handler: redirect
-            config:
-              to: https://kratos.mimir-cloud.pluraldev.sh/login
-      - id: grafana:mimir-api:protected
-        upstream:
-          url: http://mimir-nginx.mimir # TODO: use proper templating
-          preserve_host: true
-        match:
-          methods:
-            - GET
-            - POST
-            - PUT
-            - DELETE
-            - PATCH
-            - OPTIONS
-          # TODO: cleanup templating
-          url: https://mimir.mimir-cloud.pluraldev.sh/api<**>
-        authenticators:
-          - handler: oauth2_introspection
-            # config:
-            #   required_scope:
-            #     - grafana:read
-            #     - grafana:write
-        authorizer:
-          handler: allow
-        mutators:
-          - handler: header
-            config:
-              headers:
-                X-Scope-OrgID: mimir-cloud-oauth2
-      - id: grafana:mimir-prometheus:protected
-        upstream:
-          url: http://mimir-nginx.mimir # TODO: use proper templating
-          preserve_host: true
-        match:
-          methods:
-            - GET
-            - POST
-            - PUT
-            - DELETE
-            - PATCH
-            - OPTIONS
-          # TODO: cleanup templating
-          url: https://mimir.mimir-cloud.pluraldev.sh/prometheus<**>
-        authenticators:
-          - handler: oauth2_introspection
-            # config:
-            #   required_scope:
-            #     - grafana:read
-            #     - grafana:write
-        authorizer:
-          handler: allow
-        mutators:
-          - handler: header
-            config:
-              headers:
-                X-Scope-OrgID: mimir-cloud|mimir-cloud-2|mimir-cloud-oauth2
-        errors:
-          - handler: redirect
-            config:
-              to: https://kratos.mimir-cloud.pluraldev.sh/login
+    managedAccessRules: false
+    accessRules:
+    - id: ory:kratos:public
+      upstream:
+        url: http://trace-shield-kratos-public
+        strip_path: /.ory/kratos/public
+        preserve_host: true
+      match:
+        url: https://trace-shield.az.onplural.sh/.ory/kratos/public/<**>
+        methods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - PATCH
+          - OPTIONS
+      authenticators:
+        - handler: noop
+      authorizer:
+        handler: allow
+      mutators:
+        - handler: noop
+    - id: ory:kratos-selfservice-ui-node:anonymous
+      upstream:
+        url: http://trace-shield-kratos-selfservice-ui-node # TODO: use proper templating
+        preserve_host: true
+      match:
+        methods:
+          - GET
+          - POST # needed for consent
+        # TODO: cleanup templating
+        url: https://trace-shield.az.onplural.sh</|/registration.*|/welcome.*|/recovery.*|/verification.*|/login.*|/consent.*|/error|/404|/500|/.*.css|./*.js|/.*.png|/.*.svg|/assets/.*|/static/.*|/users|/groups|/settings.*|/.*.json>
+      authenticators:
+        - handler: noop
+      authorizer:
+        handler: allow
+      mutators:
+        - handler: noop
+          config: {}
+    - id: ory:kratos-selfservice-ui-node:protected
+      upstream:
+        url: http://trace-shield-kratos-selfservice-ui-node # TODO: use proper templating
+        preserve_host: true
+      match:
+        methods:
+          - GET
+        # TODO: cleanup templating
+        url: https://trace-shield.az.onplural.sh/<debug|dashboard|settings|sessions>
+      authenticators:
+        - handler: cookie_session
+      authorizer:
+        handler: allow
+      mutators:
+        - handler: id_token
+      errors:
+        - handler: redirect
+          config:
+            to: https://trace-shield.az.onplural.sh/login
+    - id: grafana:mimir-api:protected
+      upstream:
+        url: http://mimir-nginx.mimir # TODO: use proper templating
+        preserve_host: true
+      match:
+        methods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - PATCH
+          - OPTIONS
+        # TODO: cleanup templating
+        url: https://mimir.mimir-cloud.pluraldev.sh/api<**>
+      authenticators:
+        - handler: oauth2_introspection
+          # config:
+          #   required_scope:
+          #     - grafana:read
+          #     - grafana:write
+      authorizer:
+        handler: allow
+      mutators:
+        - handler: header
+          config:
+            headers:
+              X-Scope-OrgID: mimir-cloud-oauth2
+    - id: grafana:mimir-prometheus:protected
+      upstream:
+        url: http://mimir-nginx.mimir # TODO: use proper templating
+        preserve_host: true
+      match:
+        methods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - PATCH
+          - OPTIONS
+        # TODO: cleanup templating
+        url: https://mimir.mimir-cloud.pluraldev.sh/prometheus<**>
+      authenticators:
+        - handler: oauth2_introspection
+          # config:
+          #   required_scope:
+          #     - grafana:read
+          #     - grafana:write
+      authorizer:
+        handler: allow
+      mutators:
+        - handler: header
+          config:
+            headers:
+              X-Scope-OrgID: mimir-cloud|mimir-cloud-2|mimir-cloud-oauth2
+      errors:
+        - handler: redirect
+          config:
+            to: https://trace-shield.az.onplural.sh/login
     config:
       log:
         level: debug
       access_rules:
-        matching_strategy: glob
+        matching_strategy: regexp
+        repositories:
+        - file:///etc/rules/access-rules.yaml
       authenticators:
         anonymous:
           enabled: true
@@ -275,7 +280,7 @@ oathkeeper:
         cookie_session:
           enabled: true
           config:
-            check_session_url: http://oauth-stack-kratos-public/sessions/whoami
+            check_session_url: http://trace-shield-kratos-public/sessions/whoami
             preserve_path: true
             extra_from: "@this"
             subject_from: "identity.id"
@@ -285,7 +290,7 @@ oathkeeper:
         oauth2_introspection:
           enabled: true
           config:
-            introspection_url: http://oauth-stack-hydra-admin:4445/admin/oauth2/introspect
+            introspection_url: http://trace-shield-hydra-admin:4445/admin/oauth2/introspect
             # scope_strategy: exact
 
         noop:
@@ -308,7 +313,7 @@ oathkeeper:
           enabled: true
 
         id_token:
-          enabled: false
+          enabled: true
           config:
             issuer_url: http://127.0.0.1:4455/
             jwks_url: file:///etc/secrets/mutator.id_token.jwks.json
@@ -332,7 +337,7 @@ oathkeeper:
           redirect:
             enabled: true
             config:
-              to: https://kratos.mimir-cloud.pluraldev.sh/login
+              to: https://trace-shield.az.onplural.sh/login
               when:
                 - error:
                     - unauthorized
@@ -372,11 +377,11 @@ oathkeeper:
 
 kratos:
   enabled: true
-  job:
-    annotations:
-      helm.sh/hook-weight: "1"
-      helm.sh/hook: "post-install, post-upgrade"
-      helm.sh/hook-delete-policy: "before-hook-creation,hook-succeeded"
+  # job:
+  #   annotations:
+  #     helm.sh/hook-weight: "1"
+  #     helm.sh/hook: "post-install, post-upgrade"
+  #     helm.sh/hook-delete-policy: "before-hook-creation,hook-succeeded"
   ingress:
     public:
       enabled: false
@@ -399,6 +404,7 @@ kratos:
   kratos:
     automigration:
       enabled: true
+      type: initContainer
     config:
       serve:
         public:
@@ -525,10 +531,11 @@ hydra:
   hydra:
     automigration:
       enabled: true
+      type: initContainer
     config:
       urls:
         self:
-          issuer: https://hydra.mimir-cloud.pluraldev.sh
+          issuer: https://hydra.az.onplural.sh
         login: https://kratos.mimir-cloud.pluraldev.sh/login
         consent: https://kratos.mimir-cloud.pluraldev.sh/consent
       serve:
@@ -571,26 +578,26 @@ hydra:
         nginx.ingress.kubernetes.io/proxy-read-timeout: '120'
         nginx.ingress.kubernetes.io/proxy-send-timeout: '120'
       hosts:
-      - host: hydra.mimir-cloud.pluraldev.sh
+      - host: hydra.az.onplural.sh
         paths:
         - path: /.*
           pathType: ImplementationSpecific
       tls:
       - hosts:
-        - hydra.mimir-cloud.pluraldev.sh
+        - hydra.az.onplural.sh
         secretName: hydra-tls
 
 kratos-selfservice-ui-node:
-  enabled: false
+  enabled: true
   image:
     repository: davidspek/kratos-selfservice-ui-node
     tag: hydrator-debug-4
   # baseUrl: /
   projectName: Mimir
-  jwksUrl: http://oauth-stack-oathkeeper-api:4456/.well-known/jwks.json
-  kratosAdminUrl: http://oauth-stack-kratos-admin
-  kratosBrowserUrl: https://kratos.mimir-cloud.pluraldev.sh/.ory/kratos/public/
-  kratosPublicUrl: http://oauth-stack-kratos-public
+  jwksUrl: http://trace-shield-oathkeeper-api:4456/.well-known/jwks.json
+  kratosAdminUrl: http://trace-shield-kratos-admin
+  kratosBrowserUrl: https://trace-shield.az.onplural.sh/.ory/kratos/public/
+  kratosPublicUrl: http://trace-shield-kratos-public
   ingress:
     enabled: false
     className: nginx
@@ -598,22 +605,22 @@ kratos-selfservice-ui-node:
       kubernetes.io/tls-acme: "true"
       cert-manager.io/cluster-issuer: letsencrypt-prod
       nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
-      nginx.ingress.kubernetes.io/use-regex: "true"
+      nginx.ingress.kubernetes.io/use-regex: "false"
     hosts:
-      - host: auth.mimir-cloud.pluraldev.sh
+      - host: trace-shield.az.onplural.sh
         paths: 
-          - path: /.*
+          - path: /
             pathType: ImplementationSpecific
     tls:
      - secretName: kratos-ui-tls
        hosts:
-         - auth.mimir-cloud.pluraldev.sh
+         - trace-shield.az.onplural.sh
   deployment:
     extraEnv:
     - name: HYDRA_PUBLIC_URL
-      value: https://hydra.mimir-cloud.pluraldev.sh
+      value: https://hydra.az.onplural.sh
     - name: HYDRA_ADMIN_URL
-      value: http://oauth-stack-hydra-admin:4445
+      value: http://trace-shield-hydra-admin:4445
   #   extraVolumes:
   #   - name: npm
   #     emptyDir: {}
