@@ -1,10 +1,10 @@
 {{- if or .Values.config.mimir.enabled .Values.config.loki.enabled .Values.config.tempo.enabled -}}
-{{- $fullName := include "trace-shield.fullname" . -}}-observability
-{{- $svcName := include "oathkeeper.fullname" .Subcharts.oathkeeper -}}-proxy
+{{- $fullName := include "trace-shield.fullname" . -}}
+{{- $svcName := print (include "oathkeeper.fullname" .Subcharts.oathkeeper) "-proxy" -}}
 {{- $svcPort := .Values.oathkeeper.service.proxy.port -}}
-{{- if and .Values.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
-  {{- if not (hasKey .Values.ingress.annotations "kubernetes.io/ingress.class") }}
-  {{- $_ := set .Values.ingress.annotations "kubernetes.io/ingress.class" .Values.ingress.className}}
+{{- if and .Values.config.observabilityIngress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
+  {{- if not (hasKey .Values.config.observabilityIngress.annotations "kubernetes.io/ingress.class") }}
+  {{- $_ := set .Values.config.observabilityIngress.annotations "kubernetes.io/ingress.class" .Values.config.observabilityIngress.className}}
   {{- end }}
 {{- end }}
 {{- if semverCompare ">=1.19-0" .Capabilities.KubeVersion.GitVersion -}}
@@ -16,7 +16,7 @@ apiVersion: extensions/v1beta1
 {{- end }}
 kind: Ingress
 metadata:
-  name: {{ $fullName }}
+  name: {{ $fullName }}-observability
   labels:
     {{- include "trace-shield.labels" . | nindent 4 }}
   {{- with .Values.config.observabilityIngress.annotations }}
@@ -25,7 +25,7 @@ metadata:
   {{- end }}
 spec:
   {{- if and .Values.config.observabilityIngress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
-  ingressClassName: {{ .Values.ingress.className }}
+  ingressClassName: {{ .Values.config.observabilityIngress.className }}
   {{- end }}
   {{- if .Values.config.observabilityIngress.tls.enabled }}
   tls:

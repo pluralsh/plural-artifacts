@@ -5,7 +5,7 @@ metadata:
   labels:
     {{- include "trace-shield.labels" . | nindent 4 }}
 data:
-  access-rules.yaml:
+  access-rules.yaml: |-
     {{- if  .Values.config.mimir.enabled }}
     - id: grafana:mimir-api:protected
       upstream:
@@ -19,7 +19,7 @@ data:
           - DELETE
           - PATCH
           - OPTIONS
-        url: https://{{ .Values.config.mimir.publicURL }}}/api<.*>
+        url: https://{{ .Values.config.mimir.publicURL }}/api<.*>
       authenticators:
         - handler: oauth2_introspection
       authorizer:
@@ -65,7 +65,7 @@ data:
           - DELETE
           - PATCH
           - OPTIONS
-        url: https://{{ .Values.config.loki.publicURL }}}/<loki.*|api.*>
+        url: https://{{ .Values.config.loki.publicURL }}/<loki.*|api.*>
       authenticators:
         - handler: oauth2_introspection
       authorizer:
@@ -111,7 +111,7 @@ data:
           - DELETE
           - PATCH
           - OPTIONS
-        url: https://{{ .Values.config.tempo.publicURL }}}/<api.*>
+        url: https://{{ .Values.config.tempo.publicURL }}/<api.*>
       authenticators:
         - handler: oauth2_introspection
       authorizer:
@@ -144,98 +144,6 @@ data:
             api:
               url: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}/tenant-hydrator
     {{- end }}
-    # - id: ory:kratos:public
-    #   upstream:
-    #     url: http://{{ include "kratos.fullname" .Subcharts.kratos }}-public
-    #     strip_path: /.ory/kratos/public
-    #     preserve_host: true
-    #   match:
-    #     url: {{ .Values.kratos.kratos.config.serve.public.base_url }}
-    #     methods:
-    #       - GET
-    #       - POST
-    #       - PUT
-    #       - DELETE
-    #       - PATCH
-    #       - OPTIONS
-    #   authenticators:
-    #     - handler: noop
-    #   authorizer:
-    #     handler: allow
-    #   mutators:
-    #     - handler: noop
-    # - id: trace-shield-backend:graphiql:public
-    #   upstream:
-    #     url: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}
-    #     preserve_host: true
-    #   match:
-    #     url: https://{{ .Values.config.hostname }}/graphiql
-    #     methods:
-    #       - GET
-    #       - POST
-    #       - PUT
-    #       - DELETE
-    #       - PATCH
-    #       - OPTIONS
-    #   authenticators:
-    #     - handler: noop
-    #   authorizer:
-    #     handler: allow
-    #   mutators:
-    #     - handler: noop
-    # - id: trace-shield-backend:public
-    #   upstream:
-    #     url: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}
-    #     preserve_host: true
-    #   match:
-    #     url: https://{{ .Values.config.hostname }}/graphql
-    #     methods:
-    #       - GET
-    #       - POST
-    #       - PUT
-    #       - DELETE
-    #       - PATCH
-    #       - OPTIONS
-    #   authenticators:
-    #     - handler: noop
-    #   authorizer:
-    #     handler: allow
-    #   mutators:
-    #     - handler: noop
-    # - id: ory:kratos-selfservice-ui-node:anonymous
-    #   upstream:
-    #     url: http://trace-shield-kratos-selfservice-ui-node # TODO: use proper templating
-    #     preserve_host: true
-    #   match:
-    #     methods:
-    #       - GET
-    #       - POST # needed for consent
-    #     # TODO: cleanup templating
-    #     url: https://trace-shield.az.onplural.sh</|/registration.*|/recovery.*|/verification.*|/login.*|/consent.*|/error|/404|/500|/.*.css|./*.js|/.*.png|/.*.svg|/assets/.*|/static/.*|/users|/groups|/.*.json>
-    #   authenticators:
-    #     - handler: noop
-    #   authorizer:
-    #     handler: allow
-    #   mutators:
-    #     - handler: noop
-    #       config: {}
-    # - id: ory:kratos-selfservice-ui-node:protected
-    #   upstream:
-    #     url: http://trace-shield-kratos-selfservice-ui-node # TODO: use proper templating
-    #     preserve_host: true
-    #   match:
-    #     methods:
-    #       - GET
-    #     # TODO: cleanup templating
-    #     url: https://trace-shield.az.onplural.sh/<welcome.*|debug|dashboard|settings|sessions>
-    #   authenticators:
-    #     - handler: cookie_session
-    #   authorizer:
-    #     handler: allow
-    #   mutators:
-    #     - handler: noop
-    #   errors:
-    #     - handler: json
   {{- with .Values.oathkeeper.oathkeeper.extraAccessRules }}
     {{- toYaml . | nindent 4 }}
   {{- end }}
