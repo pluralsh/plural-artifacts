@@ -51,12 +51,39 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
+Backend selector labels
+*/}}
+{{- define "trace-shield.backendSelectorLabels" -}}
+app.kubernetes.io/name: {{ include "trace-shield.name" . }}-backend
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{/*
+Frontend selector labels
+*/}}
+{{- define "trace-shield.frontendSelectorLabels" -}}
+app.kubernetes.io/name: {{ include "trace-shield.name" . }}-frontend
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{/*
 Create the name of the service account to use
 */}}
-{{- define "trace-shield.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "trace-shield.fullname" .) .Values.serviceAccount.name }}
+{{- define "trace-shield.backendServiceAccountName" -}}
+{{- if .Values.backend.serviceAccount.create }}
+{{- default (include "trace-shield.fullname" .) .Values.backend.serviceAccount.name }}-backend
 {{- else }}
-{{- default "default" .Values.serviceAccount.name }}
+{{- default "default" .Values.backend.serviceAccount.name }}
+{{- end }}
+{{- end }}
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "trace-shield.frontendServiceAccountName" -}}
+{{- if .Values.frontend.serviceAccount.create }}
+{{- default (include "trace-shield.fullname" .) .Values.frontend.serviceAccount.name }}-frontend
+{{- else }}
+{{- default "default" .Values.frontend.serviceAccount.name }}
 {{- end }}
 {{- end }}
