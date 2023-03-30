@@ -3,9 +3,7 @@ resource "kubernetes_namespace" "tier" {
     name = var.namespace
     labels = {
       "app.kubernetes.io/managed-by" = "plural"
-      "app.plural.sh/name" = "tier"
-
+      "app.plural.sh/name"           = "tier"
     }
   }
 }
-

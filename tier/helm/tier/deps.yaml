@@ -13,3 +13,7 @@ spec:
       name: kube
       repo: tier
       version: ">= 0.1.0"
+    - type: helm
+      name: ingress-nginx
+      repo: ingress-nginx
+      version: ">= 0.1.2"

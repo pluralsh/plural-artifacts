@@ -4,10 +4,15 @@ provider: AZURE
 dependencies:
   - repo: bootstrap
     name: azure-k8s
+  - repo: ingress-nginx
+    name: ingress-nginx-azure
 
 sections:
   - name: tier
-    configuration: []
+    configuration:
+      - name: hostname
+        documentation: FQDN to use for your tier installation
+        type: DOMAIN
     items:
       - type: TERRAFORM
         name: kube
