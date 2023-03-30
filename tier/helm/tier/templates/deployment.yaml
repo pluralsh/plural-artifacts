@@ -33,17 +33,26 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - "tier"
+            {{- if .Values.tier.live }}
+            - "-live"
+            {{- end }}
+            - "serve"
+          envFrom:
+            - secretRef:
+                name: {{ include "tier.fullname" . }}-env
           ports:
             - name: http
-              containerPort: 80
+              containerPort: 8080
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: /v1/whoami
               port: http
           readinessProbe:
             httpGet:
-              path: /
+              path: /v1/whoami
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

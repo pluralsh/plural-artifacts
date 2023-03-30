@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ include "tier.fullname" . }}-ingress-basic-auth
+  labels:
+    {{- include "tier.labels" . | nindent 4 }}
+type: Opaque
+data:
+  auth: {{ htpasswd .Values.tier.basicAuth "" | b64enc | quote }}
