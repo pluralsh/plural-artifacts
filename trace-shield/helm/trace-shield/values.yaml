@@ -156,7 +156,7 @@ oathkeeper:
         strip_path: /.ory/kratos/public
         preserve_host: true
       match:
-        url: https://trace-shield.az.onplural.sh/.ory/kratos/public/<**>
+        url: https://trace-shield.az.onplural.sh/.ory/kratos/public/<.*>
         methods:
           - GET
           - POST
@@ -179,7 +179,7 @@ oathkeeper:
           - GET
           - POST # needed for consent
         # TODO: cleanup templating
-        url: https://trace-shield.az.onplural.sh</|/registration.*|/welcome.*|/recovery.*|/verification.*|/login.*|/consent.*|/error|/404|/500|/.*.css|./*.js|/.*.png|/.*.svg|/assets/.*|/static/.*|/users|/groups|/settings.*|/.*.json>
+        url: https://trace-shield.az.onplural.sh</|/registration.*|/recovery.*|/verification.*|/login.*|/consent.*|/error|/404|/500|/.*.css|./*.js|/.*.png|/.*.svg|/assets/.*|/static/.*|/users|/groups|/.*.json>
       authenticators:
         - handler: noop
       authorizer:
@@ -195,17 +195,15 @@ oathkeeper:
         methods:
           - GET
         # TODO: cleanup templating
-        url: https://trace-shield.az.onplural.sh/<debug|dashboard|settings|sessions>
+        url: https://trace-shield.az.onplural.sh/<welcome.*|debug|dashboard|settings|sessions>
       authenticators:
         - handler: cookie_session
       authorizer:
         handler: allow
       mutators:
-        - handler: id_token
+        - handler: noop
       errors:
-        - handler: redirect
-          config:
-            to: https://trace-shield.az.onplural.sh/login
+        - handler: json
     - id: grafana:mimir-api:protected
       upstream:
         url: http://mimir-nginx.mimir # TODO: use proper templating
@@ -219,7 +217,7 @@ oathkeeper:
           - PATCH
           - OPTIONS
         # TODO: cleanup templating
-        url: https://mimir.mimir-cloud.pluraldev.sh/api<**>
+        url: https://mimir.mimir-cloud.pluraldev.sh/api<.*>
       authenticators:
         - handler: oauth2_introspection
           # config:
@@ -246,7 +244,7 @@ oathkeeper:
           - PATCH
           - OPTIONS
         # TODO: cleanup templating
-        url: https://mimir.mimir-cloud.pluraldev.sh/prometheus<**>
+        url: https://mimir.mimir-cloud.pluraldev.sh/prometheus<.*>
       authenticators:
         - handler: oauth2_introspection
           # config:
@@ -384,23 +382,23 @@ kratos:
   #     helm.sh/hook-delete-policy: "before-hook-creation,hook-succeeded"
   ingress:
     public:
-      enabled: false
+      enabled: true
       className: nginx
       annotations:
-        kubernetes.io/tls-acme: "true"
-        cert-manager.io/cluster-issuer: letsencrypt-prod
+        # kubernetes.io/tls-acme: "true"
+        # cert-manager.io/cluster-issuer: letsencrypt-prod
         nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
         nginx.ingress.kubernetes.io/use-regex: "true"
-        # nginx.ingress.kubernetes.io/rewrite-target: /$2
+        nginx.ingress.kubernetes.io/rewrite-target: /$1
       hosts:
-        - host: kratos.mimir-cloud.pluraldev.sh
+        - host: trace-shield.az.onplural.sh
           paths: 
-            - path: /.*
-              pathType: ImplementationSpecific
+            - path: /.ory/kratos/public/(.*)
+              pathType: Prefix
       tls:
-      - secretName: kratos-tls
+      - secretName: trace-shield-tls
         hosts:
-          - kratos.mimir-cloud.pluraldev.sh
+          - trace-shield.az.onplural.sh
   kratos:
     automigration:
       enabled: true
@@ -599,20 +597,29 @@ kratos-selfservice-ui-node:
   kratosBrowserUrl: https://trace-shield.az.onplural.sh/.ory/kratos/public/
   kratosPublicUrl: http://trace-shield-kratos-public
   ingress:
-    enabled: false
+    enabled: true
     className: nginx
     annotations:
       kubernetes.io/tls-acme: "true"
       cert-manager.io/cluster-issuer: letsencrypt-prod
       nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
-      nginx.ingress.kubernetes.io/use-regex: "false"
+      nginx.ingress.kubernetes.io/use-regex: "true"
+      nginx.ingress.kubernetes.io/auth-url: http://trace-shield-oathkeeper-api.trace-shield.svc.cluster.local:4456/decisions
+      nginx.ingress.kubernetes.io/auth-signin: https://trace-shield.az.onplural.sh/login
+      nginx.ingress.kubernetes.io/auth-method: GET
+      nginx.ingress.kubernetes.io/auth-snippet: |
+        proxy_set_header X-Original-URL $request_uri;
+        proxy_set_header X-Forwarded-Method $request_method;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Uri $request_uri;
     hosts:
       - host: trace-shield.az.onplural.sh
         paths: 
-          - path: /
-            pathType: ImplementationSpecific
+          - path: /.*
+            pathType: Prefix
     tls:
-     - secretName: kratos-ui-tls
+     - secretName: trace-shield-tls
        hosts:
          - trace-shield.az.onplural.sh
   deployment:
