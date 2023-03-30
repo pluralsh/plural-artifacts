@@ -10,7 +10,13 @@ dependencies:
   name: aws-postgres
 sections:
 - name: trace-shield
-  configuration: []
+  configuration:
+  - name: frontendHostname
+    documentation: FQDN to use for your TraceShield installation
+    type: DOMAIN 
+  - name: hydraHostname
+    documentation: FQDN to use for the Hydra component of TraceShield
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: kube
