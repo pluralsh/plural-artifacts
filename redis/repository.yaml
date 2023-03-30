@@ -3,6 +3,7 @@ description: An open-source, in-memory data structure store, used as a database,
 category: DATABASE
 icon: plural/icons/redis.png
 notes: plural/notes.tpl
+docs: plural/docs
 homepage: https://redis.io/
 gitUrl: https://github.com/redis/redis
 tags:
