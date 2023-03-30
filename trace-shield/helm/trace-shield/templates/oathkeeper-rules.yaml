@@ -5,5 +5,237 @@ metadata:
   labels:
     {{- include "trace-shield.labels" . | nindent 4 }}
 data:
-  access-rules.yaml: |-
-{{- toYaml .Values.oathkeeper.oathkeeper.accessRules | default "[]" | nindent 4 }}
+  access-rules.yaml:
+    {{- if  .Values.config.mimir.enabled }}
+    - id: grafana:mimir-api:protected
+      upstream:
+        url: http://{{ .Values.config.mimir.internalURL }}
+        preserve_host: true
+      match:
+        methods:
+          - GET # TODO: split methods so we can do a proper authorization check
+          - POST
+          - PUT
+          - DELETE
+          - PATCH
+          - OPTIONS
+        url: https://{{ .Values.config.mimir.publicURL }}}/api<.*>
+      authenticators:
+        - handler: oauth2_introspection
+      authorizer:
+        handler: allow
+      mutators:
+        - handler: hydrator
+          config:
+            api:
+              url: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}/tenant-hydrator
+    - id: grafana:mimir-prometheus:protected
+      upstream:
+        url: http://{{ .Values.config.mimir.internalURL }}
+        preserve_host: true
+      match:
+        methods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - PATCH
+          - OPTIONS
+        url: https://{{ .Values.config.mimir.publicURL }}/prometheus<.*> # TODO: does this need to be separate
+      authenticators:
+        - handler: oauth2_introspection
+      authorizer:
+        handler: allow
+      mutators:
+        - handler: hydrator
+          config:
+            api:
+              url: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}/tenant-hydrator
+    {{- end }}
+    {{- if  .Values.config.loki.enabled }}
+    - id: grafana:loki-api:protected
+      upstream:
+        url: http://{{ .Values.config.loki.internalURL }}
+        preserve_host: true
+      match:
+        methods:
+          - GET # TODO: split methods so we can do a proper authorization check
+          - POST
+          - PUT
+          - DELETE
+          - PATCH
+          - OPTIONS
+        url: https://{{ .Values.config.loki.publicURL }}}/<loki.*|api.*>
+      authenticators:
+        - handler: oauth2_introspection
+      authorizer:
+        handler: allow
+      mutators:
+        - handler: hydrator
+          config:
+            api:
+              url: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}/tenant-hydrator
+    - id: grafana:loki-prometheus:protected
+      upstream:
+        url: http://{{ .Values.config.loki.internalURL }}
+        preserve_host: true
+      match:
+        methods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - PATCH
+          - OPTIONS
+        url: https://{{ .Values.config.loki.publicURL }}/prometheus<.*> # TODO: does this need to be separate
+      authenticators:
+        - handler: oauth2_introspection
+      authorizer:
+        handler: allow
+      mutators:
+        - handler: hydrator
+          config:
+            api:
+              url: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}/tenant-hydrator
+    {{- end }}
+    {{- if  .Values.config.tempo.enabled }}
+    - id: grafana:tempo-api:protected
+      upstream:
+        url: http://{{ .Values.config.tempo.internalURL }}
+        preserve_host: true
+      match:
+        methods:
+          - GET # TODO: split methods so we can do a proper authorization check
+          - POST
+          - PUT
+          - DELETE
+          - PATCH
+          - OPTIONS
+        url: https://{{ .Values.config.tempo.publicURL }}}/<api.*>
+      authenticators:
+        - handler: oauth2_introspection
+      authorizer:
+        handler: allow
+      mutators:
+        - handler: hydrator
+          config:
+            api:
+              url: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}/tenant-hydrator
+    - id: grafana:tempo-gRPC:protected
+      upstream:
+        url: http://{{ .Values.config.tempo.internalURL }} # TODO: make this actually work with gRPC
+        preserve_host: true
+      match:
+        methods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - PATCH
+          - OPTIONS
+        url: https://{{ .Values.config.tempo.publicURL }}/prometheus<.*> # TODO: make this actually work with gRPC
+      authenticators:
+        - handler: oauth2_introspection
+      authorizer:
+        handler: allow
+      mutators:
+        - handler: hydrator
+          config:
+            api:
+              url: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}/tenant-hydrator
+    {{- end }}
+    # - id: ory:kratos:public
+    #   upstream:
+    #     url: http://{{ include "kratos.fullname" .Subcharts.kratos }}-public
+    #     strip_path: /.ory/kratos/public
+    #     preserve_host: true
+    #   match:
+    #     url: {{ .Values.kratos.kratos.config.serve.public.base_url }}
+    #     methods:
+    #       - GET
+    #       - POST
+    #       - PUT
+    #       - DELETE
+    #       - PATCH
+    #       - OPTIONS
+    #   authenticators:
+    #     - handler: noop
+    #   authorizer:
+    #     handler: allow
+    #   mutators:
+    #     - handler: noop
+    # - id: trace-shield-backend:graphiql:public
+    #   upstream:
+    #     url: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}
+    #     preserve_host: true
+    #   match:
+    #     url: https://{{ .Values.config.hostname }}/graphiql
+    #     methods:
+    #       - GET
+    #       - POST
+    #       - PUT
+    #       - DELETE
+    #       - PATCH
+    #       - OPTIONS
+    #   authenticators:
+    #     - handler: noop
+    #   authorizer:
+    #     handler: allow
+    #   mutators:
+    #     - handler: noop
+    # - id: trace-shield-backend:public
+    #   upstream:
+    #     url: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}
+    #     preserve_host: true
+    #   match:
+    #     url: https://{{ .Values.config.hostname }}/graphql
+    #     methods:
+    #       - GET
+    #       - POST
+    #       - PUT
+    #       - DELETE
+    #       - PATCH
+    #       - OPTIONS
+    #   authenticators:
+    #     - handler: noop
+    #   authorizer:
+    #     handler: allow
+    #   mutators:
+    #     - handler: noop
+    # - id: ory:kratos-selfservice-ui-node:anonymous
+    #   upstream:
+    #     url: http://trace-shield-kratos-selfservice-ui-node # TODO: use proper templating
+    #     preserve_host: true
+    #   match:
+    #     methods:
+    #       - GET
+    #       - POST # needed for consent
+    #     # TODO: cleanup templating
+    #     url: https://trace-shield.az.onplural.sh</|/registration.*|/recovery.*|/verification.*|/login.*|/consent.*|/error|/404|/500|/.*.css|./*.js|/.*.png|/.*.svg|/assets/.*|/static/.*|/users|/groups|/.*.json>
+    #   authenticators:
+    #     - handler: noop
+    #   authorizer:
+    #     handler: allow
+    #   mutators:
+    #     - handler: noop
+    #       config: {}
+    # - id: ory:kratos-selfservice-ui-node:protected
+    #   upstream:
+    #     url: http://trace-shield-kratos-selfservice-ui-node # TODO: use proper templating
+    #     preserve_host: true
+    #   match:
+    #     methods:
+    #       - GET
+    #     # TODO: cleanup templating
+    #     url: https://trace-shield.az.onplural.sh/<welcome.*|debug|dashboard|settings|sessions>
+    #   authenticators:
+    #     - handler: cookie_session
+    #   authorizer:
+    #     handler: allow
+    #   mutators:
+    #     - handler: noop
+    #   errors:
+    #     - handler: json
+  {{- with .Values.oathkeeper.oathkeeper.extraAccessRules }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}

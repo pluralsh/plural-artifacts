@@ -126,6 +126,31 @@ frontend:
 
   affinity: {}
 
+config:
+  hostname: trace-shield.az.onplural.sh
+  mimir:
+    enabled: true
+    publicURL: mimir.az.onplural.sh
+    internalURL: mimir-nginx.mimir.svc.cluster.local
+  loki:
+    enabled: true
+    publicURL: loki.az.onplural.sh
+    internalURL: loki-loki-distributed-gateway.loki.svc.cluster.local
+  tempo:
+    enabled: false
+    publicURL: tempo.az.onplural.sh
+    internalURL: tempo-tempo-distributed-gateway.tempo.svc.cluster.local # TODO: make compatible with gRPC and add gRPC ingress and oathkeeper rule
+
+  observabilityIngress:
+    className: nginx
+    annotations:
+      kubernetes.io/tls-acme: "true"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+    tls:
+      enabled: true
+      secretName: trace-shield-observability-tls
+
 ingress:
   enabled: true
   className: nginx
@@ -134,15 +159,15 @@ ingress:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
     nginx.ingress.kubernetes.io/use-regex: "true"
-    nginx.ingress.kubernetes.io/auth-url: http://trace-shield-oathkeeper-api.trace-shield.svc.cluster.local:4456/decisions
-    nginx.ingress.kubernetes.io/auth-signin: https://trace-shield.az.onplural.sh/login
-    nginx.ingress.kubernetes.io/auth-method: GET
-    nginx.ingress.kubernetes.io/auth-snippet: |
-      proxy_set_header X-Original-URL $request_uri;
-      proxy_set_header X-Forwarded-Method $request_method;
-      proxy_set_header X-Forwarded-Proto $scheme;
-      proxy_set_header X-Forwarded-Host $host;
-      proxy_set_header X-Forwarded-Uri $request_uri;
+    # nginx.ingress.kubernetes.io/auth-url: http://trace-shield-oathkeeper-api.trace-shield.svc.cluster.local:4456/decisions
+    # nginx.ingress.kubernetes.io/auth-signin: https://trace-shield.az.onplural.sh/login
+    # nginx.ingress.kubernetes.io/auth-method: GET
+    # nginx.ingress.kubernetes.io/auth-snippet: |
+    #   proxy_set_header X-Original-URL $request_uri;
+    #   proxy_set_header X-Forwarded-Method $request_method;
+    #   proxy_set_header X-Forwarded-Proto $scheme;
+    #   proxy_set_header X-Forwarded-Host $host;
+    #   proxy_set_header X-Forwarded-Uri $request_uri;
   hosts:
     - host: trace-shield.az.onplural.sh
       backendPaths:
@@ -228,157 +253,7 @@ oathkeeper:
         ]
       }
     managedAccessRules: false
-    accessRules:
-    - id: ory:kratos:public
-      upstream:
-        url: http://trace-shield-kratos-public
-        strip_path: /.ory/kratos/public
-        preserve_host: true
-      match:
-        url: https://trace-shield.az.onplural.sh/.ory/kratos/public/<.*>
-        methods:
-          - GET
-          - POST
-          - PUT
-          - DELETE
-          - PATCH
-          - OPTIONS
-      authenticators:
-        - handler: noop
-      authorizer:
-        handler: allow
-      mutators:
-        - handler: noop
-    - id: api-server:graphiql:public
-      upstream:
-        url: http://api-server.default.svc.cluster.local:8082
-        preserve_host: true
-      match:
-        url: https://trace-shield.az.onplural.sh/graphiql
-        methods:
-          - GET
-          - POST
-          - PUT
-          - DELETE
-          - PATCH
-          - OPTIONS
-      authenticators:
-        - handler: noop
-      authorizer:
-        handler: allow
-      mutators:
-        - handler: noop
-    - id: api-server:graphql:public
-      upstream:
-        url: http://api-server.default.svc.cluster.local:8082
-        preserve_host: true
-      match:
-        url: https://trace-shield.az.onplural.sh/graphql
-        methods:
-          - GET
-          - POST
-          - PUT
-          - DELETE
-          - PATCH
-          - OPTIONS
-      authenticators:
-        - handler: noop
-      authorizer:
-        handler: allow
-      mutators:
-        - handler: noop
-    - id: ory:kratos-selfservice-ui-node:anonymous
-      upstream:
-        url: http://trace-shield-kratos-selfservice-ui-node # TODO: use proper templating
-        preserve_host: true
-      match:
-        methods:
-          - GET
-          - POST # needed for consent
-        # TODO: cleanup templating
-        url: https://trace-shield.az.onplural.sh</|/registration.*|/recovery.*|/verification.*|/login.*|/consent.*|/error|/404|/500|/.*.css|./*.js|/.*.png|/.*.svg|/assets/.*|/static/.*|/users|/groups|/.*.json>
-      authenticators:
-        - handler: noop
-      authorizer:
-        handler: allow
-      mutators:
-        - handler: noop
-          config: {}
-    - id: ory:kratos-selfservice-ui-node:protected
-      upstream:
-        url: http://trace-shield-kratos-selfservice-ui-node # TODO: use proper templating
-        preserve_host: true
-      match:
-        methods:
-          - GET
-        # TODO: cleanup templating
-        url: https://trace-shield.az.onplural.sh/<welcome.*|debug|dashboard|settings|sessions>
-      authenticators:
-        - handler: cookie_session
-      authorizer:
-        handler: allow
-      mutators:
-        - handler: noop
-      errors:
-        - handler: json
-    - id: grafana:mimir-api:protected
-      upstream:
-        url: http://mimir-nginx.mimir # TODO: use proper templating
-        preserve_host: true
-      match:
-        methods:
-          - GET
-          - POST
-          - PUT
-          - DELETE
-          - PATCH
-          - OPTIONS
-        # TODO: cleanup templating
-        url: https://mimir.mimir-cloud.pluraldev.sh/api<.*>
-      authenticators:
-        - handler: oauth2_introspection
-          # config:
-          #   required_scope:
-          #     - grafana:read
-          #     - grafana:write
-      authorizer:
-        handler: allow
-      mutators:
-        - handler: header
-          config:
-            headers:
-              X-Scope-OrgID: mimir-cloud-oauth2
-    - id: grafana:mimir-prometheus:protected
-      upstream:
-        url: http://mimir-nginx.mimir # TODO: use proper templating
-        preserve_host: true
-      match:
-        methods:
-          - GET
-          - POST
-          - PUT
-          - DELETE
-          - PATCH
-          - OPTIONS
-        # TODO: cleanup templating
-        url: https://mimir.mimir-cloud.pluraldev.sh/prometheus<.*>
-      authenticators:
-        - handler: oauth2_introspection
-          # config:
-          #   required_scope:
-          #     - grafana:read
-          #     - grafana:write
-      authorizer:
-        handler: allow
-      mutators:
-        - handler: header
-          config:
-            headers:
-              X-Scope-OrgID: mimir-cloud|mimir-cloud-2|mimir-cloud-oauth2
-      errors:
-        - handler: redirect
-          config:
-            to: https://trace-shield.az.onplural.sh/login
+    extraAccessRules: []
     config:
       log:
         level: debug
@@ -444,7 +319,7 @@ oathkeeper:
           enabled: true
           config:
             api:
-              url: http://temp-go-mimir/
+              url: http://trace-shield-backend:8082/tenant-hydrator
       errors:
         fallback:
           - json
@@ -721,15 +596,15 @@ kratos-selfservice-ui-node:
       # cert-manager.io/cluster-issuer: letsencrypt-prod
       nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
       nginx.ingress.kubernetes.io/use-regex: "true"
-      nginx.ingress.kubernetes.io/auth-url: http://trace-shield-oathkeeper-api.trace-shield.svc.cluster.local:4456/decisions
-      nginx.ingress.kubernetes.io/auth-signin: https://trace-shield.az.onplural.sh/login
-      nginx.ingress.kubernetes.io/auth-method: GET
-      nginx.ingress.kubernetes.io/auth-snippet: |
-        proxy_set_header X-Original-URL $request_uri;
-        proxy_set_header X-Forwarded-Method $request_method;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header X-Forwarded-Host $host;
-        proxy_set_header X-Forwarded-Uri $request_uri;
+      # nginx.ingress.kubernetes.io/auth-url: http://trace-shield-oathkeeper-api.trace-shield.svc.cluster.local:4456/decisions
+      # nginx.ingress.kubernetes.io/auth-signin: https://trace-shield.az.onplural.sh/login
+      # nginx.ingress.kubernetes.io/auth-method: GET
+      # nginx.ingress.kubernetes.io/auth-snippet: |
+      #   proxy_set_header X-Original-URL $request_uri;
+      #   proxy_set_header X-Forwarded-Method $request_method;
+      #   proxy_set_header X-Forwarded-Proto $scheme;
+      #   proxy_set_header X-Forwarded-Host $host;
+      #   proxy_set_header X-Forwarded-Uri $request_uri;
     hosts:
       - host: trace-shield.az.onplural.sh
         paths: 
