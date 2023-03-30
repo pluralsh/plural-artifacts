@@ -1,0 +1,649 @@
+# Default values for trace-shield.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: nginx
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+postgresKratos:
+  team: plural
+  user: kratos
+  dbName: kratos
+  ownerChart: trace-shield
+  password: CHANGE_ME
+  exporter:
+    image:
+      repository: gcr.io/pluralsh/prometheuscommunity/postgres-exporter
+
+postgresHydra:
+  team: plural
+  user: hydra
+  dbName: hydra
+  ownerChart: trace-shield
+  password: CHANGE_ME
+  exporter:
+    image:
+      repository: gcr.io/pluralsh/prometheuscommunity/postgres-exporter
+
+postgresKeto:
+  team: plural
+  user: keto
+  dbName: keto
+  ownerChart: trace-shield
+  password: CHANGE_ME
+  exporter:
+    image:
+      repository: gcr.io/pluralsh/prometheuscommunity/postgres-exporter
+
+oathkeeper:
+  enabled: true
+  # image:
+  #   repository: oryd/oathkeeper
+  #   tag: v0.40.0
+  # sidecar:
+  #   image:
+  #     repository: oryd/oathkeeper-maester
+  #     tag: v0.1.7
+  maester:
+    enabled: false
+    nameOverride: kubricks-oathkeeper-maester
+  deployment:
+    automountServiceAccountToken: true
+  oathkeeper:
+    mutatorIdTokenJWKs: |
+      {
+        "keys": [
+          {
+            "use": "sig",
+            "kty": "RSA",
+            "kid": "a2aa9739-d753-4a0d-87ee-61f101050277",
+            "alg": "RS256",
+            "n": "zpjSl0ySsdk_YC4ZJYYV-cSznWkzndTo0lyvkYmeBkW60YHuHzXaviHqonY_DjFBdnZC0Vs_QTWmBlZvPzTp4Oni-eOetP-Ce3-B8jkGWpKFOjTLw7uwR3b3jm_mFNiz1dV_utWiweqx62Se0SyYaAXrgStU8-3P2Us7_kz5NnBVL1E7aEP40aB7nytLvPhXau-YhFmUfgykAcov0QrnNY0DH0eTcwL19UysvlKx6Uiu6mnbaFE1qx8X2m2xuLpErfiqj6wLCdCYMWdRTHiVsQMtTzSwuPuXfH7J06GTo3I1cEWN8Mb-RJxlosJA_q7hEd43yYisCO-8szX0lgCasw",
+            "e": "AQAB",
+            "d": "x3dfY_rna1UQTmFToBoMn6Edte47irhkra4VSNPwwaeTTvI-oN2TO51td7vo91_xD1nw-0c5FFGi4V2UfRcudBv9LD1rHt_O8EPUh7QtAUeT3_XXgjx1Xxpqu5goMZpkTyGZ-B6JzOY3L8lvWQ_Qeia1EXpvxC-oTOjJnKZeuwIPlcoNKMRU-mIYOnkRFfnUvrDm7N9UZEp3PfI3vhE9AquP1PEvz5KTUYkubsfmupqqR6FmMUm6ulGT7guhBw9A3vxIYbYGKvXLdBvn68mENrEYxXrwmu6ITMh_y208M5rC-hgEHIAIvMu1aVW6jNgyQTunsGST3UyrSbwjI0K9UQ",
+            "p": "77fDvnfHRFEgyi7mh0c6fAdtMEMJ05W8NwTG_D-cSwfWipfTwJJrroWoRwEgdAg5AWGq-MNUzrubTVXoJdC2T4g1o-VRZkKKYoMvav3CvOIMzCBxBs9I_GAKr5NCSk7maksMqiCTMhmkoZ5RPuMYMY_YzxKNAbjBd9qFLfaVAqs",
+            "q": "3KEmPA2XQkf7dvtpY1Xkp1IfMV_UBdmYk7J6dB5BYqzviQWdEFvWaSATJ_7qV1dw0JDZynOgipp8gvoL-RepfjtArhPz41wB3J2xmBYrBr1sJ-x5eqAvMkQk2bd5KTor44e79TRIkmkFYAIdUQ5JdVXPA13S8WUZfb_bAbwaCBk",
+            "dp": "5uyy32AJkNFKchqeLsE6INMSp0RdSftbtfCfM86fZFQno5lA_qjOnO_avJPkTILDT4ZjqoKYxxJJOEXCffNCPPltGvbE5GrDXsUbP8k2-LgWNeoml7XFjIGEqcCFQoohQ1IK4DTDN6cmRh76C0e_Pbdh15D6TydJEIlsdGuu_kM",
+            "dq": "aegFNYCEojFxeTzX6vIZL2RRSt8oJKK-Be__reu0EUzYMtr5-RdMhev6phFMph54LfXKRc9ZOg9MQ4cJ5klAeDKzKpyzTukkj6U20b2aa8LTvxpZec6YuTVSxxu2Ul71IGRQijTNvVIiXWLGddk409Ub6Q7JqkyQfvdwhpWnnUk",
+            "qi": "P68-EwgcRy9ce_PZ75c909cU7dzCiaGcTX1psJiXmQAFBcG0msWfsyHGbllOZG27pKde78ORGJDYDNk1FqTwsogZyCP87EiBmOoqXWnMvKYfJ1DOx7x42LMAGwMD3bgQj9jgRACxFJG4n3NI6uFlFruyl_CLQzwW_rQFHshLK7Q"
+          }
+        ]
+      }
+    managedAccessRules: true
+    accessRules: |
+      - id: ory:kratos:public
+        upstream:
+          url: http://oauth-stack-kratos-public
+          strip_path: /.ory/kratos/public
+          preserve_host: true
+        match:
+          url: https://kratos.mimir-cloud.pluraldev.sh/.ory/kratos/public/<**>
+          methods:
+            - GET
+            - POST
+            - PUT
+            - DELETE
+            - PATCH
+            - OPTIONS
+        authenticators:
+          - handler: noop
+        authorizer:
+          handler: allow
+        mutators:
+          - handler: noop
+      - id: ory:kratos-selfservice-ui-node:anonymous
+        upstream:
+          url: http://oauth-stack-kratos-selfservice-ui-node # TODO: use proper templating
+          preserve_host: true
+        match:
+          methods:
+            - GET
+            - POST # needed for consent
+          # TODO: cleanup templating
+          url: https://kratos.mimir-cloud.pluraldev.sh<{/,/registration,/welcome,/recovery,/verification,/login,/consent,/error,/404,/500,/**.css,/**.js,/**.png,/**.svg,/assets/**}>
+        authenticators:
+          - handler: noop
+        authorizer:
+          handler: allow
+        mutators:
+          - handler: noop
+            config: {}
+      - id: ory:kratos-selfservice-ui-node:protected
+        upstream:
+          url: http://oauth-stack-kratos-selfservice-ui-node # TODO: use proper templating
+          preserve_host: true
+        match:
+          methods:
+            - GET
+          # TODO: cleanup templating
+          url: https://kratos.mimir-cloud.pluraldev.sh/<{debug,dashboard,settings,sessions}{/,}>
+        authenticators:
+          - handler: cookie_session
+        authorizer:
+          handler: allow
+        mutators:
+          - handler: id_token
+        errors:
+          - handler: redirect
+            config:
+              to: https://kratos.mimir-cloud.pluraldev.sh/login
+      - id: grafana:mimir-api:protected
+        upstream:
+          url: http://mimir-nginx.mimir # TODO: use proper templating
+          preserve_host: true
+        match:
+          methods:
+            - GET
+            - POST
+            - PUT
+            - DELETE
+            - PATCH
+            - OPTIONS
+          # TODO: cleanup templating
+          url: https://mimir.mimir-cloud.pluraldev.sh/api<**>
+        authenticators:
+          - handler: oauth2_introspection
+            # config:
+            #   required_scope:
+            #     - grafana:read
+            #     - grafana:write
+        authorizer:
+          handler: allow
+        mutators:
+          - handler: header
+            config:
+              headers:
+                X-Scope-OrgID: mimir-cloud-oauth2
+      - id: grafana:mimir-prometheus:protected
+        upstream:
+          url: http://mimir-nginx.mimir # TODO: use proper templating
+          preserve_host: true
+        match:
+          methods:
+            - GET
+            - POST
+            - PUT
+            - DELETE
+            - PATCH
+            - OPTIONS
+          # TODO: cleanup templating
+          url: https://mimir.mimir-cloud.pluraldev.sh/prometheus<**>
+        authenticators:
+          - handler: oauth2_introspection
+            # config:
+            #   required_scope:
+            #     - grafana:read
+            #     - grafana:write
+        authorizer:
+          handler: allow
+        mutators:
+          - handler: header
+            config:
+              headers:
+                X-Scope-OrgID: mimir-cloud|mimir-cloud-2|mimir-cloud-oauth2
+        errors:
+          - handler: redirect
+            config:
+              to: https://kratos.mimir-cloud.pluraldev.sh/login
+    config:
+      log:
+        level: debug
+      access_rules:
+        matching_strategy: glob
+      authenticators:
+        anonymous:
+          enabled: true
+          config:
+            subject: guest
+
+        cookie_session:
+          enabled: true
+          config:
+            check_session_url: http://oauth-stack-kratos-public/sessions/whoami
+            preserve_path: true
+            extra_from: "@this"
+            subject_from: "identity.id"
+            only:
+              - ory_kratos_session
+
+        oauth2_introspection:
+          enabled: true
+          config:
+            introspection_url: http://oauth-stack-hydra-admin:4445/admin/oauth2/introspect
+            # scope_strategy: exact
+
+        noop:
+          enabled: true
+
+      authorizers:
+        allow:
+          enabled: true
+        # remote_json:
+        #   enabled: true
+        #   config:
+        #     remote: http://kubricks-keto-read/relation-tuples/check
+        #     payload: |
+        #       {
+        #         "subject": "{{ print .Subject }}",
+        #         "resource": "{{ printIndex .MatchContext.RegexpCaptureGroups 0 }}"
+        #       }
+      mutators:
+        noop:
+          enabled: true
+
+        id_token:
+          enabled: false
+          config:
+            issuer_url: http://127.0.0.1:4455/
+            jwks_url: file:///etc/secrets/mutator.id_token.jwks.json
+            claims: |
+              {
+                "session": {{ .Extra | toJson }}
+              }
+        header:
+          enabled: true
+          config:
+            headers: {}
+        hydrator:
+          enabled: true
+          config:
+            api:
+              url: http://temp-go-mimir/
+      errors:
+        fallback:
+          - json
+        handlers:
+          redirect:
+            enabled: true
+            config:
+              to: https://kratos.mimir-cloud.pluraldev.sh/login
+              when:
+                - error:
+                    - unauthorized
+                    - forbidden
+                  request:
+                    header:
+                      accept:
+                        # We don't want this for application/json requests, only browser requests!
+                        - text/html
+          json:
+            enabled: true
+            config:
+              verbose: true
+
+  ingress:
+    proxy:
+      enabled: false
+      className: nginx
+      annotations:
+        kubernetes.io/tls-acme: "true"
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      hosts:
+        - host: kratos.mimir-cloud.pluraldev.sh
+          paths:
+            - path: /
+              pathType: ImplementationSpecific
+        - host: mimir.mimir-cloud.pluraldev.sh
+          paths:
+            - path: /
+              pathType: ImplementationSpecific
+      tls:
+        - hosts:
+            - kratos.mimir-cloud.pluraldev.sh
+            - mimir.mimir-cloud.pluraldev.sh
+          secretName: kubricks-oathkeeper-proxy-tls
+
+kratos:
+  enabled: true
+  job:
+    annotations:
+      helm.sh/hook-weight: "1"
+      helm.sh/hook: "post-install, post-upgrade"
+      helm.sh/hook-delete-policy: "before-hook-creation,hook-succeeded"
+  ingress:
+    public:
+      enabled: false
+      className: nginx
+      annotations:
+        kubernetes.io/tls-acme: "true"
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        # nginx.ingress.kubernetes.io/rewrite-target: /$2
+      hosts:
+        - host: kratos.mimir-cloud.pluraldev.sh
+          paths: 
+            - path: /.*
+              pathType: ImplementationSpecific
+      tls:
+      - secretName: kratos-tls
+        hosts:
+          - kratos.mimir-cloud.pluraldev.sh
+  kratos:
+    automigration:
+      enabled: true
+    config:
+      serve:
+        public:
+          base_url: https://kratos.mimir-cloud.pluraldev.sh/.ory/kratos/public/
+          cors:
+            enabled: true
+            allowed_origins:
+            - http://localhost:3000
+      dsn: postgres://kratos:CHANGE_ME@plural-postgres-kratos:5432/kratos
+      oauth2_provider:
+        url: http://trace-shield-hydra-admin:4445
+      selfservice:
+        default_browser_return_url: https://kratos.mimir-cloud.pluraldev.sh/
+
+        methods:
+          password:
+            enabled: true
+
+        flows:
+          error:
+            ui_url: https://kratos.mimir-cloud.pluraldev.sh/error
+
+          settings:
+            ui_url: https://kratos.mimir-cloud.pluraldev.sh/settings
+            privileged_session_max_age: 15m
+
+          recovery:
+            enabled: true
+            ui_url: https://kratos.mimir-cloud.pluraldev.sh/recovery
+
+          verification:
+            enabled: true
+            ui_url: https://kratos.mimir-cloud.pluraldev.sh/verification
+            after:
+              default_browser_return_url: https://kratos.mimir-cloud.pluraldev.sh/
+
+          logout:
+            after:
+              default_browser_return_url: https://kratos.mimir-cloud.pluraldev.sh/login
+
+          login:
+            ui_url: https://kratos.mimir-cloud.pluraldev.sh/login
+            lifespan: 10m
+
+          registration:
+            lifespan: 10m
+            ui_url: https://kratos.mimir-cloud.pluraldev.sh/registration
+            after:
+              password:
+                hooks:
+                  - hook: session
+
+      courier:
+        smtp:
+          connection_uri: smtps://SMTP_USER:SMTP_PASSWORD@SMTP_SERVER:59867/?skip_ssl_verify=true
+          from_address: test@example.com
+      identity:
+        default_schema_id: person
+        schemas:
+          - id: person
+            url: file:///etc/config/identity.person.schema.json
+    identitySchemas:
+      identity.person.schema.json: |
+        {
+          "$id": "https://schemas.ory.sh/presets/kratos/quickstart/email-password/identity.schema.json",
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "title": "Person",
+          "type": "object",
+          "properties": {
+            "traits": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "format": "email",
+                  "title": "E-Mail",
+                  "minLength": 3,
+                  "ory.sh/kratos": {
+                    "credentials": {
+                      "password": {
+                        "identifier": true
+                      }
+                    },
+                    "verification": {
+                      "via": "email"
+                    },
+                    "recovery": {
+                      "via": "email"
+                    }
+                  }
+                },
+                "name": {
+                  "type": "object",
+                  "properties": {
+                    "first": {
+                      "title": "First Name",
+                      "type": "string"
+                    },
+                    "last": {
+                      "title": "Last Name",
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "required": ["email"],
+              "additionalProperties": false
+            }
+          }
+        }
+
+hydraSecrets:
+  dsn: postgres://hydra:CHANGE_ME@plural-postgres-hydra:5432/hydra
+  system: dummytest12345678901234567890
+  cookie: dummytest12345678901234567890
+
+hydra:
+  enabled: true
+  secret:
+    enabled: false
+
+  maester:
+    enabled: false
+  hydra:
+    automigration:
+      enabled: true
+    config:
+      urls:
+        self:
+          issuer: https://hydra.mimir-cloud.pluraldev.sh
+        login: https://kratos.mimir-cloud.pluraldev.sh/login
+        consent: https://kratos.mimir-cloud.pluraldev.sh/consent
+      serve:
+        admin:
+          tls:
+            enabled: false
+        public:
+          tls:
+            enabled: false
+        cookies:
+          same_site_mode: None
+          secure: true
+      ttl:
+        id_token: 12h
+        access_token: 12h
+        refresh_token: 96h
+
+  pdb:
+    enabled: true
+  deployment:
+    autoscaling:
+      enabled: false
+    extraEnv:
+    - name: DSN
+      valueFrom:
+        secretKeyRef:
+          name: trace-shield-hydra
+          key: dsn
+    
+  ingress:
+    public:
+      enabled: true
+      className: nginx
+      annotations:
+        kubernetes.io/tls-acme: "true"
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/proxy-connect-timeout: '10'
+        nginx.ingress.kubernetes.io/proxy-read-timeout: '120'
+        nginx.ingress.kubernetes.io/proxy-send-timeout: '120'
+      hosts:
+      - host: hydra.mimir-cloud.pluraldev.sh
+        paths:
+        - path: /.*
+          pathType: ImplementationSpecific
+      tls:
+      - hosts:
+        - hydra.mimir-cloud.pluraldev.sh
+        secretName: hydra-tls
+
+kratos-selfservice-ui-node:
+  enabled: false
+  image:
+    repository: davidspek/kratos-selfservice-ui-node
+    tag: hydrator-debug-4
+  # baseUrl: /
+  projectName: Mimir
+  jwksUrl: http://oauth-stack-oathkeeper-api:4456/.well-known/jwks.json
+  kratosAdminUrl: http://oauth-stack-kratos-admin
+  kratosBrowserUrl: https://kratos.mimir-cloud.pluraldev.sh/.ory/kratos/public/
+  kratosPublicUrl: http://oauth-stack-kratos-public
+  ingress:
+    enabled: false
+    className: nginx
+    annotations:
+      kubernetes.io/tls-acme: "true"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+      nginx.ingress.kubernetes.io/use-regex: "true"
+    hosts:
+      - host: auth.mimir-cloud.pluraldev.sh
+        paths: 
+          - path: /.*
+            pathType: ImplementationSpecific
+    tls:
+     - secretName: kratos-ui-tls
+       hosts:
+         - auth.mimir-cloud.pluraldev.sh
+  deployment:
+    extraEnv:
+    - name: HYDRA_PUBLIC_URL
+      value: https://hydra.mimir-cloud.pluraldev.sh
+    - name: HYDRA_ADMIN_URL
+      value: http://oauth-stack-hydra-admin:4445
+  #   extraVolumes:
+  #   - name: npm
+  #     emptyDir: {}
+  #   extraVolumeMounts:
+  #   - name: npm
+  #     mountPath: /home/node/.npm
+  #     subPath: .npm
+  securityContext:
+    readOnlyRootFilesystem: false
+
+keto:
+  enabled: true
+  image:
+    repository: oryd/keto
+    tag: v0.11.1
+  keto:
+    automigration:
+      enabled: true
+      type: initContainer
+    config:
+      namespaces:
+        location: file:///etc/config/namespaces/namespaces.keto.ts
+      dsn: postgres://keto:CHANGE_ME@plural-postgres-keto:5432/keto
+  deployment:
+    extraVolumes:
+      - name: keto-namespaces-config
+        configMap:
+          name: keto-namespaces-config
+
+    extraVolumeMounts:
+      - name: keto-namespaces-config
+        mountPath: /etc/config/namespaces
+        readOnly: true

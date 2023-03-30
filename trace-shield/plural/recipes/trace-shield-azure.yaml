@@ -1,0 +1,18 @@
+name: trace-shield-azure
+description: Installs trace-shield on an aws eks cluster
+provider: AZURE
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-azure
+- repo: postgres
+  name: azure-postgres
+sections:
+- name: trace-shield
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: trace-shield
