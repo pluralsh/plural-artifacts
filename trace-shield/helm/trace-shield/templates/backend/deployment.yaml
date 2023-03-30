@@ -50,11 +50,11 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: /graphiql
               port: http
           readinessProbe:
             httpGet:
-              path: /
+              path: /graphiql
               port: http
           resources:
             {{- toYaml .Values.backend.resources | nindent 12 }}
