@@ -129,11 +129,11 @@ frontend:
 config:
   hostname: trace-shield.az.onplural.sh
   mimir:
-    enabled: true
+    enabled: false
     publicURL: mimir.az.onplural.sh
     internalURL: mimir-nginx.mimir.svc.cluster.local
   loki:
-    enabled: true
+    enabled: false
     publicURL: loki.az.onplural.sh
     internalURL: loki-loki-distributed-gateway.loki.svc.cluster.local
   tempo:

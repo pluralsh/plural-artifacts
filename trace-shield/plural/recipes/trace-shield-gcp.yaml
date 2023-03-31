@@ -14,9 +14,11 @@ sections:
   - name: frontendHostname
     documentation: FQDN to use for your TraceShield installation
     type: DOMAIN 
+    default: trace-shield
   - name: hydraHostname
     documentation: FQDN to use for the Hydra component of TraceShield
     type: DOMAIN
+    default: hydra
   items:
   - type: TERRAFORM
     name: kube

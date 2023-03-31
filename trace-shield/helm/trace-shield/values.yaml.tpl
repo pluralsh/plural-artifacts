@@ -10,6 +10,24 @@ postgresKeto:
 postgresKratos:
   password: {{ $kratosPostgresPass}}
 
+config:
+  hostname: {{ .Values.frontendHostname }}
+  {{- if and .Configuration.mimir .Configuration.mimir.hostname }}
+  mimir:
+    enabled: true
+    publicURL: {{ .Configuration.mimir.hostname }}
+  {{- end }}
+  {{- if and .Configuration.loki .Configuration.loki.hostname }}
+  loki:
+    enabled: true
+    publicURL: {{ .Configuration.loki.hostname }}
+  {{- end }}
+  {{- if and .Configuration.tempo .Configuration.tempo.hostname }}
+  tempo:
+    enabled: true
+    publicURL: {{ .Configuration.tempo.hostname }}
+  {{- end }}
+
 kratos:
   kratos:
     config:

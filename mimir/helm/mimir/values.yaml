@@ -5,6 +5,9 @@ datasource:
   clusterTenantHeader:
     enabled: false
     value: ""
+  traceShield:
+    enabled: false
+    mimirPublicURL: ""
 
 
 mimir-distributed:

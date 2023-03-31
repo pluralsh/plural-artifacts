@@ -1,3 +1,5 @@
+{{ $traceShield := (index .Configuration "trace-shield") }}
+
 {{- if eq .Provider "azure" }}
 global:
   extraEnvFrom:
@@ -7,12 +9,19 @@ global:
 
 
 datasource:
+{{- if $traceShield }}
+  traceShield:
+    enabled: true
+    mimirPublicURL: {{ .Values.hostname }}
+{{- else }}
   clusterTenantHeader:
     value: {{ .Cluster }}
-{{ if .Configuration.tempo }}
+    enabled: true
+{{- end }}
+{{- if .Configuration.tempo }}
   tempo:
     enabled: true
-{{ end }}
+{{- end }}
 
 mimir-distributed:
   {{- if eq .Provider "aws" }}

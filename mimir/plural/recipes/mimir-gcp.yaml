@@ -20,6 +20,11 @@ sections:
     type: BUCKET
     default: mimir-ruler
     documentation: bucket for mimir ruler storage
+  - name: hostname
+    type: DOMAIN
+    default: mimir
+    documentation: the hostname you'll deploy mimir with (only used if trace-shield is deployed)
+    optional: true
   items:
   - type: TERRAFORM
     name: gcp
