@@ -1,5 +1,5 @@
 name: sftpgo-kind
-description: Installs sftpgo on an kind k8s cluster
+description: Installs SFTPGo on an kind k8s cluster
 provider: KIND
 primary: true
 dependencies:
@@ -12,7 +12,7 @@ sections:
     configuration:
       - name: hostname
         type: DOMAIN
-        documentation: the fully qualified domain name your sftpgo instance will be available at
+        documentation: the fully qualified domain name your SFTPGo instance will be available at
       - name: loadBalancerHostname
         documentation: a dns name to access the enabled services (sftp on port 22, etc.)
         type: DOMAIN

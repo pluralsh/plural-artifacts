@@ -1,1 +1,1 @@
-Your sftpgo installation is available at https://{{ .Values.hostname }}
+Your SFTPGo installation is available at https://{{ .Values.hostname }}
