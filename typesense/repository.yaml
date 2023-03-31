@@ -1,0 +1,12 @@
+name: typesense
+description: Open Source alternative to Algolia and an Easier-to-Use alternative to ElasticSearch
+category: PRODUCTIVITY
+icon: plural/icons/typesense.png
+notes: plural/notes.tpl
+homepage: https://typesense.org/
+gitUrl: https://github.com/typesense/typesense
+tags:
+  - tag: database
+  - tag: search
+  - tag: full-text-search
+  - tag: in-memory

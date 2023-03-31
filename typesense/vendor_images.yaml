@@ -1,0 +1,4 @@
+docker.io:
+  images-by-tag-regex:
+    typesense/typesense: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    alasano/typesense-node-resolver: ^[0-9a-f]{64}$

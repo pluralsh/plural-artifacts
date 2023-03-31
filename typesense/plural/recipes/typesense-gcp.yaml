@@ -1,0 +1,20 @@
+name: typesense-gcp
+description: Installs typesense on an gcp gke cluster
+provider: GCP
+dependencies:
+  - repo: bootstrap
+    name: gcp-k8s
+  - repo: ingress-nginx
+    name: ingress-nginx-gcp
+
+sections:
+  - name: typesense
+    configuration:
+      - name: hostname
+        documentation: FQDN to use for your typesense installation
+        type: DOMAIN
+    items:
+      - type: TERRAFORM
+        name: kube
+      - type: HELM
+        name: typesense
