@@ -31,6 +31,8 @@ config:
 kratos:
   kratos:
     config:
+      cookies:
+        domain: {{ regexReplaceAll "^.+?\\." .Values.frontendHostname "" }}
       serve:
         public:
           base_url: https://{{ .Values.frontendHostname }}/.ory/kratos/public/

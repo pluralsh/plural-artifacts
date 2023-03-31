@@ -34,6 +34,8 @@ mimir-distributed:
       clusterLabel: {{ .Cluster }}
   mimir:
     structuredConfig:
+      alertmanager:
+        external_url: https://{{ .Values.hostname }}/alertmanager
       common:
         storage:
           {{- if eq .Provider "aws" }}
@@ -66,6 +68,8 @@ mimir-distributed:
           container_name: {{ .Values.mimirBlocksBucket }}
         {{- end }}
       alertmanager_storage:
+        {{- if and $traceShield .Values.hostname }}
+        {{- end }}
         {{- if eq .Provider "aws" }}
         backend: s3
         s3:

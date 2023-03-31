@@ -51,6 +51,29 @@ data:
           config:
             api:
               url: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}/tenant-hydrator
+    - id: grafana:mimir-alertmanager:protected
+      upstream:
+        url: http://{{ .Values.config.mimir.internalURL }}
+        preserve_host: true
+      match:
+        methods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - PATCH
+          - OPTIONS
+        url: https://{{ .Values.config.mimir.publicURL }}/alertmanager<.*> # TODO: does this need to be separate
+      authenticators:
+        - handler: oauth2_introspection
+        - handler: cookie_session
+      authorizer:
+        handler: allow
+      mutators:
+        - handler: hydrator
+          config:
+            api:
+              url: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}/tenant-hydrator
     {{- end }}
     {{- if  .Values.config.loki.enabled }}
     - id: grafana:loki-api:protected
