@@ -1,0 +1,64 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Runbook
+metadata:
+  name: scaling-manual
+  labels:
+    platform.plural.sh/pinned: 'true'
+{{ include "jupyterhub.labels" . | indent 4 }}
+spec:
+  name: JupyterHub Scaling
+  description: overview of how to optimally scale your JupyterHub deployment
+  display: |-
+{{ .Files.Get "runbooks/scaling-manual.xml" | indent 4 }}
+  datasources:
+  - name: jupyterhub-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ include "jupyterhub.fullname" . }}.+"}[5m])) by (pod)
+  - name: jupyterhub-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ include "jupyterhub.fullname" . }}.+"}) by (pod)
+  - name: jupyterhub
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: {{ include "jupyterhub.fullname" . }}
+  actions:
+  - name: scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+      - path:
+        - jupyterhub
+        - resources
+        - requests
+        - cpu
+        valueFrom: jupyterhub-cpu
+      - path:
+        - jupyterhub
+        - resources
+        - requests
+        - memory
+        valueFrom: jupyterhub-memory
+      - path:
+        - jupyterhub
+        - resources
+        - limits
+        - cpu
+        valueFrom: jupyterhub-cpu-limit
+      - path:
+        - jupyterhub
+        - resources
+        - limits
+        - memory
+        valueFrom: jupyterhub-memory-limit
+      - path:
+        - jupyterhub
+        - replicaCount
+        valueFrom: jupyterhub-replicaCount
