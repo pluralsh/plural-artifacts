@@ -1,0 +1,20 @@
+name: typesense-azure
+description: Installs typesense on an azure aks cluster
+provider: AZURE
+dependencies:
+  - repo: bootstrap
+    name: azure-k8s
+  - repo: ingress-nginx
+    name: ingress-nginx-azure
+
+sections:
+  - name: typesense
+    configuration:
+      - name: hostname
+        documentation: FQDN to use for your typesense installation
+        type: DOMAIN
+    items:
+      - type: TERRAFORM
+        name: kube
+      - type: HELM
+        name: typesense
