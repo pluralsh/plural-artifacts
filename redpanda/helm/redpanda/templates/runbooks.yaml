@@ -1,0 +1,64 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Runbook
+metadata:
+  name: scaling-manual
+  labels:
+    platform.plural.sh/pinned: 'true'
+{{ include "redpanda.labels" . | indent 4 }}
+spec:
+  name: Redpanda Scaling
+  description: overview of how to optimally scale your Redpanda deployment
+  display: |-
+{{ .Files.Get "runbooks/scaling-manual.xml" | indent 4 }}
+  datasources:
+  - name: redpanda-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ include "redpanda.fullname" . }}.+"}[5m])) by (pod)
+  - name: redpanda-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ include "redpanda.fullname" . }}.+"}) by (pod)
+  - name: redpanda
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: {{ include "redpanda.fullname" . }}
+  actions:
+  - name: scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+      - path:
+        - redpanda
+        - resources
+        - requests
+        - cpu
+        valueFrom: redpanda-cpu
+      - path:
+        - redpanda
+        - resources
+        - requests
+        - memory
+        valueFrom: redpanda-memory
+      - path:
+        - redpanda
+        - resources
+        - limits
+        - cpu
+        valueFrom: redpanda-cpu-limit
+      - path:
+        - redpanda
+        - resources
+        - limits
+        - memory
+        valueFrom: redpanda-memory-limit
+      - path:
+        - redpanda
+        - replicaCount
+        valueFrom: redpanda-replicaCount
