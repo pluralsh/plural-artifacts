@@ -1,0 +1,19 @@
+name: jenkins-gcp
+description: Installs jenkins on an aws eks cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+
+sections:
+- name: jenkins
+  configuration:
+    - name: hostname
+      documentation: FQDN to use for your jenkins
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: jenkins
