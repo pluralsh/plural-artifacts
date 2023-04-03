@@ -6,7 +6,14 @@ global:
 kube-prometheus-stack:
   grafana:
     namespaceOverride: {{ $monitoringNamespace }}
+{{- if index .Configuration "grafana-agent" }}
+  alertmanager:
+    enabled: false
+{{- end }}
   prometheus:
+    {{- if index .Configuration "grafana-agent" }}
+    enabled: false
+    {{- end }}
     prometheusSpec:
       externalLabels:
         cluster: {{ .Cluster }}
