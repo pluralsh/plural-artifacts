@@ -4,3 +4,6 @@ description: helm chart for tier
 type: application
 version: 0.1.2
 appVersion: "v0.10.0"
+maintainers:
+  - name: Samuel Gordalina
+    email: samuel.gordalina@gmail.com

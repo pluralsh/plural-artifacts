@@ -4,3 +4,6 @@ description: helm chart for typesense
 type: application
 version: 0.1.0
 appVersion: "0.24.0"
+maintainers:
+  - name: Samuel Gordalina
+    email: samuel.gordalina@gmail.com

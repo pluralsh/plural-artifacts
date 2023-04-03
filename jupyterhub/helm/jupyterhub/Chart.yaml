@@ -4,10 +4,13 @@ description: helm chart for jupyterhub
 type: application
 version: 0.1.0
 appVersion: "3.1.1"
+maintainers:
+  - name: Samuel Gordalina
+    email: samuel.gordalina@gmail.com
 dependencies:
   - name: jupyterhub
     version: 3.0.12
     repository: https://charts.bitnami.com/bitnami
   - name: postgres
-    version: 0.2.11
+    version: 0.1.16
     repository: https://pluralsh.github.io/module-library
