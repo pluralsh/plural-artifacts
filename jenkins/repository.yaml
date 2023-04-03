@@ -1,7 +1,6 @@
 name: jenkins
 description: jenkins deployed on plural
 category: DEVOPS
-private: true
 icon: plural/icons/jenkins.png
 notes: plural/notes.tpl
 homepage: https://www.jenkins.io/
