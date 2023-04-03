@@ -1,0 +1,7 @@
+name: baserow
+description: baserow deployed on plural
+category: DATABASE
+icon: plural/icons/baserow.png
+notes: plural/notes.tpl
+homepage: https://baserow.io/
+gitUrl: https://github.com/bram2w/baserow
