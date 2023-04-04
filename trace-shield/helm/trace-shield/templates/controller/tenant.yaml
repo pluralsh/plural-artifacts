@@ -1,0 +1,12 @@
+{{- if .Values.config.tenant.create -}}
+apiVersion: observability.traceshield.io/v1alpha1
+kind: Tenant
+metadata:
+  name: {{ .Values.config.tenant.name }}
+  labels:
+    {{- include "trace-shield.labels" . | nindent 4 }}
+  annotations:
+    helm.sh/hook: post-install
+    helm.sh/hook-delete-policy: hook-failed
+spec: {}
+{{- end -}}

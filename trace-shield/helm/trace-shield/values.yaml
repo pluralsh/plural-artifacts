@@ -5,7 +5,7 @@ backend:
     repository: ghcr.io/pluralsh/oauth-playground/backend
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: sha-6fc49b1
+    tag: sha-dc7d00c
 
   imagePullSecrets: []
   nameOverride: ""
@@ -69,7 +69,7 @@ frontend:
     repository: ghcr.io/pluralsh/oauth-playground/frontend
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: sha-6fc49b1
+    tag: sha-dc7d00c
 
   imagePullSecrets: []
   nameOverride: ""
@@ -133,7 +133,7 @@ controller:
     repository: ghcr.io/pluralsh/trace-shield-controller
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: sha-a98fd77
+    tag: sha-f84361c
 
   imagePullSecrets: []
   nameOverride: ""
@@ -195,10 +195,17 @@ rbac:
 
 config:
   hostname: trace-shield.az.onplural.sh
+  tenant:
+    create: true
+    name: ""
   mimir:
     enabled: false
     publicURL: mimir.az.onplural.sh
     internalURL: mimir-nginx.mimir.svc.cluster.local
+    configMap:
+      name: mimir-runtime
+      namespace: mimir
+      key: runtime.yaml
   loki:
     enabled: false
     publicURL: loki.az.onplural.sh

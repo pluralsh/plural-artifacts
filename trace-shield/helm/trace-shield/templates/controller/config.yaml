@@ -1,0 +1,12 @@
+apiVersion: observability.traceshield.io/v1alpha1
+kind: Config
+metadata:
+  name: config
+  labels:
+    {{- include "trace-shield.labels" . | nindent 4 }}
+spec:
+  mimir:
+    {{- with .Values.config.mimir.configMap }}
+    configMap:
+    {{- toYaml . | nindent 6 }}
+    {{- end }}

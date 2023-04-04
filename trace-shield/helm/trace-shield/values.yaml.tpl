@@ -12,6 +12,8 @@ postgresKratos:
 
 config:
   hostname: {{ .Values.frontendHostname }}
+  tenant:
+    name: {{ .Cluster }}
   {{- if and .Configuration.mimir .Configuration.mimir.hostname }}
   mimir:
     enabled: true
