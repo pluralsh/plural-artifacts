@@ -4,6 +4,20 @@ global:
 
 redisPassword: ""
 
+datasource:
+  tempo:
+    enabled: false
+    id: tempo
+  mimir:
+    enabled: false
+    alertmanagerId: mimir-alertmanager
+  clusterTenantHeader:
+    enabled: false
+    value: ""
+  traceShield:
+    enabled: false
+    lokiPublicURL: ""
+
 loki-distributed:
   serviceMonitor:
     enabled: true
@@ -129,6 +143,8 @@ loki-distributed:
     config: ""
     structuredConfig:
       auth_enabled: false
+      querier:
+        multi_tenant_queries_enabled: false
       server:
         http_listen_port: 3100
       distributor:
