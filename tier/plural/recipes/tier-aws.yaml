@@ -1,0 +1,26 @@
+name: tier-aws
+description: Installs tier on an aws eks cluster
+provider: AWS
+dependencies:
+  - repo: bootstrap
+    name: aws-k8s
+  - repo: ingress-nginx
+    name: ingress-nginx-aws
+
+sections:
+  - name: tier
+    configuration:
+      - name: hostname
+        documentation: FQDN to use for your tier installation
+        type: DOMAIN
+      - name: stripeApiKey
+        documentation: Secret API KEY to use for Stripe. From https://dashboard.stripe.com/apikeys
+        type: STRING
+      - name: stripeLive
+        documentation: Was the key in the previous step a live one (non-test)?
+        type: BOOL
+    items:
+      - type: TERRAFORM
+        name: kube
+      - type: HELM
+        name: tier

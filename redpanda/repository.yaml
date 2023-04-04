@@ -1,0 +1,11 @@
+name: redpanda
+description: A single tool to configure, orchestrate and manage your entire billing stack
+category: DATA
+icon: plural/icons/redpanda.png
+notes: plural/notes.tpl
+homepage: https://redpanda.com/
+gitUrl: https://github.com/redpanda-data/redpanda
+tags:
+  - tag: data
+  - tag: log
+  - tag: streaming

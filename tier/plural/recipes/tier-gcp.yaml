@@ -1,0 +1,26 @@
+name: tier-gcp
+description: Installs tier on an gcp gke cluster
+provider: GCP
+dependencies:
+  - repo: bootstrap
+    name: gcp-k8s
+  - repo: ingress-nginx
+    name: ingress-nginx-gcp
+
+sections:
+  - name: tier
+    configuration:
+      - name: hostname
+        documentation: FQDN to use for your tier installation
+        type: DOMAIN
+      - name: stripeApiKey
+        documentation: Secret API KEY to use for Stripe. From https://dashboard.stripe.com/apikeys
+        type: STRING
+      - name: stripeLive
+        documentation: Was the key in the previous step a live one (non-test)?
+        type: BOOL
+    items:
+      - type: TERRAFORM
+        name: kube
+      - type: HELM
+        name: tier

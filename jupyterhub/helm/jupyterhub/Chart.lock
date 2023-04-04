@@ -1,0 +1,9 @@
+dependencies:
+- name: jupyterhub
+  repository: https://charts.bitnami.com/bitnami
+  version: 3.0.12
+- name: postgres
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.16
+digest: sha256:ad4f0aae95f8b20c092751bc8db4352963aedfd920c8aaf2aa45d6de49fa2e36
+generated: "2023-03-31T15:40:56.375493-10:00"

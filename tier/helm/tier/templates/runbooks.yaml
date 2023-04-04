@@ -1,0 +1,64 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Runbook
+metadata:
+  name: scaling-manual
+  labels:
+    platform.plural.sh/pinned: 'true'
+{{ include "tier.labels" . | indent 4 }}
+spec:
+  name: Tier Scaling
+  description: overview of how to optimally scale your Tier deployment
+  display: |-
+{{ .Files.Get "runbooks/scaling-manual.xml" | indent 4 }}
+  datasources:
+  - name: tier-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ include "tier.fullname" . }}.+"}[5m])) by (pod)
+  - name: tier-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ include "tier.fullname" . }}.+"}) by (pod)
+  - name: tier
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: {{ include "tier.fullname" . }}
+  actions:
+  - name: scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+      - path:
+        - tier
+        - resources
+        - requests
+        - cpu
+        valueFrom: tier-cpu
+      - path:
+        - tier
+        - resources
+        - requests
+        - memory
+        valueFrom: tier-memory
+      - path:
+        - tier
+        - resources
+        - limits
+        - cpu
+        valueFrom: tier-cpu-limit
+      - path:
+        - tier
+        - resources
+        - limits
+        - memory
+        valueFrom: tier-memory-limit
+      - path:
+        - tier
+        - replicaCount
+        valueFrom: tier-replicaCount

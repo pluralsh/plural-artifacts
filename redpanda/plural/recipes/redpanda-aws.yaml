@@ -1,0 +1,20 @@
+name: redpanda-aws
+description: Installs redpanda on an aws eks cluster
+provider: AWS
+dependencies:
+  - repo: bootstrap
+    name: aws-k8s
+  - repo: ingress-nginx
+    name: ingress-nginx-aws
+
+sections:
+  - name: redpanda
+    configuration:
+      - name: hostname
+        documentation: FQDN to use for your redpanda installation
+        type: DOMAIN
+    items:
+      - type: TERRAFORM
+        name: kube
+      - type: HELM
+        name: redpanda

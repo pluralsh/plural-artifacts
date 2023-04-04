@@ -7,6 +7,8 @@ dependencies:
   name: gcp-k8s
 - repo: redis
   name: gcp-redis
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
 sections:
 - name: loki
   configuration:

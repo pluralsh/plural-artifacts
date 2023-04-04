@@ -13,7 +13,11 @@ spec:
     name: redis
     repo: redis
     version: '>= 0.1.11'
-  
+  - type: helm
+    name: ingress-nginx
+    repo: ingress-nginx
+    version: '>= 0.1.2'
+    optional: true
   - type: terraform
     name: aws
     repo: loki
