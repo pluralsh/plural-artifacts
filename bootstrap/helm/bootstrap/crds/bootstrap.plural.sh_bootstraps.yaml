@@ -1,0 +1,316 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: bootstraps.bootstrap.plural.sh
+spec:
+  group: bootstrap.plural.sh
+  names:
+    kind: Bootstrap
+    listKind: BootstrapList
+    plural: bootstraps
+    singular: bootstrap
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - description: Application ready status
+      jsonPath: .status.ready
+      name: Ready
+      type: string
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              cloudSpec:
+                properties:
+                  aws:
+                    properties:
+                      accessKeyIdRef:
+                        description: SecretKeySelector selects a key of a Secret.
+                        properties:
+                          key:
+                            description: The key of the secret to select from.  Must
+                              be a valid secret key.
+                            type: string
+                          name:
+                            description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              TODO: Add other useful fields. apiVersion, kind, uid?'
+                            type: string
+                          optional:
+                            description: Specify whether the Secret or its key must
+                              be defined
+                            type: boolean
+                        required:
+                        - key
+                        type: object
+                        x-kubernetes-map-type: atomic
+                      fetchConfigUrl:
+                        type: string
+                      instanceType:
+                        type: string
+                      machinePoolReplicas:
+                        format: int32
+                        type: integer
+                      region:
+                        type: string
+                      secretAccessKeyRef:
+                        description: SecretKeySelector selects a key of a Secret.
+                        properties:
+                          key:
+                            description: The key of the secret to select from.  Must
+                              be a valid secret key.
+                            type: string
+                          name:
+                            description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              TODO: Add other useful fields. apiVersion, kind, uid?'
+                            type: string
+                          optional:
+                            description: Specify whether the Secret or its key must
+                              be defined
+                            type: boolean
+                        required:
+                        - key
+                        type: object
+                        x-kubernetes-map-type: atomic
+                      sessionTokenRef:
+                        description: SecretKeySelector selects a key of a Secret.
+                        properties:
+                          key:
+                            description: The key of the secret to select from.  Must
+                              be a valid secret key.
+                            type: string
+                          name:
+                            description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              TODO: Add other useful fields. apiVersion, kind, uid?'
+                            type: string
+                          optional:
+                            description: Specify whether the Secret or its key must
+                              be defined
+                            type: boolean
+                        required:
+                        - key
+                        type: object
+                        x-kubernetes-map-type: atomic
+                      version:
+                        type: string
+                    required:
+                    - accessKeyIdRef
+                    - instanceType
+                    - machinePoolReplicas
+                    - region
+                    - secretAccessKeyRef
+                    - sessionTokenRef
+                    type: object
+                type: object
+              clusterAPI:
+                properties:
+                  components:
+                    properties:
+                      operator:
+                        properties:
+                          kubeRBACProxyImage:
+                            type: string
+                          managerImage:
+                            type: string
+                        required:
+                        - kubeRBACProxyImage
+                        - managerImage
+                        type: object
+                    required:
+                    - operator
+                    type: object
+                  version:
+                    type: string
+                required:
+                - components
+                - version
+                type: object
+              clusterName:
+                type: string
+              clusterNetwork:
+                description: ClusterNetwork specifies the different networking parameters
+                  for a cluster.
+                properties:
+                  apiServerPort:
+                    description: APIServerPort specifies the port the API Server should
+                      bind to. Defaults to 6443.
+                    format: int32
+                    type: integer
+                  pods:
+                    description: The network ranges from which Pod networks are allocated.
+                    properties:
+                      cidrBlocks:
+                        items:
+                          type: string
+                        type: array
+                    required:
+                    - cidrBlocks
+                    type: object
+                  serviceDomain:
+                    description: Domain name for services.
+                    type: string
+                  services:
+                    description: The network ranges from which service VIPs are allocated.
+                    properties:
+                      cidrBlocks:
+                        items:
+                          type: string
+                        type: array
+                    required:
+                    - cidrBlocks
+                    type: object
+                type: object
+              kubernetesVersion:
+                type: string
+            required:
+            - cloudSpec
+            - clusterAPI
+            - clusterName
+            - clusterNetwork
+            - kubernetesVersion
+            type: object
+          status:
+            properties:
+              capiClusterStatus:
+                properties:
+                  controlPlaneReady:
+                    description: ControlPlaneReady defines if the control plane is
+                      ready.
+                    type: boolean
+                  failureMessage:
+                    description: FailureMessage indicates that there is a fatal problem
+                      reconciling the state, and will be set to a descriptive error
+                      message.
+                    type: string
+                  failureReason:
+                    description: FailureReason indicates that there is a fatal problem
+                      reconciling the state, and will be set to a token value suitable
+                      for programmatic interpretation.
+                    type: string
+                  infrastructureReady:
+                    description: InfrastructureReady is the state of the infrastructure
+                      provider.
+                    type: boolean
+                  message:
+                    description: Human readable message indicating details about last
+                      transition.
+                    type: string
+                  phase:
+                    description: Phase is a description of the current status, summarizing
+                      the various conditions. This field is for informational purpose
+                      only and no logic should be tied to the phase.
+                    enum:
+                    - Started
+                    - Creating
+                    - Running
+                    - Failed
+                    - Error
+                    type: string
+                  ready:
+                    description: Ready is true when the provider resource is ready.
+                    type: boolean
+                type: object
+              capiOperatorComponentsStatus:
+                properties:
+                  message:
+                    description: Human readable message indicating details about last
+                      transition.
+                    type: string
+                  phase:
+                    description: Phase is a description of the current status, summarizing
+                      the various conditions. This field is for informational purpose
+                      only and no logic should be tied to the phase.
+                    enum:
+                    - Started
+                    - Creating
+                    - Running
+                    - Failed
+                    - Error
+                    type: string
+                  ready:
+                    description: Ready is true when the provider resource is ready.
+                    type: boolean
+                type: object
+              capiOperatorStatus:
+                properties:
+                  message:
+                    description: Human readable message indicating details about last
+                      transition.
+                    type: string
+                  phase:
+                    description: Phase is a description of the current status, summarizing
+                      the various conditions. This field is for informational purpose
+                      only and no logic should be tied to the phase.
+                    enum:
+                    - Started
+                    - Creating
+                    - Running
+                    - Failed
+                    - Error
+                    type: string
+                  ready:
+                    description: Ready is true when the provider resource is ready.
+                    type: boolean
+                type: object
+              message:
+                description: Human readable message indicating details about last
+                  transition.
+                type: string
+              phase:
+                description: Phase is a description of the current status, summarizing
+                  the various conditions. This field is for informational purpose
+                  only and no logic should be tied to the phase.
+                enum:
+                - Started
+                - Creating
+                - Running
+                - Failed
+                - Error
+                type: string
+              providerStatus:
+                properties:
+                  message:
+                    description: Human readable message indicating details about last
+                      transition.
+                    type: string
+                  phase:
+                    description: Phase is a description of the current status, summarizing
+                      the various conditions. This field is for informational purpose
+                      only and no logic should be tied to the phase.
+                    enum:
+                    - Started
+                    - Creating
+                    - Running
+                    - Failed
+                    - Error
+                    type: string
+                  ready:
+                    description: Ready is true when the provider resource is ready.
+                    type: boolean
+                type: object
+              ready:
+                description: Ready is true when the provider resource is ready.
+                type: boolean
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

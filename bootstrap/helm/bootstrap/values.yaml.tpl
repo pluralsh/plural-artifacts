@@ -191,3 +191,12 @@ dnsSolver:
     project: {{ .Project }}
 {{ end }}
 {{ end }}
+
+bootstrapoperator:
+  clusterName: {{ .Cluster }}
+  secret:
+{{ if eq .Provider "aws" }}
+    AWS_ACCESS_KEY_ID: {{ .Context.AccessKey | b64enc | quote }}
+    AWS_SECRET_ACCESS_KEY: {{ .Context.SecretAccessKey | b64enc | quote }}
+    AWS_SESSION_TOKEN: {{ .Context.SessionToken | b64enc | quote }}
+{{ end }}
