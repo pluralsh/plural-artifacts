@@ -103,6 +103,21 @@ spec:
       version: v2.0.2
       machinePoolReplicas: 3
       instanceType: t2.large
+      serviceAccounts:
+      - metadata:
+          name: cluster-autoscaler
+          namespace: bootstrap
+        roleOnly: true
+        roleName: test-aws-cluster-autoscaler
+        wellKnownPolicies:
+          autoScaler: true
+      - metadata:
+          name: ebs-csi-controller
+          namespace: bootstrap
+        roleOnly: true
+        roleName: test-aws-ebs-csi
+        wellKnownPolicies:
+          ebsCSIController: true
       accessKeyIdRef:
         name: variables
         key: AWS_ACCESS_KEY_ID
