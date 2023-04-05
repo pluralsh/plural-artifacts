@@ -1,0 +1,307 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.11.1
+  creationTimestamp: null
+  name: tenants.observability.traceshield.io
+spec:
+  group: observability.traceshield.io
+  names:
+    kind: Tenant
+    listKind: TenantList
+    plural: tenants
+    singular: tenant
+  scope: Cluster
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Tenant is the Schema for the tenants API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: TenantSpec defines the desired state of Tenant
+            properties:
+              displayName:
+                description: DisplayName is a human readable name for the tenant
+                type: string
+              limits:
+                description: Limits is the set of limits for the tenant
+                properties:
+                  mimir:
+                    properties:
+                      accept_ha_samples:
+                        type: boolean
+                      alertmanager_max_alerts_count:
+                        type: integer
+                      alertmanager_max_alerts_size_bytes:
+                        type: integer
+                      alertmanager_max_config_size_bytes:
+                        type: integer
+                      alertmanager_max_dispatcher_aggregation_groups:
+                        type: integer
+                      alertmanager_max_template_size_bytes:
+                        type: integer
+                      alertmanager_max_templates_count:
+                        type: integer
+                      alertmanager_notification_rate_limit:
+                        type: number
+                      alertmanager_notification_rate_limit_per_integration:
+                        additionalProperties:
+                          type: number
+                        type: object
+                      alertmanager_receivers_firewall_block_cidr_networks:
+                        description: Alertmanager. Comma-separated list of network
+                          CIDRs to block in Alertmanager receiver
+                        type: string
+                      alertmanager_receivers_firewall_block_private_addresses:
+                        type: boolean
+                      cardinality_analysis_enabled:
+                        description: Cardinality
+                        type: boolean
+                      compactor_block_upload_enabled:
+                        type: boolean
+                      compactor_block_upload_validation_enabled:
+                        type: boolean
+                      compactor_block_upload_verify_chunks:
+                        type: boolean
+                      compactor_blocks_retention_period:
+                        description: Compactor.
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      compactor_partial_block_deletion_delay:
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      compactor_split_and_merge_shards:
+                        type: integer
+                      compactor_split_groups:
+                        type: integer
+                      compactor_tenant_shard_size:
+                        type: integer
+                      creation_grace_period:
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      drop_labels:
+                        items:
+                          type: string
+                        type: array
+                      enforce_metadata_metric_name:
+                        type: boolean
+                      forwarding_drop_older_than:
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      forwarding_endpoint:
+                        type: string
+                      forwarding_rules:
+                        additionalProperties:
+                          properties:
+                            ingest:
+                              description: Ingest defines whether a metric should
+                                still be pushed to the Ingesters despite it being
+                                forwarded.
+                              type: boolean
+                          type: object
+                        description: ForwardingRules are keyed by metric names, excluding
+                          labels.
+                        type: object
+                      ha_cluster_label:
+                        type: string
+                      ha_max_clusters:
+                        type: integer
+                      ha_replica_label:
+                        type: string
+                      ingestion_burst_size:
+                        type: integer
+                      ingestion_rate:
+                        type: number
+                      ingestion_tenant_shard_size:
+                        type: integer
+                      label_names_and_values_results_max_size_bytes:
+                        type: integer
+                      label_values_max_cardinality_label_names_per_request:
+                        type: integer
+                      max_cache_freshness:
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      max_fetched_chunk_bytes_per_query:
+                        type: integer
+                      max_fetched_chunks_per_query:
+                        description: Querier enforced limits.
+                        type: integer
+                      max_fetched_series_per_query:
+                        type: integer
+                      max_global_exemplars_per_user:
+                        description: Exemplars
+                        type: integer
+                      max_global_metadata_per_metric:
+                        type: integer
+                      max_global_metadata_per_user:
+                        description: Metadata
+                        type: integer
+                      max_global_series_per_metric:
+                        type: integer
+                      max_global_series_per_user:
+                        description: Ingester enforced limits. Series
+                        type: integer
+                      max_label_name_length:
+                        type: integer
+                      max_label_names_per_series:
+                        type: integer
+                      max_label_value_length:
+                        type: integer
+                      max_labels_query_length:
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      max_metadata_length:
+                        type: integer
+                      max_partial_query_length:
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      max_queriers_per_tenant:
+                        type: integer
+                      max_query_expression_size_bytes:
+                        type: integer
+                      max_query_lookback:
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      max_query_parallelism:
+                        type: integer
+                      max_total_query_length:
+                        description: Query-frontend limits.
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      native_histograms_ingestion_enabled:
+                        description: Native histograms
+                        type: boolean
+                      out_of_order_blocks_external_label_enabled:
+                        type: boolean
+                      out_of_order_time_window:
+                        description: 'Active series custom trackers TODO: re-enable
+                          once fixed ActiveSeriesCustomTrackersConfig CustomTrackersConfig
+                          `yaml:"active_series_custom_trackers,omitempty" json:"active_series_custom_trackers,omitempty"
+                          doc:"description=Additional custom trackers for active metrics.
+                          If there are active series matching a provided matcher (map
+                          value), the count will be exposed in the custom trackers
+                          metric labeled using the tracker name (map key). Zero valued
+                          counts are not exposed (and removed when they go back to
+                          zero)." category:"advanced"` Max allowed time window for
+                          out-of-order samples.'
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      query_sharding_max_regexp_size_bytes:
+                        type: integer
+                      query_sharding_max_sharded_queries:
+                        type: integer
+                      query_sharding_total_shards:
+                        type: integer
+                      request_burst_size:
+                        type: integer
+                      request_rate:
+                        description: Distributor enforced limits.
+                        type: number
+                      results_cache_ttl:
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      results_cache_ttl_for_out_of_order_time_window:
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      ruler_alerting_rules_evaluation_enabled:
+                        type: boolean
+                      ruler_evaluation_delay_duration:
+                        description: Ruler defaults and limits.
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      ruler_max_rule_groups_per_tenant:
+                        type: integer
+                      ruler_max_rules_per_rule_group:
+                        type: integer
+                      ruler_recording_rules_evaluation_enabled:
+                        type: boolean
+                      ruler_tenant_shard_size:
+                        type: integer
+                      s3_sse_kms_encryption_context:
+                        type: string
+                      s3_sse_kms_key_id:
+                        type: string
+                      s3_sse_type:
+                        description: This config doesn't have a CLI flag registered
+                          here because they're registered in their own original config
+                          struct.
+                        type: string
+                      separate_metrics_group_label:
+                        description: User defined label to give the option of subdividing
+                          specific metrics by another label
+                        type: string
+                      split_instant_queries_by_interval:
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      store_gateway_tenant_shard_size:
+                        description: Store-gateway.
+                        type: integer
+                    type: object
+                type: object
+            type: object
+          status:
+            description: TenantStatus defines the observed state of Tenant
+            properties:
+              conditions:
+                description: Conditions defines current service state of the PacketMachine.
+                items:
+                  properties:
+                    lastTransitionTime:
+                      description: Last time the condition transitioned from one status
+                        to another. This should be when the underlying condition changed.
+                        If that is not known, then using the time when the API field
+                        changed is acceptable.
+                      format: date-time
+                      type: string
+                    message:
+                      description: A human readable message indicating details about
+                        the transition. This field may be empty.
+                      type: string
+                    reason:
+                      description: The reason for the condition's last transition
+                        in CamelCase. The specific API may choose whether or not this
+                        field is considered a guaranteed API. This field may not be
+                        empty.
+                      type: string
+                    severity:
+                      description: Severity provides an explicit classification of
+                        Reason code, so the users or machines can immediately understand
+                        the current situation and act accordingly. The Severity field
+                        MUST be set only when Status=False.
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, Unknown.
+                      type: string
+                    type:
+                      description: Type of condition in CamelCase or in foo.example.com/CamelCase.
+                        Many .condition.type values are consistent across resources
+                        like Available, but because arbitrary conditions can be useful
+                        (see .node.status.conditions), the ability to deconflict is
+                        important.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - status
+                  - type
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

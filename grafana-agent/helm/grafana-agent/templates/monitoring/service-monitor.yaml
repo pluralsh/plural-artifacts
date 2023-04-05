@@ -1,0 +1,33 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    {{- include "grafana-agent-plural.labels" . | nindent 4 }}-operated
+  name: {{ include "grafana-agent-plural.fullname" . }}
+spec:
+  endpoints:
+  - path: /metrics
+    port: http-metrics
+  namespaceSelector:
+    any: true
+  selector:
+    matchLabels:
+      operated-agent: "true"
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    {{- include "grafana-agent-plural.labels" . | nindent 4 }}-tracing
+  name: {{ include "grafana-agent-plural.fullname" . }}
+spec:
+  endpoints:
+  - path: /metrics
+    port: http-metrics
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: {{ include "grafana-agent-plural.fullname" . }}
+      app.kubernetes.io/name: traces
