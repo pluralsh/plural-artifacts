@@ -1,4 +1,5 @@
 {{ $hostname := default "example.com" .Values.hostname }}
+{{ $password := dedupe . "jupyterhub.jupyterhub.hub.password" (randAlphaNum 30) }}
 
 global:
   application:
@@ -6,13 +7,14 @@ global:
     - description: jupyterhub instance
       url: {{ $hostname }}
 
-ingress:
-  hosts:
-   - host: {{ $hostname }}
-     paths:
-       - path: /
-         pathType: ImplementationSpecific
-  tls:
-   - secretName: jupyterhub-tls
-     hosts:
-       - {{ $hostname }}
+jupyterhub:
+  hub:
+    password: {{ $password }}
+
+  proxy:
+    ingress:
+      hostname: {{ $hostname }}
+      extraTls:
+        - hosts:
+          - {{ $hostname }}
+          secretName: jupyterhub-tls
