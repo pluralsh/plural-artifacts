@@ -1,7 +1,7 @@
 name: mimir
 description: mimir deployed on plural
 category: DEVOPS
-releaseStatus: ALPHA
+release_status: ALPHA
 icon: plural/icons/mimir.png
 notes: plural/notes.tpl
 homepage: https://grafana.com/oss/mimir/
