@@ -1,7 +1,7 @@
 name: trace-shield
 description: trace-shield deployed on plural
 category: DEVOPS
-releaseStatus: ALPHA
+release_status: ALPHA
 icon: plural/icons/trace-shield.png
 notes: plural/notes.tpl
 tags:

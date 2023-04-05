@@ -2,10 +2,10 @@ backend:
   replicaCount: 1
 
   image:
-    repository: ghcr.io/pluralsh/oauth-playground/backend
+    repository: ghcr.io/pluralsh/trace-shield/backend
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: sha-dc7d00c
+    tag: 0.1.1
 
   imagePullSecrets: []
   nameOverride: ""
@@ -66,10 +66,10 @@ frontend:
   replicaCount: 1
 
   image:
-    repository: ghcr.io/pluralsh/oauth-playground/frontend
+    repository: ghcr.io/pluralsh/trace-shield/frontend
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: sha-dc7d00c
+    tag: 0.1.1
 
   imagePullSecrets: []
   nameOverride: ""
