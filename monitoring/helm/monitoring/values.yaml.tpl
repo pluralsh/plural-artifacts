@@ -1,3 +1,4 @@
+{{ $grafanaAgent := and .Configuration (index .Configuration "grafana-agent") }}
 global:
   rbac:
     pspEnabled: false
@@ -6,12 +7,12 @@ global:
 kube-prometheus-stack:
   grafana:
     namespaceOverride: {{ $monitoringNamespace }}
-{{- if dig "Configuration" "grafana-agent" . }}
+{{- if $grafanaAgent }}
   alertmanager:
     enabled: false
 {{- end }}
   prometheus:
-    {{- if dig "Configuration" "grafana-agent" . }}
+    {{- if $grafanaAgent }}
     enabled: false
     {{- end }}
     prometheusSpec:
