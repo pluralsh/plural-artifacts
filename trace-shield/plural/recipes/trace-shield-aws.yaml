@@ -1,0 +1,26 @@
+name: trace-shield-aws
+description: Installs trace-shield on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+- repo: postgres
+  name: aws-postgres
+sections:
+- name: trace-shield
+  configuration:
+  - name: frontendHostname
+    documentation: FQDN to use for your TraceShield installation
+    default: trace-shield
+    type: DOMAIN 
+  - name: hydraHostname
+    documentation: FQDN to use for the Hydra component of TraceShield
+    type: DOMAIN
+    default: hydra
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: trace-shield

@@ -1,0 +1,8 @@
+name: trace-shield
+description: trace-shield deployed on plural
+category: DEVOPS
+releaseStatus: ALPHA
+icon: plural/icons/trace-shield.png
+notes: plural/notes.tpl
+tags:
+- tag: observability

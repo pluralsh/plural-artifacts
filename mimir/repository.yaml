@@ -1,0 +1,10 @@
+name: mimir
+description: mimir deployed on plural
+category: DEVOPS
+releaseStatus: ALPHA
+icon: plural/icons/mimir.png
+notes: plural/notes.tpl
+homepage: https://grafana.com/oss/mimir/
+gitUrl: https://github.com/grafana/mimir
+tags:
+- tag: observability
