@@ -8,6 +8,8 @@ dependencies:
   name: ingress-nginx-azure
 - repo: postgres
   name: azure-postgres
+- repo: grafana-agent
+  name: grafana-agent-azure
 sections:
 - name: trace-shield
   configuration:
