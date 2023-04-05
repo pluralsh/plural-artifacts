@@ -5,6 +5,8 @@ primary: true
 dependencies:
 - repo: bootstrap
   name: gcp-k8s
+- repo: monitoring
+  name: monitoring-gcp
 sections:
 - name: grafana-agent
   configuration: []

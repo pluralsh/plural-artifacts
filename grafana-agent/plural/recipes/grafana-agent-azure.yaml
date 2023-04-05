@@ -5,6 +5,8 @@ primary: true
 dependencies:
 - repo: bootstrap
   name: azure-k8s
+- repo: monitoring
+  name: monitoring-azure
 sections:
 - name: grafana-agent
   configuration: []

@@ -8,8 +8,6 @@ dependencies:
   name: ingress-nginx-gcp
 - repo: postgres
   name: gcp-postgres
-- repo: grafana-agent
-  name: grafana-agent-gcp
 sections:
 - name: trace-shield
   configuration:

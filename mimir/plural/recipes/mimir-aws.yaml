@@ -5,6 +5,8 @@ primary: true
 dependencies:
 - repo: bootstrap
   name: aws-k8s
+- repo: grafana-agent
+  name: grafana-agent-aws
 sections:
 - name: mimir
   configuration:

@@ -8,8 +8,6 @@ dependencies:
   name: ingress-nginx-aws
 - repo: postgres
   name: aws-postgres
-- repo: grafana-agent
-  name: grafana-agent-aws
 sections:
 - name: trace-shield
   configuration:

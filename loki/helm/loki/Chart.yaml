@@ -2,7 +2,7 @@ apiVersion: v2
 name: loki
 description: helm chart for loki
 type: application
-version: 0.1.12
+version: 0.1.13
 appVersion: "v2.6.1"
 dependencies:
 - name: loki-distributed

@@ -17,3 +17,7 @@ spec:
     name: grafana-agent-operator
     repo: grafana-agent
     version: '>= 0.1.0'
+  - type: helm
+    name: monitoring
+    repo: monitoring
+    version: '>= 0.2.25'

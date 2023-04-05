@@ -17,10 +17,6 @@ spec:
     name: postgres
     repo: postgres
     version: ">= 0.1.6"
-  - type: helm
-    name: grafana-agent
-    repo: grafana-agent
-    version: ">= 0.1.0"
   - type: terraform
     name: kube
     repo: trace-shield

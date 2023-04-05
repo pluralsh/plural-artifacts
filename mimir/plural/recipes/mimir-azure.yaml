@@ -5,6 +5,8 @@ primary: true
 dependencies:
 - repo: bootstrap
   name: azure-k8s
+- repo: grafana-agent
+  name: grafana-agent-azure
 sections:
 - name: mimir
   configuration:
