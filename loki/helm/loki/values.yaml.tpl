@@ -1,4 +1,4 @@
-{{ $traceShield := (dig "Configuration" "grafana-agent" .) }}
+{{ $traceShield := and .Configuration (index .Configuration "grafana-agent") }}
 {{ $redisNamespace := namespace "redis" }}
 {{ $redisValues := .Applications.HelmValues "redis" }}
 {{ $monitoringNamespace := namespace "monitoring" }}
