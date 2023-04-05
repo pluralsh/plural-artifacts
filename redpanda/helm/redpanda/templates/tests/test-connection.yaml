@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "redpanda.fullname" . }}:{{ .Values.service.port }}']
+      args: ['{{ include "redpanda.fullname" . }}:{{ .Values.redpanda.listeners.http.port }}']
   restartPolicy: Never

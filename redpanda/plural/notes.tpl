@@ -3,5 +3,5 @@ You can access the console at https://{{ .Values.consoleHostname }}
 
 Your initial admin credentials for logging into the console are:
 
-username: {{ .redpanda.secret.rootUser }}
-password: {{ .redpanda.secret.rootPassword }}
+username: {{ .Values.secret.rootUser }}
+password: {{ .Values.secret.rootPassword }}

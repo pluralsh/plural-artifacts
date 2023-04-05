@@ -94,7 +94,7 @@ tolerations: []
 
 affinity: {}
 
-volume:
+persistence:
   enabled: true
   path: /data
   accessMode: ReadWriteOnce
