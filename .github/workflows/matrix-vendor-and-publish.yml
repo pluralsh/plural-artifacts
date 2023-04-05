@@ -217,17 +217,31 @@ jobs:
       contents: 'read'
       id-token: 'write'
     steps:
-    - uses: actions/checkout@v3
+    - name: 'Checkout'
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.PLURAL_BOT_PAT }}
     - uses: hashicorp/setup-terraform@v2
     - uses: azure/setup-helm@v3
       with:
         version: latest
+    - name: 'Setup Node'
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18.12.1
+    - name: Install Semantic Release Plus
+      run: npm install -g semantic-release-plus
     - name: installing plural
       uses: pluralsh/setup-plural@v0.1.5
       with: 
         config: ${{ secrets.PLURAL_CONF }}
         vsn: 0.6.17
     - run: plural apply -f ${{ matrix.pluralfile }}
+    - name: 'Run Semantic Release'
+      run: APP_NAME=${{ matrix.repository }} semantic-release
+      env:
+        GITHUB_TOKEN: ${{ secrets.PLURAL_BOT_PAT }}
     - uses: 8398a7/action-slack@v3
       with:
         status: ${{ job.status }}
