@@ -2,6 +2,7 @@ name: grafana-agent-gcp
 description: Installs grafana-agent on an aws eks cluster
 provider: GCP
 primary: true
+private: true
 dependencies:
 - repo: bootstrap
   name: gcp-k8s
