@@ -1,4 +1,4 @@
-{{ $traceShield := and .Configuration (index .Configuration "trace-shield" .) }}
+{{ $traceShield := and .Configuration (index .Configuration "trace-shield") }}
 
 {{- if eq .Provider "azure" }}
 global:
