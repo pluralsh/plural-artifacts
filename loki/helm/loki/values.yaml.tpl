@@ -1,4 +1,4 @@
-{{ $traceShield := (index .Configuration "trace-shield") }}
+{{ $traceShield := (dig "Configuration" "grafana-agent" .) }}
 {{ $redisNamespace := namespace "redis" }}
 {{ $redisValues := .Applications.HelmValues "redis" }}
 {{ $monitoringNamespace := namespace "monitoring" }}
@@ -16,7 +16,7 @@ basicAuth:
   password: {{ .Values.basicAuth.password }}
 {{- end }}
 
-{{- if (index .Configuration "grafana-agent") }}
+{{- if $traceShield }}
 promtail:
   enabled: false
 {{- end }}
