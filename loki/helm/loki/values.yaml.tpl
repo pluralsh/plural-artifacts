@@ -16,7 +16,7 @@ basicAuth:
   password: {{ .Values.basicAuth.password }}
 {{- end }}
 
-{{- if $traceShield }}
+{{- if and .Configuration (index .Configuration "grafana-agent") }}
 promtail:
   enabled: false
 {{- end }}
