@@ -12,6 +12,7 @@ sections:
   configuration:
     - name: hostname
       documentation: FQDN to use for your jenkins
+      type: DOMAIN
   items:
   - type: TERRAFORM
     name: kube
