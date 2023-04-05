@@ -1,6 +1,10 @@
 docker.io:
   images-by-tag-regex:
-    bitnami/jupyterhub: ^v?[0-9]+\.[0-9]+?\.[0-9]+(.*)?$
-    bitnami/jupyter-base-notebook: ^v?[0-9]+\.[0-9]+?\.[0-9]+(.*)?$
-    bitnami/configurable-http-proxy: ^v?[0-9]+\.[0-9]+?\.[0-9]+(.*)?$
-    bitnami/bitnami-shell: ^\d+(-.*)?$
+    # >= 3.1.0
+    bitnami/jupyterhub: (?:^v?3\.(?:[1-9]|[1-9][0-9]{1,})\.[0-9]+$)|(?:^v?(?:[4-9]|[1-9][0-9]{1,})\.[0-9]+?\.[0-9]+$)
+    # >= 3.1.0
+    bitnami/jupyter-base-notebook: (?:^v?3\.(?:[1-9]|[1-9][0-9]{1,})\.[0-9]+$)|(?:^v?(?:[4-9]|[1-9][0-9]{1,})\.[0-9]+?\.[0-9]+$)
+    # >= 4.5.0
+    bitnami/configurable-http-proxy: (?:^v?4\.(?:[5-9]|[1-9][0-9]{1,})\.[0-9]+$)|(?:^v?(?:[5-9]|[1-9][0-9]{1,})\.[0-9]+?\.[0-9]+$)
+    # >= 10
+    bitnami/bitnami-shell: (?:^v?(?:[1-9][0-9]{1,})$)
