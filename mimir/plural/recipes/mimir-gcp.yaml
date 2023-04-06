@@ -1,0 +1,35 @@
+name: mimir-gcp
+description: Installs mimir on an aws eks cluster
+provider: GCP
+primary: true
+private: true
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: grafana-agent
+  name: grafana-agent-gcp
+sections:
+- name: mimir
+  configuration:
+  - name: mimirBlocksBucket
+    type: BUCKET
+    default: mimir-blocks
+    documentation: bucket to store the mimir blocks in
+  - name: mimirAlertBucket
+    type: BUCKET
+    default: mimir-alertmanager
+    documentation: bucket for mimir alertmanager
+  - name: mimirRulerBucket
+    type: BUCKET
+    default: mimir-ruler
+    documentation: bucket for mimir ruler storage
+  - name: hostname
+    type: DOMAIN
+    default: mimir
+    documentation: the hostname you'll deploy mimir with (only used if trace-shield is deployed)
+    optional: true
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: mimir

@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "trace-shield.fullname" . }}-backend
+  labels:
+    {{- include "trace-shield.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.backend.autoscaling.enabled }}
+  replicas: {{ .Values.backend.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "trace-shield.backendSelectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.backend.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "trace-shield.backendSelectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.backend.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "trace-shield.backendServiceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.backend.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.backend.securityContext | nindent 12 }}
+          image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
+          env:
+            - name: KRATOS_ADMIN_URL
+              value: http://{{ include "kratos.fullname" .Subcharts.kratos }}-admin
+            - name: KRATOS_PUBLIC_URL
+              value: http://{{ include "kratos.fullname" .Subcharts.kratos }}-public
+            - name: KETO_READ_REMOTE
+              value: {{ include "keto.fullname" .Subcharts.keto }}-read:80
+            - name: KETO_WRITE_REMOTE
+              value: {{ include "keto.fullname" .Subcharts.keto }}-write:80
+            - name: HYDRA_ADMIN_URL
+              value: http://{{ include "hydra.fullname" .Subcharts.hydra }}-admin:4445
+          ports:
+            - name: http
+              containerPort: {{ .Values.backend.service.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /graphiql
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /graphiql
+              port: http
+          resources:
+            {{- toYaml .Values.backend.resources | nindent 12 }}
+      {{- with .Values.backend.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.backend.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.backend.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

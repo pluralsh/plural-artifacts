@@ -1,0 +1,178 @@
+agent:
+  # -- Enable the agent
+  enabled: true
+  # -- The name of the cluster that will be added to the agent's external labels
+  clusterName: ""
+
+  logLevel: info
+  logFormat: logfmt
+  podMetadata: {}
+  # overrides the version from the image tag
+  version: ""
+  pasued: false
+  image:
+    repository: grafana/agent
+    tag: v0.31.3
+  imagePullSecrets: []
+  storage: {}
+  volumes: []
+  volumeMounts: []
+  resources: {}
+  secrets: []
+  configMaps: []
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  topologySpreadConstraints: []
+  securityContext: {}
+  containers: []
+  initContainers: []
+  priorityClassName: ""
+  runtimeClassName: ""
+  portName: ""
+
+  metrics:
+    scrapeInterval: 15s
+    instanceNamespaceSelector: {}
+    #   test: test # TODO: we need to support this in the template so we can set empty values
+  logs: {}
+  integrations: {}
+
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: ""
+
+  enableConfigReadAPI: false
+  disableReporting: false
+  disableSupportBundle: false
+
+metricsInstance:
+  enabled: true
+  remoteWrite:
+    mimir:
+      url: http://mimir-nginx.mimir/api/v1/push
+      headers:
+        X-Scope-OrgID: plrltest2
+    # test:
+    #   url: http://mimir-nginx.mimir/api/v1/push
+    #   headers:
+    #     X-Scope-OrgID: plrltest2
+  serviceMonitorNamespaceSelector: {}
+  serviceMonitorSelector: {}
+    # matchLabels:
+    #   instance: primary
+
+  # Supply an empty namespace selector to look in all namespaces. Remove
+  # this to only look in the same namespace as the MetricsInstance CR.
+  podMonitorNamespaceSelector: {}
+  podMonitorSelector: {}
+    # matchLabels:
+    #   instance: primary
+
+  # Supply an empty namespace selector to look in all namespaces. Remove
+  # this to only look in the same namespace as the MetricsInstance CR.
+  probeNamespaceSelector: {}
+  probeSelector: {}
+    # matchLabels:
+    #   instance: primary
+
+logInstance:
+  enabled: true
+  clients:
+    loki:
+      url: http://loki-loki-distributed-gateway.loki/loki/api/v1/push
+      tenantId: plrltest2
+      externalLabels:
+        cluster: plrltest2
+  podLogsNamespaceSelector: {}
+  podLogsSelector:  {}
+
+podLogs:
+  enabled: true
+  pipelineStages:
+    - docker: {}
+  namespaceSelector:
+    any: true
+  selector:
+    matchLabels: {}
+
+rbac:
+  create: true
+
+
+traces:
+  enabled: true
+  controller:
+    type: deployment
+  agent:
+    mimirHost: http://mimir-nginx.mimir
+    lokiHost: http://loki-loki-distributed-gateway.loki/loki/api/v1/push
+    lokiTenantId: ""
+    configMap:
+      content: |
+        logging {
+          level  = "info"
+          format = "logfmt"
+        }
+
+        mimir.rules.kubernetes "LABEL" {
+          address = {{ .Values.agent.mimirHost | quote }}
+          tenant_id = {{ .Values.agent.lokiTenantId | quote }}
+        }
+
+        loki.source.kubernetes_events "events" {
+          forward_to = [loki.write.local.receiver]
+        }
+
+        loki.write "local" {
+          endpoint {
+            url = {{ .Values.agent.lokiHost | quote }}
+            tenant_id = {{ .Values.agent.lokiTenantId | quote }}
+          }
+        }
+
+logs:
+  enabled: false
+  image:
+    repository: grafana/agent
+    tag: null
+  controller:
+    type: deployment
+  agent:
+    lokiHost: http://loki-loki-distributed-gateway.loki/loki/api/v1/push
+    lokiTenantId: ""
+    configMap:
+      content: |
+        logging {
+          level  = "info"
+          format = "logfmt"
+        }
+
+        discovery.kubernetes "pods" {
+          role = "pod"
+        }
+
+        loki.source.kubernetes "pods" {
+          targets    = discovery.kubernetes.pods.targets
+          forward_to = [loki.write.local.receiver]
+        }
+
+        loki.source.kubernetes_events "events" {
+          forward_to = [loki.write.local.receiver]
+        }
+
+        loki.write "local" {
+          endpoint {
+            url = {{ .Values.agent.lokiHost | quote }}
+            tenant_id = {{ .Values.agent.lokiTenantId | quote }}
+          }
+        }
+  configReloader:
+    # -- Enables automatically reloading when the agent config changes.
+    enabled: true
+    image:
+      # -- Repository to get config reloader image from.
+      repository: jimmidyson/configmap-reload
+      # -- Tag of image to use for config reloading.
+      tag: v0.8.0

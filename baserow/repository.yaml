@@ -1,6 +1,7 @@
 name: baserow
 description: baserow deployed on plural
 category: DATABASE
+private: false
 icon: plural/icons/baserow.png
 notes: plural/notes.tpl
 homepage: https://baserow.io/

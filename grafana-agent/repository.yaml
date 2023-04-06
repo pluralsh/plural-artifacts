@@ -1,0 +1,10 @@
+name: grafana-agent
+description: grafana-agent deployed on plural
+category: DEVOPS
+release_status: ALPHA
+icon: plural/icons/grafana-agent.png
+notes: plural/notes.tpl
+homepage: https://grafana.com/oss/agent/
+gitUrl: https://github.com/grafana/agent
+tags:
+- tag: observability

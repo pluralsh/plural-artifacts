@@ -1,0 +1,96 @@
+{{- if or .Values.config.mimir.enabled .Values.config.loki.enabled .Values.config.tempo.enabled -}}
+{{- $fullName := include "trace-shield.fullname" . -}}
+{{- $svcName := print (include "oathkeeper.fullname" .Subcharts.oathkeeper) "-proxy" -}}
+{{- $svcPort := .Values.oathkeeper.service.proxy.port -}}
+{{- if and .Values.config.observabilityIngress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
+  {{- if not (hasKey .Values.config.observabilityIngress.annotations "kubernetes.io/ingress.class") }}
+  {{- $_ := set .Values.config.observabilityIngress.annotations "kubernetes.io/ingress.class" .Values.config.observabilityIngress.className}}
+  {{- end }}
+{{- end }}
+{{- if semverCompare ">=1.19-0" .Capabilities.KubeVersion.GitVersion -}}
+apiVersion: networking.k8s.io/v1
+{{- else if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
+apiVersion: networking.k8s.io/v1beta1
+{{- else -}}
+apiVersion: extensions/v1beta1
+{{- end }}
+kind: Ingress
+metadata:
+  name: {{ $fullName }}-observability
+  labels:
+    {{- include "trace-shield.labels" . | nindent 4 }}
+  {{- with .Values.config.observabilityIngress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- if and .Values.config.observabilityIngress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
+  ingressClassName: {{ .Values.config.observabilityIngress.className }}
+  {{- end }}
+  {{- if .Values.config.observabilityIngress.tls.enabled }}
+  tls:
+    - hosts:
+        {{- if .Values.config.mimir.enabled }}
+        - {{ .Values.config.mimir.publicURL | quote }}
+        {{- end }}
+        {{- if .Values.config.loki.enabled }}
+        - {{ .Values.config.loki.publicURL | quote }}
+        {{- end }}
+        {{- if .Values.config.tempo.enabled }}
+        - {{ .Values.config.tempo.publicURL | quote }}
+        {{- end }}
+      secretName: {{ .Values.config.observabilityIngress.tls.secretName }}
+  {{- end }}
+  rules:
+    {{- if .Values.config.mimir.enabled }}
+    - host: {{ .Values.config.mimir.publicURL | quote }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
+              service:
+                name: {{ $svcName }}
+                port:
+                  number: {{ $svcPort }}
+              {{- else }}
+              serviceName: {{ $svcName }}
+              servicePort: {{ $svcPort }}
+              {{- end }}
+    {{- end }}
+    {{- if .Values.config.loki.enabled }}
+    - host: {{ .Values.config.loki.publicURL | quote }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
+              service:
+                name: {{ $svcName }}
+                port:
+                  number: {{ $svcPort }}
+              {{- else }}
+              serviceName: {{ $svcName }}
+              servicePort: {{ $svcPort }}
+              {{- end }}
+    {{- end }}
+    {{- if .Values.config.tempo.enabled }}
+    - host: {{ .Values.config.tempo.publicURL | quote }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
+              service:
+                name: {{ $svcName }}
+                port:
+                  number: {{ $svcPort }}
+              {{- else }}
+              serviceName: {{ $svcName }}
+              servicePort: {{ $svcPort }}
+              {{- end }}
+    {{- end }}
+{{- end }}
