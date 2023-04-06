@@ -133,7 +133,7 @@ controller:
     repository: ghcr.io/pluralsh/trace-shield-controller
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: sha-f84361c
+    tag: sha-d33bdaa
 
   imagePullSecrets: []
   nameOverride: ""
