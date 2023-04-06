@@ -2,7 +2,7 @@ apiVersion: v2
 name: grafana-agent
 description: helm chart for grafana-agent
 type: application
-version: 0.1.1
+version: 0.1.2
 appVersion: v0.32.1
 dependencies:
 - name: grafana-agent
