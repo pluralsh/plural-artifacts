@@ -30,6 +30,26 @@ config:
     publicURL: {{ .Configuration.tempo.hostname }}
   {{- end }}
 
+ingress:
+  hosts:
+    - host: {{ .Values.frontendHostname }}
+      backendPaths:
+        - path: /graphql
+          pathType: Prefix
+        - path: /graphiql
+          pathType: Prefix
+        - path: /tenant-hydrator
+          pathType: Prefix
+        - path: /user-webhook
+          pathType: Prefix
+      frontendPaths:
+        - path: /real-frontend/.*
+          pathType: Prefix
+  tls:
+   - secretName: trace-shield-tls
+     hosts:
+       - {{ .Values.frontendHostname }}
+
 kratos:
   kratos:
     config:
@@ -61,6 +81,18 @@ kratos:
             ui_url: https://{{ .Values.frontendHostname }}/login
           registration:
             ui_url: https://{{ .Values.frontendHostname }}/registration
+  ingress:
+    public:
+      enabled: true
+      hosts:
+        - host: {{ .Values.frontendHostname }}
+          paths: 
+            - path: /.ory/kratos/public/(.*)
+              pathType: Prefix
+      tls:
+      - secretName: trace-shield-tls
+        hosts:
+          - {{ .Values.frontendHostname }}
 
 hydraSecrets:
   dsn: postgres://hydra:{{ $hydraPostgresPass }}@plural-postgres-hydra:5432/hydra
@@ -91,3 +123,16 @@ keto:
   keto:
     config:
       dsn: postgres://keto:{{ $ketoPostgresPass }}@plural-postgres-keto:5432/keto
+
+kratos-selfservice-ui-node:
+  kratosBrowserUrl: https://{{ .Values.frontendHostname }}/.ory/kratos/public/
+  ingress:
+    hosts:
+      - host: {{ .Values.frontendHostname }}
+        paths: 
+          - path: /.*
+            pathType: Prefix
+    tls:
+     - secretName: trace-shield-tls
+       hosts:
+         - {{ .Values.frontendHostname }}
