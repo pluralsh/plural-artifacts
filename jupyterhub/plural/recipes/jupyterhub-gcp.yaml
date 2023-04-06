@@ -6,7 +6,10 @@ dependencies:
     name: gcp-k8s
   - repo: ingress-nginx
     name: ingress-nginx-gcp
-
+oidcSettings:
+  authMethod: POST
+  uriFormat: https://{domain}/hub/oauth_callback
+  domainKey: hostname
 sections:
   - name: jupyterhub
     configuration:
