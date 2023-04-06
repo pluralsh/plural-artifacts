@@ -196,7 +196,7 @@ jobs:
           scan-ref: ${{ matrix.repository }}
           format: 'sarif'
           output: 'trivy-results.sarif'
-          security-checks: 'vuln,secret,config'
+          scanners: 'vuln,secret,config'
           ignore-unfixed: true
           #severity: 'CRITICAL,HIGH'
 
