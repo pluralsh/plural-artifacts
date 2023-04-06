@@ -13,6 +13,7 @@ postgresKratos:
 config:
   hostname: {{ .Values.frontendHostname }}
   tenant:
+    create: true
     name: {{ .Cluster }}
   {{- if and .Configuration.mimir .Configuration.mimir.hostname }}
   mimir:

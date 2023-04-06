@@ -2,7 +2,7 @@ apiVersion: v2
 name: trace-shield
 description: helm chart for trace-shield
 type: application
-version: 0.1.4
+version: 0.1.5
 appVersion: "v0.1.1"
 dependencies:
 - name: kratos
