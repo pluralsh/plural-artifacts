@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: nginx
+  repository: dkr.plural.sh/jenkins/jenkins/jenkins
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: 2.387.2
 
 imagePullSecrets: []
 nameOverride: ""
