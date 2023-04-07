@@ -86,7 +86,7 @@ metadata:
   name: {{ .Values.bootstrapoperator.clusterName }}
 spec:
   clusterName: {{ .Values.bootstrapoperator.clusterName }}
-  kubernetesVersion: v1.23.14
+  kubernetesVersion: v1.23
   clusterNetwork:
     pods:
       cidrBlocks:
@@ -98,32 +98,6 @@ spec:
         managerImage: registry.k8s.io/capi-operator/cluster-api-operator:v0.1.0
         kubeRBACProxyImage: gcr.io/kubebuilder/kube-rbac-proxy:v0.5.0
   cloudSpec:
-    aws:
-      region: eu-central-1
-      version: v2.0.2
-      machinePoolReplicas: 3
-      instanceType: t2.large
-      serviceAccounts:
-      - metadata:
-          name: cluster-autoscaler
-          namespace: bootstrap
-        roleOnly: true
-        roleName: test-aws-cluster-autoscaler
-        wellKnownPolicies:
-          autoScaler: true
-      - metadata:
-          name: ebs-csi-controller
-          namespace: bootstrap
-        roleOnly: true
-        roleName: test-aws-ebs-csi
-        wellKnownPolicies:
-          ebsCSIController: true
-      accessKeyIdRef:
-        name: variables
-        key: AWS_ACCESS_KEY_ID
-      secretAccessKeyRef:
-        name: variables
-        key: AWS_SECRET_ACCESS_KEY
-      sessionTokenRef:
-        name: variables
-        key: AWS_SESSION_TOKEN
+  {{ if .Values.bootstrapoperator.secret }}
+        {{ toYaml .Values.bootstrapoperator.cloud | nindent 4 }}
+  {{ end }}
