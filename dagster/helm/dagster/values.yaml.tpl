@@ -1,3 +1,5 @@
+{{ $isGcp := or (eq .Provider "google") (eq .Provider "gcp") }}
+
 global:
   application:
     links:
@@ -61,7 +63,7 @@ dagster:
       {{ end }}
   {{ end }}
 
-  {{ if eq .Provider "gcp" }}
+  {{ if $isGcp }}
   computeLogManager:
     type: GCSComputeLogManager
     config:
@@ -75,14 +77,16 @@ dagster:
       eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-dagster"
   {{ end }}
 
-  {{ if eq .Provider "gcp" }}
+  {{ if $isGcp }}
   serviceAccount:
     annotations:
       iam.gke.io/gcp-service-account: {{ importValue "Terraform" "service_account_email" }}
   {{ end }}
 
+  {{ if not $isGcp }}
   runLauncher:
     config:
       k8sRunLauncher:
         envSecrets:
         - name: dagster-aws-env
+  {{ end }}

@@ -14,3 +14,7 @@ variable "cluster_name" {
 variable "project_id" {
   type = string
 }
+
+variable "bucket_location" {
+  type = string
+}
