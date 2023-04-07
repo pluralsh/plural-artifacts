@@ -96,5 +96,3 @@ dagster:
           - "--python-file"
           - "/example_project/example_repo/repo.py"
         port: 3030
-        envSecrets:
-          - name: dagster-aws-env
