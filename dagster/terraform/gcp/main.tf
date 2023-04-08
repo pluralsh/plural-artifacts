@@ -26,25 +26,6 @@ module "gcs_buckets" {
   project_id            = var.project_id
   bucket_names          = [var.dagster_bucket]
   service_account_email = module.dagster-workload-identity.gcp_service_account_email
+  location              = var.bucket_location
 }
 
-resource "google_storage_hmac_key" "dagster" {
-  service_account_email = module.dagster-workload-identity.gcp_service_account_email
-}
-
-resource "google_service_account_key" "dagster_key" {
-  service_account_id = module.dagster-workload-identity.gcp_service_account.name
-}
-
-resource "kubernetes_secret" "dagster_s3_secret" {
-  metadata {
-    name = "dagster-aws-env"
-    namespace = kubernetes_namespace.dagster.id
-  }
-
-  data = {
-    "AWS_ACCESS_KEY_ID" = google_storage_hmac_key.dagster.access_id
-    "AWS_SECRET_ACCESS_KEY" = google_storage_hmac_key.dagster.secret
-    "GOOGLE_APPLICATION_CREDENTIALS" = base64decode(google_service_account_key.dagster_key.private_key)
-  }
-}
