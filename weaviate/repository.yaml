@@ -1,0 +1,18 @@
+name: weaviate
+description: >
+  An open-source vector database.
+  It allows you to store data objects and vector embeddings from your favorite ML-models,
+  and scale seamlessly into billions of data objects.
+category: DATABASE
+icon: plural/icons/weaviate.jpeg
+private: true
+release_status: ALPHA
+notes: plural/notes.tpl
+homepage: https://weaviate.io/
+gitUrl: https://github.com/weaviate/weaviate
+tags:
+- tag: data-storage
+- tag: vector-database
+- tag: embeddings
+contributors:
+- walkoss@pm.me

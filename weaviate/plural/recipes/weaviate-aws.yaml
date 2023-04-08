@@ -1,0 +1,19 @@
+name: weaviate-aws
+description: Installs weaviate on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+sections:
+- name: weaviate
+  configuration:
+    - name: hostname
+      type: DOMAIN
+      documentation: the fully qualified domain name your Weaviate instance will be available at
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: weaviate
