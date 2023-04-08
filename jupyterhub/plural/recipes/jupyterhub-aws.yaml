@@ -1,6 +1,7 @@
 name: jupyterhub-aws
 description: Installs jupyterhub on an aws eks cluster
 provider: AWS
+primary: true
 dependencies:
   - repo: bootstrap
     name: aws-k8s
