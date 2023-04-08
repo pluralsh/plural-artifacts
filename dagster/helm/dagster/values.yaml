@@ -90,8 +90,6 @@ dagster:
           requests:
             cpu: 20m
             memory: 100Mi
-          limits:
-            memory: 160Mi
         dagsterApiGrpcArgs:
           - "--python-file"
           - "/example_project/example_repo/repo.py"
