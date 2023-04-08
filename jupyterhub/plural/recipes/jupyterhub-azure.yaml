@@ -7,6 +7,10 @@ dependencies:
     name: azure-k8s
   - repo: ingress-nginx
     name: ingress-nginx-azure
+oidcSettings:
+  authMethod: POST
+  uriFormat: https://{domain}/hub/oauth_callback
+  domainKey: hostname
 sections:
   - name: jupyterhub
     configuration:
