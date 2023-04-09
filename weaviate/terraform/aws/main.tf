@@ -8,3 +8,13 @@ resource "kubernetes_namespace" "weaviate" {
   }
 }
 
+resource "kubernetes_service_account" "weaviate" {
+  metadata {
+    name      = "weaviate"
+    namespace = var.namespace
+  }
+
+  depends_on = [
+    kubernetes_namespace.weaviate
+  ]
+}
