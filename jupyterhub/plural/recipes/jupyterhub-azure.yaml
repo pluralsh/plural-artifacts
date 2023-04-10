@@ -8,7 +8,7 @@ dependencies:
   - repo: ingress-nginx
     name: ingress-nginx-azure
 oidcSettings:
-  authMethod: POST
+  authMethod: BASIC
   uriFormat: https://{domain}/hub/oauth_callback
   domainKey: hostname
 sections:

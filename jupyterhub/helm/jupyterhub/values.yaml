@@ -1,46 +1,50 @@
+postgres:
+  team: plural
+  user: jupyter
+  dbName: jupyter
+  ownerChart: jupyterhub
+  infix: '-postgres'
+  password: REPLACE_ME
+
 jupyterhub:
   hub:
-    adminUser: admin
-    password: password
     # image:
     #   repository: dkr.plural.sh/jupyterhub/bitnami/jupyterhub
     #   tag: 3.1.1-debian-11-r20
-    metrics:
-      serviceMonitor:
-        enabled: true
-
+    db:
+      type: postgres
+    initContainers:
+    - name: wait-for-pg
+      image: gcr.io/pluralsh/busybox:latest
+      imagePullPolicy: IfNotPresent
+      command: [ "/bin/sh", "-c", "until nc -zv plural-postgres-jupyter 5432 -w1; do echo 'waiting for db'; sleep 1; done" ]
+    networkPolicy:
+      egress:
+      - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+  
   proxy:
-    # image:
-      # registry: dkr.plural.sh/jupyterhub/bitnami/configurable-http-proxy
-      # tag: 4.5.4-debian-11-r39
-    ingress:
-      enabled: true
-      path: /.*
-      ingressClassName: nginx
-      annotations:
-        kubernetes.io/tls-acme: "true"
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-        nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
-        nginx.ingress.kubernetes.io/use-regex: "true"
-      hostname: chart-example.local
-      extraTls: []
     service:
-      public:
-        type: ClusterIP
-    metrics:
-      serviceMonitor:
-        enabled: true
-
-  singleuser:
-    # image:
-      # repository: dkr.plural.sh/jupyterhub/bitnami/jupyter-base-notebook
-      # tag: 3.1.1-debian-11-r20
-    notebookDir: /data
-    extraEnvVars:
-      HOME: /data
-      JUPYTERHUB_ROOT_DIR: /data
-
-  # auxiliaryImage:
-    # image:
-      # repository: dkr.plural.sh/jupyterhub/bitnami/bitnami-shell
-      # tag: 11-debian-11-r102
+      type: ClusterIP
+    chp:
+      networkPolicy:
+        ingress:
+        - ports:
+          - port: http
+          from:
+          - namespaceSelector:
+              matchLabels:
+                kubernetes.io/metadata.name: ingress-nginx
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    pathType: ImplementationSpecific
+    pathSuffix: '.*'
+    annotations:
+      kubernetes.io/tls-acme: "true"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+      nginx.ingress.kubernetes.io/use-regex: "true"
+    hosts:
+    - example.com
