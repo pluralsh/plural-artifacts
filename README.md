@@ -59,7 +59,7 @@ For adding a new application the flow should be as follow:
 name: airbyte
 description: airbyte deployed on plural
 category: DATA
-release_status: ALPHA
+releaseStatus: ALPHA
 private: true # keeps the repo from being publicly available to users until its ready
 contributors:
 - my@plural.email
@@ -70,7 +70,7 @@ You'll want to create a pr with that initial setup which will create the initial
 
 * deploy a gcp or aws cluster to properly build and test the application, which can be done with the upgrade steps above
 * publish a new pr with the final version, and if it's good to go, we can drop the privacy flag.
-* if we're confident its ready for general use, we can move the `release_status` to `GA` or `BETA` as appropriate.
+* if we're confident its ready for general use, we can move the `releaseStatus` to `GA` or `BETA` as appropriate.
 
 
 ### Helpful utilities
