@@ -1,6 +1,9 @@
 dependencies:
 - name: jupyterhub
-  repository: https://charts.bitnami.com/bitnami
-  version: 3.0.12
-digest: sha256:7dbd4d47e44c4b1d35ad8ee1ccb3f52c3be682826399da28bffb98564b53938a
-generated: "2023-04-04T18:44:50.023965-10:00"
+  repository: https://jupyterhub.github.io/helm-chart/
+  version: 2.0.0
+- name: postgres
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.16
+digest: sha256:ffbd04f736eb925a2bad525b34393970e2915095021effc4155f31ee5adcc7fb
+generated: "2023-04-10T11:26:48.281791-04:00"

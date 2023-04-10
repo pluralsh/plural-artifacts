@@ -4,7 +4,7 @@ metadata:
   name: scaling-manual
   labels:
     platform.plural.sh/pinned: 'true'
-{{ include "jupyterhub.labels" . | indent 4 }}
+{{ include "jupyterhub-plural.labels" . | indent 4 }}
 spec:
   name: JupyterHub Scaling
   description: overview of how to optimally scale your JupyterHub deployment
@@ -16,18 +16,18 @@ spec:
     prometheus:
       format: cpu
       legend: $pod
-      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ include "jupyterhub.fullname" . }}.+"}[5m])) by (pod)
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ include "jupyterhub-plural.fullname" . }}.+"}[5m])) by (pod)
   - name: jupyterhub-memory
     type: prometheus
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ include "jupyterhub.fullname" . }}.+"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ include "jupyterhub-plural.fullname" . }}.+"}) by (pod)
   - name: jupyterhub
     type: kubernetes
     kubernetes:
       resource: deployment
-      name: {{ include "jupyterhub.fullname" . }}
+      name: {{ include "jupyterhub-plural.fullname" . }}
   actions:
   - name: scale
     action: config
