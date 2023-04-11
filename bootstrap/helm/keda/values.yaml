@@ -1,5 +1,68 @@
 keda:
   serviceAccount:
     create: true
-  crds:
-    install: false
+  # crds:
+  #   install: false
+  prometheus:
+    metricServer:
+      enabled: true
+      port: 9022
+      portName: metrics
+      path: /metrics
+      serviceMonitor:
+        # Enables ServiceMonitor creation for the Prometheus Operator
+        enabled: true
+        jobLabel:
+        targetLabels: []
+        podTargetLabels: []
+        port: metrics
+        targetPort:
+        interval:
+        scrapeTimeout:
+        relabellings: []
+        additionalLabels: {}
+      podMonitor:
+        # Enables PodMonitor creation for the Prometheus Operator
+        enabled: false
+        interval:
+        scrapeTimeout:
+        namespace:
+        additionalLabels: {}
+        relabelings: []
+    operator:
+      enabled: true
+      port: 8080
+      serviceMonitor:
+        # Enables ServiceMonitor creation for the Prometheus Operator
+        enabled: true
+        jobLabel:
+        targetLabels: []
+        podTargetLabels: []
+        port: metrics
+        targetPort:
+        interval:
+        scrapeTimeout:
+        relabellings: []
+        additionalLabels: {}
+      podMonitor:
+        # Enables PodMonitor creation for the Prometheus Operator
+        enabled: false
+        interval:
+        scrapeTimeout:
+        namespace:
+        additionalLabels: {}
+        relabelings: []
+      prometheusRules:
+        # Enables PrometheusRules creation for the Prometheus Operator
+        enabled: false
+        namespace:
+        additionalLabels: {}
+        alerts:
+          []
+          # - alert: KedaScalerErrors
+          #   annotations:
+          #     description: Keda scaledObject {{ $labels.scaledObject }} is experiencing errors with {{ $labels.scaler }} scaler
+          #     summary: Keda Scaler {{ $labels.scaler }} Errors
+          #   expr: sum by ( scaledObject , scaler) (rate(keda_metrics_adapter_scaler_errors[2m]))  > 0
+          #   for: 2m
+          #   labels:
