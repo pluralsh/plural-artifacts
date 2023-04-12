@@ -23,7 +23,7 @@ jupyterhub:
       - to:
         - ipBlock:
             cidr: 0.0.0.0/0
-  
+
   proxy:
     service:
       type: ClusterIP

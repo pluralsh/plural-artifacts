@@ -5,6 +5,7 @@ icon: plural/icons/jupyterhub.png
 releaseStatus: BETA
 notes: plural/notes.tpl
 homepage: https://jupyter.org/hub
+docs: plural/docs
 gitUrl: https://github.com/jupyterhub/jupyterhub
 oauthSettings:
   uriFormat: https://{domain}/hub/oauth_callback
