@@ -1,0 +1,6 @@
+dependencies:
+- name: postgres
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.16
+digest: sha256:5f04a1841874c3d989726de1b37e36f64403eb56fd509307296abe18f2ffaaf8
+generated: "2023-04-13T19:33:27.264488+02:00"
