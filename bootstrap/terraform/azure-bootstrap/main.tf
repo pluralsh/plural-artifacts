@@ -10,6 +10,7 @@ module "network" {
   address_space       = var.address_space
   subnet_prefixes     = var.subnet_prefixes
   subnet_names        = [var.subnet_name]
+  tags                = var.tags
 }
 
 module "aks" {
@@ -26,6 +27,7 @@ module "aks" {
   enable_role_based_access_control = true
   rbac_aad_enabled                 = false 
   rbac_aad_managed                 = false
+  location                         = data.azurerm_resource_group.group.location
   sku_tier                         = "Paid"
   private_cluster_enabled          = var.private_cluster
   enable_http_application_routing  = false
@@ -43,7 +45,7 @@ module "aks" {
 
   agents_labels = var.node_groups[0].node_labels
 
-  agents_tags = var.node_groups[0].tags
+  agents_tags = merge(var.node_groups[0].tags, var.tags)
 
   network_policy                 = var.network_policy
   net_profile_dns_service_ip     = "10.0.0.10"
@@ -55,6 +57,7 @@ module "aks" {
   auto_scaler_profile_scale_down_utilization_threshold = var.auto_scaler_profile_scale_down_utilization_threshold
 
   enable_log_analytics_workspace = var.enable_aks_insights
+  tags = var.tags
 
   depends_on = [module.network]
 }
@@ -83,7 +86,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "main" {
 
   node_labels           = each.value.node_labels
   node_taints           = each.value.node_taints
-  tags                  = each.value.tags
+  tags                  = merge(each.value.tags, var.tags)
 }
 
 data "azurerm_resource_group" "node_group" {

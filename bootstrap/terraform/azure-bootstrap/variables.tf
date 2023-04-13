@@ -86,6 +86,11 @@ variable "namespace" {
   default = "bootstrap"
 }
 
+variable "tags" {
+  type = any
+  default = {}
+}
+
 variable "node_groups" {
   description = "list of maps of node groups to create. "
   type        = any
