@@ -6,6 +6,10 @@ dependencies:
   name: gcp-k8s
 - repo: ingress-nginx
   name: ingress-nginx-gcp
+oidcSettings:
+  authMethod: POST
+  uriFormat: https://{domain}/auth/login/plural/callback
+  domainKey: hostname
 sections:
 - name: directus
   configuration:
