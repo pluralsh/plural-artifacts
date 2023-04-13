@@ -37,4 +37,3 @@ ingress:
   tls:
   - secretName: directus-tls
     hosts:
-      - {{ $hostname }}
