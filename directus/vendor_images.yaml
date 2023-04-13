@@ -1,4 +1,4 @@
 docker.io:
   images:
     directus/directus:
-    - "9.24.0"
+    - "9.25.0"

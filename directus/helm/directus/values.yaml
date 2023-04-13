@@ -13,7 +13,7 @@ postgres:
 replicaCount: 1
 
 image:
-  repository: directus/directus # TODO: change to plural registry
+  repository: dkr.plural.sh/directus/directus/directus
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
