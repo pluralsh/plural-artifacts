@@ -14,6 +14,6 @@ sections:
       type: DOMAIN
   items:
   - type: TERRAFORM
-    name: kube
+    name: gcp
   - type: HELM
     name: directus

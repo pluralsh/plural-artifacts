@@ -38,6 +38,21 @@ spec:
             - name: {{ $key }}
               value: {{ $value | quote }}
             {{- end }}
+            - name: DB_CONNECTION_STRING
+              valueFrom:
+                secretKeyRef:
+                  name: directus.plural-postgres-directus.credentials.postgresql.acid.zalan.do
+                  key: dsn
+            - name: KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "directus-plural.secretName" . }}
+                  key: key
+            - name: SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "directus-plural.secretName" . }}
+                  key: secret
           ports:
             - name: http
               containerPort: 8055
