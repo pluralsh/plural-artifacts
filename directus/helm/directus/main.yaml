@@ -1,0 +1,54 @@
+global:
+  application:
+    links:
+    - description: directus web ui
+      url: directus2.data.beamy.xyz
+
+postgres:
+  password: tzzvP7dxLm32Q0vj19ae
+  dsn:  postgresql://directus:tzzvP7dxLm32Q0vj19ae@plural-postgres-directus:5432/directus?sslmode=allow
+
+image:
+  repository: directus/directus
+
+env:
+  PUBLIC_URL: https://directus2.data.beamy.xyz/
+  ADMIN_EMAIL: admin@beamy.io
+  ADMIN_PASSWORD: password
+
+  AUTH_PROVIDERS: plural
+  AUTH_PLURAL_DRIVER: openid
+  AUTH_PLURAL_SCOPE: openid profile
+  AUTH_PLURAL_ALLOW_PUBLIC_REGISTRATION: true
+
+  # AUTH_PLURAL_IDENTIER_KEY: sub
+  # AUTH_PLURAL_REQUIRE_VERIFIED_EMAIL: false
+  # AUTH_PLURAL_DEFAULT_ROLE_ID: 1
+  # AUTH_PLURAL_ICON: key
+  # AUTH_PLURAL_LABEL: Plural
+  # AUTH_PLURAL_PARAMS: '{"prompt":"login"}'
+
+directus:
+  key: f95cbc51-b10a-4a38-9a14-bb0003d687a2
+  secret: 2ee3e837-c2f4-4d1f-9bd3-fb4b16b298a0
+  oidc:
+    issuer: https://oidc.plural.sh/
+    clientId: b5ccfe35-0cf1-427d-8dde-b671f269bfa9
+    clientSecret: 9XT2trEsifmt3wkC63AjMSMol.
+    enabled: true
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+  - host: directus2.data.beamy.xyz
+    paths:
+      - path: '/'
+        pathType: ImplementationSpecific
+  tls:
+  - secretName: directus-tls
+    hosts:
+      - directus2.data.beamy.xyz
