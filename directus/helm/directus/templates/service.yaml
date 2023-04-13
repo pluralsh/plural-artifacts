@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "directus-plural.fullname" . }}
+  labels:
+    {{- include "directus-plural.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: 8055
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "directus-plural.selectorLabels" . | nindent 4 }}

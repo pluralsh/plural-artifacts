@@ -1,0 +1,9 @@
+name: directus
+description: directus deployed on plural
+category: DATA
+private: true
+releaseStatus: ALPHA
+icon: plural/icons/directus-logo-stacked.png
+notes: plural/notes.tpl
+contributors:
+- walkoss@pm.me

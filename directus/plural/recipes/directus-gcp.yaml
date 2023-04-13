@@ -1,0 +1,19 @@
+name: directus-gcp
+description: Installs directus on an gcp gke cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+sections:
+- name: directus
+  configuration:
+    - name: hostname
+      documentation: FQDN to use for your directus installation
+      type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: directus

@@ -1,0 +1,6 @@
+apiVersion: v2
+name: directus
+description: helm chart for directus
+type: application
+version: 0.1.0
+appVersion: 9.24.0

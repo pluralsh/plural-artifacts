@@ -1,0 +1,19 @@
+name: directus-azure
+description: Installs directus on an azure aks cluster
+provider: AZURE
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-azure
+sections:
+- name: directus
+  configuration:
+    - name: hostname
+      documentation: FQDN to use for your directus installation
+      type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: directus
