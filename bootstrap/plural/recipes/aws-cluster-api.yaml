@@ -1,7 +1,8 @@
 name: aws-cluster-api
 description: Creates an eks cluster and installs the bootstrap chart
 provider: AWS
-primary: true
+primary: false
+private: true
 dependencies: []
 sections:
   - name: bootstrap
