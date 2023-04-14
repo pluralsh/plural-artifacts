@@ -50,13 +50,6 @@ app.kubernetes.io/name: {{ include "bootstrap-operator.name" . }}-controller
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
-{{/*
-Selector labels
-*/}}
-{{- define "bootstrap-operator.proxySelectorLabels" -}}
-app.kubernetes.io/name: {{ include "bootstrap-operator.name" . }}-proxy
-app.kubernetes.io/instance: {{ .Release.Name }}
-{{- end }}
 
 {{/*
 Create the name of the service account to use
