@@ -1,6 +1,7 @@
 name: directus-gcp
 description: Installs directus on an gcp gke cluster
 provider: GCP
+primary: true
 dependencies:
 - repo: bootstrap
   name: gcp-k8s
