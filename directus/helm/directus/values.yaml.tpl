@@ -1,7 +1,7 @@
 {{ $hostname := default "example.com" .Values.hostname }}
 
-{{ $key := dedupe . "directus.env.key" (uuidv4) }}
-{{ $secret := dedupe . "directus.env.secret" (uuidv4) }}
+{{ $key := dedupe . "directus.env.key" (randAlphaNum 20) }}
+{{ $secret := dedupe . "directus.env.secret" (randAlphaNum 20) }}
 
 {{ $directusPgPwd := dedupe . "directus.postgres.password" (randAlphaNum 20) }}
 {{ $directusPgDsn := default (printf "postgresql://directus:%s@plural-postgres-directus:5432/directus" $directusPgPwd) .Values.directusDsn }}

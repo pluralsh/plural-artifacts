@@ -89,6 +89,13 @@ tolerations: []
 
 affinity: {}
 
+directus:
+  oidc:
+    enabled: false
+    
+  key: CHANGEME
+  secret: CHANGEME
+
 env:
   DB_CLIENT: pg
   NODE_TLS_REJECT_UNAUTHORIZED: 0
