@@ -56,7 +56,7 @@ mimir-distributed:
     #   enabled: true
   compactor:
     persistentVolume:
-      size: 2Gi
+      size: 20Gi
     resources:
       requests:
         cpu: 100m
@@ -84,7 +84,7 @@ mimir-distributed:
   ingester:
     replicas: 3
     persistentVolume:
-      size: 10Gi
+      size: 50Gi
     resources:
       requests:
         cpu: 100m
@@ -152,7 +152,7 @@ mimir-distributed:
     #     memory: 2Gi
   store_gateway:
     persistentVolume:
-      size: 2Gi
+      size: 10Gi
     resources:
       requests:
         cpu: 100m
