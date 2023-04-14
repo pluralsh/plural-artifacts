@@ -18,10 +18,23 @@ postgres:
 
 env:
   PUBLIC_URL: https://{{ $hostname }}
+  {{ if .OIDC }}
+  AUTH_PROVIDERS: plural
+  AUTH_PLURAL_DRIVER: openid
+  AUTH_PLURAL_SCOPE: openid profile
+  AUTH_PLURAL_ALLOW_PUBLIC_REGISTRATION: true
+  {{ end }}
 
 directus:
   key: {{ $key }}
   secret: {{ $secret }}
+  {{ if .OIDC }}
+  oidc:
+    enabled: true
+    clientId: {{ .OIDC.ClientId }}
+    clientSecret: {{ .OIDC.ClientSecret }}
+    issuer: {{ .OIDC.Configuration.Issuer }}
+  {{ end }}
 
 ingress:
   enabled: true
