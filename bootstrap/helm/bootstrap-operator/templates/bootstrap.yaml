@@ -1,0 +1,21 @@
+apiVersion: bootstrap.plural.sh/v1alpha1
+kind: Bootstrap
+metadata:
+  name: {{ .Values.operator.clusterName }}
+spec:
+  clusterName: {{ .Values.operator.clusterName }}
+  kubernetesVersion: {{ .Values.kubernetesVersion }}
+  clusterNetwork:
+    pods:
+      cidrBlocks:
+        - 192.168.0.0/16
+  clusterAPI:
+    version: {{ .Values.clusterAPIVersion }}
+    components:
+      operator:
+        managerImage: registry.k8s.io/capi-operator/cluster-api-operator:v0.1.0
+        kubeRBACProxyImage: gcr.io/kubebuilder/kube-rbac-proxy:v0.5.0
+  cloudSpec:
+  {{ if .Values.operator.secret }}
+        {{ toYaml .Values.operator.cloud | nindent 4 }}
+  {{ end }}

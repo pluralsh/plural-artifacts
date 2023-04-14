@@ -1,0 +1,17 @@
+name: aws-cluster-api
+description: Creates an eks cluster and installs the bootstrap chart
+provider: AWS
+primary: true
+dependencies: []
+sections:
+  - name: bootstrap
+    configuration: []
+    items:
+      - type: TERRAFORM
+        name: aws-bootstrap-cluster-api
+      - type: HELM
+        name: bootstrap
+      - type: HELM
+        name: plural-certmanager-webhook
+      - type: HELM
+        name: bootstrap-operator
