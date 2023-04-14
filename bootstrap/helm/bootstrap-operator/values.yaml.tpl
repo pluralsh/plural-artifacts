@@ -1,7 +1,9 @@
 operator:
   clusterName: {{ .Cluster }}
-  secret:
+  secret: {}
+  cloud: {}
 {{ if eq .Provider "aws" }}
+  secret:
     AWS_ACCESS_KEY_ID: {{ .Context.AccessKey | b64enc | quote }}
     AWS_SECRET_ACCESS_KEY: {{ .Context.SecretAccessKey | b64enc | quote }}
     AWS_SESSION_TOKEN: {{ .Context.SessionToken | b64enc | quote }}
