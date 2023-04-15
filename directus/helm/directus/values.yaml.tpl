@@ -1,3 +1,5 @@
+{{ $isGcp := or (eq .Provider "google") (eq .Provider "gcp") }}
+
 {{ $hostname := default "example.com" .Values.hostname }}
 
 {{ $key := dedupe . "directus.directus.key" (randAlphaNum 20) }}
@@ -27,6 +29,14 @@ env:
   AUTH_PLURAL_ALLOW_PUBLIC_REGISTRATION: true
   AUTH_PLURAL_IDENTIER_KEY: email
   {{ end }}
+{{ if $isGcp }}
+  STORAGE_LOCATIONS: google
+  STORAGE_GOOGLE_DRIVER: gcs
+  STORAGE_GOOGLE_BUCKET: {{ .Values.directusBucket }}
+serviceAccount:
+  annotations:
+    iam.gke.io/gcp-service-account: {{ importValue "Terraform" "service_account_email" }}
+{{ end }}
 
 directus:
   key: {{ $key }}

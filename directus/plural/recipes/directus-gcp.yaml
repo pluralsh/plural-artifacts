@@ -20,6 +20,10 @@ sections:
     - name: adminEmail
       type: STRING
       documentation: email for the initial admin user
+    - name: directusBucket
+      type: BUCKET
+      documentation: gcs bucket for storing directus files
+      default: directus
   items:
   - type: TERRAFORM
     name: gcp
