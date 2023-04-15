@@ -1,5 +1,11 @@
 {{ $unleashPgPwd := dedupe . "unleash.postgres.password" (randAlphaNum 20) }}
 
+global:
+  application:
+    links:
+    - description: unleash web ui
+      url: {{ .Values.hostname }}
+
 postgres:
   password: {{ $unleashPgPwd }}
 
