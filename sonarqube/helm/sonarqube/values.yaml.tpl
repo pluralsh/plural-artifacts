@@ -1,5 +1,11 @@
 {{ $sonarqubePgPwd := dedupe . "sonarqube.postgres.password" (randAlphaNum 20) }}
 
+global:
+  application:
+    links:
+    - description: sonarqube web ui
+      url: {{ .Values.hostname }}
+
 postgres:
   password: {{ $sonarqubePgPwd }}
 
