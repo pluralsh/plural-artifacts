@@ -1,0 +1,4 @@
+docker.io:
+  images:
+    sonarqube:
+    - "10.0.0-community"

@@ -1,0 +1,11 @@
+# # Default values for sonarqube.
+# # This is a YAML-formatted file.
+# # Declare variables to be passed into your templates.
+
+postgres:
+  team: plural
+  user: sonarqube
+  dbName: sonarqube
+  ownerChart: sonarqube
+  infix: '-postgres'
+  password: REPLACE_ME
