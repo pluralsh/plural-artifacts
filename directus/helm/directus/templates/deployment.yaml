@@ -53,22 +53,32 @@ spec:
                 secretKeyRef:
                   name: {{ include "directus-plural.secretName" . }}
                   key: secret
+            - name: ADMIN_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "directus-plural.secretName" . }}
+                  key: adminEmail
+            - name: ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "directus-plural.secretName" . }}
+                  key: adminPassword
             {{- if .Values.directus.oidc.enabled }}
             - name: AUTH_PLURAL_ISSUER_URL
               valueFrom:
                 secretKeyRef:
                   name: {{ include "directus-plural.secretName" . }}
-                  key: oidc-issuer
+                  key: oidcIssuer
             - name: AUTH_PLURAL_CLIENT_ID
               valueFrom:
                 secretKeyRef:
                   name: {{ include "directus-plural.secretName" . }}
-                  key: oidc-client-id
+                  key: oidcClientId
             - name: AUTH_PLURAL_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
                   name: {{ include "directus-plural.secretName" . }}
-                  key: oidc-client-secret
+                  key: oidcClientSecret
             {{- end }}
           ports:
             - name: http

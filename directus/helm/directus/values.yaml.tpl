@@ -1,10 +1,12 @@
 {{ $hostname := default "example.com" .Values.hostname }}
 
-{{ $key := dedupe . "directus.env.key" (randAlphaNum 20) }}
-{{ $secret := dedupe . "directus.env.secret" (randAlphaNum 20) }}
+{{ $key := dedupe . "directus.directus.key" (randAlphaNum 20) }}
+{{ $secret := dedupe . "directus.directus.secret" (randAlphaNum 20) }}
 
 {{ $directusPgPwd := dedupe . "directus.postgres.password" (randAlphaNum 20) }}
-{{ $directusPgDsn := default (printf "postgresql://directus:%s@plural-postgres-directus:5432/directus" $directusPgPwd) .Values.directusDsn }}
+{{ $directusPgDsn := default (printf "postgresql://directus:%s@plural-postgres-directus:5432/directus?sslmode=allow" $directusPgPwd) .Values.directusDsn }}
+
+{{ $directusAdminPwd := dedupe . "directus.directus.admin.password" (randAlphaNum 20) }}
 
 global:
   application:
@@ -23,6 +25,7 @@ env:
   AUTH_PLURAL_DRIVER: openid
   AUTH_PLURAL_SCOPE: openid profile
   AUTH_PLURAL_ALLOW_PUBLIC_REGISTRATION: true
+  AUTH_PLURAL_IDENTIER_KEY: email
   {{ end }}
 
 directus:
@@ -35,6 +38,9 @@ directus:
     clientSecret: {{ .OIDC.ClientSecret }}
     issuer: {{ .OIDC.Configuration.Issuer }}
   {{ end }}
+  admin:
+    email: {{ .Values.adminEmail }}
+    password: {{ $directusAdminPwd }}
 
 ingress:
   enabled: true
