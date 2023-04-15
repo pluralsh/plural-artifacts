@@ -7,6 +7,8 @@ dependencies:
   name: gcp-k8s
 - repo: ingress-nginx
   name: ingress-nginx-gcp
+- repo: postgres
+  name: gcp-postgres
 oidcSettings:
   authMethod: BASIC
   uriFormat: https://{domain}/auth/login/plural/callback

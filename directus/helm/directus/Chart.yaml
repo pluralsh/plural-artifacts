@@ -2,7 +2,7 @@ apiVersion: v2
 name: directus
 description: helm chart for directus
 type: application
-version: 0.1.3
+version: 0.1.4
 appVersion: 9.25.1
 dependencies:
   - name: postgres

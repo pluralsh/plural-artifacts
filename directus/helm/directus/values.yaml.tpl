@@ -29,6 +29,14 @@ env:
   AUTH_PLURAL_ALLOW_PUBLIC_REGISTRATION: true
   AUTH_PLURAL_IDENTIER_KEY: email
   {{ end }}
+  {{ if .SMTP }}
+  EMAIL_TRANSPORT: smtp
+  EMAIL_FROM: {{ .SMTP.Sender }}
+  EMAIL_SMTP_HOST: {{ .SMTP.Server }}
+  EMAIL_SMTP_USER: {{ .SMTP.User }}
+  EMAIL_SMTP_PASSWORD: {{ .SMTP.Password }}
+  EMAIL_SMTP_PORT: {{ .SMTP.Port }}
+  {{ end }}
 {{ if $isGcp }}
   STORAGE_LOCATIONS: google
   STORAGE_GOOGLE_DRIVER: gcs
