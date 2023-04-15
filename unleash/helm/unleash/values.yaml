@@ -26,17 +26,5 @@ unleash:
       key: password
     ssl: '{\"rejectUnauthorized\": false}'
 
-oidc-config:
-  enabled: false
-  service:
-    name: unleash-oauth2-proxy
-    selector:
-      app.kubernetes.io/instance: unleash
-      app.kubernetes.io/name: unleash
-  secret:
-    upstream: http://localhost:4242
-    env:
-      OAUTH2_PROXY_UPSTREAM_TIMEOUT: '120s'
-
 ingress:
   enabled: false

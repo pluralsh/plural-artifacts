@@ -5,8 +5,5 @@ dependencies:
 - name: unleash
   repository: https://docs.getunleash.io/helm-charts
   version: 2.8.0
-- name: oidc-config
-  repository: https://pluralsh.github.io/module-library
-  version: 0.1.6
-digest: sha256:e72b181785ed4af17a09f15eb96d8ed5eb97de0017d026e0847f2fc521317e01
-generated: "2023-04-15T13:09:41.222634+02:00"
+digest: sha256:552bc226be5e707e130af94d16402b37a8588fe3be7c7eca90dd275ffa3a2cd3
+generated: "2023-04-15T23:34:03.417015+02:00"

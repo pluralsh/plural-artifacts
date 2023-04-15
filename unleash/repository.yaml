@@ -7,8 +7,5 @@ icon: plural/icons/unleash.png
 notes: plural/notes.tpl
 homepage: https://www.getunleash.io/
 gitUrl: https://github.com/Unleash/unleash
-oauthSettings:
-  uriFormat: https://{domain}/oauth2/callback
-  authMethod: POST
 contributors:
 - walkoss@pm.me
