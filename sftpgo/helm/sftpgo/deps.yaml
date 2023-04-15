@@ -18,7 +18,12 @@ spec:
     repo: postgres
     version: ">= 0.1.6"
   - type: terraform
-    name: kube
+    name: aws
+    repo: sftpgo
+    version: '>= 0.1.0'
+    optional: true
+  - type: terraform
+    name: azure
     repo: sftpgo
     version: '>= 0.1.0'
     optional: true

@@ -1,5 +1,5 @@
 variable "namespace" {
-  type = string
+  type    = string
   default = "sftpgo"
 }
 
@@ -8,7 +8,7 @@ variable "cluster_name" {
 }
 
 variable "project_id" {
-  type = string
+  type        = string
   description = <<EOF
 The ID of the project in which the resources belong.
 EOF

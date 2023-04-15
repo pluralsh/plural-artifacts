@@ -20,3 +20,16 @@ sftpgo:
       annotations:
         kubernetes.io/tls-acme: "true"
         cert-manager.io/cluster-issuer: letsencrypt-prod
+  env:
+    SFTPGO_DATA_PROVIDER__DRIVER: postgresql
+    SFTPGO_DATA_PROVIDER__NAME: "sftpgo"
+    SFTPGO_DATA_PROVIDER__HOST: plural-postgres-sftpgo
+    SFTPGO_DATA_PROVIDER__PORT: 5432
+    SFTPGO_DATA_PROVIDER__USERNAME: sftpgo
+    SFTPGO_DATA_PROVIDER__SSLMODE: 1
+  envVars:
+    - name: SFTPGO_DATA_PROVIDER__PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: sftpgo.plural-postgres-sftpgo.credentials.postgresql.acid.zalan.do
+          key: password

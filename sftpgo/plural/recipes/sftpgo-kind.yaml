@@ -7,6 +7,8 @@ dependencies:
   name: kind-k8s
 - repo: ingress-nginx
   name: ingress-nginx-kind
+- repo: postgres
+  name: kind-postgres
 sections:
   - name: sftpgo
     configuration:
@@ -19,6 +21,6 @@ sections:
         optional: true
     items:
       - type: TERRAFORM
-        name: kube
+        name: kind
       - type: HELM
         name: sftpgo
