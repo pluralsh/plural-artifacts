@@ -1,3 +1,8 @@
+{{ $unleashPgPwd := dedupe . "unleash.postgres.password" (randAlphaNum 20) }}
+
+postgres:
+  password: {{ $unleashPgPwd }}
+
 unleash:
   {{- if .OIDC }}
   ingress:
