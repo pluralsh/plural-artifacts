@@ -1,3 +1,14 @@
+{{ $sftpgoPgPwd := dedupe . "sftpgo.postgres.password" (randAlphaNum 20) }}
+
+postgres:
+  password: {{ $sftpgoPgPwd }}
+
+global:
+  application:
+    links:
+    - description: sftpgo web ui
+      url: {{ .Values.hostname }}
+
 sftpgo:
   ui:
     ingress:
@@ -29,5 +40,4 @@ sftpgo:
   serviceAccount:
     annotations:
       iam.gke.io/gcp-service-account: {{ importValue "Terraform" "gcp_sa_workload_identity_email" }}
-
 {{ end }}

@@ -7,6 +7,8 @@ dependencies:
   name: aws-k8s
 - repo: ingress-nginx
   name: ingress-nginx-aws
+- repo: postgres
+  name: aws-postgres
 sections:
   - name: sftpgo
     configuration:
@@ -19,6 +21,6 @@ sections:
         optional: true
     items:
       - type: TERRAFORM
-        name: kube
+        name: aws
       - type: HELM
         name: sftpgo
