@@ -1,3 +1,8 @@
+{{ $sftpgoPgPwd := dedupe . "sftpgo.postgres.password" (randAlphaNum 20) }}
+
+postgres:
+  password: {{ $sftpgoPgPwd }}
+
 sftpgo:
   ui:
     ingress:

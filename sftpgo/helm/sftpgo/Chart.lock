@@ -1,6 +1,9 @@
 dependencies:
 - name: sftpgo
   repository: https://charts.sagikazarmark.dev
-  version: 0.14.2
-digest: sha256:8a48665407823862348b607897d1299e685e946adef3045d7c18e5f29c4e202c
-generated: "2023-03-10T17:04:45.908913+01:00"
+  version: 0.15.0
+- name: postgres
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.16
+digest: sha256:6047664d63f22315ee96a4d47360c38093455291956c177ae28a6f7c826439e6
+generated: "2023-04-15T19:37:32.452588+02:00"

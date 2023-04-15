@@ -2,7 +2,17 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+postgres:
+  team: plural
+  user: sftpgo
+  dbName: sftpgo
+  ownerChart: sftpgo
+  infix: '-postgres'
+  password: REPLACE_ME
+
 sftpgo:
+  image:
+    repository: dkr.plural.sh/sftpgo/drakkan/sftpgo
   ui:
     ingress:
       enabled: true
