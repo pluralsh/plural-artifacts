@@ -9,6 +9,17 @@ postgres:
   password: REPLACE_ME
   infix: ""
 
+config-overlays:
+  configOverlays:
+    ingress-class:
+      spec:
+        folder: network
+        subfolder: ingress
+        name: Ingress Class
+        documentation: the ingress class to deploy dagster with (use `internal-nginx` to place it on a private network)
+        updates:
+        - path: ['dagster', 'dagster', 'ingress', 'ingressClassName']
+
 oidcProxy:
   enabled: false
 

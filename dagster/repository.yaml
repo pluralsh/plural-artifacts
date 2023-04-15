@@ -2,6 +2,7 @@ name: dagster
 description: A data orchestration platform for the development, production, and observation of data assets.
 category: DATA
 private: false
+docs: plural/docs
 icon: plural/icons/dagster-primary-mark.png
 notes: plural/notes.tpl
 gitUrl: https://github.com/dagster-io/dagster
