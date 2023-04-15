@@ -92,9 +92,11 @@ affinity: {}
 directus:
   oidc:
     enabled: false
-    
   key: CHANGEME
   secret: CHANGEME
+  admin:
+    email: CHANGEME
+    password: CHANGEME
 
 env:
   DB_CLIENT: pg

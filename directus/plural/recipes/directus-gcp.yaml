@@ -8,7 +8,7 @@ dependencies:
 - repo: ingress-nginx
   name: ingress-nginx-gcp
 oidcSettings:
-  authMethod: POST
+  authMethod: BASIC
   uriFormat: https://{domain}/auth/login/plural/callback
   domainKey: hostname
 sections:
@@ -17,6 +17,13 @@ sections:
     - name: hostname
       documentation: FQDN to use for your directus installation
       type: DOMAIN
+    - name: adminEmail
+      type: STRING
+      documentation: email for the initial admin user
+    - name: directusBucket
+      type: BUCKET
+      documentation: gcs bucket for storing directus files
+      default: directus
   items:
   - type: TERRAFORM
     name: gcp

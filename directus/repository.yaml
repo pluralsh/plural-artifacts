@@ -9,6 +9,6 @@ homepage: https://directus.io/engine
 gitUrl: https://github.com/directus/directus
 oauthSettings:
   uriFormat: https://{domain}/auth/login/plural/callback
-  authMethod: POST
+  authMethod: BASIC
 contributors:
 - walkoss@pm.me
