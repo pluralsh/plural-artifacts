@@ -6,6 +6,8 @@ dependencies:
   name: gcp-k8s
 - repo: ingress-nginx
   name: ingress-nginx-gcp
+- repo: postgres
+  name: gcp-postgres
 sections:
 - name: sonarqube
   configuration:
