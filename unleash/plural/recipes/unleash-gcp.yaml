@@ -1,6 +1,10 @@
 name: unleash-gcp
 description: Installs unleash on an gcp gke cluster
 provider: GCP
+oidcSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
+  domainKey: hostname
 dependencies:
 - repo: bootstrap
   name: gcp-k8s
