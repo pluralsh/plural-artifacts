@@ -1,0 +1,4 @@
+docker.io:
+  images:
+    unleashorg/unleash-server:
+    - "4.22.5"

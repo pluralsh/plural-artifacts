@@ -1,0 +1,19 @@
+name: unleash-aws
+description: Installs unleash on an aws eks cluster
+provider: AWS
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+sections:
+- name: unleash
+  configuration:
+    - name: hostname
+      documentation: FQDN to use for your unleash installation
+      type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: unleash

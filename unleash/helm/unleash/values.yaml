@@ -1,0 +1,28 @@
+# Default values for unleash.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+postgres:
+  team: plural
+  user: unleash
+  dbName: unleash
+  ownerChart: unleash
+  infix: '-postgres'
+  password: REPLACE_ME
+
+unleash:
+  image:
+    repository: dkr.plural.sh/unleash/unleashorg/unleash-server
+    pullPolicy: IfNotPresent
+    tag: 4.22.5
+  postgresql:
+    enabled: false
+  dbConfig:
+    host: plural-postgres-unleash
+    database: unleash
+    user: unleash
+    useExistingSecret:
+      name: unleash.plural-postgres-unleash.credentials.postgresql.acid.zalan.do
+      key: password
+    ssl: '{\"rejectUnauthorized\": false}'
+
