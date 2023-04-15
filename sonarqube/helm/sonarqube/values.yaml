@@ -9,3 +9,15 @@ postgres:
   ownerChart: sonarqube
   infix: '-postgres'
   password: REPLACE_ME
+
+sonarqube:
+  image:
+    repository: dkr.plural.sh/sonarqube/sonarqube
+  postgresql:
+    enabled: false
+  jdbcOverwrite:
+    enable: true
+    jdbcUsername: sonarqube
+    jdbcUrl: jdbc:postgresql://plural-postgres-sonarqube/sonarqube
+    jdbcSecretName: sonarqube.plural-postgres-sonarqube.credentials.postgresql.acid.zalan.do
+    jdbcSecretPasswordKey: password

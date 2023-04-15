@@ -1,3 +1,8 @@
+{{ $sonarqubePgPwd := dedupe . "sonarqube.postgres.password" (randAlphaNum 20) }}
+
+postgres:
+  password: {{ $sonarqubePgPwd }}
+
 sonarqube:
   ingress:
     enabled: true
