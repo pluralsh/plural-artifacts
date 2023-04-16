@@ -7,9 +7,9 @@ dependencies:
   version: 8.5.2
 - name: postgres
   repository: https://pluralsh.github.io/module-library
-  version: 0.1.16
+  version: 0.1.17
 - name: test-base
   repository: https://pluralsh.github.io/module-library
   version: 0.1.3
-digest: sha256:1aafdd32c53f4986f320f15fb2f6c31673100b62e0db1a9ec42deef2c3010b29
-generated: "2022-12-30T11:24:13.427115-05:00"
+digest: sha256:72672ae97ba27987337606879d5428b1a5955b5c3c9fdf661fe2aebac7de49c2
+generated: "2023-04-16T10:20:03.591257-04:00"

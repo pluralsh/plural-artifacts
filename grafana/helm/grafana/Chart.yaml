@@ -13,6 +13,6 @@ dependencies:
   version: 0.1.5
   condition: test-base.enabled
 - name: postgres
-  version: 0.1.16
+  version: 0.1.17
   repository: https://pluralsh.github.io/module-library
   condition: postgres.enabled

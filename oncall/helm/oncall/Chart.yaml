@@ -2,11 +2,11 @@ apiVersion: v2
 name: oncall
 description: helm chart for oncall
 type: application
-version: 0.1.17
+version: 0.1.18
 appVersion: "v1.1.40"
 dependencies:
 - name: postgres
-  version: 0.1.16
+  version: 0.1.17
   repository: https://pluralsh.github.io/module-library
 - name: rabbitmq
   version: 0.1.0

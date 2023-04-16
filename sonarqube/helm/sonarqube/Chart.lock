@@ -1,9 +1,9 @@
 dependencies:
 - name: postgres
   repository: https://pluralsh.github.io/module-library
-  version: 0.1.16
+  version: 0.1.17
 - name: sonarqube
   repository: https://SonarSource.github.io/helm-chart-sonarqube
   version: 10.0.0+521
-digest: sha256:619c89838a0f79567eb26720108765d4ee2a5cd152d1a3c104248ef7921f178a
-generated: "2023-04-15T03:36:52.752169+02:00"
+digest: sha256:fe7a1bd4d1dfe74f2dd885d510680c76be24af47938d952f13572ffa2850e684
+generated: "2023-04-16T10:55:45.531458-04:00"

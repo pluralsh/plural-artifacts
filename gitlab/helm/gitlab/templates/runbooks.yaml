@@ -10,7 +10,6 @@ spec:
   description: overview of how to optimally scale your gitlab deployment
   alerts:
   - name: GitlabGitalyCPU
-  - name: GitlabGitalyMEM
   display: |-
 {{ .Files.Get "runbooks/scaling-manual.xml" | indent 4 }}
   datasources:
