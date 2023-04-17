@@ -36,16 +36,19 @@ module "vpc" {
 }
 
 module "cluster" {
-  source           = "github.com/pluralsh/terraform-aws-eks?ref=output-service-cidr"
-  cluster_name     = var.cluster_name
-  cluster_version  = var.kubernetes_version
-  private_subnets  = local.private_subnet_ids
-  public_subnets   = local.public_subnet_ids
-  worker_private_subnets = local.worker_private_subnet_ids
-  vpc_id           = local.vpc_id
-  enable_irsa      = true
-  write_kubeconfig = false
-  create_eks       = var.create_cluster
+  source                        = "github.com/pluralsh/terraform-aws-eks?ref=output-service-cidr"
+  cluster_name                  = var.cluster_name
+  cluster_version               = var.kubernetes_version
+  private_subnets               = local.private_subnet_ids
+  public_subnets                = local.public_subnet_ids
+  worker_private_subnets        = local.worker_private_subnet_ids
+  vpc_id                        = local.vpc_id
+  enable_irsa                   = true
+  write_kubeconfig              = false
+  create_eks                    = var.create_cluster
+  cluster_enabled_log_types     = var.cluster_enabled_log_types
+  cluster_log_retention_in_days = var.cluster_log_retention_in_days
+  cluster_log_kms_key_id        = var.cluster_log_kms_key_id
 
   node_groups_defaults = {}
 

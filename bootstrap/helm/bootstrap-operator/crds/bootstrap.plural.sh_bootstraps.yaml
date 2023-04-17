@@ -1,0 +1,427 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.11.3
+  creationTimestamp: null
+  name: bootstraps.bootstrap.plural.sh
+spec:
+  group: bootstrap.plural.sh
+  names:
+    kind: Bootstrap
+    listKind: BootstrapList
+    plural: bootstraps
+    singular: bootstrap
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - description: Application ready status
+      jsonPath: .status.ready
+      name: Ready
+      type: string
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              cloudSpec:
+                properties:
+                  aws:
+                    properties:
+                      accessKeyIdRef:
+                        description: SecretKeySelector selects a key of a Secret.
+                        properties:
+                          key:
+                            description: The key of the secret to select from.  Must
+                              be a valid secret key.
+                            type: string
+                          name:
+                            description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              TODO: Add other useful fields. apiVersion, kind, uid?'
+                            type: string
+                          optional:
+                            description: Specify whether the Secret or its key must
+                              be defined
+                            type: boolean
+                        required:
+                        - key
+                        type: object
+                        x-kubernetes-map-type: atomic
+                      addons:
+                        items:
+                          description: Addon represents a EKS addon.
+                          properties:
+                            name:
+                              description: Name is the name of the addon
+                              minLength: 2
+                              type: string
+                            serviceAccountRoleARN:
+                              description: ServiceAccountRoleArn is the ARN of an
+                                IAM role to bind to the addons service account
+                              type: string
+                            version:
+                              description: Version is the version of the addon to
+                                use
+                              type: string
+                          required:
+                          - name
+                          - version
+                          type: object
+                        type: array
+                      fetchConfigUrl:
+                        type: string
+                      instanceType:
+                        type: string
+                      machinePoolReplicas:
+                        format: int32
+                        type: integer
+                      region:
+                        type: string
+                      secretAccessKeyRef:
+                        description: SecretKeySelector selects a key of a Secret.
+                        properties:
+                          key:
+                            description: The key of the secret to select from.  Must
+                              be a valid secret key.
+                            type: string
+                          name:
+                            description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              TODO: Add other useful fields. apiVersion, kind, uid?'
+                            type: string
+                          optional:
+                            description: Specify whether the Secret or its key must
+                              be defined
+                            type: boolean
+                        required:
+                        - key
+                        type: object
+                        x-kubernetes-map-type: atomic
+                      serviceAccounts:
+                        description: ServiceAccounts specifies service accounts
+                        items:
+                          properties:
+                            attachPolicy:
+                              description: AttachPolicy holds a policy document to
+                                attach to this service account
+                              type: string
+                            attachPolicyARNs:
+                              description: list of ARNs of the IAM policies to attach
+                              items:
+                                type: string
+                              type: array
+                            attachRoleARN:
+                              description: ARN of the role to attach to the service
+                                account
+                              type: string
+                            metadata:
+                              description: ClusterIAMMeta holds information we can
+                                use to create ObjectMeta for service accounts
+                              properties:
+                                annotations:
+                                  additionalProperties:
+                                    type: string
+                                  type: object
+                                labels:
+                                  additionalProperties:
+                                    type: string
+                                  type: object
+                                name:
+                                  type: string
+                                namespace:
+                                  type: string
+                              type: object
+                            permissionsBoundary:
+                              description: ARN of the permissions boundary to associate
+                                with the service account
+                              type: string
+                            roleName:
+                              description: Specific role name instead of the Cloudformation-generated
+                                role name
+                              type: string
+                            roleOnly:
+                              description: Specify if only the IAM Service Account
+                                role should be created without creating/annotating
+                                the service account
+                              type: boolean
+                            tags:
+                              additionalProperties:
+                                type: string
+                              description: AWS tags for the service account
+                              type: object
+                            wellKnownPolicies:
+                              description: WellKnownPolicies for attaching common
+                                IAM policies
+                              properties:
+                                autoScaler:
+                                  description: AutoScaler adds policies for cluster-autoscaler.
+                                    See [autoscaler AWS docs](https://docs.aws.amazon.com/eks/latest/userguide/cluster-autoscaler.html).
+                                  type: boolean
+                                awsLoadBalancerController:
+                                  description: AWSLoadBalancerController adds policies
+                                    for using the aws-load-balancer-controller. See
+                                    [Load Balancer docs](https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html).
+                                  type: boolean
+                                certManager:
+                                  description: CertManager adds cert-manager policies.
+                                    See [cert-manager docs](https://cert-manager.io/docs/configuration/acme/dns01/route53).
+                                  type: boolean
+                                ebsCSIController:
+                                  description: EBSCSIController adds policies for
+                                    using the ebs-csi-controller. See [aws-ebs-csi-driver
+                                    docs](https://github.com/kubernetes-sigs/aws-ebs-csi-driver#set-up-driver-permission).
+                                  type: boolean
+                                efsCSIController:
+                                  description: EFSCSIController adds policies for
+                                    using the efs-csi-controller. See [aws-efs-csi-driver
+                                    docs](https://aws.amazon.com/blogs/containers/introducing-efs-csi-dynamic-provisioning).
+                                  type: boolean
+                                externalDNS:
+                                  description: ExternalDNS adds external-dns policies
+                                    for Amazon Route 53. See [external-dns docs](https://github.com/kubernetes-sigs/external-dns/blob/master/docs/tutorials/aws.md).
+                                  type: boolean
+                                imageBuilder:
+                                  description: ImageBuilder allows for full ECR (Elastic
+                                    Container Registry) access.
+                                  type: boolean
+                              type: object
+                          type: object
+                        type: array
+                      sessionTokenRef:
+                        description: SecretKeySelector selects a key of a Secret.
+                        properties:
+                          key:
+                            description: The key of the secret to select from.  Must
+                              be a valid secret key.
+                            type: string
+                          name:
+                            description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              TODO: Add other useful fields. apiVersion, kind, uid?'
+                            type: string
+                          optional:
+                            description: Specify whether the Secret or its key must
+                              be defined
+                            type: boolean
+                        required:
+                        - key
+                        type: object
+                        x-kubernetes-map-type: atomic
+                      version:
+                        type: string
+                    required:
+                    - accessKeyIdRef
+                    - instanceType
+                    - machinePoolReplicas
+                    - region
+                    - secretAccessKeyRef
+                    - sessionTokenRef
+                    type: object
+                type: object
+              clusterAPI:
+                properties:
+                  components:
+                    properties:
+                      operator:
+                        properties:
+                          kubeRBACProxyImage:
+                            type: string
+                          managerImage:
+                            type: string
+                        required:
+                        - kubeRBACProxyImage
+                        - managerImage
+                        type: object
+                    required:
+                    - operator
+                    type: object
+                  version:
+                    type: string
+                required:
+                - components
+                - version
+                type: object
+              clusterName:
+                type: string
+              clusterNetwork:
+                description: ClusterNetwork specifies the different networking parameters
+                  for a cluster.
+                properties:
+                  apiServerPort:
+                    description: APIServerPort specifies the port the API Server should
+                      bind to. Defaults to 6443.
+                    format: int32
+                    type: integer
+                  pods:
+                    description: The network ranges from which Pod networks are allocated.
+                    properties:
+                      cidrBlocks:
+                        items:
+                          type: string
+                        type: array
+                    required:
+                    - cidrBlocks
+                    type: object
+                  serviceDomain:
+                    description: Domain name for services.
+                    type: string
+                  services:
+                    description: The network ranges from which service VIPs are allocated.
+                    properties:
+                      cidrBlocks:
+                        items:
+                          type: string
+                        type: array
+                    required:
+                    - cidrBlocks
+                    type: object
+                type: object
+              kubernetesVersion:
+                type: string
+            required:
+            - cloudSpec
+            - clusterAPI
+            - clusterName
+            - clusterNetwork
+            - kubernetesVersion
+            type: object
+          status:
+            properties:
+              capiClusterStatus:
+                properties:
+                  controlPlaneReady:
+                    description: ControlPlaneReady defines if the control plane is
+                      ready.
+                    type: boolean
+                  failureMessage:
+                    description: FailureMessage indicates that there is a fatal problem
+                      reconciling the state, and will be set to a descriptive error
+                      message.
+                    type: string
+                  failureReason:
+                    description: FailureReason indicates that there is a fatal problem
+                      reconciling the state, and will be set to a token value suitable
+                      for programmatic interpretation.
+                    type: string
+                  infrastructureReady:
+                    description: InfrastructureReady is the state of the infrastructure
+                      provider.
+                    type: boolean
+                  message:
+                    description: Human readable message indicating details about last
+                      transition.
+                    type: string
+                  phase:
+                    description: Phase is a description of the current status, summarizing
+                      the various conditions. This field is for informational purpose
+                      only and no logic should be tied to the phase.
+                    enum:
+                    - Started
+                    - Creating
+                    - Running
+                    - Failed
+                    - Error
+                    type: string
+                  ready:
+                    description: Ready is true when the provider resource is ready.
+                    type: boolean
+                type: object
+              capiOperatorComponentsStatus:
+                properties:
+                  message:
+                    description: Human readable message indicating details about last
+                      transition.
+                    type: string
+                  phase:
+                    description: Phase is a description of the current status, summarizing
+                      the various conditions. This field is for informational purpose
+                      only and no logic should be tied to the phase.
+                    enum:
+                    - Started
+                    - Creating
+                    - Running
+                    - Failed
+                    - Error
+                    type: string
+                  ready:
+                    description: Ready is true when the provider resource is ready.
+                    type: boolean
+                type: object
+              capiOperatorStatus:
+                properties:
+                  message:
+                    description: Human readable message indicating details about last
+                      transition.
+                    type: string
+                  phase:
+                    description: Phase is a description of the current status, summarizing
+                      the various conditions. This field is for informational purpose
+                      only and no logic should be tied to the phase.
+                    enum:
+                    - Started
+                    - Creating
+                    - Running
+                    - Failed
+                    - Error
+                    type: string
+                  ready:
+                    description: Ready is true when the provider resource is ready.
+                    type: boolean
+                type: object
+              message:
+                description: Human readable message indicating details about last
+                  transition.
+                type: string
+              phase:
+                description: Phase is a description of the current status, summarizing
+                  the various conditions. This field is for informational purpose
+                  only and no logic should be tied to the phase.
+                enum:
+                - Started
+                - Creating
+                - Running
+                - Failed
+                - Error
+                type: string
+              providerStatus:
+                properties:
+                  message:
+                    description: Human readable message indicating details about last
+                      transition.
+                    type: string
+                  phase:
+                    description: Phase is a description of the current status, summarizing
+                      the various conditions. This field is for informational purpose
+                      only and no logic should be tied to the phase.
+                    enum:
+                    - Started
+                    - Creating
+                    - Running
+                    - Failed
+                    - Error
+                    type: string
+                  ready:
+                    description: Ready is true when the provider resource is ready.
+                    type: boolean
+                type: object
+              ready:
+                description: Ready is true when the provider resource is ready.
+                type: boolean
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

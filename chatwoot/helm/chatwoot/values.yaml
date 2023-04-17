@@ -1,7 +1,7 @@
 chatwoot:
   image:
     repository: dkr.plural.sh/chatwoot/chatwoot/chatwoot
-    tag: v2.10.0
+    tag: v2.15.0
   ingress:
     enabled: true
     annotations:
@@ -12,7 +12,7 @@ chatwoot:
       nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
   services:
     name: chatwoot
-    internlPort: 3000
+    internalPort: 3000
     targetPort: 3000
     type: ClusterIP
   postgresql:

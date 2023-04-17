@@ -1,0 +1,6 @@
+dependencies:
+- name: altinity-clickhouse-operator
+  repository: https://raw.githubusercontent.com/Altinity/clickhouse-operator/gh-pages
+  version: 0.20.1
+digest: sha256:1328956f659305919191a657aad6d9ddb4fc6489293ec77731d280e65ddaa717
+generated: "2022-12-20T13:04:47.795944+01:00"

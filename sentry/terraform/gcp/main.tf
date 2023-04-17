@@ -26,7 +26,7 @@ resource "kubernetes_service_account" "sentry" {
 
 resource "google_storage_bucket" "filestore_bucket" {
   name = var.filestore_bucket
-  project = var.gcp_project_id
+  project = var.project_id
   force_destroy = true
   location = var.bucket_location
   

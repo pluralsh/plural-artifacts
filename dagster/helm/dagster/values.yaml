@@ -9,6 +9,17 @@ postgres:
   password: REPLACE_ME
   infix: ""
 
+config-overlays:
+  configOverlays:
+    ingress-class:
+      spec:
+        folder: network
+        subfolder: ingress
+        name: Ingress Class
+        documentation: the ingress class to deploy dagster with (use `internal-nginx` to place it on a private network)
+        updates:
+        - path: ['dagster', 'dagster', 'ingress', 'ingressClassName']
+
 oidcProxy:
   enabled: false
 
@@ -16,7 +27,7 @@ dagster:
   dagsterDaemon:
     image:
       repository: dkr.plural.sh/dagster/dagster/dagster-celery-k8s
-      tag: 1.1.18
+      tag: 1.2.6
     resources:
       requests:
         cpu: 15m
@@ -26,7 +37,7 @@ dagster:
   dagit:
     image:
       repository: dkr.plural.sh/dagster/dagster/dagster-celery-k8s
-      tag: 1.1.18
+      tag: 1.2.6
     resources:
       requests:
         cpu: 25m
@@ -40,7 +51,7 @@ dagster:
   pipelineRun:
     image:
       repository: dkr.plural.sh/dagster/dagster/user-code-example
-      tag: 1.1.18
+      tag: 1.2.6
 
   ingress:
     enabled: true
@@ -48,9 +59,9 @@ dagster:
       tls:
         enabled: true
         secretName: dagster-tls
+    ingressClassName: nginx
     annotations:
       kubernetes.io/tls-acme: "true"
-      kubernetes.io/ingress.class: "nginx"
       cert-manager.io/cluster-issuer: letsencrypt-prod
       # Extend timeout to allow long running queries.
       nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
@@ -64,7 +75,7 @@ dagster:
       celeryK8sRunLauncher:
         image:
           repository: dkr.plural.sh/dagster/dagster/dagster-celery-k8s
-          tag: 1.1.18
+          tag: 1.2.6
 
   postgresql:
     enabled: false
@@ -84,17 +95,13 @@ dagster:
       - name: "k8s-example-user-code-1"
         image:
           repository: dkr.plural.sh/dagster/dagster/user-code-example
-          tag: 1.1.18
+          tag: 1.2.6
           pullPolicy: Always
         resources:
           requests:
             cpu: 20m
             memory: 100Mi
-          limits:
-            memory: 160Mi
         dagsterApiGrpcArgs:
           - "--python-file"
           - "/example_project/example_repo/repo.py"
         port: 3030
-        envSecrets:
-          - name: dagster-aws-env

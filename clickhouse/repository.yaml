@@ -1,0 +1,10 @@
+name: clickhouse
+description: clickhouse deployed on plural
+category: DATA
+icon: plural/icons/clickhouse.png
+notes: plural/notes.tpl
+docs: plural/docs
+gitUrl: https://github.com/Altinity/clickhouse-operator
+homepage: https://altinity.com/kubernetes-operator/
+tags:
+- tag: analytics

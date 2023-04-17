@@ -63,6 +63,13 @@ module "gke" {
   release_channel            = var.release_channel
   regional                   = var.regional_cluster
   zones                      = var.cluster_zones
+  cluster_resource_labels    = merge(
+    {
+      "managed-by" = "plural"
+    },
+    var.cluster_labels,
+  )
+  grant_registry_access      = var.grant_registry_access
 
   node_pools = var.node_pools
 

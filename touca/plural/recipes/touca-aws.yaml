@@ -1,6 +1,7 @@
 name: touca-aws
 description: Installs touca on an EKS cluster
 provider: AWS
+primary: true
 dependencies:
 - repo: bootstrap
   name: aws-k8s

@@ -1,6 +1,7 @@
 name: gcp-gitlab
 description: Installs gitlab on a GKE cluster
 provider: GCP
+primary: true
 oidcSettings:
   authMethod: BASIC
   uriFormat: https://gitlab.{subdomain}/users/auth/openid_connect/callback

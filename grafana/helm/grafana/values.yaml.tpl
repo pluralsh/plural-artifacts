@@ -56,13 +56,23 @@ grafana:
       role_attribute_path: "null"
       groups_attribute_path: groups
     {{- end }}
-  {{- if .Configuration.loki }}
+  {{- if or .Configuration.loki .Configuration.mimir }}
   datasources:
     datasources.yaml:
       apiVersion: 1
       deleteDatasources:
+      {{- if .Configuration.loki }}
       - name: Loki
         orgId: 1
+      {{- end }}
+      {{- if .Configuration.mimir }}
+      - name: Prometheus
+        orgId: 1
+        uid: prometheus
+      - name: Alertmanager
+        orgId: 1
+        uid: alertmanager
+      {{- end }}
   {{- end }}
   {{- if .Values.usePostgres }}
   env:

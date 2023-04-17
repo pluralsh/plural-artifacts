@@ -1,0 +1,21 @@
+name: unleash-gcp
+description: Installs unleash on an gcp gke cluster
+provider: GCP
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+- repo: postgres
+  name: gcp-postgres
+sections:
+- name: unleash
+  configuration:
+    - name: hostname
+      documentation: FQDN to use for your unleash installation
+      type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: unleash

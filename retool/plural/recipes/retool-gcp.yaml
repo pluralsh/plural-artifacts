@@ -1,6 +1,7 @@
 name: retool-gcp
 description: Installs retool on an aws eks cluster
 provider: GCP
+primary: true
 dependencies:
 - repo: bootstrap
   name: gcp-k8s

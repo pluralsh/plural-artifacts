@@ -1,6 +1,7 @@
 name: gcp-grafana
 description: Installs grafana on a GKE cluster
 provider: GCP
+primary: true
 oidcSettings:
   authMethod: POST
   uriFormat: https://{domain}/login/generic_oauth
@@ -21,4 +22,3 @@ sections:
     name: gcp
   - type: HELM
     name: grafana
-  

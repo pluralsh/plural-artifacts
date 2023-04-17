@@ -1,0 +1,11 @@
+apiVersion: v2
+name: mimir
+description: helm chart for mimir
+type: application
+version: 0.1.3
+appVersion: 2.7.1
+dependencies:
+- name: mimir-distributed
+  version: 4.3.0
+  repository: https://grafana.github.io/helm-charts
+  condition: mimir.enabled

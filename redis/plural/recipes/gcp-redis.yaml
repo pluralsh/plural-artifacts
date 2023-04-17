@@ -1,20 +1,13 @@
 name: gcp-redis
 description: Installs redis on a GKE cluster
 provider: GCP
+primary: true
 dependencies:
 - repo: bootstrap
   name: gcp-k8s
 sections:
 - name: redis
-  configuration:
-  - name: masterHostname
-    documentation: the dns name to access the redis master (optional)
-    type: DOMAIN
-    optional: true
-  - name: replicaHostname
-    documentation: the dns name to access your redis replicas (optional)
-    type: DOMAIN
-    optional: true
+  configuration: []
   items:
   - type: TERRAFORM
     name: kube

@@ -1,0 +1,14 @@
+name: directus
+description: The Modern Data Stack 🐰 — Directus is an instant REST+GraphQL API and intuitive no-code data collaboration app for any SQL database.
+category: DATA
+private: false
+releaseStatus: BETA
+icon: plural/icons/directus-logo-stacked.png
+notes: plural/notes.tpl
+homepage: https://directus.io/engine
+gitUrl: https://github.com/directus/directus
+oauthSettings:
+  uriFormat: https://{domain}/auth/login/plural/callback
+  authMethod: BASIC
+contributors:
+- walkoss@pm.me

@@ -1,0 +1,15 @@
+name: jupyterhub
+description: An application that you can use to create documents that contain live code, equations, visualizations, and text.
+category: DATA
+icon: plural/icons/jupyterhub.png
+releaseStatus: BETA
+notes: plural/notes.tpl
+homepage: https://jupyter.org/hub
+docs: plural/docs
+gitUrl: https://github.com/jupyterhub/jupyterhub
+oauthSettings:
+  uriFormat: https://{domain}/hub/oauth_callback
+  authMethod: POST
+tags:
+  - tag: data-science
+  - tag: data-visualization

@@ -1,0 +1,26 @@
+name: sftpgo-aws
+description: Installs SFTPGo on an aws eks cluster
+provider: AWS
+primary: true
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+- repo: postgres
+  name: aws-postgres
+sections:
+  - name: sftpgo
+    configuration:
+      - name: hostname
+        type: DOMAIN
+        documentation: the fully qualified domain name your SFTPGo instance will be available at
+      - name: loadBalancerHostname
+        documentation: a dns name to access the enabled services (sftp on port 22, etc.)
+        type: DOMAIN
+        optional: true
+    items:
+      - type: TERRAFORM
+        name: aws
+      - type: HELM
+        name: sftpgo

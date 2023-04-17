@@ -239,9 +239,21 @@ instances are launched.
 EOF
 }
 
+variable "enable_nat" {
+  type = bool
+  default = false
+  description = "whether to create a NAT gateway for external cluster traffic"
+}
+
+variable "num_static_ips" {
+  type = number
+  default = 1
+  description = "the number of external static ips to expose"
+}
+
 variable "kubernetes_version" {
   type = string
-  default = "1.22.16-gke.2000"
+  default = "1.23.16-gke.1400"
 }
 
 variable "vpc_subnetwork_cidr_range" {
@@ -336,4 +348,15 @@ variable "cluster_zones" {
   type        = list(string)
   description = "The zones to host the cluster in (optional if regional cluster / required if zonal)"
   default     = []
+}
+
+variable "cluster_labels" {
+  type = map(string)
+  default = {}
+}
+
+variable "grant_registry_access" {
+  type        = bool
+  description = "Grants created cluster-specific service account storage.objectViewer and artifactregistry.reader roles."
+  default     = false
 }

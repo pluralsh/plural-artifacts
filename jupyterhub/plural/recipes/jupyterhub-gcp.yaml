@@ -1,0 +1,24 @@
+name: jupyterhub-gcp
+description: Installs jupyterhub on an gcp gke cluster
+provider: GCP
+primary: true
+dependencies:
+  - repo: bootstrap
+    name: gcp-k8s
+  - repo: ingress-nginx
+    name: ingress-nginx-gcp
+oidcSettings:
+  authMethod: BASIC
+  uriFormat: https://{domain}/hub/oauth_callback
+  domainKey: hostname
+sections:
+  - name: jupyterhub
+    configuration:
+      - name: hostname
+        documentation: FQDN to use for your jupyterhub installation
+        type: DOMAIN
+    items:
+      - type: TERRAFORM
+        name: kube
+      - type: HELM
+        name: jupyterhub

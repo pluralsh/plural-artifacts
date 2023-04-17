@@ -1,17 +1,18 @@
 name: superset-gcp
 description: Installs superset on an GKE cluster
 provider: GCP
+primary: true
 oidcSettings:
   authMethod: POST
   uriFormat: https://{domain}/oauth-authorized/plural
   domainKey: hostname
 dependencies:
-  - repo: bootstrap
-    name: gcp-k8s
-  - repo: ingress-nginx
-    name: ingress-nginx-gcp
-  - repo: postgres
-    name: gcp-postgres
+- repo: bootstrap
+  name: gcp-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+- repo: postgres
+  name: gcp-postgres
 sections:
 - name: superset
   configuration:

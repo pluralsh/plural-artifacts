@@ -3,7 +3,7 @@ secrets: {}
 whitesource-renovate:
   image:
     repository: dkr.plural.sh/renovate-on-prem/whitesource/renovate
-    tag: 2.6.0
+    tag: 4.0.0
   ingress:
     enabled: true
     ingressClassName: nginx

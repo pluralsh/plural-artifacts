@@ -1,4 +1,4 @@
-You can view your gitlab instance at https://{{ .Values.domain }}
+You can view your gitlab instance at https://gitlab.{{ .Network.Subdomain }}
 
 {{ if .OIDC }}
 You've enabled Plural OIDC for authentication, so be sure to add your teammembers

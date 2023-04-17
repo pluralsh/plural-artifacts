@@ -1,41 +1,40 @@
 name: valheim-azure
 description: Installs valheim on an azure cluster
 provider: AZURE
+primary: true
 dependencies:
 - repo: bootstrap
   name: azure-k8s
-
-
 sections:
 - name: valheim
   configuration:
-    - name: serverName
-      documentation: name that will be shown in the server browser
-      type: STRING
-      default: 'My Server'
-    - name: worldName
-      documentation: name of the world (without file extension)
-      type: STRING
-      default: 'Dedicated'
-    - name: hostname
-      documentation: domain on which you would like to host your valheim server
-      type: DOMAIN
-    - name: password
-      documentation: password that will be required when joining the server. Minimum 5 characters (leave empty to disable).
-      type: STRING
-      optional: true
-      validation:
-        type: REGEX
-        regex: '^$|^.{5,}$'
-        message: password needs to have at least 5 characters
-    - name: mod
-      documentation: if BepInEx or Valheim Plus mod should be enabled (leave empty to disable)
-      type: STRING
-      validation:
-        type: REGEX
-        regex: '^(bepinex|valheimplus)*$'
-        message: 'must be one of: bepinex, valheimplus'
-      optional: true
+  - name: serverName
+    documentation: name that will be shown in the server browser
+    type: STRING
+    default: My Server
+  - name: worldName
+    documentation: name of the world (without file extension)
+    type: STRING
+    default: Dedicated
+  - name: hostname
+    documentation: domain on which you would like to host your valheim server
+    type: DOMAIN
+  - name: password
+    documentation: password that will be required when joining the server. Minimum 5 characters (leave empty to disable).
+    type: STRING
+    optional: true
+    validation:
+      type: REGEX
+      regex: ^$|^.{5,}$
+      message: password needs to have at least 5 characters
+  - name: mod
+    documentation: if BepInEx or Valheim Plus mod should be enabled (leave empty to disable)
+    type: STRING
+    validation:
+      type: REGEX
+      regex: ^(bepinex|valheimplus)*$
+      message: 'must be one of: bepinex, valheimplus'
+    optional: true
   items:
   - type: TERRAFORM
     name: kube

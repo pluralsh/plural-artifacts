@@ -1,6 +1,7 @@
 name: argo-cd-aws
 description: Installs argo-cd on an aws eks cluster
 provider: AWS
+primary: true
 oidcSettings:
   authMethod: POST
   uriFormat: https://{domain}/auth/callback

@@ -1,0 +1,1 @@
+Your baserow installation is available at https://{{ .Values.hostname }}

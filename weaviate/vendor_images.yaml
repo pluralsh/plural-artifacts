@@ -1,0 +1,4 @@
+docker.io:
+  images:
+    semitechnologies/weaviate:
+    - "1.18.0"

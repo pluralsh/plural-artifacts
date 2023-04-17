@@ -1,0 +1,1 @@
+Use `plural watch trace-shield` to track the status of your application

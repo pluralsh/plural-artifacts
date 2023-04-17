@@ -14,13 +14,30 @@ data:
       access: proxy
       orgId: 1
       uid: loki-distributed
+      {{- if .Values.datasource.traceShield.enabled }}
+      url: https://{{ .Values.datasource.traceShield.lokiPublicURL }}
+      {{- else }}
       url: http://{{ template "loki.gatewayFullname" (index .Subcharts "loki-distributed") }}.{{ .Release.Namespace }}
+      {{- end }}
       jsonData:
         manageAlerts: true
-        alertmanagerUid: alertmanager
+        {{- if .Values.datasource.mimir.enabled }}
+        alertmanagerUid: {{ .Values.datasource.mimir.alertmanagerId }}
+        {{- else }}
+        alertmanagerEnabled: alertmanager
+        {{- end }}
+        {{- if .Values.datasource.traceShield.enabled }}
+        oauthPassThru: true
+        {{- end }}
+        {{- if .Values.datasource.tempo.enabled }}
         derivedFields:
-          - datasourceName: Tempo
-            matcherRegex: "traceID=(\\w+)"
+          - matcherRegex: "traceID=(\\w+)"
             name: TraceID
             url: "$${__value.raw}"
-            datasourceUid: tempo
+            datasourceUid: {{ .Values.datasource.tempo.id }}
+        {{- end }}
+      {{- if and .Values.datasource.clusterTenantHeader.enabled (not .Values.datasource.traceShield.enabled) }}
+        httpHeaderName1: 'X-Scope-OrgID'
+      secureJsonData:
+        httpHeaderValue1: {{ .Values.datasource.clusterTenantHeader.value }}
+      {{- end }}

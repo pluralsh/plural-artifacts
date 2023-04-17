@@ -1,0 +1,26 @@
+# # Default values for weaviate.
+# # This is a YAML-formatted file.
+# # Declare variables to be passed into your templates.
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  service:
+    port: 80
+
+weaviate:
+  image:
+    registry: dkr.plural.sh
+    tag: 1.18.0
+    repo: weaviate/semitechnologies/weaviate
+  serviceAccountName: weaviate
+  service:
+    name: weaviate
+    ports:
+      - name: http
+        protocol: TCP
+        port: 80
+    type: ClusterIP

@@ -12,7 +12,7 @@ test-base:
     description: wait until the `grafana` app crd is ready
     template:
       container:
-        image: gcr.io/pluralsh/test-base:0.1.6
+        image: gcr.io/pluralsh/test-base:0.2.2
         args: ["grafana"]
 
 secret:
@@ -36,11 +36,11 @@ grafana:
 
   image:
     repository: dkr.plural.sh/grafana/grafana/grafana
-    tag: 9.2.5
+    tag: 9.4.3
   initChownData:
     image:
       repository: gcr.io/pluralsh/library/busybox
-      tag: 1.35.0
+      tag: 1.36.0
   downloadDashboardsImage:
     repository: gcr.io/pluralsh/curlimages/curl
   grafana.ini:

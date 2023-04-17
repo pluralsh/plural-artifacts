@@ -1,0 +1,20 @@
+altinity-clickhouse-operator:
+  operator:
+    image:
+      repository: dkr.plural.sh/clickhouse/altinity/clickhouse-operator
+      tag: 0.20.1
+
+  metrics:
+    image:
+      repository: dkr.plural.sh/clickhouse/altinity/metrics-exporter
+      tag: 0.20.1
+
+  serviceMonitor:
+    enabled: true
+
+  dashboards:
+    enabled: true
+    additionalLabels:
+      grafana_dashboard: altinity-clickhouse-operator-dashboards
+    annotations:
+      k8s-sidecar-target-directory: /tmp/dashboards/ClickHouse Dashboards

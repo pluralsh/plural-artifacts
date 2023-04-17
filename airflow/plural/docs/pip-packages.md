@@ -23,4 +23,4 @@ Alternatively, you should be able to do this in the configuration section for ai
 
 ### redeploy
 
-from there you can simply run `plural build && plural deploy --commit "using custom docker image"` to set this up
+from there you can simply run `plural build --only airflow && plural deploy --commit "using custom docker image"` to set this up

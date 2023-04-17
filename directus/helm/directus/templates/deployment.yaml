@@ -1,0 +1,108 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "directus-plural.fullname" . }}
+  labels:
+    {{- include "directus-plural.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "directus-plural.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "directus-plural.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "directus-plural.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            {{- range $key, $value := .Values.env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+            - name: DB_CONNECTION_STRING
+              valueFrom:
+                secretKeyRef:
+                  name: directus.plural-postgres-directus.credentials.postgresql.acid.zalan.do
+                  key: dsn
+            - name: KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "directus-plural.secretName" . }}
+                  key: key
+            - name: SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "directus-plural.secretName" . }}
+                  key: secret
+            - name: ADMIN_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "directus-plural.secretName" . }}
+                  key: adminEmail
+            - name: ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "directus-plural.secretName" . }}
+                  key: adminPassword
+            {{- if .Values.directus.oidc.enabled }}
+            - name: AUTH_PLURAL_ISSUER_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "directus-plural.secretName" . }}
+                  key: oidcIssuer
+            - name: AUTH_PLURAL_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "directus-plural.secretName" . }}
+                  key: oidcClientId
+            - name: AUTH_PLURAL_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "directus-plural.secretName" . }}
+                  key: oidcClientSecret
+            {{- end }}
+          ports:
+            - name: http
+              containerPort: 8055
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

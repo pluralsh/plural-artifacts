@@ -1,0 +1,10 @@
+apiVersion: v2
+name: weaviate
+description: helm chart for weaviate
+type: application
+version: 0.1.1
+appVersion: 1.18.0
+dependencies:
+- name: weaviate
+  version: 16.0.0
+  repository: https://weaviate.github.io/weaviate-helm

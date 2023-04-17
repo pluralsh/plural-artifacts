@@ -1,3 +1,5 @@
+{{ $traceShield := and .Configuration (index .Configuration "trace-shield") }}
+{{ $grafanaAgent := and .Configuration (index .Configuration "grafana-agent") }}
 {{ $redisNamespace := namespace "redis" }}
 {{ $redisValues := .Applications.HelmValues "redis" }}
 {{ $monitoringNamespace := namespace "monitoring" }}
@@ -9,11 +11,35 @@ global:
 
 redisPassword: {{ $redisValues.redis.password }}
 
-{{ if .Values.basicAuth }}
+{{- if and .Values.basicAuth (not $traceShield) }}
 basicAuth:
   user: {{ .Values.basicAuth.user }}
   password: {{ .Values.basicAuth.password }}
-{{ end }}
+{{- end }}
+
+{{- if $grafanaAgent }}
+promtail:
+  enabled: false
+{{- end }}
+
+datasource:
+{{- if $traceShield }}
+  traceShield:
+    enabled: true
+    lokiPublicURL: {{ .Values.hostname }}
+{{- else }}
+  clusterTenantHeader:
+    value: {{ .Cluster }}
+    enabled: true
+{{- end }}
+{{- if .Configuration.mimir }}
+  mimir:
+    enabled: true
+{{- end }}
+{{- if .Configuration.tempo }}
+  tempo:
+    enabled: true
+{{- end }}
 
 loki-distributed:
   {{- if eq .Provider "google" }}
@@ -25,10 +51,14 @@ loki-distributed:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-loki"
   {{- end }}
-  {{ if and .Values.hostname .Values.basicAuth }}
+  {{- if and .Values.hostname .Values.basicAuth (not $traceShield) }}
   gateway:
     ingress:
       enabled: true
+      annotations:
+        nginx.ingress.kubernetes.io/auth-type: basic
+        nginx.ingress.kubernetes.io/auth-secret: basic-auth
+        nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required - foo'
       hosts:
       - host: {{ .Values.hostname | quote }}
         paths:
@@ -38,9 +68,32 @@ loki-distributed:
       - hosts:
         - {{ .Values.hostname | quote }}
         secretName: loki-tls
-  {{ end }}
+  {{- else if and .Values.hostname (not $traceShield) }}
+  gateway:
+    ingress:
+      enabled: true
+      ingressClassName: internal-nginx
+      hosts:
+      - host: {{ .Values.hostname | quote }}
+        paths:
+          - path: /
+            pathType: Prefix
+      tls:
+      - hosts:
+        - {{ .Values.hostname | quote }}
+        secretName: loki-tls
+  {{- end }}
   loki:
     structuredConfig:
+      {{- if $traceShield }}
+      auth_enabled: true
+      querier:
+        multi_tenant_queries_enabled: true
+      {{- else if .Values.multiTenant }}
+      auth_enabled: {{ .Values.multiTenant }}
+      querier:
+        multi_tenant_queries_enabled: {{ .Values.multiTenant }}
+      {{- end }}
       common:
         storage:
           {{- if eq .Provider "aws" }}

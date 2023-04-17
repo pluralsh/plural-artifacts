@@ -1,0 +1,24 @@
+name: jupyterhub-aws
+description: Installs jupyterhub on an aws eks cluster
+provider: AWS
+primary: true
+dependencies:
+  - repo: bootstrap
+    name: aws-k8s
+  - repo: ingress-nginx
+    name: ingress-nginx-aws
+oidcSettings:
+  authMethod: BASIC
+  uriFormat: https://{domain}/hub/oauth_callback
+  domainKey: hostname
+sections:
+  - name: jupyterhub
+    configuration:
+      - name: hostname
+        documentation: FQDN to use for your jupyterhub installation
+        type: DOMAIN
+    items:
+      - type: TERRAFORM
+        name: kube
+      - type: HELM
+        name: jupyterhub

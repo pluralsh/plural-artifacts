@@ -1,20 +1,13 @@
 name: azure-redis
 description: Installs redis on an azure aks cluster
 provider: AZURE
+primary: true
 dependencies:
 - repo: bootstrap
   name: azure-k8s
 sections:
 - name: redis
-  configuration:
-  - name: masterHostname
-    documentation: the dns name to access the redis master (optional)
-    type: DOMAIN
-    optional: true
-  - name: replicaHostname
-    documentation: the dns name to access your redis replicas (optional)
-    type: DOMAIN
-    optional: true
+  configuration: []
   items:
   - type: TERRAFORM
     name: kube

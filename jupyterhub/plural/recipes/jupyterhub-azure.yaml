@@ -1,0 +1,24 @@
+name: jupyterhub-azure
+description: Installs jupyterhub on an azure aks cluster
+provider: AZURE
+primary: true
+dependencies:
+  - repo: bootstrap
+    name: azure-k8s
+  - repo: ingress-nginx
+    name: ingress-nginx-azure
+oidcSettings:
+  authMethod: BASIC
+  uriFormat: https://{domain}/hub/oauth_callback
+  domainKey: hostname
+sections:
+  - name: jupyterhub
+    configuration:
+      - name: hostname
+        documentation: FQDN to use for your jupyterhub installation
+        type: DOMAIN
+    items:
+      - type: TERRAFORM
+        name: kube
+      - type: HELM
+        name: jupyterhub

@@ -30,6 +30,28 @@ spec:
       serviceAccountName: {{ include "mlflow.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: init-migrations
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+          - mlflow
+          - db
+          - upgrade
+          - $(BACKEND_STORE_URI)
+          env:
+          - name: POSTGRES_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.config.database.credentials.secretName }}
+                key: {{ .Values.config.database.credentials.userKey }}
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.config.database.credentials.secretName }}
+                key: {{ .Values.config.database.credentials.passwordKey }}
+          - name: BACKEND_STORE_URI
+            value: postgresql://$(POSTGRES_USERNAME):$(POSTGRES_PASSWORD)@{{ .Values.config.database.host }}:{{ .Values.config.database.port }}/{{ .Values.config.database.dbname }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:

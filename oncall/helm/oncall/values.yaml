@@ -14,15 +14,18 @@ rabbitmq:
 oncall:
   image:
     repository: grafana/oncall
-    tag: v1.1.8
+    tag: v1.1.40
   ingress:
     enabled: false
     className: nginx
     annotations: 
       kubernetes.io/tls-acme: "true"
+      kubernetes.io/ingress.class: null
+      cert-manager.io/issuer: null
       cert-manager.io/cluster-issuer: letsencrypt-prod
       nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
       nginx.ingress.kubernetes.io/use-regex: 'false'
+    tls: null
   ingress-nginx:
     enabled: false
   cert-manager:

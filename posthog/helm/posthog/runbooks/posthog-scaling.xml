@@ -1,0 +1,247 @@
+<root gap='medium'>
+  <box pad='small' gap='medium' direction='row' align='center'>
+    <button label='Scale' action='scale' primary='true' headline='true' />
+    <box direction='row' align='center' gap='small'>
+      <box gap='small' align='center'>
+        <timeseries datasource="events-cpu" label="PostHog Events CPU Usage" />
+        <text size='small'>You should set a reservation to 
+          roughly correspond to 80% utilization</text>
+        <text size='small'>A CPU limit should generally not be set</text>
+      </box>
+      <box gap='small' align='center'>
+        <timeseries datasource="events-memory" label="PostHog Events Memory Usage" />
+        <text size='small'>You should set a reservation to 
+          roughly correspond to 80% utilization</text>
+        <text size='small'>A Memory limit should be set</text>
+      </box>
+    </box>
+    <box gap='small'>
+      <box gap='xsmall'>
+        <input placeholder="250m" label='PostHog Events CPU Request' name='events-cpu'>
+          <valueFrom 
+            datasource="events"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.requests.cpu" />
+        </input>
+        <input placeholder="1Gi" label='PostHog Events Memory Request' name='events-memory'>
+          <valueFrom 
+            datasource="events"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.requests.memory" />
+        </input>
+      </box>
+      <box gap='xsmall'>
+        <input placeholder="250m" label='PostHog Events CPU Limit' name='events-cpu-limit'>
+          <valueFrom
+            datasource="events"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.limits.cpu" />
+        </input>
+        <input placeholder="1Gi" label='PostHog Events Memory Limit' name='events-memory-limit'>
+          <valueFrom
+            datasource="events"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.limits.memory" />
+        </input>
+      </box>
+    </box>
+  </box>
+  <box pad='small' gap='medium' direction='row' align='center'>
+    <box gap='xsmall' gap='medium' direction='row' align='center'>
+      <box direction='row' width='70%' align='center'>
+        <text size='small'>You can also add more events replicas to provide high availability and load-balance in case of outages.</text>
+      </box>
+      <box direction='row' gap='small' width='30%' align='center'>
+        <input datatype='int' placeholder="1" label='PostHog Events Replicas' name='events-replicas'>
+          <valueFrom
+            datasource="events"
+            doc="kubernetes.raw"
+            path="spec.replicas" />
+        </input>
+      </box>
+    </box>
+  </box>
+  <box pad='small' gap='medium' direction='row' align='center'>
+    <box direction='row' align='center' gap='small'>
+      <box gap='small' align='center'>
+        <timeseries datasource="plugins-cpu" label="PostHog Plugins CPU Usage" />
+        <text size='small'>You should set a reservation to 
+          roughly correspond to 80% utilization</text>
+        <text size='small'>A CPU limit should generally not be set</text>
+      </box>
+      <box gap='small' align='center'>
+        <timeseries datasource="plugins-memory" label="PostHog Plugins Memory Usage" />
+        <text size='small'>You should set a reservation to 
+          roughly correspond to 80% utilization</text>
+        <text size='small'>A Memory limit should be set</text>
+      </box>
+    </box>
+    <box gap='small'>
+      <box gap='xsmall'>
+        <input placeholder="250m" label='PostHog Plugins CPU Request' name='plugins-cpu'>
+          <valueFrom
+            datasource="plugins"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.requests.cpu" />
+        </input>
+        <input placeholder="1Gi" label='PostHog Plugins Memory Request' name='plugins-memory'>
+          <valueFrom
+            datasource="plugins"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.requests.memory" />
+        </input>
+      </box>
+       <box gap='xsmall'>
+        <input placeholder="250m" label='PostHog Plugins CPU Limit' name='plugins-cpu-limit'>
+          <valueFrom
+            datasource="plugins"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.limits.cpu" />
+        </input>
+        <input placeholder="1Gi" label='PostHog Plugins Memory Limit' name='plugins-memory-limit'>
+          <valueFrom
+            datasource="plugins"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.limits.memory" />
+        </input>
+      </box>
+    </box>
+  </box>
+  <box pad='small' gap='medium' direction='row' align='center'>
+    <box gap='xsmall' gap='medium' direction='row' align='center'>
+      <box direction='row' width='70%' align='center'>
+        <text size='small'>You can also add more plugins replicas to provide high availability and load-balance in case of outages.</text>
+      </box>
+      <box direction='row' gap='small' width='30%' align='center'>
+        <input datatype='int' placeholder="1" label='PostHog Plugins Replicas' name='plugins-replicas'>
+          <valueFrom
+            datasource="plugins"
+            doc="kubernetes.raw"
+            path="spec.replicas" />
+        </input>
+      </box>
+    </box>
+  </box>
+  <box pad='small' gap='medium' direction='row' align='center'>
+    <box direction='row' align='center' gap='small'>
+      <box gap='small' align='center'>
+        <timeseries datasource="web-cpu" label="PostHog Web CPU Usage" />
+        <text size='small'>You should set a reservation to 
+          roughly correspond to 80% utilization. A CPU limit should generally not be set</text>
+        <text size='small'>A CPU limit should generally not be set</text>
+      </box>
+      <box gap='small' align='center'>
+        <timeseries datasource="web-memory" label="PostHog Web Memory Usage" />
+        <text size='small'>You should set a reservation to 
+          roughly correspond to 80% utilization</text>
+        <text size='small'>A Memory limit should be set</text>
+      </box>
+    </box>
+    <box gap='small'>
+      <box gap='xsmall'>
+        <input placeholder="250m" label='PostHog Web CPU Request' name='web-cpu'>
+          <valueFrom
+            datasource="web"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.requests.cpu" />
+        </input>
+        <input placeholder="1Gi" label='PostHog Web Memory Request' name='web-memory'>
+          <valueFrom
+            datasource="web"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.requests.memory" />
+        </input>
+      </box>
+      <box gap='xsmall'>
+        <input placeholder="250m" label='PostHog Web CPU Limit' name='web-cpu-limit'>
+          <valueFrom
+            datasource="web"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.limits.cpu" />
+        </input>
+        <input placeholder="1Gi" label='PostHog Web Memory Limit' name='web-memory-limit'>
+          <valueFrom
+            datasource="web"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.limits.memory" />
+        </input>
+      </box>
+    </box>
+  </box>
+  <box pad='small' gap='medium' direction='row' align='center'>
+    <box gap='xsmall' gap='medium' direction='row' align='center'>
+      <box direction='row' width='70%' align='center'>
+        <text size='small'>You can also add more web replicas to provide high availability and load-balance in case of outages.</text>
+      </box>
+      <box direction='row' gap='small' width='30%' align='center'>
+        <input datatype='int' placeholder="1" label='PostHog Web Replicas' name='web-replicas'>
+          <valueFrom
+            datasource="web"
+            doc="kubernetes.raw"
+            path="spec.replicas" />
+        </input>
+      </box>
+    </box>
+  </box>
+  <box pad='small' gap='medium' direction='row' align='center'>
+    <box direction='row' align='center' gap='small'>
+      <box gap='small' align='center'>
+        <timeseries datasource="worker-cpu" label="PostHog Worker CPU Usage" />
+        <text size='small'>You should set a reservation to 
+          roughly correspond to 80% utilization. A CPU limit should generally not be set</text>
+        <text size='small'>A CPU limit should generally not be set</text>
+      </box>
+      <box gap='small' align='center'>
+        <timeseries datasource="worker-memory" label="PostHog Worker Memory Usage" />
+        <text size='small'>You should set a reservation to 
+          roughly correspond to 80% utilization</text>
+        <text size='small'>A Memory limit should be set</text>
+      </box>
+    </box>
+    <box gap='small'>
+      <box gap='xsmall'>
+        <input placeholder="250m" label='PostHog Worker CPU Request' name='worker-cpu'>
+          <valueFrom
+            datasource="worker"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.requests.cpu" />
+        </input>
+        <input placeholder="1Gi" label='PostHog Worker Memory Request' name='worker-memory'>
+          <valueFrom
+            datasource="worker"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.requests.memory" />
+        </input>
+      </box>
+      <box gap='xsmall'>
+        <input placeholder="250m" label='PostHog Worker CPU Limit' name='worker-cpu-limit'>
+          <valueFrom
+            datasource="worker"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.limits.cpu" />
+        </input>
+        <input placeholder="1Gi" label='PostHog Worker Memory Limit' name='worker-memory-limit'>
+          <valueFrom
+            datasource="worker"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.limits.memory" />
+        </input>
+      </box>
+    </box>
+  </box>
+  <box pad='small' gap='medium' direction='row' align='center'>
+    <box gap='xsmall' gap='medium' direction='row' align='center'>
+      <box direction='row' width='70%' align='center'>
+        <text size='small'>You can also add more worker replicas to provide high availability and load-balance in case of outages.</text>
+      </box>
+      <box direction='row' gap='small' width='30%' align='center'>
+        <input datatype='int' placeholder="1" label='PostHog Worker Replicas' name='worker-replicas'>
+          <valueFrom
+            datasource="worker"
+            doc="kubernetes.raw"
+            path="spec.replicas" />
+        </input>
+      </box>
+    </box>
+  </box>
+</root>

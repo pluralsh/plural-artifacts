@@ -3,8 +3,13 @@
 # Declare variables to be passed into your templates.
 
 sshConfig:
+  enabled: false
   id_rsa: dummy
   id_rsa_pub: dummy
+httpConfig:
+  enabled: false
+  username: dummy
+  password: dummy
 
 secrets:
   redis_password: example
@@ -229,9 +234,15 @@ airflow:
   
   dags:
     gitSync:
-      image:
-        gid: 0
-        uid: 50000
+      # image:
+      #   uid: 65533
+      #   gid: 65533
+      resources:
+        requests:
+          cpu: 50m
+          memory: 64Mi
+
+      # syncTimeout: 1000
 
   pgbouncer:
     enabled: false
@@ -384,7 +395,7 @@ airflow:
       metrics:
       - type: Resource
         resource:
-          name: memory
+          name: cpu
           target:
             type: Utilization
             averageUtilization: 80
@@ -413,10 +424,3 @@ airflow:
       ## if a persistent volume is mounted at `logs.path`
       ##
       enabled: false
-  
-  gitSync:
-    resources:
-      cpu: 50m
-      memory: 64Mi
-
-    syncTimeout: 1000

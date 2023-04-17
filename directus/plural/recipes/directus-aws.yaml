@@ -1,0 +1,29 @@
+name: directus-aws
+description: Installs directus on an aws eks cluster
+provider: AWS
+primary: true
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+- repo: postgres
+  name: aws-postgres
+oidcSettings:
+  authMethod: BASIC
+  uriFormat: https://{domain}/auth/login/plural/callback
+  domainKey: hostname
+sections:
+- name: directus
+  configuration:
+    - name: hostname
+      documentation: FQDN to use for your directus installation
+      type: DOMAIN
+    - name: adminEmail
+      type: STRING
+      documentation: email for the initial admin user
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: directus

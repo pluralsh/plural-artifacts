@@ -1,6 +1,7 @@
 name: terraria-gcp
 description: Installs terraria game server
 provider: GCP
+primary: true
 dependencies:
 - repo: bootstrap
   name: gcp-k8s
@@ -24,7 +25,7 @@ sections:
     type: STRING
     validation:
       type: REGEX
-      regex: '^[yn]*$'
+      regex: ^[yn]*$
       message: 'must be one of: y, n'
     default: y
   items:

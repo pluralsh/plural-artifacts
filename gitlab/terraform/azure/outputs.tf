@@ -1,9 +1,9 @@
-output "console_msi_client_id" {
-  value = azurerm_user_assigned_identity.console.client_id
+output "gitlab_msi_client_id" {
+  value = azurerm_user_assigned_identity.gitlab.client_id
 }
 
-output "console_msi_id" {
-  value = azurerm_user_assigned_identity.console.id
+output "gitlab_msi_id" {
+  value = azurerm_user_assigned_identity.gitlab.id
 }
 
 output "access_key_id" {

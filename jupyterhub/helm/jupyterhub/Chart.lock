@@ -1,0 +1,9 @@
+dependencies:
+- name: jupyterhub
+  repository: https://jupyterhub.github.io/helm-chart/
+  version: 2.0.0
+- name: postgres
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.16
+digest: sha256:ffbd04f736eb925a2bad525b34393970e2915095021effc4155f31ee5adcc7fb
+generated: "2023-04-10T11:26:48.281791-04:00"

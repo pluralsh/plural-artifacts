@@ -7,4 +7,4 @@ spec:
   - type: helm
     name: bootstrap
     repo: bootstrap
-    version: '>= 0.1.2'
+    version: '>= 0.1.3'

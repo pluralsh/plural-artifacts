@@ -1,0 +1,22 @@
+{{- if .Values.rbac.create -}}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "trace-shield.fullname" . }}-backend
+  labels:
+    {{- include "trace-shield.labels" . | nindent 4 }}
+rules:
+- apiGroups:
+  - observability.traceshield.io
+  resources:
+  - tenants
+  - configs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+{{- end -}}

@@ -1,6 +1,7 @@
 name: lightdash-gcp
 description: Installs lightdash on an gcp eks cluster
 provider: GCP
+primary: true
 dependencies:
 - repo: bootstrap
   name: gcp-k8s

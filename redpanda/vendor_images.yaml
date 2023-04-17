@@ -1,0 +1,4 @@
+docker.io:
+  images-by-tag-regex:
+    redpandadata/redpanda: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    redpandadata/console: ^v?[0-9]+\.[0-9]+?\.[0-9]+$

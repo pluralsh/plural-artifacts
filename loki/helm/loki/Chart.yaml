@@ -2,7 +2,7 @@ apiVersion: v2
 name: loki
 description: helm chart for loki
 type: application
-version: 0.1.10
+version: 0.1.15
 appVersion: "v2.6.1"
 dependencies:
 - name: loki-distributed
@@ -12,3 +12,4 @@ dependencies:
 - name: promtail
   version: 6.4.0
   repository: https://grafana.github.io/helm-charts
+  condition: promtail.enabled

@@ -1,6 +1,7 @@
 name: mongodb-azure
 description: Installs mongodb on an aws eks cluster
 provider: AZURE
+primary: true
 sections:
 - name: mongodb
   configuration: []

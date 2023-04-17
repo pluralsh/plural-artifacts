@@ -1,0 +1,16 @@
+{{- if .Values.rbac.create -}}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "trace-shield.fullname" . }}-backend
+  labels:
+    {{- include "trace-shield.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ include "trace-shield.fullname" . }}-backend
+subjects:
+- kind: ServiceAccount
+  name: {{ include "trace-shield.backendServiceAccountName" . }}
+  namespace: {{ .Release.Namespace }}
+{{- end -}}

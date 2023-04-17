@@ -1,0 +1,26 @@
+name: sftpgo-gcp
+description: Installs SFTPGo on an gcp gke cluster
+provider: GCP
+primary: true
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+- repo: postgres
+  name: gcp-postgres
+sections:
+  - name: sftpgo
+    configuration:
+      - name: hostname
+        type: DOMAIN
+        documentation: the fully qualified domain name your SFTPGo instance will be available at
+      - name: loadBalancerHostname
+        documentation: a dns name to access the enabled services (sftp on port 22, etc.)
+        type: DOMAIN
+        optional: true
+    items:
+      - type: TERRAFORM
+        name: gcp
+      - type: HELM
+        name: sftpgo

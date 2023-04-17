@@ -2,7 +2,8 @@ name: dagster-agent
 description: dagster-agent deployed on plural
 category: DATA
 private: false
-icon: plural/icons/dagster.png
+icon: plural/icons/dagster-primary-mark.png
+darkIcon: plural/icons/dagster-primary-mark.png
 notes: plural/notes.tpl
 gitUrl: https://github.com/dagster-io/dagster
 tags:

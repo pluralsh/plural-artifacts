@@ -1,11 +1,14 @@
 name: loki-gcp
 description: Installs loki on an aws eks cluster
 provider: GCP
+primary: true
 dependencies:
 - repo: bootstrap
   name: gcp-k8s
 - repo: redis
   name: gcp-redis
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
 sections:
 - name: loki
   configuration:
@@ -13,6 +16,15 @@ sections:
     type: BUCKET
     default: loki
     documentation: bucket to store the logs in
+  - name: hostname
+    type: DOMAIN
+    default: loki
+    documentation: the hostname you'll deploy loki with (will only be available on a private network)
+    optional: true
+  - name: multiTenant
+    type: BOOL
+    default: true
+    documentation: if loki should be deployed in multi-tenant mode
   items:
   - type: TERRAFORM
     name: gcp

@@ -3,7 +3,7 @@ name: metabase
 description: A Helm chart for Kubernetes
 type: application
 version: 0.1.11
-appVersion: "0.45.1"
+appVersion: "0.45.3"
 dependencies:
 - name: postgres
   version: 0.1.10

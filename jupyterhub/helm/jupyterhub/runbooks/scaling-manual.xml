@@ -1,0 +1,61 @@
+<root gap='medium'>
+    <box pad='small' gap='medium' direction='row' align='center'>
+        <button label='Scale' action='scale' primary='true' headline='true' />
+        <box direction='row' align='center' gap='small'>
+            <box gap='small' align='center'>
+                <timeseries datasource="jupyterhub-cpu" label="JupyterHub CPU Usage" />
+                <text size='small'>You should set a requests to
+                    roughly correspond to 80% regular utilization</text>
+                <text size='small'>Normally a CPU limit is not required</text>
+            </box>
+            <box gap='small' align='center'>
+                <timeseries datasource="jupyterhub-memory" label="JupyterHub Memory Usage" />
+                <text size='small'>You should set a requests to
+                    roughly correspond to 80% regular utilization</text>
+                <text size='small'>A memory limit should be set to avoid resource starvation</text>
+            </box>
+        </box>
+        <box gap='xsmall'>
+            <box gap='xsmall'>
+            <input placeholder="250m" label='JupyterHub CPU Request' name='jupyterhub-cpu'>
+                <valueFrom
+                        datasource="jupyterhub"
+                        doc="kubernetes.raw"
+                        path="spec.template.spec.containers[0].resources.requests.cpu" />
+            </input>
+            <input placeholder="1Gi" label='JupyterHub Memory Request' name='jupyterhub-memory'>
+                <valueFrom
+                        datasource="jupyterhub"
+                        doc="kubernetes.raw"
+                        path="spec.template.spec.containers[0].resources.requests.memory" />
+            </input>
+            </box>
+            <box gap='xsmall'>
+            <input placeholder="250m" label='JupyterHub CPU Limit' name='jupyterhub-cpu-limit'>
+                <valueFrom
+                        datasource="jupyterhub"
+                        doc="kubernetes.raw"
+                        path="spec.template.spec.containers[0].resources.limits.cpu" />
+            </input>
+            <input placeholder="1Gi" label='JupyterHub Memory Limit' name='jupyterhub-memory-limit'>
+                <valueFrom
+                        datasource="jupyterhub"
+                        doc="kubernetes.raw"
+                        path="spec.template.spec.containers[0].resources.limits.memory" />
+            </input>
+            </box>
+            <box gap='xsmall'>
+            <input placeholder="1" label='JupyterHub Replicas' name='jupyterhub-replicaCount'>
+                <valueFrom
+                        datasource="jupyterhub"
+                        doc="kubernetes.raw"
+                        path="spec.replicas" />
+            </input>
+            </box>
+        </box>
+    </box>
+    <box width='100%' gap='small'>
+        <text size='small'>Be sure to scale your JupyterHub deployment within the capacity of your nodes.</text>
+        <text size='small'>By default this is a maximum of 8 CPU and 32 Gi memory.</text>
+    </box>
+</root>
