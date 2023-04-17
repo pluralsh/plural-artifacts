@@ -4,26 +4,33 @@ global:
     - description: n8n web ui
       url: {{ .Values.hostname }}
 
+{{ $encryption := dedupe . "n8n.encryptionSecret" (randAlphaNum 24) }}
+
 webhookUrl: https://{{ .Values.hostname }}
 
-encryptionSecret: {{ dedupe . "n8n.encryptionSecret" (randAlphaNum 24) }}
+encryptionSecret: {{ $encryption }}
 
-{{ if .SMTP }}
-smtp:
-  host: {{ .SMTP.Server }}
-  user: {{ .SMTP.User }}
-  password: {{ .SMTP.Password }}
-  port: {{ .SMTP.Port }}
-  sender: {{ .SMTP.Sender }}
-{{ end }}
-
-ingress:
-  hosts:
-   - host: {{ .Values.hostname }}
-     paths:
-       - path: /
-         pathType: ImplementationSpecific
-  tls:
-   - secretName: n8n-tls
-     hosts:
-       - {{ .Values.hostname }}
+n8n:
+  n8n:
+    encryption_key: {{ $encryption }}
+  {{ if .SMTP }}
+  secret:
+    userManagement:
+      emails:
+        smtp:
+          host: {{ .SMTP.Server }}
+          port: {{ .SMTP.Port }}
+          auth:
+            user: {{ .SMTP.User }}
+            pass: {{ .SMTP.Password }}
+          sender: {{ .SMTP.Sender }}
+  {{ end }}
+  ingress:
+    hosts:
+    - host: {{ .Values.hostname }}
+      paths:
+      - /
+    tls:
+    - secretName: n8n-tls
+      hosts:
+        - {{ .Values.hostname }}

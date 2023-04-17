@@ -1,6 +1,12 @@
 dependencies:
 - name: postgres
   repository: https://pluralsh.github.io/module-library
-  version: 0.1.10
-digest: sha256:95ccde83c556aa1d08217662c422404a34dd50e34ee9cea69163c7a334aac86f
-generated: "2022-10-21T15:28:41.446918+02:00"
+  version: 0.1.17
+- name: redis
+  repository: https://charts.bitnami.com/bitnami
+  version: 17.9.5
+- name: n8n
+  repository: file://../../../../n8n-helm-chart
+  version: 0.10.0
+digest: sha256:fb88ddd868a26097e583a98cdf9f0d2d3cb6f89557e97182635c11f7a20623df
+generated: "2023-04-17T16:37:07.926931-04:00"
