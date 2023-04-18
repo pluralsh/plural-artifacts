@@ -4,7 +4,6 @@ dependencies:
   version: 0.7.1
 - name: postgres
   repository: https://pluralsh.github.io/module-library
-  version: 0.1.10
-digest: sha256:31f28823876c6314f72c613e2702a28993933c4b0bb9cd8b481de9a414e03bc9
-generated: "2023-01-16T15:50:48.727974+02:00"
-
+  version: 0.1.17
+digest: sha256:a639b00ecf307a36be580a7f487a95e59d0cf3d44d5d3d270492534412aed32c
+generated: "2023-04-17T21:47:49.037527-04:00"
