@@ -94,7 +94,7 @@ dagster:
     deployments:
       - name: "k8s-example-user-code-1"
         image:
-          repository: dkr.plural.sh/dagster/user-code-example
+          repository: gcr.io/pluralsh/dagster/user-code-example
           tag: 1.2.7
           pullPolicy: Always
         resources:
