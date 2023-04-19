@@ -6,5 +6,13 @@ version: 0.1.9
 appVersion: "0.213.0"
 dependencies:
 - name: postgres
-  version: 0.1.10
+  version: 0.1.17
   repository: https://pluralsh.github.io/module-library
+- name: redis
+  version: 17.9.5
+  repository: https://charts.bitnami.com/bitnami
+  condition: redis.enabled
+- name: n8n
+  version: 0.10.0
+  repository: file://../../../../n8n-helm-chart
+

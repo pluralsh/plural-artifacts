@@ -2,13 +2,6 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 1
-
-image:
-  repository: dkr.plural.sh/n8n/n8nio/n8n
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: "0.213.0"
 
 webhookUrl: https://example.com
 
@@ -16,71 +9,49 @@ encryptionSecret: CHANGEME
 
 smtp:
 
-imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
-
-
-livenessProbe:
+redis:
   enabled: true
-  initialDelaySeconds: 45
-  periodSeconds: 10
-  timeoutSeconds: 1
-  failureThreshold: 3
-  successThreshold: 1
-    
-readinessProbe:
-  enabled: true
-  initialDelaySeconds: 45
-  periodSeconds: 10
-  timeoutSeconds: 1
-  failureThreshold: 3
-  successThreshold: 1
+  auth:
+    enabled: false
+  
+  replica:
+    replicaCount: 0
 
-serviceAccount:
-  # Specifies whether a service account should be created
-  create: true
-  # Annotations to add to the service account
-  annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
-  name: ""
+n8n:
+  fullnameOverride: n8n-k8s
+  image:
+    repository: dkr.plural.sh/n8n/n8nio/n8n
+  extraEnvSecrets:
+    DB_POSTGRESDB_PASSWORD:
+      name: n8n.plural-n8n.credentials.postgresql.acid.zalan.do
+      key: password
+  config:
+    database:
+      type: postgresdb
+      postgresdb:
+        database: n8n
+        host: plural-n8n
+        user: n8n
+        port: 5432
+        ssl:
+          rejectUnauthorized: false
+    queue:
+      bull:
+        redis:
+          host: n8n-redis-headless
+  scaling:
+    enabled: true
+    webhook:
+      enabled: true
 
-podAnnotations: {}
-
-podSecurityContext: {}
-  # fsGroup: 2000
-
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
-
-service:
-  type: ClusterIP
-  port: 80
-  containerPort: 5678
-
-ingress:
-  enabled: true
-  className: nginx
-  annotations:
-    kubernetes.io/tls-acme: "true"
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/use-regex: "true"
-  #hosts:
-  #  - host: chart-example.local
-  #    paths:
-  #      - path: /
-  #        pathType: ImplementationSpecific
-  #tls:
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+  ingress:
+    enabled: true
+    className: nginx
+    annotations:
+      kubernetes.io/tls-acme: "true"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/use-regex: "true"
 
 postgres:
   team: plural
@@ -94,28 +65,3 @@ database:
   secret: n8n.plural-n8n.credentials.postgresql.acid.zalan.do
   host: n8n-master
   port: "5432"
-
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
-
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
-
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
