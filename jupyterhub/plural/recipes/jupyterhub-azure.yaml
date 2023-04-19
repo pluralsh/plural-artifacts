@@ -7,6 +7,8 @@ dependencies:
     name: azure-k8s
   - repo: ingress-nginx
     name: ingress-nginx-azure
+  - repo: postgres
+    name: azure-postgres
 oidcSettings:
   authMethod: BASIC
   uriFormat: https://{domain}/hub/oauth_callback

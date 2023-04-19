@@ -21,3 +21,7 @@ spec:
       name: ingress-nginx
       repo: ingress-nginx
       version: '>= 0.1.2'
+    - type: helm
+      name: postgres
+      repo: postgres
+      version: '>= 0.1.6'
