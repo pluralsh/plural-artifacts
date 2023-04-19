@@ -5,6 +5,7 @@ metadata:
 spec:
   clusterName: {{ .Values.operator.clusterName }}
   kubernetesVersion: {{ .Values.kubernetesVersion }}
+  skipClusterCreation: {{ .Values.operator.skipClusterCreation }}
   clusterNetwork:
     pods:
       cidrBlocks:

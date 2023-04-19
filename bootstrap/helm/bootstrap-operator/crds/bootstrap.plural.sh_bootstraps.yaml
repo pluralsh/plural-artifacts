@@ -290,6 +290,9 @@ spec:
                 type: object
               kubernetesVersion:
                 type: string
+              skipClusterCreation:
+                default: false
+                type: boolean
             required:
             - cloudSpec
             - clusterAPI
