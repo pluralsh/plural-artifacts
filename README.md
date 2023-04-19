@@ -12,6 +12,20 @@ repository.yaml // repository specification
 
 There's also a Makefile with some useful utilities for managing these files.
 
+
+### Plural Contributor Program
+
+We are focused on properly compensating any contributions to the Plural platform, which includes a meaningful bounty for either adding an application to this repo or upgrading an existing one.  Currently the rewards are:
+
+* $150 for a tested, successful application upgrade
+* $500 for a new application onboarded
+
+To be eligible for the upgrade bounty you'll want to follow the steps for upgrading an application below and we simply need to confirm it was correct and properly tested.  To be eligible for an application onboarding bounty, the process is a bit more involved, but requires you to follow the add new application flow and then once we've deemed the application to have a `releaseStatus` of `BETA` or higher, the reward is eligible.
+
+To claim the reward, you should get in touch with us on our discord at https://discord.gg/pluralsh and we'll simply need to confirm that you did the work (easy way to do that is linking your discord handle on the relevant PRs) and will give you the bounty you've earned.
+
+(small disclaimer: these bounties are subject to change)
+
 ### Adding a new application
 
 To add a new application, you'll want to run `plural create` and answer the brief questionnaire. This will generate the above directory structure with stub implementations for most of the basic resources. Generally we try to extend the existing upstream Helm packaging, so you'll ideally want to find an already working Helm chart, research its configuration and modify it appropriately.  General rules of thumb are:
