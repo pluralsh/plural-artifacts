@@ -2,11 +2,11 @@ apiVersion: v2
 name: sonarqube
 description: helm chart for sonarqube
 type: application
-version: 0.1.0
+version: 0.1.1
 appVersion: 10.0.0
 dependencies:
 - name: postgres
-  version: 0.1.16
+  version: 0.1.17
   repository: https://pluralsh.github.io/module-library
 - name: sonarqube
   version: 10.0.0

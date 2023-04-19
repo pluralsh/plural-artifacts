@@ -2,10 +2,10 @@ apiVersion: v2
 name: directus
 description: helm chart for directus
 type: application
-version: 0.1.4
+version: 0.1.5
 appVersion: 9.25.1
 dependencies:
   - name: postgres
-    version: 0.1.16
+    version: 0.1.17
     repository: https://pluralsh.github.io/module-library
     condition: postgres.enabled

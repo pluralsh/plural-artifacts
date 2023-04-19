@@ -2,11 +2,11 @@ apiVersion: v2
 name: prefect
 description: helm chart for prefect
 type: application
-version: 0.1.7
+version: 0.1.8
 appVersion: v2.8.6
 dependencies:
 - name: postgres
-  version: 0.1.13
+  version: 0.1.17
   repository: https://pluralsh.github.io/module-library
 - name: prefect-orion
   version: 2023.2.14

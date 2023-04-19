@@ -8,17 +8,20 @@ postgres:
   user: retool
   dbName: retool
   ownerChart: retool
-  infix: postgres
+  infix: -postgres
 
 retool:
   image:
     tag: 2.107.8
 
-  postgres:
+  postgresql:
     enabled: false
 
+  env:
+    POSTGRES_SSL_REJECT_UNAUTHORIZED: 'false'
+
   config:
-    postgres:
+    postgresql:
       host: plural-postgres-retool
       port: 5432
       db: retool
