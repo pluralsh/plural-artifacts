@@ -1,5 +1,7 @@
 {{ $isGcp := or (eq .Provider "google") (eq .Provider "gcp") }}
 
+{{ $key := dedupe . "weaviate.weaviate.admin.key" (randAlphaNum 20) }}
+
 global:
   application:
     links:
@@ -18,6 +20,20 @@ ingress:
       - {{ .Values.hostname }}
 
 weaviate:
+  authentication:
+    anonymous_access:
+      enabled: false
+    apikey:
+      enabled: true
+      allowed_keys:
+        - {{ $key }}
+      users:
+        - {{ .Values.adminEmail }}
+  authorization:
+    enabled: true
+    adminlist:
+      users:
+        - {{ .Values.adminEmail }}
   backups:
     {{ if $isGcp }}
     gcs:

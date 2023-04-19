@@ -16,6 +16,9 @@ sections:
       type: BUCKET
       documentation: gcs bucket for storing weaviate backups
       default: weaviate
+    - name: adminEmail
+      type: STRING
+      documentation: email for the initial admin user
   items:
   - type: TERRAFORM
     name: gcp

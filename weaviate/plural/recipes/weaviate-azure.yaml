@@ -12,6 +12,9 @@ sections:
     - name: hostname
       type: DOMAIN
       documentation: the fully qualified domain name your Weaviate instance will be available at
+    - name: adminEmail
+      type: STRING
+      documentation: email for the initial admin user
   items:
   - type: TERRAFORM
     name: azure

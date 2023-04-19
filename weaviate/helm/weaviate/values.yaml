@@ -12,6 +12,8 @@ ingress:
     port: 80
 
 weaviate:
+  admin:
+    key: CHANGE_ME
   image:
     registry: dkr.plural.sh
     tag: 1.18.0
