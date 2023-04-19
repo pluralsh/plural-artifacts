@@ -1,5 +1,11 @@
 {{ $isGcp := or (eq .Provider "google") (eq .Provider "gcp") }}
 
+global:
+  application:
+    links:
+    - description: weaviate api
+      url: {{ .Values.hostname }}
+
 ingress:
   hosts:
   - host: {{ .Values.hostname }}
