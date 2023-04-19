@@ -1,6 +1,7 @@
 {{ $hostname := default "example.com" .Values.hostname }}
 {{ $jupyterPassword := dedupe . "jupyterhub.postgres.password" (randAlphaNum 20) }}
 {{ $jupyterDsn := default (printf "postgresql://jupyter:%s@plural-postgres-jupyter:5432/jupyter" $jupyterPassword) .Values.jupyterDsn }}
+{{ $isGcp := or (eq .Provider "google") (eq .Provider "gcp") }}
 
 global:
   application:
@@ -15,6 +16,10 @@ jupyterhub:
   hub:
     db:
       url: {{ $jupyterDsn }}
+    {{ if $isGcp}}
+    networkPolicy:
+      enabled: false
+    {{ end }}
     {{ if .OIDC }}
     config:
       GenericOAuthenticator:
@@ -35,6 +40,15 @@ jupyterhub:
         authenticator_class: generic-oauth
     {{ end }}
 
+  {{ if $isGcp }}
+  singleuser:
+    networkPolicy:
+      enabled: false
+  proxy:
+    chp:
+      networkPolicy:
+        enabled: false
+  {{ end }}
   ingress:
     hosts:
     - {{ $hostname }}
