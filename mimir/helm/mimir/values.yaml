@@ -178,6 +178,12 @@ mimir-distributed:
     #   requests:
     #     cpu: 1
     #     memory: 512Mi
+    ingress:
+      ingressClassName: nginx
+      annotations:
+        kubernetes.io/tls-acme: "true"
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
     nginx:
       image:
         # -- The Docker registry for nginx image
