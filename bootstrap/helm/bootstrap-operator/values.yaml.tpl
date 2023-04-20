@@ -1,8 +1,3 @@
-{{ $providerArgs := dict "provider" .Provider "cluster" .Cluster }}
-{{ if eq .Provider "google" }}
-  {{ $_ := set $providerArgs "provider" "gcp" }}
-{{ end }}
-
 operator:
   clusterName: {{ .Cluster }}
   secret: {}
@@ -71,7 +66,7 @@ operator:
         name: variables
         key: AWS_SESSION_TOKEN
 {{ end }}
-{{ if eq $providerArgs.provider "gcp" }}
+{{ if eq .Provider "google" }}
   secret:
     GCP_B64ENCODED_CREDENTIALS: {{ .Context.Credentials | quote }}
   cloud:
