@@ -3,6 +3,7 @@ description: A horizontally scalable, highly available, multi-tenant log aggrega
 category: DEVOPS
 icon: plural/icons/loki.png
 notes: plural/notes.tpl
+docs: plural/docs
 private: false
 homepage: https://grafana.com/oss/loki/
 gitUrl: https://github.com/grafana/loki
