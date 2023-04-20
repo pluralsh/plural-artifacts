@@ -9,6 +9,7 @@ datasource:
     enabled: false
     mimirPublicURL: ""
 
+basicAuth:
 
 mimir-distributed:
   image:
