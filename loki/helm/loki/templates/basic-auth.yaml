@@ -4,5 +4,5 @@ kind: Secret
 metadata:
   name: basic-auth
 stringData:
-  {{ .Values.basicAuth.user }}: {{ .Values.basicAuth.password | quote }}
+  auth: {{ htpasswd .Values.basicAuth.user .Values.basicAuth.password | quote }}
 {{ end }}
