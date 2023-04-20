@@ -29,7 +29,7 @@ jobs:
     - run: |
         docker build -f dagster/Dockerfile -t gcr.io/pluralsh/dagster/user-code-example:1.2.7-extended -t dkr.plural.sh/dagster/dagster/user-code-example:1.2.7-extended .
         docker push gcr.io/pluralsh/dagster/user-code-example:1.2.7-extended
-        docker push dkr.plural.sh/dagster/user-code-example:1.2.7-extended
+        docker push dkr.plural.sh/dagster/dagster/user-code-example:1.2.7-extended
   docker-sentry:
     runs-on: ubuntu-latest
     permissions:
