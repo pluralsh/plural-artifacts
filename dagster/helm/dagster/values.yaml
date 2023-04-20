@@ -51,7 +51,7 @@ dagster:
   pipelineRun:
     image:
       repository: dkr.plural.sh/dagster/dagster/user-code-example
-      tag: 1.2.7
+      tag: 1.2.7-extended
 
   ingress:
     enabled: true
@@ -94,8 +94,8 @@ dagster:
     deployments:
       - name: "k8s-example-user-code-1"
         image:
-          repository: gcr.io/pluralsh/dagster/user-code-example
-          tag: 1.2.7
+          repository: dkr.plural.sh/dagster/dagster/user-code-example
+          tag: 1.2.7-extended
           pullPolicy: Always
         resources:
           requests:

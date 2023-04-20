@@ -27,9 +27,9 @@ jobs:
         username: mjg@plural.sh
         password: ${{ secrets.PLURAL_ACCESS_TOKEN }}
     - run: |
-        docker build -f dagster/Dockerfile -t gcr.io/pluralsh/dagster/user-code-example:1.2.7 -t dkr.plural.sh/dagster/user-code-example:1.2.7 .
-        docker push gcr.io/pluralsh/dagster/user-code-example:1.2.7
-        docker push dkr.plural.sh/dagster/user-code-example:1.2.7
+        docker build -f dagster/Dockerfile -t gcr.io/pluralsh/dagster/user-code-example:1.2.7-extended -t dkr.plural.sh/dagster/dagster/user-code-example:1.2.7-extended .
+        docker push gcr.io/pluralsh/dagster/user-code-example:1.2.7-extended
+        docker push dkr.plural.sh/dagster/user-code-example:1.2.7-extended
   docker-sentry:
     runs-on: ubuntu-latest
     permissions:
