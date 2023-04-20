@@ -20,6 +20,8 @@ ingress:
       - {{ .Values.hostname }}
 
 weaviate:
+  admin:
+    key: {{ $key }}
   authentication:
     anonymous_access:
       enabled: false
