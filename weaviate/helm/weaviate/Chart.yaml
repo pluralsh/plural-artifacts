@@ -2,7 +2,7 @@ apiVersion: v2
 name: weaviate
 description: helm chart for weaviate
 type: application
-version: 0.1.1
+version: 0.1.2
 appVersion: 1.18.0
 dependencies:
 - name: weaviate
