@@ -1,0 +1,11 @@
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  description: Creates an GKE cluster and prepares it for bootstrapping
+  version: 0.1.0
+spec:
+  breaking: true
+  dependencies: []
+  providers:
+  - gcp
+
