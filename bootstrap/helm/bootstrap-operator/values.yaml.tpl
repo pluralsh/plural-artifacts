@@ -94,6 +94,7 @@ operator:
       controlPlane:
         location: europe-central2
         project: pluralsh
+        enableAutopilot: false
       machinePool:
         replicas: 3
 {{ end }}
