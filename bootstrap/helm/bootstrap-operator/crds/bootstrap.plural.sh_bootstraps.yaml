@@ -229,11 +229,277 @@ spec:
                     - secretAccessKeyRef
                     - sessionTokenRef
                     type: object
+                  gcp:
+                    properties:
+                      controlPlane:
+                        description: GCPManagedControlPlaneSpec defines the desired
+                          state of GCPManagedControlPlane.
+                        properties:
+                          clusterName:
+                            description: ClusterName allows you to specify the name
+                              of the GKE cluster. If you don't specify a name then
+                              a default name will be created based on the namespace
+                              and name of the managed control plane.
+                            type: string
+                          controlPlaneVersion:
+                            description: ControlPlaneVersion represents the control
+                              plane version of the GKE cluster. If not specified,
+                              the default version currently supported by GKE will
+                              be used.
+                            type: string
+                          enableAutopilot:
+                            description: EnableAutopilot indicates whether to enable
+                              autopilot for this GKE cluster.
+                            type: boolean
+                          endpoint:
+                            description: Endpoint represents the endpoint used to
+                              communicate with the control plane.
+                            properties:
+                              host:
+                                description: The hostname on which the API server
+                                  is serving.
+                                type: string
+                              port:
+                                description: The port on which the API server is serving.
+                                format: int32
+                                type: integer
+                            required:
+                            - host
+                            - port
+                            type: object
+                          location:
+                            description: Location represents the location (region
+                              or zone) in which the GKE cluster will be created.
+                            type: string
+                          project:
+                            description: Project is the name of the project to deploy
+                              the cluster to.
+                            type: string
+                          releaseChannel:
+                            description: ReleaseChannel represents the release channel
+                              of the GKE cluster.
+                            enum:
+                            - rapid
+                            - regular
+                            - stable
+                            type: string
+                        required:
+                        - enableAutopilot
+                        - location
+                        - project
+                        type: object
+                      credentialsRef:
+                        description: SecretKeySelector selects a key of a Secret.
+                        properties:
+                          key:
+                            description: The key of the secret to select from.  Must
+                              be a valid secret key.
+                            type: string
+                          name:
+                            description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              TODO: Add other useful fields. apiVersion, kind, uid?'
+                            type: string
+                          optional:
+                            description: Specify whether the Secret or its key must
+                              be defined
+                            type: boolean
+                        required:
+                        - key
+                        type: object
+                        x-kubernetes-map-type: atomic
+                      fetchConfigUrl:
+                        type: string
+                      machinePool:
+                        properties:
+                          replicas:
+                            format: int32
+                            type: integer
+                        required:
+                        - replicas
+                        type: object
+                      managedCluster:
+                        description: GCPManagedClusterSpec defines the desired state
+                          of GCPManagedCluster.
+                        properties:
+                          additionalLabels:
+                            additionalProperties:
+                              type: string
+                            description: AdditionalLabels is an optional set of tags
+                              to add to GCP resources managed by the GCP provider,
+                              in addition to the ones added by default.
+                            type: object
+                          controlPlaneEndpoint:
+                            description: ControlPlaneEndpoint represents the endpoint
+                              used to communicate with the control plane.
+                            properties:
+                              host:
+                                description: The hostname on which the API server
+                                  is serving.
+                                type: string
+                              port:
+                                description: The port on which the API server is serving.
+                                format: int32
+                                type: integer
+                            required:
+                            - host
+                            - port
+                            type: object
+                          credentialsRef:
+                            description: CredentialsRef is a reference to a Secret
+                              that contains the credentials to use for provisioning
+                              this cluster. If not supplied then the credentials of
+                              the controller will be used.
+                            properties:
+                              name:
+                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                                type: string
+                              namespace:
+                                description: 'Namespace of the referent. More info:
+                                  https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                                type: string
+                            required:
+                            - name
+                            - namespace
+                            type: object
+                          network:
+                            description: NetworkSpec encapsulates all things related
+                              to the GCP network.
+                            properties:
+                              autoCreateSubnetworks:
+                                description: "AutoCreateSubnetworks: When set to true,
+                                  the VPC network is created in \"auto\" mode. When
+                                  set to false, the VPC network is created in \"custom\"
+                                  mode. \n An auto mode VPC network starts with one
+                                  subnet per region. Each subnet has a predetermined
+                                  range as described in Auto mode VPC network IP ranges.
+                                  \n Defaults to true."
+                                type: boolean
+                              loadBalancerBackendPort:
+                                description: Allow for configuration of load balancer
+                                  backend (useful for changing apiserver port)
+                                format: int32
+                                type: integer
+                              name:
+                                description: Name is the name of the network to be
+                                  used.
+                                type: string
+                              subnets:
+                                description: Subnets configuration.
+                                items:
+                                  description: SubnetSpec configures an GCP Subnet.
+                                  properties:
+                                    cidrBlock:
+                                      description: CidrBlock is the range of internal
+                                        addresses that are owned by this subnetwork.
+                                        Provide this property when you create the
+                                        subnetwork. For example, 10.0.0.0/8 or 192.168.0.0/16.
+                                        Ranges must be unique and non-overlapping
+                                        within a network. Only IPv4 is supported.
+                                        This field can be set only at resource creation
+                                        time.
+                                      type: string
+                                    description:
+                                      description: Description is an optional description
+                                        associated with the resource.
+                                      type: string
+                                    enableFlowLogs:
+                                      description: 'EnableFlowLogs: Whether to enable
+                                        flow logging for this subnetwork. If this
+                                        field is not explicitly set, it will not appear
+                                        in get listings. If not set the default behavior
+                                        is to disable flow logging.'
+                                      type: boolean
+                                    name:
+                                      description: Name defines a unique identifier
+                                        to reference this resource.
+                                      type: string
+                                    privateGoogleAccess:
+                                      description: PrivateGoogleAccess defines whether
+                                        VMs in this subnet can access Google services
+                                        without assigning external IP addresses
+                                      type: boolean
+                                    purpose:
+                                      default: PRIVATE_RFC_1918
+                                      description: "Purpose: The purpose of the resource.
+                                        If unspecified, the purpose defaults to PRIVATE_RFC_1918.
+                                        The enableFlowLogs field isn't supported with
+                                        the purpose field set to INTERNAL_HTTPS_LOAD_BALANCER.
+                                        \n Possible values: \"INTERNAL_HTTPS_LOAD_BALANCER\"
+                                        - Subnet reserved for Internal HTTP(S) Load
+                                        Balancing. \"PRIVATE\" - Regular user created
+                                        or automatically created subnet. \"PRIVATE_RFC_1918\"
+                                        - Regular user created or automatically created
+                                        subnet. \"PRIVATE_SERVICE_CONNECT\" - Subnetworks
+                                        created for Private Service Connect in the
+                                        producer network. \"REGIONAL_MANAGED_PROXY\"
+                                        - Subnetwork used for Regional Internal/External
+                                        HTTP(S) Load Balancing."
+                                      enum:
+                                      - INTERNAL_HTTPS_LOAD_BALANCER
+                                      - PRIVATE_RFC_1918
+                                      - PRIVATE
+                                      - PRIVATE_SERVICE_CONNECT
+                                      - REGIONAL_MANAGED_PROXY
+                                      type: string
+                                    region:
+                                      description: Region is the name of the region
+                                        where the Subnetwork resides.
+                                      type: string
+                                    secondaryCidrBlocks:
+                                      additionalProperties:
+                                        type: string
+                                      description: SecondaryCidrBlocks defines secondary
+                                        CIDR ranges, from which secondary IP ranges
+                                        of a VM may be allocated
+                                      type: object
+                                  type: object
+                                type: array
+                            type: object
+                          project:
+                            description: Project is the name of the project to deploy
+                              the cluster to.
+                            type: string
+                          region:
+                            description: The GCP Region the cluster lives in.
+                            type: string
+                        required:
+                        - project
+                        - region
+                        type: object
+                      version:
+                        type: string
+                    required:
+                    - controlPlane
+                    - credentialsRef
+                    - machinePool
+                    - managedCluster
+                    type: object
                 type: object
               clusterAPI:
                 properties:
                   components:
                     properties:
+                      bootstrap:
+                        properties:
+                          fetchConfigUrl:
+                            type: string
+                          version:
+                            type: string
+                        type: object
+                      controlPlane:
+                        properties:
+                          fetchConfigUrl:
+                            type: string
+                          version:
+                            type: string
+                        type: object
+                      core:
+                        properties:
+                          fetchConfigUrl:
+                            type: string
+                          version:
+                            type: string
+                        type: object
                       operator:
                         properties:
                           kubeRBACProxyImage:

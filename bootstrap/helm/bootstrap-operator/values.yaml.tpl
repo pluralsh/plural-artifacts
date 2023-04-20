@@ -1,3 +1,8 @@
+{{ $providerArgs := dict "provider" .Provider "cluster" .Cluster }}
+{{ if eq .Provider "google" }}
+  {{ $_ := set $providerArgs "provider" "gcp" }}
+{{ end }}
+
 operator:
   clusterName: {{ .Cluster }}
   secret: {}
@@ -65,4 +70,30 @@ operator:
       sessionTokenRef:
         name: variables
         key: AWS_SESSION_TOKEN
+{{ end }}
+{{ if eq $providerArgs.provider "gcp" }}
+  secret:
+    GCP_B64ENCODED_CREDENTIALS: {{ .Context.Credentials | quote }}
+  cloud:
+    gcp:
+      version: v1.3.1
+      fetchConfigUrl: https://github.com/pluralsh/cluster-api-provider-gcp/releases
+      credentialsRef:
+        name: variables
+        key: GCP_B64ENCODED_CREDENTIALS
+      managedCluster:
+        project: pluralsh
+        region: europe-central2
+        network:
+          autoCreateSubnetworks: true
+          name: plrl-clusterapi-demo-network
+          subnets:
+            - name: plrl-clusterapi-demo-subnetwork
+              cidrBlock: 10.0.32.0/20
+              region: europe-central2
+      controlPlane:
+        location: europe-central2
+        project: pluralsh
+      machinePool:
+        replicas: 3
 {{ end }}
