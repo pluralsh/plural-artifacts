@@ -3,7 +3,7 @@ name: prefect
 description: helm chart for prefect
 type: application
 version: 0.1.7
-appVersion: v2.8.6
+appVersion: v2.10.4
 dependencies:
 - name: postgres
   version: 0.1.13
