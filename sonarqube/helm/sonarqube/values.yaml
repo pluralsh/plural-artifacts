@@ -12,7 +12,7 @@ postgres:
 
 sonarqube:
   image:
-    repository: dkr.plural.sh/sonarqube/sonarqube
+    repository: dkr.plural.sh/sonarqube/library/sonarqube
   postgresql:
     enabled: false
   jdbcOverwrite:
