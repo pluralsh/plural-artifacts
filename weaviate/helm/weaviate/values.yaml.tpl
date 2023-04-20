@@ -34,11 +34,11 @@ weaviate:
     adminlist:
       users:
         - {{ .Values.adminEmail }}
+  {{ if $isGcp }}
   backups:
-    {{ if $isGcp }}
     gcs:
       enabled: true
       envconfig:
         BACKUP_GCS_BUCKET: {{ .Values.weaviateBucket }}
         BACKUP_GCS_USE_AUTH: "true"
-    {{ end }}
+  {{ end }}
