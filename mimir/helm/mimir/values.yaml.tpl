@@ -8,6 +8,12 @@ global:
 {{- end }}
 
 
+{{- if .Values.basicAuth }}
+basicAuth:
+  user: {{ .Values.basicAuth.user }}
+  password: {{ .Values.basicAuth.password }}
+{{- end }}
+
 datasource:
 {{- if $traceShield }}
   traceShield:
@@ -28,6 +34,25 @@ mimir-distributed:
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: {{ importValue "Terraform" "iam_role_arn" }}
+  {{- end }}
+  {{- if and .Values.basicAuth .Values.hostname (not $traceShield) }}
+  gateway:
+    enabledNonEnterprise: true
+    ingress: 
+      enabled: true
+      annotations:
+        nginx.ingress.kubernetes.io/auth-type: basic
+        nginx.ingress.kubernetes.io/auth-secret: basic-auth
+        nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required - foo'
+      hosts:
+      - host: {{ .Values.hostname | quote }}
+        paths:
+          - path: /
+            pathType: Prefix
+      tls:
+      - hosts:
+        - {{ .Values.hostname | quote }}
+        secretName: loki-tls
   {{- end }}
   metaMonitoring:
     serviceMonitor:

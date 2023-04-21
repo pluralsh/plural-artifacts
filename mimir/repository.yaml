@@ -4,6 +4,7 @@ category: DEVOPS
 release_status: ALPHA
 icon: plural/icons/mimir.png
 notes: plural/notes.tpl
+docs: plural/docs
 homepage: https://grafana.com/oss/mimir/
 gitUrl: https://github.com/grafana/mimir
 tags:

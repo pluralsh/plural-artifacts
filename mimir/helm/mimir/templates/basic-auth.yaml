@@ -1,0 +1,8 @@
+{{ if .Values.basicAuth }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: basic-auth
+stringData:
+  auth: {{ htpasswd .Values.basicAuth.user .Values.basicAuth.password | quote }}
+{{ end }}

@@ -4,6 +4,7 @@ category: DEVOPS
 icon: plural/icons/grafana.png
 notes: plural/notes.tpl
 homepage: https://grafana.com/
+docs: plural/docs
 gitUrl: https://github.com/grafana/grafana
 oauthSettings:
   uriFormat: https://{domain}/login/generic_oauth
