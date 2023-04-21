@@ -1,6 +1,6 @@
 # Add Your Own User Code Deployment
 
-Dagster has a concept of user code deployments which allow you to specify multiple independent repositories of dags to register with the same dagster orchestrator.  This is a great way to separate dependency trees between codebases or manage a complex data org.  An example user code deployment configuration can be seen here:
+Dagster has a concept of user code deployments which allow you to specify multiple independent repositories of dags to register with the same dagster orchestrator.  This is a great way to separate dependency trees between codebases or manage a complex data org.  An example user code deployment configuration can be seen here, which can be added to `dagster/helm/dagster/values.yaml` or updated directly in the configuration tab of the console's dagster app page:
 
 ```yaml
 dagster:
