@@ -25,7 +25,7 @@ bootloader:
     tag: 0.44.2
 
 airbyte:
-  version: 0.42.0
+  version: 0.44.2
 
   postgresql:
     enabled: false
