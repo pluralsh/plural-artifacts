@@ -13,6 +13,11 @@ encryptionSecret: {{ $encryption }}
 n8n:
   n8n:
     encryption_key: {{ $encryption }}
+  config:
+    host: {{ .Values.hostname }}
+    port: 443
+    protocol: https
+
   {{ if .SMTP }}
   secret:
     userManagement:
