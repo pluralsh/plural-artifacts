@@ -1,0 +1,20 @@
+name: meilisearch-aws
+description: Installs meilisearch on an aws eks cluster
+provider: AWS
+primary: true
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+sections:
+- name: meilisearch
+  configuration:
+    - name: hostname
+      type: DOMAIN
+      documentation: the fully qualified domain name your meilisearch instance will be available at
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: meilisearch

@@ -1,0 +1,15 @@
+name: meilisearch
+description: A lightning-fast search engine that fits effortlessly into your apps, websites, and workflow.
+category: DATABASE
+private: true
+releaseStatus: ALPHA
+icon: plural/icons/meilisearch.svg
+notes: plural/notes.tpl
+homepage: https://www.meilisearch.com/
+gitUrl: https://github.com/meilisearch/meilisearch
+tags:
+- tag: search-engine
+- tag: search
+- tag: database
+contributors:
+- walkoss@pm.me
