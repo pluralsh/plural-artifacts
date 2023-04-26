@@ -24,6 +24,9 @@ oidcProxy:
   enabled: false
 
 dagster:
+  migrate:
+    enabled: true
+
   dagsterDaemon:
     image:
       repository: dkr.plural.sh/dagster/dagster/dagster-celery-k8s
