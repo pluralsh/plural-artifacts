@@ -11,8 +11,25 @@ operator:
     aws:
       region: eu-central-1
       version: v2.0.2
-      machinePoolReplicas: 3
-      instanceType: t2.large
+      machinePools:
+        - name: {{ .Cluster }}-pool-0
+          replicas: 1
+          instanceType: t2.large
+          scaling:
+            minSize: 1
+            maxSize: 11
+        - name: {{ .Cluster }}-pool-1
+          replicas: 1
+          instanceType: t2.large
+          scaling:
+            minSize: 1
+            maxSize: 11
+        - name: {{ .Cluster }}-pool-2
+          replicas: 1
+          instanceType: t2.large
+          scaling:
+            minSize: 1
+            maxSize: 11
       addons:
         - name: kube-proxy
           version: v1.23.15-eksbuild.1
