@@ -1,4 +1,4 @@
-gcr.io:
+ghcr.io:
   images:
     drakkan/sftpgo:
-    - "2.4.5"
+    - "v2.4.5"
