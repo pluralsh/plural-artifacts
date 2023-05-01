@@ -13,10 +13,9 @@ encryptionSecret: {{ $encryption }}
 n8n:
   n8n:
     encryption_key: {{ $encryption }}
-  config:
-    host: {{ .Values.hostname }}
-    port: 443
-    protocol: https
+  extraEnv:
+    WEBHOOK_URL: https://{{ .Values.hostname }}
+    WEBHOOK_TUNNEL_URL: https://{{ .Values.hostname }}
 
   {{ if .SMTP }}
   secret:
