@@ -15,7 +15,7 @@ data:
         methods:
           - GET
           - POST
-        url: https://{{ .Values.config.mimir.publicURL }}/prometheus/api/v1/<query|query_range|query_exemplars|series|label|metadata|read|cardinality><.*>
+        url: https://{{ .Values.config.mimir.publicURL }}/prometheus/api/v1/<status|query|query_range|query_exemplars|series|label|metadata|read|cardinality><.*>
       authenticators:
         - handler: oauth2_introspection
       authorizer:
@@ -280,7 +280,7 @@ data:
       match:
         methods:
           - GET
-        url: https://{{ .Values.config.loki.publicURL }}</loki/api/v1/rules|/prometheus/config/v1/rules><.*>
+        url: https://{{ .Values.config.loki.publicURL }}</loki/api/v1/rules|/prometheus/api/v1/rules|/prometheus/config/v1/rules><.*>
       authenticators:
         - handler: oauth2_introspection
       authorizer:
