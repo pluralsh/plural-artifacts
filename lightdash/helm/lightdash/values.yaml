@@ -1,6 +1,7 @@
 lightdash:
   image:
-    tag: ""
+    repository: lightdash/lightdash
+    tag: 0.511.4
   postgresql:
     enabled: false
   externalDatabase:

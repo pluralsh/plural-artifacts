@@ -3,10 +3,10 @@ name: lightdash
 description: helm chart for lightdash
 type: application
 version: 0.1.5
-appVersion: "v0.138.0"
+appVersion: "v0.511.4"
 dependencies:
   - name: lightdash
-    version: 0.7.3
+    version: 0.8.4
     repository: https://lightdash.github.io/helm-charts
   - name: postgres
     version: 0.1.17
