@@ -17,6 +17,11 @@ spec:
     name: postgres
     repo: postgres
     version: '>= 0.1.6'
+  - type: helm
+    name: redis
+    repo: redis
+    version: '>= 0.1.6'
+    optional: true
   - type: terraform
     name: aws
     repo: airflow

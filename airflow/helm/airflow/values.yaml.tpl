@@ -4,10 +4,17 @@ global:
     - description: airbyte web ui
       url: {{ .Values.hostname }}
 
-{{ if not .Values.redisDisabled }}
+{{- if or (not .Values.redisDisabled) .Configuration.redis }}
+{{- if .Configuration.redis }}
+{{- $redisValues := .Applications.HelmValues "redis" }}
+secrets:
+  createPluralRedisSecret: true
+  redis_password: {{ $redisValues.redis.password }}
+{{- else }}
 secrets:
   redis_password: {{ dedupe . "airflow.secrets.redis_password" (randAlphaNum 14) }}
-{{ end }}
+{{- end }}
+{{- end }}
 
 {{ if eq .Provider "azure" }}
 s3access:
@@ -93,9 +100,10 @@ airflow:
                 'remote_app': {
                     'client_id': '{{ .OIDC.ClientId }}',
                     'client_secret': '{{ .OIDC.ClientSecret }}',
+                    'jwks_uri': '{{ .OIDC.Configuration.JwksUri }}',
                     'api_base_url': '{{ .OIDC.Configuration.Issuer }}oauth2/',
                     'client_kwargs': {
-                        'scope': 'openid'
+                        'scope': 'openid profile offline_access'
                     },
                     'redirect_uri': 'https://{{ $hostname }}/oauth-authorized/plural',
                     'access_token_url': '{{ .OIDC.Configuration.TokenEndpoint }}',
@@ -198,3 +206,10 @@ airflow:
       {{ else }}
       enabled: false
       {{ end }}
+  {{- if .Configuration.redis }}
+  {{- $redisNamespace := namespace "redis" }}
+  redis:
+    enabled: false
+  externalRedis:
+    host: redis-master.{{ $redisNamespace }}
+  {{- end }}
