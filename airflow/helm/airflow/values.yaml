@@ -12,6 +12,7 @@ httpConfig:
   password: dummy
 
 secrets:
+  createPluralRedisSecret: false
   redis_password: example
 
 test-base:
@@ -298,6 +299,13 @@ airflow:
 
       persistence:
         enabled: false
+  
+  externalRedis:
+    host: redis-master.redis
+    port: 6379
+    databaseNumber: 1
+    passwordSecret: airflow-redis-password
+    passwordSecretKey: redis-password
 
   airflow:
     executor: CeleryExecutor
@@ -387,7 +395,7 @@ airflow:
     podDisruptionBudget:
       enabled: true
 
-      maxUnavailable: "20%"
+      maxUnavailable: "50%"
 
     autoscaling:
       enabled: true
