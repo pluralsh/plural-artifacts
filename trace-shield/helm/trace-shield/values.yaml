@@ -543,6 +543,9 @@ kratosSecrets:
 
 kratos:
   enabled: true
+  image:
+    repository: oryd/kratos
+    tag: v0.13.0
   secret:
     enabled: false
   ingress:
