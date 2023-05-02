@@ -1,7 +1,7 @@
 lightdash:
   image:
-    repository: lightdash/lightdash
-    tag: 0.511.4
+    repository: dkr.plural.sh/lightdash/lightdash/lightdash
+    tag: 0.529.2
   postgresql:
     enabled: false
   externalDatabase:
