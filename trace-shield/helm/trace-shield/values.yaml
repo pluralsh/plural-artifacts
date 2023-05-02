@@ -5,7 +5,7 @@ backend:
     repository: ghcr.io/pluralsh/trace-shield/backend
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: sha-c7a94ca
+    tag: sha-b836d56
 
   imagePullSecrets: []
   nameOverride: ""
