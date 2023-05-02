@@ -301,7 +301,7 @@ airflow:
         enabled: false
   
   externalRedis:
-    host: redis-master.redis
+    host: ""
     port: 6379
     databaseNumber: 1
     passwordSecret: airflow-redis-password
