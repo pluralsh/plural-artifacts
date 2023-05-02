@@ -2,10 +2,10 @@ backend:
   replicaCount: 1
 
   image:
-    repository: ghcr.io/pluralsh/trace-shield/backend
+    repository: davidspek/trace-shield-backend
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: 0.1.2
+    tag: permissions-0.1.1
 
   imagePullSecrets: []
   nameOverride: ""
@@ -296,9 +296,9 @@ postgresKeto:
 
 oathkeeper:
   enabled: true
-  # image:
-  #   repository: oryd/oathkeeper
-  #   tag: v0.40.0
+  image:
+    repository: oryd/oathkeeper
+    tag: v0.40.2
   # sidecar:
   #   image:
   #     repository: oryd/oathkeeper-maester
@@ -457,15 +457,15 @@ oathkeeper:
       authorizers:
         allow:
           enabled: true
-        # remote_json:
-        #   enabled: true
-        #   config:
-        #     remote: http://kubricks-keto-read/relation-tuples/check
-        #     payload: |
-        #       {
-        #         "subject": "{{ print .Subject }}",
-        #         "resource": "{{ printIndex .MatchContext.RegexpCaptureGroups 0 }}"
-        #       }
+        remote_json:
+          enabled: true
+          config:
+            remote: http://trace-shield-backend:8082/check
+            payload: |
+              {
+                "subject": "{{ print .Subject }}",
+                "isOAuth2Client": {{ eq (print .Subject) (print .Extra.client_id) }}
+              }
       mutators:
         noop:
           enabled: true
@@ -533,13 +533,15 @@ oathkeeper:
             - mimir.mimir-cloud.pluraldev.sh
           secretName: kubricks-oathkeeper-proxy-tls
 
+kratosSecrets:
+  default: dummytest12345678901234567890
+  cookie: dummytest12345678901234567890
+  cipher: dummytest12345678901234567890
+
 kratos:
   enabled: true
-  # job:
-  #   annotations:
-  #     helm.sh/hook-weight: "1"
-  #     helm.sh/hook: "post-install, post-upgrade"
-  #     helm.sh/hook-delete-policy: "before-hook-creation,hook-succeeded"
+  secret:
+    enabled: false
   ingress:
     public:
       enabled: true
@@ -579,6 +581,19 @@ kratos:
 
         methods:
           password:
+            enabled: true
+          link:
+            enabled: true
+          code:
+            enabled: true
+          webauthn:
+            config:
+              rp:
+                id: kratos.mimir-cloud.pluraldev.sh
+                display_name: Trace Shield
+                icon: https://www.ory.sh/an-icon.png
+                origin: https://kratos.mimir-cloud.pluraldev.sh
+              passwordless: true
             enabled: true
 
         flows:
@@ -651,6 +666,9 @@ kratos:
                     "credentials": {
                       "password": {
                         "identifier": true
+                      },
+                      "webauthn": {
+                          "identifier": true
                       }
                     },
                     "verification": {

@@ -82,6 +82,12 @@ kratos:
             ui_url: https://{{ .Values.frontendHostname }}/login
           registration:
             ui_url: https://{{ .Values.frontendHostname }}/registration
+        methods:
+          webauthn:
+            config:
+              rp:
+                id: {{ .Values.frontendHostname }}
+                origin: https://{{ .Values.frontendHostname }}/login
   ingress:
     public:
       enabled: true
@@ -94,6 +100,11 @@ kratos:
       - secretName: trace-shield-tls
         hosts:
           - {{ .Values.frontendHostname }}
+
+kratosSecrets:
+  default: {{dedupe . "trace-shield.kratosSecrets.default" (randAlphaNum 32) }}
+  cipher: {{dedupe . "trace-shield.kratosSecrets.cipher" (randAlphaNum 32) }}
+  cookie: {{dedupe . "trace-shield.kratosSecrets.cookie" (randAlphaNum 32) }}
 
 hydraSecrets:
   dsn: postgres://hydra:{{ $hydraPostgresPass }}@plural-postgres-hydra:5432/hydra
@@ -137,3 +148,13 @@ kratos-selfservice-ui-node:
      - secretName: trace-shield-tls
        hosts:
          - {{ .Values.frontendHostname }}
+
+oathkeeper:
+  oathkeeper:
+    config:
+      errors:
+        handlers:
+          redirect:
+            enabled: true
+            config:
+              to: https://{{ .Values.frontendHostname }}/login
