@@ -100,9 +100,10 @@ airflow:
                 'remote_app': {
                     'client_id': '{{ .OIDC.ClientId }}',
                     'client_secret': '{{ .OIDC.ClientSecret }}',
+                    'jwks_uri': '{{ .OIDC.Configuration.JwksUri }}',
                     'api_base_url': '{{ .OIDC.Configuration.Issuer }}oauth2/',
                     'client_kwargs': {
-                        'scope': 'openid'
+                        'scope': 'openid profile offline_access'
                     },
                     'redirect_uri': 'https://{{ $hostname }}/oauth-authorized/plural',
                     'access_token_url': '{{ .OIDC.Configuration.TokenEndpoint }}',
