@@ -310,8 +310,8 @@ airflow:
   airflow:
     executor: CeleryExecutor
     image:
-      repository: dkr.plural.sh/airflow/apache/airflow
-      tag: 2.1.4-python3.8-dbt-2
+      repository: ghcr.io/pluralsh/containers/apache/airflow
+      tag: 2.6.0-python3.10-plural1.4.0
 
     config:
       ## security
