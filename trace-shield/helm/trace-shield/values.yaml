@@ -2,10 +2,10 @@ backend:
   replicaCount: 1
 
   image:
-    repository: davidspek/trace-shield-backend
+    repository: ghcr.io/pluralsh/trace-shield/backend
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: permissions-0.1.1
+    tag: sha-c7a94ca
 
   imagePullSecrets: []
   nameOverride: ""
@@ -297,8 +297,8 @@ postgresKeto:
 oathkeeper:
   enabled: true
   image:
-    repository: oryd/oathkeeper
-    tag: v0.40.2
+    repository: davidspek/oathkeeper
+    tag: 0.40.2-fix-noop-mutator-2
   # sidecar:
   #   image:
   #     repository: oryd/oathkeeper-maester
@@ -461,10 +461,13 @@ oathkeeper:
           enabled: true
           config:
             remote: http://trace-shield-backend:8082/check
+            forward_response_headers_to_upstream:
+            - X-Scope-OrgID
             payload: |
               {
                 "subject": "{{ print .Subject }}",
-                "isOAuth2Client": {{ eq (print .Subject) (print .Extra.client_id) }}
+                "isOAuth2Client": {{ eq (print .Subject) (print .Extra.client_id) }},
+                "requestedPermission": ""
               }
       mutators:
         noop:
