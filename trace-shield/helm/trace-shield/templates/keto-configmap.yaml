@@ -56,16 +56,97 @@ data:
     class ObservabilityTenant implements Namespace {
       related: {
         organizations: Organization[]
-        viewers: (User | SubjectSet<Group, 'members'> | OAuth2Client)[]
-        editors: (User | SubjectSet<Group, 'members'>)[]
+
+        admins: (User | SubjectSet<Group, 'members'> | OAuth2Client)[]
+        metrics_readers: (User | SubjectSet<Group, 'members'> | OAuth2Client)[]
+        metrics_writers: (User | SubjectSet<Group, 'members'> | OAuth2Client)[]
+        metrics_deleters: (User | SubjectSet<Group, 'members'> | OAuth2Client)[]
+        metrics_rules_readers: (User | SubjectSet<Group, 'members'> | OAuth2Client)[]
+        metrics_rules_writers: (User | SubjectSet<Group, 'members'> | OAuth2Client)[]
+        metrics_rules_deleters: (User | SubjectSet<Group, 'members'> | OAuth2Client)[]
+        metrics_alerts_readers: (User | SubjectSet<Group, 'members'> | OAuth2Client)[]
+        metrics_alerts_writers: (User | SubjectSet<Group, 'members'> | OAuth2Client)[]
+
+        logs_readers: (User | SubjectSet<Group, 'members'> | OAuth2Client)[]
+        logs_writers: (User | SubjectSet<Group, 'members'> | OAuth2Client)[]
+        logs_deleters: (User | SubjectSet<Group, 'members'> | OAuth2Client)[]
+        logs_rules_readers: (User | SubjectSet<Group, 'members'> | OAuth2Client)[]
+        logs_rules_writers: (User | SubjectSet<Group, 'members'> | OAuth2Client)[]
+        logs_rules_deleters: (User | SubjectSet<Group, 'members'> | OAuth2Client)[]
+
+        traces_readers: (User | SubjectSet<Group, 'members'> | OAuth2Client)[]
+        traces_writers: (User | SubjectSet<Group, 'members'> | OAuth2Client)[]
       }
       permits = {
-        view: (ctx: Context) =>
-          this.related.viewers.includes(ctx.subject) ||
-          this.related.editors.includes(ctx.subject) ||
+        read_metrics: (ctx: Context) =>
+          this.related.metrics_readers.includes(ctx.subject) ||
+          this.related.admins.includes(ctx.subject) ||
           this.related.organizations.traverse((o) => o.permits.admin(ctx)),
-        edit: (ctx: Context) =>
-          this.related.editors.includes(ctx.subject) ||
+        write_metrics: (ctx: Context) =>
+          this.related.metrics_writers.includes(ctx.subject) ||
+          this.related.admins.includes(ctx.subject) ||
+          this.related.organizations.traverse((o) => o.permits.admin(ctx)),
+        delete_metrics: (ctx: Context) =>
+          this.related.metrics_deleters.includes(ctx.subject) ||
+          this.related.admins.includes(ctx.subject) ||
+          this.related.organizations.traverse((o) => o.permits.admin(ctx)),
+        read_metrics_rules: (ctx: Context) =>
+          this.related.metrics_rules_readers.includes(ctx.subject) ||
+          this.related.admins.includes(ctx.subject) ||
+          this.related.organizations.traverse((o) => o.permits.admin(ctx)),
+        write_metrics_rules: (ctx: Context) =>
+          this.related.metrics_rules_writers.includes(ctx.subject) ||
+          this.related.admins.includes(ctx.subject) ||
+          this.related.organizations.traverse((o) => o.permits.admin(ctx)),
+        delete_metrics_rules: (ctx: Context) =>
+          this.related.metrics_rules_deleters.includes(ctx.subject) ||
+          this.related.admins.includes(ctx.subject) ||
+          this.related.organizations.traverse((o) => o.permits.admin(ctx)),
+        read_metrics_alerts: (ctx: Context) =>
+          this.related.metrics_alerts_readers.includes(ctx.subject) ||
+          this.related.admins.includes(ctx.subject) ||
+          this.related.organizations.traverse((o) => o.permits.admin(ctx)),
+        write_metrics_alerts: (ctx: Context) =>
+          this.related.metrics_alerts_writers.includes(ctx.subject) ||
+          this.related.admins.includes(ctx.subject) ||
+          this.related.organizations.traverse((o) => o.permits.admin(ctx)),
+
+        read_logs: (ctx: Context) =>
+          this.related.logs_readers.includes(ctx.subject) ||
+          this.related.admins.includes(ctx.subject) ||
+          this.related.organizations.traverse((o) => o.permits.admin(ctx)),
+        write_logs: (ctx: Context) =>
+          this.related.logs_writers.includes(ctx.subject) ||
+          this.related.admins.includes(ctx.subject) ||
+          this.related.organizations.traverse((o) => o.permits.admin(ctx)),
+        delete_logs: (ctx: Context) =>
+          this.related.logs_deleters.includes(ctx.subject) ||
+          this.related.admins.includes(ctx.subject) ||
+          this.related.organizations.traverse((o) => o.permits.admin(ctx)),
+        read_logs_rules: (ctx: Context) =>
+          this.related.logs_rules_readers.includes(ctx.subject) ||
+          this.related.admins.includes(ctx.subject) ||
+          this.related.organizations.traverse((o) => o.permits.admin(ctx)),
+        write_logs_rules: (ctx: Context) =>
+          this.related.logs_rules_writers.includes(ctx.subject) ||
+          this.related.admins.includes(ctx.subject) ||
+          this.related.organizations.traverse((o) => o.permits.admin(ctx)),
+        delete_logs_rules: (ctx: Context) =>
+          this.related.logs_rules_deleters.includes(ctx.subject) ||
+          this.related.admins.includes(ctx.subject) ||
+          this.related.organizations.traverse((o) => o.permits.admin(ctx)),
+
+        read_traces: (ctx: Context) =>
+          this.related.traces_readers.includes(ctx.subject) ||
+          this.related.admins.includes(ctx.subject) ||
+          this.related.organizations.traverse((o) => o.permits.admin(ctx)),
+        write_traces: (ctx: Context) =>
+          this.related.traces_writers.includes(ctx.subject) ||
+          this.related.admins.includes(ctx.subject) ||
+          this.related.organizations.traverse((o) => o.permits.admin(ctx)),
+
+        manage: (ctx: Context) =>
+          this.related.admins.includes(ctx.subject) ||
           this.related.organizations.traverse((o) => o.permits.admin(ctx)),
         delete: (ctx: Context) => this.related.organizations.traverse((o) => o.permits.admin(ctx)),
         create: (ctx: Context) => this.related.organizations.traverse((o) => o.permits.admin(ctx)),
