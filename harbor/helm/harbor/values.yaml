@@ -1,0 +1,21 @@
+postgres:
+  enabled: true
+  team: plural
+  user: harbor
+  dbName: registry
+  ownerChart: harbor
+  extraDBs:
+    notary_server: harbor
+    notary_signer: harbor
+  version: "14"
+harbor:
+  database:
+    type: external
+    external:
+      host: plural-postgres-registry
+      port: "5432"
+      username: "harbor"
+      password: ""
+      existingSecret: "harbor.plural-postgres-registry.credentials.postgresql.acid.zalan.do"
+      sslmode: "require"
+    
