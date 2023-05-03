@@ -1,6 +1,7 @@
 lightdash:
   image:
-    tag: ""
+    repository: dkr.plural.sh/lightdash/lightdash/lightdash
+    tag: 0.530.0
   postgresql:
     enabled: false
   externalDatabase:
@@ -18,6 +19,9 @@ lightdash:
       cpu: '500m'
       memory: '512Mi'
   browserless-chrome:
+    image:
+      repository: dkr.plural.sh/lightdash/browserless/chrome
+      tag: 1.58.0-chrome-stable
     resources:
       requests:
         memory: '512Mi'
