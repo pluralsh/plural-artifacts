@@ -4,6 +4,7 @@ postgres:
   user: harbor
   dbName: registry
   ownerChart: harbor
+  password: CHANGE_ME
   extraDBs:
     notary_server: harbor
     notary_signer: harbor
@@ -15,7 +16,5 @@ harbor:
       host: plural-postgres-registry
       port: "5432"
       username: "harbor"
-      password: ""
-      existingSecret: "harbor.plural-postgres-registry.credentials.postgresql.acid.zalan.do"
+      password: CHANGE_ME
       sslmode: "require"
-    
