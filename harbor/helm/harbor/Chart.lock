@@ -3,7 +3,7 @@ dependencies:
   repository: https://pluralsh.github.io/module-library
   version: 0.2.1
 - name: harbor
-  repository: https://pluralsh.github.io/plural-helm-charts
-  version: 1.12.1
-digest: sha256:2128a8cd706f691053221ee69cf12e8ae58596722925153585bab7d6d2ca58b1
-generated: "2023-05-03T12:47:46.582685+02:00"
+  repository: https://helm.goharbor.io
+  version: 1.12.0
+digest: sha256:6207765167249014773fa810a5eb03a642f4b49c23090dd91e853da98a9ee9b9
+generated: "2023-05-03T13:21:05.034289+02:00"
