@@ -14,7 +14,7 @@ dependencies:
   version: 0.1.1
   repository: https://pluralsh.github.io/module-library
 - name: airflow
-  version: 8.7.1
+  version: 8.7.2
   repository: https://pluralsh.github.io/plural-helm-charts
 - name: postgres
   version: 0.1.16
