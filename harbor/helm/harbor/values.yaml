@@ -18,3 +18,18 @@ harbor:
       username: "harbor"
       password: CHANGE_ME
       sslmode: "require"
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+  expose:
+    ingress:
+      className: nginx
+      annotations:
+        kubernetes.io/tls-acme: "true"
+        cert-manager.io/cluster-issuer: letsencrypt-prod 
+      hosts:
+        core: harbor.dev.plural.sh
+        notary: notary-harbor.dev.plural.sh
+  externalURL: https://harbor.dev.plural.sh
+  
