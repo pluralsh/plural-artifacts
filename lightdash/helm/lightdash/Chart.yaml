@@ -3,7 +3,7 @@ name: lightdash
 description: helm chart for lightdash
 type: application
 version: 0.1.5
-appVersion: v0.529.2
+appVersion: v0.530.0
 dependencies:
   - name: lightdash
     version: 0.8.4
