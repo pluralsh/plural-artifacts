@@ -2,7 +2,7 @@ name: harbor
 description: harbor deployed on plural
 category: DEVOPS
 release_status: ALPHA
-private: true
+private: false
 icon: plural/icons/harbor.png
 notes: plural/notes.tpl
 gitUrl: https://github.com/goharbor/harbor
