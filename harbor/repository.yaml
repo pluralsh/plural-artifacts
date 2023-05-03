@@ -1,0 +1,6 @@
+name: harbor
+description: harbor deployed on plural
+category: DEVOPS
+private: true
+icon: plural/icons/harbor.png
+notes: plural/notes.tpl
