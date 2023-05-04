@@ -30,13 +30,18 @@ externalDb:
   password: <my password>
 global:
   database:
-    database: <YOUR_DB_NAME>
-    host: <YOUR_DB_URL>
     secretName: airbyte-db-password
     secretValue: password
-    user: <YOU_DB_USER>
-    port: 5432
+airbyte:
+  airbyte:
+    externalDatabase:
+      database: <YOUR_DB_NAME>
+      host: <YOUR_DB_URL>
+      user: <YOU_DB_USER>
+      port: 5432
 ```
+
+(we're ultimately beholden to the structure defined in airbyte's upstream helm chart here)
 
 ### redeploy
 
