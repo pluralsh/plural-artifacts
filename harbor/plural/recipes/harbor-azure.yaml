@@ -2,6 +2,11 @@ name: harbor-azure
 description: Installs harbor on an aws eks cluster
 provider: AZURE
 primary: true
+private: true
+oidcSettings:
+  authMethod: POST
+  uriFormat: https://{domain}/c/oidc/callback
+  domainKey: hostname
 dependencies:
 - repo: bootstrap
   name: azure-k8s
