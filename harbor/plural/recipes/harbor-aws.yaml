@@ -13,7 +13,13 @@ dependencies:
   name: aws-redis
 sections:
 - name: harbor
-  configuration: []
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for your harbor installation
+    type: DOMAIN
+  - name: notaryHostname
+    documentation: FQDN to use for your harbor notary service
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: aws
