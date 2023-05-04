@@ -55,7 +55,7 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 oidc:
-  enabled: true
+  enabled: false
   client_id: ""
   client_secret: ""
   endpoint: ""

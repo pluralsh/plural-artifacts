@@ -1,0 +1,14 @@
+{
+    "oidc_verify_cert": true,
+    "oidc_extra_redirect_parms": "string",
+    "oidc_auto_onboard": true,
+    "oidc_name": "string",
+    "oidc_client_id": "string",
+    "oidc_group_filter": "string",
+    "oidc_endpoint": "string",
+    "oidc_client_secret": "string",
+    "oidc_admin_group": "string",
+    "oidc_scope": "string",
+    "oidc_user_claim": "string",
+    "oidc_groups_claim": "string"
+  }

@@ -13,6 +13,14 @@ harbor:
     credentials:
       password: {{ dedupe . "harbor.harbor.registry.credentials.password" (randAlphaNum 32) }}
   core:
+  {{- if .OIDC }}
+    extraEnvVars:
+    - name: CONFIG_OVERWRITE_JSON
+      valueFrom:
+        secretKeyRef:
+          name: harbor-oidc-secret
+          key: config
+  {{- end }}
     xsrfKey: {{ dedupe . "harbor.harbor.core.xsrfKey" (randAlphaNum 32) }}
     secret: {{ dedupe . "harbor.harbor.core.secret" (randAlphaNum 32) }}
   harborAdminPassword:  {{ dedupe . "harbor.harbor.harborAdminPassword" (randAlphaNum 32) }}
@@ -44,4 +52,11 @@ harbor:
 serviceAccount:
   annotations:
     eks.amazonaws.com/role-arn: {{ importValue "Terraform" "iam_role_arn" }}
+{{- end }}
+{{- if .OIDC }}
+oidc:
+  enabled: true
+  client_id: {{ .OIDC.ClientId }}
+  client_secret: {{ .OIDC.ClientSecret }}
+  endpoint: {{ .OIDC.Configuration.Issuer }}
 {{- end }}
