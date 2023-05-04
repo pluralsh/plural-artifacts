@@ -28,6 +28,11 @@ harbor:
     serviceMonitor:
       enabled: true
   expose:
+    tls:
+      certSource: secret
+      secret:
+        secretName: harbor-ingress-tls
+        notarySecretName: harbor-notary-ingress-tls
     ingress:
       className: nginx
       annotations:
