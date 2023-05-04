@@ -11,3 +11,6 @@ spec:
     version: '>= 0.1.1'
   providers:
   - aws
+  outputs:
+    iam_role_arn: iam_role_arn
+

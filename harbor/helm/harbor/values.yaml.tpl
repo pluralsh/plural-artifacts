@@ -30,3 +30,18 @@ harbor:
     external:
       addr: redis-master.{{ $redisNamespace }}:6379
       password: {{ $redisValues.redis.password }}
+  {{- if eq .Provider "aws" }}
+  persistence:
+    imageChartStorage:
+      type: s3
+  {{- end }}
+    {{- if eq .Provider "aws" }}
+    s3:
+      region: {{ .Region }}
+      bucket: {{ .Values.bucket }}
+    {{- end }}
+{{- if eq .Provider "aws" }}
+serviceAccount:
+  annotations:
+    eks.amazonaws.com/role-arn: {{ importValue "Terraform" "iam_role_arn" }}
+{{- end }}
