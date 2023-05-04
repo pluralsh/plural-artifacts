@@ -10,6 +10,9 @@ postgres:
     notary_signer: harbor
   version: "14"
 harbor:
+  jobService:
+    jobLoggers:
+    - database
   database:
     type: external
     external:
