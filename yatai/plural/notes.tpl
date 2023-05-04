@@ -1,0 +1,1 @@
+Use `plural watch yatai` to track the status of your application
