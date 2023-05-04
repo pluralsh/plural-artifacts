@@ -2,7 +2,7 @@ apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
   description: harbor aws setup
-  version: 0.1.0
+  version: 0.1.1
 spec:
   dependencies:
   - name: aws-bootstrap
@@ -13,4 +13,3 @@ spec:
   - aws
   outputs:
     iam_role_arn: iam_role_arn
-

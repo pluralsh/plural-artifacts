@@ -2,8 +2,8 @@ apiVersion: v2
 name: harbor
 description: helm chart for harbor
 type: application
-version: 0.1.0
-appVersion: "v1.0.0"
+version: 0.1.1
+appVersion: "v2.8.0"
 dependencies:
 - name: postgres
   version: 0.2.1

@@ -10,6 +10,8 @@ postgres:
     notary_signer: harbor
   version: "14"
 harbor:
+  registry:
+    serviceAccountName: harbor
   jobService:
     jobLoggers:
     - database
