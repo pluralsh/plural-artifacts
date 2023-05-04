@@ -5,14 +5,12 @@ primary: true
 dependencies:
 - repo: bootstrap
   name: gcp-k8s
-
 - repo: ingress-nginx
   name: ingress-nginx-gcp
-
-
 - repo: postgres
   name: gcp-postgres
-
+- repo: redis
+  name: gcp-redis
 sections:
 - name: harbor
   configuration: []

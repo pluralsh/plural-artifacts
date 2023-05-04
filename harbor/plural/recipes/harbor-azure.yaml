@@ -5,14 +5,12 @@ primary: true
 dependencies:
 - repo: bootstrap
   name: azure-k8s
-
 - repo: ingress-nginx
   name: ingress-nginx-azure
-
-
 - repo: postgres
   name: azure-postgres
-
+- repo: redis
+  name: azure-redis
 sections:
 - name: harbor
   configuration: []

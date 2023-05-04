@@ -32,4 +32,7 @@ harbor:
         core: harbor.dev.plural.sh
         notary: notary-harbor.dev.plural.sh
   externalURL: https://harbor.dev.plural.sh
-  
+  redis:
+    type: external
+    external:
+      addr: redis-master.redis:6379
