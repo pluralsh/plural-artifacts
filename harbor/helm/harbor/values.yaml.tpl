@@ -35,11 +35,11 @@ harbor:
     imageChartStorage:
       type: s3
   {{- end }}
-    {{- if eq .Provider "aws" }}
-    s3:
-      region: {{ .Region }}
-      bucket: {{ .Values.bucket }}
-    {{- end }}
+      {{- if eq .Provider "aws" }}
+      s3:
+        region: {{ .Region }}
+        bucket: {{ .Values.bucket }}
+      {{- end }}
 {{- if eq .Provider "aws" }}
 serviceAccount:
   annotations:
