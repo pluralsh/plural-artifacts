@@ -15,6 +15,9 @@ sections:
   - name: bucket
     documentation: S3 Bucket to store BentoML models
     type: BUCKET
+  - name: hostname
+    documentation: FQDN to use for your yatai installation
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: aws
