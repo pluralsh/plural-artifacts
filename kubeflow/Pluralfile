@@ -15,4 +15,3 @@ HELM helm/tensorboards
 HELM helm/volumes
 HELM helm/training-operator
 RECIPE plural/recipes/*
-TAG plural/tags/**/*
