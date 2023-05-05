@@ -5,18 +5,18 @@ postgres:
   user: yatai
   dbName: yatai
   ownerChart: yatai
-  password: CHANGE_ME
+  #password: CHANGE_ME
   version: "14"
 ################################################################
 yatai:
   postgresql:
-    host: localhost
+    host: plural-postgres-yatai
     port: 5432
     user: yatai
     database: yatai
     sslmode: require
     #password: CHANGE_ME #TODO: do this with existing secret if possible
-    passwordExistingSecretName: "yatai.plural-postgres-registry.credentials.postgresql.acid.zalan.do"
+    passwordExistingSecretName: "yatai.plural-postgres-yatai.credentials.postgresql.acid.zalan.do"
     passwordExistingSecretKey: "password" 
 
   service:
