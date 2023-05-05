@@ -16,11 +16,6 @@ yatai:
     sslmode: require
     passwordExistingSecretName: "yatai.plural-postgres-yatai.credentials.postgresql.acid.zalan.do"
     passwordExistingSecretKey: "password" 
-
-  service:
-    type: ClusterIP
-    port: 80
-
   ingress:
     enabled: true
     className: nginx
@@ -35,21 +30,17 @@ yatai:
     - secretName: yatai-ingress-tls
       hosts:
         - yatai.dev.plural.sh
+  serviceAccount:
+    create: true
+    annotations: {} # templated
     
-  s3: # TODO: fill this out, try to make it use IRSA instead
-    endpoint: ''
-    region: ''
-    bucketName: ''
+  s3: # TODO: fill this out, try to make it use IRSA
+    endpoint: "s3.amazon.aws"
+    region: "" # templated
+    bucketName: "" # templated
     secure: true
-    accessKey: ''
-    secretKey: ''
-    accessKeyExistingSecretName: ''
-    aceessKeyExistingSecretKey: 'access_key'
-    secretKeyExistingSecretName: ''
-    secretKeyExistingSecretKey: 'secret_key'
-
-  internalImages:
-    debugger: quay.io/bentoml/bento-debugger:0.0.7
+    #accessKey: ""
+    #secretKey: ""
 
 yatai-deployment:
   yataiServiceAccount:
