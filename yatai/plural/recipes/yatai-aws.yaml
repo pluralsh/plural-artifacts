@@ -11,7 +11,10 @@ dependencies:
   name: aws-postgres
 sections:
 - name: yatai
-  configuration: []
+  configuration:
+  - name: bucket
+    documentation: S3 Bucket to store BentoML models
+    type: BUCKET
   items:
   - type: TERRAFORM
     name: aws
