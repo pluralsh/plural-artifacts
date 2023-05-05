@@ -5,7 +5,6 @@ postgres:
   user: yatai
   dbName: yatai
   ownerChart: yatai
-  #password: CHANGE_ME
   version: "14"
 ################################################################
 yatai:
@@ -15,7 +14,6 @@ yatai:
     user: yatai
     database: yatai
     sslmode: require
-    #password: CHANGE_ME #TODO: do this with existing secret if possible
     passwordExistingSecretName: "yatai.plural-postgres-yatai.credentials.postgresql.acid.zalan.do"
     passwordExistingSecretKey: "password" 
 
@@ -38,7 +36,7 @@ yatai:
       hosts:
         - yatai.dev.plural.sh
     
-  s3: # TODO: create s3 bucket in main.tf
+  s3: # TODO: fill this out, try to make it use IRSA instead
     endpoint: ''
     region: ''
     bucketName: ''
