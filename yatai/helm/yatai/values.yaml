@@ -32,6 +32,7 @@ yatai:
         - yatai.dev.plural.sh
   serviceAccount:
     create: true
+    name: yatai
     annotations: {} # templated
     
   s3: # TODO: fill this out, try to make it use IRSA
@@ -43,6 +44,10 @@ yatai:
     #secretKey: ""
 
 yatai-deployment:
+  serviceAccount:
+    create: true
+    name: yatai-deployment
+    annotations: {} # templated
   yataiServiceAccount:
     namespace: "yatai-system"
     name: "yatai"
@@ -94,6 +99,11 @@ yatai-deployment:
   enableRestrictedSecurityContext: false
 
 yatai-image-builder:
+  serviceAccount:
+    create: true
+    name: yatai-image-builder
+    annotations: {} # templated
+
   # TODO: what does this do?
   yataiSystem:
     namespace: "yatai-system"

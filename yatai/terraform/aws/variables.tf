@@ -29,10 +29,10 @@ variable "yatai_serviceaccount" {
 
 variable "yatai_deployment_serviceaccount" {
   type    = string
-  default = "yatai-yatai-deployment"
+  default = "yatai-deployment"
 }
 
 variable "yatai_image_builder_serviceaccount" {
   type    = string
-  default = "yatai-yatai-image-builder"
+  default = "yatai-image-builder"
 }
