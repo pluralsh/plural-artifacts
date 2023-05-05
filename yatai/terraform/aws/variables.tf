@@ -26,3 +26,13 @@ variable "yatai_serviceaccount" {
   type    = string
   default = "yatai"
 }
+
+variable "yatai_deployment_serviceaccount" {
+  type    = string
+  default = "yatai-yatai-deployment"
+}
+
+variable "yatai_image_builder_serviceaccount" {
+  type    = string
+  default = "yatai-yatai-image-builder"
+}
