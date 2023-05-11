@@ -46,12 +46,11 @@ yatai:
 yatai-deployment:
   serviceAccount:
     create: true
-    name: yatai-deployment
     annotations:
       eks.amazonaws.com/role-arn: arn:aws:iam::312272277431:role/pluraldev-yatai-deployment
 
   yataiServiceAccount:
-    namespace: "yatai-system"
+    namespace: "yatai"
     name: "yatai"
   service:
     type: ClusterIP
@@ -84,9 +83,8 @@ yatai-deployment:
 
       automaticDomainSuffixGeneration: true
 
-  #TODO: templates don't appear to using this?
   yataiSystem:
-    namespace: "yatai-system"
+    namespace: "yatai"
     serviceAccountName: "yatai"
 
   bentoDeploymentNamespaces: ['yatai']
@@ -110,11 +108,11 @@ yatai-image-builder:
 
   # TODO: what does this do?
   yataiSystem:
-    namespace: "yatai-system"
+    namespace: "yatai"
     serviceAccountName: "yatai"
 
   yatai:
-    endpoint: http://yatai.yatai-system.svc.cluster.local
+    endpoint: http://yatai.yatai.svc.cluster.local
     apiToken: ''
     clusterName: default
 
