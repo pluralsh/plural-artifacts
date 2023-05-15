@@ -37,9 +37,13 @@ yatai:
       # TODO: template 
       eks.amazonaws.com/role-arn: arn:aws:iam::312272277431:role/pluraldev-yatai
   s3: # TODO: fill this out, try to make it use IRSA
-    endpoint: "s3.amazon.aws"
+    endpoint: "s3.amazonaws.com"
     region: "" # templated
     bucketName: "" # templated
+    #accessKeyExistingSecretName: yatai-aws-s3-creds
+    #secretKeyExistingSecretName: yatai-aws-s3-creds
+    #accessKeyExistingSecretKey: 'access_key'
+    #secretKeyExistingSecretKey: 'secret_key'
 
 yatai-deployment:
   # TODO: template
