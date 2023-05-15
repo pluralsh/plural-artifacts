@@ -46,7 +46,6 @@ yatai:
 
 yatai-deployment:
   # TODO: template
-  registry: harbor.dev.plural.sh/yatai
   serviceAccount:
     create: true
     annotations:
