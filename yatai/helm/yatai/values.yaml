@@ -34,6 +34,7 @@ yatai:
     create: true
     name: yatai
     annotations:
+      # TODO: template 
       eks.amazonaws.com/role-arn: arn:aws:iam::312272277431:role/pluraldev-yatai
   s3: # TODO: fill this out, try to make it use IRSA
     endpoint: "s3.amazon.aws"
@@ -47,6 +48,7 @@ yatai-deployment:
   serviceAccount:
     create: true
     annotations:
+      # TODO: template 
       eks.amazonaws.com/role-arn: arn:aws:iam::312272277431:role/pluraldev-yatai-deployment
 
   yataiServiceAccount:
@@ -103,6 +105,7 @@ yatai-image-builder:
     create: true
     name: yatai-image-builder
     annotations:
+      # TODO: template 
       eks.amazonaws.com/role-arn: arn:aws:iam::312272277431:role/pluraldev-yatai-image-builder
 
 
