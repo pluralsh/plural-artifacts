@@ -1,4 +1,19 @@
 {{ if index $.Values "cert-manager" "enabled" }}
+{{   if empty .Values.acmeServer }}
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  selfSigned: {}
+{{   else }}
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
@@ -45,4 +60,5 @@ spec:
     - http01:
         ingress:
           class: nginx
+{{   end }}
 {{ end }}
