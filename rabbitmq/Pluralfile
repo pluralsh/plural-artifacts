@@ -4,4 +4,3 @@ ATTRIBUTES Plural repository.yaml
 HELM helm/cluster-operator
 TF terraform/*
 RECIPE plural/recipes/*
-TAG plural/tags/**/*
