@@ -12,3 +12,8 @@ yatai:
   s3:
     region: {{ .Region }}
     bucketName: {{ .Values.bucket }}
+
+yatai-deployment:
+  layers:
+    network:
+      domainSuffix: {{ $hostname }}

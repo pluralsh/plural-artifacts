@@ -83,9 +83,9 @@ yatai-deployment:
       #       *.yatai.example.com == CNAME a317a278525d111e89f272a164fd35fb-1510370581.eu-central-1.elb.amazonaws.com
       #       ```
       #   Then set `yatai.example.com` as domainSuffix field here. If you don't set it, Yatai will automatically generate a domain suffix for your bento deployment.
-      domainSuffix: ''
+      domainSuffix: yatai.dev.plural.sh
 
-      automaticDomainSuffixGeneration: true
+      automaticDomainSuffixGeneration: false
 
   yataiSystem:
     namespace: "yatai"
