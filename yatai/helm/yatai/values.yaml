@@ -40,9 +40,6 @@ yatai:
     endpoint: "s3.amazon.aws"
     region: "" # templated
     bucketName: "" # templated
-    secure: true
-    #accessKey: ""
-    #secretKey: ""
 
 yatai-deployment:
   # TODO: template

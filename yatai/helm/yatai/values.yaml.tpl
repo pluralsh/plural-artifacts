@@ -9,7 +9,6 @@ yatai:
     - secretName: yatai-ingress-tls
       hosts:
         - {{ $hostname }}
-    
-  s3: # TODO: fill this out, try to make it use IRSA
+  s3:
     region: {{ .Region }}
     bucketName: {{ .Values.bucket }}
