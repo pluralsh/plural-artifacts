@@ -7,15 +7,15 @@ dependencies:
   version: 1.1.9
 - name: yatai-deployment
   repository: https://bentoml.github.io/helm-charts
-  version: 1.1.10
+  version: 1.1.11
 - name: yatai-deployment-crds
   repository: https://bentoml.github.io/helm-charts
-  version: 1.1.10
+  version: 1.1.11
 - name: yatai-image-builder
   repository: https://bentoml.github.io/helm-charts
   version: 1.1.4
 - name: yatai-image-builder-crds
   repository: https://bentoml.github.io/helm-charts
   version: 1.1.4
-digest: sha256:965eeda47ac6887fc33ed1500dd78ac7dbc3469d90737b3e7c35744a2e37ec63
-generated: "2023-05-04T22:10:10.833819+02:00"
+digest: sha256:c86d4e128d4ecd4e299dad98d435a154e6609a7e5c63c0773c109f3fcbc3776f
+generated: "2023-05-15T13:31:28.161965+02:00"
