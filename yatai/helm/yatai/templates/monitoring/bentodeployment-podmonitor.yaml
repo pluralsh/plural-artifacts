@@ -1,0 +1,20 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  labels:
+    {{- include "yatai-plural.labels" . | nindent 4 }}
+  name: bento-deployment
+spec:
+  podMetricsEndpoints:
+  - path: /metrics
+    port: metrics
+  podTargetLabels:
+  - yatai.ai/bento-repository
+  - yatai.ai/bento-version
+  - yatai.ai/bento-deployment
+  - yatai.ai/bento-deployment-component-type
+  - yatai.ai/bento-deployment-component-name
+  selector:
+    matchExpressions:
+    - key: yatai.ai/bento-deployment
+      operator: Exists
