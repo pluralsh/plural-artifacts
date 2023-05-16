@@ -53,8 +53,8 @@ harbor:
         requests:
           memory: 16Mi
           cpu: 1m
-        limits:
-          memory: 32Mi
+        # limits:
+        #   memory: 32Mi # TODO: this is disabled since we don't have it in the runbook currently
     serviceAccountName: harbor
   jobservice:
     image:
