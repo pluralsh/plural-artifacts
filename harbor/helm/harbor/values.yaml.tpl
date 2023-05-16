@@ -12,6 +12,11 @@ harbor:
   registry:
     credentials:
       password: {{ dedupe . "harbor.harbor.registry.credentials.password" (randAlphaNum 32) }}
+    {{- if eq .Provider "aws" }}
+    registry:
+      image:
+        tag: v2.8.1-irsa-0.1.0
+    {{- end }}
   core:
   {{- if .OIDC }}
     extraEnvVars:
