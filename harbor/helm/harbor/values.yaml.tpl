@@ -59,10 +59,14 @@ harbor:
         accountname: {{ .Context.StorageAccount }}
         container: {{ .Values.bucket }}
       {{- end }}
-{{- if eq .Provider "aws" }}
+{{- if or (eq .Provider "aws") (eq .Provider "google") }}
 serviceAccount:
   annotations:
+    {{- if eq .Provider "aws" }}
     eks.amazonaws.com/role-arn: {{ importValue "Terraform" "iam_role_arn" }}
+    {{- else if eq .Provider "google" }}
+    iam.gke.io/gcp-service-account: {{ importValue "Terraform" "service_account_email" }}
+    {{- end }}
 {{- end }}
 {{- if .OIDC }}
 oidc:
