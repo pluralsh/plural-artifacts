@@ -2,8 +2,8 @@ apiVersion: v2
 name: postgres
 description: A Helm chart for deploying the zalando postgres operator
 type: application
-version: 0.2.11
-appVersion: "1.8.2"
+version: 0.2.12
+appVersion: "1.10.0"
 dependencies:
 - name: postgres-operator
   version: 1.10.0
