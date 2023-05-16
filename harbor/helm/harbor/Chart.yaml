@@ -3,7 +3,7 @@ name: harbor
 description: helm chart for harbor
 type: application
 version: 0.1.1
-appVersion: "v2.8.0"
+appVersion: v2.8.1
 dependencies:
 - name: postgres
   version: 0.2.1

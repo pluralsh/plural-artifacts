@@ -10,13 +10,61 @@ postgres:
     notary_signer: harbor
   version: "14"
 harbor:
+  nginx:
+    image:
+      repository: dkr.plural.sh/harbor/goharbor/nginx-photon
+      tag: v2.8.1
+  portal:
+    image:
+      repository: dkr.plural.sh/harbor/goharbor/harbor-portal
+      tag: v2.8.1
+  core:
+    image:
+      repository: dkr.plural.sh/harbor/goharbor/harbor-core
+      tag: v2.8.1
   registry:
+    registry:
+      image:
+        repository: dkr.plural.sh/harbor/goharbor/registry-photon
+        tag: v2.8.1
+      # resources:
+      #  requests:
+      #    memory: 256Mi
+      #    cpu: 100m
+    controller:
+      image:
+        repository: dkr.plural.sh/harbor/goharbor/harbor-registryctl
+        tag: v2.8.1
     serviceAccountName: harbor
   jobservice:
+    image:
+      repository: dkr.plural.sh/harbor/goharbor/harbor-jobservice
+      tag: v2.8.1
     jobLoggers:
     - database
+  trivy:
+    image:
+      repository: dkr.plural.sh/harbor/goharbor/trivy-adapter-photon
+      tag: v2.8.1
+  notary:
+    server:
+      image:
+        repository: dkr.plural.sh/harbor/goharbor/notary-server-photon
+        tag: v2.8.1
+    signer:
+      image:
+        repository: dkr.plural.sh/harbor/goharbor/notary-signer-photon
+        tag: v2.8.1
+  exporter:
+    image:
+      repository: dkr.plural.sh/harbor/goharbor/harbor-exporter
+      tag: v2.8.1
   database:
     type: external
+    internal:
+      image:
+        repository: dkr.plural.sh/harbor/goharbor/harbor-db
+        tag: v2.8.1
     external:
       host: plural-postgres-registry
       port: "5432"
@@ -44,6 +92,10 @@ harbor:
   externalURL: https://harbor.dev.plural.sh
   redis:
     type: external
+    internal:
+      image:
+        repository: dkr.plural.sh/harbor/goharbor/redis-photon
+        tag: v2.8.1
     external:
       addr: redis-master.redis:6379
 serviceAccount:
