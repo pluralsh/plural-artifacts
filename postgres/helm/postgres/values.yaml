@@ -1,22 +1,21 @@
 postgres-operator:
   image:
     registry: dkr.plural.sh
-    repository: postgres/acid/postgres-operator
-    tag: v1.8.2-7-g73a0dfee-dirty
-    pullPolicy: "IfNotPresent"
+    repository: postgres/pluralsh/postgres-operator
+    tag: v1.10.0-plural-0.1.0
 
   configGeneral:
-    docker_image: "dkr.plural.sh/postgres/acid/spilo-14:2.1-p7"
+    docker_image: dkr.plural.sh/postgres/zalando/spilo-15:3.0-p1
 
   configKubernetes:
     additional_pod_capabilities:
-    - "SYS_NICE"
+    - SYS_NICE
     enable_readiness_probe: true
     inherited_labels:
-    - 'app.kubernetes.io/managed-by'
+    - app.kubernetes.io/managed-by
     - aadpodidbinding
 
-    pod_environment_configmap: "postgres/postgres-environment"
+    pod_environment_configmap: postgres/postgres-environment
     spilo_fsgroup: 103
 
     liveness_probe:
@@ -31,12 +30,12 @@ postgres-operator:
       timeoutSeconds: 5
 
   configLogicalBackup:
-    logical_backup_docker_image: "dkr.plural.sh/postgres/acid/logical-backup:v1.8.2"
+    logical_backup_docker_image: dkr.plural.sh/postgres/acid/logical-backup:v1.10.0
 
   configConnectionPooler:
-    connection_pooler_image: "dkr.plural.sh/postgres/acid/pgbouncer:master-24"
+    connection_pooler_image: dkr.plural.sh/postgres/acid/pgbouncer:master-27
 
-  podPriorityClassName: "postgres"
+  podPriorityClassName: postgres
 
 configSecret:
   enabled: false
