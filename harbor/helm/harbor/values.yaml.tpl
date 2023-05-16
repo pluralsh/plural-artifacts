@@ -54,10 +54,12 @@ harbor:
       {{- else if eq .Provider "google" }}
       gcs:
         bucket: {{ .Values.bucket }}
+        useWorkloadIdentity: true
       {{- else if eq .Provider "azure" }}
       azure:
         accountname: {{ .Context.StorageAccount }}
         container: {{ .Values.bucket }}
+        existingSecret: harbor-azure-secret
       {{- end }}
 {{- if or (eq .Provider "aws") (eq .Provider "google") }}
 serviceAccount:
