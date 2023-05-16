@@ -1,5 +1,5 @@
 name: harbor
-description: harbor deployed on plural
+description: An open source trusted cloud native registry project that stores, signs, and scans content.
 category: DEVOPS
 release_status: BETA
 icon: plural/icons/harbor.png
