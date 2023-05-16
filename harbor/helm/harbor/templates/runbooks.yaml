@@ -1,0 +1,423 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Runbook
+metadata:
+  name: harbor-scaling
+  labels:
+    platform.plural.sh/pinned: 'true'
+{{ include "harbor-plural.labels" . | indent 4 }}
+spec:
+  name: Harbor Scaling
+  description: overview of how to optimally scale your kafka cluster
+  display: |-
+{{ .Files.Get "runbooks/harbor-scaling.xml" | indent 4 }}
+  datasources:
+  - name: core-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ template "harbor.core" .Subcharts.harbor }}-.*"}[5m])) by (pod)
+  - name: core-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "harbor.core" .Subcharts.harbor }}-.*"}) by (pod)
+  - name: jobservice-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ template "harbor.jobservice" .Subcharts.harbor }}-.*"}[5m])) by (pod)
+  - name: jobservice-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "harbor.jobservice" .Subcharts.harbor }}-.*"}) by (pod)
+  - name: registry-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ template "harbor.registry" .Subcharts.harbor }}-.*"}[5m])) by (pod)
+  - name: registry-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "harbor.registry" .Subcharts.harbor }}-.*"}) by (pod)
+  - name: portal-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ template "harbor.portal" .Subcharts.harbor }}-.*"}[5m])) by (pod)
+  - name: portal-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "harbor.portal" .Subcharts.harbor }}-.*"}) by (pod)
+  - name: trivy-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ template "harbor.trivy" .Subcharts.harbor }}-.*"}[5m])) by (pod)
+  - name: trivy-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "harbor.trivy" .Subcharts.harbor }}-.*"}) by (pod)
+  - name: notary-server-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ template "harbor.notary-server" .Subcharts.harbor }}-.*"}[5m])) by (pod)
+  - name: notary-server-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "harbor.notary-server" .Subcharts.harbor }}-.*"}) by (pod)
+  - name: notary-signer-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ template "harbor.notary-signer" .Subcharts.harbor }}-.*"}[5m])) by (pod)
+  - name: notary-signer-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "harbor.notary-signer" .Subcharts.harbor }}-.*"}) by (pod)
+  - name: exporter-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ template "harbor.exporter" .Subcharts.harbor }}-.*"}[5m])) by (pod)
+  - name: exporter-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "harbor.exporter" .Subcharts.harbor }}-.*"}) by (pod)
+  - name: core
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: {{ template "harbor.core" .Subcharts.harbor }}
+  - name: jobservice
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name:  {{ template "harbor.jobservice" .Subcharts.harbor }}
+  - name: registry
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: {{ template "harbor.registry" .Subcharts.harbor }}
+  - name: portal
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: {{ template "harbor.portal" .Subcharts.harbor }}
+  - name: trivy
+    type: kubernetes
+    kubernetes:
+      resource: statefulset
+      name: {{ template "harbor.trivy" .Subcharts.harbor }}
+  - name: notary-server
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: {{ template "harbor.notary-server" .Subcharts.harbor }}
+  - name: notary-signer
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: {{ template "harbor.notary-signer" .Subcharts.harbor }}
+  - name: exporter
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: {{ template "harbor.exporter" .Subcharts.harbor }}
+  actions:
+  - name: scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+      - path: 
+        - harbor
+        - harbor
+        - core
+        - resources
+        - requests
+        - cpu
+        valueFrom: core-cpu
+      - path:
+        - harbor
+        - harbor
+        - core
+        - resources
+        - requests
+        - memory
+        valueFrom: core-memory
+      - path: 
+        - harbor
+        - harbor
+        - core
+        - resources
+        - limits
+        - cpu
+        valueFrom: core-cpu-limit
+      - path:
+        - harbor
+        - harbor
+        - core
+        - resources
+        - limits
+        - memory
+        valueFrom: core-memory-limit
+      - path: 
+        - harbor
+        - harbor
+        - jobservice
+        - resources
+        - requests
+        - cpu
+        valueFrom: jobservice-cpu
+      - path:
+        - harbor
+        - harbor
+        - jobservice
+        - resources
+        - requests
+        - memory
+        valueFrom: jobservice-memory
+      - path: 
+        - harbor
+        - harbor
+        - jobservice
+        - resources
+        - limits
+        - cpu
+        valueFrom: jobservice-cpu-limit
+      - path:
+        - harbor
+        - harbor
+        - jobservice
+        - resources
+        - limits
+        - memory
+        valueFrom: jobservice-memory-limit
+      - path: 
+        - harbor
+        - harbor
+        - registry
+        - registry
+        - resources
+        - requests
+        - cpu
+        valueFrom: registry-cpu
+      - path:
+        - harbor
+        - harbor
+        - registry
+        - registry
+        - resources
+        - requests
+        - memory
+        valueFrom: registry-memory
+      - path: 
+        - harbor
+        - harbor
+        - registry
+        - registry
+        - resources
+        - limits
+        - cpu
+        valueFrom: registry-cpu-limit
+      - path:
+        - harbor
+        - harbor
+        - registry
+        - registry
+        - resources
+        - limits
+        - memory
+        valueFrom: registry-memory-limit
+      - path: 
+        - harbor
+        - harbor
+        - portal
+        - resources
+        - requests
+        - cpu
+        valueFrom: portal-cpu
+      - path:
+        - harbor
+        - harbor
+        - portal
+        - resources
+        - requests
+        - memory
+        valueFrom: portal-memory
+      - path: 
+        - harbor
+        - harbor
+        - portal
+        - resources
+        - limits
+        - cpu
+        valueFrom: portal-cpu-limit
+      - path:
+        - harbor
+        - harbor
+        - portal
+        - resources
+        - limits
+        - memory
+        valueFrom: portal-memory-limit
+      - path: 
+        - harbor
+        - harbor
+        - trivy
+        - resources
+        - requests
+        - cpu
+        valueFrom: trivy-cpu
+      - path:
+        - harbor
+        - harbor
+        - trivy
+        - resources
+        - requests
+        - memory
+        valueFrom: trivy-memory
+      - path: 
+        - harbor
+        - harbor
+        - trivy
+        - resources
+        - limits
+        - cpu
+        valueFrom: trivy-cpu-limit
+      - path:
+        - harbor
+        - harbor
+        - trivy
+        - resources
+        - limits
+        - memory
+        valueFrom: trivy-memory-limit
+      - path: 
+        - harbor
+        - harbor
+        - notary
+        - server
+        - resources
+        - requests
+        - cpu
+        valueFrom: notary-server-cpu
+      - path:
+        - harbor
+        - harbor
+        - notary
+        - server
+        - resources
+        - requests
+        - memory
+        valueFrom: notary-server-memory
+      - path: 
+        - harbor
+        - harbor
+        - notary
+        - server
+        - resources
+        - limits
+        - cpu
+        valueFrom: notary-server-cpu-limit
+      - path:
+        - harbor
+        - harbor
+        - notary
+        - server
+        - resources
+        - limits
+        - memory
+        valueFrom: notary-server-memory-limit
+      - path: 
+        - harbor
+        - harbor
+        - notary
+        - signer
+        - resources
+        - requests
+        - cpu
+        valueFrom: notary-signer-cpu
+      - path:
+        - harbor
+        - harbor
+        - notary
+        - signer
+        - resources
+        - requests
+        - memory
+        valueFrom: notary-signer-memory
+      - path: 
+        - harbor
+        - harbor
+        - notary
+        - signer
+        - resources
+        - limits
+        - cpu
+        valueFrom: notary-signer-cpu-limit
+      - path:
+        - harbor
+        - harbor
+        - notary
+        - signer
+        - resources
+        - limits
+        - memory
+        valueFrom: notary-signer-memory-limit
+      - path: 
+        - harbor
+        - harbor
+        - exporter
+        - resources
+        - requests
+        - cpu
+        valueFrom: exporter-cpu
+      - path:
+        - harbor
+        - harbor
+        - exporter
+        - resources
+        - requests
+        - memory
+        valueFrom: exporter-memory
+      - path: 
+        - harbor
+        - harbor
+        - exporter
+        - resources
+        - limits
+        - cpu
+        valueFrom: exporter-cpu-limit
+      - path:
+        - harbor
+        - harbor
+        - exporter
+        - resources
+        - limits
+        - memory
+        valueFrom: exporter-memory-limit

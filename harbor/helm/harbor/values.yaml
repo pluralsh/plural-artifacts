@@ -1,0 +1,164 @@
+postgres:
+  enabled: true
+  team: plural
+  user: harbor
+  dbName: registry
+  ownerChart: harbor
+  password: CHANGE_ME
+  extraDBs:
+    notary_server: harbor
+    notary_signer: harbor
+  version: "14"
+harbor:
+  nginx:
+    image:
+      repository: dkr.plural.sh/harbor/goharbor/nginx-photon
+      tag: v2.8.1
+  portal:
+    image:
+      repository: dkr.plural.sh/harbor/goharbor/harbor-portal
+      tag: v2.8.1
+    resources:
+      requests:
+        memory: 16Mi
+        cpu: 2m
+      limits:
+        memory: 32Mi
+  core:
+    image:
+      repository: dkr.plural.sh/harbor/goharbor/harbor-core
+      tag: v2.8.1
+    resources:
+      requests:
+        memory: 64Mi
+        cpu: 2m
+      limits:
+        memory: 128Mi
+  registry:
+    registry:
+      image:
+        repository: dkr.plural.sh/harbor/goharbor/registry-photon
+        tag: v2.8.1
+      resources:
+        requests:
+          memory: 128Mi
+          cpu: 10m
+        limits:
+          memory: 256Mi
+    controller:
+      image:
+        repository: dkr.plural.sh/harbor/goharbor/harbor-registryctl
+        tag: v2.8.1
+      resources:
+        requests:
+          memory: 16Mi
+          cpu: 1m
+        # limits:
+        #   memory: 32Mi # TODO: this is disabled since we don't have it in the runbook currently
+    serviceAccountName: harbor
+  jobservice:
+    image:
+      repository: dkr.plural.sh/harbor/goharbor/harbor-jobservice
+      tag: v2.8.1
+    jobLoggers:
+    - database
+    resources:
+      requests:
+        memory: 128Mi
+        cpu: 10m
+      limits:
+        memory: 256Mi
+  trivy:
+    image:
+      repository: dkr.plural.sh/harbor/goharbor/trivy-adapter-photon
+      tag: v2.8.1
+    resources:
+      requests:
+        cpu: 200m
+        memory: 512Mi
+      limits:
+        cpu: 1
+        memory: 1Gi
+  notary:
+    server:
+      image:
+        repository: dkr.plural.sh/harbor/goharbor/notary-server-photon
+        tag: v2.8.1
+      resources:
+        requests:
+          memory: 16Mi
+          cpu: 2m
+        limits:
+          memory: 32Mi
+    signer:
+      image:
+        repository: dkr.plural.sh/harbor/goharbor/notary-signer-photon
+        tag: v2.8.1
+      resources:
+        requests:
+          memory: 16Mi
+          cpu: 2m
+        limits:
+          memory: 32Mi
+  exporter:
+    image:
+      repository: dkr.plural.sh/harbor/goharbor/harbor-exporter
+      tag: v2.8.1
+    resources:
+      requests:
+        memory: 16Mi
+        cpu: 1m
+      limits:
+        memory: 32Mi
+  database:
+    type: external
+    internal:
+      image:
+        repository: dkr.plural.sh/harbor/goharbor/harbor-db
+        tag: v2.8.1
+    external:
+      host: plural-postgres-registry
+      port: "5432"
+      username: "harbor"
+      password: CHANGE_ME
+      sslmode: "require"
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+  expose:
+    tls:
+      certSource: secret
+      secret:
+        secretName: harbor-ingress-tls
+        notarySecretName: harbor-notary-ingress-tls
+    ingress:
+      className: nginx
+      annotations:
+        kubernetes.io/tls-acme: "true"
+        cert-manager.io/cluster-issuer: letsencrypt-prod 
+      hosts:
+        core: harbor.dev.plural.sh
+        notary: notary-harbor.dev.plural.sh
+  externalURL: https://harbor.dev.plural.sh
+  redis:
+    type: external
+    internal:
+      image:
+        repository: dkr.plural.sh/harbor/goharbor/redis-photon
+        tag: v2.8.1
+    external:
+      addr: redis-master.redis:6379
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+oidc:
+  enabled: false
+  client_id: ""
+  client_secret: ""
+  endpoint: ""

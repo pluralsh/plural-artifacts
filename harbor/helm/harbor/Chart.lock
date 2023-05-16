@@ -1,0 +1,9 @@
+dependencies:
+- name: postgres
+  repository: https://pluralsh.github.io/module-library
+  version: 0.2.1
+- name: harbor
+  repository: https://pluralsh.github.io/plural-helm-charts
+  version: 1.12.2
+digest: sha256:a4362d795453220c68531010124aa0fb87b06eb83a318695f3ead2118d9b1e02
+generated: "2023-05-05T11:39:43.684133+02:00"

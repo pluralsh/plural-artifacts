@@ -1,0 +1,35 @@
+name: harbor-azure
+description: Installs harbor on an aws eks cluster
+provider: AZURE
+primary: true
+oidcSettings:
+  authMethod: POST
+  uriFormat: https://{domain}/c/oidc/callback
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-azure
+- repo: postgres
+  name: azure-postgres
+- repo: redis
+  name: azure-redis
+sections:
+- name: harbor
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for your harbor installation
+    type: DOMAIN
+  - name: notaryHostname
+    documentation: FQDN to use for your harbor notary service
+    type: DOMAIN
+  - name: bucket
+    documentation: S3 Bucket to store harbor images
+    type: BUCKET
+    default: harbor
+  items:
+  - type: TERRAFORM
+    name: azure
+  - type: HELM
+    name: harbor

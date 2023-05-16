@@ -1,0 +1,11 @@
+name: harbor
+description: An open source trusted cloud native registry project that stores, signs, and scans content.
+category: DEVOPS
+release_status: BETA
+icon: plural/icons/harbor.png
+notes: plural/notes.tpl
+gitUrl: https://github.com/goharbor/harbor
+homepage: https://goharbor.io
+oauthSettings:
+  uriFormat: https://{domain}/c/oidc/callback
+  authMethod: POST

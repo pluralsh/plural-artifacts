@@ -1,0 +1,13 @@
+apiVersion: v2
+name: harbor
+description: helm chart for harbor
+type: application
+version: 0.1.2
+appVersion: v2.8.1
+dependencies:
+- name: postgres
+  version: 0.2.1
+  repository: https://pluralsh.github.io/module-library
+- name: harbor
+  version: 1.12.2
+  repository: https://pluralsh.github.io/plural-helm-charts
