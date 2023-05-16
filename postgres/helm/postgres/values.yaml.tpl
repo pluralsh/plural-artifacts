@@ -15,8 +15,6 @@ serviceAccount:
     eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-postgres"
 {{ end }}
 
-provider: {{ .Provider }}
-
 {{ $minioNamespace := namespace "minio" }}
 
 configConfigMap:

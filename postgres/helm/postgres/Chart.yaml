@@ -4,3 +4,7 @@ description: A Helm chart for deploying the zalando postgres operator
 type: application
 version: 0.2.11
 appVersion: "1.8.2"
+dependencies:
+- name: postgres-operator
+  version: 1.10.0
+  repository: https://opensource.zalando.com/postgres-operator/charts/postgres-operator
