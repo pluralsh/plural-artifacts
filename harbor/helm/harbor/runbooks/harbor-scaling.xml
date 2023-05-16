@@ -17,7 +17,7 @@
     </box>
     <box gap='small'>
       <box gap='xsmall'>
-        <input placeholder="250m" label='Harbor Core CPU Request' name='core-cpu'>
+        <input placeholder="1m" label='Harbor Core CPU Request' name='core-cpu'>
           <valueFrom 
             datasource="core"
             doc="kubernetes.raw"
@@ -31,7 +31,7 @@
         </input>
       </box>
       <box gap='xsmall'>
-        <input placeholder="250m" label='Harbor Core CPU Limit' name='core-cpu-limit'>
+        <input placeholder="1m" label='Harbor Core CPU Limit' name='core-cpu-limit'>
           <valueFrom
             datasource="core"
             doc="kubernetes.raw"
@@ -63,7 +63,7 @@
     </box>
     <box gap='small'>
       <box gap='xsmall'>
-        <input placeholder="250m" label='Harbor Jobservice CPU Request' name='jobservice-cpu'>
+        <input placeholder="1m" label='Harbor Jobservice CPU Request' name='jobservice-cpu'>
           <valueFrom
             datasource="jobservice"
             doc="kubernetes.raw"
@@ -77,7 +77,7 @@
         </input>
       </box>
        <box gap='xsmall'>
-        <input placeholder="250m" label='Harbor Jobservice CPU Limit' name='jobservice-cpu-limit'>
+        <input placeholder="1m" label='Harbor Jobservice CPU Limit' name='jobservice-cpu-limit'>
           <valueFrom
             datasource="jobservice"
             doc="kubernetes.raw"
@@ -109,7 +109,7 @@
     </box>
     <box gap='small'>
       <box gap='xsmall'>
-        <input placeholder="250m" label='Harbor Registry CPU Request' name='registry-cpu'>
+        <input placeholder="1m" label='Harbor Registry CPU Request' name='registry-cpu'>
           <valueFrom
             datasource="registry"
             doc="kubernetes.raw"
@@ -123,7 +123,7 @@
         </input>
       </box>
       <box gap='xsmall'>
-        <input placeholder="250m" label='Harbor Registry CPU Limit' name='registry-cpu-limit'>
+        <input placeholder="1m" label='Harbor Registry CPU Limit' name='registry-cpu-limit'>
           <valueFrom
             datasource="registry"
             doc="kubernetes.raw"
@@ -155,7 +155,7 @@
     </box>
     <box gap='small'>
       <box gap='xsmall'>
-        <input placeholder="250m" label='Harbor Portal CPU Request' name='portal-cpu'>
+        <input placeholder="1m" label='Harbor Portal CPU Request' name='portal-cpu'>
           <valueFrom
             datasource="portal"
             doc="kubernetes.raw"
@@ -169,7 +169,7 @@
         </input>
       </box>
       <box gap='xsmall'>
-        <input placeholder="250m" label='Harbor Portal CPU Limit' name='portal-cpu-limit'>
+        <input placeholder="1m" label='Harbor Portal CPU Limit' name='portal-cpu-limit'>
           <valueFrom
             datasource="portal"
             doc="kubernetes.raw"
@@ -201,7 +201,7 @@
     </box>
     <box gap='small'>
       <box gap='xsmall'>
-        <input placeholder="250m" label='Harbor Trivy CPU Request' name='trivy-cpu'>
+        <input placeholder="1m" label='Harbor Trivy CPU Request' name='trivy-cpu'>
           <valueFrom
             datasource="trivy"
             doc="kubernetes.raw"
@@ -215,7 +215,7 @@
         </input>
       </box>
       <box gap='xsmall'>
-        <input placeholder="250m" label='Harbor Trivy CPU Limit' name='trivy-cpu-limit'>
+        <input placeholder="1m" label='Harbor Trivy CPU Limit' name='trivy-cpu-limit'>
           <valueFrom
             datasource="trivy"
             doc="kubernetes.raw"
@@ -247,7 +247,7 @@
     </box>
     <box gap='small'>
       <box gap='xsmall'>
-        <input placeholder="250m" label='Harbor Notary Server CPU Request' name='notary-server-cpu'>
+        <input placeholder="1m" label='Harbor Notary Server CPU Request' name='notary-server-cpu'>
           <valueFrom
             datasource="notary-server"
             doc="kubernetes.raw"
@@ -261,7 +261,7 @@
         </input>
       </box>
       <box gap='xsmall'>
-        <input placeholder="250m" label='Harbor Notary Server CPU Limit' name='notary-server-cpu-limit'>
+        <input placeholder="1m" label='Harbor Notary Server CPU Limit' name='notary-server-cpu-limit'>
           <valueFrom
             datasource="notary-server"
             doc="kubernetes.raw"
@@ -293,7 +293,7 @@
     </box>
     <box gap='small'>
       <box gap='xsmall'>
-        <input placeholder="250m" label='Harbor Notary Signer CPU Request' name='notary-signer-cpu'>
+        <input placeholder="1m" label='Harbor Notary Signer CPU Request' name='notary-signer-cpu'>
           <valueFrom
             datasource="notary-signer"
             doc="kubernetes.raw"
@@ -307,7 +307,7 @@
         </input>
       </box>
       <box gap='xsmall'>
-        <input placeholder="250m" label='Harbor Notary Signer CPU Limit' name='notary-signer-cpu-limit'>
+        <input placeholder="1m" label='Harbor Notary Signer CPU Limit' name='notary-signer-cpu-limit'>
           <valueFrom
             datasource="notary-signer"
             doc="kubernetes.raw"
@@ -339,7 +339,7 @@
     </box>
     <box gap='small'>
       <box gap='xsmall'>
-        <input placeholder="250m" label='Harbor Exporter CPU Request' name='exporter-cpu'>
+        <input placeholder="1m" label='Harbor Exporter CPU Request' name='exporter-cpu'>
           <valueFrom
             datasource="exporter"
             doc="kubernetes.raw"
@@ -353,7 +353,7 @@
         </input>
       </box>
       <box gap='xsmall'>
-        <input placeholder="250m" label='Harbor Exporter CPU Limit' name='exporter-cpu-limit'>
+        <input placeholder="1m" label='Harbor Exporter CPU Limit' name='exporter-cpu-limit'>
           <valueFrom
             datasource="exporter"
             doc="kubernetes.raw"
