@@ -3,7 +3,7 @@ dependencies:
   repository: https://pluralsh.github.io/module-library
   version: 0.1.1
 - name: airflow
-  repository: https://pluralsh.github.io/plural-helm-charts
+  repository: https://airflow-helm.github.io/charts
   version: 8.7.1
 - name: postgres
   repository: https://pluralsh.github.io/module-library
@@ -11,5 +11,5 @@ dependencies:
 - name: test-base
   repository: https://pluralsh.github.io/module-library
   version: 0.1.3
-digest: sha256:d8299021ef999f416c1eb80138afbd75a75c40622dc16cddaa4280d4a4afd8d4
-generated: "2023-05-02T17:58:03.579937+02:00"
+digest: sha256:2477a4e25f01b20b29e02c32fcc3571804cdada8108894fa95ca3e5490d1fd30
+generated: "2023-05-16T19:57:25.429093+02:00"
