@@ -25,6 +25,10 @@ sections:
   - name: notaryHostname
     documentation: FQDN to use for your harbor notary service
     type: DOMAIN
+  - name: bucket
+    documentation: S3 Bucket to store harbor images
+    type: BUCKET
+    default: harbor
   items:
   - type: TERRAFORM
     name: gcp
