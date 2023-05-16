@@ -2,10 +2,17 @@ registry.opensource.zalan.do:
   images:
     acid/spilo-13: []
     acid/spilo-14: []
+    acid/spilo-15: []
     acid/pgbouncer: []
   images-by-tag-regex:
     acid/postgres-operator: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
     acid/logical-backup: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+ghcr.io:
+  images-by-tag-regex:
+    zalando/postgres-operator: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    pluralsh/postgres-operator: ^v?[0-9]+\.[0-9]+?\.[0-9]+-plural-[0-9]+\.[0-9]+?\.[0-9]+$
+  images:
+    zalando/spilo-15: []
 docker.io:
   images:
     prometheuscommunity/postgres-exporter: []
