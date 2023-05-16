@@ -75,6 +75,12 @@ harbor:
     enabled: true
     serviceMonitor:
       enabled: true
+  persistence:
+    imageChartStorage:
+      gcs:
+        useWorkloadIdentity: true
+      azure:
+        existingSecret: harbor-azure-secret
   expose:
     tls:
       certSource: secret

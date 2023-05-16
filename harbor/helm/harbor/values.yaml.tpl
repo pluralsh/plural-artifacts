@@ -38,15 +38,26 @@ harbor:
     external:
       addr: redis-master.{{ $redisNamespace }}:6379
       password: {{ $redisValues.redis.password }}
-  {{- if eq .Provider "aws" }}
   persistence:
     imageChartStorage:
+      {{- if eq .Provider "aws" }}
       type: s3
-  {{- end }}
+      {{- else if eq .Provider "google" }}
+      type: gcs
+      {{- else if eq .Provider "azure" }}
+      type: azure
+      {{- end }}
       {{- if eq .Provider "aws" }}
       s3:
         region: {{ .Region }}
         bucket: {{ .Values.bucket }}
+      {{- else if eq .Provider "google" }}
+      gcs:
+        bucket: {{ .Values.bucket }}
+      {{- else if eq .Provider "azure" }}
+      azure:
+        accountname: {{ .Context.StorageAccount }}
+        container: {{ .Values.bucket }}
       {{- end }}
 {{- if eq .Provider "aws" }}
 serviceAccount:
