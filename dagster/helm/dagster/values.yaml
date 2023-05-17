@@ -30,7 +30,7 @@ dagster:
   dagsterDaemon:
     image:
       repository: dkr.plural.sh/dagster/dagster/dagster-celery-k8s
-      tag: 1.3.2
+      tag: 1.3.4
     resources:
       requests:
         cpu: 15m
@@ -40,7 +40,7 @@ dagster:
   dagit:
     image:
       repository: dkr.plural.sh/dagster/dagster/dagster-celery-k8s
-      tag: 1.3.2
+      tag: 1.3.4
     resources:
       requests:
         cpu: 25m
@@ -50,11 +50,11 @@ dagster:
   busybox:
     image:
       repository: dkr.plural.sh/dagster/library/busybox
-      tag: "1.28.0"
+      tag: 1.35.0
   pipelineRun:
     image:
-      repository: dkr.plural.sh/dagster/user-code-example
-      tag: 1.3.2-extended
+      repository: dkr.plural.sh/dagster/dagster/user-code-example
+      tag: 1.3.4-plural1.0.0
 
   ingress:
     enabled: true
@@ -78,7 +78,7 @@ dagster:
       celeryK8sRunLauncher:
         image:
           repository: dkr.plural.sh/dagster/dagster/dagster-celery-k8s
-          tag: 1.3.2
+          tag: 1.3.4
 
   postgresql:
     enabled: false
@@ -97,8 +97,8 @@ dagster:
     deployments:
       - name: "k8s-example-user-code-1"
         image:
-          repository: gcr.io/pluralsh/dagster/user-code-example
-          tag: 1.3.2-extended
+          repository: ghcr.io/pluralsh/containers/dagster/user-code-example
+          tag: 1.3.4-plural1.0.0
           pullPolicy: Always
         resources:
           requests:
