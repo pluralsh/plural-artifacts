@@ -10,9 +10,6 @@ postgres:
 yatai:
   postgresql:
     host: plural-postgres-yatai
-    port: 5432
-    user: yatai
-    database: yatai
     sslmode: require
     passwordExistingSecretName: "yatai.plural-postgres-yatai.credentials.postgresql.acid.zalan.do"
     passwordExistingSecretKey: "password" 
@@ -33,117 +30,34 @@ yatai:
   serviceAccount:
     create: true
     name: yatai
-    annotations:
-      # TODO: template 
-      eks.amazonaws.com/role-arn: arn:aws:iam::312272277431:role/pluraldev-yatai
-  s3: # TODO: fill this out, try to make it use IRSA
+  s3:
     endpoint: "s3.amazonaws.com"
-    region: "" # templated
-    bucketName: "" # templated
-    #accessKeyExistingSecretName: yatai-aws-s3-creds
-    #secretKeyExistingSecretName: yatai-aws-s3-creds
-    #accessKeyExistingSecretKey: 'access_key'
-    #secretKeyExistingSecretKey: 'secret_key'
+    region: "" # from template
+    bucketName: "" # from template
 
 yatai-deployment:
-  # TODO: template
   serviceAccount:
-    create: true
-    annotations:
-      # TODO: template 
-      eks.amazonaws.com/role-arn: arn:aws:iam::312272277431:role/pluraldev-yatai-deployment
-
+    name: "yatai-deployment"
   yataiServiceAccount:
     namespace: "yatai"
     name: "yatai"
-  service:
-    type: ClusterIP
-    port: 80
   layers:
     network:
-      ingressClass: nginx
-      ingressAnnotations: # TODO: assuming there's a controller that will use those for serving bento deployments, so we need those (?)
+      ingressAnnotations:
         kubernetes.io/tls-acme: "true"
         cert-manager.io/cluster-issuer: letsencrypt-prod 
-
-
-      # TODO: figure out what to do here
-      ingressPath: /
-      ingressPathType: ImplementationSpecific
-
-      # To configure DNS for Yatai BentoDeployment, take an External IP or CNAME from setting up networking, and configure it with your DNS provider as follows:
-      #   If the networking layer produced an External IP address, then configure a wildcard `A` record for the domain:
-      #       ```
-      #       # Here yatai.example.com is the domain suffix for your cluster
-      #       *.yatai.example.com == A 10.0.0.1
-      #       ```
-      #   If the networking layer produced a `CNAME`, then configure a CNAME record for the domain:
-      #       ```
-      #       # Here yatai.example.com is the domain suffix for your cluster
-      #       *.yatai.example.com == CNAME a317a278525d111e89f272a164fd35fb-1510370581.eu-central-1.elb.amazonaws.com
-      #       ```
-      #   Then set `yatai.example.com` as domainSuffix field here. If you don't set it, Yatai will automatically generate a domain suffix for your bento deployment.
       domainSuffix: yatai.dev.plural.sh
-
-      automaticDomainSuffixGeneration: false
-
   yataiSystem:
     namespace: "yatai"
     serviceAccountName: "yatai"
-
-  bentoDeploymentNamespaces: ['yatai']
-
-  internalImages:
-    metricsTransformer: quay.io/bentoml/yatai-bento-metrics-transformer:0.0.3
-    debugger: quay.io/bentoml/bento-debugger:0.0.5
-    monitorExporter: quay.io/bentoml/bentoml-monitor-exporter:0.0.3
-    proxy: quay.io/bentoml/bentoml-proxy:0.0.1
-
-  disableAutomateBentoImageBuilder: false
-  enableRestrictedSecurityContext: false
 
 yatai-image-builder:
   serviceAccount:
-    create: true
     name: yatai-image-builder
-    annotations:
-      # TODO: template 
-      eks.amazonaws.com/role-arn: arn:aws:iam::312272277431:role/pluraldev-yatai-image-builder
-
-
-  # TODO: what does this do?
   yataiSystem:
     namespace: "yatai"
     serviceAccountName: "yatai"
-
-  yatai:
-    endpoint: http://yatai.yatai.svc.cluster.local
-    apiToken: ''
-    clusterName: default
-
   dockerRegistry:
-    server: harbor.dev.plural.sh/yatai
-    inClusterServer: ''
-    username: ''
-    password: ''
-    passwordExistingSecretName: ''
-    passwordExistingSecretKey: ''
-    secure: true
-    bentoRepositoryName: yatai-bentos
-
-    useAWSECRWithIAMRole: false
-    awsECRRegion: ap-northeast-3
-
-  aws:
-    accessKeyID: ''
-    secretAccessKey: ''
-    secretAccessKeyExistingSecretName: ''
-    secretAccessKeyExistingSecretKey: ''
-
-  internalImages:
-    bentoDownloader: quay.io/bentoml/bento-downloader:0.0.1
-    kaniko: quay.io/bentoml/kaniko:1.9.1
-    buildkit: quay.io/bentoml/buildkit:master
-    buildkitRootless: quay.io/bentoml/buildkit:master-rootless
-
-  bentoImageBuildEngine: kaniko # options: kaniko, buildkit, buildkit-rootless
+    server: "" # TODO: template harbor.dev.plural.sh/yatai
+    username: "" # TODO: template
+    password: "" # TODO: template
