@@ -4,7 +4,6 @@ metadata:
   description: Creates a AKS cluster and prepares it for bootstrapping 
   version: 0.1.26
 spec:
-  breaking: true
   dependencies: []
   providers:
   - azure
