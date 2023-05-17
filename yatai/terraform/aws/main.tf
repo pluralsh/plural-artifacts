@@ -120,35 +120,6 @@ data "aws_iam_policy_document" "repository" {
       ]
     }
   }
-
-
-  # TODO: decide if we need the lambda stuff
-  #dynamic "statement" {
-  #  for_each = var.repository_type == "private" && length(var.repository_lambda_read_access_arns) > 0 ? [1] : []
-
-  #  content {
-  #    sid = "PrivateLambdaReadOnly"
-
-  #    principals {
-  #      type        = "Service"
-  #      identifiers = ["lambda.amazonaws.com"]
-  #    }
-
-  #    actions = [
-  #      "ecr:BatchGetImage",
-  #      "ecr:GetDownloadUrlForLayer",
-  #    ]
-
-  #    condition {
-  #      test     = "StringLike"
-  #      variable = "aws:sourceArn"
-
-  #      values = var.repository_lambda_read_access_arns
-  #    }
-
-  #  }
-  #}
-
   dynamic "statement" {
     for_each = var.repository_type == "private" ? [module.assumable_role_yatai.this_iam_role_arn] : []
 
@@ -157,7 +128,7 @@ data "aws_iam_policy_document" "repository" {
 
       principals {
         type        = "AWS"
-        identifiers = statement.value
+        identifiers = [statement.value]
       }
 
       actions = [
@@ -177,7 +148,7 @@ data "aws_iam_policy_document" "repository" {
 
       principals {
         type        = "AWS"
-        identifiers = statement.value
+        identifiers = [statement.value]
       }
 
       actions = [
@@ -206,13 +177,13 @@ resource "aws_ecr_repository" "this" {
     kms_key         = var.repository_kms_key
   }
 
-  force_delete = var.repository_force_delete
+  # TODO: not supported by tf provider 3.6
+  #force_delete = var.repository_force_delete
 
   image_scanning_configuration {
     scan_on_push = var.repository_image_scan_on_push
   }
 
-  tags = var.tags
 }
 
 ################################################################################
@@ -243,6 +214,7 @@ resource "aws_ecr_lifecycle_policy" "this" {
 # Public Repository
 ################################################################################
 
+# TODO: not supported by tf provider 3.6, needs at least >=4.0.0
 resource "aws_ecrpublic_repository" "this" {
   count = var.use_ecr && local.create_public_repository ? 1 : 0
 
@@ -266,18 +238,20 @@ resource "aws_ecrpublic_repository" "this" {
 # Public Repository Policy
 ################################################################################
 
-resource "aws_ecrpublic_repository_policy" "example" {
-  count = var.use_ecr && local.create_public_repository ? 1 : 0
-
-  repository_name = aws_ecrpublic_repository.this[0].repository_name
-  policy          = var.create_repository_policy ? data.aws_iam_policy_document.repository[0].json : var.repository_policy
-}
-
+# TODO: not supported by tf provider 3.6, needs at least >=4.0.0
+#resource "aws_ecrpublic_repository_policy" "example" {
+#  count = var.use_ecr && local.create_public_repository ? 1 : 0
+#
+#  repository_name = aws_ecrpublic_repository.this[0].repository_name
+#  policy          = var.create_repository_policy ? data.aws_iam_policy_document.repository[0].json : var.repository_policy
+#}
+#
 
 ################################################################################
 # Registry Policy
 ################################################################################
 
+# TODO: not supported by tf provider 3.6, needs at least >=4.0.0
 resource "aws_ecr_registry_policy" "this" {
   count = var.use_ecr && var.create_registry_policy ? 1 : 0
 
@@ -288,67 +262,71 @@ resource "aws_ecr_registry_policy" "this" {
 # Registry Pull Through Cache Rule
 ################################################################################
 
-resource "aws_ecr_pull_through_cache_rule" "this" {
-  for_each = { for k, v in var.registry_pull_through_cache_rules : k => v if var.use_ecr }
-
-  ecr_repository_prefix = each.value.ecr_repository_prefix
-  upstream_registry_url = each.value.upstream_registry_url
-}
+# TODO: not supported by tf provider 3.6, needs at least >=4.0.0
+#resource "aws_ecr_pull_through_cache_rule" "this" {
+#  for_each = { for k, v in var.registry_pull_through_cache_rules : k => v if var.use_ecr }
+#
+#  ecr_repository_prefix = each.value.ecr_repository_prefix
+#  upstream_registry_url = each.value.upstream_registry_url
+#}
 
 ################################################################################
 # Registry Scanning Configuration
 ################################################################################
 
-resource "aws_ecr_registry_scanning_configuration" "this" {
-  count = var.use_ecr && var.manage_registry_scanning_configuration ? 1 : 0
-
-  scan_type = var.registry_scan_type
-
-  dynamic "rule" {
-    for_each = var.registry_scan_rules
-
-    content {
-      scan_frequency = rule.value.scan_frequency
-
-      repository_filter {
-        filter      = rule.value.filter
-        filter_type = try(rule.value.filter_type, "WILDCARD")
-      }
-    }
-  }
-}
+# TODO: not supported by tf provider 3.6, needs at least >=4.0.0
+#resource "aws_ecr_registry_scanning_configuration" "this" {
+#  count = var.use_ecr && var.manage_registry_scanning_configuration ? 1 : 0
+#
+#  scan_type = var.registry_scan_type
+#
+#  dynamic "rule" {
+#    for_each = var.registry_scan_rules
+#
+#    content {
+#      scan_frequency = rule.value.scan_frequency
+#
+#      repository_filter {
+#        filter      = rule.value.filter
+#        filter_type = try(rule.value.filter_type, "WILDCARD")
+#      }
+#    }
+#  }
+#}
 
 ################################################################################
 # Registry Replication Configuration
 ################################################################################
 
-resource "aws_ecr_replication_configuration" "this" {
-  count = var.use_ecr && var.create_registry_replication_configuration ? 1 : 0
-
-  replication_configuration {
-
-    dynamic "rule" {
-      for_each = var.registry_replication_rules
-
-      content {
-        dynamic "destination" {
-          for_each = rule.value.destinations
-
-          content {
-            region      = destination.value.region
-            registry_id = destination.value.registry_id
-          }
-        }
-
-        dynamic "repository_filter" {
-          for_each = try(rule.value.repository_filters, [])
-
-          content {
-            filter      = repository_filter.value.filter
-            filter_type = repository_filter.value.filter_type
-          }
-        }
-      }
-    }
-  }
-}
+# TODO: not supported by tf provider 3.6, needs at least >=4.0.0
+#resource "aws_ecr_replication_configuration" "this" {
+#  count = var.use_ecr && var.create_registry_replication_configuration ? 1 : 0
+#
+#  replication_configuration {
+#
+#    dynamic "rule" {
+#      for_each = var.registry_replication_rules
+#
+#      content {
+#        dynamic "destination" {
+#          for_each = rule.value.destinations
+#
+#          content {
+#            region      = destination.value.region
+#            registry_id = destination.value.registry_id
+#          }
+#        }
+#
+#        dynamic "repository_filter" {
+#          for_each = try(rule.value.repository_filters, [])
+#
+#          content {
+#            filter      = repository_filter.value.filter
+#            filter_type = repository_filter.value.filter_type
+#          }
+#        }
+#      }
+#    }
+#  }
+#}
+#

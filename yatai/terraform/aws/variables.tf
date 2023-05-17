@@ -42,11 +42,13 @@ variable "yatai_image_builder_serviceaccount" {
 variable "use_ecr" {
   description = "Whether to use ECR or not"
   type        = bool
+  default     = true
 }
 
 variable "repository_type" {
   description = "The type of repository to create. Either `public` or `private`"
   type        = string
+  default     = "private"
 }
 
 ################################################################################
@@ -135,7 +137,7 @@ variable "create_repository_policy" {
 variable "create_lifecycle_policy" {
   description = "Determines whether a lifecycle policy will be created"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "repository_lifecycle_policy" {
