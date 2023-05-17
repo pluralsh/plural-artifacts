@@ -11,7 +11,7 @@ image:
   controller:
     repository: ghcr.io/pluralsh/bootstrap-controller
     pullPolicy: Always
-    tag: 0.0.7
+    tag: 0.0.10
 
 imagePullSecrets: []
 nameOverride: ""
@@ -61,8 +61,11 @@ tolerations: []
 
 affinity: {}
 
+provider: ""
+
 operator:
   clusterName: ""
   skipClusterCreation: true
   secret: {}
   cloud: {}
+  clientSecret: "" # Used by Azure.

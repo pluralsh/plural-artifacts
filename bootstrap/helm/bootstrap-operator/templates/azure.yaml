@@ -3,8 +3,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: cluster-identity-secret
-  namespace: bootstrap
 type: Opaque
 data:
-  clientSecret: {{ .Values.clientSecret }}
+  clientSecret: {{ .Values.operator.clientSecret }}
 {{ end }}

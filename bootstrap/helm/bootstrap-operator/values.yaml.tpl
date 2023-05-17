@@ -1,3 +1,4 @@
+provider: {{ .Provider }}
 operator:
   clusterName: {{ .Cluster }}
   secret: {}
