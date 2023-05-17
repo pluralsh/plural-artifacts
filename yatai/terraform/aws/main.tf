@@ -66,7 +66,7 @@ data "aws_partition" "current" {}
 
 # Policy used by both private and public repositories
 data "aws_iam_policy_document" "repository" {
-  count = var.create_repository_policy ? 1 : 0
+  count = var.use_ecr && var.create_repository_policy ? 1 : 0
 
   dynamic "statement" {
     for_each = var.repository_type == "public" ? [1] : []
@@ -196,7 +196,7 @@ data "aws_iam_policy_document" "repository" {
 ################################################################################
 
 resource "aws_ecr_repository" "this" {
-  count = local.create_private_repository ? 1 : 0
+  count = var.use_ecr && local.create_private_repository ? 1 : 0
 
   name                 = var.repository_name
   image_tag_mutability = var.repository_image_tag_mutability
@@ -221,7 +221,7 @@ resource "aws_ecr_repository" "this" {
 
 
 resource "aws_ecr_repository_policy" "this" {
-  count = local.create_private_repository && var.attach_repository_policy ? 1 : 0
+  count = var.use_ecr && local.create_private_repository && var.attach_repository_policy ? 1 : 0
 
   repository = aws_ecr_repository.this[0].name
   policy     = var.create_repository_policy ? data.aws_iam_policy_document.repository[0].json : var.repository_policy
@@ -233,7 +233,7 @@ resource "aws_ecr_repository_policy" "this" {
 ################################################################################
 
 resource "aws_ecr_lifecycle_policy" "this" {
-  count = local.create_private_repository && var.create_lifecycle_policy ? 1 : 0
+  count = var.use_ecr && local.create_private_repository && var.create_lifecycle_policy ? 1 : 0
 
   repository = aws_ecr_repository.this[0].name
   policy     = var.repository_lifecycle_policy
@@ -244,7 +244,7 @@ resource "aws_ecr_lifecycle_policy" "this" {
 ################################################################################
 
 resource "aws_ecrpublic_repository" "this" {
-  count = local.create_public_repository ? 1 : 0
+  count = var.use_ecr && local.create_public_repository ? 1 : 0
 
   repository_name = var.repository_name
 
@@ -267,7 +267,7 @@ resource "aws_ecrpublic_repository" "this" {
 ################################################################################
 
 resource "aws_ecrpublic_repository_policy" "example" {
-  count = local.create_public_repository ? 1 : 0
+  count = var.use_ecr && local.create_public_repository ? 1 : 0
 
   repository_name = aws_ecrpublic_repository.this[0].repository_name
   policy          = var.create_repository_policy ? data.aws_iam_policy_document.repository[0].json : var.repository_policy
@@ -279,7 +279,7 @@ resource "aws_ecrpublic_repository_policy" "example" {
 ################################################################################
 
 resource "aws_ecr_registry_policy" "this" {
-  count = var.create_registry_policy ? 1 : 0
+  count = var.use_ecr && var.create_registry_policy ? 1 : 0
 
   policy = var.registry_policy
 }
@@ -289,7 +289,7 @@ resource "aws_ecr_registry_policy" "this" {
 ################################################################################
 
 resource "aws_ecr_pull_through_cache_rule" "this" {
-  for_each = { for k, v in var.registry_pull_through_cache_rules : k => v }
+  for_each = { for k, v in var.registry_pull_through_cache_rules : k => v if var.use_ecr }
 
   ecr_repository_prefix = each.value.ecr_repository_prefix
   upstream_registry_url = each.value.upstream_registry_url
@@ -300,7 +300,7 @@ resource "aws_ecr_pull_through_cache_rule" "this" {
 ################################################################################
 
 resource "aws_ecr_registry_scanning_configuration" "this" {
-  count = var.manage_registry_scanning_configuration ? 1 : 0
+  count = var.use_ecr && var.manage_registry_scanning_configuration ? 1 : 0
 
   scan_type = var.registry_scan_type
 
@@ -323,7 +323,7 @@ resource "aws_ecr_registry_scanning_configuration" "this" {
 ################################################################################
 
 resource "aws_ecr_replication_configuration" "this" {
-  count = var.create_registry_replication_configuration ? 1 : 0
+  count = var.use_ecr && var.create_registry_replication_configuration ? 1 : 0
 
   replication_configuration {
 

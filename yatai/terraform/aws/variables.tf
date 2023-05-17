@@ -39,10 +39,14 @@ variable "yatai_image_builder_serviceaccount" {
 
 ######################################## ECR #############################################
 
+variable "use_ecr" {
+  description = "Whether to use ECR or not"
+  type        = bool
+}
+
 variable "repository_type" {
   description = "The type of repository to create. Either `public` or `private`"
   type        = string
-  default     = "private"
 }
 
 ################################################################################
@@ -52,7 +56,6 @@ variable "repository_type" {
 variable "repository_name" {
   description = "The name of the repository"
   type        = string
-  default     = "yatai"
 }
 
 variable "repository_image_tag_mutability" {
