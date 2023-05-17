@@ -58,6 +58,6 @@ yatai-image-builder:
     namespace: "yatai"
     serviceAccountName: "yatai"
   dockerRegistry:
-    server: "" # TODO: template harbor.dev.plural.sh/yatai
-    username: "" # TODO: template
-    password: "" # TODO: template
+    server: "" # from template
+    username: "" # from template
+    password: "" # from template
