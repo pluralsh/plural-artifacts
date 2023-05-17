@@ -27,7 +27,7 @@ variable "resource_group" {
 
 variable "kubernetes_version" {
   type = string
-  default = "1.23.12"
+  default = "1.24.10"
 }
 
 variable "address_space" {
