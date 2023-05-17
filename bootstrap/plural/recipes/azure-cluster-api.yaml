@@ -19,8 +19,6 @@ sections:
       - type: HELM
         name: bootstrap
       - type: HELM
-        name: azure-identity
-      - type: HELM
         name: plural-certmanager-webhook
       - type: HELM
         name: bootstrap-operator
