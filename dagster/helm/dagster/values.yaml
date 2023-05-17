@@ -50,7 +50,7 @@ dagster:
   busybox:
     image:
       repository: dkr.plural.sh/dagster/library/busybox
-      tag: 1.35.0
+      tag: 1.28.0
   pipelineRun:
     image:
       repository: dkr.plural.sh/dagster/dagster/user-code-example
