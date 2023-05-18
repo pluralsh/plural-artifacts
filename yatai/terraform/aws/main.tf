@@ -22,13 +22,14 @@ module "s3_buckets" {
   force_destroy = var.force_destroy_bucket
 }
 
+
 module "assumable_role_yatai" {
   source           = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
   version          = "3.14.0"
   create_role      = true
   role_name        = "${var.cluster_name}-${var.role_name}"
   provider_url     = replace(data.aws_eks_cluster.cluster.identity[0].oidc[0].issuer, "https://", "")
-  role_policy_arns = [module.s3_buckets.policy_arn]
+  role_policy_arns = [module.s3_buckets.policy_arn, aws_iam_policy.ecr_get_authorization_token.arn]
   oidc_fully_qualified_subjects = [
     "system:serviceaccount:${var.namespace}:${var.yatai_serviceaccount}",
     "system:serviceaccount:${var.namespace}:${var.yatai_deployment_serviceaccount}",
@@ -162,6 +163,20 @@ data "aws_iam_policy_document" "repository" {
   }
 }
 
+data "aws_iam_policy_document" "ecr_get_authorization_token" {
+  statement {
+    sid       = "ExplicitSelfRoleAssumption"
+    effect    = "Allow"
+    actions   = ["ecr:GetAuthorizationToken"]
+    resources = ["*", aws_ecr_repository.this[0].arn]
+  }
+}
+
+resource "aws_iam_policy" "ecr_get_authorization_token" {
+  name   = "yatai-ecr-get-authorization-token"
+  policy = data.aws_iam_policy_document.ecr_get_authorization_token.json
+}
+
 ################################################################################
 # Repository
 ################################################################################
@@ -194,6 +209,7 @@ resource "aws_ecr_repository" "this" {
 resource "aws_ecr_repository_policy" "this" {
   count = var.use_ecr && local.create_private_repository && var.attach_repository_policy ? 1 : 0
 
+  #repository = aws_ecr_repository.this[0].name
   repository = aws_ecr_repository.this[0].name
   policy     = var.create_repository_policy ? data.aws_iam_policy_document.repository[0].json : var.repository_policy
 }
