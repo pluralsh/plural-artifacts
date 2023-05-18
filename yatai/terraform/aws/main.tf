@@ -177,7 +177,7 @@ resource "aws_ecr_repository" "this" {
     kms_key         = var.repository_kms_key
   }
 
-  # TODO: not supported by tf provider 3.6
+  # TODO: not supported by tf provider 3.63
   #force_delete = var.repository_force_delete
 
   image_scanning_configuration {
@@ -214,7 +214,7 @@ resource "aws_ecr_lifecycle_policy" "this" {
 # Public Repository
 ################################################################################
 
-# TODO: not supported by tf provider 3.6, needs at least >=4.0.0
+# TODO: not supported by tf provider 3.63, needs at least >=4.0.0
 resource "aws_ecrpublic_repository" "this" {
   count = var.use_ecr && local.create_public_repository ? 1 : 0
 
@@ -238,7 +238,7 @@ resource "aws_ecrpublic_repository" "this" {
 # Public Repository Policy
 ################################################################################
 
-# TODO: not supported by tf provider 3.6, needs at least >=4.0.0
+# TODO: not supported by tf provider 3.63, needs at least >=4.0.0
 #resource "aws_ecrpublic_repository_policy" "example" {
 #  count = var.use_ecr && local.create_public_repository ? 1 : 0
 #
@@ -251,7 +251,6 @@ resource "aws_ecrpublic_repository" "this" {
 # Registry Policy
 ################################################################################
 
-# TODO: not supported by tf provider 3.6, needs at least >=4.0.0
 resource "aws_ecr_registry_policy" "this" {
   count = var.use_ecr && var.create_registry_policy ? 1 : 0
 
@@ -262,7 +261,7 @@ resource "aws_ecr_registry_policy" "this" {
 # Registry Pull Through Cache Rule
 ################################################################################
 
-# TODO: not supported by tf provider 3.6, needs at least >=4.0.0
+# TODO: not supported by tf provider 3.63, needs at least >=4.0.0
 #resource "aws_ecr_pull_through_cache_rule" "this" {
 #  for_each = { for k, v in var.registry_pull_through_cache_rules : k => v if var.use_ecr }
 #
@@ -274,7 +273,7 @@ resource "aws_ecr_registry_policy" "this" {
 # Registry Scanning Configuration
 ################################################################################
 
-# TODO: not supported by tf provider 3.6, needs at least >=4.0.0
+# TODO: not supported by tf provider 3.63 needs at least >=4.0.0
 #resource "aws_ecr_registry_scanning_configuration" "this" {
 #  count = var.use_ecr && var.manage_registry_scanning_configuration ? 1 : 0
 #
@@ -298,7 +297,7 @@ resource "aws_ecr_registry_policy" "this" {
 # Registry Replication Configuration
 ################################################################################
 
-# TODO: not supported by tf provider 3.6, needs at least >=4.0.0
+# TODO: not supported by tf provider 3.63, needs at least >=4.0.0
 #resource "aws_ecr_replication_configuration" "this" {
 #  count = var.use_ecr && var.create_registry_replication_configuration ? 1 : 0
 #
