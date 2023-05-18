@@ -51,13 +51,10 @@ variable "repository_type" {
   default     = "private"
 }
 
-################################################################################
-# Repository
-################################################################################
-
 variable "repository_name" {
   description = "The name of the repository"
   type        = string
+  default     = "yatai"
 }
 
 variable "repository_image_tag_mutability" {
@@ -90,15 +87,6 @@ variable "repository_policy" {
   default     = null
 }
 
-variable "repository_force_delete" {
-  description = "If `true`, will delete the repository even if it contains images. Defaults to `false`"
-  type        = bool
-  default     = null
-}
-
-################################################################################
-# Repository Policy
-################################################################################
 
 variable "attach_repository_policy" {
   description = "Determines whether a repository policy (passed through variable or created by the module) will be attached to the repository"
@@ -112,28 +100,6 @@ variable "create_repository_policy" {
   default     = true
 }
 
-#variable "repository_read_access_arns" {
-#  description = "The ARNs of the IAM users/roles that have read access to the repository"
-#  type        = list(string)
-#  default     = []
-#}
-#
-#variable "repository_lambda_read_access_arns" {
-#  description = "The ARNs of the Lambda service roles that have read access to the repository"
-#  type        = list(string)
-#  default     = []
-#}
-#
-#variable "repository_read_write_access_arns" {
-#  description = "The ARNs of the IAM users/roles that have read/write access to the repository"
-#  type        = list(string)
-#  default     = []
-#}
-
-################################################################################
-# Lifecycle Policy
-################################################################################
-
 variable "create_lifecycle_policy" {
   description = "Determines whether a lifecycle policy will be created"
   type        = bool
@@ -146,19 +112,11 @@ variable "repository_lifecycle_policy" {
   default     = ""
 }
 
-################################################################################
-# Public Repository
-################################################################################
-
 variable "public_repository_catalog_data" {
   description = "Catalog data configuration for the repository"
   type        = any
   default     = {}
 }
-
-################################################################################
-# Registry Policy
-################################################################################
 
 variable "create_registry_policy" {
   description = "Determines whether a registry policy will be created"
@@ -170,52 +128,4 @@ variable "registry_policy" {
   description = "The policy document. This is a JSON formatted string"
   type        = string
   default     = null
-}
-
-################################################################################
-# Registry Pull Through Cache Rule
-################################################################################
-
-variable "registry_pull_through_cache_rules" {
-  description = "List of pull through cache rules to create"
-  type        = map(map(string))
-  default     = {}
-}
-
-################################################################################
-# Registry Scanning Configuration
-################################################################################
-
-variable "manage_registry_scanning_configuration" {
-  description = "Determines whether the registry scanning configuration will be managed"
-  type        = bool
-  default     = false
-}
-
-variable "registry_scan_type" {
-  description = "the scanning type to set for the registry. Can be either `ENHANCED` or `BASIC`"
-  type        = string
-  default     = "ENHANCED"
-}
-
-variable "registry_scan_rules" {
-  description = "One or multiple blocks specifying scanning rules to determine which repository filters are used and at what frequency scanning will occur"
-  type        = any
-  default     = []
-}
-
-################################################################################
-# Registry Replication Configuration
-################################################################################
-
-variable "create_registry_replication_configuration" {
-  description = "Determines whether a registry replication configuration will be created"
-  type        = bool
-  default     = false
-}
-
-variable "registry_replication_rules" {
-  description = "The replication rules for a replication configuration. A maximum of 10 are allowed"
-  type        = any
-  default     = []
 }

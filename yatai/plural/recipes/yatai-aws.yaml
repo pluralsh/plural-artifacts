@@ -18,6 +18,10 @@ sections:
   - name: hostname
     documentation: FQDN to use for your yatai installation
     type: DOMAIN
+  - name: image_repository_name
+    documentation: Image repo name 
+    type: STRING
+    default: yatai
   - name: use_ecr
     documentation: Whether to use ECR or not
     type: BOOL
@@ -26,14 +30,6 @@ sections:
     documentation: Type of the ECR repository to create, can be one of `public` or `private`
     type: STRING
     default: private
-    condition:
-      operation: EQ
-      field: use_ecr
-      value: true
-  - name: ecr_repository_name
-    documentation: Name of the ECR repository to create
-    type: STRING
-    default: yatai
     condition:
       operation: EQ
       field: use_ecr
@@ -56,6 +52,8 @@ sections:
     condition:
       operation: NOT
       field: use_ecr
+  
+
   items:
   - type: TERRAFORM
     name: aws
