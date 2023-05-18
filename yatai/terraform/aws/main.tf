@@ -30,7 +30,7 @@ module "assumable_role_yatai" {
   create_role      = true
   role_name        = "${var.cluster_name}-${var.role_name}"
   provider_url     = replace(data.aws_eks_cluster.cluster.identity[0].oidc[0].issuer, "https://", "")
-  role_policy_arns = [module.s3_buckets.policy_arn, aws_iam_policy.ecr_get_authorization_token.arn]
+  role_policy_arns = var.use_ecr ? [module.s3_buckets.policy_arn, aws_iam_policy.ecr_get_authorization_token[0].arn] : [module.s3_buckets.policy_arn]
   oidc_fully_qualified_subjects = [
     "system:serviceaccount:${var.namespace}:${var.yatai_serviceaccount}",
     "system:serviceaccount:${var.namespace}:${var.yatai_deployment_serviceaccount}",
@@ -161,6 +161,7 @@ data "aws_iam_policy_document" "repository" {
 }
 
 data "aws_iam_policy_document" "ecr_get_authorization_token" {
+  count = var.use_ecr ? 1 : 0
   statement {
     sid       = "ExplicitSelfRoleAssumption"
     effect    = "Allow"
@@ -170,6 +171,7 @@ data "aws_iam_policy_document" "ecr_get_authorization_token" {
 }
 
 resource "aws_iam_policy" "ecr_get_authorization_token" {
+  count  = var.use_ecr ? 1 : 0
   name   = "yatai-ecr-get-authorization-token"
   policy = data.aws_iam_policy_document.ecr_get_authorization_token.json
 }
@@ -184,9 +186,6 @@ resource "aws_ecr_repository" "this" {
     encryption_type = var.repository_encryption_type
     kms_key         = var.repository_kms_key
   }
-
-  # TODO: not supported by tf provider 3.63
-  #force_delete = var.repository_force_delete
 
   image_scanning_configuration {
     scan_on_push = var.repository_image_scan_on_push
