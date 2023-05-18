@@ -68,4 +68,5 @@ operator:
   skipClusterCreation: true
   secret: {}
   cloud: {}
-  clientSecret: "" # Used by Azure.
+  # Used by Azure
+  clientSecret: ""
