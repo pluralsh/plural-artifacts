@@ -1,4 +1,7 @@
 provider: {{ .Provider }}
+{{ if eq .Provider "azure" }}
+kubernetesVersion: v1.26.3
+{{ end }}
 operator:
   clusterName: {{ .Cluster }}
   secret: {}
@@ -101,8 +104,8 @@ operator:
       managedCluster: {}
       controlPlane:
         version: v1.26.3
-        resourceGroupName: {{ .Cluster }}
-        location: southcentralus
+        resourceGroupName: {{ .Project }}
+        location: {{ .Region }}
         sshPublicKey: ''
         subscriptionID: {{ .Context.SubscriptionId }}
         identityRef:
