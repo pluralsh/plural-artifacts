@@ -38,3 +38,5 @@ yatai-image-builder:
     server: {{ .Values.image_registry }} 
     username: {{ .Values.image_registry_username }}
     password: {{ .Values.image_registry_password }}
+    useAWSECRWithIAMRole: {{ .Values.use_ecr }}
+    awsECRRegion: {{ .Region }}
