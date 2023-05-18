@@ -37,9 +37,8 @@ module "assumable_role_yatai" {
   ]
 }
 
-resource "kubernetes_service_account" "default" {
+resource "kubernetes_default_service_account" "default" {
   metadata {
-    name      = "default"
     namespace = var.namespace
 
     annotations = {
