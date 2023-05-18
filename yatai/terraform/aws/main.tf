@@ -173,7 +173,7 @@ data "aws_iam_policy_document" "ecr_get_authorization_token" {
 resource "aws_iam_policy" "ecr_get_authorization_token" {
   count  = var.use_ecr ? 1 : 0
   name   = "yatai-ecr-get-authorization-token"
-  policy = data.aws_iam_policy_document.ecr_get_authorization_token.json
+  policy = data.aws_iam_policy_document.ecr_get_authorization_token[0].json
 }
 
 resource "aws_ecr_repository" "this" {
