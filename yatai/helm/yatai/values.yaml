@@ -52,6 +52,8 @@ yatai-deployment:
     serviceAccountName: "yatai"
 
 yatai-image-builder:
+  yatai:
+    endpoint: http://yatai.yatai.svc.cluster.local
   serviceAccount:
     name: yatai-image-builder
   yataiSystem:
@@ -61,3 +63,5 @@ yatai-image-builder:
     server: "" # from template
     username: "" # from template
     password: "" # from template
+    useAWSECRWithIAMRole: true
+    awsECRRegion: us-east-2
