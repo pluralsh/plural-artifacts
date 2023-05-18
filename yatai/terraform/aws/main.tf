@@ -32,7 +32,8 @@ module "assumable_role_yatai" {
   oidc_fully_qualified_subjects = [
     "system:serviceaccount:${var.namespace}:${var.yatai_serviceaccount}",
     "system:serviceaccount:${var.namespace}:${var.yatai_deployment_serviceaccount}",
-    "system:serviceaccount:${var.namespace}:${var.yatai_image_builder_serviceaccount}"
+    "system:serviceaccount:${var.namespace}:${var.yatai_image_builder_serviceaccount}",
+    "system:serviceaccount:${var.namespace}:default"
   ]
 }
 
@@ -46,7 +47,7 @@ resource "kubernetes_service_account" "default" {
     }
   }
 
-  depends_on = [module.assumable_role_yatai]
+  depends_on = [module.assumable_role_yatai, kubernetes_namespace.yatai]
 }
 
 
