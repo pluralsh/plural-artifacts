@@ -11,19 +11,6 @@ resource "kubernetes_namespace" "yatai" {
   }
 }
 
-resource "kubernetes_namespace" "yatai-system" {
-  metadata {
-    name = "yatai-system"
-    labels = {
-      "app.kubernetes.io/managed-by" = "plural"
-      "app.plural.sh/name"           = "yatai"
-
-      "platform.plural.sh/sync-target" = "pg"
-
-    }
-  }
-}
-
 data "aws_eks_cluster" "cluster" {
   name = var.cluster_name
 }
@@ -47,6 +34,19 @@ module "assumable_role_yatai" {
     "system:serviceaccount:${var.namespace}:${var.yatai_deployment_serviceaccount}",
     "system:serviceaccount:${var.namespace}:${var.yatai_image_builder_serviceaccount}"
   ]
+}
+
+resource "kubernetes_service_account" "default" {
+  metadata {
+    name      = "default"
+    namespace = var.namespace
+
+    annotations = {
+      "eks.amazonaws.com/role-arn" = module.assumable_role_yatai.this_iam_role_arn
+    }
+  }
+
+  depends_on = [module.assumable_role_yatai]
 }
 
 
