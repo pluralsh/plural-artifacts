@@ -1,3 +1,7 @@
+provider: {{ .Provider }}
+{{ if eq .Provider "azure" }}
+kubernetesVersion: v1.26.3
+{{ end }}
 operator:
   clusterName: {{ .Cluster }}
   secret: {}
@@ -82,6 +86,42 @@ operator:
       sessionTokenRef:
         name: variables
         key: AWS_SESSION_TOKEN
+{{ end }}
+{{ if eq .Provider "azure" }}
+  clientSecret: {{ .Context.ClientSecret | b64enc | quote }}
+  cloud:
+    azure:
+      version: v1.8.2
+      clusterIdentity: 
+        name: azure-cluster-identity
+        allowedNamespaces: {}
+        clientID: {{ .Context.ClientId }}
+        clientSecret:
+          name: cluster-identity-secret
+          namespace: bootstrap
+        tenantID: {{ .Context.TenantId }}
+        type: ServicePrincipal
+      managedCluster: {}
+      controlPlane:
+        version: v1.26.3
+        resourceGroupName: {{ .Project }}
+        location: {{ .Region }}
+        sshPublicKey: ''
+        subscriptionID: {{ .Context.SubscriptionId }}
+        identityRef:
+          apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+          kind: AzureClusterIdentity
+          name: azure-cluster-identity
+          namespace: bootstrap
+      machinePools:
+      - name: pool0
+        replicas: 1
+        mode: System
+        sku: Standard_D2s_v3
+      - name: pool1
+        replicas: 2
+        mode: User
+        sku: Standard_D2s_v3
 {{ end }}
 {{ if eq .Provider "google" }}
   secret:

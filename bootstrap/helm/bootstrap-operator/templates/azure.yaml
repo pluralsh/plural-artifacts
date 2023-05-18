@@ -1,0 +1,9 @@
+{{ if eq .Values.provider "azure" }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cluster-identity-secret
+type: Opaque
+data:
+  clientSecret: {{ .Values.operator.clientSecret }}
+{{ end }}
