@@ -23,6 +23,7 @@ module "s3_buckets" {
 }
 
 
+# use one role for both ECR and S3 access policies
 module "assumable_role_yatai" {
   source           = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
   version          = "3.14.0"
@@ -58,14 +59,11 @@ resource "kubernetes_default_service_account" "default" {
 locals {
   create_private_repository = var.repository_type == "private"
   create_public_repository  = var.repository_type == "public"
-  #repository_read_access_arns       = [module.assumable_role_yatai.this_iam_role_arn]
-  #repository_read_write_access_arns = [module.assumable_role_yatai.this_iam_role_arn]
 }
 
 data "aws_caller_identity" "current" {}
 data "aws_partition" "current" {}
 
-# Policy used by both private and public repositories
 data "aws_iam_policy_document" "repository" {
   count = var.use_ecr && var.create_repository_policy ? 1 : 0
 
@@ -99,7 +97,6 @@ data "aws_iam_policy_document" "repository" {
       principals {
         type = "AWS"
         identifiers = coalescelist(
-          #concat(var.repository_read_access_arns, var.repository_read_write_access_arns),
           [module.assumable_role_yatai.this_iam_role_arn],
           ["arn:${data.aws_partition.current.partition}:iam::${data.aws_caller_identity.current.account_id}:root"],
         )
@@ -168,7 +165,7 @@ data "aws_iam_policy_document" "ecr_get_authorization_token" {
     sid       = "ExplicitSelfRoleAssumption"
     effect    = "Allow"
     actions   = ["ecr:GetAuthorizationToken"]
-    resources = ["*", aws_ecr_repository.this[0].arn]
+    resources = ["*"]
   }
 }
 
@@ -176,10 +173,6 @@ resource "aws_iam_policy" "ecr_get_authorization_token" {
   name   = "yatai-ecr-get-authorization-token"
   policy = data.aws_iam_policy_document.ecr_get_authorization_token.json
 }
-
-################################################################################
-# Repository
-################################################################################
 
 resource "aws_ecr_repository" "this" {
   count = var.use_ecr && local.create_private_repository ? 1 : 0
@@ -201,23 +194,11 @@ resource "aws_ecr_repository" "this" {
 
 }
 
-################################################################################
-# Repository Policy
-################################################################################
-
-
 resource "aws_ecr_repository_policy" "this" {
-  count = var.use_ecr && local.create_private_repository && var.attach_repository_policy ? 1 : 0
-
-  #repository = aws_ecr_repository.this[0].name
+  count      = var.use_ecr && local.create_private_repository && var.attach_repository_policy ? 1 : 0
   repository = aws_ecr_repository.this[0].name
   policy     = var.create_repository_policy ? data.aws_iam_policy_document.repository[0].json : var.repository_policy
 }
-
-
-################################################################################
-# Lifecycle Policy
-################################################################################
 
 resource "aws_ecr_lifecycle_policy" "this" {
   count = var.use_ecr && local.create_private_repository && var.create_lifecycle_policy ? 1 : 0
@@ -226,11 +207,6 @@ resource "aws_ecr_lifecycle_policy" "this" {
   policy     = var.repository_lifecycle_policy
 }
 
-################################################################################
-# Public Repository
-################################################################################
-
-# TODO: not supported by tf provider 3.63, needs at least >=4.0.0
 resource "aws_ecrpublic_repository" "this" {
   count = var.use_ecr && local.create_public_repository ? 1 : 0
 
@@ -250,98 +226,8 @@ resource "aws_ecrpublic_repository" "this" {
   }
 }
 
-################################################################################
-# Public Repository Policy
-################################################################################
-
-# TODO: not supported by tf provider 3.63, needs at least >=4.0.0
-#resource "aws_ecrpublic_repository_policy" "example" {
-#  count = var.use_ecr && local.create_public_repository ? 1 : 0
-#
-#  repository_name = aws_ecrpublic_repository.this[0].repository_name
-#  policy          = var.create_repository_policy ? data.aws_iam_policy_document.repository[0].json : var.repository_policy
-#}
-#
-
-################################################################################
-# Registry Policy
-################################################################################
-
 resource "aws_ecr_registry_policy" "this" {
   count = var.use_ecr && var.create_registry_policy ? 1 : 0
 
   policy = var.registry_policy
 }
-
-################################################################################
-# Registry Pull Through Cache Rule
-################################################################################
-
-# TODO: not supported by tf provider 3.63, needs at least >=4.0.0
-#resource "aws_ecr_pull_through_cache_rule" "this" {
-#  for_each = { for k, v in var.registry_pull_through_cache_rules : k => v if var.use_ecr }
-#
-#  ecr_repository_prefix = each.value.ecr_repository_prefix
-#  upstream_registry_url = each.value.upstream_registry_url
-#}
-
-################################################################################
-# Registry Scanning Configuration
-################################################################################
-
-# TODO: not supported by tf provider 3.63 needs at least >=4.0.0
-#resource "aws_ecr_registry_scanning_configuration" "this" {
-#  count = var.use_ecr && var.manage_registry_scanning_configuration ? 1 : 0
-#
-#  scan_type = var.registry_scan_type
-#
-#  dynamic "rule" {
-#    for_each = var.registry_scan_rules
-#
-#    content {
-#      scan_frequency = rule.value.scan_frequency
-#
-#      repository_filter {
-#        filter      = rule.value.filter
-#        filter_type = try(rule.value.filter_type, "WILDCARD")
-#      }
-#    }
-#  }
-#}
-
-################################################################################
-# Registry Replication Configuration
-################################################################################
-
-# TODO: not supported by tf provider 3.63, needs at least >=4.0.0
-#resource "aws_ecr_replication_configuration" "this" {
-#  count = var.use_ecr && var.create_registry_replication_configuration ? 1 : 0
-#
-#  replication_configuration {
-#
-#    dynamic "rule" {
-#      for_each = var.registry_replication_rules
-#
-#      content {
-#        dynamic "destination" {
-#          for_each = rule.value.destinations
-#
-#          content {
-#            region      = destination.value.region
-#            registry_id = destination.value.registry_id
-#          }
-#        }
-#
-#        dynamic "repository_filter" {
-#          for_each = try(rule.value.repository_filters, [])
-#
-#          content {
-#            filter      = repository_filter.value.filter
-#            filter_type = repository_filter.value.filter_type
-#          }
-#        }
-#      }
-#    }
-#  }
-#}
-#
