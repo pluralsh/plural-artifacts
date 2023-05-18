@@ -1,5 +1,10 @@
 {{ $hostname := .Values.hostname }}
-{{ $yataiHelmValues := .Applications.HelmValues "yatai" }}
 
 You can view your installation at https://{{ $hostname}}
-test {{ $yataiHelmValues.yatai.yatai.postgresql.host }}
+
+NOTES:
+When installing Yatai for the first time, run the following command to get an initialization link for creating your admin account:
+
+  export YATAI_INITIALIZATION_TOKEN=$(kubectl get secret yatai-env --namespace {{ namespace }} -o jsonpath="{.data.YATAI_INITIALIZATION_TOKEN}" | base64 --decode)
+
+  echo "Create admin account at: https://{{ $hostname }}/setup?token=$YATAI_INITIALIZATION_TOKEN"
