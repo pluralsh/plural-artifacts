@@ -1,0 +1,60 @@
+postgres:
+  enabled: true
+  team: plural
+  user: yatai
+  dbName: yatai
+  ownerChart: yatai
+  version: "14"
+
+yatai:
+  postgresql:
+    host: plural-postgres-yatai
+    sslmode: require
+    passwordExistingSecretName: "yatai.plural-postgres-yatai.credentials.postgresql.acid.zalan.do"
+    passwordExistingSecretKey: "password" 
+  ingress:
+    enabled: true
+    className: nginx
+    annotations:
+      kubernetes.io/tls-acme: "true"
+      cert-manager.io/cluster-issuer: letsencrypt-prod 
+    hosts:
+      - host: yatai.dev.plural.sh
+        paths:
+        - /
+    tls:
+    - secretName: yatai-ingress-tls
+      hosts:
+        - yatai.dev.plural.sh
+  serviceAccount:
+    create: true
+    name: yatai
+  s3:
+    endpoint: "s3.amazonaws.com"
+
+yatai-deployment:
+  serviceAccount:
+    name: "yatai-deployment"
+  yataiServiceAccount:
+    namespace: "yatai"
+    name: "yatai"
+  layers:
+    network:
+      ingressAnnotations:
+        kubernetes.io/tls-acme: "true"
+        cert-manager.io/cluster-issuer: letsencrypt-prod 
+      domainSuffix: yatai.dev.plural.sh
+  yataiSystem:
+    namespace: "yatai"
+    serviceAccountName: "yatai"
+
+yatai-image-builder:
+  yatai:
+    endpoint: http://yatai.yatai.svc.cluster.local
+  serviceAccount:
+    name: yatai-image-builder
+  yataiSystem:
+    namespace: "yatai"
+    serviceAccountName: "yatai"
+  dockerRegistry:
+    secure: true
