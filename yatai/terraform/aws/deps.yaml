@@ -13,3 +13,4 @@ spec:
   - aws
   outputs:
     iam_role_arn: iam_role_arn
+    ecr_registry_url: ecr_registry_url
