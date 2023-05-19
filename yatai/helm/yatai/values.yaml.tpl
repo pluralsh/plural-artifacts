@@ -67,5 +67,5 @@ yatai-image-builder:
   {{- if $isGcp }}
   aws:
     accessKeyID: {{ importValue "Terraform" "access_key_id" }}
-    secretAccessKey: {{ importValue "Terraform" secret_access_key" }}
+    secretAccessKey: {{ importValue "Terraform" "secret_access_key" }}
   {{- end }}
