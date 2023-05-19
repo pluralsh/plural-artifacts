@@ -1,3 +1,4 @@
+{{ $isGcp := or (eq .Provider "google") (eq .Provider "gcp") }}
 {{ $hostname := .Values.hostname }}
 yatai:
   ingress:
@@ -16,6 +17,8 @@ yatai:
     annotations:
       {{- if eq .Provider "aws" }}
       eks.amazonaws.com/role-arn: {{ importValue "Terraform" "iam_role_arn" }}
+      {{- else if $isGcp }}
+      iam.gke.io/gcp-service-account: {{ importValue "Terraform" "service_account_email" }}
       {{- end }}
 
 yatai-deployment:
@@ -26,6 +29,8 @@ yatai-deployment:
     annotations:
       {{- if eq .Provider "aws" }}
       eks.amazonaws.com/role-arn: {{ importValue "Terraform" "iam_role_arn" }}
+      {{- else if $isGcp }}
+      iam.gke.io/gcp-service-account: {{ importValue "Terraform" "service_account_email" }}
       {{- end }}
 
 yatai-image-builder:
@@ -35,6 +40,8 @@ yatai-image-builder:
     annotations:
       {{- if eq .Provider "aws" }}
       eks.amazonaws.com/role-arn: {{ importValue "Terraform" "iam_role_arn" }}
+      {{- else if $isGcp }}
+      iam.gke.io/gcp-service-account: {{ importValue "Terraform" "service_account_email" }}
       {{- end }}
   dockerRegistry:
     {{- if and (eq .Provider "aws") .Values.use_ecr }}
