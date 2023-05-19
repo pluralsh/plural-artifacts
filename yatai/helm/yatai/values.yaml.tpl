@@ -37,7 +37,7 @@ yatai-image-builder:
       eks.amazonaws.com/role-arn: {{ importValue "Terraform" "iam_role_arn" }}
       {{- end }}
   dockerRegistry:
-    {{- if eq .Provider "aws" }}
+    {{- if and (eq .Provider "aws") .Values.use_ecr }}
     server: {{ importValue "Terraform" "ecr_registry_url" }}
     {{- else }}
     server: {{ .Values.image_registry }} 
