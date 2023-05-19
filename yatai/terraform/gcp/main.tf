@@ -61,7 +61,7 @@ resource "google_storage_bucket_iam_member" "this" {
 
   depends_on = [
     google_storage_bucket.this,
-    module.module.yatai_workload_identity
+    module.yatai_workload_identity
   ]
 }
 
