@@ -12,6 +12,12 @@ yatai:
         - {{ $hostname }}
   s3:
     region: {{ .Region }}
+    {{- $isGcp }}
+    region: {{ .Values.bucket_location }}
+    endpoint: "storage.googleapis.com"
+    accessKey: {{ importValue "Terraform" "access_key_id" }}
+    secretKey: {{ importValue "Terraform" "secret_access_key" }}
+    {{- end }}
     bucketName: {{ .Values.bucket }}
   serviceAccount:
     annotations:
@@ -58,3 +64,8 @@ yatai-image-builder:
     useAWSECRWithIAMRole: {{ .Values.use_ecr | quote }}
     awsECRRegion: {{ .Region }}
     {{- end }}
+  {{- if $isGcp }}
+  aws:
+    accessKeyID: {{ importValue "Terraform" "access_key_id" }}
+    secretAccessKey: {{ importValue "Terraform" secret_access_key" }}
+  {{- end }}
