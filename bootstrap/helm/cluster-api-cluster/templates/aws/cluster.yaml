@@ -1,0 +1,7 @@
+{{- if and (eq .Values.provider "aws") (eq .Values.type "managed") }}
+kind: AWSManagedCluster
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
+metadata:
+  name: {{ .Values.cluster.name }}
+spec: {}
+{{- end }}

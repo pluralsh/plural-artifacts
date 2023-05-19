@@ -1,0 +1,118 @@
+## The cloud provider to use, currently only aws is supported
+provider: aws
+## managed or unmanaged, currently only managed is supported
+type: managed
+
+cluster:
+  ## The name of the cluster
+  name: ""
+  ## The version of Kubernetes to deploy
+  kubernetesVersion: ""
+  ## The cidr blocks for pods
+  podCidrBlocks:
+  - 192.168.0.0/16
+
+  aws:
+    ## The region to deploy the cluster to
+    region: ""
+    ## The name of the ssh key to use for the cluster
+    sshKeyName: default
+
+    addons:
+    - conflictResolution: overwrite
+      name: kube-proxy
+      version: v1.24.10-eksbuild.2
+    - conflictResolution: overwrite
+      name: vpc-cni
+      version: v1.12.6-eksbuild.1
+    - conflictResolution: overwrite
+      name: coredns
+      version: v1.9.3-eksbuild.3
+
+workers:
+  defaults:
+    aws:
+      replicas: 0 # TODO: update MachinePool to support default values
+      labels: {}
+      annotations:
+        cluster.x-k8s.io/replicas-managed-by: external-autoscaler
+      spec:
+        amiType: AL2_x86_64 # AL2_x86_64, AL2_x86_64_GPU, AL2_ARM_64
+        amiVersion: ""
+        capacityType: onDemand # onDemand, spot
+        diskSize: 50
+        instanceType: t3a.large
+        roleName: ""
+        scaling:
+          maxSize: 27
+          minSize: 0
+        availabilityZones:
+        - eu-central-1a
+        subnetIDs:
+        - subnet-01c871067824f6f3f
+        labels:
+          plural.sh/scalingGroup: small-burst-on-demand
+          plural.sh/capacityType: ON_DEMAND
+          plural.sh/performanceType: BURSTABLE
+        taints:
+        - key: plural.sh/capacityType
+          value: SPOT
+          effect: no-schedule
+        updateConfig:
+          maxUnavailable: 1
+          # maxSurge: 1
+        additionalTags:
+          test: test
+        roleAdditionalPolicies:
+        - test
+  aws:
+    test-pool-0:
+      # annotations: {}
+      # labels: {}
+      replicas: 1
+      spec:
+        # amiType: ""
+        # capacityType: spot
+    test-pool-1:
+      annotations:
+        cluster.x-k8s.io/replicas-managed-by: external-autoscaler-test
+      labels:
+        test: test
+      replicas: 0
+      spec:
+        amiType: AL2_x86_64_GPU
+        capacityType: spot
+        roleName: test
+        instanceType: p3.2xlarge
+        diskSize: 100
+        scaling:
+          maxSize: 5
+          minSize: 2
+        availabilityZones:
+        - eu-central-1a
+        - eu-central-1b
+        - eu-central-1c
+        subnetIDs:
+        - subnet-01c871067824f6f3f
+        - subnet-0d37db2f4508155fb
+        - subnet-0d5fa087d66850ad2
+        labels:
+          plural.sh/scalingGroup: small-burst-spot
+          plural.sh/capacityType: SPOT
+          plural.sh/performanceType: BURSTABLE
+        taints:
+        - key: plural.sh/capacityType
+          value: SPOT
+          effect: no-schedule
+        - key: nvidia.com/gpu
+          value: "true"
+          effect: no-schedule
+        updateConfig:
+          # maxUnavailable: 1
+          maxSurge: 1
+        additionalTags:
+          test: test-overwrite
+          test2: test2
+        roleAdditionalPolicies:
+        - test2
+ 

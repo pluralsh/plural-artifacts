@@ -1,0 +1,11 @@
+{{- if and (eq .Values.provider "aws") (eq .Values.type "managed") -}}
+kind: AWSManagedControlPlane
+apiVersion: controlplane.cluster.x-k8s.io/v1beta2
+metadata:
+  name: {{ .Values.cluster.name }}
+spec:
+  region: {{ .Values.cluster.aws.region }}
+  sshKeyName: {{ .Values.cluster.aws.sshKeyName }}
+  version: {{ .Values.cluster.kubernetesVersion }}
+  addons: {{- toYaml .Values.cluster.aws.addons | nindent 4 }}
+{{- end }}

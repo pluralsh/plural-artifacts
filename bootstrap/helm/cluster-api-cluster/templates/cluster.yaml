@@ -1,0 +1,16 @@
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: Cluster
+metadata:
+  name: {{ .Values.cluster.name }}
+spec:
+  clusterNetwork:
+    pods:
+      cidrBlocks: {{ toYaml .Values.cluster.podCidrBlocks | nindent 6 }}
+  infrastructureRef:
+    kind: {{ include "cluster.infrastructure.kind" . }}
+    apiVersion: {{ include "cluster.infrastructure.apiVersion" . }}
+    name: {{ .Values.cluster.name }}
+  controlPlaneRef:
+    kind: {{ include "cluster.controlPlane.kind" . }}
+    apiVersion: {{ include "cluster.controlPlane.apiVersion" . }}
+    name: {{ .Values.cluster.name }}
