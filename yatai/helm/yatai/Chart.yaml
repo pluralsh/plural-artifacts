@@ -2,7 +2,7 @@ apiVersion: v2
 name: yatai
 description: helm chart for yatai
 type: application
-version: 0.1.1
+version: 0.1.2
 appVersion: "v1.1.9"
 dependencies:
 - name: postgres
