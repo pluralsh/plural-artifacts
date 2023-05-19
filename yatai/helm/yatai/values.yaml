@@ -1,4 +1,3 @@
-###############################################################
 postgres:
   enabled: true
   team: plural
@@ -6,7 +5,7 @@ postgres:
   dbName: yatai
   ownerChart: yatai
   version: "14"
-################################################################
+
 yatai:
   postgresql:
     host: plural-postgres-yatai
@@ -32,8 +31,6 @@ yatai:
     name: yatai
   s3:
     endpoint: "s3.amazonaws.com"
-    region: "" # from template
-    bucketName: "" # from template
 
 yatai-deployment:
   serviceAccount:
@@ -60,8 +57,4 @@ yatai-image-builder:
     namespace: "yatai"
     serviceAccountName: "yatai"
   dockerRegistry:
-    server: "" # from template
-    username: "" # from template
-    password: "" # from template
-    useAWSECRWithIAMRole: true
-    awsECRRegion: us-east-2
+    secure: true
