@@ -12,4 +12,74 @@ spec:
   {{- toYaml . | nindent 4 }}
   {{- end }}
   eksClusterName: {{ .Values.cluster.name }}
+  {{- with .Values.cluster.aws.network }}
+  network:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.cluster.aws.identityRef }}
+  identityRef:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- if .Values.cluster.aws.secondaryCidrBlock }}
+  secondaryCidrBlock: {{ .Values.cluster.aws.secondaryCidrBlock }}
+  {{- end }}
+  {{- if .Values.cluster.aws.partition }}
+  partition: {{ .Values.cluster.aws.partition }}
+  {{- end }}
+  {{- if .Values.cluster.aws.roleName }}
+  roleName: {{ .Values.cluster.aws.roleName }}
+  {{- end }}
+  {{- with .Values.cluster.aws.roleAdditionalPolicies }}
+  roleAdditionalPolicies:
+  {{- toYaml . | nindent 2 }}
+  {{- end }}
+  {{- with .Values.cluster.aws.logging }}
+  logging:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.cluster.aws.encryptionConfig }}
+  encryptionConfig:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.cluster.aws.additionalTags }}
+  additionalTags:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- if or (.Values.cluster.aws.iamAuthenticatorConfig.mapRoles) (.Values.cluster.aws.iamAuthenticatorConfig.mapUsers) }}
+  iamAuthenticatorConfig:
+    {{- with .Values.cluster.aws.iamAuthenticatorConfig.mapRoles }}
+    mapRoles:
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.cluster.aws.iamAuthenticatorConfig.mapUsers }}
+    mapUsers:
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- end }}
+  {{- with .Values.cluster.aws.endpointAccess }}
+  endpointAccess:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.cluster.aws.bastion }}
+  bastion:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- if .Values.cluster.aws.tokenMethod }}
+  tokenMethod: {{ .Values.cluster.aws.tokenMethod }}
+  {{- end }}
+  {{- if .Values.cluster.aws.associateOIDCProvider }}
+  associateOIDCProvider: {{ .Values.cluster.aws.associateOIDCProvider }}
+  {{- end }}
+  {{- with .Values.cluster.aws.oidcIdentityProviderConfig }}
+  oidcIdentityProviderConfig:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.cluster.aws.vpcCni }}
+  vpcCni:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.cluster.aws.kubeProxy }}
+  kubeProxy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 {{- end }}

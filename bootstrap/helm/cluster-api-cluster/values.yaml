@@ -5,20 +5,21 @@ type: managed
 
 cluster:
   ## The name of the cluster
-  name: test-cluster
+  name: ""
   ## The version of Kubernetes to deploy
   kubernetesVersion: ""
   ## The cidr blocks for pods
   podCidrBlocks:
   - 192.168.0.0/16
-  serviceCidrBlocks: []
+  ## The cidr blocks for services
+  serviceCidrBlocks: [] # TODO: check if we should be setting this
 
   aws:
     ## The region to deploy the cluster to
     region: ""
     ## The name of the ssh key to use for the cluster
     sshKeyName: default
-
+    ## The cluster addons to deploy
     addons:
     - conflictResolution: overwrite
       name: kube-proxy
@@ -29,6 +30,91 @@ cluster:
     - conflictResolution: overwrite
       name: coredns
       version: v1.9.3-eksbuild.3
+    
+    network:
+      vpc:
+        id: ""
+        cidrBlock: ""
+        ipv6: # NOTE: setting `ipv6: {}` will enable ipv6 and auto generate the cidr block. Needed for migration.
+          cidrBlock: ""
+          poolId: ""
+          egressOnlyInternetGatewayId: ""
+        internetGatewayId: ""
+        tags: {}
+        availabilityZoneUsageLimit: 3 # TODO: is set to 3 by default
+        availabilityZoneSelection: Ordered # TODO: set by default to Ordered. Can be Ordered or Random
+      subnets: []
+      # - id: ""
+      #   cidrBlock: ""
+      #   ipv6CidrBlock: ""
+      #   availabilityZone: ""
+      #   isPublic: false
+      #   isIpv6: false
+      #   routeTableId: ""
+      #   natGatewayId: ""
+      #   tags: {}
+      cni:
+        cniIngressRules: []
+        # - description: ""
+        #   fromPort: 0
+        #   toPort: 0
+        #   protocol: "" # TODO: find valid values. Can be tcp.
+      securityGroupOverrides: {}
+    identityRef:
+      name: ""
+      kind: ""
+    secondaryCidrBlock: ""
+    partition: ""
+    roleName: ""
+    roleAdditionalPolicies: []
+    logging:
+      apiServer: false
+      audit: false
+      authenticator: false
+      controllerManager: false
+      scheduler: false
+    encryptionConfig:
+      provider: ""
+      resources: []
+    additionalTags: {}
+    iamAuthenticatorConfig:
+      mapRoles: []
+      # - rolearn: ""
+      #   username: ""
+      #   groups: []
+      mapUsers: []
+      # - userarn: ""
+      #   username: ""
+      #   groups: []
+    endpointAccess:
+      public: true
+      publicCIDRs: []
+      private: false
+    bastion:
+      enabled: false
+      disableIngressRules: false
+      allowedCIDRBlocks: []
+      instanceType: ""
+      ami: ""
+    tokenMethod: "" # iam-authenticator
+    associateOIDCProvider: true
+    oidcIdentityProviderConfig:
+      clientId: ""
+      groupsClaim: ""
+      groupsPrefix: ""
+      identityProviderConfigName: ""
+      issuerUrl: ""
+      requiredClaims: {}
+      usernameClaim: ""
+      usernamePrefix: ""
+      tags: {}
+    vpcCni:
+      disable: false
+      env: []
+      # - name: ""
+      #   value: ""
+    kubeProxy:
+      disable: false
 
 workers:
   defaults:
