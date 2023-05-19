@@ -12,7 +12,7 @@ yatai:
         - {{ $hostname }}
   s3:
     region: {{ .Region }}
-    {{- $isGcp }}
+    {{- if $isGcp }}
     region: {{ .Values.bucket_location }}
     endpoint: "storage.googleapis.com"
     accessKey: {{ importValue "Terraform" "access_key_id" }}
