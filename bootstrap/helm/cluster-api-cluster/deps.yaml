@@ -1,0 +1,11 @@
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  application: true
+  description: installs the aws efs csi driver
+spec:
+  dependencies:
+  - type: helm
+    name: bootstrap-operator
+    repo: bootstrap
+    version: '>= 0.1.0'
