@@ -24,10 +24,40 @@ resource "google_storage_bucket" "this" {
   }
 }
 
+module "yatai_workload_identity" {
+  source              = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
+  name                = "${var.cluster_name}-yatai-wi"
+  namespace           = var.namespace
+  project_id          = var.project_id
+  use_existing_k8s_sa = true
+  annotate_k8s_sa     = false
+  k8s_sa_name         = "default"
+  roles               = var.roles
+
+  depends_on = [
+    kubernetes_namespace.yatai
+  ]
+}
+
+resource "kubernetes_default_service_account" "default" {
+  metadata {
+    name      = "default"
+    namespace = var.namespace
+    annotations = {
+      "iam.gke.io/gcp-service-account" = module.yatai_workload_identity.gcp_service_account_email
+    }
+  }
+
+  depends_on = [
+    kubernetes_namespace.yatai
+  ]
+}
+
 resource "google_storage_bucket_iam_member" "this" {
   bucket = google_storage_bucket.bucket.name
   role   = "roles/storage.admin"
-  member = "serviceAccount:${google_service_account.this.email}"
+  #member = "serviceAccount:${google_service_account.this.email}"
+  member = "serviceAccount:${moudule.yatai_workload_dentity.gcp_service_account_email}"
 
   depends_on = [
     google_storage_bucket.this,
@@ -41,14 +71,16 @@ resource "google_service_account" "this" {
 }
 
 resource "google_storage_hmac_key" "this" {
-  service_account_email = google_service_account.this.email
+  #service_account_email = google_service_account.this.email
+  service_account_email = module.yatai_workload_identity.gcp_service_account_email
 }
 
 resource "google_service_account_key" "this" {
-  service_account_id = google_service_account.this.name
+  #service_account_id = google_service_account.this.name
+  service_account_id = module.yatai_workload_identity.gcp_service_account_email
 }
 
-resource "kubernetes_secret" "google-application-credentials" {
+resource "kubernetes_secret" "google_application_credentials" {
   metadata {
     name      = "yatai-gcp-credentials"
     namespace = var.namespace
@@ -63,22 +95,22 @@ resource "kubernetes_secret" "google-application-credentials" {
   ]
 }
 
-module "yatai-workload-identity-yatai" {
-  source              = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
-  name                = "${var.cluster_name}-yatai-wi-yatai"
-  namespace           = var.namespace
-  project_id          = var.project_id
-  use_existing_k8s_sa = true
-  annotate_k8s_sa     = false
-  k8s_sa_name         = "yatai"
-  roles               = var.roles
-
-  depends_on = [
-    kubernetes_namespace.yatai
-  ]
-}
-
 # TODO: let's see if I can get away with just one gcp service account
+#module "yatai-workload-identity-yatai" {
+#  source              = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
+#  name                = "${var.cluster_name}-yatai-wi-yatai"
+#  namespace           = var.namespace
+#  project_id          = var.project_id
+#  use_existing_k8s_sa = true
+#  annotate_k8s_sa     = false
+#  k8s_sa_name         = "yatai"
+#  roles               = var.roles
+#
+#  depends_on = [
+#    kubernetes_namespace.yatai
+#  ]
+#}
+
 #module "yatai-workload-identity-yatai-deployment" {
 #  source              = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
 #  name                = "${var.cluster_name}-yatai-wi-yatai-deployment"
@@ -109,31 +141,3 @@ module "yatai-workload-identity-yatai" {
 #  ]
 #}
 
-module "yatai-workload-identity-default" {
-  source              = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
-  name                = "${var.cluster_name}-yatai-wi-default"
-  namespace           = var.namespace
-  project_id          = var.project_id
-  use_existing_k8s_sa = true
-  annotate_k8s_sa     = false
-  k8s_sa_name         = "default"
-  roles               = var.roles
-
-  depends_on = [
-    kubernetes_namespace.yatai
-  ]
-}
-
-resource "kubernetes_default_service_account" "default" {
-  metadata {
-    name      = "default"
-    namespace = var.namespace
-    annotations = {
-      "iam.gke.io/gcp-service-account" = module.yatai-workload-identity.gcp_service_account_email
-    }
-  }
-
-  depends_on = [
-    kubernetes_namespace.yatai
-  ]
-}
