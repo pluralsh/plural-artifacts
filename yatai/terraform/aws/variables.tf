@@ -1,6 +1,6 @@
 variable "namespace" {
   type    = string
-  default = "yatai-system"
+  default = "yatai"
 }
 
 variable "cluster_name" {
