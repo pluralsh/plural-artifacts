@@ -1,8 +1,8 @@
-{{- if and (eq .Values.provider "aws") (eq .Values.type "managed") }}
-{{ $currentScope := . }}
-{{- $defaultVals := .Values.workers.defaults.aws }}
-{{- $validAmiTypes := (list "AL2_x86_64" "AL2_x86_64_GPU" "AL2_ARM_64") }}
-{{- $validCapacityTypes := (list "onDemand" "spot") }}
+{{- if and (eq .Values.provider "aws") (eq .Values.type "managed") -}}
+{{- $currentScope := . -}}
+{{- $defaultVals := .Values.workers.defaults.aws -}}
+{{- $validAmiTypes := (list "AL2_x86_64" "AL2_x86_64_GPU" "AL2_ARM_64") -}}
+{{- $validCapacityTypes := (list "onDemand" "spot") -}}
 {{- range $name, $values := .Values.workers.aws }}
 {{- with $currentScope}}
 {{- $amiType := ($values.spec | default dict).amiType | default $defaultVals.spec.amiType }}
@@ -13,21 +13,18 @@
 {{- if not (has $capacityType $validCapacityTypes) }}
   {{- fail (printf "Invalid value for capacityType: %s. Expected one of: %s" $capacityType $validCapacityTypes) }}
 {{- end }}
-
 {{- $scaling := ($values.spec | default dict).scaling | default $defaultVals.spec.scaling }}
 {{- if $scaling }}
 {{- if not (and (hasKey $scaling "minSize") (hasKey $scaling "maxSize")) }}
   {{- fail (printf "Invalid value for scaling. Both minSize and maxSize must be set") }}
 {{- end }}
 {{- end }}
-
 {{- $updateConfig := ($values.spec | default dict).updateConfig | default $defaultVals.spec.updateConfig }}
 {{- if $updateConfig }}
 {{- if and (hasKey $updateConfig "maxUnavailable") (hasKey $updateConfig "maxSurge") }}
   {{- fail (printf "Invalid value for updateConfig. Only one of maxUnavailable and maxSurge can be set") }}
 {{- end }}
 {{- end }}
-
 apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
 kind: AWSManagedMachinePool
 metadata:

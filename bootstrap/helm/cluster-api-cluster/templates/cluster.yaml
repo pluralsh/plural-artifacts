@@ -4,8 +4,14 @@ metadata:
   name: {{ .Values.cluster.name }}
 spec:
   clusterNetwork:
+    {{- with .Values.cluster.podCidrBlocks }}
     pods:
-      cidrBlocks: {{ toYaml .Values.cluster.podCidrBlocks | nindent 6 }}
+      cidrBlocks: {{ toYaml . | nindent 6 }}
+    {{- end }}
+    {{- with .Values.cluster.serviceCidrBlocks }}
+    services: # TODO: check if we should be setting this
+      cidrBlocks: {{ toYaml . | nindent 6 }}
+    {{- end }}
   infrastructureRef:
     kind: {{ include "cluster.infrastructure.kind" . }}
     apiVersion: {{ include "cluster.infrastructure.apiVersion" . }}

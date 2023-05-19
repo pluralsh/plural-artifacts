@@ -114,17 +114,3 @@ Create the apiVersion for the infrastructureRef for the worker MachinePools
 infrastructure.cluster.x-k8s.io/v1beta2
 {{- end }}
 {{- end }}
-
-{{/*
-merger template. allows for merging maps with a possibly non-existent override value.
-Params:
-  defaultVal = default value
-  overrideVal = possible override value
-*/}}
-{{- define "merger" -}}
-{{- if .overrideVal -}}
-{{- mergeOverwrite .overrideVal .defaultVal -}}
-{{- else -}}
-{{- .defaultVal -}}
-{{- end -}}
-{{- end -}}

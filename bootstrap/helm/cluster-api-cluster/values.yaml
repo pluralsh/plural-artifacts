@@ -5,12 +5,13 @@ type: managed
 
 cluster:
   ## The name of the cluster
-  name: ""
+  name: test-cluster
   ## The version of Kubernetes to deploy
   kubernetesVersion: ""
   ## The cidr blocks for pods
   podCidrBlocks:
   - 192.168.0.0/16
+  serviceCidrBlocks: []
 
   aws:
     ## The region to deploy the cluster to
