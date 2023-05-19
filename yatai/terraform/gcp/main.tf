@@ -57,11 +57,11 @@ resource "google_storage_bucket_iam_member" "this" {
   bucket = google_storage_bucket.this.name
   role   = "roles/storage.admin"
   #member = "serviceAccount:${google_service_account.this.email}"
-  member = "serviceAccount:${moudule.yatai_workload_identity.gcp_service_account_email}"
+  member = "serviceAccount:${module.yatai_workload_identity.gcp_service_account_email}"
 
   depends_on = [
     google_storage_bucket.this,
-    google_service_account.this
+    module.module.yatai_workload_identity
   ]
 }
 
