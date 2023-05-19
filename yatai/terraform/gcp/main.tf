@@ -54,10 +54,10 @@ resource "kubernetes_default_service_account" "default" {
 }
 
 resource "google_storage_bucket_iam_member" "this" {
-  bucket = google_storage_bucket.bucket.name
+  bucket = google_storage_bucket.this.name
   role   = "roles/storage.admin"
   #member = "serviceAccount:${google_service_account.this.email}"
-  member = "serviceAccount:${moudule.yatai_workload_dentity.gcp_service_account_email}"
+  member = "serviceAccount:${moudule.yatai_workload_identity.gcp_service_account_email}"
 
   depends_on = [
     google_storage_bucket.this,
