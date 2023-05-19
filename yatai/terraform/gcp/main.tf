@@ -91,7 +91,7 @@ resource "kubernetes_secret" "google_application_credentials" {
   }
 
   depends_on = [
-    kubernetes_namespace.airbyte
+    kubernetes_namespace.yatai
   ]
 }
 
