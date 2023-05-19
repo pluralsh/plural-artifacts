@@ -17,6 +17,10 @@ sections:
     type: BUCKET
     default: yatai
     documentation: Bucket to store BentoML models
+  - name: bucket_location
+    type: STRING
+    default: US
+    documentation: Bucket Location/Region to store BentoML models
   - name: hostname
     documentation: FQDN to use for your yatai installation
     type: DOMAIN
