@@ -1,7 +1,7 @@
 name: minio-azure-capi
 description: Installs minio on an azure aks cluster
 provider: AZURE
-primary: true
+private: true
 dependencies:
 - repo: bootstrap
   name: azure-cluster-capi

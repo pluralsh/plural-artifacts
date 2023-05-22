@@ -1,7 +1,7 @@
 name: ingress-nginx-azure-capi
 description: Installs ingress-nginx on an azure aks cluster
 provider: AZURE
-primary: true
+private: true
 dependencies:
 - repo: bootstrap
   name: azure-cluster-capi

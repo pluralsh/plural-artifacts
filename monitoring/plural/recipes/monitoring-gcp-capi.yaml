@@ -1,7 +1,7 @@
 name: monitoring-gcp-capi
 description: Installs monitoring on a gcp gke cluster
 provider: GCP
-primary: true
+private: true
 dependencies:
 - repo: bootstrap
   name: gcp-cluster-api

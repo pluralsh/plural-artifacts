@@ -1,7 +1,7 @@
 name: gcp-postgres-capi
 description: Installs postgres operator on a GKE cluster
 provider: GCP
-primary: true
+private: true
 dependencies:
 - repo: bootstrap
   name: gcp-cluster-api

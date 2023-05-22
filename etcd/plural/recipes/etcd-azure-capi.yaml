@@ -1,7 +1,7 @@
 name: etcd-azure-capi
 description: Installs etcd on an azure aks cluster
 provider: AZURE
-primary: true
+private: true
 dependencies:
 - repo: bootstrap
   name: azure-cluster-capi

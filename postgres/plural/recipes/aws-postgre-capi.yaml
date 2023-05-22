@@ -1,7 +1,7 @@
 name: aws-postgres-capi
 description: Installs postgres operator on an EKS cluster
 provider: AWS
-primary: true
+private: true
 dependencies:
 - repo: bootstrap
   name: aws-cluster-capi
