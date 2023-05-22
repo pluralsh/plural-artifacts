@@ -41,7 +41,7 @@ yatai-deployment:
 
 yatai-image-builder:
   yatai:
-    endpoint: http://yatai.{{ namespace "yatai" }}.svc.cluster.local
+    endpoint: http://yatai.yatai.svc.cluster.local
   serviceAccount:
     annotations:
       {{- if eq .Provider "aws" }}
