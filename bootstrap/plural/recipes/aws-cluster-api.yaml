@@ -1,4 +1,4 @@
-name: aws-cluster-api
+name: aws-cluster-capi
 description: Creates an eks cluster and installs the bootstrap chart
 provider: AWS
 primary: false

@@ -1,4 +1,4 @@
-name: azure-cluster-api
+name: azure-cluster-capi
 description: Creates an AKS cluster and installs the bootstrap chart
 provider: AZURE
 primary: false
@@ -14,11 +14,11 @@ sections:
       documentation: Service principal password
       type: STRING
     items:
-      - type: TERRAFORM
-        name: azure-bootstrap-cluster-api
-      - type: HELM
-        name: bootstrap
-      - type: HELM
-        name: plural-certmanager-webhook
-      - type: HELM
-        name: bootstrap-operator
+    - type: TERRAFORM
+      name: azure-bootstrap-cluster-api
+    - type: HELM
+      name: bootstrap
+    - type: HELM
+      name: plural-certmanager-webhook
+    - type: HELM
+      name: bootstrap-operator

@@ -1,7 +1,7 @@
 name: ingress-nginx-aws-capi
 description: Installs ingress-nginx on an aws eks cluster
 provider: AWS
-private: true
+primary: true
 dependencies:
 - repo: bootstrap
   name: aws-cluster-capi
