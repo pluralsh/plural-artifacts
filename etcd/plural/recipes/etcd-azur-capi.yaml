@@ -1,0 +1,15 @@
+name: etcd-azure-capi
+description: Installs etcd on an azure aks cluster
+provider: AZURE
+primary: true
+dependencies:
+- repo: bootstrap
+  name: azure-cluster-capi
+sections:
+- name: etcd
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: azure
+  - type: HELM
+    name: etcd

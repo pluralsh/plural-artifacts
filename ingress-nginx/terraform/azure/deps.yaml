@@ -2,12 +2,13 @@ apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
   description: ingress-nginx azure setup 
-  version: 0.1.0
+  version: 0.1.1
 spec:
   dependencies:
   - name: azure-bootstrap
     repo: bootstrap
     type: terraform
     version: '>= 0.1.1'
+    optional: true
   providers:
   - azure

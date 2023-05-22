@@ -1,0 +1,21 @@
+name: azure-postgres-capi
+description: Installs postgres operator on an EKS cluster
+provider: AZURE
+primary: true
+dependencies:
+- repo: bootstrap
+  name: azure-cluster-capi
+- repo: minio
+  name: minio-azure-capi
+sections:
+- name: postgres
+  configuration:
+  - name: wal_bucket
+    documentation: Arbitary name for s3 bucket to store wal archives in, eg plural-wal-archives
+    type: BUCKET
+    default: postgres-wal
+  items:
+  - type: TERRAFORM
+    name: azure
+  - type: HELM
+    name: postgres

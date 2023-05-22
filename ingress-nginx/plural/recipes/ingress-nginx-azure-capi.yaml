@@ -1,0 +1,17 @@
+name: ingress-nginx-azure-capi
+description: Installs ingress-nginx on an azure aks cluster
+provider: AZURE
+primary: true
+dependencies:
+- repo: bootstrap
+  name: azure-cluster-capi
+sections:
+- name: ingress-nginx
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: azure
+  - type: HELM
+    name: ingress-nginx
+  - type: HELM
+    name: ingress-nginx-private

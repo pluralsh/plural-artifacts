@@ -1,0 +1,17 @@
+name: ingress-nginx-gcp-capi
+description: Installs ingress-nginx on a gcp gke cluster
+provider: GCP
+primary: true
+dependencies:
+- repo: bootstrap
+  name: gcp-cluster-api
+sections:
+- name: ingress-nginx
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: ingress-nginx
+  - type: HELM
+    name: ingress-nginx-private
