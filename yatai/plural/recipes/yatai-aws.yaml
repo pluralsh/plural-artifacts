@@ -36,7 +36,7 @@ sections:
       value: true
   - name: image_registry
     documentation: Image registry URL to use for your Bento container images
-    type: DOMAIN
+    type: STRING
     condition:
       operation: NOT
       field: use_ecr
