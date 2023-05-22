@@ -12,7 +12,27 @@ dependencies:
   name: azure-postgres
 sections:
 - name: yatai
-  configuration: []
+  configuration:
+  - name: bucket
+    type: BUCKET
+    default: yatai
+    documentation: Bucket to store BentoML models
+  - name: hostname
+    documentation: FQDN to use for your yatai installation
+    type: DOMAIN
+  - name: image_repository_name
+    documentation: Image repo name 
+    type: STRING
+    default: yatai
+  - name: image_registry
+    documentation: Image registry URL to use for your Bento container images
+    type: STRING
+  - name: image_registry_username
+    documentation: Image registry username
+    type: STRING
+  - name: image_registry_password
+    documentation: Image registry password 
+    type: STRING
   items:
   - type: TERRAFORM
     name: azure
