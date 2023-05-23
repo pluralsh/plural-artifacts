@@ -191,12 +191,23 @@ workers:
       replicas: 0
       labels: {}
       spec:
-        mode:
-        name:
-        sku:
+        additionalTags: {}
+        mode: "User"
+        sku: "Standard_D8as_v5"
+        osDiskSizeGB: 50
+        availabilityZones:
+          - "1"
+        nodeLabels:
+          plural.sh/scalingGroup: medium-sustained-on-demand
+          plural.sh/capacityType: ON_DEMAND
+          plural.sh/performanceType: SUSTAINED
+        taints: {}
         scaling:
-          maxSize: 5
-          minSize: 2
+          maxSize: 27
+          minSize: 0
+        maxPods: 110
+        osDiskType: "Managed"
+        scaleSetPriority: "Regular"
   #################################
   ###        AWS WORKERS        ###
   #################################
@@ -252,9 +263,6 @@ workers:
     pool1:
       replicas: 2
       spec:
-        mode:
-        name:
-        sku:
         scaling:
           maxSize: 5
           minSize: 2
