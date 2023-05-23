@@ -1,4 +1,4 @@
-## The cloud provider to use, currently only aws is supported
+## The cloud provider to use. One of: aws, azure.
 provider: aws
 ## managed or unmanaged, currently only managed is supported
 type: managed
@@ -14,6 +14,9 @@ cluster:
   ## The cidr blocks for services
   serviceCidrBlocks: [] # TODO: check if we should be setting this
 
+  ##################################
+  ###         AWS CLUSTER        ###
+  ##################################
   aws:
     ## The region to deploy the cluster to
     region: ""
@@ -114,6 +117,9 @@ cluster:
     kubeProxy:
       disable: false
 
+  ###################################
+  ###        AZURE CLUSTER        ###
+  ###################################
   azure:
     # Name of AzureClusterIdentity to be used when reconciling this cluster.
     clusterIdentityName: "cluster-identity"
@@ -142,6 +148,9 @@ cluster:
 
 workers:
   defaults:
+    #########################################
+    ###        AWS WORKER DEFAULTS        ###
+    #########################################
     aws:
       replicas: 0 # TODO: update MachinePool to support default values
       labels: {}
@@ -175,6 +184,22 @@ workers:
           test: test
         roleAdditionalPolicies:
           - test
+    #########################################
+    ###       AZURE WORKER DEFAULTS       ###
+    #########################################
+    azure:
+      replicas: 0
+      labels: {}
+      spec:
+        mode:
+        name:
+        sku:
+        scaling:
+          maxSize: 5
+          minSize: 2
+  #################################
+  ###        AWS WORKERS        ###
+  #################################
   aws:
     test-pool-0:
       # annotations: {}
@@ -217,3 +242,19 @@ workers:
           maxUnavailable: 1
         additionalTags: {}
         roleAdditionalPolicies: []
+  #################################
+  ###       AZURE WORKERS       ###
+  #################################
+  azure:
+    pool0:
+      replicas: 1
+      spec: {}
+    pool1:
+      replicas: 2
+      spec:
+        mode:
+        name:
+        sku:
+        scaling:
+          maxSize: 5
+          minSize: 2
