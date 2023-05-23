@@ -260,10 +260,9 @@ workers:
         scaling:
           maxSize: 5
           minSize: 2
-  #################################
-  ###        AWS WORKERS        ###
-  #################################
-
+    #########################################
+    ###        GCP WORKER DEFAULTS        ###
+    #########################################
     gcp:
       scaling:
         maxCount: 5
@@ -278,7 +277,9 @@ workers:
           effect: no-schedule
       additionalLabels: {}
       providerIDList: []
-
+  #################################
+  ###        AWS WORKERS        ###
+  #################################
   aws:
     test-pool-0:
       # annotations: {}
@@ -337,7 +338,9 @@ workers:
         scaling:
           maxSize: 5
           minSize: 2
-
+  #################################
+  ###        GCP WORKERS        ###
+  #################################
   gcp:
     machine-pool-1:
       scaling:
