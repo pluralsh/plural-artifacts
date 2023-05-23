@@ -1,0 +1,49 @@
+{{- if and (eq .Values.provider "aws") (eq .Values.type "managed") -}}
+
+{{- $currentScope := . -}}
+{{- $defaultVals := .Values.workers.defaults.gcp -}}
+
+{{- range $name, $values := .Values.workers.gcp }}
+{{- with $currentScope}}
+{{- $nodePoolName := $.Values.cluster.name }}
+{{- $scaling := ($values | default dict).scaling | default $defaultVals.scaling }}
+{{- if $scaling }}
+{{- if not (and (hasKey $scaling "minCount") (hasKey $scaling "maxCount")) }}
+  {{- fail (printf "Invalid value for scaling. Both minCount and maxCount must be set") }}
+{{- end }}
+{{- end }}
+
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: GCPManagedMachinePool
+metadata:
+  name: {{ $.Values.cluster.name }}-{{ $name }}
+spec:
+  nodePoolName: {{ $.Values.cluster.name}}-{{ $name }}
+  scaling:
+    {{- toYaml $scaling | nindent 4 }}
+  kubernetesLabels:
+    {{- if (dig "kubernetesLabels" $values) -}}
+    {{- toYaml (merge $values.kubernetesLabels $defaultVals.kubernetesLabels)| nindent 4 }}
+    {{- else -}}
+    {{- toYaml $defaultVals.kubernetesLabels | nindent 4 }}
+    {{- end }}
+  {{- if or ($defaultVals.kubernetesTaints) (($values | default dict).kubernetesTaints) }}
+  kubernetesTaints:
+  {{- toYaml (($values | default dict).kubernetesTaints | default $defaultVals.kubernetesTaints) | nindent 2 }}
+  {{- end }}
+  additionalLabels:
+    {{- if (dig "additionalLabels" $values) -}}
+    {{- toYaml (merge $values.additionalLabels $defaultVals.additionalLabels)| nindent 4 }}
+    {{- else -}}
+    {{- toYaml $defaultVals.additionalLabels | nindent 4 }}
+    {{- end }}
+  providerIDList:
+    {{- if (dig "providerIDList" $values) -}}
+    {{- toYaml (merge $values.providerIDList $defaultVals.providerIDList)| nindent 4 }}
+    {{- else -}}
+    {{- toYaml $defaultVals.providerIDList | nindent 4 }}
+    {{- end }}
+{{ end }}
+---
+{{ end }}
+{{ end }}
