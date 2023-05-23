@@ -885,6 +885,9 @@ spec:
                 x-kubernetes-map-type: atomic
               kubernetesVersion:
                 type: string
+              moveCluster:
+                default: false
+                type: boolean
               skipClusterCreation:
                 default: false
                 type: boolean

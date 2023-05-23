@@ -60,9 +60,7 @@ cluster:
         #   toPort: 0
         #   protocol: "" # TODO: find valid values. Can be tcp.
       securityGroupOverrides: {}
-    identityRef:
-      name: ""
-      kind: ""
+    identityRef: {}
     secondaryCidrBlock: ""
     partition: ""
     roleName: ""
@@ -135,8 +133,7 @@ workers:
           minSize: 0
         availabilityZones:
         - eu-central-1a
-        subnetIDs:
-        - subnet-01c871067824f6f3f
+        subnetIDs: []
         labels:
           plural.sh/scalingGroup: small-burst-on-demand
           plural.sh/capacityType: ON_DEMAND
@@ -181,14 +178,8 @@ workers:
         - eu-central-1a
         - eu-central-1b
         - eu-central-1c
-        subnetIDs:
-        - subnet-01c871067824f6f3f
-        - subnet-0d37db2f4508155fb
-        - subnet-0d5fa087d66850ad2
-        labels:
-          plural.sh/scalingGroup: small-burst-spot
-          plural.sh/capacityType: SPOT
-          plural.sh/performanceType: BURSTABLE
+        subnetIDs: []
+        labels: {}
         taints:
         - key: plural.sh/capacityType
           value: SPOT
@@ -197,11 +188,7 @@ workers:
           value: "true"
           effect: no-schedule
         updateConfig:
-          # maxUnavailable: 1
-          maxSurge: 1
-        additionalTags:
-          test: test-overwrite
-          test2: test2
-        roleAdditionalPolicies:
-        - test2
+          maxUnavailable: 1
+        additionalTags: {}
+        roleAdditionalPolicies: []
  
