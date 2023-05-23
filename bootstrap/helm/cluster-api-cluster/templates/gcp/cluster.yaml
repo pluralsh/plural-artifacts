@@ -1,0 +1,28 @@
+{{- if and (eq .Values.provider "google") (eq .Values.type "managed") -}}
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: GCPManagedCluster
+metadata:
+  name: {{ .Values.cluster.name }}
+spec:
+  project: {{ .Values.cluster.gcp.project }}
+  region: {{ .Values.cluster.gcp.region }}
+  controlPlaneEndpoint:
+    host: ""
+    port: 0
+  network:
+    name: {{ .Values.cluster.name }}-network
+    {{ with .Values.cluster.gcp.network }}
+    autoCreateSubnetworks: {{ .autoCreateSubnetworks }}
+    {{ end }}
+    subnets:
+      {{ range .Values.cluster.gcp.subnets }}
+      - name: {{ $.Values.cluster.name }}-{{ .nameSuffix }}
+        region: {{ $.Values.cluster.gcp.region }}
+        cidrBlock: {{ .cidrBlock }}
+        description: {{ .description }}
+        secondaryCidrBlocks: {{ .secondaryCidrBlocks }}
+        privateGoogleAccess: {{ .privateGoogleAccess }}
+        enableFlowLogs: {{ .enableFlowLogs }}
+        purpose: {{ .purpose }}
+      {{ end }}
+{{- end }}

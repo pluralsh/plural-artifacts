@@ -146,6 +146,69 @@ cluster:
     # String literal containing an SSH public key base64 encoded.
     sshPublicKey: ""
 
+  gcp:
+    # Project is the id of the project to deploy the cluster to.
+    project: ""
+    # Region represents the location (region or zone) in which the GKE cluster will be created.
+    # Examples: "europe-central2" TODO: add more examples
+    region: ""
+    # EnableAutopilot indicates whether to enable autopilot for this GKE cluster.
+    #
+    # Note: Autopilot enabled clusters are not supported at this time.
+    enableAutopilot: false
+    # EnableWorkloadIdentity allows enabling workload identity during cluster creation when
+    # EnableAutopilot is disabled. It allows workloads in your GKE clusters to impersonate
+    # Identity and Access Management (IAM) service accounts to access Google Cloud services.
+    # Ref: https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity
+    enableWorkloadIdentity: true
+    # ReleaseChannel is the release channel of the GKE cluster
+    # Empty or one of: regular, rapid, stable
+    releaseChannel: ""
+    # Network encapsulates all things related to the GCP network.
+    network:
+      # AutoCreateSubnetworks: When set to true, the VPC network is created
+      # in "auto" mode. When set to false, the VPC network is created in
+      # "custom" mode.
+      #
+      # An auto mode VPC network starts with one subnet per region. Each
+      # subnet has a predetermined range as described in Auto mode VPC
+      # network IP ranges.
+      #
+      # Note: Only auto mode is supported at this time.
+      autoCreateSubnetworks: true
+    subnets:
+        # Subnet name is always created as:
+        # <clusterName>-<nameSuffix>
+      - nameSuffix: subnetwork
+        # CidrBlock is the range of internal addresses that are owned by this
+        # subnetwork. Provide this property when you create the subnetwork. For
+        # example, 10.0.0.0/8 or 192.168.0.0/16. Ranges must be unique and
+        # non-overlapping within a network. Only IPv4 is supported. This field
+        # can be set only at resource creation time.
+        cidrBlock: 10.0.32.0/20
+        # Description is an optional description associated with the resource.
+        description: ""
+        # SecondaryCidrBlocks defines secondary CIDR ranges,
+        # from which secondary IP ranges of a VM may be allocated
+        secondaryCidrBlocks: {}
+        # PrivateGoogleAccess defines whether VMs in this subnet can access
+        # Google services without assigning external IP addresses
+        privateGoogleAccess: true
+        # EnableFlowLogs: Whether to enable flow logging for this subnetwork.
+        # If this field is not explicitly set, it will not appear in get
+        # listings. If not set the default behavior is to disable flow logging.
+        enableFlowLogs: false
+        # Purpose: The purpose of the resource.
+        # If unspecified, the purpose defaults to PRIVATE_RFC_1918.
+        # The enableFlowLogs field isn't supported with the purpose field set to INTERNAL_HTTPS_LOAD_BALANCER.
+        # One of:
+        # - INTERNAL_HTTPS_LOAD_BALANCER - Subnet reserved for Internal HTTP(S) Load Balancing.
+        # - PRIVATE - Regular user created or automatically created subnet.
+        # - PRIVATE_RFC_1918 - Regular user created or automatically created subnet.
+        # - PRIVATE_SERVICE_CONNECT - Subnetworks created for Private Service Connect in the producer network.
+        # - REGIONAL_MANAGED_PROXY - Subnetwork used for Regional Internal/External HTTP(S) Load Balancing.
+        purpose: "PRIVATE_RFC_1918"
+
 workers:
   defaults:
     #########################################
@@ -208,6 +271,23 @@ workers:
         maxPods: 110
         osDiskType: "Managed"
         scaleSetPriority: "Regular"
+    #########################################
+    ###        GCP WORKER DEFAULTS        ###
+    #########################################
+    gcp:
+      scaling:
+        maxCount: 5
+        minCount: 2
+      kubernetesLabels: {}
+      kubernetesTaints:
+        - key: plural.sh/capacityType
+          value: SPOT
+          effect: no-schedule
+        - key: nvidia.com/gpu
+          value: "true"
+          effect: no-schedule
+      additionalLabels: {}
+      providerIDList: []
   #################################
   ###        AWS WORKERS        ###
   #################################
@@ -245,10 +325,10 @@ workers:
         taints:
           - key: plural.sh/capacityType
             value: SPOT
-            effect: no-schedule
+            effect: NoSchedule
           - key: nvidia.com/gpu
             value: "true"
-            effect: no-schedule
+            effect: NoSchedule
         updateConfig:
           maxUnavailable: 1
         additionalTags: {}
@@ -266,3 +346,21 @@ workers:
         scaling:
           maxSize: 5
           minSize: 2
+  #################################
+  ###        GCP WORKERS        ###
+  #################################
+  gcp:
+    machine-pool-1:
+      scaling:
+        maxCount: 5
+        minCount: 2
+      kubernetesLabels: {}
+      kubernetesTaints:
+        - key: plural.sh/capacityType
+          value: SPOT
+          effect: NoSchedule
+        - key: nvidia.com/gpu
+          value: "true"
+          effect: NoSchedule
+      additionalLabels: {}
+      providerIDList: []
