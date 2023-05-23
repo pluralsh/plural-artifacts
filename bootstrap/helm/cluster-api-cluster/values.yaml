@@ -10,7 +10,7 @@ cluster:
   kubernetesVersion: ""
   ## The cidr blocks for pods
   podCidrBlocks:
-  - 192.168.0.0/16
+    - 192.168.0.0/16
   ## The cidr blocks for services
   serviceCidrBlocks: [] # TODO: check if we should be setting this
 
@@ -21,16 +21,16 @@ cluster:
     sshKeyName: default
     ## The cluster addons to deploy
     addons:
-    - conflictResolution: overwrite
-      name: kube-proxy
-      version: v1.24.10-eksbuild.2
-    - conflictResolution: overwrite
-      name: vpc-cni
-      version: v1.12.6-eksbuild.1
-    - conflictResolution: overwrite
-      name: coredns
-      version: v1.9.3-eksbuild.3
-    
+      - conflictResolution: overwrite
+        name: kube-proxy
+        version: v1.24.10-eksbuild.2
+      - conflictResolution: overwrite
+        name: vpc-cni
+        version: v1.12.6-eksbuild.1
+      - conflictResolution: overwrite
+        name: coredns
+        version: v1.9.3-eksbuild.3
+
     network:
       vpc:
         id: ""
@@ -114,6 +114,32 @@ cluster:
     kubeProxy:
       disable: false
 
+  azure:
+    # Name of AzureClusterIdentity to be used when reconciling this cluster.
+    clusterIdentityName: "cluster-identity"
+    # Type of Azure Identity used.
+    # One of: ServicePrincipal, ServicePrincipalCertificate, UserAssignedMSI or ManualServicePrincipal.
+    clusterIdentityType: "ServicePrincipal"
+    # Service Principal client ID. Both Service Principal and User Assigned MSI can use this field.
+    clientID: ""
+    # Service Principal password.
+    clientSecret: ""
+    # Name of Secret containing clientSecret.
+    clientSecretName: "cluster-identity-secret"
+    # Azure resource ID for the User Assigned MSI resource.
+    resourceID:
+    # Service Principal primary tenant ID.
+    tenantID: ""
+    # GUID of the Azure subscription to hold this cluster.
+    subscriptionID: ""
+    # String matching one of the canonical Azure region names.
+    # Examples: "westus2", "eastus".
+    location: ""
+    # Name of the Azure resource group for this AKS Cluster.
+    resourceGroupName: ""
+    # String literal containing an SSH public key base64 encoded.
+    sshPublicKey: ""
+
 workers:
   defaults:
     aws:
@@ -132,23 +158,23 @@ workers:
           maxSize: 27
           minSize: 0
         availabilityZones:
-        - eu-central-1a
+          - eu-central-1a
         subnetIDs: []
         labels:
           plural.sh/scalingGroup: small-burst-on-demand
           plural.sh/capacityType: ON_DEMAND
           plural.sh/performanceType: BURSTABLE
         taints:
-        - key: plural.sh/capacityType
-          value: SPOT
-          effect: no-schedule
+          - key: plural.sh/capacityType
+            value: SPOT
+            effect: no-schedule
         updateConfig:
           maxUnavailable: 1
           # maxSurge: 1
         additionalTags:
           test: test
         roleAdditionalPolicies:
-        - test
+          - test
   aws:
     test-pool-0:
       # annotations: {}
@@ -175,20 +201,19 @@ workers:
           maxSize: 5
           minSize: 2
         availabilityZones:
-        - eu-central-1a
-        - eu-central-1b
-        - eu-central-1c
+          - eu-central-1a
+          - eu-central-1b
+          - eu-central-1c
         subnetIDs: []
         labels: {}
         taints:
-        - key: plural.sh/capacityType
-          value: SPOT
-          effect: no-schedule
-        - key: nvidia.com/gpu
-          value: "true"
-          effect: no-schedule
+          - key: plural.sh/capacityType
+            value: SPOT
+            effect: no-schedule
+          - key: nvidia.com/gpu
+            value: "true"
+            effect: no-schedule
         updateConfig:
           maxUnavailable: 1
         additionalTags: {}
         roleAdditionalPolicies: []
- 
