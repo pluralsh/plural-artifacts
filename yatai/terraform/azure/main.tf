@@ -48,15 +48,15 @@ data "minio_iam_policy_document" "admin" {
     actions = ["s3:*"]
 
     resources = concat(
-      [for bucket in var.bucket_names : "arn:aws:s3:::${bucket}"],
-      [for bucket in var.bucket_names : "arn:aws:s3:::${bucket}/*"]
+      ["arn:aws:s3:::${var.bucket}"],
+      ["arn:aws:s3:::${var.bucket}/*"]
     )
   }
 }
 
 resource "minio_iam_policy" "admin" {
   name   = "minio-admin"
-  policy = data.minio_iam_policy_document.this.json
+  policy = data.minio_iam_policy_document.admin.json
 
 }
 
