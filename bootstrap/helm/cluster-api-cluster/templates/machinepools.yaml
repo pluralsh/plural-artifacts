@@ -12,7 +12,7 @@ spec:
   replicas: {{ $values.replicas }}
   template:
     spec:
-      # version: # TODO: figure out if this value is useful
+      version: {{ $.Values.cluster.kubernetesVersion }}  # TODO: figure out if this value is useful
       # failureDomain: # TODO: figure out if we should set this value here. Must match a key in the FailureDomains map stored on the cluster object.
       clusterName: {{ $.Values.cluster.name }}
       bootstrap:

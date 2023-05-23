@@ -1,0 +1,39 @@
+{{- if and (eq .Values.provider "azure") (eq .Values.type "managed") -}}
+{{- $currentScope := . -}}
+{{- $defaultVals := .Values.workers.defaults.azure -}}
+{{- range $name, $values := .Values.workers.azure }}
+{{- with $currentScope}}
+{{- $scaling := ($values.spec | default dict).scaling | default $defaultVals.spec.scaling }}
+{{- if $scaling }}
+{{- if not (and (hasKey $scaling "minSize") (hasKey $scaling "maxSize")) }}
+  {{- fail (printf "Invalid value for scaling. Both minSize and maxSize must be set") }}
+{{- end }}
+{{- end }}
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: AzureManagedMachinePool
+metadata:
+  annotations:
+    {{- if (hasKey $values "annotations") -}}
+    {{- toYaml (merge $values.annotations $defaultVals.annotations)| nindent 4 }}
+    {{- else -}}
+    {{- toYaml $defaultVals.annotations | nindent 4 }}
+    {{- end }}
+  labels:
+    {{- if (hasKey $values "labels") -}}
+    {{- toYaml (merge $values.labels $defaultVals.labels)| nindent 4 }}
+    {{- else -}}
+    {{- toYaml $defaultVals.labels | nindent 4 }}
+    {{- end }}
+  name: {{ $name }}
+spec:
+  mode: User
+  name: {{ $name }}
+  sku: Standard_D2s_v3
+  {{- if $scaling }}
+  scaling:
+    {{- toYaml $scaling | nindent 4 }}
+  {{- end }}
+{{- end }}
+---
+{{- end }}
+{{ end }}

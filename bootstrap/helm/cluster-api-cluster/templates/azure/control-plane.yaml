@@ -8,9 +8,10 @@ spec:
     apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
     kind: AzureClusterIdentity
     name: {{ .Values.cluster.azure.clusterIdentityName }}
+    namespace: {{ .Release.Namespace }}
   location: {{ .Values.cluster.azure.location }}
   resourceGroupName: {{ .Values.cluster.azure.resourceGroupName }}
   sshPublicKey: {{ .Values.cluster.azure.sshPublicKey }}
-  subscriptionID:
+  subscriptionID: {{ .Values.cluster.azure.subscriptionID }}
   version: {{ .Values.cluster.kubernetesVersion }}
 {{- end }}
