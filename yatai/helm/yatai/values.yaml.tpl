@@ -76,3 +76,9 @@ yatai-image-builder:
     accessKeyID: {{ importValue "Terraform" "access_key_id" }}
     secretAccessKey: {{ importValue "Terraform" "secret_access_key" }}
   {{- end }}
+
+initialization:
+  email: {{ .Config.Email }}
+  username: admin
+  password: {{ dedupe . "yatai.initialization.password" (randAlphaNum 32) }}
+  

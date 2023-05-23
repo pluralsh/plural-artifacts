@@ -1,0 +1,56 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: secret-manager
+rules:
+- apiGroups: [""]
+  resources: ["secrets"]
+  verbs: ["get", "watch", "list", "create", "delete", "update"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: manage-secrets
+  namespace: {{ .Release.Namespace }}
+subjects:
+- kind: ServiceAccount
+  name: yatai
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: Role
+  name: secret-manager
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: yatai-initialization-setup
+  namespace: {{ .Release.Namespace }}
+spec:
+  template:
+    spec:
+      serviceAccountName: yatai
+      containers:
+      - name: setup
+        image: alpine/k8s:1.21.2
+        command: ["/bin/sh", "-c"]
+        args:
+        - |
+          echo "Waiting for Yatai deployment to be ready..."
+          kubectl wait --for=condition=available --timeout=600s deployment/yatai --namespace {{ .Release.Namespace }}
+          echo "Getting Yatai initialization token..."
+          export TOKEN=$(kubectl get secret yatai-env --namespace {{ .Release.Namespace }} -o jsonpath="{.data.YATAI_INITIALIZATION_TOKEN}" | base64 -d )
+          export USERNAME={{ .Values.initialization.username }}}
+          export PASSWORD={{ .Values.intialization.password }}
+          export EMAIL={{ .Values.initialization.email }}
+          echo "Creating admin account..."
+          curl -v -X POST -H "Content-Type: application/json" -d "{\"name\":\"$USERNAME\",\"email\":\"$EMAIL\",\"password\":\"$PASSWORD\",\"token\":\"$TOKEN\"}" yatai.{{ .Release.Namespace }}.svc.cluster.local/api/v1/setup?token=$TOKEN
+          if ! kubectl get secret yatai-initialization-admin-creds -n {{ .Release.Namespace }}; then
+            echo "Creating new 'yatai-admin-initialization-creds' secret..."
+            kubectl create secret generic yatai-initialization-admin-creds --from-literal=USERNAME=$USERNAME --from-literal=EMAIL=$EMAIL --from-literal=PASSWORD=$PASSWORD -n {{ .Release.Namespace }}
+          else
+            echo "'yatai-admin-initialization-creds' secret already exists. No action taken."
+          fi
+      restartPolicy: OnFailure
+  backoffLimit: 3
