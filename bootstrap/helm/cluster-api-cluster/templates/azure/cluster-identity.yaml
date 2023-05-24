@@ -9,7 +9,7 @@ spec:
   tenantID: {{ .Values.cluster.azure.tenantID }}
   clientID: {{ .Values.cluster.azure.clientID }}
   clientSecret:
-  {{ if .Values.operator.clientSecret }}
+  {{ if and .Values.cluster.azure.clientSecret .Values.cluster.azure.clientSecretName }}
     name: {{ .Values.cluster.azure.clientSecretName }}
     namespace: {{ .Release.Namespace }}
   {{ end }}
