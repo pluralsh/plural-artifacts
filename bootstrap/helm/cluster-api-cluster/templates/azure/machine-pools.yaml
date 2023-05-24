@@ -36,7 +36,7 @@ spec:
     {{- toYaml (($values.spec | default dict).availabilityZones | default $defaultVals.spec.availabilityZones) | nindent 2 }}
   {{- end }}
   nodeLabels: {} # TODO: Set.
-  taints: {} # TODO: Set.
+  taints: [] # TODO: Set.
   {{- if $scaling }}
   scaling:
     {{- toYaml $scaling | nindent 4 }}
