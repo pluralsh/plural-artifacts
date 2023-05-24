@@ -4,7 +4,7 @@ Frequently an airflow project needs more than our default pip setup installed to
 
 ### Custom Dockerfile
 
-The dockerfile for our image is found at https://github.com/pluralsh/plural-artifacts/blob/main/airflow/Dockerfile.  You'll also want to keep the `requirements.txt` file adjacent to it.  Simply move these two wherever you manage docker, add whatever pip packages to `requirements.txt` and push it to your container registry.
+The dockerfile for our image is found at https://github.com/pluralsh/containers/tree/main/airflow.  You'll also want to keep the `requirements.txt` file adjacent to it.  Simply move these two wherever you manage docker, add whatever pip packages to `requirements.txt` and push it to your container registry.
 
 ### wire airflow to point to new dockerfile
 

@@ -1,0 +1,35 @@
+name: harbor-gcp
+description: Installs harbor on an aws eks cluster
+provider: GCP
+primary: true
+oidcSettings:
+  authMethod: POST
+  uriFormat: https://{domain}/c/oidc/callback
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+- repo: postgres
+  name: gcp-postgres
+- repo: redis
+  name: gcp-redis
+sections:
+- name: harbor
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for your harbor installation
+    type: DOMAIN
+  - name: notaryHostname
+    documentation: FQDN to use for your harbor notary service
+    type: DOMAIN
+  - name: bucket
+    documentation: S3 Bucket to store harbor images
+    type: BUCKET
+    default: harbor
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: harbor

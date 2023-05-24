@@ -1,0 +1,15 @@
+name: monitoring-aws-capi
+description: Installs monitoring on an aws eks cluster
+provider: AWS
+private: true
+dependencies:
+- repo: bootstrap
+  name: aws-cluster-capi
+sections:
+- name: monitoring
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: monitoring

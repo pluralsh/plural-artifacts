@@ -1,9 +1,9 @@
 docker.io:
   images:
     postgres:
-    - "9.6.24"
+      - "9.6.24"
     dagster/user-code-example:
-    - "1.2.7"
+      - "1.3.2"
   images-by-tag-regex:
     dagster/dagster-celery-k8s: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
     busybox: ^v?[0-9]+\.[0-9]+?\.[0-9]+$

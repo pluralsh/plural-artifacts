@@ -1,0 +1,61 @@
+name: yatai-aws
+description: Installs yatai on an aws eks cluster
+provider: AWS
+primary: true
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+- repo: postgres
+  name: aws-postgres
+sections:
+- name: yatai
+  configuration:
+  - name: bucket
+    documentation: S3 Bucket to store BentoML models
+    type: BUCKET
+  - name: hostname
+    documentation: FQDN to use for your yatai installation
+    type: DOMAIN
+  - name: image_repository_name
+    documentation: Image repo name 
+    type: STRING
+    default: yatai
+  - name: use_ecr
+    documentation: Whether to use ECR or not
+    type: BOOL
+    default: true
+  - name: ecr_repository_type
+    documentation: Type of the ECR repository to create, can be one of `public` or `private`
+    type: STRING
+    default: private
+    condition:
+      operation: EQ
+      field: use_ecr
+      value: true
+  - name: image_registry
+    documentation: Image registry URL to use for your Bento container images
+    type: DOMAIN
+    condition:
+      operation: NOT
+      field: use_ecr
+  - name: image_registry_username
+    documentation: Image registry username
+    type: STRING
+    condition:
+      operation: NOT
+      field: use_ecr
+  - name: image_registry_password
+    documentation: Image registry password 
+    type: STRING
+    condition:
+      operation: NOT
+      field: use_ecr
+  
+
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: yatai

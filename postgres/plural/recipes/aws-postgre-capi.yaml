@@ -1,0 +1,19 @@
+name: aws-postgres-capi
+description: Installs postgres operator on an EKS cluster
+provider: AWS
+private: true
+dependencies:
+- repo: bootstrap
+  name: aws-cluster-capi
+sections:
+- name: postgres
+  configuration:
+  - name: wal_bucket
+    documentation: Arbitary name for s3 bucket to store wal archives in, eg plural-wal-archives
+    type: BUCKET
+    default: postgres-wal
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: postgres

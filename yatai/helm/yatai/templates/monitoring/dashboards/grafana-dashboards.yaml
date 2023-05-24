@@ -1,0 +1,19 @@
+{{ $currentScope := .}}
+{{ range $path, $_ :=  .Files.Glob  "grafana-dashboards/*.json" }}
+{{ $file := $path | base }}
+{{ $name := print ($file | trimSuffix ".json")  "-dashboard" }}
+{{- with $currentScope}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $name }}
+  labels: {{ include "yatai-plural.labels" . | nindent 4 }}
+    grafana_dashboard: {{ $name }}
+  annotations:
+    k8s-sidecar-target-directory: /tmp/dashboards/BentoML Dashboards
+data:
+  {{ $file }}: |-
+{{ .Files.Get $path | indent 4 }}
+---
+{{- end }}
+{{ end }}

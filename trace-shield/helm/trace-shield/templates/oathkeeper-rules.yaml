@@ -7,29 +7,7 @@ metadata:
 data:
   access-rules.yaml: |-
     {{- if  .Values.config.mimir.enabled }}
-    - id: grafana:mimir-api:protected
-      upstream:
-        url: http://{{ .Values.config.mimir.internalURL }}
-        preserve_host: true
-      match:
-        methods:
-          - GET # TODO: split methods so we can do a proper authorization check
-          - POST
-          - PUT
-          - DELETE
-          - PATCH
-          - OPTIONS
-        url: https://{{ .Values.config.mimir.publicURL }}/api<.*>
-      authenticators:
-        - handler: oauth2_introspection
-      authorizer:
-        handler: allow
-      mutators:
-        - handler: hydrator
-          config:
-            api:
-              url: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}/tenant-hydrator
-    - id: grafana:mimir-prometheus:protected
+    - id: grafana:mimir:read_metrics
       upstream:
         url: http://{{ .Values.config.mimir.internalURL }}
         preserve_host: true
@@ -37,20 +15,191 @@ data:
         methods:
           - GET
           - POST
-          - PUT
-          - DELETE
-          - PATCH
-          - OPTIONS
-        url: https://{{ .Values.config.mimir.publicURL }}/prometheus<.*> # TODO: does this need to be separate
+        url: https://{{ .Values.config.mimir.publicURL }}/prometheus/api/v1/<status|query|query_range|query_exemplars|series|label|metadata|read|cardinality><.*>
       authenticators:
         - handler: oauth2_introspection
       authorizer:
-        handler: allow
+        handler: remote_json
+        config:
+          remote: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}/check
+          forward_response_headers_to_upstream:
+          - X-Scope-OrgID
+          payload: |
+            {
+              "subject": {{`"{{ print .Subject }}"`}},
+              "requestedPermission": "read_metrics",
+              "isOAuth2Client": {{`{{ eq (print .Subject) (print .Extra.client_id) }}`}}
+            }
       mutators:
-        - handler: hydrator
-          config:
-            api:
-              url: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}/tenant-hydrator
+        - handler: noop
+    - id: grafana:mimir:write_metrics
+      upstream:
+        url: http://{{ .Values.config.mimir.internalURL }}
+        preserve_host: true
+      match:
+        methods:
+          - POST
+        url: https://{{ .Values.config.mimir.publicURL }}</api/v1/push.*|/otlp/v1/metrics.*>
+      authenticators:
+        - handler: oauth2_introspection
+      authorizer:
+        handler: remote_json
+        config:
+          remote: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}/check
+          forward_response_headers_to_upstream:
+          - X-Scope-OrgID
+          payload: |
+            {
+              "subject": {{`"{{ print .Subject }}"`}},
+              "requestedPermission": "write_metrics",
+              "isOAuth2Client": {{`{{ eq (print .Subject) (print .Extra.client_id) }}`}}
+            }
+      mutators:
+        - handler: noop
+    - id: grafana:mimir:read_metrics_rules
+      upstream:
+        url: http://{{ .Values.config.mimir.internalURL }}
+        preserve_host: true
+      match:
+        methods:
+          - GET
+        url: https://{{ .Values.config.mimir.publicURL }}</ruler/rule_groups.*|/prometheus/api/v1/rules.*|/prometheus/api/v1/alerts.*|/prometheus/config/v1/rules.*>
+      authenticators:
+        - handler: oauth2_introspection
+      authorizer:
+        handler: remote_json
+        config:
+          remote: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}/check
+          forward_response_headers_to_upstream:
+          - X-Scope-OrgID
+          payload: |
+            {
+              "subject": {{`"{{ print .Subject }}"`}},
+              "requestedPermission": "read_metrics_rules",
+              "isOAuth2Client": {{`{{ eq (print .Subject) (print .Extra.client_id) }}`}}
+            }
+      mutators:
+        - handler: noop
+    - id: grafana:mimir:write_metrics_rules
+      upstream:
+        url: http://{{ .Values.config.mimir.internalURL }}
+        preserve_host: true
+      match:
+        methods:
+          - POST
+        url: https://{{ .Values.config.mimir.publicURL }}/prometheus/config/v1/rules/<.*>
+      authenticators:
+        - handler: oauth2_introspection
+      authorizer:
+        handler: remote_json
+        config:
+          remote: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}/check
+          forward_response_headers_to_upstream:
+          - X-Scope-OrgID
+          payload: |
+            {
+              "subject": {{`"{{ print .Subject }}"`}},
+              "requestedPermission": "write_metrics_rules",
+              "isOAuth2Client": {{`{{ eq (print .Subject) (print .Extra.client_id) }}`}}
+            }
+      mutators:
+        - handler: noop
+    - id: grafana:mimir:delete_metrics_rules
+      upstream:
+        url: http://{{ .Values.config.mimir.internalURL }}
+        preserve_host: true
+      match:
+        methods:
+          - DELETE
+        url: https://{{ .Values.config.mimir.publicURL }}/prometheus/config/v1/rules/<.*>
+      authenticators:
+        - handler: oauth2_introspection
+      authorizer:
+        handler: remote_json
+        config:
+          remote: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}/check
+          forward_response_headers_to_upstream:
+          - X-Scope-OrgID
+          payload: |
+            {
+              "subject": {{`"{{ print .Subject }}"`}},
+              "requestedPermission": "delete_metrics_rules",
+              "isOAuth2Client": {{`{{ eq (print .Subject) (print .Extra.client_id) }}`}}
+            }
+      mutators:
+        - handler: noop
+    - id: grafana:mimir:read_metrics_alerts
+      upstream:
+        url: http://{{ .Values.config.mimir.internalURL }}
+        preserve_host: true
+      match:
+        methods:
+          - GET
+        url: https://{{ .Values.config.mimir.publicURL }}</multitenant_alertmanager/configs.*|/api/v1/alerts.*> #TODO: add /alertmanager
+      authenticators:
+        - handler: oauth2_introspection
+      authorizer:
+        handler: remote_json
+        config:
+          remote: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}/check
+          forward_response_headers_to_upstream:
+          - X-Scope-OrgID
+          payload: |
+            {
+              "subject": {{`"{{ print .Subject }}"`}},
+              "requestedPermission": "read_metrics_alerts",
+              "isOAuth2Client": {{`{{ eq (print .Subject) (print .Extra.client_id) }}`}}
+            }
+      mutators:
+        - handler: noop
+    - id: grafana:mimir:write_metrics_alerts
+      upstream:
+        url: http://{{ .Values.config.mimir.internalURL }}
+        preserve_host: true
+      match:
+        methods:
+          - POST
+        url: https://{{ .Values.config.mimir.publicURL }}/api/v1/alerts<.*>
+      authenticators:
+        - handler: oauth2_introspection
+      authorizer:
+        handler: remote_json
+        config:
+          remote: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}/check
+          forward_response_headers_to_upstream:
+          - X-Scope-OrgID
+          payload: |
+            {
+              "subject": {{`"{{ print .Subject }}"`}},
+              "requestedPermission": "write_metrics_alerts",
+              "isOAuth2Client": {{`{{ eq (print .Subject) (print .Extra.client_id) }}`}}
+            }
+      mutators:
+        - handler: noop
+    - id: grafana:mimir:delete_metrics_alerts
+      upstream:
+        url: http://{{ .Values.config.mimir.internalURL }}
+        preserve_host: true
+      match:
+        methods:
+          - DELETE
+        url: https://{{ .Values.config.mimir.publicURL }}/api/v1/alerts<.*>
+      authenticators:
+        - handler: oauth2_introspection
+      authorizer:
+        handler: remote_json
+        config:
+          remote: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}/check
+          forward_response_headers_to_upstream:
+          - X-Scope-OrgID
+          payload: |
+            {
+              "subject": {{`"{{ print .Subject }}"`}},
+              "requestedPermission": "delete_metrics_alerts",
+              "isOAuth2Client": {{`{{ eq (print .Subject) (print .Extra.client_id) }}`}}
+            }
+      mutators:
+        - handler: noop
     - id: grafana:mimir-alertmanager:protected
       upstream:
         url: http://{{ .Values.config.mimir.internalURL }}
@@ -76,96 +225,176 @@ data:
               url: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}/tenant-hydrator
     {{- end }}
     {{- if  .Values.config.loki.enabled }}
-    - id: grafana:loki-api:protected
-      upstream:
-        url: http://{{ .Values.config.loki.internalURL }}
-        preserve_host: true
-      match:
-        methods:
-          - GET # TODO: split methods so we can do a proper authorization check
-          - POST
-          - PUT
-          - DELETE
-          - PATCH
-          - OPTIONS
-        url: https://{{ .Values.config.loki.publicURL }}/<loki.*|api.*>
-      authenticators:
-        - handler: oauth2_introspection
-      authorizer:
-        handler: allow
-      mutators:
-        - handler: hydrator
-          config:
-            api:
-              url: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}/tenant-hydrator
-    - id: grafana:loki-prometheus:protected
+    - id: grafana:loki:read_logs
       upstream:
         url: http://{{ .Values.config.loki.internalURL }}
         preserve_host: true
       match:
         methods:
           - GET
-          - POST
-          - PUT
-          - DELETE
-          - PATCH
-          - OPTIONS
-        url: https://{{ .Values.config.loki.publicURL }}/prometheus<.*> # TODO: does this need to be separate
+        url: https://{{ .Values.config.loki.publicURL }}/loki/api/v1/<query|query_range|label|series|tail><.*>
       authenticators:
         - handler: oauth2_introspection
       authorizer:
-        handler: allow
+        handler: remote_json
+        config:
+          remote: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}/check
+          forward_response_headers_to_upstream:
+          - X-Scope-OrgID
+          payload: |
+            {
+              "subject": {{`"{{ print .Subject }}"`}},
+              "requestedPermission": "read_logs",
+              "isOAuth2Client": {{`{{ eq (print .Subject) (print .Extra.client_id) }}`}}
+            }
       mutators:
-        - handler: hydrator
-          config:
-            api:
-              url: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}/tenant-hydrator
+        - handler: noop
+    - id: grafana:loki:write_logs
+      upstream:
+        url: http://{{ .Values.config.loki.internalURL }}
+        preserve_host: true
+      match:
+        methods:
+          - POST
+        url: https://{{ .Values.config.loki.publicURL }}/loki/api/v1/push<.*>
+      authenticators:
+        - handler: oauth2_introspection
+      authorizer:
+        handler: remote_json
+        config:
+          remote: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}/check
+          forward_response_headers_to_upstream:
+          - X-Scope-OrgID
+          payload: |
+            {
+              "subject": {{`"{{ print .Subject }}"`}},
+              "requestedPermission": "write_logs",
+              "isOAuth2Client": {{`{{ eq (print .Subject) (print .Extra.client_id) }}`}}
+            }
+      mutators:
+        - handler: noop
+    - id: grafana:loki:read_logs_rules
+      upstream:
+        url: http://{{ .Values.config.loki.internalURL }}
+        preserve_host: true
+      match:
+        methods:
+          - GET
+        url: https://{{ .Values.config.loki.publicURL }}</loki/api/v1/rules|/prometheus/api/v1/rules|/prometheus/config/v1/rules><.*>
+      authenticators:
+        - handler: oauth2_introspection
+      authorizer:
+        handler: remote_json
+        config:
+          remote: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}/check
+          forward_response_headers_to_upstream:
+          - X-Scope-OrgID
+          payload: |
+            {
+              "subject": {{`"{{ print .Subject }}"`}},
+              "requestedPermission": "read_logs_rules",
+              "isOAuth2Client": {{`{{ eq (print .Subject) (print .Extra.client_id) }}`}}
+            }
+      mutators:
+        - handler: noop
+    - id: grafana:loki:write_logs_rules
+      upstream:
+        url: http://{{ .Values.config.loki.internalURL }}
+        preserve_host: true
+      match:
+        methods:
+          - POST
+        url: https://{{ .Values.config.loki.publicURL }}/loki/api/v1/rules<.*>
+      authenticators:
+        - handler: oauth2_introspection
+      authorizer:
+        handler: remote_json
+        config:
+          remote: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}/check
+          forward_response_headers_to_upstream:
+          - X-Scope-OrgID
+          payload: |
+            {
+              "subject": {{`"{{ print .Subject }}"`}},
+              "requestedPermission": "write_logs_rules",
+              "isOAuth2Client": {{`{{ eq (print .Subject) (print .Extra.client_id) }}`}}
+            }
+      mutators:
+        - handler: noop
+    - id: grafana:loki:delete_logs_rules
+      upstream:
+        url: http://{{ .Values.config.loki.internalURL }}
+        preserve_host: true
+      match:
+        methods:
+          - DELETE
+        url: https://{{ .Values.config.loki.publicURL }}/loki/api/v1/rules<.*>
+      authenticators:
+        - handler: oauth2_introspection
+      authorizer:
+        handler: remote_json
+        config:
+          remote: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}/check
+          forward_response_headers_to_upstream:
+          - X-Scope-OrgID
+          payload: |
+            {
+              "subject": {{`"{{ print .Subject }}"`}},
+              "requestedPermission": "delete_logs_rules",
+              "isOAuth2Client": {{`{{ eq (print .Subject) (print .Extra.client_id) }}`}}
+            }
+      mutators:
+        - handler: noop
     {{- end }}
     {{- if  .Values.config.tempo.enabled }}
-    - id: grafana:tempo-api:protected
+    - id: grafana:tempo:read_traces
       upstream:
         url: http://{{ .Values.config.tempo.internalURL }}
         preserve_host: true
       match:
         methods:
-          - GET # TODO: split methods so we can do a proper authorization check
-          - POST
-          - PUT
-          - DELETE
-          - PATCH
-          - OPTIONS
-        url: https://{{ .Values.config.tempo.publicURL }}/<api.*>
+          - GET
+        url: https://{{ .Values.config.tempo.publicURL }}/api/<traces|search|v2/search><.*>
       authenticators:
         - handler: oauth2_introspection
       authorizer:
-        handler: allow
+        handler: remote_json
+        config:
+          remote: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}/check
+          forward_response_headers_to_upstream:
+          - X-Scope-OrgID
+          payload: |
+            {
+              "subject": {{`"{{ print .Subject }}"`}},
+              "requestedPermission": "read_traces",
+              "isOAuth2Client": {{`{{ eq (print .Subject) (print .Extra.client_id) }}`}}
+            }
       mutators:
-        - handler: hydrator
-          config:
-            api:
-              url: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}/tenant-hydrator
-    - id: grafana:tempo-gRPC:protected
+        - handler: noop
+    - id: grafana:tempo:write_traces
       upstream:
-        url: http://{{ .Values.config.tempo.internalURL }} # TODO: make this actually work with gRPC
+        url: http://{{ .Values.config.tempo.internalURL }}
         preserve_host: true
       match:
         methods:
-          - GET
-          - POST
-          - PUT
-          - DELETE
-          - PATCH
-          - OPTIONS
-        url: https://{{ .Values.config.tempo.publicURL }}/prometheus<.*> # TODO: make this actually work with gRPC
+          - POST # TODO: figure out how to support gRPC et. al.
+        url: https://{{ .Values.config.tempo.publicURL }}</otlp/v1/traces|/jaeger/api/traces|/zipkin/spans><.*>
       authenticators:
         - handler: oauth2_introspection
       authorizer:
-        handler: allow
+        handler: remote_json
+        config:
+          remote: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}/check
+          forward_response_headers_to_upstream:
+          - X-Scope-OrgID
+          payload: |
+            {
+              "subject": {{`"{{ print .Subject }}"`}},
+              "requestedPermission": "write_traces",
+              "isOAuth2Client": {{`{{ eq (print .Subject) (print .Extra.client_id) }}`}}
+            }
       mutators:
-        - handler: hydrator
-          config:
-            api:
-              url: http://{{ include "trace-shield.fullname" . }}-backend:{{ .Values.backend.service.port }}/tenant-hydrator
+        - handler: noop
     {{- end }}
   {{- with .Values.oathkeeper.oathkeeper.extraAccessRules }}
     {{- toYaml . | nindent 4 }}

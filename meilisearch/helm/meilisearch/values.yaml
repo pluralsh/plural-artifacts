@@ -1,0 +1,13 @@
+meilisearch:
+  masterKey: CHANGE_ME
+  image:
+    repository: getmeili/meilisearch # TODO: change this after the vendor image is published
+    tag: v1.1.1
+  ingress:
+    enabled: true
+    className: "nginx"
+    annotations:
+      kubernetes.io/tls-acme: "true"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+  persistence:
+    enabled: true

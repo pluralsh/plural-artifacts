@@ -28,16 +28,20 @@ If you go to `airbyte/helm/airbyte/values.yaml` you'll need to provide credentia
 ```yaml
 externalDb:
   password: <my password>
+global:
+  database:
+    secretName: airbyte-db-password
+    secretValue: password
 airbyte:
   airbyte:
     externalDatabase:
       database: <YOUR_DB_NAME>
       host: <YOUR_DB_URL>
-      existingSecret: airbyte-db-password
-      existingSecretPasswordKey: password
       user: <YOU_DB_USER>
       port: 5432
 ```
+
+(we're ultimately beholden to the structure defined in airbyte's upstream helm chart here)
 
 ### redeploy
 

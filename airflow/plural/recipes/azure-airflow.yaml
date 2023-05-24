@@ -14,6 +14,8 @@ dependencies:
   name: ingress-nginx-azure
 - repo: postgres
   name: azure-postgres
+- repo: redis
+  name: azure-redis
 tests:
 - name: git access
   type: GIT

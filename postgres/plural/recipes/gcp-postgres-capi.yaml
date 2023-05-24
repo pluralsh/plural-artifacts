@@ -1,0 +1,19 @@
+name: gcp-postgres-capi
+description: Installs postgres operator on a GKE cluster
+provider: GCP
+private: true
+dependencies:
+- repo: bootstrap
+  name: gcp-cluster-api
+sections:
+- name: postgres
+  configuration:
+  - name: wal_bucket
+    documentation: Arbitrary name for google cloud storage bucket to store wal archives in, eg plural-wal-archives
+    type: BUCKET
+    default: postgres-wal
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: postgres

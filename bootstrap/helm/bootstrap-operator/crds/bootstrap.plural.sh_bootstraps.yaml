@@ -84,11 +84,186 @@ spec:
                         type: array
                       fetchConfigUrl:
                         type: string
-                      instanceType:
-                        type: string
-                      machinePoolReplicas:
-                        format: int32
-                        type: integer
+                      machinePools:
+                        items:
+                          properties:
+                            additionalTags:
+                              additionalProperties:
+                                type: string
+                              description: AdditionalTags is an optional set of tags
+                                to add to AWS resources managed by the AWS provider,
+                                in addition to the ones added by default.
+                              type: object
+                            amiType:
+                              default: AL2_x86_64
+                              description: AMIType defines the AMI type
+                              enum:
+                              - AL2_x86_64
+                              - AL2_x86_64_GPU
+                              - AL2_ARM_64
+                              - CUSTOM
+                              type: string
+                            amiVersion:
+                              description: AMIVersion defines the desired AMI release
+                                version. If no version number is supplied then the
+                                latest version for the Kubernetes version will be
+                                used
+                              minLength: 2
+                              type: string
+                            availabilityZones:
+                              description: AvailabilityZones is an array of availability
+                                zones instances can run in
+                              items:
+                                type: string
+                              type: array
+                            capacityType:
+                              default: onDemand
+                              description: CapacityType specifies the capacity type
+                                for the ASG behind this pool
+                              enum:
+                              - onDemand
+                              - spot
+                              type: string
+                            diskSize:
+                              description: DiskSize specifies the root disk size
+                              format: int32
+                              type: integer
+                            eksNodegroupName:
+                              description: EKSNodegroupName specifies the name of
+                                the nodegroup in AWS corresponding to this MachinePool.
+                                If you don't specify a name then a default name will
+                                be created based on the namespace and name of the
+                                managed machine pool.
+                              type: string
+                            instanceType:
+                              description: InstanceType specifies the AWS instance
+                                type
+                              type: string
+                            labels:
+                              additionalProperties:
+                                type: string
+                              description: Labels specifies labels for the Kubernetes
+                                node objects
+                              type: object
+                            name:
+                              type: string
+                            providerIDList:
+                              description: ProviderIDList are the provider IDs of
+                                instances in the autoscaling group corresponding to
+                                the nodegroup represented by this machine pool
+                              items:
+                                type: string
+                              type: array
+                            remoteAccess:
+                              description: RemoteAccess specifies how machines can
+                                be accessed remotely
+                              properties:
+                                public:
+                                  description: Public specifies whether to open port
+                                    22 to the public internet
+                                  type: boolean
+                                sourceSecurityGroups:
+                                  description: SourceSecurityGroups specifies which
+                                    security groups are allowed access
+                                  items:
+                                    type: string
+                                  type: array
+                                sshKeyName:
+                                  description: SSHKeyName specifies which EC2 SSH
+                                    key can be used to access machines. If left empty,
+                                    the key from the control plane is used.
+                                  type: string
+                              type: object
+                            replicas:
+                              description: Number of desired machines. Defaults to
+                                1. This is a pointer to distinguish between explicit
+                                zero and not specified.
+                              format: int32
+                              type: integer
+                            roleAdditionalPolicies:
+                              description: RoleAdditionalPolicies allows you to attach
+                                additional polices to the node group role. You must
+                                enable the EKSAllowAddRoles feature flag to incorporate
+                                these into the created role.
+                              items:
+                                type: string
+                              type: array
+                            roleName:
+                              description: RoleName specifies the name of IAM role
+                                for the node group. If the role is pre-existing we
+                                will treat it as unmanaged and not delete it on deletion.
+                                If the EKSEnableIAM feature flag is true and no name
+                                is supplied then a role is created.
+                              type: string
+                            scaling:
+                              description: Scaling specifies scaling for the ASG behind
+                                this pool
+                              properties:
+                                maxSize:
+                                  format: int32
+                                  type: integer
+                                minSize:
+                                  format: int32
+                                  type: integer
+                              type: object
+                            subnetIDs:
+                              description: SubnetIDs specifies which subnets are used
+                                for the auto scaling group of this nodegroup
+                              items:
+                                type: string
+                              type: array
+                            taints:
+                              description: Taints specifies the taints to apply to
+                                the nodes of the machine pool
+                              items:
+                                description: Taint defines the specs for a Kubernetes
+                                  taint.
+                                properties:
+                                  effect:
+                                    description: Effect specifies the effect for the
+                                      taint
+                                    enum:
+                                    - no-schedule
+                                    - no-execute
+                                    - prefer-no-schedule
+                                    type: string
+                                  key:
+                                    description: Key is the key of the taint
+                                    type: string
+                                  value:
+                                    description: Value is the value of the taint
+                                    type: string
+                                required:
+                                - effect
+                                - key
+                                - value
+                                type: object
+                              type: array
+                            updateConfig:
+                              description: UpdateConfig holds the optional config
+                                to control the behaviour of the update to the nodegroup.
+                              properties:
+                                maxUnavailable:
+                                  description: MaxUnavailable is the maximum number
+                                    of nodes unavailable at once during a version
+                                    update. Nodes will be updated in parallel. The
+                                    maximum number is 100.
+                                  maximum: 100
+                                  minimum: 1
+                                  type: integer
+                                maxUnavailablePercentage:
+                                  description: MaxUnavailablePercentage is the maximum
+                                    percentage of nodes unavailable during a version
+                                    update. This percentage of nodes will be updated
+                                    in parallel, up to 100 nodes at once.
+                                  maximum: 100
+                                  minimum: 1
+                                  type: integer
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        type: array
                       region:
                         type: string
                       secretAccessKeyRef:
@@ -223,37 +398,248 @@ spec:
                         type: string
                     required:
                     - accessKeyIdRef
-                    - instanceType
-                    - machinePoolReplicas
+                    - machinePools
                     - region
                     - secretAccessKeyRef
                     - sessionTokenRef
                     type: object
-                  gcp:
+                  azure:
                     properties:
-                      controlPlane:
-                        description: GCPManagedControlPlaneSpec defines the desired
-                          state of GCPManagedControlPlane.
+                      clusterIdentity:
+                        description: AzureClusterIdentity defines the parameters that
+                          are used to create an AzureIdentity.
                         properties:
-                          clusterName:
-                            description: ClusterName allows you to specify the name
-                              of the GKE cluster. If you don't specify a name then
-                              a default name will be created based on the namespace
-                              and name of the managed control plane.
+                          allowedNamespaces:
+                            description: AllowedNamespaces is used to identify the
+                              namespaces the clusters are allowed to use the identity
+                              from. Namespaces can be selected either using an array
+                              of namespaces or with label selector. An empty allowedNamespaces
+                              object indicates that AzureClusters can use this identity
+                              from any namespace. If this object is nil, no namespaces
+                              will be allowed (default behaviour, if this field is
+                              not provided) A namespace should be either in the NamespaceList
+                              or match with Selector to use the identity.
+                            nullable: true
+                            properties:
+                              list:
+                                description: A nil or empty list indicates that AzureCluster
+                                  cannot use the identity from any namespace.
+                                items:
+                                  type: string
+                                nullable: true
+                                type: array
+                              selector:
+                                description: "Selector is a selector of namespaces
+                                  that AzureCluster can use this Identity from. This
+                                  is a standard Kubernetes LabelSelector, a label
+                                  query over a set of resources. The result of matchLabels
+                                  and matchExpressions are ANDed. \n A nil or empty
+                                  selector indicates that AzureCluster cannot use
+                                  this AzureClusterIdentity from any namespace."
+                                properties:
+                                  matchExpressions:
+                                    description: matchExpressions is a list of label
+                                      selector requirements. The requirements are
+                                      ANDed.
+                                    items:
+                                      description: A label selector requirement is
+                                        a selector that contains values, a key, and
+                                        an operator that relates the key and values.
+                                      properties:
+                                        key:
+                                          description: key is the label key that the
+                                            selector applies to.
+                                          type: string
+                                        operator:
+                                          description: operator represents a key's
+                                            relationship to a set of values. Valid
+                                            operators are In, NotIn, Exists and DoesNotExist.
+                                          type: string
+                                        values:
+                                          description: values is an array of string
+                                            values. If the operator is In or NotIn,
+                                            the values array must be non-empty. If
+                                            the operator is Exists or DoesNotExist,
+                                            the values array must be empty. This array
+                                            is replaced during a strategic merge patch.
+                                          items:
+                                            type: string
+                                          type: array
+                                      required:
+                                      - key
+                                      - operator
+                                      type: object
+                                    type: array
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    description: matchLabels is a map of {key,value}
+                                      pairs. A single {key,value} in the matchLabels
+                                      map is equivalent to an element of matchExpressions,
+                                      whose key field is "key", the operator is "In",
+                                      and the values array contains only "value".
+                                      The requirements are ANDed.
+                                    type: object
+                                type: object
+                                x-kubernetes-map-type: atomic
+                            type: object
+                          clientID:
+                            description: ClientID is the service principal client
+                              ID. Both User Assigned MSI and SP can use this field.
                             type: string
-                          controlPlaneVersion:
-                            description: ControlPlaneVersion represents the control
-                              plane version of the GKE cluster. If not specified,
-                              the default version currently supported by GKE will
-                              be used.
+                          clientSecret:
+                            description: ClientSecret is a secret reference which
+                              should contain either a Service Principal password or
+                              certificate secret.
+                            properties:
+                              name:
+                                description: name is unique within a namespace to
+                                  reference a secret resource.
+                                type: string
+                              namespace:
+                                description: namespace defines the space within which
+                                  the secret name must be unique.
+                                type: string
+                            type: object
+                            x-kubernetes-map-type: atomic
+                          name:
+                            description: 'Name must be unique within a namespace.
+                              Is required when creating resources, although some resources
+                              may allow a client to request the generation of an appropriate
+                              name automatically. Name is primarily intended for creation
+                              idempotence and configuration definition. Cannot be
+                              updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names'
                             type: string
-                          enableAutopilot:
-                            description: EnableAutopilot indicates whether to enable
-                              autopilot for this GKE cluster.
-                            type: boolean
-                          endpoint:
-                            description: Endpoint represents the endpoint used to
-                              communicate with the control plane.
+                          resourceID:
+                            description: ResourceID is the Azure resource ID for the
+                              User Assigned MSI resource. Only applicable when type
+                              is UserAssignedMSI.
+                            type: string
+                          tenantID:
+                            description: TenantID is the service principal primary
+                              tenant id.
+                            type: string
+                          type:
+                            description: Type is the type of Azure Identity used.
+                              ServicePrincipal, ServicePrincipalCertificate, UserAssignedMSI
+                              or ManualServicePrincipal.
+                            enum:
+                            - ServicePrincipal
+                            - UserAssignedMSI
+                            - ManualServicePrincipal
+                            - ServicePrincipalCertificate
+                            type: string
+                        required:
+                        - clientID
+                        - tenantID
+                        - type
+                        type: object
+                      controlPlane:
+                        description: AzureManagedControlPlaneSpec defines the desired
+                          state of AzureManagedControlPlane.
+                        properties:
+                          identityRef:
+                            description: IdentityRef is a reference to a AzureClusterIdentity
+                              to be used when reconciling this cluster
+                            properties:
+                              apiVersion:
+                                description: API version of the referent.
+                                type: string
+                              fieldPath:
+                                description: 'If referring to a piece of an object
+                                  instead of an entire object, this string should
+                                  contain a valid JSON/Go field access statement,
+                                  such as desiredState.manifest.containers[2]. For
+                                  example, if the object reference is to a container
+                                  within a pod, this would take on a value like: "spec.containers{name}"
+                                  (where "name" refers to the name of the container
+                                  that triggered the event) or if no container name
+                                  is specified "spec.containers[2]" (container with
+                                  index 2 in this pod). This syntax is chosen only
+                                  to have some well-defined way of referencing a part
+                                  of an object. TODO: this design is not final and
+                                  this field is subject to change in the future.'
+                                type: string
+                              kind:
+                                description: 'Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                                type: string
+                              name:
+                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                                type: string
+                              namespace:
+                                description: 'Namespace of the referent. More info:
+                                  https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+                                type: string
+                              resourceVersion:
+                                description: 'Specific resourceVersion to which this
+                                  reference is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency'
+                                type: string
+                              uid:
+                                description: 'UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids'
+                                type: string
+                            type: object
+                            x-kubernetes-map-type: atomic
+                          location:
+                            description: 'Location is a string matching one of the
+                              canonical Azure region names. Examples: "westus2", "eastus".'
+                            type: string
+                          resourceGroupName:
+                            description: ResourceGroupName is the name of the Azure
+                              resource group for this AKS Cluster.
+                            type: string
+                          sshPublicKey:
+                            description: SSHPublicKey is a string literal containing
+                              an ssh public key base64 encoded.
+                            type: string
+                          subscriptionID:
+                            description: SubscriptionID is the GUID of the Azure subscription
+                              to hold this cluster.
+                            type: string
+                          version:
+                            description: Version defines the desired Kubernetes version.
+                            minLength: 2
+                            type: string
+                        required:
+                        - location
+                        - resourceGroupName
+                        - sshPublicKey
+                        - version
+                        type: object
+                      fetchConfigUrl:
+                        type: string
+                      machinePools:
+                        items:
+                          properties:
+                            mode:
+                              description: 'Mode represents mode of an agent pool.
+                                Possible values include: System, User.'
+                              enum:
+                              - System
+                              - User
+                              type: string
+                            name:
+                              description: Name of the agent pool.
+                              type: string
+                            replicas:
+                              description: Number of desired machines.
+                              format: int32
+                              type: integer
+                            sku:
+                              description: SKU is the size of the VMs in the node
+                                pool.
+                              type: string
+                          required:
+                          - mode
+                          - sku
+                          type: object
+                        type: array
+                      managedCluster:
+                        description: AzureManagedClusterSpec defines the desired state
+                          of AzureManagedCluster.
+                        properties:
+                          controlPlaneEndpoint:
+                            description: ControlPlaneEndpoint represents the endpoint
+                              used to communicate with the control plane.
                             properties:
                               host:
                                 description: The hostname on which the API server
@@ -267,14 +653,74 @@ spec:
                             - host
                             - port
                             type: object
-                          location:
-                            description: Location represents the location (region
-                              or zone) in which the GKE cluster will be created.
-                            type: string
-                          project:
-                            description: Project is the name of the project to deploy
-                              the cluster to.
-                            type: string
+                        type: object
+                      version:
+                        type: string
+                    required:
+                    - clusterIdentity
+                    - controlPlane
+                    - machinePools
+                    - managedCluster
+                    type: object
+                  gcp:
+                    properties:
+                      cluster:
+                        description: TODO
+                        properties:
+                          network:
+                            description: GCPNetworkSpec encapsulates all things related
+                              to the GCP network.
+                            properties:
+                              autoCreateSubnetworks:
+                                description: "AutoCreateSubnetworks: When set to true,
+                                  the VPC network is created in \"auto\" mode. When
+                                  set to false, the VPC network is created in \"custom\"
+                                  mode. \n An auto mode VPC network starts with one
+                                  subnet per region. Each subnet has a predetermined
+                                  range as described in Auto mode VPC network IP ranges.
+                                  \n Defaults to true."
+                                type: boolean
+                              name:
+                                description: Name is the name of the network to be
+                                  used.
+                                type: string
+                              subnets:
+                                description: Subnets configuration.
+                                items:
+                                  description: GCPSubnetSpec configures an GCP Subnet.
+                                  properties:
+                                    cidrBlock:
+                                      description: CidrBlock is the range of internal
+                                        addresses that are owned by this subnetwork.
+                                        Provide this property when you create the
+                                        subnetwork. For example, 10.0.0.0/8 or 192.168.0.0/16.
+                                        Ranges must be unique and non-overlapping
+                                        within a network. Only IPv4 is supported.
+                                        This field can be set only at resource creation
+                                        time.
+                                      type: string
+                                    name:
+                                      description: Name defines a unique identifier
+                                        to reference this resource.
+                                      type: string
+                                    secondaryCidrBlocks:
+                                      additionalProperties:
+                                        type: string
+                                      description: SecondaryCidrBlocks defines secondary
+                                        CIDR ranges, from which secondary IP ranges
+                                        of a VM may be allocated
+                                      type: object
+                                  type: object
+                                type: array
+                            type: object
+                        type: object
+                      controlPlane:
+                        description: TODO
+                        properties:
+                          enableAutopilot:
+                            description: EnableAutopilot indicates whether to enable
+                              autopilot for this GKE cluster.
+                            type: boolean
                           releaseChannel:
                             description: ReleaseChannel represents the release channel
                               of the GKE cluster.
@@ -283,10 +729,6 @@ spec:
                             - regular
                             - stable
                             type: string
-                        required:
-                        - enableAutopilot
-                        - location
-                        - project
                         type: object
                       credentialsRef:
                         description: SecretKeySelector selects a key of a Secret.
@@ -310,169 +752,38 @@ spec:
                       fetchConfigUrl:
                         type: string
                       machinePool:
+                        description: TODO
                         properties:
                           replicas:
+                            description: Replicas TODO
                             format: int32
                             type: integer
+                          scaling:
+                            description: Scaling specifies scaling for the node pool
+                            properties:
+                              maxCount:
+                                format: int32
+                                type: integer
+                              minCount:
+                                format: int32
+                                type: integer
+                            type: object
                         required:
                         - replicas
                         type: object
-                      managedCluster:
-                        description: GCPManagedClusterSpec defines the desired state
-                          of GCPManagedCluster.
-                        properties:
-                          additionalLabels:
-                            additionalProperties:
-                              type: string
-                            description: AdditionalLabels is an optional set of tags
-                              to add to GCP resources managed by the GCP provider,
-                              in addition to the ones added by default.
-                            type: object
-                          controlPlaneEndpoint:
-                            description: ControlPlaneEndpoint represents the endpoint
-                              used to communicate with the control plane.
-                            properties:
-                              host:
-                                description: The hostname on which the API server
-                                  is serving.
-                                type: string
-                              port:
-                                description: The port on which the API server is serving.
-                                format: int32
-                                type: integer
-                            required:
-                            - host
-                            - port
-                            type: object
-                          credentialsRef:
-                            description: CredentialsRef is a reference to a Secret
-                              that contains the credentials to use for provisioning
-                              this cluster. If not supplied then the credentials of
-                              the controller will be used.
-                            properties:
-                              name:
-                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
-                                type: string
-                              namespace:
-                                description: 'Namespace of the referent. More info:
-                                  https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
-                                type: string
-                            required:
-                            - name
-                            - namespace
-                            type: object
-                          network:
-                            description: NetworkSpec encapsulates all things related
-                              to the GCP network.
-                            properties:
-                              autoCreateSubnetworks:
-                                description: "AutoCreateSubnetworks: When set to true,
-                                  the VPC network is created in \"auto\" mode. When
-                                  set to false, the VPC network is created in \"custom\"
-                                  mode. \n An auto mode VPC network starts with one
-                                  subnet per region. Each subnet has a predetermined
-                                  range as described in Auto mode VPC network IP ranges.
-                                  \n Defaults to true."
-                                type: boolean
-                              loadBalancerBackendPort:
-                                description: Allow for configuration of load balancer
-                                  backend (useful for changing apiserver port)
-                                format: int32
-                                type: integer
-                              name:
-                                description: Name is the name of the network to be
-                                  used.
-                                type: string
-                              subnets:
-                                description: Subnets configuration.
-                                items:
-                                  description: SubnetSpec configures an GCP Subnet.
-                                  properties:
-                                    cidrBlock:
-                                      description: CidrBlock is the range of internal
-                                        addresses that are owned by this subnetwork.
-                                        Provide this property when you create the
-                                        subnetwork. For example, 10.0.0.0/8 or 192.168.0.0/16.
-                                        Ranges must be unique and non-overlapping
-                                        within a network. Only IPv4 is supported.
-                                        This field can be set only at resource creation
-                                        time.
-                                      type: string
-                                    description:
-                                      description: Description is an optional description
-                                        associated with the resource.
-                                      type: string
-                                    enableFlowLogs:
-                                      description: 'EnableFlowLogs: Whether to enable
-                                        flow logging for this subnetwork. If this
-                                        field is not explicitly set, it will not appear
-                                        in get listings. If not set the default behavior
-                                        is to disable flow logging.'
-                                      type: boolean
-                                    name:
-                                      description: Name defines a unique identifier
-                                        to reference this resource.
-                                      type: string
-                                    privateGoogleAccess:
-                                      description: PrivateGoogleAccess defines whether
-                                        VMs in this subnet can access Google services
-                                        without assigning external IP addresses
-                                      type: boolean
-                                    purpose:
-                                      default: PRIVATE_RFC_1918
-                                      description: "Purpose: The purpose of the resource.
-                                        If unspecified, the purpose defaults to PRIVATE_RFC_1918.
-                                        The enableFlowLogs field isn't supported with
-                                        the purpose field set to INTERNAL_HTTPS_LOAD_BALANCER.
-                                        \n Possible values: \"INTERNAL_HTTPS_LOAD_BALANCER\"
-                                        - Subnet reserved for Internal HTTP(S) Load
-                                        Balancing. \"PRIVATE\" - Regular user created
-                                        or automatically created subnet. \"PRIVATE_RFC_1918\"
-                                        - Regular user created or automatically created
-                                        subnet. \"PRIVATE_SERVICE_CONNECT\" - Subnetworks
-                                        created for Private Service Connect in the
-                                        producer network. \"REGIONAL_MANAGED_PROXY\"
-                                        - Subnetwork used for Regional Internal/External
-                                        HTTP(S) Load Balancing."
-                                      enum:
-                                      - INTERNAL_HTTPS_LOAD_BALANCER
-                                      - PRIVATE_RFC_1918
-                                      - PRIVATE
-                                      - PRIVATE_SERVICE_CONNECT
-                                      - REGIONAL_MANAGED_PROXY
-                                      type: string
-                                    region:
-                                      description: Region is the name of the region
-                                        where the Subnetwork resides.
-                                      type: string
-                                    secondaryCidrBlocks:
-                                      additionalProperties:
-                                        type: string
-                                      description: SecondaryCidrBlocks defines secondary
-                                        CIDR ranges, from which secondary IP ranges
-                                        of a VM may be allocated
-                                      type: object
-                                  type: object
-                                type: array
-                            type: object
-                          project:
-                            description: Project is the name of the project to deploy
-                              the cluster to.
-                            type: string
-                          region:
-                            description: The GCP Region the cluster lives in.
-                            type: string
-                        required:
-                        - project
-                        - region
-                        type: object
+                      project:
+                        description: TODO
+                        type: string
+                      region:
+                        description: TODO
+                        type: string
                       version:
                         type: string
                     required:
-                    - controlPlane
+                    - cluster
                     - credentialsRef
-                    - machinePool
-                    - managedCluster
+                    - project
+                    - region
                     type: object
                 type: object
               clusterAPI:
@@ -554,6 +865,24 @@ spec:
                     - cidrBlocks
                     type: object
                 type: object
+              gitHubSecretRef:
+                description: SecretKeySelector selects a key of a Secret.
+                properties:
+                  key:
+                    description: The key of the secret to select from.  Must be a
+                      valid secret key.
+                    type: string
+                  name:
+                    description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                      TODO: Add other useful fields. apiVersion, kind, uid?'
+                    type: string
+                  optional:
+                    description: Specify whether the Secret or its key must be defined
+                    type: boolean
+                required:
+                - key
+                type: object
+                x-kubernetes-map-type: atomic
               kubernetesVersion:
                 type: string
               skipClusterCreation:

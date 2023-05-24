@@ -24,6 +24,7 @@ sections:
   - name: posthogBucket
     documentation: S3 bucket to use for posthog
     type: BUCKET
+    default: posthog
   - name: notificationEmail
     documentation: email for notifications to be sent to from the PostHog stack
     type: STRING

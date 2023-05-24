@@ -4,9 +4,9 @@ dependencies:
   version: 0.1.16
 - name: dagster
   repository: https://dagster-io.github.io/helm
-  version: 1.2.7
+  version: 1.3.4
 - name: config-overlays
   repository: https://pluralsh.github.io/module-library
   version: 0.1.1
-digest: sha256:a3bf574716a913f47163dea41e90546bec4d02c4a60d11e802b98fc05ccdd660
-generated: "2023-04-19T20:22:54.950829+02:00"
+digest: sha256:7931675e7a01d960d5045e44865acae085e5f5275556013f87382b509ad5a280
+generated: "2023-05-17T19:18:11.234735+02:00"
