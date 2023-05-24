@@ -450,6 +450,11 @@ oathkeeper:
           config:
             introspection_url: http://trace-shield-hydra-admin:4445/admin/oauth2/introspect
             # scope_strategy: exact
+        
+        oauth2_client_credentials:
+          enabled: true
+          config:
+            token_url: http://trace-shield-hydra-admin:4444/oauth2/token
 
         noop:
           enabled: true
