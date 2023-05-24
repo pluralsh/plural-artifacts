@@ -8,3 +8,10 @@ cluster:
   {{ end }}
   aws:
     region: eu-central-1
+  azure:
+    clientID: {{ .Context.ClientId }}
+    clientSecret: {{ .Context.ClientSecret | b64enc | quote }}
+    tenantID: {{ .Context.TenantId }}
+    subscriptionID: {{ .Context.SubscriptionId }}
+    location: {{ .Region }}
+    resourceGroupName: {{ .Project }}

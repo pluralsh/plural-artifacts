@@ -133,7 +133,7 @@ cluster:
     # Name of Secret containing clientSecret.
     clientSecretName: "cluster-identity-secret"
     # Azure resource ID for the User Assigned MSI resource.
-    resourceID:
+    resourceID: ""
     # Service Principal primary tenant ID.
     tenantID: ""
     # GUID of the Azure subscription to hold this cluster.
