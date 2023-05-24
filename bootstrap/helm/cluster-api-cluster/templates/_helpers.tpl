@@ -114,7 +114,7 @@ Create the apiVersion for the controlPlaneRef for the cluster
 controlplane.cluster.x-k8s.io/v1beta2
 {{- end }}
 {{- if and (eq .Values.provider "azure") (eq .Values.type "managed") -}}
-controlplane.cluster.x-k8s.io/v1beta2
+infrastructure.cluster.x-k8s.io/v1beta1
 {{- end }}
 {{- if and (eq .Values.provider "google") (eq .Values.type "managed") -}}
 infrastructure.cluster.x-k8s.io/v1beta1
