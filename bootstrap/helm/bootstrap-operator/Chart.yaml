@@ -2,7 +2,7 @@ apiVersion: v2
 name: bootstrap-operator
 description: A Helm chart for the bootstrap operator
 type: application
-version: 0.1.13
+version: 0.1.14
 home: https://github.com/pluralsh/plural-helm-charts
 keywords:
   - clusterapi
