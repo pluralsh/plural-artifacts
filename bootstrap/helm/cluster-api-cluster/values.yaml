@@ -37,10 +37,10 @@ cluster:
       vpc:
         id: ""
         cidrBlock: ""
-        ipv6: # NOTE: setting `ipv6: {}` will enable ipv6 and auto generate the cidr block. Needed for migration.
-          cidrBlock: ""
-          poolId: ""
-          egressOnlyInternetGatewayId: ""
+        # ipv6: # NOTE: setting `ipv6: {}` will enable ipv6 and auto generate the cidr block. Needed for migration.
+        #   cidrBlock: ""
+        #   poolId: ""
+        #   egressOnlyInternetGatewayId: ""
         internetGatewayId: ""
         tags: {}
         availabilityZoneUsageLimit: 3 # TODO: is set to 3 by default
