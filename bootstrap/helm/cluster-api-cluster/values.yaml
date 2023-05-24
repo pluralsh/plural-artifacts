@@ -226,26 +226,17 @@ workers:
         instanceType: t3a.large
         roleName: ""
         scaling:
-          maxSize: 27
-          minSize: 0
-        availabilityZones:
-          - eu-central-1a
+          maxSize: 5
+          minSize: 1
+        availabilityZones: []
         subnetIDs: []
-        labels:
-          plural.sh/scalingGroup: small-burst-on-demand
-          plural.sh/capacityType: ON_DEMAND
-          plural.sh/performanceType: BURSTABLE
-        taints:
-          - key: plural.sh/capacityType
-            value: SPOT
-            effect: no-schedule
+        labels: {}
+        taints: {}
         updateConfig:
           maxUnavailable: 1
           # maxSurge: 1
-        additionalTags:
-          test: test
-        roleAdditionalPolicies:
-          - test
+        additionalTags: {}
+        roleAdditionalPolicies: []
     #########################################
     ###       AZURE WORKER DEFAULTS       ###
     #########################################
@@ -300,38 +291,6 @@ workers:
         additionalTags: {} # TODO: allow this to not be set
         # amiType: ""
         # capacityType: spot
-    test-pool-1:
-      annotations:
-        cluster.x-k8s.io/replicas-managed-by: external-autoscaler-test
-      labels:
-        test: test
-      replicas: 0
-      spec:
-        amiType: AL2_x86_64_GPU
-        capacityType: spot
-        roleName: test
-        instanceType: p3.2xlarge
-        diskSize: 100
-        scaling:
-          maxSize: 5
-          minSize: 2
-        availabilityZones:
-          - eu-central-1a
-          - eu-central-1b
-          - eu-central-1c
-        subnetIDs: []
-        labels: {}
-        taints:
-          - key: plural.sh/capacityType
-            value: SPOT
-            effect: NoSchedule
-          - key: nvidia.com/gpu
-            value: "true"
-            effect: NoSchedule
-        updateConfig:
-          maxUnavailable: 1
-        additionalTags: {}
-        roleAdditionalPolicies: []
   #################################
   ###       AZURE WORKERS       ###
   #################################
