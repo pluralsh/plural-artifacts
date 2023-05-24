@@ -18,6 +18,7 @@ data:
         url: https://{{ .Values.config.mimir.publicURL }}/prometheus/api/v1/<status|query|query_range|query_exemplars|series|label|metadata|read|cardinality><.*>
       authenticators:
         - handler: oauth2_introspection
+        - handler: oauth2_client_credentials
       authorizer:
         handler: remote_json
         config:
@@ -42,6 +43,7 @@ data:
         url: https://{{ .Values.config.mimir.publicURL }}</api/v1/push.*|/otlp/v1/metrics.*>
       authenticators:
         - handler: oauth2_introspection
+        - handler: oauth2_client_credentials
       authorizer:
         handler: remote_json
         config:
@@ -66,6 +68,7 @@ data:
         url: https://{{ .Values.config.mimir.publicURL }}</ruler/rule_groups.*|/prometheus/api/v1/rules.*|/prometheus/api/v1/alerts.*|/prometheus/config/v1/rules.*>
       authenticators:
         - handler: oauth2_introspection
+        - handler: oauth2_client_credentials
       authorizer:
         handler: remote_json
         config:
@@ -90,6 +93,7 @@ data:
         url: https://{{ .Values.config.mimir.publicURL }}/prometheus/config/v1/rules/<.*>
       authenticators:
         - handler: oauth2_introspection
+        - handler: oauth2_client_credentials
       authorizer:
         handler: remote_json
         config:
@@ -114,6 +118,7 @@ data:
         url: https://{{ .Values.config.mimir.publicURL }}/prometheus/config/v1/rules/<.*>
       authenticators:
         - handler: oauth2_introspection
+        - handler: oauth2_client_credentials
       authorizer:
         handler: remote_json
         config:
@@ -138,6 +143,7 @@ data:
         url: https://{{ .Values.config.mimir.publicURL }}</multitenant_alertmanager/configs.*|/api/v1/alerts.*> #TODO: add /alertmanager
       authenticators:
         - handler: oauth2_introspection
+        - handler: oauth2_client_credentials
       authorizer:
         handler: remote_json
         config:
@@ -162,6 +168,7 @@ data:
         url: https://{{ .Values.config.mimir.publicURL }}/api/v1/alerts<.*>
       authenticators:
         - handler: oauth2_introspection
+        - handler: oauth2_client_credentials
       authorizer:
         handler: remote_json
         config:
@@ -186,6 +193,7 @@ data:
         url: https://{{ .Values.config.mimir.publicURL }}/api/v1/alerts<.*>
       authenticators:
         - handler: oauth2_introspection
+        - handler: oauth2_client_credentials
       authorizer:
         handler: remote_json
         config:
@@ -215,6 +223,7 @@ data:
         url: https://{{ .Values.config.mimir.publicURL }}/alertmanager<.*> # TODO: does this need to be separate
       authenticators:
         - handler: oauth2_introspection
+        - handler: oauth2_client_credentials
         - handler: cookie_session
       authorizer:
         handler: allow
@@ -235,6 +244,7 @@ data:
         url: https://{{ .Values.config.loki.publicURL }}/loki/api/v1/<query|query_range|label|series|tail><.*>
       authenticators:
         - handler: oauth2_introspection
+        - handler: oauth2_client_credentials
       authorizer:
         handler: remote_json
         config:
@@ -259,6 +269,7 @@ data:
         url: https://{{ .Values.config.loki.publicURL }}/loki/api/v1/push<.*>
       authenticators:
         - handler: oauth2_introspection
+        - handler: oauth2_client_credentials
       authorizer:
         handler: remote_json
         config:
@@ -283,6 +294,7 @@ data:
         url: https://{{ .Values.config.loki.publicURL }}</loki/api/v1/rules|/prometheus/api/v1/rules|/prometheus/config/v1/rules><.*>
       authenticators:
         - handler: oauth2_introspection
+        - handler: oauth2_client_credentials
       authorizer:
         handler: remote_json
         config:
@@ -307,6 +319,7 @@ data:
         url: https://{{ .Values.config.loki.publicURL }}/loki/api/v1/rules<.*>
       authenticators:
         - handler: oauth2_introspection
+        - handler: oauth2_client_credentials
       authorizer:
         handler: remote_json
         config:
@@ -331,6 +344,7 @@ data:
         url: https://{{ .Values.config.loki.publicURL }}/loki/api/v1/rules<.*>
       authenticators:
         - handler: oauth2_introspection
+        - handler: oauth2_client_credentials
       authorizer:
         handler: remote_json
         config:
@@ -357,6 +371,7 @@ data:
         url: https://{{ .Values.config.tempo.publicURL }}/api/<traces|search|v2/search><.*>
       authenticators:
         - handler: oauth2_introspection
+        - handler: oauth2_client_credentials
       authorizer:
         handler: remote_json
         config:
@@ -381,6 +396,7 @@ data:
         url: https://{{ .Values.config.tempo.publicURL }}</otlp/v1/traces|/jaeger/api/traces|/zipkin/spans><.*>
       authenticators:
         - handler: oauth2_introspection
+        - handler: oauth2_client_credentials
       authorizer:
         handler: remote_json
         config:
