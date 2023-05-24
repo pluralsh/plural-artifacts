@@ -1,6 +1,6 @@
 {{ $hostname := .Values.hostname }}
 {{ $yataiNamespace := namespace "yatai" }}
-{{ $creds := secret $yataiNamespace "yatai-admin-initialization-creds" }}
+{{ $creds := secret $yataiNamespace "yatai-initialization-admin-creds" }}
 
 You can view your installation at https://{{ $hostname}}
 
