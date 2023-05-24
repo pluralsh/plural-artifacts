@@ -29,7 +29,7 @@ data:
             {
               "subject": {{`"{{ print .Subject }}"`}},
               "requestedPermission": "read_metrics",
-              "isOAuth2Client": {{`{{ eq (print .Subject) (print .Extra.client_id) }}`}}
+              "isOAuth2Client": {{`{{ or (eq (print .Subject) (print .Extra.client_id)) (eq (print .Subject) (regexReplaceAll ":.*" (.MatchContext.Header.Get "Authorization" | trimPrefix "Basic " | b64dec) "")) }}`}}
             }
       mutators:
         - handler: noop
@@ -54,7 +54,7 @@ data:
             {
               "subject": {{`"{{ print .Subject }}"`}},
               "requestedPermission": "write_metrics",
-              "isOAuth2Client": {{`{{ eq (print .Subject) (print .Extra.client_id) }}`}}
+              "isOAuth2Client": {{`{{ or (eq (print .Subject) (print .Extra.client_id)) (eq (print .Subject) (regexReplaceAll ":.*" (.MatchContext.Header.Get "Authorization" | trimPrefix "Basic " | b64dec) "")) }}`}}
             }
       mutators:
         - handler: noop
@@ -79,7 +79,7 @@ data:
             {
               "subject": {{`"{{ print .Subject }}"`}},
               "requestedPermission": "read_metrics_rules",
-              "isOAuth2Client": {{`{{ eq (print .Subject) (print .Extra.client_id) }}`}}
+              "isOAuth2Client": {{`{{ or (eq (print .Subject) (print .Extra.client_id)) (eq (print .Subject) (regexReplaceAll ":.*" (.MatchContext.Header.Get "Authorization" | trimPrefix "Basic " | b64dec) "")) }}`}}
             }
       mutators:
         - handler: noop
@@ -104,7 +104,7 @@ data:
             {
               "subject": {{`"{{ print .Subject }}"`}},
               "requestedPermission": "write_metrics_rules",
-              "isOAuth2Client": {{`{{ eq (print .Subject) (print .Extra.client_id) }}`}}
+              "isOAuth2Client": {{`{{ or (eq (print .Subject) (print .Extra.client_id)) (eq (print .Subject) (regexReplaceAll ":.*" (.MatchContext.Header.Get "Authorization" | trimPrefix "Basic " | b64dec) "")) }}`}}
             }
       mutators:
         - handler: noop
@@ -129,7 +129,7 @@ data:
             {
               "subject": {{`"{{ print .Subject }}"`}},
               "requestedPermission": "delete_metrics_rules",
-              "isOAuth2Client": {{`{{ eq (print .Subject) (print .Extra.client_id) }}`}}
+              "isOAuth2Client": {{`{{ or (eq (print .Subject) (print .Extra.client_id)) (eq (print .Subject) (regexReplaceAll ":.*" (.MatchContext.Header.Get "Authorization" | trimPrefix "Basic " | b64dec) "")) }}`}}
             }
       mutators:
         - handler: noop
@@ -154,7 +154,7 @@ data:
             {
               "subject": {{`"{{ print .Subject }}"`}},
               "requestedPermission": "read_metrics_alerts",
-              "isOAuth2Client": {{`{{ eq (print .Subject) (print .Extra.client_id) }}`}}
+              "isOAuth2Client": {{`{{ or (eq (print .Subject) (print .Extra.client_id)) (eq (print .Subject) (regexReplaceAll ":.*" (.MatchContext.Header.Get "Authorization" | trimPrefix "Basic " | b64dec) "")) }}`}}
             }
       mutators:
         - handler: noop
@@ -179,7 +179,7 @@ data:
             {
               "subject": {{`"{{ print .Subject }}"`}},
               "requestedPermission": "write_metrics_alerts",
-              "isOAuth2Client": {{`{{ eq (print .Subject) (print .Extra.client_id) }}`}}
+              "isOAuth2Client": {{`{{ or (eq (print .Subject) (print .Extra.client_id)) (eq (print .Subject) (regexReplaceAll ":.*" (.MatchContext.Header.Get "Authorization" | trimPrefix "Basic " | b64dec) "")) }}`}}
             }
       mutators:
         - handler: noop
@@ -204,7 +204,7 @@ data:
             {
               "subject": {{`"{{ print .Subject }}"`}},
               "requestedPermission": "delete_metrics_alerts",
-              "isOAuth2Client": {{`{{ eq (print .Subject) (print .Extra.client_id) }}`}}
+              "isOAuth2Client": {{`{{ or (eq (print .Subject) (print .Extra.client_id)) (eq (print .Subject) (regexReplaceAll ":.*" (.MatchContext.Header.Get "Authorization" | trimPrefix "Basic " | b64dec) "")) }}`}}
             }
       mutators:
         - handler: noop
@@ -255,7 +255,7 @@ data:
             {
               "subject": {{`"{{ print .Subject }}"`}},
               "requestedPermission": "read_logs",
-              "isOAuth2Client": {{`{{ eq (print .Subject) (print .Extra.client_id) }}`}}
+              "isOAuth2Client": {{`{{ or (eq (print .Subject) (print .Extra.client_id)) (eq (print .Subject) (regexReplaceAll ":.*" (.MatchContext.Header.Get "Authorization" | trimPrefix "Basic " | b64dec) "")) }}`}}
             }
       mutators:
         - handler: noop
@@ -280,7 +280,7 @@ data:
             {
               "subject": {{`"{{ print .Subject }}"`}},
               "requestedPermission": "write_logs",
-              "isOAuth2Client": {{`{{ eq (print .Subject) (print .Extra.client_id) }}`}}
+              "isOAuth2Client": {{`{{ or (eq (print .Subject) (print .Extra.client_id)) (eq (print .Subject) (regexReplaceAll ":.*" (.MatchContext.Header.Get "Authorization" | trimPrefix "Basic " | b64dec) "")) }}`}}
             }
       mutators:
         - handler: noop
@@ -305,7 +305,7 @@ data:
             {
               "subject": {{`"{{ print .Subject }}"`}},
               "requestedPermission": "read_logs_rules",
-              "isOAuth2Client": {{`{{ eq (print .Subject) (print .Extra.client_id) }}`}}
+              "isOAuth2Client": {{`{{ or (eq (print .Subject) (print .Extra.client_id)) (eq (print .Subject) (regexReplaceAll ":.*" (.MatchContext.Header.Get "Authorization" | trimPrefix "Basic " | b64dec) "")) }}`}}
             }
       mutators:
         - handler: noop
@@ -330,7 +330,7 @@ data:
             {
               "subject": {{`"{{ print .Subject }}"`}},
               "requestedPermission": "write_logs_rules",
-              "isOAuth2Client": {{`{{ eq (print .Subject) (print .Extra.client_id) }}`}}
+              "isOAuth2Client": {{`{{ or (eq (print .Subject) (print .Extra.client_id)) (eq (print .Subject) (regexReplaceAll ":.*" (.MatchContext.Header.Get "Authorization" | trimPrefix "Basic " | b64dec) "")) }}`}}
             }
       mutators:
         - handler: noop
@@ -355,7 +355,7 @@ data:
             {
               "subject": {{`"{{ print .Subject }}"`}},
               "requestedPermission": "delete_logs_rules",
-              "isOAuth2Client": {{`{{ eq (print .Subject) (print .Extra.client_id) }}`}}
+              "isOAuth2Client": {{`{{ or (eq (print .Subject) (print .Extra.client_id)) (eq (print .Subject) (regexReplaceAll ":.*" (.MatchContext.Header.Get "Authorization" | trimPrefix "Basic " | b64dec) "")) }}`}}
             }
       mutators:
         - handler: noop
@@ -382,7 +382,7 @@ data:
             {
               "subject": {{`"{{ print .Subject }}"`}},
               "requestedPermission": "read_traces",
-              "isOAuth2Client": {{`{{ eq (print .Subject) (print .Extra.client_id) }}`}}
+              "isOAuth2Client": {{`{{ or (eq (print .Subject) (print .Extra.client_id)) (eq (print .Subject) (regexReplaceAll ":.*" (.MatchContext.Header.Get "Authorization" | trimPrefix "Basic " | b64dec) "")) }}`}}
             }
       mutators:
         - handler: noop
@@ -407,7 +407,7 @@ data:
             {
               "subject": {{`"{{ print .Subject }}"`}},
               "requestedPermission": "write_traces",
-              "isOAuth2Client": {{`{{ eq (print .Subject) (print .Extra.client_id) }}`}}
+              "isOAuth2Client": {{`{{ or (eq (print .Subject) (print .Extra.client_id)) (eq (print .Subject) (regexReplaceAll ":.*" (.MatchContext.Header.Get "Authorization" | trimPrefix "Basic " | b64dec) "")) }}`}}
             }
       mutators:
         - handler: noop
