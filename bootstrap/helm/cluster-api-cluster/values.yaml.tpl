@@ -11,7 +11,7 @@ cluster:
     region: eu-central-1
   azure:
     clientID: {{ .Context.ClientId }}
-    clientSecret: {{ .Context.ClientSecret | b64enc | quote }}
+    clientSecret: {{ .Context.ClientSecret }}
     tenantID: {{ .Context.TenantId }}
     subscriptionID: {{ .Context.SubscriptionId }}
     location: {{ .Region }}
