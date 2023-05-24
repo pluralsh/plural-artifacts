@@ -3,9 +3,9 @@ cluster:
   name: {{ .Cluster }}
 
   {{ if eq .Provider "aws" }}
-  kubernetesVersion: v1.23
+  kubernetesVersion: v1.24
   aws:
-    region: eu-central-1
+    region: {{ .Region }}
   {{ end }}
 
   {{ if eq .Provider "azure" }}

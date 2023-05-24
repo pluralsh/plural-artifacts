@@ -11,9 +11,10 @@ operator:
     AWS_ACCESS_KEY_ID: {{ .Context.AccessKey | b64enc | quote }}
     AWS_SECRET_ACCESS_KEY: {{ .Context.SecretAccessKey | b64enc | quote }}
     AWS_SESSION_TOKEN: {{ .Context.SessionToken | b64enc | quote }}
+    AWS_ACCOUNT_ID: {{ .Context.AWSAccountID | b64enc | quote }}
   cloud:
     aws:
-      region: eu-central-1
+      region: {{ .Region }}
       version: v2.0.2
       machinePools:
         - name: {{ .Cluster }}-pool-0
@@ -86,6 +87,9 @@ operator:
       sessionTokenRef:
         name: variables
         key: AWS_SESSION_TOKEN
+      accountIDRef:
+        name: variables
+        key: AWS_ACCOUNT_ID
 {{ end }}
 {{ if eq .Provider "azure" }}
   clientSecret: {{ .Context.ClientSecret | b64enc | quote }}
