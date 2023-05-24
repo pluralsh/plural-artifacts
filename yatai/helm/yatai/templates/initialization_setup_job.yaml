@@ -41,8 +41,8 @@ spec:
           kubectl wait --for=condition=available --timeout=600s deployment/yatai --namespace {{ .Release.Namespace }}
           echo "Getting Yatai initialization token..."
           export TOKEN=$(kubectl get secret yatai-env --namespace {{ .Release.Namespace }} -o jsonpath="{.data.YATAI_INITIALIZATION_TOKEN}" | base64 -d )
-          export USERNAME={{ .Values.initialization.username }}}
-          export PASSWORD={{ .Values.intialization.password }}
+          export USERNAME={{ .Values.initialization.username }}
+          export PASSWORD={{ .Values.initialization.password }}
           export EMAIL={{ .Values.initialization.email }}
           echo "Creating admin account..."
           curl -v -X POST -H "Content-Type: application/json" -d "{\"name\":\"$USERNAME\",\"email\":\"$EMAIL\",\"password\":\"$PASSWORD\",\"token\":\"$TOKEN\"}" yatai.{{ .Release.Namespace }}.svc.cluster.local/api/v1/setup?token=$TOKEN
