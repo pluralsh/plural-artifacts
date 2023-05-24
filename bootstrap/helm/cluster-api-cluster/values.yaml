@@ -1,5 +1,4 @@
-## The cloud provider to use. One of: aws, azure.
-provider: aws
+provider: ""
 ## managed or unmanaged, currently only managed is supported
 type: managed
 

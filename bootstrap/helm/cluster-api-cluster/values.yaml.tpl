@@ -1,3 +1,4 @@
+provider: {{ .Provider }}
 cluster:
   name: {{ .Cluster }}
   {{ if eq .Provider "aws" }}
