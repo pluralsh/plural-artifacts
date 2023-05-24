@@ -4,23 +4,25 @@ kind: GCPManagedCluster
 metadata:
   name: {{ .Values.cluster.name }}
 spec:
-  project: {{ .Values.cluster.gcp.project }}
-  region: {{ .Values.cluster.gcp.region }}
+  project: {{ .Values.cluster.google.project }}
+  region: {{ .Values.cluster.google.region }}
   controlPlaneEndpoint:
     host: ""
     port: 0
   network:
     name: {{ .Values.cluster.name }}-network
-    {{ with .Values.cluster.gcp.network }}
+    {{ with .Values.cluster.google.network }}
     autoCreateSubnetworks: {{ .autoCreateSubnetworks }}
     {{ end }}
     subnets:
-      {{ range .Values.cluster.gcp.subnets }}
+      {{ range .Values.cluster.google.subnets }}
       - name: {{ $.Values.cluster.name }}-{{ .nameSuffix }}
-        region: {{ $.Values.cluster.gcp.region }}
+        region: {{ $.Values.cluster.google.region }}
         cidrBlock: {{ .cidrBlock }}
         description: {{ .description }}
-        secondaryCidrBlocks: {{ .secondaryCidrBlocks }}
+        {{ with .secondaryCidrBlocks }}
+        secondaryCidrBlocks: {{ . | toYaml | nindent 8 }}
+        {{ end }}
         privateGoogleAccess: {{ .privateGoogleAccess }}
         enableFlowLogs: {{ .enableFlowLogs }}
         purpose: {{ .purpose }}

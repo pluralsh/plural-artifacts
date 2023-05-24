@@ -5,12 +5,12 @@ metadata:
   name: {{ .Values.cluster.name }}
 spec:
   clusterName: {{ .Values.cluster.name }}
-  {{ with .Values.cluster.gcp }}
+  {{ with .Values.cluster.google }}
   project: {{ .project }}
   location: {{ .region }}
   enableAutopilot: {{ .enableAutopilot | default false }}
   enableWorkloadIdentity: {{ .enableWorkloadIdentity }}
-  releaseChannel: ""
+  releaseChannel: {{ .releaseChannel }}
   endpoint:
     host: ""
     port: 0

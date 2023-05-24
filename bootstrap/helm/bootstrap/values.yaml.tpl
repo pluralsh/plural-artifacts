@@ -182,7 +182,7 @@ dnsSolver:
 {{ if eq .Provider "google" }}
 cert-manager:
   serviceAccount:
-    create: true
+    create: false
     name: certmanager
 
 {{ if not $pluraldns }}

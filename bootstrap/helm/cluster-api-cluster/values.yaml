@@ -145,7 +145,7 @@ cluster:
     # String literal containing an SSH public key base64 encoded.
     sshPublicKey: ""
 
-  gcp:
+  google:
     # Project is the id of the project to deploy the cluster to.
     project: ""
     # Region represents the location (region or zone) in which the GKE cluster will be created.
@@ -161,8 +161,8 @@ cluster:
     # Ref: https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity
     enableWorkloadIdentity: true
     # ReleaseChannel is the release channel of the GKE cluster
-    # Empty or one of: regular, rapid, stable
-    releaseChannel: ""
+    # One of: regular, rapid, stable
+    releaseChannel: "stable"
     # Network encapsulates all things related to the GCP network.
     network:
       # AutoCreateSubnetworks: When set to true, the VPC network is created
@@ -264,10 +264,10 @@ workers:
     #########################################
     ###        GCP WORKER DEFAULTS        ###
     #########################################
-    gcp:
+    google:
       scaling:
-        maxCount: 5
-        minCount: 2
+        maxCount: 6
+        minCount: 3
       kubernetesLabels: {}
       kubernetesTaints:
         - key: plural.sh/capacityType
@@ -311,11 +311,12 @@ workers:
   #################################
   ###        GCP WORKERS        ###
   #################################
-  gcp:
+  google:
     machine-pool-1:
+      replicas: 3
       scaling:
-        maxCount: 5
-        minCount: 2
+        maxCount: 6
+        minCount: 3
       kubernetesLabels: {}
       kubernetesTaints:
         - key: plural.sh/capacityType

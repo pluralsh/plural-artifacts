@@ -68,6 +68,12 @@ Create the kind for the infrastructureRef for the cluster
 {{- if and (eq .Values.provider "aws") (eq .Values.type "managed") -}}
 AWSManagedCluster
 {{- end }}
+{{- if and (eq .Values.provider "azure") (eq .Values.type "managed") -}}
+AzureManagedCluster
+{{- end }}
+{{- if and (eq .Values.provider "google") (eq .Values.type "managed") -}}
+GCPManagedCluster
+{{- end }}
 {{- end }}
 
 {{/*
@@ -76,6 +82,12 @@ Create the apiVersion for the infrastructureRef for the cluster
 {{- define "cluster.infrastructure.apiVersion" -}}
 {{- if and (eq .Values.provider "aws") (eq .Values.type "managed") -}}
 infrastructure.cluster.x-k8s.io/v1beta2
+{{- end }}
+{{- if and (eq .Values.provider "azure") (eq .Values.type "managed") -}}
+infrastructure.cluster.x-k8s.io/v1beta2
+{{- end }}
+{{- if and (eq .Values.provider "google") (eq .Values.type "managed") -}}
+infrastructure.cluster.x-k8s.io/v1beta1
 {{- end }}
 {{- end }}
 
@@ -86,6 +98,12 @@ Create the kind for the controlPlaneRef for the cluster
 {{- if and (eq .Values.provider "aws") (eq .Values.type "managed") -}}
 AWSManagedControlPlane
 {{- end }}
+{{- if and (eq .Values.provider "azure") (eq .Values.type "managed") -}}
+AzureManagedControlPlane
+{{- end }}
+{{- if and (eq .Values.provider "google") (eq .Values.type "managed") -}}
+GCPManagedControlPlane
+{{- end }}
 {{- end }}
 
 {{/*
@@ -94,6 +112,12 @@ Create the apiVersion for the controlPlaneRef for the cluster
 {{- define "cluster.controlPlane.apiVersion" -}}
 {{- if and (eq .Values.provider "aws") (eq .Values.type "managed") -}}
 controlplane.cluster.x-k8s.io/v1beta2
+{{- end }}
+{{- if and (eq .Values.provider "azure") (eq .Values.type "managed") -}}
+controlplane.cluster.x-k8s.io/v1beta2
+{{- end }}
+{{- if and (eq .Values.provider "google") (eq .Values.type "managed") -}}
+infrastructure.cluster.x-k8s.io/v1beta1
 {{- end }}
 {{- end }}
 
@@ -104,6 +128,12 @@ Create the kind for the infrastructureRef for the worker MachinePools
 {{- if and (eq .Values.provider "aws") (eq .Values.type "managed") -}}
 AWSManagedMachinePool
 {{- end }}
+{{- if and (eq .Values.provider "azure") (eq .Values.type "managed") -}}
+AzureManagedMachinePool
+{{- end }}
+{{- if and (eq .Values.provider "google") (eq .Values.type "managed") -}}
+GCPManagedMachinePool
+{{- end }}
 {{- end }}
 
 {{/*
@@ -112,5 +142,11 @@ Create the apiVersion for the infrastructureRef for the worker MachinePools
 {{- define "workers.infrastructure.apiVersion" -}}
 {{- if and (eq .Values.provider "aws") (eq .Values.type "managed") -}}
 infrastructure.cluster.x-k8s.io/v1beta2
+{{- end }}
+{{- if and (eq .Values.provider "azure") (eq .Values.type "managed") -}}
+infrastructure.cluster.x-k8s.io/v1beta2
+{{- end }}
+{{- if and (eq .Values.provider "google") (eq .Values.type "managed") -}}
+infrastructure.cluster.x-k8s.io/v1beta1
 {{- end }}
 {{- end }}

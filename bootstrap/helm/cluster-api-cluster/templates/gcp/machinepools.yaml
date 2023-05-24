@@ -1,9 +1,9 @@
-{{- if and (eq .Values.provider "aws") (eq .Values.type "managed") -}}
+{{- if and (eq .Values.provider "google") (eq .Values.type "managed") -}}
 
 {{- $currentScope := . -}}
-{{- $defaultVals := .Values.workers.defaults.gcp -}}
+{{- $defaultVals := .Values.workers.defaults.google -}}
 
-{{- range $name, $values := .Values.workers.gcp }}
+{{- range $name, $values := .Values.workers.google }}
 {{- with $currentScope}}
 {{- $nodePoolName := $.Values.cluster.name }}
 {{- $scaling := ($values | default dict).scaling | default $defaultVals.scaling }}
@@ -16,13 +16,13 @@
 apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
 kind: GCPManagedMachinePool
 metadata:
-  name: {{ $.Values.cluster.name }}-{{ $name }}
+  name: {{ $name }}
 spec:
-  nodePoolName: {{ $.Values.cluster.name}}-{{ $name }}
+  nodePoolName: {{ $name }}
   scaling:
     {{- toYaml $scaling | nindent 4 }}
   kubernetesLabels:
-    {{- if (dig "kubernetesLabels" $values) -}}
+    {{- if $values.kubernetesLabels -}}
     {{- toYaml (merge $values.kubernetesLabels $defaultVals.kubernetesLabels)| nindent 4 }}
     {{- else -}}
     {{- toYaml $defaultVals.kubernetesLabels | nindent 4 }}
@@ -32,13 +32,13 @@ spec:
   {{- toYaml (($values | default dict).kubernetesTaints | default $defaultVals.kubernetesTaints) | nindent 2 }}
   {{- end }}
   additionalLabels:
-    {{- if (dig "additionalLabels" $values) -}}
+    {{- if $values.additionalLabels -}}
     {{- toYaml (merge $values.additionalLabels $defaultVals.additionalLabels)| nindent 4 }}
     {{- else -}}
     {{- toYaml $defaultVals.additionalLabels | nindent 4 }}
     {{- end }}
   providerIDList:
-    {{- if (dig "providerIDList" $values) -}}
+    {{- if $values.providerIDList -}}
     {{- toYaml (merge $values.providerIDList $defaultVals.providerIDList)| nindent 4 }}
     {{- else -}}
     {{- toYaml $defaultVals.providerIDList | nindent 4 }}
