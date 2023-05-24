@@ -38,6 +38,9 @@ spec:
             type: object
           spec:
             properties:
+              bootstrapMode:
+                default: false
+                type: boolean
               cloudSpec:
                 properties:
                   aws:
@@ -413,9 +416,6 @@ spec:
                         - key
                         type: object
                         x-kubernetes-map-type: atomic
-                      useIAMRole:
-                        default: false
-                        type: boolean
                       version:
                         type: string
                     required:
