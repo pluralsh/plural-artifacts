@@ -1,14 +1,15 @@
 provider: {{ .Provider }}
 cluster:
   name: {{ .Cluster }}
+
   {{ if eq .Provider "aws" }}
   kubernetesVersion: v1.24
-  {{ end }}
-  {{ if eq .Provider "azure" }}
-  kubernetesVersion: v1.26.3
-  {{ end }}
   aws:
     region: {{ .Region }}
+  {{ end }}
+
+  {{ if eq .Provider "azure" }}
+  kubernetesVersion: v1.26.3
   azure:
     clientID: {{ .Context.ClientId }}
     clientSecret: {{ .Context.ClientSecret }}
@@ -16,3 +17,11 @@ cluster:
     subscriptionID: {{ .Context.SubscriptionId }}
     location: {{ .Region }}
     resourceGroupName: {{ .Project }}
+  {{ end }}
+
+  {{ if eq .Provider "google" }}
+  kubernetesVersion: 1.24.13-gke.500
+  gcp:
+    project: {{ .Project }}
+    region: {{ .Region }}
+  {{ end }}
