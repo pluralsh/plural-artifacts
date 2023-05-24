@@ -177,8 +177,8 @@ cluster:
       # Note: Only auto mode is supported at this time.
       autoCreateSubnetworks: true
     subnets:
-        # Subnet name is always created as:
-        # <clusterName>-<nameSuffix>
+      # Subnet name is always created as:
+      # <clusterName>-<nameSuffix>
       - nameSuffix: subnetwork
         # CidrBlock is the range of internal addresses that are owned by this
         # subnetwork. Provide this property when you create the subnetwork. For
@@ -339,13 +339,17 @@ workers:
   azure:
     pool0:
       replicas: 1
-      spec: {}
+      spec:
+        mode: "System"
+        scaling:
+          minSize: 1
+          maxSize: 3
     pool1:
-      replicas: 2
+      replicas: 3
       spec:
         scaling:
-          maxSize: 5
           minSize: 2
+          maxSize: 7
   #################################
   ###        GCP WORKERS        ###
   #################################
