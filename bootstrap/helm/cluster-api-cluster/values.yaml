@@ -269,13 +269,7 @@ workers:
         maxCount: 6
         minCount: 3
       kubernetesLabels: {}
-      kubernetesTaints:
-        - key: plural.sh/capacityType
-          value: SPOT
-          effect: no-schedule
-        - key: nvidia.com/gpu
-          value: "true"
-          effect: no-schedule
+      kubernetesTaints: {}
       additionalLabels: {}
       providerIDList: []
   #################################
@@ -319,12 +313,6 @@ workers:
         maxCount: 6
         minCount: 3
       kubernetesLabels: {}
-      kubernetesTaints:
-        - key: plural.sh/capacityType
-          value: SPOT
-          effect: NoSchedule
-        - key: nvidia.com/gpu
-          value: "true"
-          effect: NoSchedule
+      kubernetesTaints: {}
       additionalLabels: {}
       providerIDList: []

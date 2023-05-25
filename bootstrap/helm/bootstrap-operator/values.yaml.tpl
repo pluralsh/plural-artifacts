@@ -132,8 +132,8 @@ operator:
     GCP_B64ENCODED_CREDENTIALS: {{ .Context.Credentials | quote }}
   cloud:
     gcp:
-      project: pluralsh
-      region: europe-central2
+      project: {{ .Project }}
+      region: {{ .Region }}
       version: v1.3.2
       fetchConfigUrl: https://github.com/pluralsh/cluster-api-provider-gcp/releases
       credentialsRef:
@@ -146,10 +146,7 @@ operator:
           subnets:
             - name: plrl-clusterapi-demo-subnetwork
               cidrBlock: 10.0.32.0/20
-              region: europe-central2
       controlPlane:
-        location: europe-central2
-        project: pluralsh
         enableAutopilot: false
         enableWorkloadIdentity: true
       machinePool:
