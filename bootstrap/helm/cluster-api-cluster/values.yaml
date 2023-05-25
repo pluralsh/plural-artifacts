@@ -246,7 +246,7 @@ workers:
       spec:
         additionalTags: {}
         mode: "User"
-        sku: "Standard_D8as_v5"
+        sku: "Standard_D2s_v3"
         osDiskSizeGB: 50
         availabilityZones:
           - "1"
