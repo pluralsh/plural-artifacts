@@ -222,7 +222,7 @@ workers:
         amiType: AL2_x86_64 # AL2_x86_64, AL2_x86_64_GPU, AL2_ARM_64
         amiVersion: ""
         capacityType: onDemand # onDemand, spot
-        diskSize: 50
+        diskSize: ""
         instanceType: t3a.large
         roleName: ""
         scaling:
@@ -246,7 +246,7 @@ workers:
       spec:
         additionalTags: {}
         mode: "User"
-        sku: "Standard_D8as_v5"
+        sku: "Standard_D2s_v3"
         osDiskSizeGB: 50
         availabilityZones:
           - "1"
@@ -277,6 +277,13 @@ workers:
   #################################
   aws:
     test-pool-0:
+      # annotations: {}
+      # labels: {}
+      replicas: 1
+      spec:
+        labels: {} # TODO: allow this to not be set
+        additionalTags: {} # TODO: allow this to not be set
+    test-pool-1:
       # annotations: {}
       # labels: {}
       replicas: 1

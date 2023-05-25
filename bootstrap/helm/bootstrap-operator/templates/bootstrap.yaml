@@ -6,6 +6,8 @@ spec:
   clusterName: {{ .Values.operator.clusterName }}
   kubernetesVersion: {{ .Values.kubernetesVersion }}
   skipClusterCreation: {{ .Values.operator.skipClusterCreation }}
+  bootstrapMode: {{ .Values.operator.bootstrapMode }}
+  moveCluster: {{ .Values.operator.moveCluster }}
   clusterNetwork:
     pods:
       cidrBlocks:

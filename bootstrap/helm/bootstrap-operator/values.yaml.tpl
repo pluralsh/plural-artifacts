@@ -4,6 +4,8 @@ kubernetesVersion: v1.26.3
 {{ end }}
 operator:
   clusterName: {{ .Cluster }}
+  bootstrapMode: false
+  moveCluster: false
   secret: {}
   cloud: {}
 {{ if eq .Provider "aws" }}
