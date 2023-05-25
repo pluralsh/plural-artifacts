@@ -256,8 +256,8 @@ workers:
           plural.sh/performanceType: SUSTAINED
         taints: {}
         scaling:
-          maxSize: 27
-          minSize: 0
+          maxSize: 5
+          minSize: 1
         maxPods: 110
         osDiskType: "Managed"
         scaleSetPriority: "Regular"
@@ -301,13 +301,14 @@ workers:
         mode: "System"
         scaling:
           minSize: 1
-          maxSize: 3
+          maxSize: 2
     pool1:
-      replicas: 3
+      replicas: 1
       spec:
+        mode: "User"
         scaling:
           minSize: 2
-          maxSize: 7
+          maxSize: 4
   #################################
   ###        GCP WORKERS        ###
   #################################
