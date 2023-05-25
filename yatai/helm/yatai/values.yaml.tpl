@@ -58,7 +58,7 @@ yatai-image-builder:
       {{- end }}
   dockerRegistry:
     {{- if and $isAws .Values.use_ecr }}
-    server: {{ index (split "/" (importValue "Terraform" "ecr_registry_url")) 0 }}
+    server: {{ importValue "Terraform" "ecr_registry_url" }}
     {{- else }}
     server: {{ .Values.image_registry }} 
     {{- end }}
