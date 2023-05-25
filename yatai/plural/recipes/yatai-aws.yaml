@@ -52,6 +52,12 @@ sections:
     condition:
       operation: NOT
       field: use_ecr
+  - name: initial_username
+    documentation: username of the initial admin account that is setup for you on first install
+    type: STRING
+  - name: initial_email
+    documentation: email of the initial admin account that is setup for you on first install
+    type: STRING
   
 
   items:

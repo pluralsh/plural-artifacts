@@ -33,6 +33,13 @@ sections:
   - name: image_registry_password
     documentation: Image registry password 
     type: STRING
+  - name: initial_username
+    documentation: username of the initial admin account that is setup for you on first install
+    type: STRING
+  - name: initial_email
+    documentation: email of the initial admin account that is setup for you on first install
+    type: STRING
+
   items:
   - type: TERRAFORM
     name: azure
