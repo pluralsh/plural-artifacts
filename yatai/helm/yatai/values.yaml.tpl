@@ -78,7 +78,7 @@ yatai-image-builder:
   {{- end }}
 
 initialization:
-  email: {{ .Config.Email }}
-  username: admin
+  email: {{ .Values.initial_email }}
+  username: {{ .Values.initial_username }}
   password: {{ dedupe . "yatai.initialization.password" (randAlphaNum 32) }}
   
