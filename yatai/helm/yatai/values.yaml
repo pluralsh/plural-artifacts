@@ -58,3 +58,8 @@ yatai-image-builder:
     serviceAccountName: "yatai"
   dockerRegistry:
     secure: true
+
+initialization:
+  email: ""
+  username: ""
+  password: ""

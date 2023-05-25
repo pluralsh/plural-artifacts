@@ -27,10 +27,14 @@ kind: Job
 metadata:
   name: yatai-initialization-setup
   namespace: {{ .Release.Namespace }}
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-weight: "-5"
+    helm.sh/hook-delete-policy: hook-succeeded
 spec:
   template:
     spec:
-      serviceAccountName: yatai
+      serviceAccountName: {{ include "yatai.serviceAccountName" .Subcharts.yatai }}
       containers:
       - name: setup
         image: alpine/k8s:1.21.2
