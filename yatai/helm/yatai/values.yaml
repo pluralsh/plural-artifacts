@@ -33,10 +33,10 @@ yatai:
     endpoint: "s3.amazonaws.com"
   resources:
     limits:
-      memory: 128Mi
+      memory: 520Mi
     requests:
       cpu: 2m
-      memory: 128Mi
+      memory: 64Mi
 
 
 yatai-deployment:
@@ -56,10 +56,10 @@ yatai-deployment:
     serviceAccountName: "yatai"
   resources:
     limits:
-      memory: 128Mi
+      memory: 64Mi
     requests:
       cpu: 2m
-      memory: 128Mi
+      memory: 32Mi
 
 yatai-image-builder:
   yatai:
@@ -76,7 +76,7 @@ yatai-image-builder:
       memory: 128Mi
     requests:
       cpu: 2m
-      memory: 128Mi
+      memory: 64Mi
 
 initialization:
   email: ""
