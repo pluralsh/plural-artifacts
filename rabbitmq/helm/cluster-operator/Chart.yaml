@@ -2,10 +2,10 @@ apiVersion: v2
 name: cluster-operator
 description: A Helm chart for Kubernetes
 type: application
-version: 0.1.18
-appVersion: 2.0.0
+version: 0.1.19
+appVersion: 2.2.0
 dependencies:
 - name: rabbitmq-cluster-operator
-  version: 3.1.2
-  repository: https://pluralsh.github.io/plural-helm-charts
+  version: 3.4.1
+  repository: oci://registry-1.docker.io/bitnamicharts
   condition: rabbitmq-cluster-operator.enabled
