@@ -11,11 +11,5 @@ oidcProxy:
 {{- end }}
 
 mysql-operator:
-  {{- if .OIDC }}
-  podLabels:
-    security.plural.sh/inject-oauth-sidecar: "true"
-  podAnnotations:
-    security.plural.sh/oauth-env-secret: "mysql-oauth2-proxy-config"
-  {{- end }}
   orchestrator:
     topologyPassword: {{ dedupe . "mysql.mysql-operator.orchestrator.topologyPassword" (randAlphaNum 10) }}

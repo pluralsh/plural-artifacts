@@ -1,3 +1,7 @@
+# TODO: migrate OAuth2 Proxy to not use the injector
+# TODO: figure out which apps use MySQL and configure the MySQL image to the vendored ones. Also set `mysqlVersion` since that's required by the operator when using a custom image.
+# TODO: possibly figure out which apps use MySQL and set `MinAvailable: 1` so PDBs are created.
+
 oidcProxy:
   enabled: false
   upstream: http://localhost:3000
