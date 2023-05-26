@@ -7,6 +7,10 @@ postgres:
   version: "14"
 
 yatai:
+  registry: dkr.plural.sh
+  image:
+    repository: yatai/bentoml/yatai
+    tag: 1.1.9
   postgresql:
     host: plural-postgres-yatai
     sslmode: require
@@ -31,8 +35,19 @@ yatai:
     name: yatai
   s3:
     endpoint: "s3.amazonaws.com"
+  resources:
+    limits:
+      memory: 520Mi
+    requests:
+      cpu: 2m
+      memory: 64Mi
+
 
 yatai-deployment:
+  registry: dkr.plural.sh
+  image:
+    repository: yatai/bentoml/yatai-deployment
+    tag: 1.1.11
   serviceAccount:
     name: "yatai-deployment"
   yataiServiceAccount:
@@ -47,8 +62,18 @@ yatai-deployment:
   yataiSystem:
     namespace: "yatai"
     serviceAccountName: "yatai"
+  resources:
+    limits:
+      memory: 64Mi
+    requests:
+      cpu: 2m
+      memory: 32Mi
 
 yatai-image-builder:
+  registry: dkr.plural.sh
+  image:
+    repository: yatai/bentoml/yatai-image-builder
+    tag: 1.1.4
   yatai:
     endpoint: http://yatai.yatai.svc.cluster.local
   serviceAccount:
@@ -58,3 +83,19 @@ yatai-image-builder:
     serviceAccountName: "yatai"
   dockerRegistry:
     secure: true
+  resources:
+    limits:
+      memory: 128Mi
+    requests:
+      cpu: 2m
+      memory: 64Mi
+  internalImages:
+    bentoDownloader: dkr.plural.sh/yatai/bentoml/bento-downloader:0.0.3
+    kaniko: dkr.plural.sh/yatai/kaniko-project/executor:v1.10.0
+    buildkit: dkr.plural.sh/yatai/moby/buildkit:v0.11.6
+    buildkitRootless: dkr.plural.sh/yatai/moby/buildkit:v0.11.6-rootless
+
+initialization:
+  email: ""
+  username: ""
+  password: ""

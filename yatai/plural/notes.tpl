@@ -2,9 +2,8 @@
 
 You can view your installation at https://{{ $hostname}}
 
-NOTES:
-When installing Yatai for the first time, run the following command to get an initialization link for creating your admin account:
+Your initial admin credentials are:
 
-  export YATAI_INITIALIZATION_TOKEN=$(kubectl get secret yatai-env --namespace {{ namespace }} -o jsonpath="{.data.YATAI_INITIALIZATION_TOKEN}" | base64 --decode)
-
-  echo "Create admin account at: https://{{ $hostname }}/setup?token=$YATAI_INITIALIZATION_TOKEN"
+Email: {{ .Values.initial_email }}
+Username: {{ .Values.initial_username }}
+Password: {{ .yatai.initialization.initial_password }}
