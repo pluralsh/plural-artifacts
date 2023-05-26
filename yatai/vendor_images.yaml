@@ -1,0 +1,6 @@
+quay.io:
+  images-by-tag-regex:
+    # the below regex can be used to limit the regex range so that only versions >= 1.1.0 are matched
+    bentoml/yatai: (?:^v?1\.(?:[1-9]|[1-9][0-9]{1,})\.[0-9]+$)|(?:^v?(?:[2-9]|[1-9][0-9]{1,})\.[0-9]+?\.[0-9]+$)
+    bentoml/yatai-deployment: (?:^v?1\.(?:[1-9]|[1-9][0-9]{1,})\.[0-9]+$)|(?:^v?(?:[2-9]|[1-9][0-9]{1,})\.[0-9]+?\.[0-9]+$)
+    bentoml/yatai-image-builder: (?:^v?1\.(?:[1-9]|[1-9][0-9]{1,})\.[0-9]+$)|(?:^v?(?:[2-9]|[1-9][0-9]{1,})\.[0-9]+?\.[0-9]+$)

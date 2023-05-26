@@ -7,6 +7,10 @@ postgres:
   version: "14"
 
 yatai:
+  registry: dkr.plural.sh
+  image:
+    repository: yatai/bentoml/yatai
+    tag: 1.1.9
   postgresql:
     host: plural-postgres-yatai
     sslmode: require
@@ -40,6 +44,10 @@ yatai:
 
 
 yatai-deployment:
+  registry: dkr.plural.sh
+  image:
+    repository: yatai/bentoml/yatai-deployment
+    tag: 1.1.11
   serviceAccount:
     name: "yatai-deployment"
   yataiServiceAccount:
@@ -62,6 +70,10 @@ yatai-deployment:
       memory: 32Mi
 
 yatai-image-builder:
+  registry: dkr.plural.sh
+  image:
+    repository: yatai/bentoml/yatai-image-builder
+    tag: 1.1.4
   yatai:
     endpoint: http://yatai.yatai.svc.cluster.local
   serviceAccount:
