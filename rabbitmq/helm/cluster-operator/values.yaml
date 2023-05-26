@@ -7,7 +7,7 @@ rabbitmq-cluster-operator:
     image:
       registry: dkr.plural.sh
       repository: rabbitmq/rabbitmqoperator/cluster-operator
-      tag: 2.0.0
+      tag: 2.2.0
     metrics:
       enabled: true
       serviceMonitor:
@@ -22,7 +22,7 @@ rabbitmq-cluster-operator:
     image:
       registry: dkr.plural.sh
       repository: rabbitmq/rabbitmqoperator/messaging-topology-operator
-      tag: 1.9.0
+      tag: 1.10.3
     metrics:
       enabled: true
       serviceMonitor:
@@ -36,7 +36,7 @@ rabbitmq-cluster-operator:
 
 cluster:
   replicas: 2
-  image: dkr.plural.sh/rabbitmq/library/rabbitmq:3.9.24-management
+  image: dkr.plural.sh/rabbitmq/library/rabbitmq:3.11.16-management
   rabbitmq:
     additionalConfig: |
       cluster_partition_handling = pause_minority
