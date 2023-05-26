@@ -243,6 +243,8 @@ workers:
     azure:
       replicas: 0
       labels: {}
+      annotations:
+        cluster.x-k8s.io/replicas-managed-by: external-autoscaler
       spec:
         additionalTags: {}
         mode: "User"
