@@ -1,9 +1,9 @@
 dependencies:
 - name: strimzi-kafka-operator
   repository: https://strimzi.io/charts/
-  version: 0.24.0
+  version: 0.35.0
 - name: schema-registry
-  repository: https://charts.bitnami.com/bitnami
-  version: 5.1.7
-digest: sha256:d4a4db89b39f401843e93d471365714bbc3ef5403ecb9760dc4c50e9035255b3
-generated: "2022-10-06T12:14:04.012046+02:00"
+  repository: oci://registry-1.docker.io/bitnamicharts
+  version: 11.0.0
+digest: sha256:c25c1a94c79963cea66b7edece3d9319a19b4c70ded2c18742b14bea740520a9
+generated: "2023-05-26T15:58:47.076638+02:00"

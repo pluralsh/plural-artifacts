@@ -2,7 +2,7 @@ strimzi-kafka-operator:
   watchAnyNamespace: true
   defaultImageRegistry: dkr.plural.sh
   defaultImageRepository: kafka/strimzi
-  defaultImageTag: 0.24.0
+  defaultImageTag: 0.35.0
   resources:
     limits:
       memory: 384Mi
@@ -25,7 +25,7 @@ kafkaVolumes:
 
 kafka:
   replicas: 3
-  version: 2.8.0
+  version: 3.4.0
   storage:
     type: jbod
   additionalListeners: []
@@ -70,7 +70,7 @@ schema-registry:
   image:
     registry: dkr.plural.sh
     repository: kafka/bitnami/schema-registry
-    tag: 7.2.2
+    tag: 7.4.0
   resources:
     requests:
       cpu: 20m
