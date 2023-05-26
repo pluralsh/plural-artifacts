@@ -89,6 +89,11 @@ yatai-image-builder:
     requests:
       cpu: 2m
       memory: 64Mi
+  internalImages:
+    bentoDownloader: dkr.plural.sh/yatai/bentoml/bento-downloader:0.0.3
+    kaniko: dkr.plural.sh/yatai/kaniko-project/executor:v1.10.0
+    buildkit: dkr.plural.sh/yatai/moby/buildkit:v0.11.6
+    buildkitRootless: dkr.plural.sh/yatai/moby/buildkit:v0.11.6-rootless
 
 initialization:
   email: ""
