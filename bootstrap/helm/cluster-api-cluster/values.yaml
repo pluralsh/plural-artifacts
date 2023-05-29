@@ -178,7 +178,27 @@ cluster:
     # Access profile for AKS API server.
     apiServerAccessProfile: {}
     # Parameters to be applied to the cluster-autoscaler when enabled.
-    autoscalerProfile: {}
+    autoscalerProfile:
+      # Default is false. Changed to true as in old bootstrap.
+      balanceSimilarNodeGroups: "true"
+      # One of: least-waste, most-pods, priority, random.
+      expander: "random"
+      maxEmptyBulkDelete: "10"
+      maxGracefulTerminationSec: "600"
+      maxNodeProvisionTime: "15m"
+      maxTotalUnreadyPercentage: "45"
+      newPodScaleUpDelay: "0s"
+      okTotalUnreadyCount: "3"
+      scanInterval: "10s"
+      scaleDownDelayAfterAdd: "10m"
+      scaleDownDelayAfterDelete: "10s"
+      scaleDownDelayAfterFailure: "3m"
+      scaleDownUnneededTime: "10m"
+      scaleDownUnreadyTime: "20m"
+      # Default is 0.5. Changed to 0.7 as in old bootstrap.
+      scaleDownUtilizationThreshold: "0.7"
+      skipNodesWithLocalStorage: "false"
+      skipNodesWithSystemPods: "true"
     # Profiles of managed cluster add-on.
     addonProfiles: []
 
