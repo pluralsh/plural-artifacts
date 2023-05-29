@@ -49,37 +49,44 @@ operator:
           name: cluster-autoscaler
           namespace: bootstrap
         roleOnly: true
-        roleName: test-aws-cluster-autoscaler
+        roleName: {{ .Cluster }}-cluster-autoscaler
         wellKnownPolicies:
           autoScaler: true
       - metadata:
           name: ebs-csi-controller
           namespace: bootstrap
         roleOnly: true
-        roleName: test-aws-ebs-csi
+        roleName: {{ .Cluster }}-ebs-csi
         wellKnownPolicies:
           ebsCSIController: true
       - metadata:
           name: external-dns
           namespace: bootstrap
         roleOnly: true
-        roleName: test-aws-externaldns
+        roleName: {{ .Cluster }}-externaldns
         wellKnownPolicies:
           externalDNS: true
       - metadata:
           name: certmanager
           namespace: bootstrap
         roleOnly: true
-        roleName: test-aws-certmanager
+        roleName: {{ .Cluster }}-certmanager
         wellKnownPolicies:
           certManager: true
       - metadata:
           name: alb-operator
           namespace: bootstrap
         roleOnly: true
-        roleName: test-aws-alb
+        roleName: {{ .Cluster }}-alb
         wellKnownPolicies:
           awsLoadBalancerController: true
+      - metadata:
+          name: capa-controller-manager
+          namespace: bootstrap
+        roleOnly: true
+        roleName: capa-controller-manager
+        attachPolicyARNs:
+        - "arn:aws:iam::aws:policy/AdministratorAccess"
       accessKeyIdRef:
         name: variables
         key: AWS_ACCESS_KEY_ID
