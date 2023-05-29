@@ -44,6 +44,17 @@ spec:
   maxPods: {{ ($values.spec | default dict).maxPods | default $defaultVals.spec.maxPods }}
   osDiskType: {{ ($values.spec | default dict).osDiskType | default $defaultVals.spec.osDiskType }}
   scaleSetPriority: {{ ($values.spec | default dict).maxPods | default $defaultVals.spec.scaleSetPriority }}
+  osType: {{ ($values.spec | default dict).osType | default $defaultVals.spec.osType }}
+  enableNodePublicIP: {{ ($values.spec | default dict).enableNodePublicIP | default $defaultVals.spec.enableNodePublicIP }}
+  nodePublicIPPrefixID: {{ ($values.spec | default dict).nodePublicIPPrefixID | default $defaultVals.spec.nodePublicIPPrefixID }}
+  {{- if or ($defaultVals.spec.kubeletConfig) (($values.spec | default dict).kubeletConfig) }}
+  kubeletConfig:
+    {{- toYaml (($values.spec | default dict).kubeletConfig | default $defaultVals.spec.kubeletConfig) | nindent 2 }}
+  {{- end }}
+  {{- if or ($defaultVals.spec.linuxOSConfig) (($values.spec | default dict).linuxOSConfig) }}
+  linuxOSConfig:
+    {{- toYaml (($values.spec | default dict).linuxOSConfig | default $defaultVals.spec.linuxOSConfig) | nindent 2 }}
+  {{- end }}
 {{- end }}
 ---
 {{- end }}
