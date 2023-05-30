@@ -27,7 +27,12 @@ metadata:
   name: {{ $name }}
 spec:
   name: {{ $name }}
-  additionalTags: {} # TODO: Set.
+  additionalTags:
+    {{- if (dig "spec" "additionalTags" $values) -}}
+    {{- toYaml (merge $values.spec.additionalTags $defaultVals.spec.additionalTags)| nindent 4 }}
+    {{- else -}}
+    {{- toYaml $defaultVals.spec.additionalTags | nindent 4 }}
+    {{- end }}
   mode: {{ ($values.spec | default dict).mode | default $defaultVals.spec.mode }}
   sku: {{ ($values.spec | default dict).sku | default $defaultVals.spec.sku }}
   osDiskSizeGB: {{ ($values.spec | default dict).osDiskSizeGB | default $defaultVals.spec.osDiskSizeGB }}
@@ -35,8 +40,16 @@ spec:
   availabilityZones:
     {{- toYaml (($values.spec | default dict).availabilityZones | default $defaultVals.spec.availabilityZones) | nindent 2 }}
   {{- end }}
-  nodeLabels: {} # TODO: Set.
-  taints: [] # TODO: Set.
+  nodeLabels:
+    {{- if (dig "spec" "nodeLabels" $values) -}}
+    {{- toYaml (merge $values.spec.nodeLabels $defaultVals.spec.nodeLabels)| nindent 4 }}
+    {{- else -}}
+    {{- toYaml $defaultVals.spec.nodeLabels | nindent 4 }}
+    {{- end }}
+  {{- if or ($defaultVals.spec.taints) (($values.spec | default dict).taints) }}
+  taints:
+  {{- toYaml (($values.spec | default dict).taints | default $defaultVals.spec.taints) | nindent 2 }}
+  {{- end }}
   {{- if $scaling }}
   scaling:
     {{- toYaml $scaling | nindent 4 }}
