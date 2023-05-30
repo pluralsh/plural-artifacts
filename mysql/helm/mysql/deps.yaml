@@ -12,7 +12,7 @@ spec:
   - type: terraform
     name: aws
     repo: mysql
-    version: '>= 0.1.1'
+    version: '>= 0.1.4'
     optional: true
   - type: terraform
     name: gcp
