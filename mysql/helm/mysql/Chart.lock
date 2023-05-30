@@ -1,6 +1,9 @@
 dependencies:
 - name: mysql-operator
-  repository: https://pluralsh.github.io/plural-helm-charts
-  version: 0.6.2
-digest: sha256:a51a673c7bff2ae3e880906d41002eda49e87b8adfa95e766abb60f705368895
-generated: "2022-03-29T14:45:17.917841033+02:00"
+  repository: https://helm-charts.bitpoke.io
+  version: 0.6.3
+- name: oauth2-proxy
+  repository: https://oauth2-proxy.github.io/manifests
+  version: 6.12.0
+digest: sha256:1afbf2a86639d0eea05528a8637bb75ebcf9f1124daf025bee49cd63d2071773
+generated: "2023-05-30T14:21:41.122562+02:00"
