@@ -7,6 +7,7 @@ mysql:
   appDatabase: ghost
   clusterNameOverride: ghost
 
+  # TODO: remove image and mysqlVersion in the next release so we can update to MySQL 8.0
   image:
     repository: dkr.plural.sh/mysql/library/percona
     tag: 5.7.35
