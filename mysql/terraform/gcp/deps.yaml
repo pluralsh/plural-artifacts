@@ -12,4 +12,5 @@ spec:
   providers:
   - gcp
   outputs:
+    service_account_email: service_account_email
     gcp_sa_name: gcp_sa_name
