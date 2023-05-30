@@ -1,16 +1,80 @@
-# TODO: migrate OAuth2 Proxy to not use the injector
 # TODO: figure out which apps use MySQL and configure the MySQL image to the vendored ones. Also set `mysqlVersion` since that's required by the operator when using a custom image.
 # TODO: possibly figure out which apps use MySQL and set `MinAvailable: 1` so PDBs are created.
 
-oidcProxy:
+oauth2-proxy:
   enabled: false
-  upstream: http://localhost:3000
-  issuer: https://oidc.plural.sh/
-  clientID: ""
-  clientSecret: ""
-  cookieSecret: ""
+  fullnameOverride: mysql-oauth2-proxy
+  image:
+    repository: dkr.plural.sh/oauth2-proxy/oauth2-proxy/oauth2-proxy
+    tag: v7.4.0
+
+  resources:
+    limits:
+      memory: 50Mi
+    requests:
+      cpu: 25m
+      memory: 50Mi
+
+  htpasswdFile:
+    enabled: false
+    existingSecret: httpaswd-users
+
+  config:
+    clientID: ""
+    clientSecret: ""
+    cookieSecret: ""
+    configFile: ""
+  extraEnv:
+  - name: OAUTH2_PROXY_EMAIL_DOMAINS
+    value: "*"
+  - name: OAUTH2_PROXY_SKIP_PROVIDER_BUTTON
+    value: "true"
+  extraVolumes:
+  - name: oidc-secret
+    secret:
+      secretName: mysql-oauth2-proxy
+  extraVolumeMounts:
+  - mountPath: /etc/oidc-secret/
+    name: oidc-secret
+
+  metrics:
+    enabled: true
+    servicemonitor:
+      enabled: true
+
+  alphaConfig:
+    enabled: true
+    # Add config annotations
+    annotations: {}
+    # Arbitrary configuration data to append to the server section
+    serverConfigData: {}
+    # Arbitrary configuration data to append to the metrics section
+    metricsConfigData: {}
+    # Arbitrary configuration data to append
+    configData:
+      providers:
+      - id: plural
+        name: Plural
+        provider: "oidc"
+        clientID: "XXXXXXX"
+        clientSecretFile: /etc/oidc-secret/client-secret
+        scope: "openid profile offline_access"
+        oidcConfig:
+          issuerURL: https://oidc.plural.sh/
+          emailClaim: email
+          groupsClaim: groups
+          userIDClaim: email
+          audienceClaims:
+          - aud
+    existingConfig: mysql-oauth2-proxy-config
+  
   ingress:
-    host: mysql-orchestrator.david.onplural.sh
+    className: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      kubernetes.io/tls-acme: "true"
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/use-regex: "true"
 
 mysql-operator:
   replicas: 1

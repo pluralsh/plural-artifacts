@@ -8,3 +8,7 @@ dependencies:
 - name: mysql-operator
   version: 0.6.3
   repository: https://helm-charts.bitpoke.io
+- name: oauth2-proxy
+  version: 6.12.0
+  repository: https://oauth2-proxy.github.io/manifests
+  condition: oauth2-proxy.enabled
