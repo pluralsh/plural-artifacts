@@ -2,6 +2,7 @@
 {{ $prevRootPwd := dedupe . "ghost.db.rootPassword" (randAlphaNum 26) }}
 {{ $prevDBPwd := dedupe . "ghost.db.password" (randAlphaNum 26) }}
 {{ $dbPwd := dedupe . "ghost.mysql.appPassword" $prevDBPwd }}
+{{- $mysqlVals := .Applications.TerraformValues "mysql" -}}
 
 global:
   application:
@@ -44,7 +45,7 @@ mysql:
   {{- if eq .Provider "aws" }}
   serviceAccount:
     annotations:
-      eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-mysql-operator"
+      eks.amazonaws.com/role-arn: {{ $mysqlVals.iam_role_arn }}
 
   backupURL: s3://{{ .Configuration.mysql.backup_bucket }}/ghost
   backupCredentials:

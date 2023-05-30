@@ -16,7 +16,7 @@ spec:
   - type: helm
     name: mysql
     repo: mysql
-    version: '>= 0.1.2'
+    version: '>= 0.1.19'
   - type: terraform
     name: aws
     repo: ghost
