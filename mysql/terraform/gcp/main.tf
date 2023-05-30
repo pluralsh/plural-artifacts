@@ -30,25 +30,3 @@ module "gcs_buckets" {
   project_id = var.project_id
   location = var.bucket_location
 }
-
-# resource "google_service_account_key" "mysql_key" {
-#   service_account_id = module.mysql-workload-identity.gcp_service_account_name
-# }
-
-# resource "kubernetes_secret" "google-application-credentials" {
-#   metadata {
-#     name = "mysql-gcp-creds"
-#     namespace = var.namespace
-#     labels = {
-#       "platform.plural.sh/sync" = "mysql"
-#     }
-#   }
-
-#   data = {
-#     "credentials.json" = base64decode(google_service_account_key.mysql_key.private_key)
-#   }
-
-#   depends_on = [
-#     kubernetes_namespace.mysql
-#   ]
-# }
