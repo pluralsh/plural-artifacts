@@ -1,14 +1,24 @@
 replicaCount: 1
 
-db:
+mysql:
   rootPassword: replace
-  password: replace
-  name: ghost
-  username: ghost
+  appUser: ghost
+  appPassword: replace
+  appDatabase: ghost
+  clusterNameOverride: ghost
+
+  # TODO: remove image and mysqlVersion in the next release so we can update to MySQL 8.0
+  image:
+    repository: dkr.plural.sh/mysql/library/percona
+    tag: 5.7.35
+  mysqlVersion: "5.7"
+  backupSchedule: "0 0 0 * * *"
+  backupScheduleJobsHistoryLimit: 5
+  backupRemoteDeletePolicy: delete # retain|delete
 
 image:
   repository: dkr.plural.sh/ghost/library/ghost
-  tag: 5.24.2-alpine
+  tag: 5.49.1-alpine
   pullPolicy: IfNotPresent
 
 resources: {}
