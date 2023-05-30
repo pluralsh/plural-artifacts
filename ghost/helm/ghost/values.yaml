@@ -12,9 +12,12 @@ mysql:
     repository: dkr.plural.sh/mysql/library/percona
     tag: 5.7.35
   mysqlVersion: "5.7"
+  backupURL: s3://
   backupSchedule: "0 0 0 * * *"
   backupScheduleJobsHistoryLimit: 5
   backupRemoteDeletePolicy: delete # retain|delete
+  backupCredentials:
+    create: "true"
 
 image:
   repository: dkr.plural.sh/ghost/library/ghost
