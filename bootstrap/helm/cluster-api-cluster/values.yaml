@@ -369,6 +369,8 @@ workers:
     pool0:
       replicas: 1
       spec:
+        labels: {} # TODO: Allow this to not be set.
+        additionalTags: {} # TODO: Allow this to not be set.
         mode: "System"
         scaling:
           minSize: 1
@@ -376,6 +378,8 @@ workers:
     pool1:
       replicas: 1
       spec:
+        labels: {} # TODO: Allow this to not be set.
+        additionalTags: {} # TODO: Allow this to not be set.
         mode: "User"
         scaling:
           minSize: 2
