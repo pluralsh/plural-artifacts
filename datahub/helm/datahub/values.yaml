@@ -100,7 +100,6 @@ datahub:
         memory: 900Mi
       limits:
         memory: 900Mi
-      # TODO: set resources for gms and add runbook
 
   acryl-datahub-actions:
     enabled: true
