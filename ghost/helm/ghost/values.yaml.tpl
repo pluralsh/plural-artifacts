@@ -40,3 +40,14 @@ ingress:
 mysql:
   appPassword: {{ $dbPwd }}
   rootPassword: {{ dedupe . "ghost.mysql.rootPassword" $prevRootPwd }}
+
+  {{- if eq .Provider "aws" }}
+  serviceAccount:
+    annotations:
+      eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-mysql-operator"
+
+  backupURL: s3://{{ .Configuration.mysql.backup_bucket }}/ghost
+  backupCredentials:
+    S3_PROVIDER: AWS
+    RCLONE_S3_ENV_AUTH: "true"
+  {{- end }}

@@ -1,11 +1,5 @@
 replicaCount: 1
 
-db:
-  rootPassword: replace
-  password: replace
-  name: ghost
-  username: ghost
-
 mysql:
   rootPassword: replace
   appUser: ghost
@@ -17,6 +11,9 @@ mysql:
     repository: dkr.plural.sh/mysql/library/percona
     tag: 5.7.35
   mysqlVersion: "5.7"
+  backupSchedule: "0 0 0 * * *"
+  backupScheduleJobsHistoryLimit: 5
+  backupRemoteDeletePolicy: delete # retain|delete
 
 image:
   repository: dkr.plural.sh/ghost/library/ghost

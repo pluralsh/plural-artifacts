@@ -1,6 +1,6 @@
 dependencies:
 - name: mysql
   repository: https://pluralsh.github.io/module-library
-  version: 0.6.4
-digest: sha256:89db25ce3ef419fbd939b104621554ec2a9cc606a2e448055f940a013554f5d4
-generated: "2023-05-30T16:00:38.9603+02:00"
+  version: 0.6.6
+digest: sha256:6a509abf11e465c8ddcee53b21176199f1a2f7ca37393b482ee0ae3ac8f0278a
+generated: "2023-05-30T16:24:53.774187+02:00"
