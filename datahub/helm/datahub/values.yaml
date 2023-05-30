@@ -31,7 +31,7 @@ datahub:
   datahub-frontend:
     image:
       repository: dkr.plural.sh/datahub/linkedin/datahub-frontend-react
-      tag: v0.10.0
+      tag: v0.10.3
     service:
       type: ClusterIP
     serviceMonitor:
@@ -68,26 +68,26 @@ datahub:
   datahub-gms:
     image:
       repository: dkr.plural.sh/datahub/linkedin/datahub-gms
-      tag: v0.10.0
+      tag: v0.10.3
     serviceMonitor:
       create: true
     extraInitContainers:
     - name: wait-for-elasticsearch-job
       image: gcr.io/pluralsh/bitnami/kubectl:1.25.8
       imagePullPolicy: IfNotPresent
-      command: [ "/bin/sh", "-c", "until kubectl wait --for=condition=complete --timeout=1s -n datahub job/datahub-elasticsearch-setup-job; do echo 'waiting for datahub-elasticsearch-setup-job'; sleep 1; done" ]
+      command: [ "/bin/sh", "-c", "NEXT_WAIT_TIME=0; FINISH_TIME=15; until [ $NEXT_WAIT_TIME -eq $FINISH_TIME ] || (kubectl get -n datahub job/datahub-elasticsearch-setup-job >/dev/null); do echo 'waiting to find datahub-elasticsearch-setup-job'; NEXT_WAIT_TIME=$(( NEXT_WAIT_TIME+1 )); sleep $NEXT_WAIT_TIME; done; if [ $NEXT_WAIT_TIME -eq $FINISH_TIME ]; then echo 'Job not found and timeout reached, assuming job has run successfully'; else echo 'waiting for datahub-elasticsearch-setup-job'; kubectl wait --for=condition=complete --timeout=300s -n datahub job/datahub-elasticsearch-setup-job; fi" ]
     - name: wait-for-kafka-job
       image: gcr.io/pluralsh/bitnami/kubectl:1.25.8
       imagePullPolicy: IfNotPresent
-      command: [ "/bin/sh", "-c", "until kubectl wait --for=condition=complete --timeout=1s -n datahub job/datahub-kafka-setup-job; do echo 'waiting for datahub-kafka-setup-job'; sleep 1; done" ]
+      command: [ "/bin/sh", "-c", "NEXT_WAIT_TIME=0; FINISH_TIME=15; until [ $NEXT_WAIT_TIME -eq $FINISH_TIME ] || (kubectl get -n datahub job/datahub-kafka-setup-job >/dev/null); do echo 'waiting to find datahub-kafka-setup-job'; NEXT_WAIT_TIME=$(( NEXT_WAIT_TIME+1 )); sleep $NEXT_WAIT_TIME; done; if [ $NEXT_WAIT_TIME -eq $FINISH_TIME ]; then echo 'Job not found and timeout reached, assuming job has run successfully'; else echo 'waiting for datahub-kafka-setup-job'; kubectl wait --for=condition=complete --timeout=300s -n datahub job/datahub-kafka-setup-job; fi" ]
     - name: wait-for-postgres-job
       image: gcr.io/pluralsh/bitnami/kubectl:1.25.8
       imagePullPolicy: IfNotPresent
-      command: [ "/bin/sh", "-c", "until kubectl wait --for=condition=complete --timeout=1s -n datahub job/datahub-postgresql-setup-job; do echo 'waiting for datahub-postgresql-setup-job'; sleep 1; done" ]
+      command: [ "/bin/sh", "-c", "NEXT_WAIT_TIME=0; FINISH_TIME=15; until [ $NEXT_WAIT_TIME -eq $FINISH_TIME ] || (kubectl get -n datahub job/datahub-postgresql-setup-job >/dev/null); do echo 'waiting to find datahub-postgresql-setup-job'; NEXT_WAIT_TIME=$(( NEXT_WAIT_TIME+1 )); sleep $NEXT_WAIT_TIME; done; if [ $NEXT_WAIT_TIME -eq $FINISH_TIME ]; then echo 'Job not found and timeout reached, assuming job has run successfully'; else echo 'waiting for datahub-postgresql-setup-job'; kubectl wait --for=condition=complete --timeout=300s -n datahub job/datahub-postgresql-setup-job; fi" ]
     - name: wait-for-datahub-system-update-job
       image: gcr.io/pluralsh/bitnami/kubectl:1.25.8
       imagePullPolicy: IfNotPresent
-      command: [ "/bin/sh", "-c", "until kubectl wait --for=condition=complete --timeout=1s -n datahub job/datahub-datahub-system-update-job; do echo 'waiting for datahub-system-update-job'; sleep 1; done" ]
+      command: [ "/bin/sh", "-c", "NEXT_WAIT_TIME=0; FINISH_TIME=15; until [ $NEXT_WAIT_TIME -eq $FINISH_TIME ] || (kubectl get -n datahub job/datahub-datahub-system-update-job >/dev/null); do echo 'waiting to find datahub-datahub-system-update-job'; NEXT_WAIT_TIME=$(( NEXT_WAIT_TIME+1 )); sleep $NEXT_WAIT_TIME; done; if [ $NEXT_WAIT_TIME -eq $FINISH_TIME ]; then echo 'Job not found and timeout reached, assuming job has run successfully'; else echo 'waiting for datahub-datahub-system-update-job'; kubectl wait --for=condition=complete --timeout=300s -n datahub job/datahub-datahub-system-update-job; fi" ]
     - name: wait-for-pg
       image: gcr.io/pluralsh/library/busybox:1.36.0
       imagePullPolicy: IfNotPresent
@@ -110,7 +110,7 @@ datahub:
       create: true
     image:
       repository: dkr.plural.sh/datahub/acryldata/datahub-actions
-      tag: v0.0.11
+      tag: v0.0.12
     resources:
       limits:
         memory: 512Mi
@@ -126,14 +126,14 @@ datahub:
   datahub-mae-consumer:
     image:
       repository: dkr.plural.sh/datahub/linkedin/datahub-mae-consumer
-      tag: v0.10.0
+      tag: v0.10.3
     serviceMonitor:
       create: true
 
   datahub-mce-consumer:
     image:
       repository: dkr.plural.sh/datahub/linkedin/datahub-mce-consumer
-      tag: v0.10.0
+      tag: v0.10.3
     serviceMonitor:
       create: true
 
@@ -141,7 +141,7 @@ datahub:
     enabled: false
     image:
       repository: dkr.plural.sh/datahub/acryldata/datahub-ingestion
-      tag: v0.10.0
+      tag: v0.10.3
 
   mysqlSetupJob:
     enabled: false
@@ -150,7 +150,7 @@ datahub:
     enabled: true
     image:
       repository: dkr.plural.sh/datahub/acryldata/datahub-postgres-setup
-      tag: v0.10.0
+      tag: v0.10.3
     extraInitContainers:
     - name: wait-for-pg
       image: gcr.io/pluralsh/library/busybox:1.36.0
@@ -174,7 +174,7 @@ datahub:
     enabled: true
     image:
       repository: dkr.plural.sh/datahub/linkedin/datahub-elasticsearch-setup
-      tag: v0.10.0
+      tag: v0.10.3
     resources:
       requests:
         cpu: 5m
@@ -188,7 +188,7 @@ datahub:
     enabled: true
     image:
       repository: dkr.plural.sh/datahub/linkedin/datahub-kafka-setup
-      tag: v0.10.0
+      tag: v0.10.3
     resources:
       requests:
         cpu: 0.4
@@ -202,7 +202,7 @@ datahub:
     enabled: true
     image:
       repository: dkr.plural.sh/datahub/acryldata/datahub-upgrade
-      tag: v0.10.0
+      tag: v0.10.3
     noCodeDataMigration:
       sqlDbType: POSTGRES
     extraInitContainers:
@@ -218,7 +218,7 @@ datahub:
   datahubSystemUpdate:
     image:
       repository: dkr.plural.sh/datahub/acryldata/datahub-upgrade
-      tag: v0.10.0
+      tag: v0.10.3
     annotations:
       helm.sh/hook: post-install,pre-upgrade
     #   helm.sh/hook-weight: "-4"
@@ -269,6 +269,7 @@ global:
     zookeeper:
       server: "kafka-zookeeper-client.kafka:2181"
     schemaregistry:
+      type: KAFKA # TODO: this is the current value. Check if we should start using the internal schema registry.
       url: "http://kafka-schema-registry.kafka:8081"
   sql:
     datasource:
