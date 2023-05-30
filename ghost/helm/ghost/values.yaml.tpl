@@ -1,5 +1,7 @@
 
-{{ $dbPwd := dedupe . "ghost.db.password" (randAlphaNum 26) }}
+{{ $prevRootPwd := dedupe . "ghost.db.rootPassword" (randAlphaNum 26) }}
+{{ $prevDBPwd := dedupe . "ghost.db.password" (randAlphaNum 26) }}
+{{ $dbPwd := dedupe . "ghost.mysql.appPassword" $prevDBPwd }}
 
 global:
   application:
@@ -35,6 +37,6 @@ ingress:
      hosts:
        - {{ .Values.ghostDomain }}
 
-db:
-  password: {{ $dbPwd }}
-  rootPassword: {{ dedupe . "ghost.db.rootPassword" (randAlphaNum 26) }}
+mysql:
+  appPassword: {{ $dbPwd }}
+  rootPassword: {{ dedupe . "ghost.mysql.rootPassword" $prevRootPwd }}

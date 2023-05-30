@@ -6,9 +6,21 @@ db:
   name: ghost
   username: ghost
 
+mysql:
+  rootPassword: replace
+  appUser: ghost
+  appPassword: replace
+  appDatabase: ghost
+  clusterNameOverride: ghost
+
+  image:
+    repository: dkr.plural.sh/mysql/library/percona
+    tag: 5.7.35
+  mysqlVersion: "5.7"
+
 image:
   repository: dkr.plural.sh/ghost/library/ghost
-  tag: 5.24.2-alpine
+  tag: 5.49.1-alpine
   pullPolicy: IfNotPresent
 
 resources: {}

@@ -3,4 +3,8 @@ name: ghost
 description: A Helm chart for Kubernetes
 type: application
 version: 0.2.13
-appVersion: "5.24.2"
+appVersion: "5.49.1"
+dependencies:
+- name: mysql
+  version: 0.6.4
+  repository: https://pluralsh.github.io/module-library
