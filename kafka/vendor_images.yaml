@@ -1,7 +1,9 @@
 docker.io:
   images-by-tag-regex:
-    bitnami/schema-registry: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    # the below regex can be used to limit the regex range so that only versions >= v7.4.0 are matched
+    bitnami/schema-registry: (?:^v?7\.(?:[4-9]|[1-9][0-9]{1,})\.[0-9]+$)|(?:^v?(?:[89]|[1-9][0-9]{1,})\.[0-9]+?\.[0-9]+$)
 quay.io:
   images-by-tag-regex:
-    strimzi/operator: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
-    strimzi/kafka: ^v?[0-9]+\.[0-9]+?\.[0-9]+-kafka-[0-9]+\.[0-9]+?\.[0-9]+$
+    # the below regex can be used to limit the regex range so that only versions >= 0.35.0 are matched
+    strimzi/operator: (?:^v?0\.(?:3[5-9]|[4-9][0-9]|[1-9][0-9]{2,})\.[0-9]+$)|(?:^v?(?:[1-9]|[1-9][0-9]{1,})\.[0-9]+?\.[0-9]+$)
+    strimzi/kafka: (?:^v?0\.(?:3[5-9]|[4-9][0-9]|[1-9][0-9]{2,})\.[0-9]+-kafka-[0-9]+\.[0-9]+?\.[0-9]+$)|(?:^v?(?:[1-9]|[1-9][0-9]{1,})\.[0-9]+?\.[0-9]+-kafka-[0-9]+\.[0-9]+?\.[0-9]+$)
