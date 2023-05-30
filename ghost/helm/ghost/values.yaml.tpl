@@ -3,6 +3,7 @@
 {{ $prevDBPwd := dedupe . "ghost.db.password" (randAlphaNum 26) }}
 {{ $dbPwd := dedupe . "ghost.mysql.appPassword" $prevDBPwd }}
 {{- $mysqlVals := .Applications.TerraformValues "mysql" -}}
+{{- $isGcp := or (eq .Provider "google") (eq .Provider "gcp") -}}
 
 global:
   application:
@@ -51,4 +52,12 @@ mysql:
   backupCredentials:
     S3_PROVIDER: AWS
     RCLONE_S3_ENV_AUTH: "true"
+  {{- else if $isGcp }}
+  serviceAccount:
+    annotations:
+      iam.gke.io/gcp-service-account: {{ importValue "Terraform" "service_account_email" }}
+
+  backupURL: gs://{{ .Configuration.mysql.backup_bucket }}/ghost
+  backupCredentials:
+    GCS_PROJECT_ID: {{ .Project }}
   {{- end }}
