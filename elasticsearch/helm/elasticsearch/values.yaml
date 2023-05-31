@@ -54,7 +54,10 @@ kibana:
       cpu: 0.3
 apm:
   enabled: false
+  version: 7.17.0
 filebeat:
   enabled: false
+  version: 7.17.0
 metricbeat:
   enabled: false
+  version: 7.17.0

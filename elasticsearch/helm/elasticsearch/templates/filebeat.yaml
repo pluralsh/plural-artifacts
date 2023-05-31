@@ -8,7 +8,7 @@ metadata:
   {{ include "elasticsearch.labels" . | nindent 4 }}
 spec:
   type: filebeat
-  version: 7.13.2
+  version: {{ .Values.filebeat.version }}
   elasticsearchRef:
     name: elasticsearch
   kibanaRef:
