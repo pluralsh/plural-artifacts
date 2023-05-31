@@ -6,7 +6,7 @@ metadata:
     platform.plural.sh/pinned: 'true'
 {{ include "prefect-worker.labels" . | indent 4 }}
 spec:
-  name: Prefect Agent Scaling
+  name: Prefect Worker Scaling
   description: overview of how to optimally scale your prefect worker
   display: |-
 {{ .Files.Get "runbooks/scaling-manual.xml" | indent 4 }}
