@@ -5,6 +5,10 @@ metadata:
   description: installs the needed dependencies for cluster setup
 spec:
   dependencies:
+  - type: helm
+    name: cluster-api-operator
+    repo: bootstrap
+    version: '>= 0.1.0'
   - type: terraform
     name: aws-bootstrap-cluster-api
     repo: bootstrap

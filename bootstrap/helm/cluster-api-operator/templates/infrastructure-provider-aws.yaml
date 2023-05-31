@@ -1,0 +1,19 @@
+apiVersion: operator.cluster.x-k8s.io/v1alpha1
+kind: InfrastructureProvider
+metadata:
+  name: aws
+spec:
+  deployment:
+    containers:
+      - args:
+          awscluster-concurrency: '12'
+          awsmachine-concurrency: '11'
+        name: manager
+  manager:
+    health: {}
+    metrics: {}
+    syncPeriod: 30s
+    verbosity: 1
+    webhook: {}
+  secretName: aws-credentials
+  version: v2.0.2

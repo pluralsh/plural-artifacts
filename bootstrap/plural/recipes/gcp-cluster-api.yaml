@@ -17,4 +17,6 @@ sections:
       - type: HELM
         name: bootstrap-operator
       - type: HELM
+        name: cluster-api-operator
+      - type: HELM
         name: cluster-api-cluster
