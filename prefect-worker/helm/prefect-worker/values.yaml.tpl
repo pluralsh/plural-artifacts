@@ -1,1 +1,8 @@
-CHARTMART-ENCRYPTED—´I‹ÁºYÉÕÒÑAú“§àJwôç«Ž0ž³~G”“Xÿ6eîÅ¹ß2ª(U~†bÛç¡¼‘Ý'¼‡„É"-•PfR·ÐM‚õUÓ\ 	ã§‰\+*ãÓ-„uÉmUâiÓ©ßÏ§±‰ö;yõ£|œàãµ&o–øaâ¡ Ì¹BAåäku,}Šù°@HYS›˜}ÀVVfïã­RSÁÉ§~Ãd@;H\7P&s»y«)’u¡¹ÇR×÷Ç‹òìðŠÝîn?½±î¯’Úc ûpYÄu4'¦}b÷ñÑßFd>1Âh¾®:I-‘åù™XëB“°;ßV„½Y/ñÓà{Ÿãˆ5
+prefect-worker:
+  worker:
+    config:
+      workPool: {{ .values.workPool | quote }}
+    cloudApiConfig:
+      accountId: {{ .Values.accountId | quote }}
+      workspaceId: {{ .Values.workspaceId | quote }}
+apiKey: {{ .Values.apiKey | quote }}
