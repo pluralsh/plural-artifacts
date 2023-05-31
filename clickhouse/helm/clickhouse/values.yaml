@@ -8,7 +8,7 @@ altinity-clickhouse-operator:
       memory: 128Mi
     requests:
       cpu: 2m
-      memory: 128Mi
+      memory: 64Mi
 
   metrics:
     image:
@@ -16,8 +16,7 @@ altinity-clickhouse-operator:
       tag: 0.21.2
     resources:
       limits:
-        cpu: 2m
-        memory: 128Mi
+        memory: 256Mi
       requests:
         cpu: 2m
         memory: 128Mi
