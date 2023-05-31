@@ -1,0 +1,65 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Runbook
+metadata:
+  name: clickhouse-operator-scaling
+  labels:
+    platform.plural.sh/pinned: 'true'
+{{ include "clickhouse.labels" . | indent 4 }}
+spec:
+  name: Clickhouse Operator Scaling
+  description: overview of how to optimally scale your clickhouse operator
+  display: |-
+{{ .Files.Get "runbooks/clickhouse-scaling.xml" | indent 4 }}
+  datasources:
+  - name: clickhouse-operator-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ template "altinity-clickhouse-operator.fullname" .Subcharts.altinity-clickhouse-operator }}-.*"}[5m])) by (pod)
+  - name: clickhouse-operator-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "altinity-clickhouse-operator.fullname" .Subcharts.altinity-clickhouse-operator }}-.*"}) by (pod)
+  - name: clickhouse-operator-deployment
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: {{ template "altinity-clickhouse-operator.fullname" .Subcharts.altinity-clickhouse-operator }}
+  actions:
+  - name: scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+      - path: 
+        - clickhouse
+        - altinity-clickhouse-operator
+        - resources
+        - requests
+        - cpu
+        valueFrom: clickhouse-operator-cpu
+      - path:
+        - clickhouse
+        - altinity-clickhouse-operator
+        - resources
+        - requests
+        - memory
+        valueFrom: clickhouse-operator-memory
+      - path: 
+        - clickhouse
+        - altinity-clickhouse-operator
+        - resources
+        - limits
+        - cpu
+        valueFrom: clickhouse-operator-cpu-limit
+      - path:
+        - clickhouse
+        - altinity-clickhouse-operator
+        - resources
+        - limits
+        - memory
+        valueFrom: clickhouse-operator-memory-limit
+      

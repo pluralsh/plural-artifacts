@@ -1,0 +1,141 @@
+<root gap='medium'>
+  <box pad='small' gap='medium' direction='row' align='center'>
+    <button label='Scale' action='scale' primary='true' headline='true' />
+    <box direction='row' align='center' gap='small'>
+      <box gap='small' align='center'>
+        <timeseries datasource="clickhouse-operator-cpu" label="clickhouse CPU Usage" />
+        <text size='small'>You should set a reservation to 
+          roughly correspond to 80% utilization</text>
+        <text size='small'>A CPU limit should not be set</text>
+      </box>
+      <box gap='small' align='center'>
+        <timeseries datasource="clickhouse-operator-memory" label="clickhouse Memory Usage" />
+        <text size='small'>You should set a reservation to 
+          roughly correspond to 80% utilization</text>
+        <text size='small'>A Memory limit should be set</text>
+      </box>
+    </box>
+    <box gap='small'>
+      <box gap='xsmall'>
+        <input placeholder="250m" label='clickhouse CPU Request' name='clickhouse-cpu'>
+          <valueFrom 
+            datasource="clickhouse-operator-cpu"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.requests.cpu" />
+        </input>
+        <input placeholder="1Gi" label='clickhouse Memory Request' name='clickhouse-memory'>
+          <valueFrom 
+            datasource="clickhouse"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.requests.memory" />
+        </input>
+      </box>
+      <box gap='xsmall'>
+        <input placeholder="250m" label='clickhouse CPU Limit' name='clickhouse-cpu-limit'>
+          <valueFrom
+            datasource="clickhouse"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.limits.cpu" />
+        </input>
+        <input placeholder="1Gi" label='clickhouse Memory Limit' name='clickhouse-memory-limit'>
+          <valueFrom
+            datasource="clickhouse"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.limits.memory" />
+        </input>
+      </box>
+    </box>
+  </box>
+  <box pad='small' gap='medium' direction='row' align='center'>
+    <box direction='row' align='center' gap='small'>
+      <box gap='small' align='center'>
+        <timeseries datasource="clickhouse-deployment-cpu" label="clickhouse Deployment CPU Usage" />
+        <text size='small'>You should set a reservation to 
+          roughly correspond to 80% utilization</text>
+        <text size='small'>A CPU limit should not be set</text>
+      </box>
+      <box gap='small' align='center'>
+        <timeseries datasource="clickhouse-deployment-memory" label="clickhouse Deployment Memory Usage" />
+        <text size='small'>You should set a reservation to 
+          roughly correspond to 80% utilization</text>
+        <text size='small'>A Memory limit should be set</text>
+      </box>
+    </box>
+    <box gap='small'>
+      <box gap='xsmall'>
+        <input placeholder="250m" label='clickhouse Deployment CPU Request' name='clickhouse-deployment-cpu'>
+          <valueFrom
+            datasource="clickhouse-deployment"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.requests.cpu" />
+        </input>
+        <input placeholder="1Gi" label='clickhouse Deployment Memory Request' name='clickhouse-deployment-memory'>
+          <valueFrom
+            datasource="clickhouse-deployment"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.requests.memory" />
+        </input>
+      </box>
+       <box gap='xsmall'>
+        <input placeholder="250m" label='clickhouse Deployment CPU Limit' name='clickhouse-deployment-cpu-limit'>
+          <valueFrom
+            datasource="clickhouse-deployment"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.limits.cpu" />
+        </input>
+        <input placeholder="1Gi" label='clickhouse Deployment Memory Limit' name='clickhouse-deployment-memory-limit'>
+          <valueFrom
+            datasource="clickhouse-deployment"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.limits.memory" />
+        </input>
+      </box>
+    </box>
+  </box>
+   <box pad='small' gap='medium' direction='row' align='center'>
+    <box direction='row' align='center' gap='small'>
+      <box gap='small' align='center'>
+        <timeseries datasource="clickhouse-image-builder-cpu" label="clickhouse Image Builder CPU Usage" />
+        <text size='small'>You should set a reservation to 
+          roughly correspond to 80% utilization. A CPU limit should not be set</text>
+        <text size='small'>A CPU limit should not be set</text>
+      </box>
+      <box gap='small' align='center'>
+        <timeseries datasource="clickhouse-image-builder-memory" label="clickhouse Image Builder Memory Usage" />
+        <text size='small'>You should set a reservation to 
+          roughly correspond to 80% utilization</text>
+        <text size='small'>A Memory limit should be set</text>
+      </box>
+    </box>
+    <box gap='small'>
+      <box gap='xsmall'>
+        <input placeholder="250m" label='clickhouse Image Builder CPU Request' name='clickhouse-image-builder-cpu'>
+          <valueFrom
+            datasource="clickhouse-image-builder"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.requests.cpu" />
+        </input>
+        <input placeholder="1Gi" label='clickhouse Image Builder Memory Request' name='clickhouse-image-builder-memory'>
+          <valueFrom
+            datasource="clickhouse-image-builder"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.requests.memory" />
+        </input>
+      </box>
+      <box gap='xsmall'>
+        <input placeholder="250m" label='clickhouse Image Builder CPU Limit' name='clickhouse-image-builder-cpu-limit'>
+          <valueFrom
+            datasource="clickhouse-image-builder"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.limits.cpu" />
+        </input>
+        <input placeholder="1Gi" label='clickhouse Image Builder Memory Limit' name='clickhouse-image-builder-memory-limit'>
+          <valueFrom
+            datasource="clickhouse-image-builder"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.limits.memory" />
+        </input>
+      </box>
+    </box>
+  </box>
+</root>
