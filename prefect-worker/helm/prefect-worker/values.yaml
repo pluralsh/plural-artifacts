@@ -15,6 +15,6 @@ prefect-worker:
 
 test-base:
   enabled: false
-  repository: prefect-agent
-  testName: prefect-agent-integration
+  repository: prefect-worker
+  testName: prefect-worker-integration
   promoteTag: warm
