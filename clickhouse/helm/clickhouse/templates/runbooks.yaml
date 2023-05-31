@@ -16,18 +16,18 @@ spec:
     prometheus:
       format: cpu
       legend: $pod
-      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ template "altinity-clickhouse-operator.fullname" .Subcharts.altinity-clickhouse-operator }}-.*"}[5m])) by (pod)
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ template "altinity-clickhouse-operator.fullname" (index .Subcharts "altinity-clickhouse-operator" ) }}-.*"}[5m])) by (pod)
   - name: clickhouse-operator-memory
     type: prometheus
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "altinity-clickhouse-operator.fullname" .Subcharts.altinity-clickhouse-operator }}-.*"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "altinity-clickhouse-operator.fullname" (index .Subcharts "altinity-clickhouse-operator") }}-.*"}) by (pod)
   - name: clickhouse-operator-deployment
     type: kubernetes
     kubernetes:
       resource: deployment
-      name: {{ template "altinity-clickhouse-operator.fullname" .Subcharts.altinity-clickhouse-operator }}
+      name: {{ template "altinity-clickhouse-operator.fullname" (index .Subcharts "altinity-clickhouse-operator") }}
   actions:
   - name: scale
     action: config
