@@ -1,0 +1,10 @@
+name: prefect-worker
+description: prefect-worker deployed on plural
+category: DATA
+private: true
+icon: plural/icons/prefect-worker.png
+homepage: https://www.prefect.io/
+gitUrl: https://github.com/PrefectHQ/prefect
+notes: plural/notes.tpl
+tags:
+- tag: data

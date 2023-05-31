@@ -1,0 +1,11 @@
+# Default values for prefect-worker.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+prefect-worker:
+  enabled: true
+  worker:
+    cloudApiConfig:
+      apiKeySecret:
+        name: prefect-api-key
+        key: key

@@ -1,0 +1,26 @@
+name: prefect-worker-gcp
+description: Installs prefect-worker on an aws eks cluster
+provider: GCP
+primary: true
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+
+
+sections:
+- name: prefect-worker
+  configuration:
+  - name: apiKey
+    documentation: the prefect cloud api key this agent connects with
+    type: PASSWORD
+  - name: accountId
+    documentation: the account id of your Prefect environment
+    type: STRING
+  - name: workspaceId
+    documentation: the workspace id of your Prefect workspace
+    type: STRING
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: prefect-worker
