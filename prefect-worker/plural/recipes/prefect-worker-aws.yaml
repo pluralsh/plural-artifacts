@@ -11,7 +11,7 @@ sections:
 - name: prefect-worker
   configuration:
   - name: apiKey
-    documentation: the prefect cloud api key this agent connects with
+    documentation: the prefect cloud api key this worker connects with
     type: PASSWORD
   - name: accountId
     documentation: the account id of your Prefect environment
