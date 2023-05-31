@@ -1,0 +1,1 @@
+Use `plural watch prefect-worker` to track the status of your application

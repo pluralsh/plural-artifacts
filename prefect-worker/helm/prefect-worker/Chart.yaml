@@ -1,0 +1,15 @@
+apiVersion: v2
+name: prefect-worker
+description: helm chart for prefect-worker
+type: application
+version: 0.1.0
+appVersion: v2.10.11
+dependencies:
+- name: prefect-worker
+  version: 2023.05.25
+  repository: https://prefecthq.github.io/prefect-helm
+  condition: prefect-worker.enabled
+- name: test-base
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.5
+  condition: test-base.enabled

@@ -1,0 +1,6 @@
+REPO prefect-worker
+ATTRIBUTES Prefect repository.yaml
+
+TF terraform/*
+HELM helm/*
+RECIPE plural/recipes/*
