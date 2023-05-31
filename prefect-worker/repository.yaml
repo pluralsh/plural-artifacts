@@ -6,5 +6,8 @@ icon: plural/icons/prefect-worker.png
 homepage: https://www.prefect.io/
 gitUrl: https://github.com/PrefectHQ/prefect
 notes: plural/notes.tpl
+releaseStatus: ALPHA
 tags:
 - tag: data
+contributors:
+- jimi@prefect.io
