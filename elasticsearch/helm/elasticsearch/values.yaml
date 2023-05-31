@@ -43,11 +43,11 @@ elasticsearch:
       memory: 4Gi
       cpu: 2
   storage: 50Gi
-  version: '7.13.2'
+  version: '7.17.0'
 
 kibana:
   enabled: true
-  version: 7.13.2
+  version: 7.17.0
   resources:
     requests:
       memory: 500Mi
