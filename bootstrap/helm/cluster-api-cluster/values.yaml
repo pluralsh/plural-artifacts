@@ -123,8 +123,14 @@ cluster:
     # Name of AzureClusterIdentity to be used when reconciling this cluster.
     clusterIdentityName: "cluster-identity"
     # Type of Azure Identity used.
-    # One of: ServicePrincipal, ServicePrincipalCertificate, UserAssignedMSI or ManualServicePrincipal.
+    # One of: ServicePrincipal, ServicePrincipalCertificate, UserAssignedMSI, ManualServicePrincipal.
     clusterIdentityType: "ServicePrincipal"
+    # Used to identify the namespaces the clusters are allowed to use the identity from.
+    # Namespaces can be selected either using an array of namespaces or with label selector.
+    # An empty allowedNamespaces object indicates that AzureClusters can use this identity from any namespace.
+    # If this object is nil, no namespaces will be allowed (default behaviour, if this field is not provided)
+    # A namespace should be either in the NamespaceList or match with Selector to use the identity.
+    allowedNamespaces: {}
     # Service Principal client ID. Both Service Principal and User Assigned MSI can use this field.
     clientID: ""
     # Service Principal password.
@@ -138,12 +144,63 @@ cluster:
     # GUID of the Azure subscription to hold this cluster.
     subscriptionID: ""
     # String matching one of the canonical Azure region names.
-    # Examples: "westus2", "eastus".
+    # Examples: westus2, eastus.
     location: ""
     # Name of the Azure resource group for this AKS Cluster.
     resourceGroupName: ""
+    # Name of the resource group containing cluster IaaS resources.
+    nodeResourceGroupName: ""
+    # Describes the vnet for the AKS cluster. Will be created if it does not exist.
+    virtualNetwork: {}
+    # Network plugin used for building Kubernetes network.
+    # One of: azure, kubenet.
+    networkPlugin: ""
+    # Network policy used for building Kubernetes network.
+    # One of: azure, calico.
+    networkPolicy: ""
+    # Outbound configuration used by Nodes.
+    # One of: loadBalancer, managedNATGateway, userAssignedNATGateway, userDefinedRouting.
+    outboundType: ""
     # String literal containing an SSH public key base64 encoded.
     sshPublicKey: ""
+    # DNSServiceIP is an IP address assigned to the Kubernetes DNS service.
+    # It must be within the Kubernetes service address range specified in serviceCidr.
+    dnsServiceIP: ""
+    # SKU of the AKS to be provisioned.
+    sku: {}
+    # SKU of the loadBalancer to be provisioned.
+    # One of: Basic, Standard.
+    loadBalancerSKU: ""
+    # Azure Active Directory configuration to integrate with AKS for AAD authentication.
+    aadProfile: {}
+    # Profile of the cluster load balancer.
+    loadBalancerProfile: {}
+    # Access profile for AKS API server.
+    apiServerAccessProfile: {}
+    # Parameters to be applied to the cluster-autoscaler when enabled.
+    autoscalerProfile:
+      # Default is false. Changed to true as in old bootstrap.
+      balanceSimilarNodeGroups: "true"
+      # One of: least-waste, most-pods, priority, random.
+      expander: "random"
+      maxEmptyBulkDelete: "10"
+      maxGracefulTerminationSec: "600"
+      maxNodeProvisionTime: "15m"
+      maxTotalUnreadyPercentage: "45"
+      newPodScaleUpDelay: "0s"
+      okTotalUnreadyCount: "3"
+      scanInterval: "10s"
+      scaleDownDelayAfterAdd: "10m"
+      scaleDownDelayAfterDelete: "10s"
+      scaleDownDelayAfterFailure: "3m"
+      scaleDownUnneededTime: "10m"
+      scaleDownUnreadyTime: "20m"
+      # Default is 0.5. Changed to 0.7 as in old bootstrap.
+      scaleDownUtilizationThreshold: "0.7"
+      skipNodesWithLocalStorage: "false"
+      skipNodesWithSystemPods: "true"
+    # Profiles of managed cluster add-on.
+    addonProfiles: []
 
   google:
     # Project is the id of the project to deploy the cluster to.
@@ -243,6 +300,8 @@ workers:
     azure:
       replicas: 0
       labels: {}
+      annotations:
+        cluster.x-k8s.io/replicas-managed-by: external-autoscaler
       spec:
         additionalTags: {}
         mode: "User"
@@ -260,7 +319,12 @@ workers:
           minSize: 1
         maxPods: 110
         osDiskType: "Managed"
+        osType: "Linux"
+        enableNodePublicIP: false
+        nodePublicIPPrefixID: ""
         scaleSetPriority: "Regular"
+        kubeletConfig: {}
+        linuxOSConfig: {}
     #########################################
     ###        GCP WORKER DEFAULTS        ###
     #########################################
@@ -299,6 +363,8 @@ workers:
     pool0:
       replicas: 1
       spec:
+        nodeLabels: {} # TODO: Allow this to not be set.
+        additionalTags: {} # TODO: Allow this to not be set.
         mode: "System"
         scaling:
           minSize: 1
@@ -306,6 +372,8 @@ workers:
     pool1:
       replicas: 1
       spec:
+        nodeLabels: {} # TODO: Allow this to not be set.
+        additionalTags: {} # TODO: Allow this to not be set.
         mode: "User"
         scaling:
           minSize: 2

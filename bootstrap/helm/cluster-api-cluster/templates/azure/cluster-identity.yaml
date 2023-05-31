@@ -5,7 +5,8 @@ metadata:
   name: {{ .Values.cluster.azure.clusterIdentityName }}
 spec:
   type: {{ .Values.cluster.azure.clusterIdentityType }}
-  allowedNamespaces: {}
+  allowedNamespaces:
+    {{- toYaml .Values.cluster.azure.allowedNamespaces | nindent 4 }}
   tenantID: {{ .Values.cluster.azure.tenantID }}
   clientID: {{ .Values.cluster.azure.clientID }}
   clientSecret:
