@@ -2,12 +2,25 @@ altinity-clickhouse-operator:
   operator:
     image:
       repository: dkr.plural.sh/clickhouse/altinity/clickhouse-operator
-      tag: 0.20.1
+      tag: 0.21.2
+  resources:
+    limits:
+      memory: 128Mi
+    requests:
+      cpu: 2m
+      memory: 128Mi
 
   metrics:
     image:
       repository: dkr.plural.sh/clickhouse/altinity/metrics-exporter
-      tag: 0.20.1
+      tag: 0.21.2
+    resources:
+      limits:
+        cpu: 2m
+        memory: 128Mi
+      requests:
+        cpu: 2m
+        memory: 128Mi
 
   serviceMonitor:
     enabled: true
