@@ -161,7 +161,7 @@ cluster:
     # Ref: https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity
     enableWorkloadIdentity: true
     # ReleaseChannel is the release channel of the GKE cluster
-    # One of: regular, rapid, stable
+    # One of: unspecified, rapid, regular, stable
     releaseChannel: "stable"
     # Network encapsulates all things related to the GCP network.
     network:

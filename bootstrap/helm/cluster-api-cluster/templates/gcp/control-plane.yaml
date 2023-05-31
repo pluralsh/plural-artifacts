@@ -10,7 +10,9 @@ spec:
   location: {{ .region }}
   enableAutopilot: {{ .enableAutopilot | default false }}
   enableWorkloadIdentity: {{ .enableWorkloadIdentity }}
+  {{ if ne .releaseChannel "unspecified" }}
   releaseChannel: {{ .releaseChannel }}
+  {{ end }}
   endpoint:
     host: ""
     port: 0
