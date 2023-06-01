@@ -1,0 +1,49 @@
+<root gap='medium'>
+  <box pad='small' gap='medium' direction='row' align='center'>
+    <button label='Scale' action='scale' primary='true' headline='true' />
+    <box direction='row' align='center' gap='small'>
+      <box gap='small' align='center'>
+        <timeseries datasource="clickhouse-operator-cpu" label="clickhouse CPU Usage" />
+        <text size='small'>You should set a reservation to 
+          roughly correspond to 80% utilization</text>
+        <text size='small'>A CPU limit should not be set</text>
+      </box>
+      <box gap='small' align='center'>
+        <timeseries datasource="clickhouse-operator-memory" label="clickhouse Memory Usage" />
+        <text size='small'>You should set a reservation to 
+          roughly correspond to 80% utilization</text>
+        <text size='small'>A Memory limit should be set</text>
+      </box>
+    </box>
+    <box gap='small'>
+      <box gap='xsmall'>
+        <input placeholder="2m" label='clickhouse CPU Request' name='clickhouse-cpu'>
+          <valueFrom 
+            datasource="clickhouse-operator-cpu"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.requests.cpu" />
+        </input>
+        <input placeholder="64Mi" label='clickhouse Memory Request' name='clickhouse-memory'>
+          <valueFrom 
+            datasource="clickhouse-operator-memory"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.requests.memory" />
+        </input>
+      </box>
+      <box gap='xsmall'>
+        <input placeholder="2m" label='clickhouse CPU Limit' name='clickhouse-cpu-limit'>
+          <valueFrom
+            datasource="clickhouse-operator-cpu-limit"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.limits.cpu" />
+        </input>
+        <input placeholder="128Mi" label='clickhouse Memory Limit' name='clickhouse-memory-limit'>
+          <valueFrom
+            datasource="clickhouse-operator-memory-limit"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.limits.memory" />
+        </input>
+      </box>
+    </box>
+  </box>
+</root>
