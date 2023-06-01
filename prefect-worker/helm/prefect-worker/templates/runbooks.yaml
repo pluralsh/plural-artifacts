@@ -36,12 +36,14 @@ spec:
       updates:
       - path:
         - prefect-worker
+        - prefect-worker
         - worker
         - resources
         - requests
         - cpu
         valueFrom: worker-cpu
       - path:
+        - prefect-worker
         - prefect-worker
         - worker
         - resources
@@ -50,12 +52,14 @@ spec:
         valueFrom: worker-memory
       - path:
         - prefect-worker
+        - prefect-worker
         - worker
         - resources
         - limits
         - cpu
         valueFrom: worker-cpu-limit
       - path:
+        - prefect-worker
         - prefect-worker
         - worker
         - resources
