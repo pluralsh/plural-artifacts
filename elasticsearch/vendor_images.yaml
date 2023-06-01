@@ -1,6 +1,11 @@
 docker.elastic.co:
   images-by-tag-regex:
-    # the below regex can be used to limit the regex range so that only versions >= 2.4.0 are matched
-    eck/eck-operator:  (?:2\.(?:4|[5-9]|[1-9][0-9]{1,})\.[0-9]+$)|(?:(?:[3-9]|[1-9][0-9]{1,})\.[0-9]+?\.[0-9]+$)
-    #elasticsearch/elasticsearch: (?:8\.(?:7|[8-9]|[1-9][0-9]{1,})\.[0-9]+$)|(?:(?:9|[1-9][0-9]{1,})\.[0-9]+?\.[0-9]+$)
-    #kibana/kibana: (?:8\.(?:7|[8-9]|[1-9][0-9]{1,})\.[0-9]+$)|(?:(?:9|[1-9][0-9]{1,})\.[0-9]+?\.[0-9]+$)
+    # the below regex can be used to limit the regex range so that only versions >= 2.8.0 are matched
+    eck/eck-operator:  (?:2\.(?:[89]|[1-9][0-9]{1,})\.[0-9]+$)|(?:(?:[3-9]|[1-9][0-9]{1,})\.[0-9]+?\.[0-9]+$)
+    # TODO: limit to 8.8.0 once we've backfilled
+    # the below regex can be used to limit the regex range so that only versions >= 7.17.0 are matched
+    elasticsearch/elasticsearch: (?:^v?7\.(?:1[7-9]|[2-9][0-9]|[1-9][0-9]{2,})\.[0-9]+$)|(?:^v?(?:[89]|[1-9][0-9]{1,})\.[0-9]+?\.[0-9]+$)
+    kibana/kibana: (?:^v?7\.(?:1[7-9]|[2-9][0-9]|[1-9][0-9]{2,})\.[0-9]+$)|(?:^v?(?:[89]|[1-9][0-9]{1,})\.[0-9]+?\.[0-9]+$)
+    beats/filebeat: (?:^v?7\.(?:1[7-9]|[2-9][0-9]|[1-9][0-9]{2,})\.[0-9]+$)|(?:^v?(?:[89]|[1-9][0-9]{1,})\.[0-9]+?\.[0-9]+$)
+    beats/metricbeat: (?:^v?7\.(?:1[7-9]|[2-9][0-9]|[1-9][0-9]{2,})\.[0-9]+$)|(?:^v?(?:[89]|[1-9][0-9]{1,})\.[0-9]+?\.[0-9]+$)
+    apm/apm-server: (?:^v?7\.(?:1[7-9]|[2-9][0-9]|[1-9][0-9]{2,})\.[0-9]+$)|(?:^v?(?:[89]|[1-9][0-9]{1,})\.[0-9]+?\.[0-9]+$)
