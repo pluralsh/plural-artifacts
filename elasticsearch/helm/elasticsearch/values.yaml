@@ -1,7 +1,7 @@
 
 eck-operator:
   image:
-    repository: docker.elastic.co/eck/eck-operator
+    repository: dkr.plural.sh/elasticsearch/eck/eck-operator
     tag: 2.8.0
 
   managedNamespaces: []
