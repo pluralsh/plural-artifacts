@@ -23,6 +23,7 @@ eck-operator:
 
   config:
     metricsPort: 9191
+    containerRegistry: dkr.plural.sh
 
 ingress:
   enabled: true
@@ -61,3 +62,4 @@ filebeat:
 metricbeat:
   enabled: false
   version: 7.17.0
+
