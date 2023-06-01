@@ -8,7 +8,7 @@ metadata:
   {{ include "elasticsearch.labels" . | nindent 4 }}
 spec:
   type: filebeat
-  version: 7.13.2
+  version: {{ .Values.filebeat.version }}
   elasticsearchRef:
     name: elasticsearch
   kibanaRef:
@@ -45,6 +45,8 @@ spec:
         terminationGracePeriodSeconds: 30
         dnsPolicy: ClusterFirstWithHostNet
         hostNetwork: true # Allows to provide richer host metadata
+        tolerations:
+        - operator: Exists
         containers:
         - name: filebeat
           ports:
@@ -67,6 +69,12 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: spec.nodeName
+          resources:
+            limits:
+              cpu: 100m
+            requests:
+              cpu: 2m
+              memory: 300Mi
         volumes:
         - name: varlogcontainers
           hostPath:
