@@ -3,7 +3,7 @@ name: clickhouse
 description: helm chart for clickhouse
 type: application
 version: 0.1.2
-appVersion: 0.21.0
+appVersion: 0.21.1
 dependencies:
 - name: altinity-clickhouse-operator
   version: 0.21.1
