@@ -1002,6 +1002,9 @@ spec:
                 x-kubernetes-map-type: atomic
               kubernetesVersion:
                 type: string
+              migrateCluster:
+                default: false
+                type: boolean
               moveCluster:
                 default: false
                 type: boolean

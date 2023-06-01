@@ -11,7 +11,7 @@ image:
   controller:
     repository: ghcr.io/pluralsh/bootstrap-controller
     pullPolicy: Always
-    tag: 0.0.17
+    tag: 0.0.18
 
 imagePullSecrets: []
 nameOverride: ""
