@@ -126,6 +126,12 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: spec.nodeName
+          resources:
+            limits:
+              cpu: 100m
+            requests:
+              cpu: 2m
+              memory: 300Mi
         securityContext:
           runAsUser: 0
         terminationGracePeriodSeconds: 30
