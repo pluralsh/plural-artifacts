@@ -45,6 +45,8 @@ spec:
         terminationGracePeriodSeconds: 30
         dnsPolicy: ClusterFirstWithHostNet
         hostNetwork: true # Allows to provide richer host metadata
+        tolerations:
+        - operator: Exists
         containers:
         - name: filebeat
           ports:

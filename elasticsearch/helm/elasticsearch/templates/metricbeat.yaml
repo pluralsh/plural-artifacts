@@ -101,6 +101,8 @@ spec:
       spec:
         serviceAccountName: metricbeat
         automountServiceAccountToken: true # some older Beat versions are depending on this settings presence in k8s context
+        tolerations:
+        - operator: Exists
         containers:
         - args:
           - -e
