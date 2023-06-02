@@ -71,7 +71,7 @@ spec:
             - name: data
               mountPath: /usr/share/typesense/data
         - name: typesense-node-resolver
-          image: dkr.plural.sh/typesense/alasano/typesense-node-resolver:7bd2b88d809773eb78ab6d4fbd59c2696a30283627291176ee6365a1416cb539
+          image: dkr.plural.sh/typesense/alasano/typesense-node-resolver
           command:
             - "/opt/tsns"
             - "-namespace={{ .Release.Namespace }}"

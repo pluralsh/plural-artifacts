@@ -11,7 +11,7 @@ image:
   repository: dkr.plural.sh/typesense/typesense/typesense
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "0.24.0"
+  tag: "0.9.2"
 
 imagePullSecrets: []
 nameOverride: ""
