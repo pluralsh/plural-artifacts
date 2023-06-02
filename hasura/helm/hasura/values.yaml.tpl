@@ -19,9 +19,12 @@ postgres:
 hasura:
   database:
     name: hasura
-    username: hasura
+    username: plural
     hostname: plural-hasura
     port: 5432
+    secret:
+      name: plural.plural-hasura.credentials.postgresql.acid.zalan.do
+      passwordKey: password
   adminSecret: {{ dedupe . "hasura.hasura.adminSecret" (randAlphaNum 40) }}
   jwtSecret:
     key: {{ $jwtKey }}
@@ -34,6 +37,9 @@ hasura:
     username: {{ $dbUsername }}
     hostname: {{ $dbHost }}
     port: {{ $dbPort }}
+    secret:
+      name: hasura.plural-hasura.credentials.postgresql.acid.zalan.do
+      passwordKey: password
 postgres:
   enabled: false
   {{ end }}

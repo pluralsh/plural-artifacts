@@ -9,6 +9,6 @@ dependencies:
   version: 2.7.5
   repository: https://pluralsh.github.io/plural-helm-charts
 - name: postgres
-  version: 0.1.12
+  version: 0.1.13
   repository: https://pluralsh.github.io/module-library
   condition: postgres.enabled

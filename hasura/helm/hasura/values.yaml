@@ -24,10 +24,6 @@ hasura:
   consoleAssetsDir: /srv/console-assets
   extraEnvVarsCM:
     PGSSLMODE: require
-  database:
-    secret:
-      name: hasura.plural-hasura.credentials.postgresql.acid.zalan.do
-      passwordKey: password
   ingress:
     enabled: false
   resources:
@@ -41,7 +37,7 @@ hasura:
 postgres:
   enabled: true
   team: plural
-  user: hasura
+  user: plural
   dbName: hasura
   ownerChart: hasura
   password: CHANGEME
