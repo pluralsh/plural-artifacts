@@ -19,6 +19,7 @@ ingress:
 
 hasura:
   image:
+    repository: dkr.plural.sh/hasura/hasura/graphql-engine
     tag: v2.15.0
   enableConsole: 'true'
   consoleAssetsDir: /srv/console-assets
