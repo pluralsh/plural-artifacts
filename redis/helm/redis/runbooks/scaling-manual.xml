@@ -36,7 +36,7 @@
           roughly correspond to 60% utilization</text>
       </box>
       <box gap='small' align='center'>
-        <timeseries datasource="replica-memory" label="replica Memory Usage" />
+        <timeseries datasource="replica-memory" label="Replica Memory Usage" />
         <text size='small'>You should set a reservation to 
           roughly correspond to 80% utilization</text>
       </box>

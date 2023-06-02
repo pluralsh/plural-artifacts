@@ -7,6 +7,18 @@ redis:
     # registry: gcr.io/pluralsh
     # tag: 7.0.5-debian-11-r7 TODO: Uncomment.
 
+  master:
+    resources:
+      requests:
+        memory: 25Mi
+        cpu: 10m
+
+  replica:
+    resources:
+      requests:
+        memory: 65Mi
+        cpu: 45m
+
   metrics:
     enabled: true
     image:
