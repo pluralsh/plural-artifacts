@@ -38,7 +38,7 @@ hasura:
 postgres:
   enabled: true
   team: plural
-  user: plural
+  user: hasura
   dbName: hasura
   ownerChart: hasura
   password: CHANGEME
