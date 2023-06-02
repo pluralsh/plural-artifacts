@@ -47,7 +47,7 @@ spec:
             - name: TYPESENSE_DATA_DIR
               value: {{ .Values.persistence.path }}
             - name: TYPESENSE_ENABLE_CORS
-              value: {{ .Values.typesense.enableCors }}
+              value: "{{ toString .Values.typesense.enableCors }}"
           envFrom:
             - secretRef:
                 name: {{ include "typesense.fullname" . }}-env
@@ -93,4 +93,6 @@ spec:
       {{- end }}
       volumes:
         - name: nodeslist
+          emptyDir: {}
+        - name: data
           emptyDir: {}
