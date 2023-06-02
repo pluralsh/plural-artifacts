@@ -4,14 +4,14 @@ redis:
     existingSecretPasswordKey: password
 
   image:
-    registry: gcr.io/pluralsh
-    tag: redis:7.0.5-debian-11-r7
+    # registry: gcr.io/pluralsh
+    # tag: 7.0.5-debian-11-r7 TODO: Uncomment.
 
   metrics:
     enabled: true
     image:
-      registry: gcr.io/pluralsh
-      tag: 1.44.0-debian-11-r16
+      # registry: gcr.io/pluralsh
+      # tag: 1.44.0-debian-11-r16 TODO: Uncomment.
     serviceMonitor:
       enabled: true
 
@@ -20,5 +20,5 @@ redis:
       serviceMonitor:
         enabled: true
       image:
-        registry: gcr.io/pluralsh
-        tag: 7.0.5-debian-11-r6
+        # registry: gcr.io/pluralsh
+        # tag: 7.0.5-debian-11-r6 TODO: Uncomment.
