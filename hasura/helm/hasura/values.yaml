@@ -25,7 +25,7 @@ hasura:
   consoleAssetsDir: /srv/console-assets
   database:
     name: hasura
-    username: hasura
+    username: hasurav2
     hostname: plural-hasura
     port: 5432
     secret:
@@ -46,7 +46,7 @@ hasura:
 postgres:
   enabled: true
   team: plural
-  user: hasura
+  user: hasurav2
   dbName: hasura
   ownerChart: hasura
   password: CHANGEME
