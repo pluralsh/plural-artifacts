@@ -1,17 +1,17 @@
 global:
   application:
     links:
-    - description: prefect orion web ui
+    - description: prefect server web ui
       url: {{ .Values.hostname }}
 
-prefect-orion:
+prefect-server:
   {{- if not .OIDC }}
   ingress:
     enabled: true
     host:
       hostname: {{ .Values.hostname}}
   {{- end }}
-  orion:
+  server:
     env:
     - name: PREFECT_API_URL
       value: https://{{ .Values.hostname}}/api

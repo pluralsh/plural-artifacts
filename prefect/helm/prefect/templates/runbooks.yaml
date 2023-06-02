@@ -11,18 +11,18 @@ spec:
   display: |-
 {{ .Files.Get "runbooks/scaling-manual.xml" | indent 4 }}
   datasources:
-  - name: prefect-orion-cpu
+  - name: prefect-server-cpu
     type: prometheus
     prometheus:
       format: cpu
       legend: $pod
-      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ template "common.names.fullname" (index .Subcharts "prefect-orion") }}.+"}[5m])) by (pod)
-  - name: prefect-orion-memory
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ template "common.names.fullname" (index .Subcharts "prefect-server") }}.+"}[5m])) by (pod)
+  - name: prefect-server-memory
     type: prometheus
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "common.names.fullname" (index .Subcharts "prefect-orion") }}.+"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "common.names.fullname" (index .Subcharts "prefect-server") }}.+"}) by (pod)
   - name: prefect-agent-cpu
     type: prometheus
     prometheus:
@@ -35,11 +35,11 @@ spec:
       format: memory
       legend: $pod
       query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "common.names.fullname" (index .Subcharts "prefect-agent") }}.+"}) by (pod)
-  - name: orion
+  - name: server
     type: kubernetes
     kubernetes:
       resource: deployment
-      name: {{ template "common.names.fullname" (index .Subcharts "prefect-orion") }}
+      name: {{ template "common.names.fullname" (index .Subcharts "prefect-server") }}
   - name: agent
     type: kubernetes
     kubernetes:
@@ -53,36 +53,36 @@ spec:
       updates:
       - path: 
         - prefect
-        - prefect-orion
-        - orion
+        - prefect-server
+        - server
         - resources
         - requests
         - cpu
-        valueFrom: orion-cpu
+        valueFrom: server-cpu
       - path:
         - prefect
-        - prefect-orion
-        - orion
+        - prefect-server
+        - server
         - resources
         - requests
         - memory
-        valueFrom: orion-memory
+        valueFrom: server-memory
       - path: 
         - prefect
-        - prefect-orion
-        - orion
+        - prefect-server
+        - server
         - resources
         - limits
         - cpu
-        valueFrom: orion-cpu-limit
+        valueFrom: server-cpu-limit
       - path:
         - prefect
-        - prefect-orion
-        - orion
+        - prefect-server
+        - server
         - resources
         - limits
         - memory
-        valueFrom: orion-memory-limit
+        valueFrom: server-memory-limit
       - path:
         - prefect
         - prefect-agent
