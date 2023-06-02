@@ -11,15 +11,15 @@ redis:
   master:
     resources:
       requests:
-        memory: 25Mi
+        memory: 256Mi
         cpu: 10m
 
   replica:
     replicaCount: 1
     resources:
       requests:
-        memory: 65Mi
-        cpu: 45m
+        memory: 256Mi
+        cpu: 10m
 
   metrics:
     enabled: true
@@ -29,6 +29,10 @@ redis:
       tag: 1.50.0
     serviceMonitor:
       enabled: true
+    resources:
+      requests:
+        memory: 11Mi
+        cpu: 1m
 
   sentinel:
     image:
