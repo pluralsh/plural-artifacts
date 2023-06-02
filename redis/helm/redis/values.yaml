@@ -30,11 +30,8 @@ redis:
     serviceMonitor:
       enabled: true
 
-    sentinel:
-      enabled: true
-      serviceMonitor:
-        enabled: true
-      image:
-        registry: dkr.plural.sh
-        repository: redis/bitnami/redis-sentinel
-        tag: 7.0.11
+  sentinel:
+    image:
+      registry: dkr.plural.sh
+      repository: redis/bitnami/redis-sentinel
+      tag: 7.0.11
