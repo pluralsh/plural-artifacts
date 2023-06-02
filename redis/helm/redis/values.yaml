@@ -11,14 +11,14 @@ redis:
   master:
     resources:
       requests:
-        memory: 256Mi
+        memory: 128Mi
         cpu: 10m
 
   replica:
     replicaCount: 1
     resources:
       requests:
-        memory: 256Mi
+        memory: 128Mi
         cpu: 10m
 
   metrics:
