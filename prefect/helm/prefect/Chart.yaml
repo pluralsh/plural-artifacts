@@ -2,7 +2,7 @@ apiVersion: v2
 name: prefect
 description: helm chart for prefect server
 type: application
-version: 0.2.0
+version: 0.2.1
 appVersion: v2.10.12
 dependencies:
 - name: postgres
