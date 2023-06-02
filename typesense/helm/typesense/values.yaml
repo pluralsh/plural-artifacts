@@ -18,6 +18,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 serviceAccount:
+  create: false
   # Annotations to add to the service account
   annotations: {}
   # The name of the service account to use.
