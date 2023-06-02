@@ -36,11 +36,11 @@ prefect --version
 
 ### Step 3: Create a profile to connect to Plural
 
-Prefect allows you to have multiple profiles to connect to different Orion instances. I.e local, cloud or self-hosted. Plural is a self-hosted solution.
+Prefect allows you to have multiple profiles to connect to different Prefect Server instances. I.e local, cloud or self-hosted. Plural is a self-hosted solution.
 
 1) Create a new profile prefect profile create <profile-name> set the profile name to plural
 2) On the new profile, set the PREFECT_API_URL with prefect config set PREFECT_API_URL="https://<user>:<password>@<yourprefecturl>.onplural.sh/api"
-3) <user> and <password> are from the Plural config above. <yourprefecturl> is the URL you use to connect to Prefect Orion ending with .onplural.sh/api
+3) <user> and <password> are from the Plural config above. <yourprefecturl> is the URL you use to connect to Prefect Server ending with .onplural.sh/api
 
 ### Step 4: Test running a local file on the Plural Prefect instances
 
@@ -62,6 +62,6 @@ if name == "__main__":
 3) Run the file locally python test_flow.py
 ```
 
-If everything is functioning, you should see a flow run on the Plural hosted Prefect Orion UI.
+If everything is functioning, you should see a flow run on the Plural hosted Prefect Server UI.
 
 *Guide contributed by @reeves from the Plural Discord.*
