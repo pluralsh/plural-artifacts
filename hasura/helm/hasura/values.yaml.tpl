@@ -1,4 +1,5 @@
-{{ $postgresPwd := dedupe . "hasura.hasura.pgClient.external.password" (randAlphaNum 40) }}
+{{ $postgresPwd := dedupe . "hasura.hasura.postgres.password" (randAlphaNum 40) }}
+{{ $jwtKey := dedupe . "hasura.hasura.jwtKey" (randAlphaNum 40) }}
 
 global:
   application:
@@ -13,22 +14,7 @@ ingress:
   host: {{ .Values.hostname }}
 
 hasura:
+  dbUrl: postgres://hasura:{{ $postgresPwd }}@plural-hasura:5432/hasura
+  jwtKey: {{ $jwtKey }}
   adminSecret: {{ dedupe . "hasura.hasura.adminSecret" (randAlphaNum 40) }}
-  jwt:
-    key: {{ dedupe . "hasura.hasura.jwt.key" (randAlphaNum 40) }}
-  {{ if not .Values.postgresqlDisabled }}
-  pgClient:
-    external: 
-      enabled: true
-      host: plural-hasura
-      port: 5432
-      username: hasura
-      database: hasura
-      password: {{ $postgresPwd }}
-  {{ else }}
-  pgClient:
-    external: 
-      enabled: true
-postgres:
-  enabled: false
-  {{ end }}
+  jwtSecret: "{\"key\": \"{{ $jwtKey }}\", \"type\": \"HS256\"}"

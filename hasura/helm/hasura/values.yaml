@@ -18,16 +18,19 @@ ingress:
     nginx.ingress.kubernetes.io/session-cookie-path: /v1/graphql
 
 hasura:
-  console:
-    enabled: true
-  postgresql:
-    enabled: false
-    postgresqlUsername: hasura
-  extraEnv:
-  - name: PGSSLMODE
-    value: require
+  enableConsole: 'true'
+  consoleAssetsDir: /srv/console-assets
+  extraEnvVarsCM:
+    PGSSLMODE: require
   ingress:
     enabled: false
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 100m
+    limits:
+      memory: 512Mi
+      cpu: 250m
 
 postgres:
   enabled: true

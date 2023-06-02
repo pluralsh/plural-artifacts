@@ -3,11 +3,11 @@ name: hasura
 description: A Helm chart for hasura on plural
 type: application
 version: 0.1.8
-appVersion: "v2.0.9"
+appVersion: "v2.13.0-ce"
 dependencies:
 - name: hasura
-  version: 1.1.6
-  repository: https://charts.platy.plus
+  version: 2.7.0
+  repository: https://hasura-extra.github.io/hasura-extra
 - name: postgres
   version: 0.1.11
   repository: https://pluralsh.github.io/module-library
