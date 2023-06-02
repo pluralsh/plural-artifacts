@@ -3,8 +3,8 @@ name: redis-cluster
 description: clustered redis baked and ready for use in plural
 type: application
 version: 0.1.3
-appVersion: "1.16.0"
+appVersion: 7.0.5
 dependencies:
 - name: redis-cluster
-  version: 6.2.4
+  version: 8.2.6
   repository: https://charts.bitnami.com/bitnami

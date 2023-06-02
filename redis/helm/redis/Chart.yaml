@@ -3,8 +3,8 @@ name: redis
 description: Redis deployable on plural
 type: application
 version: 0.1.11
-appVersion: "6.2.4"
+appVersion: 7.0.5
 dependencies:
 - name: redis
-  version: 14.7.2
+  version: 17.3.7
   repository: https://charts.bitnami.com/bitnami
