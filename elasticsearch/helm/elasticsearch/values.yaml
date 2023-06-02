@@ -1,5 +1,9 @@
 
 eck-operator:
+  image:
+    repository: dkr.plural.sh/elasticsearch/eck/eck-operator
+    tag: 2.8.0
+
   managedNamespaces: []
 
   installCRDs: false
@@ -19,6 +23,7 @@ eck-operator:
 
   config:
     metricsPort: 9191
+    containerRegistry: dkr.plural.sh/elasticsearch
 
 ingress:
   enabled: true
@@ -39,18 +44,22 @@ elasticsearch:
       memory: 4Gi
       cpu: 2
   storage: 50Gi
-  version: '7.13.2'
+  version: '7.17.0'
 
 kibana:
   enabled: true
-  version: 7.13.2
+  version: 7.17.0
   resources:
     requests:
       memory: 500Mi
       cpu: 0.3
 apm:
   enabled: false
+  version: 7.17.0
 filebeat:
   enabled: false
+  version: 7.17.0
 metricbeat:
   enabled: false
+  version: 7.17.0
+
