@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts
+  namespace: typesense
+spec:
+  clusterIP: None
+  selector:
+    app.kubernetes.io/name: typesense
+    app.kubernetes.io/instance: typesense
+  ports:
+  - name: http
+    port: 8108
+    targetPort: 8108
+    protocol: TCP

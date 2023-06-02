@@ -5,17 +5,17 @@
 typesense:
   enableCors: true
 
-replicaCount: 2
+replicaCount: 3
 
 image:
-  repository: dkr.plural.sh/typesense/typesense/typesense
+  #repository: dkr.plural.sh/typesense/typesense/typesense
+  repository: docker.io/typesense/typesense
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: "0.9.2"
+  tag: "0.25.0.rc18"
 
 imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
+#nameOverride: ""
+#fullnameOverride: ""
 
 serviceAccount:
   create: false
@@ -100,3 +100,5 @@ persistence:
   path: /data
   accessMode: ReadWriteOnce
   size: 1Gi
+  storageClass: null
+

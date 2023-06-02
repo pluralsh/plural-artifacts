@@ -1,13 +1,12 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ include "typesense.fullname" . }}
   labels:
     {{- include "typesense.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
-  {{- end }}
+  serviceName: ts
   selector:
     matchLabels:
       {{- include "typesense.selectorLabels" . | nindent 6 }}
@@ -34,15 +33,18 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
-            - "/opt/typesense-server"
-            - "-d"
-            - "/usr/share/typesense/data"
-            - "--api-port"
-            - "8108"
-            - "--peering-port"
-            - "8107"
-            - "--nodes"
-            - "/usr/share/typesense/nodes"
+            - /opt/typesense-server
+            - '-d'
+            - /usr/share/typesense/data
+            - '-a'
+            - 'key--please-change'
+            - '--api-port'
+            - '8108'
+            - '--peering-port'
+            - '8107'
+            - '--nodes'
+            - /usr/share/typesense/nodes
+            - '--reset-peers-on-error'
           env:
             - name: TYPESENSE_DATA_DIR
               value: {{ .Values.persistence.path }}
@@ -66,19 +68,10 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
-            - name: nodeslist
-              mountPath: /usr/share/typesense
-            - name: data
-              mountPath: /usr/share/typesense/data
-        - name: typesense-node-resolver
-          image: dkr.plural.sh/typesense/alasano/typesense-node-resolver
-          command:
-            - "/opt/tsns"
-            - "-namespace={{ .Release.Namespace }}"
-            - "-service={{ include "typesense.fullname" . }}"
-          volumeMounts:
           - name: nodeslist
             mountPath: /usr/share/typesense
+          - name: data
+            mountPath: /usr/share/typesense/data
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -92,7 +85,22 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
-        - name: nodeslist
-          emptyDir: {}
-        - name: data
-          emptyDir: {}
+      - name: nodeslist
+        configMap:
+          name: nodeslist
+          items:
+          - key: nodes
+            path: nodes
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      {{- if .Values.persistence.storageClass }}
+      storageClassName: {{ .Values.persistence.storageClass }}
+      {{- end }}
+      resources:
+        requests:
+          storage: 2Gi
+        
