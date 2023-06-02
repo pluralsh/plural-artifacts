@@ -2,7 +2,7 @@ apiVersion: v2
 name: hasura
 description: A Helm chart for hasura on plural
 type: application
-version: 0.1.8
+version: 0.1.9
 appVersion: v2.15.0
 dependencies:
 - name: hasura
