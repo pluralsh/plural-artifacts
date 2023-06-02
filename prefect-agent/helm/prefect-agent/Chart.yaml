@@ -2,8 +2,8 @@ apiVersion: v2
 name: prefect-agent
 description: helm chart for prefect-agent
 type: application
-version: 0.1.1
-appVersion: v2.7.9
+version: 0.1.2
+appVersion: v2.10.11
 dependencies:
 - name: prefect-agent
   version: 2023.05.25
