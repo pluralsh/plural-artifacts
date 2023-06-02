@@ -20,9 +20,17 @@ ingress:
 hasura:
   image:
     repository: dkr.plural.sh/hasura/hasura/graphql-engine
-    tag: v2.15.0
+    tag: v2.26.0
   enableConsole: 'true'
   consoleAssetsDir: /srv/console-assets
+  database:
+    name: hasura
+    username: hasura
+    hostname: plural-hasura
+    port: 5432
+    secret:
+      name: plural.plural-hasura.credentials.postgresql.acid.zalan.do
+      passwordKey: password
   extraEnvVarsCM:
     PGSSLMODE: require
   ingress:

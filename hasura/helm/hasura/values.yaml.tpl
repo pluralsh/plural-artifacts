@@ -1,8 +1,9 @@
 {{ $jwtKey := dedupe . "hasura.hasura.jwt.key" (randAlphaNum 40) }}
-{{ $dbName := dedupe . "hasura.hasura.pgClient.external.database" "hasura" }}
-{{ $dbUsername := dedupe . "hasura.hasura.pgClient.external.username" "hasura" }}
-{{ $dbHost := dedupe . "hasura.hasura.pgClient.external.host" "plural-hasura" }}
-{{ $dbPort := dedupe . "hasura.hasura.pgClient.external.port | quote" "5432" }}
+{{ $prevDBName := dedupe . "hasura.hasura.pgClient.external.database" "hasura" }}
+{{ $prevDBUsername := dedupe . "hasura.hasura.pgClient.external.username" "hasura" }}
+{{ $prevDBHost := dedupe . "hasura.hasura.pgClient.external.host" "plural-hasura" }}
+{{ $prevDBPort := dedupe . "hasura.hasura.pgClient.external.port | quote" "5432" }}
+{{ $prevPostgresPwd := dedupe . "hasura.hasura.pgClient.external.password" (randAlphaNum 40) }}
 
 global:
   application:
@@ -17,29 +18,19 @@ postgres:
   enabled: true
 
 hasura:
-  database:
-    name: hasura
-    username: plural
-    hostname: plural-hasura
-    port: 5432
-    secret:
-      name: plural.plural-hasura.credentials.postgresql.acid.zalan.do
-      passwordKey: password
   adminSecret: {{ dedupe . "hasura.hasura.adminSecret" (randAlphaNum 40) }}
   jwtSecret:
     key: {{ $jwtKey }}
     type: "HS256"
   jwt:
     key: {{ $jwtKey }}
-  {{ if .Values.postgresqlDisabled }}
+{{ if .Values.postgresqlDisabled }}
   database:
-    name: {{ $dbName }}
-    username: {{ $dbUsername }}
-    hostname: {{ $dbHost }}
-    port: {{ $dbPort }}
-    secret:
-      name: hasura.plural-hasura.credentials.postgresql.acid.zalan.do
-      passwordKey: password
+    name: {{ dedupe . "hasura.hasura.database.name" $prevDBName }}
+    username: {{ dedupe . "hasura.hasura.database.username" $prevDBUsername }}
+    hostname: {{ dedupe . "hasura.hasura.database.hostname" $prevDBHost }}
+    port: {{ dedupe . "hasura.hasura.database.port" $prevDBPort }}
+    password: {{ dedupe . "hasura.hasura.database.password" $prevPostgresPwd }}
 postgres:
   enabled: false
-  {{ end }}
+{{ end }}
