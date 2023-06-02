@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 typesense:
-  enableCors: "true"
+  enableCors: true
 
 replicaCount: 2
 
