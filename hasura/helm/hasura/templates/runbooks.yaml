@@ -7,7 +7,7 @@ metadata:
 {{ include "hasura.labels" . | indent 4 }}
 spec:
   name: Hasura Scaling
-  description: overview of how to optimally scale your hasura cluster
+  description: overview of how to optimally scale your hasura instance
   display: |-
 {{ .Files.Get "runbooks/scaling-manual.xml" | indent 4 }}
   datasources:
@@ -16,13 +16,13 @@ spec:
     prometheus:
       format: cpu
       legend: $pod
-      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"hasura-[0-9]+"}[5m])) by (pod)
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"hasura-[a-z0-9]+-[a-z0-9]+"}[5m])) by (pod)
   - name: hasura-memory
     type: prometheus
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"hasura-[0-9]+"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"hasura-[a-z0-9]+-[a-z0-9]+"}) by (pod)
   - name: hasura
     type: kubernetes
     kubernetes:
