@@ -18,10 +18,16 @@ ingress:
     nginx.ingress.kubernetes.io/session-cookie-path: /v1/graphql
 
 hasura:
+  image:
+    tag: v2.15.0
   enableConsole: 'true'
   consoleAssetsDir: /srv/console-assets
   extraEnvVarsCM:
     PGSSLMODE: require
+  database:
+    secret:
+      name: hasura.plural-hasura.credentials.postgresql.acid.zalan.do
+      passwordKey: password
   ingress:
     enabled: false
   resources:

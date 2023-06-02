@@ -3,12 +3,12 @@ name: hasura
 description: A Helm chart for hasura on plural
 type: application
 version: 0.1.8
-appVersion: "v2.13.0-ce"
+appVersion: v2.15.0
 dependencies:
 - name: hasura
-  version: 2.7.0
-  repository: https://hasura-extra.github.io/hasura-extra
+  version: 2.7.5
+  repository: https://pluralsh.github.io/plural-helm-charts
 - name: postgres
-  version: 0.1.11
+  version: 0.1.12
   repository: https://pluralsh.github.io/module-library
   condition: postgres.enabled

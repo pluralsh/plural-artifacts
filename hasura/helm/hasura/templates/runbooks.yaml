@@ -27,7 +27,7 @@ spec:
     type: kubernetes
     kubernetes:
       resource: deployment
-      name: hasura
+      name: {{ template "hasura.fullname" .Subcharts.hasura }}
   - name: nodes
     type: nodes
   actions:
