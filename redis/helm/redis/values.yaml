@@ -39,3 +39,5 @@ redis:
       registry: dkr.plural.sh
       repository: redis/bitnami/redis-sentinel
       tag: 7.0.11
+
+password: ""
