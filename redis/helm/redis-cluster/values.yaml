@@ -14,10 +14,11 @@ redis-cluster:
 
   image:
     registry: gcr.io/pluralsh
+    tag: 7.0.5-debian-11-r9
   metrics:
     image:
       registry: gcr.io/pluralsh
-      tag: 1.24.0-debian-10-r11
+      tag: 1.44.0-debian-11-r19
     enabled: true
     serviceMonitor:
       enabled: true

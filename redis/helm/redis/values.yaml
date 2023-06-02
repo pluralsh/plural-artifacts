@@ -5,11 +5,13 @@ redis:
 
   image:
     registry: gcr.io/pluralsh
+    tag: redis:7.0.5-debian-11-r7
 
   metrics:
     enabled: true
     image:
       registry: gcr.io/pluralsh
+      tag: 1.44.0-debian-11-r16
     serviceMonitor:
       enabled: true
 
@@ -19,3 +21,4 @@ redis:
         enabled: true
       image:
         registry: gcr.io/pluralsh
+        tag: 7.0.5-debian-11-r6
