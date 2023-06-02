@@ -13,14 +13,16 @@ redis-cluster:
     existingSecretPasswordKey: password
 
   image:
-    registry: gcr.io/pluralsh
-    tag: 7.0.5-debian-11-r9
+    registry: dkr.plural.sh
+    repository: redis/bitnami/redis-cluster
+    tag: 7.0.11
   metrics:
     image:
-      registry: gcr.io/pluralsh
-      tag: 1.44.0-debian-11-r19
+      registry: dkr.plural.sh
+      repository: redis/bitnami/redis-exporter
+      tag: 1.50.0
     enabled: true
     serviceMonitor:
       enabled: true
 
-password:
+password: ""
