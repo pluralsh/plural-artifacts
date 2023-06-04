@@ -5,5 +5,5 @@ output "iam_role_arn" {
 
 output "ecr_registry_url" {
   description = "ECR registry URL."
-  value       = try(aws_ecr_repository.this[0].repository_url, null)
+  value       = try(split("/", aws_ecr_repository.this[0].repository_url)[0], null)
 }

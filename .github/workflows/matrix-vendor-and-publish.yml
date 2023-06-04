@@ -134,7 +134,7 @@ jobs:
         cd ..
     - uses: actions/checkout@v3
     - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
+      uses: aws-actions/configure-aws-credentials@v2
       with:
         role-to-assume: arn:aws:iam::312272277431:role/github-actions/plural-artifacts-ecr
         aws-region: us-east-1
@@ -150,7 +150,7 @@ jobs:
         service_account: 'terraform@pluralsh.iam.gserviceaccount.com'
         token_format: 'access_token'
         create_credentials_file: true
-    - uses: google-github-actions/setup-gcloud@v1.1.0
+    - uses: google-github-actions/setup-gcloud@v1.1.1
     - name: Login to gcr
       run: gcloud auth configure-docker -q
     - name: Login to plural registry

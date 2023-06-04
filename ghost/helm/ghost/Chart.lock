@@ -1,6 +1,6 @@
 dependencies:
-- name: ghost
-  repository: https://charts.bitnami.com/bitnami
-  version: 14.0.12
-digest: sha256:1c9827e988113e66e48982d480d2e4bb6edb0d0485ad52e6529dc5dc16a68407
-generated: "2021-08-19T20:58:22.699005-04:00"
+- name: mysql
+  repository: https://pluralsh.github.io/module-library
+  version: 0.6.6
+digest: sha256:6a509abf11e465c8ddcee53b21176199f1a2f7ca37393b482ee0ae3ac8f0278a
+generated: "2023-05-30T16:24:53.774187+02:00"

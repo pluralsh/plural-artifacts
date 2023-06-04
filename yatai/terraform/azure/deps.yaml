@@ -2,7 +2,7 @@ apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
   description: yatai azure setup
-  version: 0.1.0
+  version: 0.1.1
 spec:
   dependencies:
   - name: azure-bootstrap
@@ -11,3 +11,6 @@ spec:
     version: '>= 0.1.1'
   providers:
   - azure
+  outputs:
+    access_key_id: access_key_id
+    secret_access_key: secret_access_key

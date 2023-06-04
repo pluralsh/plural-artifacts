@@ -1,3 +1,6 @@
+{{ $isGcp := or (eq .Provider "google") (eq .Provider "gcp") }}
+{{ $isAws := eq .Provider "aws" }}
+{{ $notAws := ne .Provider "aws" }}
 {{ $hostname := .Values.hostname }}
 yatai:
   ingress:
@@ -11,11 +14,24 @@ yatai:
         - {{ $hostname }}
   s3:
     region: {{ .Region }}
+    {{- if $isGcp }}
+    endpoint: "storage.googleapis.com"
+    region: {{ .Values.bucket_location }}
+    {{- else if $notAws }}
+    endpoint: {{ .Configuration.minio.hostname }}
+    region: us-east-1
+    {{- end }}
+    {{- if $notAws }}
+    accessKey: {{ importValue "Terraform" "access_key_id" }}
+    secretKey: {{ importValue "Terraform" "secret_access_key" }}
+    {{- end }}
     bucketName: {{ .Values.bucket }}
   serviceAccount:
     annotations:
-      {{- if eq .Provider "aws" }}
+      {{- if $isAws }}
       eks.amazonaws.com/role-arn: {{ importValue "Terraform" "iam_role_arn" }}
+      {{- else if $isGcp }}
+      iam.gke.io/gcp-service-account: {{ importValue "Terraform" "service_account_email" }}
       {{- end }}
 
 yatai-deployment:
@@ -24,20 +40,24 @@ yatai-deployment:
       domainSuffix: {{ $hostname }}
   serviceAccount:
     annotations:
-      {{- if eq .Provider "aws" }}
+      {{- if $isAws }}
       eks.amazonaws.com/role-arn: {{ importValue "Terraform" "iam_role_arn" }}
+      {{- else if $isGcp }}
+      iam.gke.io/gcp-service-account: {{ importValue "Terraform" "service_account_email" }}
       {{- end }}
 
 yatai-image-builder:
   yatai:
-    endpoint: http://yatai.{{ namespace "yatai" }}.svc.cluster.local
+    endpoint: http://yatai.yatai.svc.cluster.local
   serviceAccount:
     annotations:
-      {{- if eq .Provider "aws" }}
+      {{- if $isAws }}
       eks.amazonaws.com/role-arn: {{ importValue "Terraform" "iam_role_arn" }}
+      {{- else if $isGcp }}
+      iam.gke.io/gcp-service-account: {{ importValue "Terraform" "service_account_email" }}
       {{- end }}
   dockerRegistry:
-    {{- if and (eq .Provider "aws") .Values.use_ecr }}
+    {{- if and $isAws .Values.use_ecr }}
     server: {{ importValue "Terraform" "ecr_registry_url" }}
     {{- else }}
     server: {{ .Values.image_registry }} 
@@ -47,7 +67,18 @@ yatai-image-builder:
     username: {{ .Values.image_registry_username }}
     password: {{ .Values.image_registry_password }}
     {{- end }}
-    {{- if ( and (eq .Provider "aws") .Values.use_ecr ) }}
+    {{- if ( and $isAws .Values.use_ecr ) }}
     useAWSECRWithIAMRole: {{ .Values.use_ecr | quote }}
     awsECRRegion: {{ .Region }}
     {{- end }}
+  {{- if $notAws }}
+  aws:
+    accessKeyID: {{ importValue "Terraform" "access_key_id" }}
+    secretAccessKey: {{ importValue "Terraform" "secret_access_key" }}
+  {{- end }}
+
+initialization:
+  email: {{ .Values.initial_email }}
+  username: {{ .Values.initial_username }}
+  password: {{ dedupe . "yatai.initialization.password" (randAlphaNum 32) }}
+  

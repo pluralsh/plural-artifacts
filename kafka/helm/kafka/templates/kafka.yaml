@@ -8,10 +8,6 @@ spec:
     replicas: {{ .Values.kafka.replicas }}
     version: {{ .Values.kafka.version }}
     template:
-      statefulset:
-        metadata:
-          labels:
-            {{ include "kafka.labels" . | nindent 12 }}
       bootstrapService:
         metadata:
           labels:
@@ -80,10 +76,6 @@ spec:
   zookeeper:
   {{ toYaml .Values.zookeeper | nindent 4 }}
     template:
-      statefulset:
-        metadata:
-          labels:
-            {{ include "kafka.labels" . | nindent 12 }}
       clientService:
         metadata:
           labels:

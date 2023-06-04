@@ -1,0 +1,68 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Runbook
+metadata:
+  name: scaling-manual
+  labels:
+    platform.plural.sh/pinned: 'true'
+{{ include "prefect-worker.labels" . | indent 4 }}
+spec:
+  name: Prefect Worker Scaling
+  description: overview of how to optimally scale your prefect worker
+  display: |-
+{{ .Files.Get "runbooks/scaling-manual.xml" | indent 4 }}
+  datasources:
+  - name: prefect-worker-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ template "common.names.fullname" (index .Subcharts "prefect-worker") }}.+"}[5m])) by (pod)
+  - name: prefect-worker-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "common.names.fullname" (index .Subcharts "prefect-worker") }}.+"}) by (pod)
+  - name: worker
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: {{ template "common.names.fullname" (index .Subcharts "prefect-worker") }}
+  actions:
+  - name: scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+      - path:
+        - prefect-worker
+        - prefect-worker
+        - worker
+        - resources
+        - requests
+        - cpu
+        valueFrom: worker-cpu
+      - path:
+        - prefect-worker
+        - prefect-worker
+        - worker
+        - resources
+        - requests
+        - memory
+        valueFrom: worker-memory
+      - path:
+        - prefect-worker
+        - prefect-worker
+        - worker
+        - resources
+        - limits
+        - cpu
+        valueFrom: worker-cpu-limit
+      - path:
+        - prefect-worker
+        - prefect-worker
+        - worker
+        - resources
+        - limits
+        - memory
+        valueFrom: worker-memory-limit

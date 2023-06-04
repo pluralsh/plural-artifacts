@@ -8,7 +8,7 @@ metadata:
   {{ include "elasticsearch.labels" . | nindent 4 }}
 spec:
   type: metricbeat
-  version: 7.13.2
+  version: {{ .Values.metricbeat.version }}
   elasticsearchRef:
     name: elasticsearch
   kibanaRef:
@@ -101,6 +101,8 @@ spec:
       spec:
         serviceAccountName: metricbeat
         automountServiceAccountToken: true # some older Beat versions are depending on this settings presence in k8s context
+        tolerations:
+        - operator: Exists
         containers:
         - args:
           - -e
@@ -124,6 +126,12 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: spec.nodeName
+          resources:
+            limits:
+              cpu: 100m
+            requests:
+              cpu: 2m
+              memory: 300Mi
         securityContext:
           runAsUser: 0
         terminationGracePeriodSeconds: 30

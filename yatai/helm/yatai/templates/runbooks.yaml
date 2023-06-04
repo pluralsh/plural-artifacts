@@ -1,0 +1,154 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Runbook
+metadata:
+  name: yatai-scaling
+  labels:
+    platform.plural.sh/pinned: 'true'
+{{ include "yatai-plural.labels" . | indent 4 }}
+spec:
+  name: Yatai Scaling
+  description: overview of how to optimally scale your yatai components
+  display: |-
+{{ .Files.Get "runbooks/yatai-scaling.xml" | indent 4 }}
+  datasources:
+  - name: yatai-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ template "yatai.fullname" .Subcharts.yatai }}-.*"}[5m])) by (pod)
+  - name: yatai-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "yatai.fullname" .Subcharts.yatai }}-.*"}) by (pod)
+  - name: yatai-deployment-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ template "yatai-deployment.fullname" (index .Subcharts "yatai-deployment") }}-.*"}[5m])) by (pod)
+  - name: yatai-deployment-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "yatai-deployment.fullname" (index .Subcharts "yatai-deployment") }}-.*"}) by (pod)
+  - name: yatai-image-builder-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ template "yatai-image-builder.fullname" (index .Subcharts "yatai-image-builder") }}-.*"}[5m])) by (pod)
+  - name: yatai-image-builder-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "yatai-image-builder.fullname" (index .Subcharts "yatai-image-builder") }}-.*"}) by (pod)
+  - name: yatai
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: {{ template "yatai.fullname" .Subcharts.yatai }}
+  - name: yatai-deployment
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name:  {{ template "yatai-deployment.fullname" (index .Subcharts "yatai-deployment") }}
+  - name: yatai-image-builder
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: {{ template "yatai-image-builder.fullname" (index .Subcharts "yatai-image-builder") }}
+  actions:
+  - name: scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+      - path: 
+        - yatai
+        - yatai
+        - resources
+        - requests
+        - cpu
+        valueFrom: yatai-cpu
+      - path:
+        - yatai
+        - yatai
+        - resources
+        - requests
+        - memory
+        valueFrom: yatai-memory
+      - path: 
+        - yatai
+        - yatai
+        - resources
+        - limits
+        - cpu
+        valueFrom: yatai-cpu-limit
+      - path:
+        - yatai
+        - yatai
+        - resources
+        - limits
+        - memory
+        valueFrom: yatai-memory-limit
+      - path: 
+        - yatai
+        - yatai-deployment
+        - resources
+        - requests
+        - cpu
+        valueFrom: yatai-deployment-cpu
+      - path:
+        - yatai
+        - yatai-deployment
+        - resources
+        - requests
+        - memory
+        valueFrom: yatai-deployment-memory
+      - path: 
+        - yatai
+        - yatai-deployment
+        - resources
+        - limits
+        - cpu
+        valueFrom: yatai-deployment-cpu-limit
+      - path:
+        - yatai
+        - yatai-deployment
+        - resources
+        - limits
+        - memory
+        valueFrom: yatai-deployment-memory-limit
+      - path: 
+        - yatai
+        - yatai-image-builder
+        - resources
+        - requests
+        - cpu
+        valueFrom: yatai-image-builder-cpu
+      - path:
+        - yatai
+        - yatai-image-builder
+        - resources
+        - requests
+        - memory
+        valueFrom: yatai-image-builder-memory
+      - path: 
+        - yatai
+        - yatai-image-builder
+        - resources
+        - limits
+        - cpu
+        valueFrom: yatai-image-builder-cpu-limit
+      - path:
+        - yatai
+        - yatai-image-builder
+        - resources
+        - limits
+        - memory
+        valueFrom: yatai-image-builder-memory-limit
