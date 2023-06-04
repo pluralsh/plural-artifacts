@@ -1,1 +1,179 @@
-{}
+## =================================
+## Haystack API configuration section
+## =================================
+haystack:
+  haystack-api:
+
+    replicaCount: 1
+
+    image:
+      api:
+        repository: deepset/haystack-cpu
+        pullPolicy: IfNotPresent
+        # Overrides the image tag whose default is the chart appVersion.
+        tag: "latest"
+
+    imagePullSecrets: []
+    nameOverride: ""
+    fullnameOverride: ""
+
+    serviceAccount:
+      # Specifies whether a service account should be created
+      create: true
+      # Annotations to add to the service account
+      annotations: {}
+      # The name of the service account to use.
+      # If not set and create is true, a name is generated using the fullname template
+      name: ""
+
+    podAnnotations: {}
+
+    podSecurityContext: {}
+      # fsGroup: 2000
+
+    securityContext: {}
+      # capabilities:
+      #   drop:
+      #   - ALL
+      # readOnlyRootFilesystem: true
+      # runAsNonRoot: true
+      # runAsUser: 1000
+
+    service:
+      type: ClusterIP
+      api:
+        port: 8000
+
+    ingress:
+      enabled: true
+      className: nginx
+      annotations:
+        kubernetes.io/tls-acme: "true"
+        cert-manager.io/cluster-issuer: letsencrypt-prod 
+      hosts:
+      - host: haystackapi.dev.plural.sh
+        paths:
+        - path: /
+          pathType: ImplementationSpecific
+
+      tls:
+      - secretName: haystackapi-ingress-tls
+        hosts:
+          - haystackapi.dev.plural.sh
+
+    autoscaling:
+      enabled: false
+      minReplicas: 1
+      maxReplicas: 100
+      targetCPUUtilizationPercentage: 80
+      # targetMemoryUtilizationPercentage: 80
+
+    nodeSelector: {}
+
+    tolerations: []
+
+    affinity: {}
+
+    haystack:
+      api:
+        documentstore_params_host: elasticsearch-master
+        workers: 3
+
+  ## =================================
+  ## Haystack UI configuration section
+  ## =================================
+  haystack-ui:
+
+    replicaCount: 1
+
+    image:
+      ui:
+        repository: deepset/haystack-streamlit-ui
+        pullPolicy: IfNotPresent
+        # Overrides the image tag whose default is the chart appVersion.
+        tag: "latest"
+
+    imagePullSecrets: []
+    nameOverride: ""
+    fullnameOverride: ""
+
+    serviceAccount:
+      # Specifies whether a service account should be created
+      create: true
+      # Annotations to add to the service account
+      annotations: {}
+      # The name of the service account to use.
+      # If not set and create is true, a name is generated using the fullname template
+      name: ""
+
+    podAnnotations: {}
+
+    podSecurityContext: {}
+      # fsGroup: 2000
+
+    securityContext: {}
+      # capabilities:
+      #   drop:
+      #   - ALL
+      # readOnlyRootFilesystem: true
+      # runAsNonRoot: true
+      # runAsUser: 1000
+
+    service:
+      type: ClusterIP
+      ui:
+        port: 8501
+
+    ingress:
+      enabled: true
+      className: nginx
+      annotations:
+        kubernetes.io/tls-acme: "true"
+        cert-manager.io/cluster-issuer: letsencrypt-prod 
+      hosts:
+      - host: haystackui.dev.plural.sh
+        paths:
+        - path: /
+          pathType: ImplementationSpecific
+      tls:
+      - secretName: haystackui-ingress-tls
+        hosts:
+          - haystackui.dev.plural.sh
+
+    resources: {}
+      # We usually recommend not to specify default resources and to leave this as a conscious
+      # choice for the user. This also increases chances charts run on environments with little
+      # resources, such as Minikube. If you do want to specify resources, uncomment the following
+      # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+      # limits:
+      #   cpu: 100m
+      #   memory: 128Mi
+      # requests:
+      #   cpu: 100m
+      #   memory: 128Mi
+
+    autoscaling:
+      enabled: false
+      minReplicas: 1
+      maxReplicas: 100
+      targetCPUUtilizationPercentage: 80
+      # targetMemoryUtilizationPercentage: 80
+
+    nodeSelector: {}
+
+    tolerations: []
+
+    affinity: {}
+
+    haystack:
+      ui:
+        haystack_api_endpoint: haystaciapi.haystack.svc.cluster.local:8000
+        eval_file: eval_labels_example.csv
+
+  ## =================================
+  ## Dependencies
+  ## =================================
+  elasticsearch:
+    enabled: false
+    # this is required for clusters with less than 3 worker nodes
+    antiAffinity: soft
