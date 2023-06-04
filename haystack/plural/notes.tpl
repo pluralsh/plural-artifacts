@@ -1,0 +1,1 @@
+Use `plural watch haystack` to track the status of your application

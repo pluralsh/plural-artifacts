@@ -1,0 +1,10 @@
+apiVersion: v2
+name: haystack
+description: helm chart for haystack
+type: application
+version: 0.1.0
+appVersion: "v1.0.0"
+dependencies:
+  - name: haystack
+    version: 0.1.0
+    repository: https://deepset-ai.github.io/haystack-helm

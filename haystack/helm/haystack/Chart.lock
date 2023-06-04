@@ -1,0 +1,6 @@
+dependencies:
+- name: haystack
+  repository: https://deepset-ai.github.io/haystack-helm
+  version: 0.1.0
+digest: sha256:ac4ffc9a6da0b64ef2d39a7be33cdd703bcc681e986d52614ff9ebab63d2d33a
+generated: "2023-06-04T16:10:01.55688+02:00"

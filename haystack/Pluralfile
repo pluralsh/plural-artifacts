@@ -1,0 +1,6 @@
+REPO haystack
+ATTRIBUTES deepset-ai repository.yaml
+
+TF terraform/*
+HELM helm/*
+RECIPE plural/recipes/*

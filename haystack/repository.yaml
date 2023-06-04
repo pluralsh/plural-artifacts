@@ -1,0 +1,6 @@
+name: haystack
+description: haystack deployed on plural
+category: DATA
+private: true
+icon: plural/icons/haystack.png
+notes: plural/notes.tpl

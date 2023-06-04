@@ -1,0 +1,20 @@
+name: haystack-gcp
+description: Installs haystack on an aws eks cluster
+provider: GCP
+primary: true
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+
+
+sections:
+- name: haystack
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: haystack
