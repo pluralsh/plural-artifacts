@@ -167,7 +167,7 @@ haystack:
 
     haystack:
       ui:
-        haystack_api_endpoint: haystaciapi.haystack.svc.cluster.local:8000
+        haystack_api_endpoint: haystack-haystack-api.haystack.svc.cluster.local:8000
         eval_file: eval_labels_example.csv
 
   ## =================================
