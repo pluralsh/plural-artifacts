@@ -22,3 +22,11 @@ output "resource_group_name" {
 output "network" {
   value = module.network
 }
+
+output "generated_cluster_public_ssh_key" {
+  value = module.aks.generated_cluster_public_ssh_key
+}
+
+output "generated_cluster_private_ssh_key" {
+  value = module.aks.generated_cluster_private_ssh_key
+}
