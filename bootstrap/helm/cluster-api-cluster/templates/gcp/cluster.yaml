@@ -10,13 +10,13 @@ spec:
     host: ""
     port: 0
   network:
-    name: {{ .Values.cluster.name }}-network
     {{ with .Values.cluster.google.network }}
+    name: {{ .name }}
     autoCreateSubnetworks: {{ .autoCreateSubnetworks }}
     {{ end }}
     subnets:
       {{ range .Values.cluster.google.subnets }}
-      - name: {{ $.Values.cluster.name }}-{{ .nameSuffix }}
+      - name: {{ .name }}
         region: {{ $.Values.cluster.google.region }}
         cidrBlock: {{ .cidrBlock }}
         description: {{ .description }}
