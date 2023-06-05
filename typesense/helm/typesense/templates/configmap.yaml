@@ -5,10 +5,13 @@ metadata:
   labels:
     {{- include "typesense.labels" . | nindent 4 }}
 data:
-  {{- $replicaCount := .Values.replicaCount }}
+  {{- $replicaCount := int .Values.replicaCount }}
   {{- $nodesList := "" }}
-  {{- range $index, $ := until $replicaCount }}
+  {{- range $index := until $replicaCount }}
   {{- $nodeName := printf "typesense-%d.ts.typesense.svc.cluster.local:8107:8108" $index }}
-  {{- $nodesList = print $nodesList $nodeName (if ne $index (sub $replicaCount 1)), else "" }}
+  {{- $nodesList = print $nodesList $nodeName }}
+  {{- if ne $index (sub $replicaCount 1) -}}
+  {{- $nodesList = print $nodesList "," }}
+  {{- end -}}
   {{- end }}
   nodes: "{{ $nodesList }}"
