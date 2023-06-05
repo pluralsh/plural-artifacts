@@ -298,31 +298,31 @@ workers:
     ###       AZURE WORKER DEFAULTS       ###
     #########################################
     azure:
-      replicas: 0
-      labels: {}
       annotations:
         cluster.x-k8s.io/replicas-managed-by: external-autoscaler
+      labels: {}
+      replicas: 0
       spec:
-        additionalTags: {}
-        mode: "User"
-        sku: "Standard_D2s_v3"
-        osDiskSizeGB: 50
         availabilityZones:
           - "1"
+        enableNodePublicIP: false
+        maxPods: 110
+        mode: User
         nodeLabels:
-          plural.sh/scalingGroup: medium-sustained-on-demand
           plural.sh/capacityType: ON_DEMAND
           plural.sh/performanceType: SUSTAINED
-        taints: {}
+          plural.sh/scalingGroup: medium-sustained-on-demand
+        nodePublicIPPrefixID: ""
+        osDiskSizeGB: 50
+        osDiskType: Managed
+        osType: Linux
+        scaleSetPriority: Regular
         scaling:
           maxSize: 5
           minSize: 1
-        maxPods: 110
-        osDiskType: "Managed"
-        osType: "Linux"
-        enableNodePublicIP: false
-        nodePublicIPPrefixID: ""
-        scaleSetPriority: "Regular"
+        sku: Standard_D2s_v3
+        additionalTags: {}
+        taints: {}
         kubeletConfig: {}
         linuxOSConfig: {}
     #########################################
@@ -360,24 +360,465 @@ workers:
   ###       AZURE WORKERS       ###
   #################################
   azure:
-    pool0:
+    lsod1:
+      replicas: 0
+      spec:
+        additionalTags:
+          ScalingGroup: large-sustained-on-demand
+        availabilityZones:
+          - "1"
+        enableNodePublicIP: false
+        maxPods: 110
+        mode: User
+        nodeLabels:
+          plural.sh/capacityType: ON_DEMAND
+          plural.sh/performanceType: SUSTAINED
+          plural.sh/scalingGroup: large-sustained-on-demand
+        osDiskSizeGB: 50
+        osDiskType: Managed
+        osType: Linux
+        scaling:
+          maxSize: 9
+          minSize: 0
+        sku: Standard_D8as_v5
+    lsod2:
+      replicas: 0
+      spec:
+        additionalTags:
+          ScalingGroup: large-sustained-on-demand
+        availabilityZones:
+          - "2"
+        enableNodePublicIP: false
+        maxPods: 110
+        mode: User
+        nodeLabels:
+          plural.sh/capacityType: ON_DEMAND
+          plural.sh/performanceType: SUSTAINED
+          plural.sh/scalingGroup: large-sustained-on-demand
+        osDiskSizeGB: 50
+        osDiskType: Managed
+        osType: Linux
+        scaling:
+          maxSize: 9
+          minSize: 0
+        sku: Standard_D8as_v5
+    lsod3:
+      replicas: 0
+      spec:
+        additionalTags:
+          ScalingGroup: large-sustained-on-demand
+        availabilityZones:
+          - "3"
+        enableNodePublicIP: false
+        maxPods: 110
+        mode: User
+        nodeLabels:
+          plural.sh/capacityType: ON_DEMAND
+          plural.sh/performanceType: SUSTAINED
+          plural.sh/scalingGroup: large-sustained-on-demand
+        osDiskSizeGB: 50
+        osDiskType: Managed
+        osType: Linux
+        scaling:
+          maxSize: 9
+          minSize: 0
+        sku: Standard_D8as_v5
+    lsspot1:
+      replicas: 0
+      spec:
+        additionalTags:
+          ScalingGroup: large-sustained-spot
+        availabilityZones:
+          - "1"
+        enableNodePublicIP: false
+        maxPods: 110
+        mode: User
+        nodeLabels:
+          kubernetes.azure.com/scalesetpriority: spot
+          plural.sh/capacityType: SPOT
+          plural.sh/performanceType: SUSTAINED
+          plural.sh/scalingGroup: large-sustained-spot
+        osDiskSizeGB: 50
+        osDiskType: Managed
+        osType: Linux
+        scaleSetPriority: Spot
+        scaling:
+          maxSize: 9
+          minSize: 0
+        sku: Standard_D8as_v5
+        taints:
+          - effect: no-schedule
+            key: plural.sh/capacityType
+            value: SPOT
+          - effect: no-schedule
+            key: kubernetes.azure.com/scalesetpriority
+            value: spot
+    lsspot2:
+      replicas: 0
+      spec:
+        additionalTags:
+          ScalingGroup: large-sustained-spot
+        availabilityZones:
+          - "2"
+        enableNodePublicIP: false
+        maxPods: 110
+        mode: User
+        nodeLabels:
+          kubernetes.azure.com/scalesetpriority: spot
+          plural.sh/capacityType: SPOT
+          plural.sh/performanceType: SUSTAINED
+          plural.sh/scalingGroup: large-sustained-spot
+        osDiskSizeGB: 50
+        osDiskType: Managed
+        osType: Linux
+        scaleSetPriority: Spot
+        scaling:
+          maxSize: 9
+          minSize: 0
+        sku: Standard_D8as_v5
+        taints:
+          - effect: no-schedule
+            key: plural.sh/capacityType
+            value: SPOT
+          - effect: no-schedule
+            key: kubernetes.azure.com/scalesetpriority
+            value: spot
+    lsspot3:
+      replicas: 0
+      spec:
+        additionalTags:
+          ScalingGroup: large-sustained-spot
+        availabilityZones:
+          - "3"
+        enableNodePublicIP: false
+        maxPods: 110
+        mode: User
+        nodeLabels:
+          kubernetes.azure.com/scalesetpriority: spot
+          plural.sh/capacityType: SPOT
+          plural.sh/performanceType: SUSTAINED
+          plural.sh/scalingGroup: large-sustained-spot
+        osDiskSizeGB: 50
+        osDiskType: Managed
+        osType: Linux
+        scaleSetPriority: Spot
+        scaling:
+          maxSize: 9
+          minSize: 0
+        sku: Standard_D8as_v5
+        taints:
+          - effect: no-schedule
+            key: plural.sh/capacityType
+            value: SPOT
+          - effect: no-schedule
+            key: kubernetes.azure.com/scalesetpriority
+            value: spot
+    msod1:
+      replicas: 0
+      spec:
+        additionalTags:
+          ScalingGroup: medium-sustained-on-demand
+        availabilityZones:
+          - "1"
+        enableNodePublicIP: false
+        maxPods: 110
+        mode: User
+        nodeLabels:
+          plural.sh/capacityType: ON_DEMAND
+          plural.sh/performanceType: SUSTAINED
+          plural.sh/scalingGroup: medium-sustained-on-demand
+        osDiskSizeGB: 50
+        osDiskType: Managed
+        osType: Linux
+        scaling:
+          maxSize: 9
+          minSize: 0
+        sku: Standard_D4as_v5
+    msod2:
+      replicas: 0
+      spec:
+        additionalTags:
+          ScalingGroup: medium-sustained-on-demand
+        availabilityZones:
+          - "2"
+        enableNodePublicIP: false
+        maxPods: 110
+        mode: User
+        nodeLabels:
+          plural.sh/capacityType: ON_DEMAND
+          plural.sh/performanceType: SUSTAINED
+          plural.sh/scalingGroup: medium-sustained-on-demand
+        osDiskSizeGB: 50
+        osDiskType: Managed
+        osType: Linux
+        scaling:
+          maxSize: 9
+          minSize: 0
+        sku: Standard_D4as_v5
+    msod3:
+      replicas: 0
+      spec:
+        additionalTags:
+          ScalingGroup: medium-sustained-on-demand
+        availabilityZones:
+          - "3"
+        enableNodePublicIP: false
+        maxPods: 110
+        mode: User
+        nodeLabels:
+          plural.sh/capacityType: ON_DEMAND
+          plural.sh/performanceType: SUSTAINED
+          plural.sh/scalingGroup: medium-sustained-on-demand
+        osDiskSizeGB: 50
+        osDiskType: Managed
+        osType: Linux
+        scaling:
+          maxSize: 9
+          minSize: 0
+        sku: Standard_D4as_v5
+    msspot1:
+      replicas: 0
+      spec:
+        additionalTags:
+          ScalingGroup: medium-sustained-spot
+        availabilityZones:
+          - "1"
+        enableNodePublicIP: false
+        maxPods: 110
+        mode: User
+        nodeLabels:
+          kubernetes.azure.com/scalesetpriority: spot
+          plural.sh/capacityType: SPOT
+          plural.sh/performanceType: SUSTAINED
+          plural.sh/scalingGroup: medium-sustained-spot
+        osDiskSizeGB: 50
+        osDiskType: Managed
+        osType: Linux
+        scaleSetPriority: Spot
+        scaling:
+          maxSize: 9
+          minSize: 0
+        sku: Standard_D4as_v5
+        taints:
+          - effect: no-schedule
+            key: plural.sh/capacityType
+            value: SPOT
+          - effect: no-schedule
+            key: kubernetes.azure.com/scalesetpriority
+            value: spot
+    msspot2:
+      replicas: 0
+      spec:
+        additionalTags:
+          ScalingGroup: medium-sustained-spot
+        availabilityZones:
+          - "2"
+        enableNodePublicIP: false
+        maxPods: 110
+        mode: User
+        nodeLabels:
+          kubernetes.azure.com/scalesetpriority: spot
+          plural.sh/capacityType: SPOT
+          plural.sh/performanceType: SUSTAINED
+          plural.sh/scalingGroup: medium-sustained-spot
+        osDiskSizeGB: 50
+        osDiskType: Managed
+        osType: Linux
+        scaleSetPriority: Spot
+        scaling:
+          maxSize: 9
+          minSize: 0
+        sku: Standard_D4as_v5
+        taints:
+          - effect: no-schedule
+            key: plural.sh/capacityType
+            value: SPOT
+          - effect: no-schedule
+            key: kubernetes.azure.com/scalesetpriority
+            value: spot
+    msspot3:
+      replicas: 0
+      spec:
+        additionalTags:
+          ScalingGroup: medium-sustained-spot
+        availabilityZones:
+          - "3"
+        enableNodePublicIP: false
+        maxPods: 110
+        mode: User
+        nodeLabels:
+          kubernetes.azure.com/scalesetpriority: spot
+          plural.sh/capacityType: SPOT
+          plural.sh/performanceType: SUSTAINED
+          plural.sh/scalingGroup: medium-sustained-spot
+        osDiskSizeGB: 50
+        osDiskType: Managed
+        osType: Linux
+        scaleSetPriority: Spot
+        scaling:
+          maxSize: 9
+          minSize: 0
+        sku: Standard_D4as_v5
+        taints:
+          - effect: no-schedule
+            key: plural.sh/capacityType
+            value: SPOT
+          - effect: no-schedule
+            key: kubernetes.azure.com/scalesetpriority
+            value: spot
+    ssod1:
       replicas: 1
       spec:
-        nodeLabels: {} # TODO: Allow this to not be set.
-        additionalTags: {} # TODO: Allow this to not be set.
-        mode: "System"
+        additionalTags:
+          ScalingGroup: small-sustained-on-demand
+        availabilityZones:
+          - "1"
+        enableNodePublicIP: false
+        maxPods: 110
+        mode: System
+        nodeLabels:
+          plural.sh/capacityType: ON_DEMAND
+          plural.sh/performanceType: SUSTAINED
+          plural.sh/scalingGroup: small-sustained-on-demand
+        osDiskSizeGB: 50
+        osDiskType: Managed
+        osType: Linux
         scaling:
+          maxSize: 9
           minSize: 1
-          maxSize: 2
-    pool1:
+        sku: Standard_D2as_v5
+    ssod2:
       replicas: 1
       spec:
-        nodeLabels: {} # TODO: Allow this to not be set.
-        additionalTags: {} # TODO: Allow this to not be set.
-        mode: "User"
+        additionalTags:
+          ScalingGroup: small-sustained-on-demand
+        availabilityZones:
+          - "2"
+        enableNodePublicIP: false
+        maxPods: 110
+        mode: System
+        nodeLabels:
+          plural.sh/capacityType: ON_DEMAND
+          plural.sh/performanceType: SUSTAINED
+          plural.sh/scalingGroup: small-sustained-on-demand
+        osDiskSizeGB: 50
+        osDiskType: Managed
+        osType: Linux
         scaling:
-          minSize: 2
-          maxSize: 4
+          maxSize: 9
+          minSize: 1
+        sku: Standard_D2as_v5
+    ssod3:
+      replicas: 1
+      spec:
+        additionalTags:
+          ScalingGroup: small-sustained-on-demand
+        availabilityZones:
+          - "3"
+        enableNodePublicIP: false
+        maxPods: 110
+        mode: System
+        nodeLabels:
+          plural.sh/capacityType: ON_DEMAND
+          plural.sh/performanceType: SUSTAINED
+          plural.sh/scalingGroup: small-sustained-on-demand
+        osDiskSizeGB: 50
+        osDiskType: Managed
+        osType: Linux
+        scaling:
+          maxSize: 9
+          minSize: 1
+        sku: Standard_D2as_v5
+    ssspot1:
+      replicas: 0
+      spec:
+        additionalTags:
+          ScalingGroup: small-sustained-spot
+        availabilityZones:
+          - "1"
+        enableNodePublicIP: false
+        maxPods: 110
+        mode: User
+        nodeLabels:
+          kubernetes.azure.com/scalesetpriority: spot
+          plural.sh/capacityType: SPOT
+          plural.sh/performanceType: SUSTAINED
+          plural.sh/scalingGroup: small-sustained-spot
+        osDiskSizeGB: 50
+        osDiskType: Managed
+        osType: Linux
+        scaleSetPriority: Spot
+        scaling:
+          maxSize: 9
+          minSize: 0
+        sku: Standard_D2as_v5
+        taints:
+          - effect: no-schedule
+            key: plural.sh/capacityType
+            value: SPOT
+          - effect: no-schedule
+            key: kubernetes.azure.com/scalesetpriority
+            value: spot
+    ssspot2:
+      replicas: 0
+      spec:
+        additionalTags:
+          ScalingGroup: small-sustained-spot
+        availabilityZones:
+          - "2"
+        enableNodePublicIP: false
+        maxPods: 110
+        mode: User
+        nodeLabels:
+          kubernetes.azure.com/scalesetpriority: spot
+          plural.sh/capacityType: SPOT
+          plural.sh/performanceType: SUSTAINED
+          plural.sh/scalingGroup: small-sustained-spot
+        osDiskSizeGB: 50
+        osDiskType: Managed
+        osType: Linux
+        scaleSetPriority: Spot
+        scaling:
+          maxSize: 9
+          minSize: 0
+        sku: Standard_D2as_v5
+        taints:
+          - effect: no-schedule
+            key: plural.sh/capacityType
+            value: SPOT
+          - effect: no-schedule
+            key: kubernetes.azure.com/scalesetpriority
+            value: spot
+    ssspot3:
+      replicas: 0
+      spec:
+        additionalTags:
+          ScalingGroup: small-sustained-spot
+        availabilityZones:
+          - "3"
+        enableNodePublicIP: false
+        maxPods: 110
+        mode: User
+        nodeLabels:
+          kubernetes.azure.com/scalesetpriority: spot
+          plural.sh/capacityType: SPOT
+          plural.sh/performanceType: SUSTAINED
+          plural.sh/scalingGroup: small-sustained-spot
+        osDiskSizeGB: 50
+        osDiskType: Managed
+        osType: Linux
+        scaleSetPriority: Spot
+        scaling:
+          maxSize: 9
+          minSize: 0
+        sku: Standard_D2as_v5
+        taints:
+          - effect: no-schedule
+            key: plural.sh/capacityType
+            value: SPOT
+          - effect: no-schedule
+            key: kubernetes.azure.com/scalesetpriority
+            value: spot
   #################################
   ###        GCP WORKERS        ###
   #################################
