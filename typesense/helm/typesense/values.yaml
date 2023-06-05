@@ -62,7 +62,7 @@ ingress:
     - "templated"
 
 serverConfiguration:
-  # values from https://typesense.org/docs/0.24.1/api/server-configuration.html#using-environment-variables
+  # possible values from https://typesense.org/docs/0.24.1/api/server-configuration.html#using-environment-variables
   TYPESENSE_ENABLE_CORS: "true"
   #TYPESENSE_API_ADDRESS: 
   #TYPESENSE_LOG_DIR:
