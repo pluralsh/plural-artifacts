@@ -80,7 +80,7 @@ contributors:
 ...
 ```
 
-You'll want to create a pr with that initial setup which will create the initial repository and mark yourself as a conributor.
+You'll want to create a pr with that initial setup which will create the initial repository and mark yourself as a contributor.
 
 * deploy a gcp or aws cluster to properly build and test the application, which can be done with the upgrade steps above
 * publish a new pr with the final version, and if it's good to go, we can drop the privacy flag.
