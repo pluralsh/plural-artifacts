@@ -5,6 +5,7 @@ metadata:
   namespace: typesense
 spec:
   clusterIP: None
+  publishNotReadyAddresses: true
   selector:
     app.kubernetes.io/name: typesense
     app.kubernetes.io/instance: typesense
