@@ -5,4 +5,3 @@ prefect-worker:
     cloudApiConfig:
       accountId: {{ .Values.accountId | quote }}
       workspaceId: {{ .Values.workspaceId | quote }}
-apiKey: {{ .Values.apiKey | quote }}
