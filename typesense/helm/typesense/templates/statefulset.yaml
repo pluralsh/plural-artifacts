@@ -45,11 +45,10 @@ spec:
             - /usr/share/typesense/nodes
             - '--reset-peers-on-error'
           envFrom:
-            - secretRef:
-                name: {{ include "typesense.fullname" . }}-env
-          envFrom:
             - configMapRef:
                 name: serverconfig
+            - secretRef:
+                name: {{ include "typesense.fullname" . }}-env
           ports:
             - name: http
               containerPort: 8108
@@ -62,6 +61,7 @@ spec:
             httpGet:
               path: /health
               port: http
+            initialDelaySeconds: 10
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
