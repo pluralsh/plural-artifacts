@@ -1,4 +1,4 @@
-{{ $hostname := default "example.com" .Values.hostname }}
+{{ $hostname := default "typesense.dev.plural.sh" .Values.hostname }}
 
 global:
   application:
