@@ -1,0 +1,325 @@
+---
+# Source: haystack/charts/haystack/charts/haystack-api/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: release-name-haystack-api
+  labels:
+    helm.sh/chart: haystack-api-0.1.0
+    app.kubernetes.io/name: haystack-api
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "1.0.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: haystack/charts/haystack/charts/haystack-ui/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: release-name-haystack-ui
+  labels:
+    helm.sh/chart: haystack-ui-0.1.0
+    app.kubernetes.io/name: haystack-ui
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "latest"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: haystack/charts/haystack/charts/haystack-api/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-haystack-api
+  labels:
+    helm.sh/chart: haystack-api-0.1.0
+    app.kubernetes.io/name: haystack-api
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "1.0.0"
+    app.kubernetes.io/managed-by: Helm
+data:
+  my_pipelines.yaml: |
+    version: '1.7.0'
+  
+    components:    # define all the building-blocks for Pipeline
+      - name: DocumentStore
+        type: ElasticsearchDocumentStore
+        params:
+          host: will-be-replaced
+      - name: Retriever
+        type: BM25Retriever
+        params:
+          document_store: DocumentStore    # params can reference other components defined in the YAML
+          top_k: 10
+      - name: Reader       # custom-name for the component; helpful for visualization & debugging
+        type: FARMReader    # Haystack Class name for the component
+        params:
+          model_name_or_path: deepset/roberta-base-squad2
+          context_window_size: 500
+          return_no_answer: true
+      - name: TextFileConverter
+        type: TextConverter
+      - name: PDFFileConverter
+        type: PDFToTextConverter
+      - name: Preprocessor
+        type: PreProcessor
+        params:
+          split_by: word
+          split_length: 1000
+      - name: FileTypeClassifier
+        type: FileTypeClassifier
+  
+    pipelines:
+      - name: query    # a sample extractive-qa Pipeline
+        nodes:
+          - name: Retriever
+            inputs: [Query]
+          - name: Reader
+            inputs: [Retriever]
+      - name: indexing
+        nodes:
+          - name: FileTypeClassifier
+            inputs: [File]
+          - name: TextFileConverter
+            inputs: [FileTypeClassifier.output_1]
+          - name: PDFFileConverter
+            inputs: [FileTypeClassifier.output_2]
+          - name: Preprocessor
+            inputs: [PDFFileConverter, TextFileConverter]
+          - name: Retriever
+            inputs: [Preprocessor]
+          - name: DocumentStore
+            inputs: [Retriever]
+---
+# Source: haystack/charts/haystack/charts/haystack-api/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-haystack-api
+  labels:
+    helm.sh/chart: haystack-api-0.1.0
+    app.kubernetes.io/name: haystack-api
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "1.0.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8000
+      targetPort: api
+      protocol: TCP
+      name: api
+  selector:
+    app.kubernetes.io/name: haystack-api
+    app.kubernetes.io/instance: release-name
+---
+# Source: haystack/charts/haystack/charts/haystack-ui/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-haystack-ui
+  labels:
+    helm.sh/chart: haystack-ui-0.1.0
+    app.kubernetes.io/name: haystack-ui
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "latest"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8501
+      targetPort: ui
+      protocol: TCP
+      name: ui
+  selector:
+    app.kubernetes.io/name: haystack-ui
+    app.kubernetes.io/instance: release-name
+---
+# Source: haystack/charts/haystack/charts/haystack-api/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-haystack-api
+  labels:
+    helm.sh/chart: haystack-api-0.1.0
+    app.kubernetes.io/name: haystack-api
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "1.0.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: haystack-api
+      app.kubernetes.io/instance: release-name
+  template:
+    metadata:
+      annotations:
+        checksum/config: 4dbc6631a314c0f9a87192ad5dc8902d059f1a507e565fa1428520fe505c6924
+      labels:
+        app.kubernetes.io/name: haystack-api
+        app.kubernetes.io/instance: release-name
+    spec:
+      serviceAccountName: release-name-haystack-api
+      securityContext:
+        {}
+      containers:
+        - name: haystack-api-api
+          securityContext:
+            {}
+          image: "deepset/haystack-cpu:latest"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: api
+              containerPort: 8000
+              protocol: TCP
+
+          resources:
+            {}
+          env:
+            - name: DOCUMENTSTORE_PARAMS_HOST
+              value: elasticsearch-master
+            - name: PIPELINE_YAML_PATH
+              value: /etc/config/my_pipelines.yaml
+          command: ["/bin/bash", "-c", "sleep 10 && gunicorn rest_api.application:app -b 0.0.0.0 -k uvicorn.workers.UvicornWorker --workers 3 --timeout 180"]
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/config
+      volumes:
+        - name: config-volume
+          configMap:
+            # Provide the name of the ConfigMap containing the files you want
+            # to add to the container
+            name: release-name-haystack-api
+---
+# Source: haystack/charts/haystack/charts/haystack-ui/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-haystack-ui
+  labels:
+    helm.sh/chart: haystack-ui-0.1.0
+    app.kubernetes.io/name: haystack-ui
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "latest"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: haystack-ui
+      app.kubernetes.io/instance: release-name
+  template:
+    metadata:
+      annotations:
+      labels:
+        app.kubernetes.io/name: haystack-ui
+        app.kubernetes.io/instance: release-name
+    spec:
+      serviceAccountName: release-name-haystack-ui
+      securityContext:
+        {}
+      containers:
+        - name: haystack-ui-ui
+          securityContext:
+            {}
+          image: "deepset/haystack-streamlit-ui:latest"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: ui
+              containerPort: 8501
+              protocol: TCP
+          livenessProbe:
+            initialDelaySeconds: 10
+            httpGet:
+              path: /
+              port: ui
+          readinessProbe:
+            initialDelaySeconds: 10
+            httpGet:
+              path: /
+              port: ui
+          resources:
+            {}
+          env:
+            - name: API_ENDPOINT
+              value: http://release-name-haystack-api:8000
+            - name: EVAL_FILE
+              value: eval_labels_example.csv
+          command: ["/bin/bash", "-c", "sleep 15 && python -m streamlit run ui/webapp.py"]
+      volumes:
+        - name: config-volume
+          configMap:
+            # Provide the name of the ConfigMap containing the files you want
+            # to add to the container
+            name: release-name-haystack-ui
+---
+# Source: haystack/charts/haystack/charts/haystack-ui/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: release-name-haystack-ui
+  labels:
+    helm.sh/chart: haystack-ui-0.1.0
+    app.kubernetes.io/name: haystack-ui
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "latest"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/tls-acme: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - "haystackui.dev.plural.sh"
+      secretName: haystackui-ingress-tls
+  rules:
+    - host: "haystackui.dev.plural.sh"
+      http:
+        paths:
+          - path: /
+            backend:
+              service:
+                name: release-name-haystack-ui
+                port:
+                  number: 8501
+---
+# Source: haystack/charts/haystack/charts/haystack-api/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "release-name-haystack-api-test-connection"
+  labels:
+    helm.sh/chart: haystack-api-0.1.0
+    app.kubernetes.io/name: haystack-api
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "1.0.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['release-name-haystack-api:']
+  restartPolicy: Never
+---
+# Source: haystack/charts/haystack/charts/haystack-ui/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "release-name-haystack-ui-test-connection"
+  labels:
+    helm.sh/chart: haystack-ui-0.1.0
+    app.kubernetes.io/name: haystack-ui
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "latest"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['release-name-haystack-ui:']
+  restartPolicy: Never
