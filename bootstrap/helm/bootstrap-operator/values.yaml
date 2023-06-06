@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 kubernetesVersion: v1.23
-clusterAPIVersion: v1.3.5
+clusterAPIVersion: v1.4.2
 
 replicaCount: 1
 
