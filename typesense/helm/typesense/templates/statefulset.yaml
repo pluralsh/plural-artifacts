@@ -53,15 +53,14 @@ spec:
             - name: http
               containerPort: 8108
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: http
           readinessProbe:
             httpGet:
               path: /health
               port: http
-            initialDelaySeconds: 10
+            initialDelaySeconds: 45
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
