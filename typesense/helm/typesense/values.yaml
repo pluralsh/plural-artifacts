@@ -4,8 +4,8 @@
 replicaCount: 5
 
 image:
-  #repository: dkr.plural.sh/typesense/typesense/typesense
-  repository: docker.io/typesense/typesense
+  repository: dkr.plural.sh/typesense/typesense/typesense
+  #repository: docker.io/typesense/typesense
   pullPolicy: IfNotPresent
   tag: "0.25.0.rc18"
 
