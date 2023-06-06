@@ -18,4 +18,4 @@ ingress:
        - {{ $hostname }}
 
 secretEnvs:
-  TYPESENSE_API_KEY: {{ dedupe . "typesense.apiKey" (randAlphaNum 26) }}
+  TYPESENSE_API_KEY: {{ dedupe . "typesense.secretEnvs.TYPESENSE_API_KEY" (randAlphaNum 26) }}
