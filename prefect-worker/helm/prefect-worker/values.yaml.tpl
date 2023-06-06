@@ -1,3 +1,4 @@
+apiKey: {{ .Values.apiKey | quote }}
 prefect-worker:
   worker:
     config:
