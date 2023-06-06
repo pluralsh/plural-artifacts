@@ -1,4 +1,3 @@
-apiKey: {{ .Values.apiKey | quote }}
 prefect-agent:
   agent:
     cloudApiConfig:
