@@ -1,7 +1,7 @@
 #nameOverride: ""
 #fullnameOverride: ""
 
-replicaCount: 3
+replicaCount: 5
 
 image:
   #repository: dkr.plural.sh/typesense/typesense/typesense
@@ -59,7 +59,7 @@ ingress:
   tls:
   - secretName: typesense-tls
     hosts:
-    - "templated"
+    - "templated see values.yaml.tpl"
 
 serverConfiguration:
   # possible values from https://typesense.org/docs/0.24.1/api/server-configuration.html#using-environment-variables
@@ -82,7 +82,7 @@ serverConfiguration:
   #TYPESENSE_SKIP_WRITES:
 
 secretEnvs:
-  TYPESENSE_API_KEY: "templated"
+  TYPESENSE_API_KEY: "templated see values.yaml.tpl"
 
 resources:
   {}
