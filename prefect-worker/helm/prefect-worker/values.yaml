@@ -6,7 +6,7 @@ prefect-worker:
   enabled: true
   worker:
     config:
-      workPool: "default"
+      workPool: default
     cloudApiConfig:
       apiKeySecret:
         name: prefect-api-key

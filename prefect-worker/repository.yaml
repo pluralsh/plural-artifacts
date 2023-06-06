@@ -1,13 +1,11 @@
 name: prefect-worker
-description: prefect-worker deployed on plural
+description: prefect-worker preconfigured to securely connect to prefect cloud
 category: DATA
-private: true
+private: false
 icon: plural/icons/prefect.png
 homepage: https://www.prefect.io/
 gitUrl: https://github.com/PrefectHQ/prefect
 notes: plural/notes.tpl
-releaseStatus: ALPHA
+releaseStatus: BETA
 tags:
 - tag: data
-contributors:
-- jimi@prefect.io
