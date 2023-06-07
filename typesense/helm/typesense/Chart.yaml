@@ -3,4 +3,4 @@ name: typesense
 description: helm chart for typesense
 type: application
 version: 0.2.0
-appVersion: "0.25.0"
+appVersion: "0.25.0.rc34"
