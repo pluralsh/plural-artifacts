@@ -1,0 +1,29 @@
+name: prefect-worker-aws
+description: Installs prefect-worker on an aws eks cluster
+provider: AWS
+primary: true
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+
+
+sections:
+- name: prefect-worker
+  configuration:
+  - name: apiKey
+    documentation: the prefect cloud api key this worker connects with
+    type: PASSWORD
+  - name: accountId
+    documentation: the account id of your Prefect environment
+    type: STRING
+  - name: workspaceId
+    documentation: the workspace id of your Prefect workspace
+    type: STRING
+  - name: workPool
+    documentation: the work pool associated with the prefect worker
+    type: STRING
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: prefect-worker

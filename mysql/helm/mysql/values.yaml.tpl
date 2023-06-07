@@ -1,21 +1,45 @@
-{{- if .OIDC }}
-oidcProxy:
+{{ if .OIDC }}
+oauth2-proxy:
   enabled: true
-  upstream: http://localhost:3000
-  issuer: {{ .OIDC.Configuration.Issuer }}
-  clientID: {{ .OIDC.ClientId }}
-  clientSecret: {{ .OIDC.ClientSecret }}
-  cookieSecret: {{ dedupe . "mysql.oidcProxy.cookieSecret" (randAlphaNum 32) }}
   ingress:
-    host: {{ .Values.hostname }}
-{{- end }}
+    enabled: true
+    hosts:
+    - {{ .Values.hostname }}
+    tls:
+    - secretName: mysql-oauth2-proxy-tls
+      hosts:
+      - {{ .Values.hostname }}
+  config:
+    clientID: {{ .OIDC.ClientId }}
+    clientSecret: {{ .OIDC.ClientSecret }}
+    cookieSecret: {{ dedupe . "mysql.oauth2-proxy.config.cookieSecret" (randAlphaNum 32) }}
+  alphaConfig:
+    configData:
+      providers:
+      - id: plural
+        name: Plural
+        provider: "oidc"
+        clientID: {{ .OIDC.ClientId }}
+        clientSecretFile: /etc/oidc-secret/client-secret
+        scope: "openid profile offline_access"
+        oidcConfig:
+          issuerURL: {{ .OIDC.Configuration.Issuer }}
+          emailClaim: email
+          groupsClaim: groups
+          userIDClaim: email
+          audienceClaims:
+          - aud
+  {{ if .Values.users }}
+  htpasswdFile:
+    enabled: true
+  {{ end }}
+{{ end }}
+
+{{ if .Values.users }}
+users:
+{{ toYaml .Values.users | nindent 2 }}
+{{ end }}
 
 mysql-operator:
-  {{- if .OIDC }}
-  podLabels:
-    security.plural.sh/inject-oauth-sidecar: "true"
-  podAnnotations:
-    security.plural.sh/oauth-env-secret: "mysql-oauth2-proxy-config"
-  {{- end }}
   orchestrator:
-    topologyPassword: {{ dedupe . "mysql.mysql-operator.orchestrator.topologyPassword" (randAlphaNum 10) }}
+    topologyPassword: {{ dedupe . "mysql.mysql-operator.orchestrator.topologyPassword" (randAlphaNum 32) }}

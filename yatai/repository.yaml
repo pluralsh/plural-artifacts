@@ -1,0 +1,16 @@
+name: yatai
+description: yatai deployed on plural
+category: DATA
+release_status: ALPHA
+private: false
+icon: plural/icons/yatai.png
+notes: plural/notes.tpl
+homepage: https://www.bentoml.com
+gitUrl: https://github.com/bentoml/Yatai
+tags:
+- tag: ai
+- tag: ml
+- tag: model
+- tag: serving
+- tag: bentoml
+- tag: yatai

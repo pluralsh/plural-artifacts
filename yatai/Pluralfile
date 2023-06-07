@@ -1,0 +1,6 @@
+REPO yatai
+ATTRIBUTES Plural repository.yaml
+
+TF terraform/*
+HELM helm/*
+RECIPE plural/recipes/*

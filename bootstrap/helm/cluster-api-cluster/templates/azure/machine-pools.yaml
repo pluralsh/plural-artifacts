@@ -56,7 +56,7 @@ spec:
   {{- end }}
   maxPods: {{ ($values.spec | default dict).maxPods | default $defaultVals.spec.maxPods }}
   osDiskType: {{ ($values.spec | default dict).osDiskType | default $defaultVals.spec.osDiskType }}
-  scaleSetPriority: {{ ($values.spec | default dict).maxPods | default $defaultVals.spec.scaleSetPriority }}
+  scaleSetPriority: {{ ($values.spec | default dict).scaleSetPriority | default $defaultVals.spec.scaleSetPriority }}
   osType: {{ ($values.spec | default dict).osType | default $defaultVals.spec.osType }}
   enableNodePublicIP: {{ ($values.spec | default dict).enableNodePublicIP | default $defaultVals.spec.enableNodePublicIP }}
   nodePublicIPPrefixID: {{ ($values.spec | default dict).nodePublicIPPrefixID | default $defaultVals.spec.nodePublicIPPrefixID }}

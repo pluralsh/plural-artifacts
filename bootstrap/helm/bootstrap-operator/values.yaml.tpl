@@ -104,7 +104,7 @@ operator:
   clientSecret: {{ .Context.ClientSecret | b64enc | quote }}
   cloud:
     azure:
-      version: v1.8.2
+      version: v1.9.2
       clusterIdentity: 
         name: azure-cluster-identity
         allowedNamespaces: {}

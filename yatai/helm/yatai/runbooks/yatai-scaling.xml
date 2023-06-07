@@ -1,0 +1,141 @@
+<root gap='medium'>
+  <box pad='small' gap='medium' direction='row' align='center'>
+    <button label='Scale' action='scale' primary='true' headline='true' />
+    <box direction='row' align='center' gap='small'>
+      <box gap='small' align='center'>
+        <timeseries datasource="yatai-cpu" label="Yatai CPU Usage" />
+        <text size='small'>You should set a reservation to 
+          roughly correspond to 80% utilization</text>
+        <text size='small'>A CPU limit should not be set</text>
+      </box>
+      <box gap='small' align='center'>
+        <timeseries datasource="yatai-memory" label="Yatai Memory Usage" />
+        <text size='small'>You should set a reservation to 
+          roughly correspond to 80% utilization</text>
+        <text size='small'>A Memory limit should be set</text>
+      </box>
+    </box>
+    <box gap='small'>
+      <box gap='xsmall'>
+        <input placeholder="250m" label='Yatai CPU Request' name='yatai-cpu'>
+          <valueFrom 
+            datasource="yatai"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.requests.cpu" />
+        </input>
+        <input placeholder="1Gi" label='Yatai Memory Request' name='yatai-memory'>
+          <valueFrom 
+            datasource="yatai"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.requests.memory" />
+        </input>
+      </box>
+      <box gap='xsmall'>
+        <input placeholder="250m" label='Yatai CPU Limit' name='yatai-cpu-limit'>
+          <valueFrom
+            datasource="yatai"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.limits.cpu" />
+        </input>
+        <input placeholder="1Gi" label='Yatai Memory Limit' name='yatai-memory-limit'>
+          <valueFrom
+            datasource="yatai"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.limits.memory" />
+        </input>
+      </box>
+    </box>
+  </box>
+  <box pad='small' gap='medium' direction='row' align='center'>
+    <box direction='row' align='center' gap='small'>
+      <box gap='small' align='center'>
+        <timeseries datasource="yatai-deployment-cpu" label="Yatai Deployment CPU Usage" />
+        <text size='small'>You should set a reservation to 
+          roughly correspond to 80% utilization</text>
+        <text size='small'>A CPU limit should not be set</text>
+      </box>
+      <box gap='small' align='center'>
+        <timeseries datasource="yatai-deployment-memory" label="Yatai Deployment Memory Usage" />
+        <text size='small'>You should set a reservation to 
+          roughly correspond to 80% utilization</text>
+        <text size='small'>A Memory limit should be set</text>
+      </box>
+    </box>
+    <box gap='small'>
+      <box gap='xsmall'>
+        <input placeholder="250m" label='Yatai Deployment CPU Request' name='yatai-deployment-cpu'>
+          <valueFrom
+            datasource="yatai-deployment"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.requests.cpu" />
+        </input>
+        <input placeholder="1Gi" label='Yatai Deployment Memory Request' name='yatai-deployment-memory'>
+          <valueFrom
+            datasource="yatai-deployment"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.requests.memory" />
+        </input>
+      </box>
+       <box gap='xsmall'>
+        <input placeholder="250m" label='Yatai Deployment CPU Limit' name='yatai-deployment-cpu-limit'>
+          <valueFrom
+            datasource="yatai-deployment"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.limits.cpu" />
+        </input>
+        <input placeholder="1Gi" label='Yatai Deployment Memory Limit' name='yatai-deployment-memory-limit'>
+          <valueFrom
+            datasource="yatai-deployment"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.limits.memory" />
+        </input>
+      </box>
+    </box>
+  </box>
+   <box pad='small' gap='medium' direction='row' align='center'>
+    <box direction='row' align='center' gap='small'>
+      <box gap='small' align='center'>
+        <timeseries datasource="yatai-image-builder-cpu" label="Yatai Image Builder CPU Usage" />
+        <text size='small'>You should set a reservation to 
+          roughly correspond to 80% utilization. A CPU limit should not be set</text>
+        <text size='small'>A CPU limit should not be set</text>
+      </box>
+      <box gap='small' align='center'>
+        <timeseries datasource="yatai-image-builder-memory" label="Yatai Image Builder Memory Usage" />
+        <text size='small'>You should set a reservation to 
+          roughly correspond to 80% utilization</text>
+        <text size='small'>A Memory limit should be set</text>
+      </box>
+    </box>
+    <box gap='small'>
+      <box gap='xsmall'>
+        <input placeholder="250m" label='Yatai Image Builder CPU Request' name='yatai-image-builder-cpu'>
+          <valueFrom
+            datasource="yatai-image-builder"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.requests.cpu" />
+        </input>
+        <input placeholder="1Gi" label='Yatai Image Builder Memory Request' name='yatai-image-builder-memory'>
+          <valueFrom
+            datasource="yatai-image-builder"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.requests.memory" />
+        </input>
+      </box>
+      <box gap='xsmall'>
+        <input placeholder="250m" label='Yatai Image Builder CPU Limit' name='yatai-image-builder-cpu-limit'>
+          <valueFrom
+            datasource="yatai-image-builder"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.limits.cpu" />
+        </input>
+        <input placeholder="1Gi" label='Yatai Image Builder Memory Limit' name='yatai-image-builder-memory-limit'>
+          <valueFrom
+            datasource="yatai-image-builder"
+            doc="kubernetes.raw"
+            path="spec.template.spec.containers[0].resources.limits.memory" />
+        </input>
+      </box>
+    </box>
+  </box>
+</root>

@@ -4,20 +4,40 @@ redis:
     existingSecretPasswordKey: password
 
   image:
-    registry: gcr.io/pluralsh
-    tag: 6.2.4-debian-10-r0
+    registry: dkr.plural.sh
+    repository: redis/bitnami/redis
+    tag: 7.0.11
+
+  master:
+    resources:
+      requests:
+        memory: 128Mi
+        cpu: 10m
+
+  replica:
+    replicaCount: 1
+    resources:
+      requests:
+        memory: 128Mi
+        cpu: 10m
+
   metrics:
     enabled: true
     image:
-      registry: gcr.io/pluralsh
-      tag: 1.24.0-debian-10-r11
+      registry: dkr.plural.sh
+      repository: redis/bitnami/redis-exporter
+      tag: 1.50.0
     serviceMonitor:
       enabled: true
+    resources:
+      requests:
+        memory: 11Mi
+        cpu: 1m
 
-    sentinel:
-      enabled: true
-      serviceMonitor:
-        enabled: true
-      image:
-        registry: gcr.io/pluralsh
-        tag: 1.7.1-debian-10-r109
+  sentinel:
+    image:
+      registry: dkr.plural.sh
+      repository: redis/bitnami/redis-sentinel
+      tag: 7.0.11
+
+password: ""
