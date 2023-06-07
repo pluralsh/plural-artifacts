@@ -2,7 +2,10 @@ posthog:
   cloud: other
   image:
     repository: dkr.plural.sh/posthog/posthog/posthog
-    tag: release-1.43.0
+    tag: release-1.43.1
+  env:
+  - name: SKIP_SERVICE_VERSION_REQUIREMENTS
+    value: "1"
   plugins:
     resources:
       requests:
