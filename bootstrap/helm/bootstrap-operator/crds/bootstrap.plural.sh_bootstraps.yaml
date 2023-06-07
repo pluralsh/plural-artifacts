@@ -121,7 +121,8 @@ spec:
                                 attachPolicy:
                                   description: AttachPolicy holds a policy document
                                     to attach to this service account
-                                  type: string
+                                  type: object
+                                  x-kubernetes-preserve-unknown-fields: true
                                 attachPolicyARNs:
                                   description: list of ARNs of the IAM policies to
                                     attach
@@ -431,7 +432,6 @@ spec:
                     required:
                     - accessKeyIdRef
                     - accountIDRef
-                    - machinePools
                     - region
                     - secretAccessKeyRef
                     - sessionTokenRef
