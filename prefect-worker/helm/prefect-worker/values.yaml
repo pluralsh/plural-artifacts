@@ -1,0 +1,22 @@
+# Default values for prefect-worker.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+prefect-worker:
+  enabled: true
+  worker:
+    config:
+      workPool: default
+    cloudApiConfig:
+      apiKeySecret:
+        name: prefect-api-key
+        key: key
+    image:
+      repository: dkr.plural.sh/prefect-worker/prefecthq/prefect
+      prefectTag: 2.10.12-python3.10-kubernetes
+
+test-base:
+  enabled: false
+  repository: prefect-worker
+  testName: prefect-worker-integration
+  promoteTag: warm

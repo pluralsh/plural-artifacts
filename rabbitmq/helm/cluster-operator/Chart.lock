@@ -1,6 +1,6 @@
 dependencies:
 - name: rabbitmq-cluster-operator
-  repository: https://pluralsh.github.io/plural-helm-charts
-  version: 3.1.2
-digest: sha256:8a666da25cd54552bdeef05180c15c5410025aad8e562e6bafaf5d61d15735a4
-generated: "2022-11-02T15:03:30.134075+01:00"
+  repository: oci://registry-1.docker.io/bitnamicharts
+  version: 3.4.1
+digest: sha256:f284a8c7b396dc6db77d613160f5b85f4f78dab22a31494489147635ab9cd4f5
+generated: "2023-05-26T14:30:30.813012+02:00"

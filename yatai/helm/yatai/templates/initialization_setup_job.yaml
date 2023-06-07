@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: yatai-initialization-setup
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-weight: "-5"
+    helm.sh/hook-delete-policy: hook-succeeded
+spec:
+  template:
+    spec:
+      serviceAccountName: {{ include "yatai.serviceAccountName" .Subcharts.yatai }}
+      containers:
+      - name: setup
+        image: alpine/k8s:1.21.2
+        command: ["/bin/sh", "-c"]
+        args:
+        - |
+          echo "Waiting for Yatai deployment to be ready..."
+          kubectl wait --for=condition=available --timeout=600s deployment/yatai --namespace {{ .Release.Namespace }}
+          echo -e "\nCreating admin account..."
+          curl POST -H "Content-Type: application/json" -d "{\"name\":\"$USERNAME\",\"email\":\"$EMAIL\",\"password\":\"$PASSWORD\",\"token\":\"$YATAI_INITIALIZATION_TOKEN\"}" yatai.{{ .Release.Namespace }}.svc.cluster.local/api/v1/setup?token=$YATAI_INITIALIZATION_TOKEN
+        envFrom:
+        - secretRef:
+            name: yatai-env
+        - secretRef:
+            name: yatai-initialization-creds
+      restartPolicy: OnFailure
+  backoffLimit: 3

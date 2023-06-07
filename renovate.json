@@ -114,6 +114,36 @@
       "additionalBranchPrefix": ""
     },
     {
+      "description": "Group baserow Helm updates",
+      "matchPaths": [
+        "baserow"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "baserow",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group bin Helm updates",
+      "matchPaths": [
+        "bin"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "bin",
+      "additionalBranchPrefix": ""
+    },
+    {
       "description": "Group bootstrap Helm updates",
       "matchPaths": [
         "bootstrap"
@@ -294,6 +324,21 @@
       "additionalBranchPrefix": ""
     },
     {
+      "description": "Group directus Helm updates",
+      "matchPaths": [
+        "directus"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "directus",
+      "additionalBranchPrefix": ""
+    },
+    {
       "description": "Group elasticsearch Helm updates",
       "matchPaths": [
         "elasticsearch"
@@ -399,6 +444,21 @@
       "additionalBranchPrefix": ""
     },
     {
+      "description": "Group grafana-agent Helm updates",
+      "matchPaths": [
+        "grafana-agent"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "grafana-agent",
+      "additionalBranchPrefix": ""
+    },
+    {
       "description": "Group grafana-tempo Helm updates",
       "matchPaths": [
         "grafana-tempo"
@@ -441,6 +501,21 @@
         "helmv3"
       ],
       "groupName": "growthbook",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group harbor Helm updates",
+      "matchPaths": [
+        "harbor"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "harbor",
       "additionalBranchPrefix": ""
     },
     {
@@ -519,6 +594,21 @@
       "additionalBranchPrefix": ""
     },
     {
+      "description": "Group jenkins Helm updates",
+      "matchPaths": [
+        "jenkins"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "jenkins",
+      "additionalBranchPrefix": ""
+    },
+    {
       "description": "Group jitsu Helm updates",
       "matchPaths": [
         "jitsu"
@@ -531,6 +621,21 @@
         "helmv3"
       ],
       "groupName": "jitsu",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group jupyterhub Helm updates",
+      "matchPaths": [
+        "jupyterhub"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "jupyterhub",
       "additionalBranchPrefix": ""
     },
     {
@@ -699,6 +804,21 @@
       "additionalBranchPrefix": ""
     },
     {
+      "description": "Group meilisearch Helm updates",
+      "matchPaths": [
+        "meilisearch"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "meilisearch",
+      "additionalBranchPrefix": ""
+    },
+    {
       "description": "Group metabase Helm updates",
       "matchPaths": [
         "metabase"
@@ -711,6 +831,21 @@
         "helmv3"
       ],
       "groupName": "metabase",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group mimir Helm updates",
+      "matchPaths": [
+        "mimir"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "mimir",
       "additionalBranchPrefix": ""
     },
     {
@@ -939,6 +1074,21 @@
       "additionalBranchPrefix": ""
     },
     {
+      "description": "Group prefect-worker Helm updates",
+      "matchPaths": [
+        "prefect-worker"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "prefect-worker",
+      "additionalBranchPrefix": ""
+    },
+    {
       "description": "Group prefect Helm updates",
       "matchPaths": [
         "prefect"
@@ -1011,6 +1161,21 @@
         "helmv3"
       ],
       "groupName": "redis",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group redpanda Helm updates",
+      "matchPaths": [
+        "redpanda"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "redpanda",
       "additionalBranchPrefix": ""
     },
     {
@@ -1089,6 +1254,36 @@
       "additionalBranchPrefix": ""
     },
     {
+      "description": "Group sftpgo Helm updates",
+      "matchPaths": [
+        "sftpgo"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "sftpgo",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group sonarqube Helm updates",
+      "matchPaths": [
+        "sonarqube"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "sonarqube",
+      "additionalBranchPrefix": ""
+    },
+    {
       "description": "Group spark Helm updates",
       "matchPaths": [
         "spark"
@@ -1149,6 +1344,21 @@
       "additionalBranchPrefix": ""
     },
     {
+      "description": "Group tier Helm updates",
+      "matchPaths": [
+        "tier"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "tier",
+      "additionalBranchPrefix": ""
+    },
+    {
       "description": "Group touca Helm updates",
       "matchPaths": [
         "touca"
@@ -1164,6 +1374,21 @@
       "additionalBranchPrefix": ""
     },
     {
+      "description": "Group trace-shield Helm updates",
+      "matchPaths": [
+        "trace-shield"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "trace-shield",
+      "additionalBranchPrefix": ""
+    },
+    {
       "description": "Group trino Helm updates",
       "matchPaths": [
         "trino"
@@ -1176,6 +1401,36 @@
         "helmv3"
       ],
       "groupName": "trino",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group typesense Helm updates",
+      "matchPaths": [
+        "typesense"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "typesense",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group unleash Helm updates",
+      "matchPaths": [
+        "unleash"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "unleash",
       "additionalBranchPrefix": ""
     },
     {
@@ -1224,6 +1479,21 @@
       "additionalBranchPrefix": ""
     },
     {
+      "description": "Group weaviate Helm updates",
+      "matchPaths": [
+        "weaviate"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "weaviate",
+      "additionalBranchPrefix": ""
+    },
+    {
       "description": "Group wireguard Helm updates",
       "matchPaths": [
         "wireguard"
@@ -1236,6 +1506,21 @@
         "helmv3"
       ],
       "groupName": "wireguard",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group yatai Helm updates",
+      "matchPaths": [
+        "yatai"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "yatai",
       "additionalBranchPrefix": ""
     },
     {

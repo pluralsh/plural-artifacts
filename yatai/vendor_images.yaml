@@ -1,0 +1,16 @@
+quay.io:
+  images-by-tag-regex:
+    # the below regex can be used to limit the regex range so that only versions >= 1.1.0 are matched
+    bentoml/yatai: (?:^v?1\.(?:[1-9]|[1-9][0-9]{1,})\.[0-9]+$)|(?:^v?(?:[2-9]|[1-9][0-9]{1,})\.[0-9]+?\.[0-9]+$)
+    bentoml/yatai-deployment: (?:^v?1\.(?:[1-9]|[1-9][0-9]{1,})\.[0-9]+$)|(?:^v?(?:[2-9]|[1-9][0-9]{1,})\.[0-9]+?\.[0-9]+$)
+    bentoml/yatai-image-builder: (?:^v?1\.(?:[1-9]|[1-9][0-9]{1,})\.[0-9]+$)|(?:^v?(?:[2-9]|[1-9][0-9]{1,})\.[0-9]+?\.[0-9]+$)
+    # the below regex can be used to find any semver
+    bentoml/bento-downloader: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+gcr.io:
+  images-by-tag-regex:
+    # the below regex can be used to limit the regex range so that only versions >= 1.9.0 are matched
+    kaniko-project/executor: (?:^v?1\.(?:9|[1-9][0-9]{1,})\.[0-9]+$)|(?:^v?(?:[2-9]|[1-9][0-9]{1,})\.[0-9]+?\.[0-9]+$)
+docker.io:
+  images-by-tag-regex:
+    # the below regex can be used to limit the regex range so that only versions >= 0.11.0 are matched
+    moby/buildkit: (?:^v?0\.(?:1[1-9]|[2-9][0-9]|[1-9][0-9]{2,})\.[0-9]+(?:-rootless)?$)|(?:^v?(?:[1-9]|[1-9][0-9]{1,})\.[0-9]+?\.[0-9]+(?:-rootless)?$)
