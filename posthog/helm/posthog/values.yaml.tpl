@@ -41,6 +41,8 @@ posthog:
 
   {{- if .Values.slack.enabled }}
   env:
+  - name: SKIP_SERVICE_VERSION_REQUIREMENTS
+    value: "1"
   - name: SLACK_APP_CLIENT_ID
     valueFrom:
       secretKeyRef:
