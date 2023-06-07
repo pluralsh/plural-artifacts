@@ -208,6 +208,9 @@ cluster:
     # Region represents the location (region or zone) in which the GKE cluster will be created.
     # Examples: "europe-central2" TODO: add more examples
     region: ""
+    # AdditionalLabels is an optional set of tags to add to GCP resources managed by the GCP provider,
+    # in addition to the ones added by default.
+    additionalLabels: {}
     # EnableAutopilot indicates whether to enable autopilot for this GKE cluster.
     #
     # Note: Autopilot enabled clusters are not supported at this time.
