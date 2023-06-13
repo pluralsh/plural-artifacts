@@ -174,9 +174,11 @@ oidc-config:
 
 test-base:
   enabled: false
-  repository: airbyte
+  application: airbyte
   testName: airbyte-integration
-  promoteTag: warm
+  promoteTag: stable
+  tags:
+  - 0.44.8
 
 postgres:
   enabled: true
