@@ -17,7 +17,7 @@ operator:
   cloud:
     aws:
       region: {{ .Region }}
-      version: v2.0.2
+      version: v2.1.4
       machinePools:
         - name: {{ .Cluster }}-pool-0
           replicas: 1
