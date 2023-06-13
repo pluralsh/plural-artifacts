@@ -4,9 +4,9 @@ dependencies:
   version: 0.3.12
 - name: test-base
   repository: https://pluralsh.github.io/module-library
-  version: 0.1.3
+  version: 0.1.10
 - name: postgres
   repository: https://pluralsh.github.io/module-library
   version: 0.1.12
-digest: sha256:a41e7043922cc6f2b977567c3cf54ee98d8469a464da4873b1ed21e491a7f7b4
-generated: "2022-10-24T17:49:54.731794+02:00"
+digest: sha256:7f85d5c300da74b6370b374b911e9d46eb6ef9997dd593ea71bee85eb8eafc4b
+generated: "2023-06-13T14:46:13.052832-04:00"
