@@ -1,23 +1,18 @@
-# Default values for typesense.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+#nameOverride: ""
+#fullnameOverride: ""
 
-typesense:
-  enableCors: "true"
-
-replicaCount: 2
+replicaCount: 5
 
 image:
   repository: dkr.plural.sh/typesense/typesense/typesense
+  #repository: docker.io/typesense/typesense
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: "0.24.0"
+  tag: "0.25.0.rc34"
 
 imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
 
 serviceAccount:
+  create: true
   # Annotations to add to the service account
   annotations: {}
   # The name of the service account to use.
@@ -56,17 +51,37 @@ ingress:
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/use-regex: "true"
   hosts:
-    - host: chart-example.local
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+  - host: "templated"
+    paths:
+    - path: /
+      pathType: ImplementationSpecific
+  tls:
+  - secretName: typesense-tls
+    hosts:
+    - "templated see values.yaml.tpl"
+
+serverConfiguration:
+  # possible values from https://typesense.org/docs/0.24.1/api/server-configuration.html#using-environment-variables
+  TYPESENSE_ENABLE_CORS: "true"
+  #TYPESENSE_API_ADDRESS: 
+  #TYPESENSE_LOG_DIR:
+  #TYPESENSE_SSL_CERTIFICATE:
+  #TYPESENSE_SSL_CERTIFICIATE_KEY:
+  #TYPESENSE_SSL_REFRESH_INTERVAL_SECONDS:
+  #TYPESENSE_CORS_DOMAINS:
+  #TYPESENSE_THREAD_POOL_SIZE:
+  #TYPESENSE_NUM_COLLECTIONS_PARALLEL_LOAD:
+  #TYPESENSE_NUM_DOCUMENTS_PARALLEL_LOAD:
+  #TYPESENSE_DISK_USED_MAX_PERCENTAGE:
+  #TYPESENSE_MEMORY_USED_MAX_PERCENTAGE:
+  #TYPESENSE_HEALTHY_READ_LAG:
+  #TYPESENSE_HEALTHY_WRITE_LAG:
+  #TYPESENSE_SNAPSHOT_INTERVAL_SECONDS:
+  #TYPESENSE_LOG_SLOW_REQUESTS_TIME_MS:
+  #TYPESENSE_SKIP_WRITES:
 
 secretEnvs:
-  TYPESENSE_API_KEY: ""
+  TYPESENSE_API_KEY: "templated see values.yaml.tpl"
 
 resources:
   {}
@@ -81,21 +96,7 @@ resources:
   #   cpu: 100m
   #   memory: 128Mi
 
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
-
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
-
 persistence:
-  enabled: true
-  path: /data
   accessMode: ReadWriteOnce
-  size: 1Gi
+  size: 5Gi
+  storageClassName: null

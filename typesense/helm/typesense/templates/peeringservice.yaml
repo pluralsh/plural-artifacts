@@ -1,13 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "typesense.fullname" . }}
+  name: ts
   labels: {{- include "typesense.labels" . | nindent 4 }}
 spec:
-  type: 
-  ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
-      protocol: TCP
-      name: http
+  clusterIP: None
+  publishNotReadyAddresses: true
   selector: {{- include "typesense.selectorLabels" . | nindent 4 }}
+  ports:
+  - name: http
+    port: 8108
+    targetPort: 8108
+    protocol: TCP

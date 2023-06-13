@@ -1,13 +1,13 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ include "typesense.fullname" . }}
   labels:
     {{- include "typesense.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
-  {{- end }}
+  podManagementPolicy: "Parallel"
+  serviceName: ts
   selector:
     matchLabels:
       {{- include "typesense.selectorLabels" . | nindent 6 }}
@@ -34,51 +34,40 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
-            - "/opt/typesense-server"
-            - "-d"
-            - "/usr/share/typesense/data"
-            - "--api-port"
-            - "8108"
-            - "--peering-port"
-            - "8107"
-            - "--nodes"
-            - "/usr/share/typesense/nodes"
-          env:
-            - name: TYPESENSE_DATA_DIR
-              value: {{ .Values.persistence.path }}
-            - name: TYPESENSE_ENABLE_CORS
-              value: {{ .Values.typesense.enableCors }}
+            - /opt/typesense-server
+            - '-d'
+            - /usr/share/typesense/data
+            - '--api-port'
+            - '8108'
+            - '--peering-port'
+            - '8107'
+            - '--nodes'
+            - /usr/share/typesense/nodes
+            - '--reset-peers-on-error'
           envFrom:
+            - configMapRef:
+                name: serverconfig
             - secretRef:
                 name: {{ include "typesense.fullname" . }}-env
           ports:
             - name: http
               containerPort: 8108
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: http
           readinessProbe:
             httpGet:
               path: /health
               port: http
+            initialDelaySeconds: 45
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
-            - name: nodeslist
-              mountPath: /usr/share/typesense
-            - name: data
-              mountPath: /usr/share/typesense/data
-        - name: typesense-node-resolver
-          image: dkr.plural.sh/typesense/alasano/typesense-node-resolver:7bd2b88d809773eb78ab6d4fbd59c2696a30283627291176ee6365a1416cb539
-          command:
-            - "/opt/tsns"
-            - "-namespace={{ .Release.Namespace }}"
-            - "-service={{ include "typesense.fullname" . }}"
-          volumeMounts:
           - name: nodeslist
             mountPath: /usr/share/typesense
+          - name: data
+            mountPath: /usr/share/typesense/data
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -92,5 +81,21 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
-        - name: nodeslist
-          emptyDir: {}
+      - name: nodeslist
+        configMap:
+          name: nodeslist
+          items:
+          - key: nodes
+            path: nodes
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes:
+        - {{ .Values.persistence.accessMode }}
+      {{- if .Values.persistence.storageClass }}
+      storageClassName: {{ .Values.persistence.storageClassName }}
+      {{- end }}
+      resources:
+        requests:
+          storage: {{ .Values.persistence.size }}
