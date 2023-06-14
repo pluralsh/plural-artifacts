@@ -29,9 +29,9 @@ prefect-server:
 
 test-base:
   enabled: false
-  repository: prefect
+  application: prefect
   testName: prefect-integration
-  promoteTag: warm
+  promoteTag: stable
 
 prefect-agent:
   enabled: true

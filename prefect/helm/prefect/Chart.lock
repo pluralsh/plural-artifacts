@@ -4,15 +4,15 @@ dependencies:
   version: 0.2.1
 - name: prefect-server
   repository: https://prefecthq.github.io/prefect-helm
-  version: 2023.05.25
+  version: 2023.06.01
 - name: prefect-agent
   repository: https://prefecthq.github.io/prefect-helm
-  version: 2023.05.25
+  version: 2023.06.01
 - name: oidc-config
   repository: https://pluralsh.github.io/module-library
   version: 0.1.6
 - name: test-base
   repository: https://pluralsh.github.io/module-library
-  version: 0.1.5
-digest: sha256:aeeb57ef81c2b3e5f2e1a66899fa09e3ade785fa624032e3b0a9e3e5f6e97940
-generated: "2023-06-01T10:04:07.777652-04:00"
+  version: 0.1.10
+digest: sha256:cbf4072f686559577e5e6b98b5456758c6b1c98db25b067f27a8200a2e2643d1
+generated: "2023-06-14T11:41:05.114014-04:00"
