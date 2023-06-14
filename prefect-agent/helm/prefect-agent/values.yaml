@@ -21,6 +21,6 @@ prefect-agent:
 
 test-base:
   enabled: false
-  repository: prefect-agent
+  application: prefect-agent
   testName: prefect-agent-integration
-  promoteTag: warm
+  promoteTag: stable
