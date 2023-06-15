@@ -10,7 +10,7 @@ test-base:
   testName: superset-integration
   promoteTag: stable
   tags:
-  - 1.5.0
+  - 2.1.0
 
 configOverlays:
 - name: dkr-repository
