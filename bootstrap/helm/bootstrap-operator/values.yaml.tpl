@@ -144,7 +144,7 @@ operator:
     gcp:
       project: {{ .Project }}
       region: {{ .Region }}
-      version: v1.3.3
+      version: v1.3.4
       fetchConfigUrl: https://github.com/pluralsh/cluster-api-provider-gcp/releases
       credentialsRef:
         name: variables
