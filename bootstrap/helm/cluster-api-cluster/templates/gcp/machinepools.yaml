@@ -43,6 +43,21 @@ spec:
     {{- else -}}
     {{- toYaml $defaultVals.providerIDList | nindent 4 }}
     {{- end }}
+  {{ if $values.machineType }}
+  machineType: {{ $values.machineType }}
+  {{ else }}
+  machineType: {{ $defaultVals.machineType }}
+  {{ end }}
+  {{ if $values.diskSizeGb }}
+  diskSizeGb: {{ $values.diskSizeGb }}
+  {{ else }}
+  diskSizeGb: {{ $defaultVals.diskSizeGb }}
+  {{ end }}
+  {{ if $values.diskType }}
+  diskType: {{ $values.diskType }}
+  {{ else }}
+  diskType: {{ $defaultVals.diskType }}
+  {{ end }}
 {{ end }}
 ---
 {{ end }}

@@ -6,17 +6,22 @@ metadata:
 spec:
   project: {{ .Values.cluster.google.project }}
   region: {{ .Values.cluster.google.region }}
-  {{ if .Values.cluster.google.additionalLabels }}
+  {{ with .Values.cluster.google.additionalLabels }}
   additionalLabels:
   {{ . | toYaml | nindent 4 }}
   {{ end }}
   controlPlaneEndpoint:
     host: ""
     port: 0
+  {{ with .Values.cluster.google.addonsConfig }}
+  addonsConfig:
+  {{ . | toYaml | nindent 4 }}
+  {{ end }}
   network:
     {{ with .Values.cluster.google.network }}
     name: {{ .name }}
     autoCreateSubnetworks: {{ .autoCreateSubnetworks }}
+    datapathProvider: {{ .datapathProvider }}
     {{ end }}
     subnets:
       {{ range .Values.cluster.google.subnets }}

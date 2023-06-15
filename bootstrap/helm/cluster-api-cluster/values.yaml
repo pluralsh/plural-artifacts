@@ -223,6 +223,14 @@ cluster:
     # ReleaseChannel is the release channel of the GKE cluster
     # One of: unspecified, rapid, regular, stable
     releaseChannel: stable
+    # AddonsConfig is a configuration for the addons that can be automatically spun up in the
+    # cluster, enabling additional functionality.
+    addonsConfig:
+      # NetworkPolicyEnabled tracks whether the addon is enabled or not on the Master,
+      # it does not track whether network policy is enabled for the nodes.
+      networkPolicyEnabled: false
+      # GcpFilestoreCsiDriverEnabled track whether the GCP Filestore CSI driver is enabled for this cluster.
+      gcpFilestoreCsiDriverEnabled: true
     # Network encapsulates all things related to the GCP network.
     network:
       name: plural-network
@@ -236,6 +244,12 @@ cluster:
       #
       # Note: Only auto mode is supported at this time.
       autoCreateSubnetworks: true
+      # The desired datapath provider for this cluster.
+      # One of:
+      # - UNSPECIFIED - default value
+      # - LEGACY_DATAPATH - uses the IPTables implementation based on kube-proxy
+      # - ADVANCED_DATAPATH - uses the eBPF based GKE Dataplane V2 with additional features
+      datapathProvider: ADVANCED_DATAPATH
     subnets:
       - name: plural-subnetwork
         # CidrBlock is the range of internal addresses that are owned by this
@@ -339,6 +353,9 @@ workers:
       kubernetesTaints: {}
       additionalLabels: {}
       providerIDList: []
+      machineType: e2-standard-2
+      diskSizeGb: 50
+      diskType: pd-standard
   #################################
   ###        AWS WORKERS        ###
   #################################
@@ -826,7 +843,7 @@ workers:
   ###        GCP WORKERS        ###
   #################################
   google:
-    machine-pool-1:
+    small-burst-on-demand:
       replicas: 3
       scaling:
         maxCount: 6
@@ -835,3 +852,6 @@ workers:
       kubernetesTaints: {}
       additionalLabels: {}
       providerIDList: []
+      machineType: e2-standard-2
+      diskSizeGb: 50
+      diskType: pd-standard
