@@ -3,15 +3,16 @@ name: superset
 description: A Helm chart for superset on plural
 type: application
 version: 0.2.8
-appVersion: "1.5.0"
+appVersion: "2.1.0"
 dependencies:
 - name: superset
-  version: 0.3.12
+  version: 0.10.1
+  repository: http://apache.github.io/superset
 - name: test-base
   repository: https://pluralsh.github.io/module-library
   version: 0.1.10
   condition: test-base.enabled
 - name: postgres
-  version: 0.1.12
+  version: 0.2.1
   repository: https://pluralsh.github.io/module-library
   condition: postgres.enabled
