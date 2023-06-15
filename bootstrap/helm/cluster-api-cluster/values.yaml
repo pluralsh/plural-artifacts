@@ -467,10 +467,10 @@ workers:
           minSize: 0
         sku: Standard_D8as_v5
         taints:
-          - effect: no-schedule
+          - effect: NoSchedule
             key: plural.sh/capacityType
             value: SPOT
-          - effect: no-schedule
+          - effect: NoSchedule
             key: kubernetes.azure.com/scalesetpriority
             value: spot
     lsspot2:
@@ -497,10 +497,10 @@ workers:
           minSize: 0
         sku: Standard_D8as_v5
         taints:
-          - effect: no-schedule
+          - effect: NoSchedule
             key: plural.sh/capacityType
             value: SPOT
-          - effect: no-schedule
+          - effect: NoSchedule
             key: kubernetes.azure.com/scalesetpriority
             value: spot
     lsspot3:
@@ -527,10 +527,10 @@ workers:
           minSize: 0
         sku: Standard_D8as_v5
         taints:
-          - effect: no-schedule
+          - effect: NoSchedule
             key: plural.sh/capacityType
             value: SPOT
-          - effect: no-schedule
+          - effect: NoSchedule
             key: kubernetes.azure.com/scalesetpriority
             value: spot
     msod1:
@@ -620,10 +620,10 @@ workers:
           minSize: 0
         sku: Standard_D4as_v5
         taints:
-          - effect: no-schedule
+          - effect: NoSchedule
             key: plural.sh/capacityType
             value: SPOT
-          - effect: no-schedule
+          - effect: NoSchedule
             key: kubernetes.azure.com/scalesetpriority
             value: spot
     msspot2:
@@ -650,10 +650,10 @@ workers:
           minSize: 0
         sku: Standard_D4as_v5
         taints:
-          - effect: no-schedule
+          - effect: NoSchedule
             key: plural.sh/capacityType
             value: SPOT
-          - effect: no-schedule
+          - effect: NoSchedule
             key: kubernetes.azure.com/scalesetpriority
             value: spot
     msspot3:
@@ -680,10 +680,10 @@ workers:
           minSize: 0
         sku: Standard_D4as_v5
         taints:
-          - effect: no-schedule
+          - effect: NoSchedule
             key: plural.sh/capacityType
             value: SPOT
-          - effect: no-schedule
+          - effect: NoSchedule
             key: kubernetes.azure.com/scalesetpriority
             value: spot
     ssod1:
@@ -773,10 +773,10 @@ workers:
           minSize: 0
         sku: Standard_D2as_v5
         taints:
-          - effect: no-schedule
+          - effect: NoSchedule
             key: plural.sh/capacityType
             value: SPOT
-          - effect: no-schedule
+          - effect: NoSchedule
             key: kubernetes.azure.com/scalesetpriority
             value: spot
     ssspot2:
@@ -803,10 +803,10 @@ workers:
           minSize: 0
         sku: Standard_D2as_v5
         taints:
-          - effect: no-schedule
+          - effect: NoSchedule
             key: plural.sh/capacityType
             value: SPOT
-          - effect: no-schedule
+          - effect: NoSchedule
             key: kubernetes.azure.com/scalesetpriority
             value: spot
     ssspot3:
@@ -833,10 +833,10 @@ workers:
           minSize: 0
         sku: Standard_D2as_v5
         taints:
-          - effect: no-schedule
+          - effect: NoSchedule
             key: plural.sh/capacityType
             value: SPOT
-          - effect: no-schedule
+          - effect: NoSchedule
             key: kubernetes.azure.com/scalesetpriority
             value: spot
   #################################
