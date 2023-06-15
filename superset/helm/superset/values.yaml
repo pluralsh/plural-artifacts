@@ -10,7 +10,7 @@ test-base:
   testName: superset-integration
   promoteTag: stable
   tags:
-  - 1.5.0
+  - 2.1.0
 
 configOverlays:
 - name: dkr-repository
@@ -103,7 +103,7 @@ configOverlays:
 superset:
   image:
     repository: dkr.plural.sh/superset/apache/superset
-    tag: '1.5'
+    tag: 2.1.0-plural1.1.1
     pullPolicy: Always
 
   bootstrapScript: |
@@ -117,8 +117,9 @@ superset:
   redis:
     enabled: true
     image:
-      registry: gcr.io/pluralsh
-      tag: 6.0.9-debian-10-r0
+      registry: gcr.io
+      repository: pluralsh/bitnami/redis
+      tag: 7.0.11
 
   configOverrides:
     pool_settings: |
@@ -138,7 +139,7 @@ superset:
   supersetWorker:
     initContainers:
     - name: wait-for-postgres
-      image: gcr.io/pluralsh/busybox:latest
+      image: gcr.io/pluralsh/library/busybox:1.36.1
       imagePullPolicy: IfNotPresent
       envFrom:
         - secretRef:
@@ -150,7 +151,7 @@ superset:
       db_host: plural-superset
     initContainers:
     - name: wait-for-postgres
-      image: gcr.io/pluralsh/busybox:latest
+      image: gcr.io/pluralsh/library/busybox:1.36.1
       imagePullPolicy: IfNotPresent
       envFrom:
         - secretRef:
@@ -190,7 +191,7 @@ postgres:
 exporter:
   image:
     repository: gcr.io/pluralsh/prom/statsd-exporter
-    tag: v0.20.2
+    tag: v0.23.1
     pullPolicy: IfNotPresent
   
   podSecurityContext: {}

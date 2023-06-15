@@ -1,12 +1,12 @@
 dependencies:
 - name: superset
-  repository: ""
-  version: 0.3.12
+  repository: http://apache.github.io/superset
+  version: 0.10.1
 - name: test-base
   repository: https://pluralsh.github.io/module-library
   version: 0.1.10
 - name: postgres
   repository: https://pluralsh.github.io/module-library
-  version: 0.1.12
-digest: sha256:7f85d5c300da74b6370b374b911e9d46eb6ef9997dd593ea71bee85eb8eafc4b
-generated: "2023-06-13T14:46:13.052832-04:00"
+  version: 0.2.1
+digest: sha256:5a526b0df4c33d83cdae226c90d066318a06f4051dc552e74afcd29558c599e3
+generated: "2023-06-15T13:45:58.305634+02:00"
