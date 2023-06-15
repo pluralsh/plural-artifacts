@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 kubernetesVersion: v1.23
-clusterAPIVersion: v1.4.2
+clusterAPIVersion: v1.4.3
 
 replicaCount: 1
 
@@ -68,6 +68,7 @@ operator:
   skipClusterCreation: true
   bootstrapMode: false
   moveCluster: false
+  migrateCluster: true
   secret: {}
   cloud: {}
   # Used by Azure

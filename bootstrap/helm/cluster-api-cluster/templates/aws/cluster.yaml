@@ -3,5 +3,13 @@ kind: AWSManagedCluster
 apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
 metadata:
   name: {{ .Values.cluster.name }}
+  {{- if .Values.cluster.aws.controlPlaneEndpoint}}
+  {{- with .Values.cluster.aws.controlPlaneEndpoint }}
+spec:
+  controlPlaneEndpoint:
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- else }}
 spec: {}
+  {{- end }}
 {{- end }}

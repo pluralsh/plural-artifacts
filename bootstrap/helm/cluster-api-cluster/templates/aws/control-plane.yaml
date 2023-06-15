@@ -23,9 +23,6 @@ spec:
   {{- if .Values.cluster.aws.secondaryCidrBlock }}
   secondaryCidrBlock: {{ .Values.cluster.aws.secondaryCidrBlock }}
   {{- end }}
-  {{- if .Values.cluster.aws.partition }}
-  partition: {{ .Values.cluster.aws.partition }}
-  {{- end }}
   {{- if .Values.cluster.aws.roleName }}
   roleName: {{ .Values.cluster.aws.roleName }}
   {{- end }}

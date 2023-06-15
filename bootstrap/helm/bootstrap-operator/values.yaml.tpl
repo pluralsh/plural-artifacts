@@ -17,7 +17,7 @@ operator:
   cloud:
     aws:
       region: {{ .Region }}
-      version: v2.0.2
+      version: v2.1.4
       machinePools:
         - name: {{ .Cluster }}-pool-0
           replicas: 1
@@ -104,7 +104,8 @@ operator:
   clientSecret: {{ .Context.ClientSecret | b64enc | quote }}
   cloud:
     azure:
-      version: v1.9.2
+      version: v1.9.6
+      fetchConfigUrl: https://github.com/pluralsh/cluster-api-provider-azure/releases
       clusterIdentity: 
         name: azure-cluster-identity
         allowedNamespaces: {}
