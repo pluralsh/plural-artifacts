@@ -6,22 +6,32 @@ metadata:
 spec:
   project: {{ .Values.cluster.google.project }}
   region: {{ .Values.cluster.google.region }}
+  {{ with .Values.cluster.google.additionalLabels }}
+  additionalLabels:
+  {{ . | toYaml | nindent 4 }}
+  {{ end }}
   controlPlaneEndpoint:
     host: ""
     port: 0
+  {{ with .Values.cluster.google.addonsConfig }}
+  addonsConfig:
+  {{ . | toYaml | nindent 4 }}
+  {{ end }}
   network:
-    name: {{ .Values.cluster.name }}-network
     {{ with .Values.cluster.google.network }}
+    name: {{ .name }}
     autoCreateSubnetworks: {{ .autoCreateSubnetworks }}
+    datapathProvider: {{ .datapathProvider }}
     {{ end }}
     subnets:
       {{ range .Values.cluster.google.subnets }}
-      - name: {{ $.Values.cluster.name }}-{{ .nameSuffix }}
+      - name: {{ .name }}
         region: {{ $.Values.cluster.google.region }}
         cidrBlock: {{ .cidrBlock }}
         description: {{ .description }}
         {{ with .secondaryCidrBlocks }}
-        secondaryCidrBlocks: {{ . | toYaml | nindent 8 }}
+        secondaryCidrBlocks:
+        {{ . | toYaml | nindent 10 }}
         {{ end }}
         privateGoogleAccess: {{ .privateGoogleAccess }}
         enableFlowLogs: {{ .enableFlowLogs }}

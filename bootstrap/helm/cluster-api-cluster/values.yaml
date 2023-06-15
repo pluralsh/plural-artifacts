@@ -208,6 +208,9 @@ cluster:
     # Region represents the location (region or zone) in which the GKE cluster will be created.
     # Examples: "europe-central2" TODO: add more examples
     region: ""
+    # AdditionalLabels is an optional set of tags to add to GCP resources managed by the GCP provider,
+    # in addition to the ones added by default.
+    additionalLabels: {}
     # EnableAutopilot indicates whether to enable autopilot for this GKE cluster.
     #
     # Note: Autopilot enabled clusters are not supported at this time.
@@ -219,9 +222,18 @@ cluster:
     enableWorkloadIdentity: true
     # ReleaseChannel is the release channel of the GKE cluster
     # One of: unspecified, rapid, regular, stable
-    releaseChannel: "stable"
+    releaseChannel: stable
+    # AddonsConfig is a configuration for the addons that can be automatically spun up in the
+    # cluster, enabling additional functionality.
+    addonsConfig:
+      # NetworkPolicyEnabled tracks whether the addon is enabled or not on the Master,
+      # it does not track whether network policy is enabled for the nodes.
+      networkPolicyEnabled: false
+      # GcpFilestoreCsiDriverEnabled track whether the GCP Filestore CSI driver is enabled for this cluster.
+      gcpFilestoreCsiDriverEnabled: true
     # Network encapsulates all things related to the GCP network.
     network:
+      name: plural-network
       # AutoCreateSubnetworks: When set to true, the VPC network is created
       # in "auto" mode. When set to false, the VPC network is created in
       # "custom" mode.
@@ -232,10 +244,14 @@ cluster:
       #
       # Note: Only auto mode is supported at this time.
       autoCreateSubnetworks: true
+      # The desired datapath provider for this cluster.
+      # One of:
+      # - UNSPECIFIED - default value
+      # - LEGACY_DATAPATH - uses the IPTables implementation based on kube-proxy
+      # - ADVANCED_DATAPATH - uses the eBPF based GKE Dataplane V2 with additional features
+      datapathProvider: ADVANCED_DATAPATH
     subnets:
-      # Subnet name is always created as:
-      # <clusterName>-<nameSuffix>
-      - nameSuffix: subnetwork
+      - name: plural-subnetwork
         # CidrBlock is the range of internal addresses that are owned by this
         # subnetwork. Provide this property when you create the subnetwork. For
         # example, 10.0.0.0/8 or 192.168.0.0/16. Ranges must be unique and
@@ -263,7 +279,7 @@ cluster:
         # - PRIVATE_RFC_1918 - Regular user created or automatically created subnet.
         # - PRIVATE_SERVICE_CONNECT - Subnetworks created for Private Service Connect in the producer network.
         # - REGIONAL_MANAGED_PROXY - Subnetwork used for Regional Internal/External HTTP(S) Load Balancing.
-        purpose: "PRIVATE_RFC_1918"
+        purpose: PRIVATE_RFC_1918
 
 workers:
   defaults:
@@ -329,6 +345,7 @@ workers:
     ###        GCP WORKER DEFAULTS        ###
     #########################################
     google:
+      replicas: 0
       scaling:
         maxCount: 6
         minCount: 3
@@ -336,6 +353,9 @@ workers:
       kubernetesTaints: {}
       additionalLabels: {}
       providerIDList: []
+      machineType: e2-standard-2
+      diskSizeGb: 50
+      diskType: pd-standard
   #################################
   ###        AWS WORKERS        ###
   #################################
@@ -823,7 +843,7 @@ workers:
   ###        GCP WORKERS        ###
   #################################
   google:
-    machine-pool-1:
+    small-burst-on-demand:
       replicas: 3
       scaling:
         maxCount: 6
@@ -832,3 +852,6 @@ workers:
       kubernetesTaints: {}
       additionalLabels: {}
       providerIDList: []
+      machineType: e2-standard-2
+      diskSizeGb: 50
+      diskType: pd-standard

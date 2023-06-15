@@ -9,7 +9,9 @@ metadata:
   name: {{ $name }}
 spec:
   clusterName: {{ $.Values.cluster.name }}
+  {{ if $values.replicas }}
   replicas: {{ $values.replicas }}
+  {{ end }}
   template:
     spec:
       version: {{ $values.kubernetesVersion | default $.Values.cluster.kubernetesVersion }}
