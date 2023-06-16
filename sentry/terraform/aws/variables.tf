@@ -14,6 +14,28 @@ variable "sentry_serviceaccount" {
   description = "name of the k8s service account for sentry"
 }
 
+variable "sentry_serviceaccount_suffixes" {
+  type = list(string)
+  default = [
+    "worker",
+    "web",
+    "snuba",
+    "symbolicator-api",
+    "cron",
+    "relay",
+    "billing-metrics-consumer",
+    "ingest-consumer",
+    "ingest-metrics-consumer-perf",
+    "ingest-metrics-consumer-rh",
+    "ingest-replay-recordings",
+    "post-process-forwarder-errors",
+    "post-process-forwarder-transactions",
+    "subscription-consumer-events",
+    "subscription-consumer-transactions",
+  ]
+  description = "suffixes for the k8s service accounts used by sentry"
+}
+
 variable "filestore_bucket" {
   type = string
 }
