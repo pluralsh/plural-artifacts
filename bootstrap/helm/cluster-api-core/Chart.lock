@@ -1,0 +1,6 @@
+dependencies:
+- name: cluster-api-core
+  repository: https://pluralsh.github.io/capi-helm-charts
+  version: 0.1.0
+digest: sha256:c836062f9f17af1fe580308aca62f684916dda18507cb9b110c5c1ecb987bb51
+generated: "2023-06-12T18:00:13.910142+02:00"

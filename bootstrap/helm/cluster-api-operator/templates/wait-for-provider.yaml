@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: wait-for-providers
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-delete-policy: hook-succeeded
+spec:
+  template:
+    spec:
+      containers:
+      - name: wait-for-core-provider
+        image: bitnami/kubectl:1.25.8
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        args: ["wait", "--for=condition=ready", "-n", {{ .Release.Namespace }}, "--timeout", "10m", "CoreProvider", "cluster-api"]
+      - name: wait-for-controlPlane-provider
+        image: bitnami/kubectl:1.25.8
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        args: ["wait", "--for=condition=ready", "-n", {{ .Release.Namespace }}, "--timeout", "10m", "ControlPlaneProvider", "kubeadm"]
+      - name: wait-for-bootstrap-provider
+        image: bitnami/kubectl:1.25.8
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        args: ["wait", "--for=condition=ready", "-n", {{ .Release.Namespace }}, "--timeout", "10m", "BootstrapProvider", "kubeadm"]
+      {{- if .Values.infrastructureProvider.aws.enabled }}
+      - name: wait-for-infra-provider
+        image: bitnami/kubectl:1.25.8
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        args: ["wait", "--for=condition=ready", "-n", {{ .Release.Namespace }}, "--timeout", "10m", "InfrastructureProvider", "aws"]
+      {{- end }}
+      restartPolicy: Never
+# TODO: have this job wait for the providers to be ready

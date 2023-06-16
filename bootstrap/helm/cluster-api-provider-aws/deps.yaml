@@ -2,6 +2,6 @@ apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
   application: true
-  description: installs a cluster using cluster-api
+  description: installs the cluster api provider aws
 spec:
   dependencies: []

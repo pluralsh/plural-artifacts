@@ -9,7 +9,7 @@ cluster:
     iamAuthenticatorConfig:
       mapRoles:
       - rolearn: {{ importValue "Terraform" "capa_iam_role_arn" }}
-        username: {{ `"{{SessionName}}"` }}
+        username: capa-admin
         groups:
         - system:masters
   {{ end }}

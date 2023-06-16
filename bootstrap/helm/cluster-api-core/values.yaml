@@ -1,0 +1,6 @@
+cluster-api-core:
+  configVariables:
+    clusterTopology: true
+    exprimental:
+      clusterResourceSet: true
+      machinePool: true

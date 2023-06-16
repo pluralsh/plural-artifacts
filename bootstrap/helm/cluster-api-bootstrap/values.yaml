@@ -1,0 +1,4 @@
+cluster-api-bootstrap:
+  configVariables:
+    exprimental:
+      machinePool: true

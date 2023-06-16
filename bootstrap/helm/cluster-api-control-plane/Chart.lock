@@ -1,0 +1,6 @@
+dependencies:
+- name: cluster-api-control-plane
+  repository: https://pluralsh.github.io/capi-helm-charts
+  version: 0.1.0
+digest: sha256:8a734c827f59c8be7d768f0fde8fa930950213f383a49b0b8b005caa79ab506a
+generated: "2023-06-12T18:17:30.175431+02:00"
