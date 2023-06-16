@@ -82,16 +82,16 @@ configOverlays:
 
 sentry:
   asHook: false # TODO: check if this works for first deployments
-  # images:
-  #   symbolicator:
-  #     repository: gcr.io/pluralsh/getsentry/symbolicator
-  #   snuba:
-  #     repository: gcr.io/pluralsh/getsentry/snuba
-  #   sentry:
-  #     repository: gcr.io/pluralsh/getsentry/sentry
-  #     tag: 21.5.1-extended
-  #   relay:
-  #     repository: gcr.io/pluralsh/getsentry/relay
+  images:
+    symbolicator:
+      repository: gcr.io/pluralsh/getsentry/symbolicator
+    snuba:
+      repository: gcr.io/pluralsh/getsentry/snuba
+    sentry:
+      repository: gcr.io/pluralsh/getsentry/sentry
+      # tag: 21.5.1-extended
+    relay:
+      repository: gcr.io/pluralsh/getsentry/relay
 
   serviceAccount:
     enabled: true
@@ -116,6 +116,9 @@ sentry:
     enabled: true
     serviceMonitor:
       enabled: true
+    image:
+      repository: gcr.io/pluralsh/prom/statsd-exporter
+      tag: v0.23.1
 
   redis:
     enabled: false
@@ -244,6 +247,10 @@ sentry:
 
   hooks:
     activeDeadlineSeconds: 300
+    dbCheck:
+      image:
+        repository: gcr.io/pluralsh/library/busybox
+        tag: 1.36.0
 
 clickhouse:
   enabled: true
