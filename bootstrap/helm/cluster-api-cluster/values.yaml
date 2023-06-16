@@ -34,34 +34,34 @@ cluster:
         version: v1.9.3-eksbuild.3
 
     network:
-      vpc:
-        id: ""
-        cidrBlock: ""
-        # ipv6: # NOTE: setting `ipv6: {}` will enable ipv6 and auto generate the cidr block. Needed for migration.
-        #   cidrBlock: ""
-        #   poolId: ""
-        #   egressOnlyInternetGatewayId: ""
-        internetGatewayId: ""
-        tags: {}
-        availabilityZoneUsageLimit: 3 # TODO: is set to 3 by default
-        availabilityZoneSelection: Ordered # TODO: set by default to Ordered. Can be Ordered or Random
-      subnets: []
-      # - id: ""
+      # vpc:
+      #   id: ""
       #   cidrBlock: ""
-      #   ipv6CidrBlock: ""
-      #   availabilityZone: ""
-      #   isPublic: false
-      #   isIpv6: false
-      #   routeTableId: ""
-      #   natGatewayId: ""
+      #   # ipv6: # NOTE: setting `ipv6: {}` will enable ipv6 and auto generate the cidr block. Needed for migration.
+      #   #   cidrBlock: ""
+      #   #   poolId: ""
+      #   #   egressOnlyInternetGatewayId: ""
+      #   internetGatewayId: ""
       #   tags: {}
-      cni:
-        cniIngressRules: []
-        # - description: ""
-        #   fromPort: 0
-        #   toPort: 0
-        #   protocol: "" # TODO: find valid values. Can be tcp.
-      securityGroupOverrides: {}
+      #   availabilityZoneUsageLimit: 3 # TODO: is set to 3 by default
+      #   availabilityZoneSelection: Ordered # TODO: set by default to Ordered. Can be Ordered or Random
+      # subnets: []
+      # # - id: ""
+      # #   cidrBlock: ""
+      # #   ipv6CidrBlock: ""
+      # #   availabilityZone: ""
+      # #   isPublic: false
+      # #   isIpv6: false
+      # #   routeTableId: ""
+      # #   natGatewayId: ""
+      # #   tags: {}
+      # cni:
+      #   cniIngressRules: []
+      #   # - description: ""
+      #   #   fromPort: 0
+      #   #   toPort: 0
+      #   #   protocol: "" # TODO: find valid values. Can be tcp.
+      # securityGroupOverrides: {}
     identityRef: {}
     secondaryCidrBlock: ""
     partition: ""
@@ -98,16 +98,16 @@ cluster:
       ami: ""
     tokenMethod: "" # iam-authenticator
     associateOIDCProvider: true
-    oidcIdentityProviderConfig:
-      clientId: ""
-      groupsClaim: ""
-      groupsPrefix: ""
-      identityProviderConfigName: ""
-      issuerUrl: ""
-      requiredClaims: {}
-      usernameClaim: ""
-      usernamePrefix: ""
-      tags: {}
+    oidcIdentityProviderConfig: {}
+      # clientId: ""
+      # groupsClaim: ""
+      # groupsPrefix: ""
+      # identityProviderConfigName: ""
+      # issuerUrl: ""
+      # requiredClaims: {}
+      # usernameClaim: ""
+      # usernamePrefix: ""
+      # tags: {}
     vpcCni:
       disable: false
       env: []

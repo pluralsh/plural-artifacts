@@ -60,3 +60,40 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Create the name of the secret to use
+*/}}
+{{- define "cluster-api-operator-plural.secretName" -}}
+{{- if .Values.secret.create }}
+{{- default (include "cluster-api-operator-plural.fullname" .) .Values.secret.name }}
+{{- else }}
+{{- default "default" .Values.secret.name }}
+{{- end }}
+{{- end }}
+
+{{/*
+Create the aws credentials file
+*/}}
+{{- define "cluster-api-operator-plural.awsCredentialsFile" -}}
+{{- if .Values.infrastructureProvider.aws.enabled -}}
+[default]
+aws_access_key_id = {{ .Values.infrastructureProvider.aws.bootstrapCredentials.AWS_ACCESS_KEY_ID }}
+aws_secret_access_key = {{ .Values.infrastructureProvider.aws.bootstrapCredentials.AWS_SECRET_ACCESS_KEY }}
+region = {{ .Values.infrastructureProvider.aws.secretData.AWS_REGION }}
+{{- if .Values.infrastructureProvider.aws.bootstrapCredentials.AWS_SESSION_TOKEN }}
+aws_session_token = {{ .Values.infrastructureProvider.aws.bootstrapCredentials.AWS_SESSION_TOKEN  }}
+{{- end }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Return the b64 encoded aws credentials file depending on if bootstrap credentials should be used
+*/}}
+{{- define "cluster-api-operator-plural.awsCredentialsValue" -}}
+{{- if .Values.secret.bootstrap -}}
+{{- include "cluster-api-operator-plural.awsCredentialsFile" . | b64enc | quote -}}
+{{- else -}}
+{{ print "\"\"" | b64enc  }}
+{{- end -}}
+{{- end -}}

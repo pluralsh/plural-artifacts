@@ -8,4 +8,5 @@ spec:
   dependencies: []
   providers:
   - aws
-
+  outputs:
+    capa_iam_role_arn: capa_iam_role_arn

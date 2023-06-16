@@ -6,6 +6,12 @@ cluster:
   kubernetesVersion: v1.24
   aws:
     region: {{ .Region }}
+    iamAuthenticatorConfig:
+      mapRoles:
+      - rolearn: {{ importValue "Terraform" "capa_iam_role_arn" }}
+        username: {{ `"{{SessionName}}"` }}
+        groups:
+        - system:masters
   {{ end }}
 
   {{ if eq .Provider "azure" }}

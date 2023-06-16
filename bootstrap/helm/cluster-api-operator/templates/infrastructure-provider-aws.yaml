@@ -1,3 +1,4 @@
+{{- if .Values.infrastructureProvider.aws.enabled -}}
 apiVersion: operator.cluster.x-k8s.io/v1alpha1
 kind: InfrastructureProvider
 metadata:
@@ -15,5 +16,6 @@ spec:
     syncPeriod: 30s
     verbosity: 1
     webhook: {}
-  secretName: aws-credentials
-  version: v2.0.2
+  secretName: {{ include "cluster-api-operator-plural.secretName" . }}
+  version: {{ .Values.infrastructureProvider.aws.version }}
+{{- end }}

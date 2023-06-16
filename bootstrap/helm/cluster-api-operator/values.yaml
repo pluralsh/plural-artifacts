@@ -1,0 +1,32 @@
+core:
+  version: v1.4.3
+
+kubeadm:
+  controlPlane:
+    version: v1.4.3
+  bootstrap:
+    version: v1.4.3
+
+infrastructureProvider:
+  aws:
+    enabled: false
+    version: v2.1.2
+    secretData:
+      CAPA_EKS_ADD_ROLES: "true"
+      CAPA_EKS_IAM: "true"
+      AWS_REGION: us-east-1
+    bootstrapCredentials:
+      AWS_ACCESS_KEY_ID: ""
+      AWS_SECRET_ACCESS_KEY: ""
+      AWS_SESSION_TOKEN: ""
+    credentials:
+      AWS_CONTROLLER_IAM_ROLE: ""
+
+
+secret:
+  create: true
+  name: ""
+  bootstrap: false
+  data:
+    EXP_MACHINE_POOL: "true"
+    EXP_EXTERNAL_RESOURCE_GC: "true"

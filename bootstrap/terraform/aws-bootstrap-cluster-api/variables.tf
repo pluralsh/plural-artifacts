@@ -8,3 +8,8 @@ variable "cluster_name" {
   type = string
   default = "plural"
 }
+
+variable "capa_serviceaccount" {
+  type = string
+  default = "capa-controller-manager"
+}

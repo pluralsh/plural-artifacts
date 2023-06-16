@@ -3,7 +3,4 @@ kind: ControlPlaneProvider
 metadata:
   name: kubeadm
 spec:
-  deployment:
-    containers:
-      - name: manager
-  version: v1.3.5
+  version: {{ .Values.kubeadm.controlPlane.version }}

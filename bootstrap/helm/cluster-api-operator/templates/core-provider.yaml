@@ -3,7 +3,4 @@ kind: CoreProvider
 metadata:
   name: cluster-api
 spec:
-  deployment:
-    containers:
-      - name: manager
-  version: v1.3.5
+  version: {{ .Values.core.version }}
