@@ -1,0 +1,6 @@
+dependencies:
+- name: cluster-api-provider-gcp
+  repository: https://pluralsh.github.io/capi-helm-charts
+  version: 0.1.1
+digest: sha256:0a2d0b4a1eeec6e4e2730c7c83f034077c55771ef90a0c388335277c57ce5234
+generated: "2023-06-16T14:24:11.442095+02:00"

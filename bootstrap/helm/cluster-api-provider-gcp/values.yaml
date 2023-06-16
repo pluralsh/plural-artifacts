@@ -1,0 +1,14 @@
+crds:
+  create: true
+
+cluster-api-provider-gcp:
+  crds:
+    create: false
+  configVariables:
+    exprimental:
+      capgGke: true
+  controllerManager:
+    manager:
+      image:
+        repository: ghcr.io/pluralsh/cluster-api-gcp-controller
+        tag: v1.3.4
