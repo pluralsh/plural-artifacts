@@ -10,6 +10,6 @@ dependencies:
   version: 0.1.0
 - name: clickhouse
   repository: https://pluralsh.github.io/module-library
-  version: 0.1.1
-digest: sha256:615854885703a362d6092c56713e354cc4a8a1b0ebf179535e0e976699da5f0a
-generated: "2023-05-18T19:12:34.008189+02:00"
+  version: 0.1.2
+digest: sha256:8a0bc605c91c2b03f11d49fe3f7514b596dd3c5dd387baab5dc31a290d9a71c6
+generated: "2023-05-19T15:03:22.613898+02:00"
