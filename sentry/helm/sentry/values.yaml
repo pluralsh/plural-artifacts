@@ -81,72 +81,44 @@ configOverlays:
     - path: ['sentry', 'sentry', 'clickhouse', 'clickhouse', 'resources', 'requests', 'memory']
 
 sentry:
-  images:
-    symbolicator:
-      repository: gcr.io/pluralsh/getsentry/symbolicator
-    snuba:
-      repository: gcr.io/pluralsh/getsentry/snuba
-    sentry:
-      repository: gcr.io/pluralsh/getsentry/sentry
-      tag: 21.5.1-extended
-    relay:
-      repository: gcr.io/pluralsh/getsentry/relay
+  asHook: false # TODO: check if this works for first deployments
+  # images:
+  #   symbolicator:
+  #     repository: gcr.io/pluralsh/getsentry/symbolicator
+  #   snuba:
+  #     repository: gcr.io/pluralsh/getsentry/snuba
+  #   sentry:
+  #     repository: gcr.io/pluralsh/getsentry/sentry
+  #     tag: 21.5.1-extended
+  #   relay:
+  #     repository: gcr.io/pluralsh/getsentry/relay
 
   serviceAccount:
+    enabled: true
     name: sentry
 
   externalPostgresql:
     host: plural-sentry
     port: 5432
     username: sentry
-    # password: postgres
+    existingSecret: sentry.plural-sentry.credentials.postgresql.acid.zalan.do
+    existingSecretKey: password
     database: sentry
     sslMode: require
 
   postgresql:
     enabled: false
-    existingSecret: sentry.plural-sentry.credentials.postgresql.acid.zalan.do
-    existingSecretKey: password
-
-    image:
-      registry: gcr.io
-      repository: pluralsh/postgres
-      tag: 11.7.0-debian-10-r9
-    metrics:
-      image:
-        registry: gcr.io
-        repository: pluralsh/postgres-exporter
-        tag: 0.8.0
-      enabled: true
-      serviceMonitor:
-        enabled: true
   
   kafka:
     enabled: false
-    image:
-      registry: gcr.io/pluralsh
-    
-    zookeeper:
-      image:
-        registry: gcr.io/pluralsh
 
   metrics:
-    image:
-      repository: gcr.io/pluralsh/prom/statsd-exporter
-      tag: v0.20.2
     enabled: true
     serviceMonitor:
       enabled: true
 
   redis:
     enabled: false
-    image:
-      registry: gcr.io/pluralsh
-      tag: 6.0.9-debian-10-r0
-    metrics:
-      image:
-        registry: gcr.io/pluralsh
-        tag: 1.12.1-debian-10-r11
 
   rabbitmq:
     enabled: false
@@ -158,14 +130,15 @@ sentry:
 
   ingress:
     enabled: true
+    ingressClassName: nginx
     annotations:
-      kubernetes.io/ingress.class: nginx
-      nginx.ingress.kubernetes.io/use-regex: "true"
       kubernetes.io/tls-acme: "true"
       cert-manager.io/cluster-issuer: letsencrypt-prod
       nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
   
   sentry:
+    existingSecret: sentry-system-secret
+    existingSecretKey: key
     web:
       autoscaling:
         enabled: true
@@ -231,21 +204,48 @@ sentry:
           cpu: 20m
           memory: 50Mi
 
+  zookeeper:
+    enabled: false
+
   clickhouse:
+    enabled: false
     clickhouse:
-      image: 'gcr.io/pluralsh/yandex/clickhouse-server'
-      imageVersion: '20.8.9.6'
-      init:
-        image: 'gcr.io/pluralsh/busybox'
-        imageVersion: latest
+      # image: 'gcr.io/pluralsh/yandex/clickhouse-server'
+      # imageVersion: '20.8.9.6'
+      # init:
+      #   image: 'gcr.io/pluralsh/busybox'
+      #   imageVersion: latest
       
       metrics:
         enabled: true
         serviceMonitor:
           enabled: true
+  externalClickhouse:
+    ## Hostname or ip address of external clickhouse
+    ##
+    host: service-sentry-clickhouse
+    tcpPort: 9000
+    httpPort: 8123
+    username: admin
+    password: CHAMGE_ME
+    database: sentry
+    clusterName: sentry
+    singleNode: true # TODO: change to false if clickhouse.layout.shardsCount > 1
+    # existingSecret: secret-name
+    ## set existingSecretKey if key name inside existingSecret is different from 'postgres-password'
+    # existingSecretKey: secret-key-name
+
   externalRedis:
     host: redis-master.redis
     password: ""
 
   externalKafka:
     host: kafka-kafka-bootstrap.kafka
+
+  hooks:
+    activeDeadlineSeconds: 300
+
+clickhouse:
+  enabled: true
+  cluster: sentry
+  database: sentry

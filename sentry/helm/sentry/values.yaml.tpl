@@ -11,7 +11,7 @@ rabbitmq:
 
 sentry:
   system:
-    secretKey: {{ dedupe . "sentry.sentry.system.secretKey" (randAlphaNum 16) }}
+    secretKey: {{ dedupe . "sentry.sentry.system.secretKey" (randAlphaNum 32) }}
   symbolicator:
     enabled: true
   ingress:

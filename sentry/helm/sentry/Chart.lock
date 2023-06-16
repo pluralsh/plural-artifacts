@@ -1,12 +1,15 @@
 dependencies:
 - name: sentry
-  repository: https://pluralsh.github.io/plural-helm-charts
-  version: 11.3.3
+  repository: https://sentry-kubernetes.github.io/charts
+  version: 18.0.0
 - name: postgres
   repository: https://pluralsh.github.io/module-library
-  version: 0.1.13
+  version: 0.2.1
 - name: rabbitmq
   repository: https://pluralsh.github.io/module-library
   version: 0.1.0
-digest: sha256:a6f313004f4a04708f794e65065069e31dfd3c286983a7b426f204d257db6650
-generated: "2022-11-30T17:32:48.936765+01:00"
+- name: clickhouse
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.1
+digest: sha256:4e074f1cb7a30a908a9edcece4d7043e65a9d12eae7ae4d9ba92891f21b93868
+generated: "2023-05-18T18:45:13.825591+02:00"
