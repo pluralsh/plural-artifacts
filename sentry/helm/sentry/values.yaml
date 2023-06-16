@@ -84,14 +84,17 @@ sentry:
   asHook: false # TODO: check if this works for first deployments
   images:
     symbolicator:
-      repository: gcr.io/pluralsh/getsentry/symbolicator
+      repository: dkr.plural.sh/sentry/getsentry/symbolicator
+      tag: 23.5.0
     snuba:
-      repository: gcr.io/pluralsh/getsentry/snuba
+      repository: dkr.plural.sh/sentry/getsentry/snuba
+      tag: 23.5.0
     sentry:
-      repository: gcr.io/pluralsh/getsentry/sentry
-      # tag: 21.5.1-extended
+      repository: dkr.plural.sh/sentry/getsentry/sentry
+      tag: 23.5.0-plural3.0.0
     relay:
-      repository: gcr.io/pluralsh/getsentry/relay
+      repository: dkr.plural.sh/sentry/getsentry/relay
+      tag: 23.5.0
 
   serviceAccount:
     enabled: true
@@ -233,7 +236,7 @@ sentry:
     password: CHAMGE_ME
     database: sentry
     clusterName: sentry
-    singleNode: true # TODO: change to false if clickhouse.layout.shardsCount > 1
+    singleNode: false
     # existingSecret: secret-name
     ## set existingSecretKey if key name inside existingSecret is different from 'postgres-password'
     # existingSecretKey: secret-key-name
@@ -246,7 +249,7 @@ sentry:
     host: kafka-kafka-bootstrap.kafka
 
   hooks:
-    activeDeadlineSeconds: 300
+    activeDeadlineSeconds: 600
     dbCheck:
       image:
         repository: gcr.io/pluralsh/library/busybox
@@ -256,3 +259,8 @@ clickhouse:
   enabled: true
   cluster: sentry
   database: sentry
+
+kafkaTopic: # TODO: hack since the db init fails to create this topic. Remove in the future once it's fixed in snuba.
+  enabled: true
+  cluster: kafka
+  namespace: kafka
