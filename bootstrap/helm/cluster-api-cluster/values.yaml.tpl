@@ -8,7 +8,7 @@ cluster:
     region: {{ .Region }}
     iamAuthenticatorConfig:
       mapRoles:
-      - rolearn: {{ importValue "Terraform" "capa_iam_role_arn" }}
+      - rolearn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-capa-controller"
         username: capa-admin
         groups:
         - system:masters

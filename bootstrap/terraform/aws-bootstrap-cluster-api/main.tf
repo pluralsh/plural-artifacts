@@ -2,15 +2,15 @@ data "aws_eks_cluster" "cluster" {
  name = var.cluster_name
 }
 
-resource "kubernetes_namespace" "bootstrap" {
-  metadata {
-    name = var.namespace
-    labels = {
-      "app.kubernetes.io/managed-by" = "plural"
-      "app.plural.sh/name" = "bootstrap"
-    }
-  }
-}
+# resource "kubernetes_namespace" "bootstrap" {
+#   metadata {
+#     name = var.namespace
+#     labels = {
+#       "app.kubernetes.io/managed-by" = "plural"
+#       "app.plural.sh/name" = "bootstrap"
+#     }
+#   }
+# }
 
 module "asummable_role_capa" {
 #   count = var.enable_cluster_capa ? 1 : 0
@@ -19,20 +19,28 @@ module "asummable_role_capa" {
   version                       = "3.14.0"
   create_role                   = true
   role_name                     = "${var.cluster_name}-capa-controller"
-  provider_url                  = replace(data.aws_eks_cluster.cluster[0].identity[0].oidc.0.issuer, "https://", "")
-  role_policy_arns              = [aws_iam_policy.cluster_capa[0].arn]
-  oidc_fully_qualified_subjects = ["system:serviceaccount:${var.namespace}:${var.capa_serviceaccount}"]
+  provider_url                  = replace(data.aws_eks_cluster.cluster.identity[0].oidc.0.issuer, "https://", "")
+  role_policy_arns              = [aws_iam_policy.capa_controller.arn, aws_iam_policy.capa_controller_eks.arn]
+  oidc_fully_qualified_subjects = ["system:serviceaccount:${var.namespace}:${var.capa_serviceaccount}", "system:serviceaccount:${var.namespace}:${var.capi_serviceaccount}"]
 }
 
-resource "aws_iam_policy" "cluster_capa" {
+resource "aws_iam_policy" "capa_controller" {
 #   count = var.enable_cluster_capa ? 1 : 0
 
   name_prefix = "cluster-capa"
   description = "EKS cluster api provider aws policy for cluster ${var.cluster_name}"
-  policy      = data.aws_iam_policy_document.cluster_capa.json
+  policy      = data.aws_iam_policy_document.capa_controller.json
 }
 
-data "aws_iam_policy_document" "cluster_capa" {
+resource "aws_iam_policy" "capa_controller_eks" {
+#   count = var.enable_cluster_capa ? 1 : 0
+
+  name_prefix = "cluster-capa"
+  description = "EKS cluster api provider aws policy for cluster ${var.cluster_name}"
+  policy      = data.aws_iam_policy_document.capa_controller_eks.json
+}
+
+data "aws_iam_policy_document" "capa_controller" {
   statement {
     sid       = ""
     effect    = "Allow"
@@ -72,6 +80,7 @@ data "aws_iam_policy_document" "cluster_capa" {
       "ec2:DescribeAddresses",
       "ec2:DescribeAvailabilityZones",
       "ec2:DescribeInstances",
+      "ec2:DescribeInstanceTypes",
       "ec2:DescribeInternetGateways",
       "ec2:DescribeEgressOnlyInternetGateways",
       "ec2:DescribeInstanceTypes",
@@ -104,6 +113,7 @@ data "aws_iam_policy_document" "cluster_capa" {
       "elasticloadbalancing:DeleteTargetGroup",
       "elasticloadbalancing:DescribeLoadBalancers",
       "elasticloadbalancing:DescribeLoadBalancerAttributes",
+      "elasticloadbalancing:DescribeTargetGroups",
       "elasticloadbalancing:ApplySecurityGroupsToLoadBalancer",
       "elasticloadbalancing:DescribeTags",
       "elasticloadbalancing:ModifyLoadBalancerAttributes",
@@ -119,6 +129,7 @@ data "aws_iam_policy_document" "cluster_capa" {
       "ec2:DeleteLaunchTemplate",
       "ec2:DeleteLaunchTemplateVersions",
       "ec2:DescribeKeyPairs",
+      "ec2:ModifyInstanceMetadataOptions",
     ]
   }
 
@@ -194,6 +205,9 @@ data "aws_iam_policy_document" "cluster_capa" {
       "secretsmanager:TagResource",
     ]
   }
+}
+
+data "aws_iam_policy_document" "capa_controller_eks" {
 
   statement {
     sid       = ""
@@ -244,26 +258,45 @@ data "aws_iam_policy_document" "cluster_capa" {
   statement {
     sid       = ""
     effect    = "Allow"
+    resources = ["*"]
+
+    actions = [
+      "iam:ListOpenIDConnectProviders",
+      "iam:GetOpenIDConnectProvider",
+      "iam:CreateOpenIDConnectProvider",
+      "iam:AddClientIDToOpenIDConnectProvider",
+      "iam:UpdateOpenIDConnectProviderThumbprint",
+      "iam:DeleteOpenIDConnectProvider",
+      "iam:TagOpenIDConnectProvider",
+    ]
+  }
+
+  statement {
+    sid       = ""
+    effect    = "Allow"
     resources = ["arn:*:iam::*:role/*"]
 
     actions = [
       "iam:GetRole",
       "iam:ListAttachedRolePolicies",
+      "iam:DetachRolePolicy",
+      "iam:DeleteRole",
+      "iam:CreateRole",
+      "iam:TagRole",
+      "iam:AttachRolePolicy",
     ]
   }
 
   statement {
-    sid    = ""
-    effect = "Allow"
-
+    sid       = ""
+    effect    = "Allow"
     resources = [
       "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy",
       "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
       "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
       "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
-    ]
-
-    actions = ["iam:GetPolicy"]
+      ]
+    actions   = ["iam:GetPolicy"]
   }
 
   statement {

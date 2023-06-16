@@ -11,5 +11,15 @@ variable "cluster_name" {
 
 variable "capa_serviceaccount" {
   type = string
-  default = "capa-controller-manager"
+  default = "bootstrap-cluster-api-provider-aws"
+}
+
+variable "capi_serviceaccount" {
+  type = string
+  default = "bootstrap-cluster-api-core"
+}
+
+variable "namespace" {
+  type = string
+  default = "bootstrap"
 }

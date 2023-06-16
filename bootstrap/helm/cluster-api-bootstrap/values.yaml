@@ -2,3 +2,14 @@ cluster-api-bootstrap:
   configVariables:
     exprimental:
       machinePool: true
+
+job:
+  enabled: true
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-weight: "-5"
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+  image:
+    repository: bitnami/kubectl
+    tag: 1.25.8
+    pullPolicy: IfNotPresent
