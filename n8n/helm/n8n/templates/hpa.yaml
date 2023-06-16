@@ -1,0 +1,82 @@
+{{- if .Values.global.autoscaling.enabled }}
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: n8n
+  labels:
+    {{- include "n8n-plural.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: n8n
+  minReplicas: {{ .Values.global.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.global.autoscaling.maxReplicas }}
+  metrics:
+    {{- if .Values.global.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ .Values.global.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.global.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: {{ .Values.global.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+---
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: n8n-worker
+  labels:
+    {{- include "n8n-plural.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: n8n-worker
+  minReplicas: {{ .Values.global.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.global.autoscaling.maxReplicas }}
+  metrics:
+    {{- if .Values.global.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ .Values.global.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.global.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: {{ .Values.global.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+---
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: n8n
+  labels:
+    {{- include "n8n-plural.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: n8n-webhook
+  minReplicas: {{ .Values.global.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.global.autoscaling.maxReplicas }}
+  metrics:
+    {{- if .Values.global.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ .Values.global.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.global.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: {{ .Values.global.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+{{- end }}

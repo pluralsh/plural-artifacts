@@ -3,6 +3,13 @@
 # Declare variables to be passed into your templates.
 
 
+global:
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 60
+
 webhookUrl: https://example.com
 
 encryptionSecret: CHANGEME
