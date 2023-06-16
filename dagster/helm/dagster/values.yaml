@@ -9,6 +9,14 @@ postgres:
   password: REPLACE_ME
   infix: ""
 
+test-base:
+  enabled: false
+  application: dagster
+  testName: dagster-integration
+  promoteTag: stable
+  tags:
+  - 1.3.8
+
 config-overlays:
   configOverlays:
     ingress-class:
@@ -25,12 +33,12 @@ oidcProxy:
 
 dagster:
   migrate:
-    enabled: true
+    enabled: false
 
   dagsterDaemon:
     image:
       repository: dkr.plural.sh/dagster/dagster/dagster-celery-k8s
-      tag: 1.3.7
+      tag: 1.3.8
     resources:
       requests:
         cpu: 15m
@@ -40,7 +48,7 @@ dagster:
   dagit:
     image:
       repository: dkr.plural.sh/dagster/dagster/dagster-celery-k8s
-      tag: 1.3.7
+      tag: 1.3.8
     resources:
       requests:
         cpu: 25m
@@ -54,7 +62,7 @@ dagster:
   pipelineRun:
     image:
       repository: dkr.plural.sh/dagster/dagster/user-code-example
-      tag: 1.3.7-plural1.0.3
+      tag: 1.3.8
 
   ingress:
     enabled: true
@@ -78,7 +86,7 @@ dagster:
       celeryK8sRunLauncher:
         image:
           repository: dkr.plural.sh/dagster/dagster/dagster-celery-k8s
-          tag: 1.3.7
+          tag: 1.3.8
 
   postgresql:
     enabled: false
@@ -98,7 +106,7 @@ dagster:
       - name: "k8s-example-user-code-1"
         image:
           repository: ghcr.io/pluralsh/containers/dagster/user-code-example
-          tag: 1.3.7-plural1.0.3
+          tag: 1.3.8-plural1.0.4
           pullPolicy: Always
         resources:
           requests:
