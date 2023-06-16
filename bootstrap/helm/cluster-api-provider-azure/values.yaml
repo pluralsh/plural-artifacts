@@ -1,0 +1,4 @@
+cluster-api-provider-azure:
+  configVariables:
+    exprimental:
+      machinePool: true
