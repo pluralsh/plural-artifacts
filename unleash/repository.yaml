@@ -1,8 +1,8 @@
 name: unleash
 description: Simplify your code production through the world’s largest open-source feature management platform.
 category: PRODUCTIVITY
-private: true
-releaseStatus: ALPHA
+private: false
+releaseStatus: BETA
 icon: plural/icons/unleash.png
 notes: plural/notes.tpl
 homepage: https://www.getunleash.io/

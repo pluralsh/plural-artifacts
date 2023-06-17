@@ -1,8 +1,7 @@
 name: meilisearch
 description: A lightning-fast search engine that fits effortlessly into your apps, websites, and workflow.
 category: DATABASE
-private: true
-releaseStatus: ALPHA
+releaseStatus: BETA
 icon: plural/icons/meilisearch.svg
 notes: plural/notes.tpl
 homepage: https://www.meilisearch.com/
