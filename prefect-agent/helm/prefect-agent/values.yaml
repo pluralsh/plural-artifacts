@@ -11,7 +11,7 @@ prefect-agent:
         key: key
     image:
       repository: dkr.plural.sh/prefect/prefecthq/prefect
-      prefectTag: 2.10.11-python3.10
+      prefectTag: 2.10.12-python3.10
     resources:
       requests:
         cpu: 10m
@@ -21,6 +21,6 @@ prefect-agent:
 
 test-base:
   enabled: false
-  repository: prefect-agent
+  application: prefect-agent
   testName: prefect-agent-integration
-  promoteTag: warm
+  promoteTag: stable

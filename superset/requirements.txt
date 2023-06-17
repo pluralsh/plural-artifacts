@@ -1,8 +1,0 @@
-psycopg2==2.9.1
-psycopg2-binary==2.9.1
-Authlib~=0.15.3
-pybigquery
-typing-extensions~=3.10
-snowflake-sqlalchemy~=1.2.4
-flask_oauthlib
-authlib

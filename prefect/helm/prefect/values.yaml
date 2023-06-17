@@ -2,7 +2,7 @@ prefect-server:
   server:
     image:
       repository: dkr.plural.sh/prefect/prefecthq/prefect
-      prefectTag: 2.10.11-python3.10
+      prefectTag: 2.10.12-python3.10
     resources:
       requests:
         cpu: 10m
@@ -29,9 +29,9 @@ prefect-server:
 
 test-base:
   enabled: false
-  repository: prefect
+  application: prefect
   testName: prefect-integration
-  promoteTag: warm
+  promoteTag: stable
 
 prefect-agent:
   enabled: true

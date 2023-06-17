@@ -14,9 +14,9 @@ global:
 
 test-base:
   enabled: false
-  repository: kubecost
+  application: kubecost
   testName: kubecost-integration
-  promoteTag: warm
+  promoteTag: stable
 
 oidcProxy:
   enabled: false

@@ -22,10 +22,10 @@ replicaCount: 1
 bootloader:
   image:
     repository: dkr.plural.sh/airbyte/airbyte/bootloader
-    tag: 0.44.2
+    tag: 0.44.8
 
 airbyte:
-  version: 0.44.2
+  version: 0.44.8
 
   postgresql:
     enabled: false
@@ -56,13 +56,13 @@ airbyte:
   worker:
     image:
       repository: dkr.plural.sh/airbyte/airbyte/worker
-      tag: 0.44.2
+      tag: 0.44.8
     
     log:
       level: INFO
 
     containerOrchestrator:
-      image: dkr.plural.sh/airbyte/airbyte/container-orchestrator:0.44.2
+      image: dkr.plural.sh/airbyte/airbyte/container-orchestrator:0.44.8
 
     livenessProbe:
       enabled: true
@@ -83,12 +83,12 @@ airbyte:
   cron:
     image:
       repository: dkr.plural.sh/airbyte/airbyte/cron
-      tag: 0.44.2
+      tag: 0.44.8
 
   server:
     image:
       repository: dkr.plural.sh/airbyte/airbyte/server
-      tag: 0.44.2
+      tag: 0.44.8
     
     log:
       level: INFO
@@ -112,13 +112,13 @@ airbyte:
   connector-builder-server:
     image:
       repository: dkr.plural.sh/airbyte/airbyte/connector-builder-server
-      tag: 0.44.2
+      tag: 0.44.8
 
   airbyte-bootloader:
     enabled: false
     image:
       repository: dkr.plural.sh/airbyte/airbyte/bootloader
-      tag: 0.44.2
+      tag: 0.44.8
     extraInitContainers:
     - name: wait-for-pg
       image: gcr.io/pluralsh/busybox:latest
@@ -134,18 +134,18 @@ airbyte:
   pod-sweeper:
     image:
       repository: dkr.plural.sh/airbyte/bitnami/kubectl
-      tag: 1.27.1
+      tag: 1.27.2
 
   metrics:
     enabled: true
     image:
       repository: dkr.plural.sh/airbyte/airbyte/metrics-reporter
-      tag: 0.44.2
+      tag: 0.44.8
 
   webapp:
     image:
       repository: dkr.plural.sh/airbyte/airbyte/webapp
-      tag: 0.44.2
+      tag: 0.44.8
 
     ingress:
       enabled: false
@@ -174,9 +174,11 @@ oidc-config:
 
 test-base:
   enabled: false
-  repository: airbyte
+  application: airbyte
   testName: airbyte-integration
-  promoteTag: warm
+  promoteTag: stable
+  tags:
+  - 0.44.8
 
 postgres:
   enabled: true

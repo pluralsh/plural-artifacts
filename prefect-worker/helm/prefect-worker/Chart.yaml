@@ -2,7 +2,7 @@ apiVersion: v2
 name: prefect-worker
 description: helm chart for prefect-worker
 type: application
-version: 0.1.3
+version: 0.1.6
 appVersion: v2.10.12
 dependencies:
 - name: prefect-worker
@@ -11,5 +11,5 @@ dependencies:
   condition: prefect-worker.enabled
 - name: test-base
   repository: https://pluralsh.github.io/module-library
-  version: 0.1.5
+  version: 0.1.10
   condition: test-base.enabled
