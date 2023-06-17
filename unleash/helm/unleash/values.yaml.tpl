@@ -36,7 +36,7 @@ unleash:
     - name: EMAIL_SERVER_PASSWORD
       value: {{ .SMTP.Password }}
     - name: EMAIL_SERVER_PORT
-      value: {{ .SMTP.Port }}
+      value: "{{ .SMTP.Port }}"
     - name: EMAIL_FROM
       value: {{ .SMTP.Sender }}
     {{ end }}
