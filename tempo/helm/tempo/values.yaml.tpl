@@ -46,11 +46,6 @@ tempo-distributed:
   {{- end }}
   storage:
     trace:
-      cache: redis
-      redis:
-        endpoint: redis-master.{{ $redisNamespace }}:6379
-        db: 5
-        password: {{ $redisValues.redis.password }}
       {{- if eq .Provider "aws" }}
       backend: s3
       s3:
@@ -64,6 +59,7 @@ tempo-distributed:
       {{- else if eq .Provider "azure" }}
       backend: azure
       azure:
-        container-name: {{ .Values.tempoContainer }}
-        storage-account-name: {{ .Context.StorageAccount }}
+        container_name: {{ .Values.tempoContainer }}
+        storage_account_name: {{ .Context.StorageAccount }}
+        user_assigned_id: {{ importValue "Terraform" "tempo_msi_client_id" }}
       {{- end }}

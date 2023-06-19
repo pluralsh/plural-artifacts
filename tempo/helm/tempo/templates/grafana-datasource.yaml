@@ -1,4 +1,4 @@
-{{ $dict := dict "ctx" . "component" "query-frontend" }}
+{{ $dict := dict "ctx" . "component" "gateway" }}
 apiVersion: v1
 kind: ConfigMap
 metadata:

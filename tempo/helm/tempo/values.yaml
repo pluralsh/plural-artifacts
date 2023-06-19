@@ -5,6 +5,11 @@ tempoStorageIdentityClientId: ""
 # can be simple or distributed
 lokiMode: simple
 
+global:
+  image:
+    # -- Overrides the Docker registry globally for all images, excluding enterprise.
+    registry: dkr.plural.sh
+
 tempo-distributed:
   multitenancyEnabled: true
   tempo:
@@ -18,8 +23,6 @@ tempo-distributed:
         registry: dkr.plural.sh
         repository: tempo/grafana/tempo-query
         tag: 2.1.1
-  # serviceAccount:
-  #   name: grafana-tempo # TODO: check IRSA and GCP workload identity
   traces:
     jaeger:
       grpc:
@@ -39,19 +42,17 @@ tempo-distributed:
         enabled: true
     opencensus:
       enabled: true
-  storage:
-    trace:
-      # cache: redis
-      # redis:
-      #   endpoint: ""
-      #   db: 5
-      #   password: ""
-      memcached:
-        consistent_hash: true
-        host: tempo-tempo-distributed-memcached
-        service: memcached-client
-        timeout: 500ms
+  gateway:
+    enabled: true
+    image:
+      registry: dkr.plural.sh
+      repository: tempo/nginxinc/nginx-unprivileged
+      tag: 1.19-alpine
   serviceMonitor:
     enabled: true
   memcached:
     enabled: true
+    image:
+      registry: dkr.plural.sh
+      repository: tempo/library/memcached
+      tag: 1.5.17-alpine

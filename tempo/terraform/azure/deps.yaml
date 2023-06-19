@@ -11,3 +11,6 @@ spec:
     version: '>= 0.1.1'
   providers:
   - azure
+  outputs:
+    tempo_msi_client_id: tempo_msi_client_id
+    tempo_msi_id: tempo_msi_id
