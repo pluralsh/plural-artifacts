@@ -2,8 +2,19 @@ provider: aws
 tempoStorageIdentityId: ""
 tempoStorageIdentityClientId: ""
 
-# can be simple or distributed
-lokiMode: simple
+datasource:
+  loki:
+    enabled: false
+    lokiId: loki-distributed
+  mimir:
+    enabled: false
+    mimirId: mimir
+  clusterTenantHeader:
+    enabled: false
+    value: ""
+  traceShield:
+    enabled: false
+    tempoPublicURL: ""
 
 global:
   image:

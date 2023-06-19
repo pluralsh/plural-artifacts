@@ -1,5 +1,4 @@
-{{ $redisNamespace := namespace "redis" }}
-{{ $redisValues := .Applications.HelmValues "redis" }}
+{{ $traceShield := and .Configuration (index .Configuration "trace-shield") }}
 
 {{- if eq .Provider "aws" }}
 provider: aws
@@ -13,6 +12,25 @@ tempoStorageIdentityClientId: {{ importValue "Terraform" "tempo_msi_client_id" }
 
 {{- if .Configuration.loki }}
 lokiMode: distributed
+{{- end }}
+
+datasource:
+{{- if $traceShield }}
+  traceShield:
+    enabled: true
+    tempoPublicURL: {{ .Values.hostname }}
+{{- else }}
+  clusterTenantHeader:
+    value: {{ .Cluster }}
+    enabled: true
+{{- end }}
+{{- if .Configuration.loki }}
+  loki:
+    enabled: true
+{{- end }}
+{{- if .Configuration.mimir }}
+  mimir:
+    enabled: true
 {{- end }}
 
 tempo-distributed:

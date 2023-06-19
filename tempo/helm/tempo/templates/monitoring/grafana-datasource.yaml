@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tempo-grafana-datasource
+  labels:
+    grafana_datasource: 'tempo'
+    {{ include "tempo-plural.labels" . | nindent 4 }}
+data:
+  tempo-datasource.yaml: |-
+    apiVersion: 1
+    datasources:
+    - name: Tempo
+      type: tempo
+      access: proxy
+      orgId: 1
+      uid: tempo
+      {{- if .Values.datasource.traceShield.enabled }}
+      url: https://{{ .Values.datasource.traceShield.tempoPublicURL }}
+      {{- else }}
+      url: http://{{ template "tempo.resourceName" (dict "ctx" (index .Subcharts "tempo-distributed") "component" "gateway") }}.{{ .Release.Namespace }}
+      {{- end }}
+      jsonData:
+        nodeGraph:
+          enabled: true
+        {{- if .Values.datasource.traceShield.enabled }}
+        oauthPassThru: true
+        {{- end }}
+        {{- if .Values.datasource.loki.enabled }}
+        lokiSearch:
+          datasourceUid: {{ .Values.datasource.loki.lokiId }}
+        tracesToLogsV2:
+          datasourceUid: {{ .Values.datasource.loki.lokiId }}
+          tags:
+            - job
+            - instance
+            - cluster
+            - namespace
+            - pod
+        {{- end }}
+        {{- if .Values.datasource.mimir.enabled }}
+        serviceMap: 
+          datasourceUid: {{ .Values.datasource.mimir.mimirId }}
+        tracesToMetrics:
+          datasourceUid: {{ .Values.datasource.mimir.mimirId }}
+        {{- end }}
+      {{- if and .Values.datasource.clusterTenantHeader.enabled (not .Values.datasource.traceShield.enabled) }}
+        httpHeaderName1: 'X-Scope-OrgID'
+      secureJsonData:
+        httpHeaderValue1: {{ .Values.datasource.clusterTenantHeader.value }}
+      {{- end }}

@@ -15,6 +15,11 @@ sections:
     type: BUCKET
     default: tempo
     documentation: Arbitrary bucket name to store the traces in, eg plural-tempo-traces
+  - name: hostname
+    type: DOMAIN
+    default: tempo
+    documentation: the hostname you'll deploy tempo with (only used if trace-shield is deployed)
+    optional: true
   items:
   - type: TERRAFORM
     name: aws
