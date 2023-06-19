@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: tempo-writes-dashboard
-  labels: {{ include "grafana-tempo.labels" . | nindent 4 }}
+  labels: {{ include "tempo-plural.labels" . | nindent 4 }}
     grafana_dashboard: tempo-writes-dashboard
   annotations:
     k8s-sidecar-target-directory: /tmp/dashboards/Tempo Dashboards

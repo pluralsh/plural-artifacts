@@ -1,6 +1,6 @@
 provider: aws
-tempoStorageIdentityId: 
-tempoStorageIdentityClientId: 
+tempoStorageIdentityId: ""
+tempoStorageIdentityClientId: ""
 
 # can be simple or distributed
 lokiMode: simple

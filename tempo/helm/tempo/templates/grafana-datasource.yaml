@@ -4,7 +4,7 @@ metadata:
   name: tempo-grafana-datasource
   labels:
     grafana_datasource: 'tempo'
-    {{ include "grafana-tempo.labels" . | nindent 4 }}
+    {{ include "tempo-plural.labels" . | nindent 4 }}
 data:
   tempo-datasource.yaml: |-
     apiVersion: 1
