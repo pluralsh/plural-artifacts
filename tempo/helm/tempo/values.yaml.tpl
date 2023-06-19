@@ -60,6 +60,10 @@ tempo-distributed:
   {{- if .Configuration.mimir }}
   metricsGenerator:
     enabled: true
+    {{- if eq .Provider "azure" }}
+    podLabels:
+      aadpodidbinding: tempo
+    {{- end }}
     config:
       storage:
         remote_write:

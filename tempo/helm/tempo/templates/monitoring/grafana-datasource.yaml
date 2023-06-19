@@ -38,10 +38,14 @@ data:
             - pod
         {{- end }}
         {{- if .Values.datasource.mimir.enabled }}
-        serviceMap: 
+        serviceMap:
           datasourceUid: {{ .Values.datasource.mimir.mimirId }}
         tracesToMetrics:
           datasourceUid: {{ .Values.datasource.mimir.mimirId }}
+          tags: [{ key: 'service.name', value: 'service' }, { key: 'job' }]
+          queries:
+            - name: 'Sample query'
+              query: 'sum(rate(traces_spanmetrics_latency_bucket{$__tags}[5m]))'
         {{- end }}
       {{- if and .Values.datasource.clusterTenantHeader.enabled (not .Values.datasource.traceShield.enabled) }}
         httpHeaderName1: 'X-Scope-OrgID'
