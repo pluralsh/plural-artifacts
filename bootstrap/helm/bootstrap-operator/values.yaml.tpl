@@ -104,7 +104,7 @@ operator:
   clientSecret: {{ .Context.ClientSecret | b64enc | quote }}
   cloud:
     azure:
-      version: v1.9.7
+      version: v1.9.8
       fetchConfigUrl: https://github.com/pluralsh/cluster-api-provider-azure/releases
       clusterIdentity: 
         name: azure-cluster-identity
