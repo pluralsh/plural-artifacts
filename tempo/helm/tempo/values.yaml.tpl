@@ -10,10 +10,6 @@ tempoStorageIdentityId: {{ importValue "Terraform" "tempo_msi_id" }}
 tempoStorageIdentityClientId: {{ importValue "Terraform" "tempo_msi_client_id" }}
 {{- end }}
 
-{{- if .Configuration.loki }}
-lokiMode: distributed
-{{- end }}
-
 datasource:
 {{- if $traceShield }}
   traceShield:
@@ -61,6 +57,16 @@ tempo-distributed:
   gateway:
     podLabels:
       aadpodidbinding: tempo
+  {{- if .Configuration.mimir }}
+  metricsGenerator:
+    enabled: true
+    config:
+      storage:
+        remote_write:
+        - url: http://mimir-nginx.mimir/api/v1/push
+          headers:
+            X-Scope-OrgID: {{ .Cluster }}
+  {{- end }}
   {{- end }}
   storage:
     trace:

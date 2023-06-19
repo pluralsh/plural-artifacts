@@ -34,6 +34,11 @@ tempo-distributed:
         registry: dkr.plural.sh
         repository: tempo/grafana/tempo-query
         tag: 2.1.1
+  # metricsGenerator:
+  #   enabled: true
+  #   config:
+  #     storage:
+  #       remote_write: []
   traces:
     jaeger:
       grpc:
