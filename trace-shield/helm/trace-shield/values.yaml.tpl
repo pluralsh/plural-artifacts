@@ -54,6 +54,17 @@ ingress:
 kratos:
   kratos:
     config:
+      {{- if and .Configuration.tempo (index .Configuration "grafana-agent") }}
+      tracing:
+        service_name: Ory Kratos
+        provider: otel
+        providers:
+          otlp:
+            insecure: true
+            sampling:
+              sampling_ratio: 1.0
+            server_url: grafana-agent-traces.grafana-agent.svc:4318
+      {{- end }}
       cookies:
         {{- if .Values.frontendHostname }}
         domain: {{ regexReplaceAll "^.+?\\." .Values.frontendHostname "" }}
@@ -114,6 +125,17 @@ hydraSecrets:
 hydra:
   hydra:
     config:
+      {{- if and .Configuration.tempo (index .Configuration "grafana-agent") }}
+      tracing:
+        service_name: Ory Hydra
+        provider: otel
+        providers:
+          otlp:
+            insecure: true
+            sampling:
+              sampling_ratio: 1.0
+            server_url: grafana-agent-traces.grafana-agent.svc:4318
+      {{- end }}
       urls:
         self:
           issuer: https://{{ .Values.hydraHostname }}
@@ -134,6 +156,17 @@ hydra:
 keto:
   keto:
     config:
+      {{- if and .Configuration.tempo (index .Configuration "grafana-agent") }}
+      tracing:
+        service_name: Ory Keto
+        provider: otel
+        providers:
+          otlp:
+            insecure: true
+            sampling:
+              sampling_ratio: 1.0
+            server_url: grafana-agent-traces.grafana-agent.svc:4318
+      {{- end }}
       dsn: postgres://keto:{{ $ketoPostgresPass }}@plural-postgres-keto:5432/keto
 
 kratos-selfservice-ui-node:
@@ -152,6 +185,17 @@ kratos-selfservice-ui-node:
 oathkeeper:
   oathkeeper:
     config:
+      {{- if and .Configuration.tempo (index .Configuration "grafana-agent") }}
+      tracing:
+        service_name: Ory Oathkeeper
+        provider: otel
+        providers:
+          otlp:
+            insecure: true
+            sampling:
+              sampling_ratio: 1.0
+            server_url: grafana-agent-traces.grafana-agent.svc:4318
+      {{- end }}
       errors:
         handlers:
           redirect:
