@@ -1,16 +1,16 @@
-resource "kubernetes_namespace" "grafana-tempo" {
+resource "kubernetes_namespace" "tempo" {
   metadata {
     name = var.namespace
     labels = {
       "app.kubernetes.io/managed-by" = "plural"
-      "app.plural.sh/name" = "grafana-tempo"
+      "app.plural.sh/name" = "tempo"
     }
   }
 }
 
-resource "kubernetes_service_account" "grafana-tempo" {
+resource "kubernetes_service_account" "tempo" {
   metadata {
-    name      = "grafana-tempo"
+    name      = "tempo"
     namespace = var.namespace
     annotations = {
       "iam.gke.io/gcp-service-account" = module.tempo-workload-identity.gcp_service_account_email
@@ -18,7 +18,7 @@ resource "kubernetes_service_account" "grafana-tempo" {
   }
 
   depends_on = [
-    kubernetes_namespace.grafana-tempo
+    kubernetes_namespace.tempo
   ]
 }
 
@@ -52,6 +52,6 @@ module "tempo-workload-identity" {
   project_id = var.project_id
   use_existing_k8s_sa = true
   annotate_k8s_sa = false
-  k8s_sa_name = "grafana-tempo"
+  k8s_sa_name = "tempo"
   roles = []
 }

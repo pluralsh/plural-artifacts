@@ -1,13 +1,13 @@
 apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
-  description: grafana-tempo gcp setup 
+  description: tempo aws setup
   version: 0.1.1
 spec:
   dependencies:
-  - name: gcp-bootstrap
+  - name: aws-bootstrap
     repo: bootstrap
     type: terraform
     version: '>= 0.1.1'
   providers:
-  - gcp
+  - aws

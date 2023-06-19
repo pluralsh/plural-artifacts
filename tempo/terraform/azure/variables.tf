@@ -5,7 +5,7 @@ variable "cluster_name" {
 
 variable "namespace" {
   type = string
-  default = "grafana-tempo"
+  default = "tempo"
 }
 
 variable "resource_group" {

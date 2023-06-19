@@ -1,4 +1,4 @@
-REPO grafana-tempo
+REPO tempo
 ATTRIBUTES Plural repository.yaml
 
 TF terraform/*

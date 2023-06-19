@@ -1,5 +1,5 @@
-name: grafana-tempo-gcp
-description: Installs grafana-tempo on a gcp gke cluster
+name: tempo-gcp
+description: Installs tempo on a gcp gke cluster
 provider: GCP
 primary: true
 private: true
@@ -9,14 +9,14 @@ dependencies:
 - repo: redis
   name: gcp-redis
 sections:
-- name: grafana-tempo
+- name: tempo
   configuration:
   - name: tempoBucket
     type: BUCKET
-    default: grafana-tempo
+    default: tempo
     documentation: Arbitrary bucket name to store the traces in, eg plural-tempo-traces
   items:
   - type: TERRAFORM
     name: gcp
   - type: HELM
-    name: grafana-tempo
+    name: tempo

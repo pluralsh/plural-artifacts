@@ -1,5 +1,5 @@
-name: grafana-tempo-aws
-description: Installs grafana-tempo on an aws eks cluster
+name: tempo-aws
+description: Installs tempo on an aws eks cluster
 provider: AWS
 primary: true
 private: true
@@ -9,14 +9,14 @@ dependencies:
 - repo: redis
   name: aws-redis
 sections:
-- name: grafana-tempo
+- name: tempo
   configuration:
   - name: tempoBucket
     type: BUCKET
-    default: grafana-tempo
+    default: tempo
     documentation: Arbitrary bucket name to store the traces in, eg plural-tempo-traces
   items:
   - type: TERRAFORM
     name: aws
   - type: HELM
-    name: grafana-tempo
+    name: tempo

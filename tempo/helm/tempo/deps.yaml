@@ -2,7 +2,7 @@ apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
   application: true
-  description: Deploys grafana-tempo crafted for the target cloud
+  description: Deploys tempo crafted for the target cloud
 spec:
   dependencies:
   - type: helm
@@ -15,16 +15,16 @@ spec:
     version: '>= 0.1.6'
   - type: terraform
     name: aws
-    repo: grafana-tempo
+    repo: tempo
     version: '>= 0.1.0'
     optional: true
   - type: terraform
     name: azure
-    repo: grafana-tempo
+    repo: tempo
     version: '>= 0.1.0'
     optional: true
   - type: terraform
     name: gcp
-    repo: grafana-tempo
+    repo: tempo
     version: '>= 0.1.0'
     optional: true

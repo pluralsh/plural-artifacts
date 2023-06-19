@@ -1,9 +1,9 @@
-resource "kubernetes_namespace" "grafana-tempo" {
+resource "kubernetes_namespace" "tempo" {
   metadata {
     name = var.namespace
     labels = {
       "app.kubernetes.io/managed-by" = "plural"
-      "app.plural.sh/name" = "grafana-tempo"
+      "app.plural.sh/name" = "tempo"
     }
   }
 }

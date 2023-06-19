@@ -5,12 +5,12 @@ variable "cluster_name" {
 
 variable "namespace" {
   type = string
-  default = "grafana-tempo"
+  default = "tempo"
 }
 
 variable "tempo_serviceaccount" {
   type = string
-  default = "grafana-tempo"
+  default = "tempo"
   description = "name of the k8s service account for tempo"
 }
 
