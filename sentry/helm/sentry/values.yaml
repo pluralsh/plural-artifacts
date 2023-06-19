@@ -233,7 +233,7 @@ sentry:
     tcpPort: 9000
     httpPort: 8123
     username: admin
-    password: CHAMGE_ME
+    password: change_me
     database: sentry
     clusterName: sentry
     singleNode: false
@@ -259,6 +259,141 @@ clickhouse:
   enabled: true
   cluster: sentry
   database: sentry
+
+  user: admin
+  password: change_me
+  # -- Whether to use TLS connection connecting to ClickHouse
+  secure: false
+  # -- Whether to verify TLS certificate on connection to ClickHouse
+  verify: false
+
+  resources:
+    requests:
+      cpu: 150m
+      memory: 300Mi
+    limits:
+      cpu: 500m
+      memory: 1Gi
+  securityContext:
+    enabled: true
+    runAsUser: 101
+    runAsGroup: 101
+    fsGroup: 101
+
+  serviceType: ClusterIP
+  persistence:
+    enabled: true
+    size: 20Gi
+
+  ## -- Clickhouse cluster layout. (Experimental, use at own risk)
+  ## For a full list of options, see https://github.com/Altinity/clickhouse-operator/blob/master/docs/custom_resource_explained.md
+  ## section on clusters and layouts.
+  layout:
+    ## -- The number of shards in the cluster.
+    shardsCount: 1
+    ## -- The number of replicas per shard. If ClickhouseKeeper is enabled this is ignored and permanently set to 3.
+    replicasCount: 3
+    ## -- The custom layout for the cluster. If ClickhouseKeeper is enabled this value appended and doesn't influence the layout of the first shard with its 3 replicas.
+    shards: []
+      # - files:
+      #     keeper_config.xml: |
+      #       <clickhouse>
+      #           <include_from>/tmp/clickhouse-keeper/config.d/generated-keeper-settings.xml</include_from>
+      #           <keeper_server incl="keeper_server">
+      #               <path>/var/lib/clickhouse-keeper</path>
+      #               <tcp_port>9181</tcp_port>
+      #               <four_letter_word_white_list>*</four_letter_word_white_list>
+      #               <coordination_settings>
+      #                   <!-- <raft_logs_level>trace</raft_logs_level> -->
+      #                   <raft_logs_level>information</raft_logs_level>
+      #               </coordination_settings>
+      #           </keeper_server>
+      #       </clickhouse>
+      #   replicas:
+      #     - templates:
+      #         podTemplate: pod-template-clickhouse-keeper
+      #         replicaServiceTemplate: replica-service-template-clickhouse-keeper
+      #     - templates:
+      #         podTemplate: pod-template-clickhouse-keeper
+      #         replicaServiceTemplate: replica-service-template-clickhouse-keeper
+      #     - templates:
+      #         podTemplate: pod-template-clickhouse-keeper
+      #         replicaServiceTemplate: replica-service-template-clickhouse-keeper
+
+  ## -- ClickHouse settings configuration.
+  ## You can use this to override settings, for example `prometheus/port: 9363`
+  ## For the full list of settings, see:
+  ## - https://clickhouse.com/docs/en/operations/settings/settings/
+  settings: {}
+    # Uncomment those lines if you want to enable the built-in Prometheus HTTP endpoint in ClickHouse.
+    # prometheus/endpoint: /metrics
+    # prometheus/port: 9363
+    # prometheus/metrics: true
+    # prometheus/events: true
+    # prometheus/asynchronous_metrics: true
+
+  ## -- Default settings configuration for ClickHouse. !!! Please DO NOT override this !!!
+  ## default_database is set automatically by the chart using the database value and cannot be overridden.
+  defaultSettings:
+    format_schema_path: /etc/clickhouse-server/config.d/
+
+  ## -- specify additional user configs for ClickHouse. This will be added to
+  ## the users.xml configuration. See
+  ## https://github.com/Altinity/clickhouse-operator for details.
+  additionalUsersConfig:
+
+  backup:
+    # https://github.com/AlexAkulov/clickhouse-backup
+    enabled: false
+    image:
+      # -- Clickhouse backup image repository.
+      repository: dkr.plural.sh/clickhouse/altinity/clickhouse-backup
+      # -- ClickHouse backup image tag.
+      tag: "1.5.0"
+      # -- Image pull policy
+      pullPolicy: IfNotPresent
+      ## Optionally specify an array of imagePullSecrets.
+      ## Secrets must be manually created in the namespace.
+      ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+      ## Example:
+      ## pullSecrets:
+      ##   - myRegistryKeySecretName
+      ##
+      pullSecrets: []
+
+    backup_user: backup
+    # password in plain text because it's using in cronjob
+    backup_password: backup_password
+    # -- Use an existing secret name in the deployed namespace for the backup
+    # password
+    existingSecret: ""
+    # -- Key in the existingSecret containing the password value
+    existingSecretPasswordKey: ""
+    backup_schedule: "0 0 * * *" # backup every day at 0:00
+
+    # All options: https://github.com/AlexAkulov/clickhouse-backup#default-config
+    env:
+      - name: LOG_LEVEL
+        value: "debug"
+      - name: ALLOW_EMPTY_BACKUPS
+        value: "true"
+      - name: API_LISTEN
+        value: "0.0.0.0:7171"
+      # INSERT INTO system.backup_actions to execute backup
+      - name: API_CREATE_INTEGRATION_TABLES
+        value: "true"
+      - name: BACKUPS_TO_KEEP_REMOTE
+        value: "0"
+      # Add settings for remote backup storage.
+
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: ""
+
+  pluralRunbook:
+    enabled: true
+
 
 kafkaTopic: # TODO: hack since the db init fails to create this topic. Remove in the future once it's fixed in snuba.
   enabled: true
