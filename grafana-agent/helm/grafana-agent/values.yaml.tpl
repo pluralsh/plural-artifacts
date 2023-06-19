@@ -14,3 +14,4 @@ logInstance:
 traces:
   agent:
     lokiTenantId: {{ .Cluster }}
+    tempoTenantId: {{ .Cluster }}

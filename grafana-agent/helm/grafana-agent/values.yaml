@@ -106,9 +106,20 @@ traces:
   controller:
     type: deployment
   agent:
+    extraPorts:
+    - name: grpc-otlp
+      port: 4317
+      targetPort: 4317
+      protocol: "TCP"
+    - name: http-otlp
+      port: 4318
+      targetPort: 4318
+      protocol: "TCP"
     mimirHost: http://mimir-nginx.mimir
     lokiHost: http://loki-loki-distributed-gateway.loki/loki/api/v1/push
+    tempoHost: http://tempo-gateway.tempo/otlp
     lokiTenantId: ""
+    tempoTenantId: ""
     configMap:
       content: |
         logging {
@@ -129,6 +140,43 @@ traces:
           endpoint {
             url = {{ .Values.agent.lokiHost | quote }}
             tenant_id = {{ .Values.agent.lokiTenantId | quote }}
+          }
+        }
+
+        otelcol.receiver.otlp "local" {
+          http {
+            endpoint = "0.0.0.0:4318"
+          }
+          grpc {
+            endpoint = "0.0.0.0:4317"
+          }
+
+          output {
+            metrics = [otelcol.processor.batch.local.input]
+            logs    = [otelcol.processor.batch.local.input]
+            traces  = [otelcol.processor.batch.local.input]
+          }
+        }
+
+        otelcol.processor.batch "local" {
+          output {
+            metrics = [otelcol.exporter.otlphttp.local.input]
+            logs    = [otelcol.exporter.otlphttp.local.input]
+            traces  = [otelcol.exporter.otlphttp.local.input]
+          }
+        }
+
+        otelcol.exporter.otlphttp "local" {
+          client {
+            endpoint = {{ .Values.agent.tempoHost | quote }}
+            auth     = otelcol.auth.headers.local.handler
+          }
+        }
+
+        otelcol.auth.headers "local" {
+          header {
+            key          = "X-Scope-OrgID"
+            value        = {{ .Values.agent.tempoTenantId | quote }}
           }
         }
 

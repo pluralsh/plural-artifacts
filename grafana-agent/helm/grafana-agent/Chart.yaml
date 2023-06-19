@@ -3,15 +3,15 @@ name: grafana-agent
 description: helm chart for grafana-agent
 type: application
 version: 0.1.2
-appVersion: v0.32.1
+appVersion: v0.34.0
 dependencies:
 - name: grafana-agent
-  version: 0.10.0
+  version: 0.15.0
   repository: https://grafana.github.io/helm-charts
   alias: traces
   condition: traces.enabled
 - name: grafana-agent
-  version: 0.10.0
+  version: 0.15.0
   repository: https://grafana.github.io/helm-charts
   alias: logs
   condition: logs.enabled

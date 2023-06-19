@@ -64,8 +64,9 @@ tempo-distributed:
       registry: dkr.plural.sh
       repository: tempo/nginxinc/nginx-unprivileged
       tag: 1.19-alpine
-  serviceMonitor:
-    enabled: true
+  metaMonitoring:
+    serviceMonitor:
+      enabled: true
   memcached:
     enabled: true
     image:

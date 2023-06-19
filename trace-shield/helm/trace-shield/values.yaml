@@ -213,7 +213,7 @@ config:
   tempo:
     enabled: false
     publicURL: tempo.az.onplural.sh
-    internalURL: tempo-tempo-distributed-gateway.tempo.svc.cluster.local # TODO: make compatible with gRPC and add gRPC ingress and oathkeeper rule
+    internalURL: tempo-gateway.tempo.svc.cluster.local # TODO: make compatible with gRPC and add gRPC ingress and oathkeeper rule
 
   observabilityIngress:
     className: nginx
