@@ -104,8 +104,7 @@ rbac:
 traces:
   enabled: true
   image:
-    registry: dkr.plural.sh
-    repository: grafana-agent/grafana/agent
+    repository: dkr.plural.sh/grafana-agent/grafana/agent
     tag: v0.34.1
   controller:
     type: deployment
@@ -187,8 +186,7 @@ traces:
 logs:
   enabled: false
   image:
-    registry: dkr.plural.sh
-    repository: grafana-agent/grafana/agent
+    repository: dkr.plural.sh/grafana-agent/grafana/agent
     tag: v0.34.1
   controller:
     type: deployment
