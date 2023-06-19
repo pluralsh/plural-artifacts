@@ -6,8 +6,8 @@ private: true
 dependencies:
 - repo: bootstrap
   name: aws-k8s
-- repo: redis
-  name: aws-redis
+# - repo: redis
+#   name: aws-redis
 sections:
 - name: tempo
   configuration:

@@ -1,7 +1,8 @@
+{{ $dict := dict "ctx" . "component" "query-frontend" }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: tempo-grafana-datasource #TODO: fix url templating
+  name: tempo-grafana-datasource
   labels:
     grafana_datasource: 'tempo'
     {{ include "tempo-plural.labels" . | nindent 4 }}
@@ -14,7 +15,7 @@ data:
       access: proxy
       orgId: 1
       uid: tempo
-      url: http://.{{ .Release.Namespace }}:3100
+      url: http://{{ template "tempo.resourceName" $dict }}.{{ .Release.Namespace }}:3100
       jsonData:
         tracesToLogs:
           {{- if eq .Values.lokiMode "distributed" }}

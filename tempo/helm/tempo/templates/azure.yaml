@@ -7,8 +7,8 @@ metadata:
     aadpodidentity.k8s.io/Behavior: namespaced
 spec:
   type: 0
-  resourceID: {{ .Values.externalDnsIdentityId }}
-  clientID: {{ .Values.externalDnsIdentityClientId }}
+  resourceID: {{ .Values.tempoStorageIdentityId }}
+  clientID: {{ .Values.tempoStorageIdentityClientId }}
 ---
 apiVersion: "aadpodidentity.k8s.io/v1"
 kind: AzureIdentityBinding

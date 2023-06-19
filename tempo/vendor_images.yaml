@@ -1,4 +1,5 @@
 docker.io:
   images-by-tag-regex:
-    grafana/tempo-query: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
-    grafana/tempo: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    # the below regex can be used to limit the regex range so that only versions >= 2.1.0 are matched
+    grafana/tempo-query: (?:^v?2\.(?:[1-9]|[1-9][0-9]{1,})+?\.[0-9]+$)|(?:^v?[3-9]+\.[0-9]+?\.[0-9]+$)
+    grafana/tempo: (?:^v?2\.(?:[1-9]|[1-9][0-9]{1,})+?\.[0-9]+$)|(?:^v?[3-9]+\.[0-9]+?\.[0-9]+$)

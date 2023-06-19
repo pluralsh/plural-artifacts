@@ -6,37 +6,52 @@ tempoStorageIdentityClientId: ""
 lokiMode: simple
 
 tempo-distributed:
+  multitenancyEnabled: true
   tempo:
     image:
       registry: dkr.plural.sh
-      repository: grafana-tempo/docker.io/grafana/tempo
+      repository: tempo/grafana/tempo
+      tag: 2.1.1
   queryFrontend:
     query:
       image:
-        repository: grafana-tempo/docker.io/grafana/tempo-query
-  serviceAccount:
-    name: grafana-tempo
+        registry: dkr.plural.sh
+        repository: tempo/grafana/tempo-query
+        tag: 2.1.1
+  # serviceAccount:
+  #   name: grafana-tempo # TODO: check IRSA and GCP workload identity
   traces:
     jaeger:
-      grpc: true
-    zipkin: true
+      grpc:
+        enabled: true
+      thriftBinary:
+        enabled: true
+      thriftCompact:
+        enabled: true
+      thriftHttp:
+        enabled: true
+    zipkin:
+      enabled: true
     otlp:
-      http: true
-      grpc: true
-    opencensus: true
+      http:
+        enabled: true
+      grpc:
+        enabled: true
+    opencensus:
+      enabled: true
   storage:
     trace:
-      cache: redis
-      redis:
-        endpoint: ""
-        db: 5
-        password: ""
+      # cache: redis
+      # redis:
+      #   endpoint: ""
+      #   db: 5
+      #   password: ""
       memcached:
         consistent_hash: true
-        host: grafana-tempo-tempo-distributed-memcached
+        host: tempo-tempo-distributed-memcached
         service: memcached-client
         timeout: 500ms
   serviceMonitor:
     enabled: true
   memcached:
-    enabled: false
+    enabled: true

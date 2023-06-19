@@ -6,8 +6,8 @@ private: true
 dependencies:
 - repo: bootstrap
   name: gcp-k8s
-- repo: redis
-  name: gcp-redis
+# - repo: redis
+#   name: gcp-redis
 sections:
 - name: tempo
   configuration:
