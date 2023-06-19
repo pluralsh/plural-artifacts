@@ -1,6 +1,7 @@
 name: sonarqube-aws
 description: Installs sonarqube on an aws eks cluster
 provider: AWS
+primary: true
 dependencies:
 - repo: bootstrap
   name: aws-k8s
