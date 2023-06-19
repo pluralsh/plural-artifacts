@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: tempo-grafana-datasource
+  name: tempo-grafana-datasource #TODO: fix url templating
   labels:
     grafana_datasource: 'tempo'
     {{ include "tempo-plural.labels" . | nindent 4 }}
@@ -14,7 +14,7 @@ data:
       access: proxy
       orgId: 1
       uid: tempo
-      url: http://{{ template "tempo.queryFrontendFullname" (index .Subcharts "tempo-distributed") }}.{{ .Release.Namespace }}:3100
+      url: http://.{{ .Release.Namespace }}:3100
       jsonData:
         tracesToLogs:
           {{- if eq .Values.lokiMode "distributed" }}
