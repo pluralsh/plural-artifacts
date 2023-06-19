@@ -11,8 +11,8 @@ agent:
   version: ""
   pasued: false
   image:
-    repository: grafana/agent
-    tag: v0.31.3
+    repository: dkr.plural.sh/grafana-agent/grafana/agent
+    tag: v0.34.1
   imagePullSecrets: []
   storage: {}
   volumes: []
@@ -103,6 +103,10 @@ rbac:
 
 traces:
   enabled: true
+  image:
+    registry: dkr.plural.sh
+    repository: grafana-agent/grafana/agent
+    tag: v0.34.1
   controller:
     type: deployment
   agent:
@@ -183,8 +187,9 @@ traces:
 logs:
   enabled: false
   image:
-    repository: grafana/agent
-    tag: null
+    registry: dkr.plural.sh
+    repository: grafana-agent/grafana/agent
+    tag: v0.34.1
   controller:
     type: deployment
   agent:

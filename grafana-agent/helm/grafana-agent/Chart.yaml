@@ -3,7 +3,7 @@ name: grafana-agent
 description: helm chart for grafana-agent
 type: application
 version: 0.1.2
-appVersion: v0.34.0
+appVersion: v0.34.1
 dependencies:
 - name: grafana-agent
   version: 0.15.0
