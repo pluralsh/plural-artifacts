@@ -1,8 +1,8 @@
-GCP_VERSION=v1.3.4
+GCP_VERSION=v1.3.5
 
 gcp:
 # Clean current CRDs
-	rm -rf ../templates/*-crd.yaml
+	rm -rf ../templates/*-crd.yaml tmp/ *.yaml
 	mkdir tmp
 	wget https://github.com/pluralsh/cluster-api-provider-gcp/releases/download/${GCP_VERSION}/infrastructure-components.yaml
 # This rewrites the data to stringData in the secret

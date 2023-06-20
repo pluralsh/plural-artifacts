@@ -1,3 +1,3 @@
 cluster-api-provider-gcp:
   managerBootstrapCredentials:
-    credentialsJson: {{ .Context.Credentials | quote }}
+    credentialsJson: {{ .Context.Credentials | b64dec | quote }}

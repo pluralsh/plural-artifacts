@@ -202,6 +202,9 @@ cluster:
     # Profiles of managed cluster add-on.
     addonProfiles: []
 
+  ###################################
+  ###         GCP CLUSTER         ###
+  ###################################
   google:
     # Project is the id of the project to deploy the cluster to.
     project: ""
@@ -222,14 +225,20 @@ cluster:
     enableWorkloadIdentity: true
     # ReleaseChannel is the release channel of the GKE cluster
     # One of: unspecified, rapid, regular, stable
-    releaseChannel: stable
+    releaseChannel: unspecified
     # AddonsConfig is a configuration for the addons that can be automatically spun up in the
     # cluster, enabling additional functionality.
     addonsConfig:
+      # HttpLoadBalancingEnabled tracks whether the HTTP Load Balancing controller is enabled in the cluster.
+      # When enabled, it runs a small pod in the cluster that manages the load balancers.
+      httpLoadBalancingEnabled: true
+      # HorizontalPodAutoscalingEnabled tracks whether the Horizontal Pod Autoscaling feature is enabled in the cluster.
+      # When enabled, it ensures that metrics are collected into Stackdriver Monitoring.
+      horizontalPodAutoscalingEnabled: true
       # NetworkPolicyEnabled tracks whether the addon is enabled or not on the Master,
       # it does not track whether network policy is enabled for the nodes.
       networkPolicyEnabled: false
-      # GcpFilestoreCsiDriverEnabled track whether the GCP Filestore CSI driver is enabled for this cluster.
+      # GcpFilestoreCsiDriverEnabled tracks whether the GCP Filestore CSI driver is enabled for this cluster.
       gcpFilestoreCsiDriverEnabled: true
     # Network encapsulates all things related to the GCP network.
     network:

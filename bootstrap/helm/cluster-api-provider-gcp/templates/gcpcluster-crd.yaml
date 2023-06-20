@@ -1,13 +1,12 @@
-{{- if .Values.crds.create -}}
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   name: gcpclusters.infrastructure.cluster.x-k8s.io
   annotations:
-    cert-manager.io/inject-ca-from: '{{ .Release.Namespace }}/{{ include "cluster-api-provider-gcp.fullname" . }}-serving-cert'
+    cert-manager.io/inject-ca-from: '{{ .Release.Namespace }}/{{ include "cluster-api-provider-gcp.fullname"
+      . }}-serving-cert'
     controller-gen.kubebuilder.io/version: v0.11.3
   labels:
-    clusterctl.cluster.x-k8s.io: ""
     cluster.x-k8s.io/provider: infrastructure-gcp
     cluster.x-k8s.io/v1beta1: v1beta1
   {{- include "cluster-api-provider-gcp.labels" . | nindent 4 }}
@@ -58,10 +57,14 @@ spec:
         description: GCPCluster is the Schema for the gcpclusters API.
         properties:
           apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
             type: string
           kind:
-            description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
             type: string
           metadata:
             type: object
@@ -71,10 +74,13 @@ spec:
               additionalLabels:
                 additionalProperties:
                   type: string
-                description: AdditionalLabels is an optional set of tags to add to GCP resources managed by the GCP provider, in addition to the ones added by default.
+                description: AdditionalLabels is an optional set of tags to add to GCP
+                  resources managed by the GCP provider, in addition to the ones added
+                  by default.
                 type: object
               controlPlaneEndpoint:
-                description: ControlPlaneEndpoint represents the endpoint used to communicate with the control plane.
+                description: ControlPlaneEndpoint represents the endpoint used to communicate
+                  with the control plane.
                 properties:
                   host:
                     description: The hostname on which the API server is serving.
@@ -88,7 +94,10 @@ spec:
                 - port
                 type: object
               failureDomains:
-                description: FailureDomains is an optional field which is used to assign selected availability zones to a cluster FailureDomains if empty, defaults to all the zones in the selected region and if specified would override the default zones.
+                description: FailureDomains is an optional field which is used to assign
+                  selected availability zones to a cluster FailureDomains if empty,
+                  defaults to all the zones in the selected region and if specified
+                  would override the default zones.
                 items:
                   type: string
                 type: array
@@ -96,10 +105,16 @@ spec:
                 description: NetworkSpec encapsulates all things related to GCP network.
                 properties:
                   autoCreateSubnetworks:
-                    description: "AutoCreateSubnetworks: When set to true, the VPC network is created in \"auto\" mode. When set to false, the VPC network is created in \"custom\" mode. \n An auto mode VPC network starts with one subnet per region. Each subnet has a predetermined range as described in Auto mode VPC network IP ranges. \n Defaults to true."
+                    description: "AutoCreateSubnetworks: When set to true, the VPC network
+                      is created in \"auto\" mode. When set to false, the VPC network
+                      is created in \"custom\" mode. \n An auto mode VPC network starts
+                      with one subnet per region. Each subnet has a predetermined range
+                      as described in Auto mode VPC network IP ranges. \n Defaults to
+                      true."
                     type: boolean
                   loadBalancerBackendPort:
-                    description: Allow for configuration of load balancer backend (useful for changing apiserver port)
+                    description: Allow for configuration of load balancer backend (useful
+                      for changing apiserver port)
                     format: int32
                     type: integer
                   name:
@@ -111,33 +126,48 @@ spec:
                       description: SubnetSpec configures an GCP Subnet.
                       properties:
                         cidrBlock:
-                          description: CidrBlock is the range of internal addresses that are owned by this subnetwork. Provide this property when you create the subnetwork. For example, 10.0.0.0/8 or 192.168.0.0/16. Ranges must be unique and non-overlapping within a network. Only IPv4 is supported. This field can be set only at resource creation time.
+                          description: CidrBlock is the range of internal addresses
+                            that are owned by this subnetwork. Provide this property
+                            when you create the subnetwork. For example, 10.0.0.0/8
+                            or 192.168.0.0/16. Ranges must be unique and non-overlapping
+                            within a network. Only IPv4 is supported. This field can
+                            be set only at resource creation time.
                           type: string
                         description:
-                          description: Description is an optional description associated with the resource.
+                          description: Description is an optional description associated
+                            with the resource.
                           type: string
                         name:
-                          description: Name defines a unique identifier to reference this resource.
+                          description: Name defines a unique identifier to reference
+                            this resource.
                           type: string
                         privateGoogleAccess:
-                          description: PrivateGoogleAccess defines whether VMs in this subnet can access Google services without assigning external IP addresses
+                          description: PrivateGoogleAccess defines whether VMs in this
+                            subnet can access Google services without assigning external
+                            IP addresses
                           type: boolean
                         region:
-                          description: Region is the name of the region where the Subnetwork resides.
+                          description: Region is the name of the region where the Subnetwork
+                            resides.
                           type: string
                         routeTableId:
-                          description: 'EnableFlowLogs: Whether to enable flow logging for this subnetwork. If this field is not explicitly set, it will not appear in get listings. If not set the default behavior is to disable flow logging.'
+                          description: 'EnableFlowLogs: Whether to enable flow logging
+                            for this subnetwork. If this field is not explicitly set,
+                            it will not appear in get listings. If not set the default
+                            behavior is to disable flow logging.'
                           type: boolean
                         secondaryCidrBlocks:
                           additionalProperties:
                             type: string
-                          description: SecondaryCidrBlocks defines secondary CIDR ranges, from which secondary IP ranges of a VM may be allocated
+                          description: SecondaryCidrBlocks defines secondary CIDR ranges,
+                            from which secondary IP ranges of a VM may be allocated
                           type: object
                       type: object
                     type: array
                 type: object
               project:
-                description: Project is the name of the project to deploy the cluster to.
+                description: Project is the name of the project to deploy the cluster
+                  to.
                 type: string
               region:
                 description: The GCP Region the cluster lives in.
@@ -151,15 +181,19 @@ spec:
             properties:
               failureDomains:
                 additionalProperties:
-                  description: FailureDomainSpec is the Schema for Cluster API failure domains. It allows controllers to understand how many failure domains a cluster can optionally span across.
+                  description: FailureDomainSpec is the Schema for Cluster API failure
+                    domains. It allows controllers to understand how many failure domains
+                    a cluster can optionally span across.
                   properties:
                     attributes:
                       additionalProperties:
                         type: string
-                      description: Attributes is a free form map of attributes an infrastructure provider might use or require.
+                      description: Attributes is a free form map of attributes an infrastructure
+                        provider might use or require.
                       type: object
                     controlPlane:
-                      description: ControlPlane determines if this failure domain is suitable for use by control plane machines.
+                      description: ControlPlane determines if this failure domain is
+                        suitable for use by control plane machines.
                       type: boolean
                   type: object
                 description: FailureDomains is a slice of FailureDomains.
@@ -168,32 +202,41 @@ spec:
                 description: Network encapsulates GCP networking resources.
                 properties:
                   apiServerBackendService:
-                    description: APIServerBackendService is the full reference to the backend service created for the API Server.
+                    description: APIServerBackendService is the full reference to the
+                      backend service created for the API Server.
                     type: string
                   apiServerForwardingRule:
-                    description: APIServerForwardingRule is the full reference to the forwarding rule created for the API Server.
+                    description: APIServerForwardingRule is the full reference to the
+                      forwarding rule created for the API Server.
                     type: string
                   apiServerHealthCheck:
-                    description: APIServerHealthCheck is the full reference to the health check created for the API Server.
+                    description: APIServerHealthCheck is the full reference to the health
+                      check created for the API Server.
                     type: string
                   apiServerInstanceGroups:
                     additionalProperties:
                       type: string
-                    description: APIServerInstanceGroups is a map from zone to the full reference to the instance groups created for the control plane nodes created in the same zone.
+                    description: APIServerInstanceGroups is a map from zone to the full
+                      reference to the instance groups created for the control plane
+                      nodes created in the same zone.
                     type: object
                   apiServerIpAddress:
-                    description: APIServerAddress is the IPV4 global address assigned to the load balancer created for the API Server.
+                    description: APIServerAddress is the IPV4 global address assigned
+                      to the load balancer created for the API Server.
                     type: string
                   apiServerTargetProxy:
-                    description: APIServerTargetProxy is the full reference to the target proxy created for the API Server.
+                    description: APIServerTargetProxy is the full reference to the target
+                      proxy created for the API Server.
                     type: string
                   firewallRules:
                     additionalProperties:
                       type: string
-                    description: FirewallRules is a map from the name of the rule to its full reference.
+                    description: FirewallRules is a map from the name of the rule to
+                      its full reference.
                     type: object
                   router:
-                    description: Router is the full reference to the router created within the network it'll contain the cloud nat gateway
+                    description: Router is the full reference to the router created
+                      within the network it'll contain the cloud nat gateway
                     type: string
                   selfLink:
                     description: SelfLink is the link to the Network used for this cluster.
@@ -234,10 +277,14 @@ spec:
         description: GCPCluster is the Schema for the gcpclusters API.
         properties:
           apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
             type: string
           kind:
-            description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
             type: string
           metadata:
             type: object
@@ -247,10 +294,13 @@ spec:
               additionalLabels:
                 additionalProperties:
                   type: string
-                description: AdditionalLabels is an optional set of tags to add to GCP resources managed by the GCP provider, in addition to the ones added by default.
+                description: AdditionalLabels is an optional set of tags to add to GCP
+                  resources managed by the GCP provider, in addition to the ones added
+                  by default.
                 type: object
               controlPlaneEndpoint:
-                description: ControlPlaneEndpoint represents the endpoint used to communicate with the control plane.
+                description: ControlPlaneEndpoint represents the endpoint used to communicate
+                  with the control plane.
                 properties:
                   host:
                     description: The hostname on which the API server is serving.
@@ -264,7 +314,10 @@ spec:
                 - port
                 type: object
               failureDomains:
-                description: FailureDomains is an optional field which is used to assign selected availability zones to a cluster FailureDomains if empty, defaults to all the zones in the selected region and if specified would override the default zones.
+                description: FailureDomains is an optional field which is used to assign
+                  selected availability zones to a cluster FailureDomains if empty,
+                  defaults to all the zones in the selected region and if specified
+                  would override the default zones.
                 items:
                   type: string
                 type: array
@@ -272,10 +325,16 @@ spec:
                 description: NetworkSpec encapsulates all things related to GCP network.
                 properties:
                   autoCreateSubnetworks:
-                    description: "AutoCreateSubnetworks: When set to true, the VPC network is created in \"auto\" mode. When set to false, the VPC network is created in \"custom\" mode. \n An auto mode VPC network starts with one subnet per region. Each subnet has a predetermined range as described in Auto mode VPC network IP ranges. \n Defaults to true."
+                    description: "AutoCreateSubnetworks: When set to true, the VPC network
+                      is created in \"auto\" mode. When set to false, the VPC network
+                      is created in \"custom\" mode. \n An auto mode VPC network starts
+                      with one subnet per region. Each subnet has a predetermined range
+                      as described in Auto mode VPC network IP ranges. \n Defaults to
+                      true."
                     type: boolean
                   loadBalancerBackendPort:
-                    description: Allow for configuration of load balancer backend (useful for changing apiserver port)
+                    description: Allow for configuration of load balancer backend (useful
+                      for changing apiserver port)
                     format: int32
                     type: integer
                   name:
@@ -287,33 +346,48 @@ spec:
                       description: SubnetSpec configures an GCP Subnet.
                       properties:
                         cidrBlock:
-                          description: CidrBlock is the range of internal addresses that are owned by this subnetwork. Provide this property when you create the subnetwork. For example, 10.0.0.0/8 or 192.168.0.0/16. Ranges must be unique and non-overlapping within a network. Only IPv4 is supported. This field can be set only at resource creation time.
+                          description: CidrBlock is the range of internal addresses
+                            that are owned by this subnetwork. Provide this property
+                            when you create the subnetwork. For example, 10.0.0.0/8
+                            or 192.168.0.0/16. Ranges must be unique and non-overlapping
+                            within a network. Only IPv4 is supported. This field can
+                            be set only at resource creation time.
                           type: string
                         description:
-                          description: Description is an optional description associated with the resource.
+                          description: Description is an optional description associated
+                            with the resource.
                           type: string
                         name:
-                          description: Name defines a unique identifier to reference this resource.
+                          description: Name defines a unique identifier to reference
+                            this resource.
                           type: string
                         privateGoogleAccess:
-                          description: PrivateGoogleAccess defines whether VMs in this subnet can access Google services without assigning external IP addresses
+                          description: PrivateGoogleAccess defines whether VMs in this
+                            subnet can access Google services without assigning external
+                            IP addresses
                           type: boolean
                         region:
-                          description: Region is the name of the region where the Subnetwork resides.
+                          description: Region is the name of the region where the Subnetwork
+                            resides.
                           type: string
                         routeTableId:
-                          description: 'EnableFlowLogs: Whether to enable flow logging for this subnetwork. If this field is not explicitly set, it will not appear in get listings. If not set the default behavior is to disable flow logging.'
+                          description: 'EnableFlowLogs: Whether to enable flow logging
+                            for this subnetwork. If this field is not explicitly set,
+                            it will not appear in get listings. If not set the default
+                            behavior is to disable flow logging.'
                           type: boolean
                         secondaryCidrBlocks:
                           additionalProperties:
                             type: string
-                          description: SecondaryCidrBlocks defines secondary CIDR ranges, from which secondary IP ranges of a VM may be allocated
+                          description: SecondaryCidrBlocks defines secondary CIDR ranges,
+                            from which secondary IP ranges of a VM may be allocated
                           type: object
                       type: object
                     type: array
                 type: object
               project:
-                description: Project is the name of the project to deploy the cluster to.
+                description: Project is the name of the project to deploy the cluster
+                  to.
                 type: string
               region:
                 description: The GCP Region the cluster lives in.
@@ -327,15 +401,19 @@ spec:
             properties:
               failureDomains:
                 additionalProperties:
-                  description: FailureDomainSpec is the Schema for Cluster API failure domains. It allows controllers to understand how many failure domains a cluster can optionally span across.
+                  description: FailureDomainSpec is the Schema for Cluster API failure
+                    domains. It allows controllers to understand how many failure domains
+                    a cluster can optionally span across.
                   properties:
                     attributes:
                       additionalProperties:
                         type: string
-                      description: Attributes is a free form map of attributes an infrastructure provider might use or require.
+                      description: Attributes is a free form map of attributes an infrastructure
+                        provider might use or require.
                       type: object
                     controlPlane:
-                      description: ControlPlane determines if this failure domain is suitable for use by control plane machines.
+                      description: ControlPlane determines if this failure domain is
+                        suitable for use by control plane machines.
                       type: boolean
                   type: object
                 description: FailureDomains is a slice of FailureDomains.
@@ -344,32 +422,41 @@ spec:
                 description: Network encapsulates GCP networking resources.
                 properties:
                   apiServerBackendService:
-                    description: APIServerBackendService is the full reference to the backend service created for the API Server.
+                    description: APIServerBackendService is the full reference to the
+                      backend service created for the API Server.
                     type: string
                   apiServerForwardingRule:
-                    description: APIServerForwardingRule is the full reference to the forwarding rule created for the API Server.
+                    description: APIServerForwardingRule is the full reference to the
+                      forwarding rule created for the API Server.
                     type: string
                   apiServerHealthCheck:
-                    description: APIServerHealthCheck is the full reference to the health check created for the API Server.
+                    description: APIServerHealthCheck is the full reference to the health
+                      check created for the API Server.
                     type: string
                   apiServerInstanceGroups:
                     additionalProperties:
                       type: string
-                    description: APIServerInstanceGroups is a map from zone to the full reference to the instance groups created for the control plane nodes created in the same zone.
+                    description: APIServerInstanceGroups is a map from zone to the full
+                      reference to the instance groups created for the control plane
+                      nodes created in the same zone.
                     type: object
                   apiServerIpAddress:
-                    description: APIServerAddress is the IPV4 global address assigned to the load balancer created for the API Server.
+                    description: APIServerAddress is the IPV4 global address assigned
+                      to the load balancer created for the API Server.
                     type: string
                   apiServerTargetProxy:
-                    description: APIServerTargetProxy is the full reference to the target proxy created for the API Server.
+                    description: APIServerTargetProxy is the full reference to the target
+                      proxy created for the API Server.
                     type: string
                   firewallRules:
                     additionalProperties:
                       type: string
-                    description: FirewallRules is a map from the name of the rule to its full reference.
+                    description: FirewallRules is a map from the name of the rule to
+                      its full reference.
                     type: object
                   router:
-                    description: Router is the full reference to the router created within the network it'll contain the cloud nat gateway
+                    description: Router is the full reference to the router created
+                      within the network it'll contain the cloud nat gateway
                     type: string
                   selfLink:
                     description: SelfLink is the link to the Network used for this cluster.
@@ -410,10 +497,14 @@ spec:
         description: GCPCluster is the Schema for the gcpclusters API.
         properties:
           apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
             type: string
           kind:
-            description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
             type: string
           metadata:
             type: object
@@ -423,10 +514,13 @@ spec:
               additionalLabels:
                 additionalProperties:
                   type: string
-                description: AdditionalLabels is an optional set of tags to add to GCP resources managed by the GCP provider, in addition to the ones added by default.
+                description: AdditionalLabels is an optional set of tags to add to GCP
+                  resources managed by the GCP provider, in addition to the ones added
+                  by default.
                 type: object
               controlPlaneEndpoint:
-                description: ControlPlaneEndpoint represents the endpoint used to communicate with the control plane.
+                description: ControlPlaneEndpoint represents the endpoint used to communicate
+                  with the control plane.
                 properties:
                   host:
                     description: The hostname on which the API server is serving.
@@ -440,7 +534,9 @@ spec:
                 - port
                 type: object
               credentialsRef:
-                description: CredentialsRef is a reference to a Secret that contains the credentials to use for provisioning this cluster. If not supplied then the credentials of the controller will be used.
+                description: CredentialsRef is a reference to a Secret that contains
+                  the credentials to use for provisioning this cluster. If not supplied
+                  then the credentials of the controller will be used.
                 properties:
                   name:
                     description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
@@ -453,7 +549,10 @@ spec:
                 - namespace
                 type: object
               failureDomains:
-                description: FailureDomains is an optional field which is used to assign selected availability zones to a cluster FailureDomains if empty, defaults to all the zones in the selected region and if specified would override the default zones.
+                description: FailureDomains is an optional field which is used to assign
+                  selected availability zones to a cluster FailureDomains if empty,
+                  defaults to all the zones in the selected region and if specified
+                  would override the default zones.
                 items:
                   type: string
                 type: array
@@ -461,13 +560,20 @@ spec:
                 description: NetworkSpec encapsulates all things related to GCP network.
                 properties:
                   autoCreateSubnetworks:
-                    description: "AutoCreateSubnetworks: When set to true, the VPC network is created in \"auto\" mode. When set to false, the VPC network is created in \"custom\" mode. \n An auto mode VPC network starts with one subnet per region. Each subnet has a predetermined range as described in Auto mode VPC network IP ranges. \n Defaults to true."
+                    description: "AutoCreateSubnetworks: When set to true, the VPC network
+                      is created in \"auto\" mode. When set to false, the VPC network
+                      is created in \"custom\" mode. \n An auto mode VPC network starts
+                      with one subnet per region. Each subnet has a predetermined range
+                      as described in Auto mode VPC network IP ranges. \n Defaults to
+                      true."
                     type: boolean
                   datapathProvider:
-                    description: The desired datapath provider for this cluster. By default, uses the IPTables-based kube-proxy implementation (DatapathProvider_LEGACY_DATAPATH).
+                    description: The desired datapath provider for this cluster. By
+                      default, uses the IPTables-based kube-proxy implementation (DatapathProviderLegacyDatapath).
                     type: string
                   loadBalancerBackendPort:
-                    description: Allow for configuration of load balancer backend (useful for changing apiserver port)
+                    description: Allow for configuration of load balancer backend (useful
+                      for changing apiserver port)
                     format: int32
                     type: integer
                   name:
@@ -479,23 +585,45 @@ spec:
                       description: SubnetSpec configures an GCP Subnet.
                       properties:
                         cidrBlock:
-                          description: CidrBlock is the range of internal addresses that are owned by this subnetwork. Provide this property when you create the subnetwork. For example, 10.0.0.0/8 or 192.168.0.0/16. Ranges must be unique and non-overlapping within a network. Only IPv4 is supported. This field can be set only at resource creation time.
+                          description: CidrBlock is the range of internal addresses
+                            that are owned by this subnetwork. Provide this property
+                            when you create the subnetwork. For example, 10.0.0.0/8
+                            or 192.168.0.0/16. Ranges must be unique and non-overlapping
+                            within a network. Only IPv4 is supported. This field can
+                            be set only at resource creation time.
                           type: string
                         description:
-                          description: Description is an optional description associated with the resource.
+                          description: Description is an optional description associated
+                            with the resource.
                           type: string
                         enableFlowLogs:
-                          description: 'EnableFlowLogs: Whether to enable flow logging for this subnetwork. If this field is not explicitly set, it will not appear in get listings. If not set the default behavior is to disable flow logging.'
+                          description: 'EnableFlowLogs: Whether to enable flow logging
+                            for this subnetwork. If this field is not explicitly set,
+                            it will not appear in get listings. If not set the default
+                            behavior is to disable flow logging.'
                           type: boolean
                         name:
-                          description: Name defines a unique identifier to reference this resource.
+                          description: Name defines a unique identifier to reference
+                            this resource.
                           type: string
                         privateGoogleAccess:
-                          description: PrivateGoogleAccess defines whether VMs in this subnet can access Google services without assigning external IP addresses
+                          description: PrivateGoogleAccess defines whether VMs in this
+                            subnet can access Google services without assigning external
+                            IP addresses
                           type: boolean
                         purpose:
                           default: PRIVATE_RFC_1918
-                          description: "Purpose: The purpose of the resource. If unspecified, the purpose defaults to PRIVATE_RFC_1918. The enableFlowLogs field isn't supported with the purpose field set to INTERNAL_HTTPS_LOAD_BALANCER. \n Possible values: \"INTERNAL_HTTPS_LOAD_BALANCER\" - Subnet reserved for Internal HTTP(S) Load Balancing. \"PRIVATE\" - Regular user created or automatically created subnet. \"PRIVATE_RFC_1918\" - Regular user created or automatically created subnet. \"PRIVATE_SERVICE_CONNECT\" - Subnetworks created for Private Service Connect in the producer network. \"REGIONAL_MANAGED_PROXY\" - Subnetwork used for Regional Internal/External HTTP(S) Load Balancing."
+                          description: "Purpose: The purpose of the resource. If unspecified,
+                            the purpose defaults to PRIVATE_RFC_1918. The enableFlowLogs
+                            field isn't supported with the purpose field set to INTERNAL_HTTPS_LOAD_BALANCER.
+                            \n Possible values: \"INTERNAL_HTTPS_LOAD_BALANCER\" - Subnet
+                            reserved for Internal HTTP(S) Load Balancing. \"PRIVATE\"
+                            - Regular user created or automatically created subnet.
+                            \"PRIVATE_RFC_1918\" - Regular user created or automatically
+                            created subnet. \"PRIVATE_SERVICE_CONNECT\" - Subnetworks
+                            created for Private Service Connect in the producer network.
+                            \"REGIONAL_MANAGED_PROXY\" - Subnetwork used for Regional
+                            Internal/External HTTP(S) Load Balancing."
                           enum:
                           - INTERNAL_HTTPS_LOAD_BALANCER
                           - PRIVATE_RFC_1918
@@ -504,18 +632,21 @@ spec:
                           - REGIONAL_MANAGED_PROXY
                           type: string
                         region:
-                          description: Region is the name of the region where the Subnetwork resides.
+                          description: Region is the name of the region where the Subnetwork
+                            resides.
                           type: string
                         secondaryCidrBlocks:
                           additionalProperties:
                             type: string
-                          description: SecondaryCidrBlocks defines secondary CIDR ranges, from which secondary IP ranges of a VM may be allocated
+                          description: SecondaryCidrBlocks defines secondary CIDR ranges,
+                            from which secondary IP ranges of a VM may be allocated
                           type: object
                       type: object
                     type: array
                 type: object
               project:
-                description: Project is the name of the project to deploy the cluster to.
+                description: Project is the name of the project to deploy the cluster
+                  to.
                 type: string
               region:
                 description: The GCP Region the cluster lives in.
@@ -529,15 +660,19 @@ spec:
             properties:
               failureDomains:
                 additionalProperties:
-                  description: FailureDomainSpec is the Schema for Cluster API failure domains. It allows controllers to understand how many failure domains a cluster can optionally span across.
+                  description: FailureDomainSpec is the Schema for Cluster API failure
+                    domains. It allows controllers to understand how many failure domains
+                    a cluster can optionally span across.
                   properties:
                     attributes:
                       additionalProperties:
                         type: string
-                      description: Attributes is a free form map of attributes an infrastructure provider might use or require.
+                      description: Attributes is a free form map of attributes an infrastructure
+                        provider might use or require.
                       type: object
                     controlPlane:
-                      description: ControlPlane determines if this failure domain is suitable for use by control plane machines.
+                      description: ControlPlane determines if this failure domain is
+                        suitable for use by control plane machines.
                       type: boolean
                   type: object
                 description: FailureDomains is a slice of FailureDomains.
@@ -546,32 +681,41 @@ spec:
                 description: Network encapsulates GCP networking resources.
                 properties:
                   apiServerBackendService:
-                    description: APIServerBackendService is the full reference to the backend service created for the API Server.
+                    description: APIServerBackendService is the full reference to the
+                      backend service created for the API Server.
                     type: string
                   apiServerForwardingRule:
-                    description: APIServerForwardingRule is the full reference to the forwarding rule created for the API Server.
+                    description: APIServerForwardingRule is the full reference to the
+                      forwarding rule created for the API Server.
                     type: string
                   apiServerHealthCheck:
-                    description: APIServerHealthCheck is the full reference to the health check created for the API Server.
+                    description: APIServerHealthCheck is the full reference to the health
+                      check created for the API Server.
                     type: string
                   apiServerInstanceGroups:
                     additionalProperties:
                       type: string
-                    description: APIServerInstanceGroups is a map from zone to the full reference to the instance groups created for the control plane nodes created in the same zone.
+                    description: APIServerInstanceGroups is a map from zone to the full
+                      reference to the instance groups created for the control plane
+                      nodes created in the same zone.
                     type: object
                   apiServerIpAddress:
-                    description: APIServerAddress is the IPV4 global address assigned to the load balancer created for the API Server.
+                    description: APIServerAddress is the IPV4 global address assigned
+                      to the load balancer created for the API Server.
                     type: string
                   apiServerTargetProxy:
-                    description: APIServerTargetProxy is the full reference to the target proxy created for the API Server.
+                    description: APIServerTargetProxy is the full reference to the target
+                      proxy created for the API Server.
                     type: string
                   firewallRules:
                     additionalProperties:
                       type: string
-                    description: FirewallRules is a map from the name of the rule to its full reference.
+                    description: FirewallRules is a map from the name of the rule to
+                      its full reference.
                     type: object
                   router:
-                    description: Router is the full reference to the router created within the network it'll contain the cloud nat gateway
+                    description: Router is the full reference to the router created
+                      within the network it'll contain the cloud nat gateway
                     type: string
                   selfLink:
                     description: SelfLink is the link to the Network used for this cluster.
@@ -594,4 +738,3 @@ status:
     plural: ""
   conditions: []
   storedVersions: []
-{{- end -}}

@@ -26,7 +26,7 @@ cluster:
   {{ end }}
 
   {{ if eq .Provider "google" }}
-  kubernetesVersion: 1.24.11-gke.1000
+  kubernetesVersion: 1.24.14-gke.1200
   google:
     project: {{ .Project }}
     region: {{ .Region }}
