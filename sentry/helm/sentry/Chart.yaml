@@ -16,6 +16,6 @@ dependencies:
   version: 0.1.0
   repository: https://pluralsh.github.io/module-library
 - name: clickhouse
-  version: 0.2.0
+  version: 0.2.1
   repository: https://pluralsh.github.io/module-library
   condition: clickhouse.enabled
