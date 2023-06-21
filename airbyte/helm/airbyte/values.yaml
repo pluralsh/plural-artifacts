@@ -211,6 +211,30 @@ private:
       port: 80
 
 configOverlays:
+  - name: job-cpu
+    spec:
+      name: Job CPU
+      documentation: CPU Request for your airbyte sync jobs, eg 200m or .2 for 20% cpu
+      folder: scaling
+      subfolder: syncs
+      updates:
+      - path: [global, jobs, resources, requests, cpu]
+  - name: job-mem
+    spec:
+      name: Job Memory
+      documentation: Memory Request for your airbyte sync jobs, eg 200MI for 200 megabytes
+      folder: scaling
+      subfolder: syncs
+      updates:
+      - path: [global, jobs, resources, requests, memory]
+  - name: worker-replicas
+    spec:
+      name: Worker Replicas
+      documentation: The number of worker replicas in place (each worker can handle a fixed number of syncs concurrently, default 5)
+      folder: scaling
+      subfolder: syncs
+      updates:
+      - path: [airbyte, airbyte, worker, replicaCount]
   - name: web-cpu
     labels:
       platform.plural.sh/component: airbyte-webapp
