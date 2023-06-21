@@ -156,7 +156,7 @@ sentry:
             name: sentry-rabbitmq-user-credentials
             key: password
       - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5678/sentry
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     cron:
       env:
       - name: RABBITMQ_USER
@@ -170,7 +170,7 @@ sentry:
             name: sentry-rabbitmq-user-credentials
             key: password
       - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5678/sentry
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     ingestConsumer:
       autoscaling:
         enabled: false
@@ -190,7 +190,7 @@ sentry:
             name: sentry-rabbitmq-user-credentials
             key: password
       - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5678/sentry
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     ingestMetricsConsumerPerf:
       env:
       - name: RABBITMQ_USER
@@ -204,7 +204,7 @@ sentry:
             name: sentry-rabbitmq-user-credentials
             key: password
       - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5678/sentry
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     ingestMetricsConsumerRh:
       env:
       - name: RABBITMQ_USER
@@ -218,7 +218,7 @@ sentry:
             name: sentry-rabbitmq-user-credentials
             key: password
       - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5678/sentry
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     ingestReplayRecordings:
       env:
       - name: RABBITMQ_USER
@@ -232,7 +232,7 @@ sentry:
             name: sentry-rabbitmq-user-credentials
             key: password
       - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5678/sentry
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     postProcessForwardErrors:
       env:
       - name: RABBITMQ_USER
@@ -246,7 +246,7 @@ sentry:
             name: sentry-rabbitmq-user-credentials
             key: password
       - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5678/sentry
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     postProcessForwardTransactions:
       env:
       - name: RABBITMQ_USER
@@ -260,7 +260,7 @@ sentry:
             name: sentry-rabbitmq-user-credentials
             key: password
       - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5678/sentry
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     subscriptionConsumerEvents:
       env:
       - name: RABBITMQ_USER
@@ -274,7 +274,7 @@ sentry:
             name: sentry-rabbitmq-user-credentials
             key: password
       - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5678/sentry
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     subscriptionConsumerSessions:
       env:
       - name: RABBITMQ_USER
@@ -288,7 +288,7 @@ sentry:
             name: sentry-rabbitmq-user-credentials
             key: password
       - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5678/sentry
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     subscriptionConsumerTransactions:
       env:
       - name: RABBITMQ_USER
@@ -302,7 +302,7 @@ sentry:
             name: sentry-rabbitmq-user-credentials
             key: password
       - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5678/sentry
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     web:
       env:
       - name: RABBITMQ_USER
@@ -316,7 +316,7 @@ sentry:
             name: sentry-rabbitmq-user-credentials
             key: password
       - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5678/sentry
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
       autoscaling:
         enabled: false
       resources:
@@ -336,7 +336,7 @@ sentry:
             name: sentry-rabbitmq-user-credentials
             key: password
       - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5678/sentry
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
       autoscaling:
         enabled: false
       resources:
@@ -359,15 +359,7 @@ sentry:
             name: sentry-rabbitmq-user-credentials
             key: password
       - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5678/sentry
-
-    {{- if or (.Values.rabbitmq.enabled) (.Values.rabbitmq.host) }}
-    BROKER_URL = os.environ.get("BROKER_URL", "amqp://{{ .Values.rabbitmq.auth.username }}:{{ .Values.rabbitmq.auth.password }}@{{ template "sentry.rabbitmq.host" . }}:5672/{{ .Values.rabbitmq.vhost }}")
-    {{- else if $redisPass }}
-    BROKER_URL = os.environ.get("BROKER_URL", "redis://:{{ $redisPass }}@{{ $redisHost }}:{{ $redisPort }}/0")
-    {{- else }}
-    BROKER_URL = os.environ.get("BROKER_URL", "redis://{{ $redisHost }}:{{ $redisPort }}/0")
-    {{- end }}
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
   snuba:
   #################
     consumer:
@@ -383,7 +375,7 @@ sentry:
             name: sentry-rabbitmq-user-credentials
             key: password
       - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5678/sentry
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
       resources:
         requests:
           cpu: 20m
@@ -416,7 +408,7 @@ sentry:
             name: sentry-rabbitmq-user-credentials
             key: password
       - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5678/sentry
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
   
     outcomesConsumer:
       env:
@@ -431,7 +423,7 @@ sentry:
             name: sentry-rabbitmq-user-credentials
             key: password
       - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5678/sentry
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
       resources:
         requests:
           cpu: 20m
@@ -449,7 +441,7 @@ sentry:
             name: sentry-rabbitmq-user-credentials
             key: password
       - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5678/sentry
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
       resources:
         requests:
           cpu: 20m
@@ -467,7 +459,7 @@ sentry:
             name: sentry-rabbitmq-user-credentials
             key: password
       - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5678/sentry
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     sessionsConsumer:
       env:
       - name: RABBITMQ_USER
@@ -481,7 +473,7 @@ sentry:
             name: sentry-rabbitmq-user-credentials
             key: password
       - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5678/sentry
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
       resources:
         requests:
           cpu: 20m
@@ -499,7 +491,7 @@ sentry:
             name: sentry-rabbitmq-user-credentials
             key: password
       - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5678/sentry
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     subscriptionConsumerSessions:
       env:
       - name: RABBITMQ_USER
@@ -513,7 +505,7 @@ sentry:
             name: sentry-rabbitmq-user-credentials
             key: password
       - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5678/sentry
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     subscriptionConsumerTransactions:
       env:
       - name: RABBITMQ_USER
@@ -527,7 +519,7 @@ sentry:
             name: sentry-rabbitmq-user-credentials
             key: password
       - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5678/sentry
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     transactionsConsumer:
       env:
       - name: RABBITMQ_USER
@@ -541,7 +533,7 @@ sentry:
             name: sentry-rabbitmq-user-credentials
             key: password
       - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5678/sentry
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
       resources:
         requests:
           cpu: 20m
@@ -561,7 +553,7 @@ sentry:
             name: sentry-rabbitmq-user-credentials
             key: password
       - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5678/sentry
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
       autoscaling:
         enabled: false
       resources:
@@ -593,7 +585,7 @@ sentry:
             name: sentry-rabbitmq-user-credentials
             key: password
       - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5678/sentry
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
 
 
   zookeeper:
@@ -652,7 +644,7 @@ sentry:
             name: sentry-rabbitmq-user-credentials
             key: password
       - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5678/sentry
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     dbInit:
       env:
       - name: RABBITMQ_USER
@@ -666,7 +658,7 @@ sentry:
             name: sentry-rabbitmq-user-credentials
             key: password
       - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5678/sentry
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
 
 clickhouse:
   enabled: true
