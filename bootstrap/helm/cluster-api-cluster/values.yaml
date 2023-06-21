@@ -454,7 +454,6 @@ workers:
         maxPods: 110
         mode: User
         nodeLabels:
-          kubernetes.azure.com/scalesetpriority: spot
           plural.sh/capacityType: SPOT
           plural.sh/performanceType: SUSTAINED
           plural.sh/scalingGroup: large-sustained-spot
@@ -484,7 +483,6 @@ workers:
         maxPods: 110
         mode: User
         nodeLabels:
-          kubernetes.azure.com/scalesetpriority: spot
           plural.sh/capacityType: SPOT
           plural.sh/performanceType: SUSTAINED
           plural.sh/scalingGroup: large-sustained-spot
@@ -514,7 +512,6 @@ workers:
         maxPods: 110
         mode: User
         nodeLabels:
-          kubernetes.azure.com/scalesetpriority: spot
           plural.sh/capacityType: SPOT
           plural.sh/performanceType: SUSTAINED
           plural.sh/scalingGroup: large-sustained-spot
@@ -607,7 +604,6 @@ workers:
         maxPods: 110
         mode: User
         nodeLabels:
-          kubernetes.azure.com/scalesetpriority: spot
           plural.sh/capacityType: SPOT
           plural.sh/performanceType: SUSTAINED
           plural.sh/scalingGroup: medium-sustained-spot
@@ -637,7 +633,6 @@ workers:
         maxPods: 110
         mode: User
         nodeLabels:
-          kubernetes.azure.com/scalesetpriority: spot
           plural.sh/capacityType: SPOT
           plural.sh/performanceType: SUSTAINED
           plural.sh/scalingGroup: medium-sustained-spot
@@ -667,7 +662,6 @@ workers:
         maxPods: 110
         mode: User
         nodeLabels:
-          kubernetes.azure.com/scalesetpriority: spot
           plural.sh/capacityType: SPOT
           plural.sh/performanceType: SUSTAINED
           plural.sh/scalingGroup: medium-sustained-spot
@@ -760,7 +754,6 @@ workers:
         maxPods: 110
         mode: User
         nodeLabels:
-          kubernetes.azure.com/scalesetpriority: spot
           plural.sh/capacityType: SPOT
           plural.sh/performanceType: SUSTAINED
           plural.sh/scalingGroup: small-sustained-spot
@@ -790,7 +783,6 @@ workers:
         maxPods: 110
         mode: User
         nodeLabels:
-          kubernetes.azure.com/scalesetpriority: spot
           plural.sh/capacityType: SPOT
           plural.sh/performanceType: SUSTAINED
           plural.sh/scalingGroup: small-sustained-spot
@@ -820,7 +812,6 @@ workers:
         maxPods: 110
         mode: User
         nodeLabels:
-          kubernetes.azure.com/scalesetpriority: spot
           plural.sh/capacityType: SPOT
           plural.sh/performanceType: SUSTAINED
           plural.sh/scalingGroup: small-sustained-spot
