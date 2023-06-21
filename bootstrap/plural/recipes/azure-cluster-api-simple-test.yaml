@@ -1,0 +1,32 @@
+name: azure-cluster-api-simple-test
+description: Creates an AKS cluster and installs the bootstrap chart
+provider: AZURE
+primary: false
+private: true
+dependencies: []
+sections:
+  - name: bootstrap
+    configuration:
+      - name: client_id
+        documentation: Service principal client ID
+        type: STRING
+      - name: client_secret
+        documentation: Service principal password
+        type: STRING
+    items:
+      - type: TERRAFORM
+        name: azure-bootstrap-cluster-api
+      - type: HELM
+        name: bootstrap
+      - type: HELM
+        name: plural-certmanager-webhook
+      - type: HELM
+        name: cluster-api-core
+      - type: HELM
+        name: cluster-api-bootstrap
+      - type: HELM
+        name: cluster-api-control-plane
+      - type: HELM
+        name: cluster-api-provider-azure
+      - type: HELM
+        name: cluster-api-cluster
