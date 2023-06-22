@@ -316,9 +316,9 @@ workers:
     azure:
       annotations:
         cluster.x-k8s.io/replicas-managed-by: external-autoscaler
+      labels: {}
       replicas: 0
       spec:
-        additionalTags: {}
         availabilityZones:
           - "1"
         enableNodePublicIP: false
@@ -332,10 +332,15 @@ workers:
         osDiskSizeGB: 50
         osDiskType: Managed
         osType: Linux
+        scaleSetPriority: Regular
         scaling:
           maxSize: 5
           minSize: 1
         sku: Standard_D2s_v3
+        additionalTags: {}
+        taints: {}
+        kubeletConfig: {}
+        linuxOSConfig: {}
     #########################################
     ###        GCP WORKER DEFAULTS        ###
     #########################################
