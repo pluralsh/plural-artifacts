@@ -61,6 +61,11 @@ airbyte:
     log:
       level: INFO
 
+    resources:
+      limits:
+        cpu: 500m
+        memory: 1Gi
+
     containerOrchestrator:
       image: dkr.plural.sh/airbyte/airbyte/container-orchestrator:0.44.8
 
@@ -92,6 +97,11 @@ airbyte:
     
     log:
       level: INFO
+    
+    resources:
+      limits:
+        cpu: 500m
+        memory: 1Gi
     
     livenessProbe:
       enabled: true

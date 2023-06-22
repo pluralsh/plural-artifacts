@@ -67,6 +67,22 @@ spec:
         - requests
         - memory
         valueFrom: worker-memory
+      - path: 
+        - airbyte
+        - airbyte
+        - worker
+        - resources
+        - limits
+        - cpu
+        valueFrom: worker-cpu-limit
+      - path:
+        - airbyte
+        - airbyte
+        - worker
+        - resources
+        - limits
+        - memory
+        valueFrom: worker-memory-limit
       - path:
         - airbyte
         - airbyte
@@ -89,3 +105,19 @@ spec:
         - requests
         - memory
         valueFrom: server-memory
+      - path: 
+        - airbyte
+        - airbyte
+        - server
+        - resources
+        - limits
+        - cpu
+        valueFrom: server-cpu-limit
+      - path:
+        - airbyte
+        - airbyte
+        - server
+        - resources
+        - limits
+        - memory
+        valueFrom: server-memory-limit
