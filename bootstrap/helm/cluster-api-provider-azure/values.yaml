@@ -6,4 +6,4 @@ cluster-api-provider-azure:
     manager:
       image:
         repository: ghcr.io/pluralsh/cluster-api-azure-controller
-        tag: v1.9.8
+        tag: v1.9.9
