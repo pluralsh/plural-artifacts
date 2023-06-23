@@ -63,7 +63,7 @@ sentry:
 
   serviceAccount:
     {{ if eq .Provider "google" }}
-    create: false
+    enabled: false
     {{ else if eq .Provider "aws" }}
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-sentry"
