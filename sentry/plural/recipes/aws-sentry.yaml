@@ -35,7 +35,5 @@ sections:
   items:
   - type: TERRAFORM
     name: aws
-  - type: TERRAFORM
-    name: secrets
   - type: HELM
     name: sentry
