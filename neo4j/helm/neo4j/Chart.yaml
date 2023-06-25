@@ -1,0 +1,6 @@
+apiVersion: v2
+name: neo4j
+description: helm chart for neo4j
+type: application
+version: 0.1.0
+appVersion: 5.9.0
