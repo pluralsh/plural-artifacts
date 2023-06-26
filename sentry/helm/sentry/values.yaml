@@ -661,6 +661,12 @@ sentry:
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
 
 clickhouse:
+  layout:
+    ## -- The number of shards in the cluster.
+    shardsCount: 2
+    ## -- The number of replicas per shard. If ClickhouseKeeper is enabled this is ignored and permanently set to 3.
+    replicasCount: 3
+
   enabled: true
   cluster: sentry
   database: sentry

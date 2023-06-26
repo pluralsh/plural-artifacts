@@ -9,7 +9,7 @@ dependencies:
   repository: https://pluralsh.github.io/module-library
   version: 0.1.0
 - name: clickhouse
-  repository: https://pluralsh.github.io/module-library
-  version: 0.2.2
-digest: sha256:24eb2e2fe0e3d65619ee4a5d04882bf2cec99ac9856a0ff56cd3812a57988d5f
-generated: "2023-06-21T19:44:22.167377+02:00"
+  repository: file:///Users/hans.rauer/Repos/module-library/helm/clickhouse
+  version: 0.2.3
+digest: sha256:a7e5ba56414ff5e6ae393dd08cf1f040ef4c79d9b30c355fdd9388e8b3824bfd
+generated: "2023-06-26T18:52:30.541684+02:00"
