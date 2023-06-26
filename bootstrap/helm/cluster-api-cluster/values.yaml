@@ -154,10 +154,10 @@ cluster:
     virtualNetwork: {}
     # Network plugin used for building Kubernetes network.
     # One of: azure, kubenet.
-    networkPlugin: ""
+    networkPlugin: azure
     # Network policy used for building Kubernetes network.
     # One of: azure, calico.
-    networkPolicy: ""
+    networkPolicy: azure
     # Outbound configuration used by Nodes.
     # One of: loadBalancer, managedNATGateway, userAssignedNATGateway, userDefinedRouting.
     outboundType: ""
@@ -167,10 +167,11 @@ cluster:
     # It must be within the Kubernetes service address range specified in serviceCidr.
     dnsServiceIP: ""
     # SKU of the AKS to be provisioned.
-    sku: {}
+    sku:
+      tier: Paid
     # SKU of the loadBalancer to be provisioned.
     # One of: Basic, Standard.
-    loadBalancerSKU: ""
+    loadBalancerSKU: Standard
     # Azure Active Directory configuration to integrate with AKS for AAD authentication.
     aadProfile: {}
     # Profile of the cluster load balancer.
@@ -182,19 +183,19 @@ cluster:
       # Default is false. Changed to true as in old bootstrap.
       balanceSimilarNodeGroups: "true"
       # One of: least-waste, most-pods, priority, random.
-      expander: "random"
+      expander: random
       maxEmptyBulkDelete: "10"
       maxGracefulTerminationSec: "600"
       maxNodeProvisionTime: "15m"
       maxTotalUnreadyPercentage: "45"
       newPodScaleUpDelay: "0s"
       okTotalUnreadyCount: "3"
-      scanInterval: "10s"
+      scanInterval: 10s
       scaleDownDelayAfterAdd: "10m"
       scaleDownDelayAfterDelete: "10s"
       scaleDownDelayAfterFailure: "3m"
-      scaleDownUnneededTime: "10m"
-      scaleDownUnreadyTime: "20m"
+      scaleDownUnneededTime: 10m
+      scaleDownUnreadyTime: 20m
       # Default is 0.5. Changed to 0.7 as in old bootstrap.
       scaleDownUtilizationThreshold: "0.7"
       skipNodesWithLocalStorage: "false"
