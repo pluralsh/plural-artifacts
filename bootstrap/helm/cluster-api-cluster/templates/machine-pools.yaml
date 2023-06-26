@@ -11,6 +11,8 @@ spec:
   clusterName: {{ $.Values.cluster.name }}
   {{ if $values.replicas }}
   replicas: {{ $values.replicas }}
+  {{ else }}
+  replicas: 0
   {{ end }}
   template:
     spec:
