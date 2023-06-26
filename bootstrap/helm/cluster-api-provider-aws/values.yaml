@@ -1,4 +1,9 @@
 cluster-api-provider-aws:
+  controllerManager:
+    manager:
+      image:
+        repository: zreigz/cluster-api-aws-controller
+        tag: v2.1.4
   configVariables:
     awsControllerIamRole: ''
     capaEksAddRoles: true

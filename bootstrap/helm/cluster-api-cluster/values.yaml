@@ -361,22 +361,18 @@ workers:
   ###        AWS WORKERS        ###
   #################################
   aws:
-    test-pool-0:
+    small-burst-spot:
       # annotations: {}
       # labels: {}
       replicas: 1
       spec:
         labels: {} # TODO: allow this to not be set
         additionalTags: {} # TODO: allow this to not be set
-    test-pool-1:
-      # annotations: {}
-      # labels: {}
+    large-burst-spot:
       replicas: 1
       spec:
         labels: {} # TODO: allow this to not be set
         additionalTags: {} # TODO: allow this to not be set
-        # amiType: ""
-        # capacityType: spot
   #################################
   ###       AZURE WORKERS       ###
   #################################
