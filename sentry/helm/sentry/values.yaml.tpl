@@ -9,6 +9,15 @@ rabbitmq:
   cluster:
     namespace: {{ $rabbitmqNamespace }}  
 
+clickhouse:
+  clickhouseKeeper:
+    enabled: true
+    serviceTemplate:
+      type: ClusterIP
+      {{ if eq .Provider "google" }}
+      clusterIP: None
+      {{ end }}
+
 sentry:
   system:
     secretKey: {{ dedupe . "sentry.sentry.system.secretKey" (randAlphaNum 32) }}
