@@ -121,10 +121,10 @@ cluster:
   ###################################
   azure:
     # Name of AzureClusterIdentity to be used when reconciling this cluster.
-    clusterIdentityName: "cluster-identity"
+    clusterIdentityName: cluster-identity
     # Type of Azure Identity used.
     # One of: ServicePrincipal, ServicePrincipalCertificate, UserAssignedMSI, ManualServicePrincipal.
-    clusterIdentityType: "ServicePrincipal"
+    clusterIdentityType: ServicePrincipal
     # Used to identify the namespaces the clusters are allowed to use the identity from.
     # Namespaces can be selected either using an array of namespaces or with label selector.
     # An empty allowedNamespaces object indicates that AzureClusters can use this identity from any namespace.
@@ -136,7 +136,7 @@ cluster:
     # Service Principal password.
     clientSecret: ""
     # Name of Secret containing clientSecret.
-    clientSecretName: "cluster-identity-secret"
+    clientSecretName: cluster-identity-secret
     # Azure resource ID for the User Assigned MSI resource.
     resourceID: ""
     # Service Principal primary tenant ID.
@@ -186,14 +186,14 @@ cluster:
       expander: random
       maxEmptyBulkDelete: "10"
       maxGracefulTerminationSec: "600"
-      maxNodeProvisionTime: "15m"
+      maxNodeProvisionTime: 15m
       maxTotalUnreadyPercentage: "45"
-      newPodScaleUpDelay: "0s"
+      newPodScaleUpDelay: 0s
       okTotalUnreadyCount: "3"
       scanInterval: 10s
-      scaleDownDelayAfterAdd: "10m"
-      scaleDownDelayAfterDelete: "10s"
-      scaleDownDelayAfterFailure: "3m"
+      scaleDownDelayAfterAdd: 10m
+      scaleDownDelayAfterDelete: 10s
+      scaleDownDelayAfterFailure: 3m
       scaleDownUnneededTime: 10m
       scaleDownUnreadyTime: 20m
       # Default is 0.5. Changed to 0.7 as in old bootstrap.
