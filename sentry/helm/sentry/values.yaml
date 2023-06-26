@@ -664,14 +664,9 @@ clickhouse:
   enabled: true
   cluster: sentry
   database: sentry
-
   user: admin
   password: change_me
-  # -- Whether to use TLS connection connecting to ClickHouse
-  secure: false
-  # -- Whether to verify TLS certificate on connection to ClickHouse
-  verify: false
-
+  
   resources:
     requests:
       cpu: 150m
@@ -679,26 +674,7 @@ clickhouse:
     limits:
       cpu: 500m
       memory: 1Gi
-  securityContext:
-    enabled: true
-    runAsUser: 101
-    runAsGroup: 101
-    fsGroup: 101
-
-  serviceType: ClusterIP
-  persistence:
-    enabled: true
-    size: 20Gi
-  backup:
-    enabled: false
-    
-  serviceAccount:
-    create: true
-
-  pluralRunbook:
-    enabled: true
-
-
+  
 kafkaTopic: # TODO: hack since the db init fails to create this topic. Remove in the future once it's fixed in snuba.
   enabled: true
   cluster: kafka
