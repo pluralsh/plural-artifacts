@@ -4,7 +4,6 @@ description: helm chart for mage
 type: application
 version: 0.1.0
 appVersion: 0.8.24
-
 dependencies:
 - name: postgres
   version: 0.1.5
