@@ -11,7 +11,7 @@ metadata:
     app.kubernetes.io/name: aad-pod-identity
     app.kubernetes.io/instance: aad-pod-identity
     app.kubernetes.io/managed-by: Helm
-    helm.sh/chart: aad-pod-identity
+    helm.sh/chart: cluster-api-provider-azure
 spec:
   group: aadpodidentity.k8s.io
   names:
