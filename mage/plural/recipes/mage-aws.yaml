@@ -1,0 +1,26 @@
+name: mage-aws
+description: Installs mage on an aws eks cluster
+provider: AWS
+primary: true
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+
+
+- repo: postgres
+  name: aws-postgres
+
+sections:
+- name: mage
+  configuration:
+    - name: hostname
+      type: DOMAIN
+      documentation: the fully qualified domain name your Mage instance will be available at
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: mage
