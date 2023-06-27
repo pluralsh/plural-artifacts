@@ -1,0 +1,22 @@
+name: mage-gcp
+description: Installs mage on an GCP gke cluster
+provider: GCP
+primary: true
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+- repo: postgres
+  name: gcp-postgres
+sections:
+- name: mage
+  configuration:
+    - name: hostname
+      type: DOMAIN
+      documentation: the fully qualified domain name your Mage instance will be available at
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: mage

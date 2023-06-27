@@ -1,0 +1,12 @@
+name: mage
+description: 🧙 The modern replacement for Airflow. Build, run, and manage data pipelines for integrating and transforming data.
+category: DATA
+private: false
+releaseStatus: ALPHA
+icon: plural/icons/mage.png
+notes: plural/notes.tpl
+homepage: https://www.mage.ai/
+gitUrl: https://github.com/mage-ai/mage-ai
+contributors:
+  - nico.guary@gmail.com
+  - walkoss@pm.me

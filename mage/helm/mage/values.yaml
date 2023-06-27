@@ -1,0 +1,16 @@
+postgres:
+  team: plural
+  user: mage
+  dbName: mage
+  ownerChart: mage
+  infix: "-postgres"
+  password: REPLACE_ME
+
+mageai:
+  image:
+    repository: dkr.plural.sh/mage/mageai/mageai
+
+  volumes:
+    - name: mage-fs
+      persistentVolumeClaim:
+        claimName: mageai-pvc
