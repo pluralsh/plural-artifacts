@@ -1,8 +1,8 @@
 name: sonarqube
 description: SonarQube provides the capability to not only show health of an application but also to highlight issues newly introduced. With a Quality Gate in place, you can Clean as You Code and therefore improve code quality systematically.
 category: PRODUCTIVITY
-private: true
-releaseStatus: ALPHA
+private: false
+releaseStatus: BETA
 icon: plural/icons/sonarqube.png
 notes: plural/notes.tpl
 homepage: https://www.sonarsource.com/products/sonarqube/

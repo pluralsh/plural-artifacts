@@ -1,0 +1,123 @@
+apiVersion: platform.plural.sh/v1alpha1
+kind: Runbook
+metadata:
+  name: scaling-manual
+  labels:
+    platform.plural.sh/pinned: 'true'
+{{ include "airbyte-plural.labels" . | indent 4 }}
+spec:
+  name: Airbyte Scaling
+  description: overview of how to optimally scale your Airbyte install
+  display: |-
+{{ .Files.Get "runbooks/scaling-manual.xml" | indent 4 }}
+  datasources:
+  - name: server-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"airbyte-server.+"}[5m])) by (pod)
+  - name: server-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"airbyte-server.+"}) by (pod)
+  - name: worker-cpu
+    type: prometheus
+    prometheus:
+      format: cpu
+      legend: $pod
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"airbyte-worker.+"}[5m])) by (pod)
+  - name: worker-memory
+    type: prometheus
+    prometheus:
+      format: memory
+      legend: $pod
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"airbyte-worker.+"}) by (pod)
+  - name: worker
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: airbyte-worker
+  - name: server
+    type: kubernetes
+    kubernetes:
+      resource: deployment
+      name: airbyte-server
+  actions:
+  - name: scale
+    action: config
+    redirectTo: '/'
+    configuration:
+      updates:
+      - path: 
+        - airbyte
+        - airbyte
+        - worker
+        - resources
+        - requests
+        - cpu
+        valueFrom: worker-cpu
+      - path:
+        - airbyte
+        - airbyte
+        - worker
+        - resources
+        - requests
+        - memory
+        valueFrom: worker-memory
+      - path: 
+        - airbyte
+        - airbyte
+        - worker
+        - resources
+        - limits
+        - cpu
+        valueFrom: worker-cpu-limit
+      - path:
+        - airbyte
+        - airbyte
+        - worker
+        - resources
+        - limits
+        - memory
+        valueFrom: worker-memory-limit
+      - path:
+        - airbyte
+        - airbyte
+        - worker
+        - replicaCount
+        valueFrom: worker-replicas
+      - path: 
+        - airbyte
+        - airbyte
+        - server
+        - resources
+        - requests
+        - cpu
+        valueFrom: server-cpu
+      - path:
+        - airbyte
+        - airbyte
+        - server
+        - resources
+        - requests
+        - memory
+        valueFrom: server-memory
+      - path: 
+        - airbyte
+        - airbyte
+        - server
+        - resources
+        - limits
+        - cpu
+        valueFrom: server-cpu-limit
+      - path:
+        - airbyte
+        - airbyte
+        - server
+        - resources
+        - limits
+        - memory
+        valueFrom: server-memory-limit

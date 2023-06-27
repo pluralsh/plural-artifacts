@@ -1,0 +1,107 @@
+<root gap='medium'>
+    <box pad='small' gap='medium' direction='row' align='center'>
+        <box direction='row' align='center' gap='small'>
+            <box gap='small' align='center'>
+                <timeseries datasource="worker-cpu" label="Worker CPU Usage" />
+                <text size='small'>You should set a requests to
+                    roughly correspond to 80% average CPU utilization</text>
+                <text size='small'>Normally a CPU limit is not required</text>
+            </box>
+            <box gap='small' align='center'>
+                <timeseries datasource="worker-memory" label="Worker Memory Usage" />
+                <text size='small'>You should set a requests to
+                    roughly correspond to 80% average Memory utilization</text>
+                <text size='small'>A memory limit is recommended to avoid resource starvation</text>
+            </box>
+        </box>
+        <box gap='xsmall'>
+            <box gap='xsmall'>
+            <input placeholder="250m" label='Worker CPU Request' name='worker-cpu'>
+                <valueFrom
+                    datasource="worker"
+                    doc="kubernetes.raw"
+                    path="spec.template.spec.containers[0].resources.requests.cpu" />
+            </input>
+            <input placeholder="1Gi" label='Worker Memory Request' name='worker-memory'>
+                <valueFrom
+                    datasource="worker"
+                    doc="kubernetes.raw"
+                    path="spec.template.spec.containers[0].resources.requests.memory" />
+            </input>
+            </box>
+            <box gap='xsmall'>
+            <input placeholder="250m" label='Worker CPU Limit' name='worker-cpu-limit'>
+                <valueFrom
+                    datasource="worker"
+                    doc="kubernetes.raw"
+                    path="spec.template.spec.containers[0].resources.limits.cpu" />
+            </input>
+            <input placeholder="1Gi" label='Worker Memory Limit' name='worker-memory-limit'>
+                <valueFrom
+                    datasource="worker"
+                    doc="kubernetes.raw"
+                    path="spec.template.spec.containers[0].resources.limits.memory" />
+            </input>
+            </box>
+        </box>
+    </box>
+    <box pad='small' gap='medium' direction='row' align='center'>
+        <box direction='row' width='70%' align='center'>
+            <text size='small'>You can also add more replicas to provide additional parallelism</text>
+        </box>
+        <box direction='row' gap='small' width='30%' align='center'>
+            <input datatype='int' placeholder="1" label='Replicas' name='worker-replicas'>
+                <valueFrom 
+                    datasource="worker" 
+                    doc="kubernetes.raw" 
+                    path="spec.replicas" />
+            </input>
+        </box>
+    </box>
+    <box pad='small' gap='medium' direction='row' align='center'>
+        <box direction='row' align='center' gap='small'>
+            <box gap='small' align='center'>
+                <timeseries datasource="server-cpu" label="Server CPU Usage" />
+                <text size='small'>You should set a requests to
+                    roughly correspond to 80% regular utilization</text>
+                <text size='small'>Normally a CPU limit is not required</text>
+            </box>
+            <box gap='small' align='center'>
+                <timeseries datasource="server-memory" label="Server Memory Usage" />
+                <text size='small'>You should set a requests to
+                    roughly correspond to 80% regular utilization</text>
+                <text size='small'>A memory limit should be set to avoid resource starvation</text>
+            </box>
+        </box>
+        <box gap='xsmall'>
+            <box gap='xsmall'>
+            <input placeholder="250m" label='Server CPU Request' name='server-cpu'>
+                <valueFrom
+                    datasource="server"
+                    doc="kubernetes.raw"
+                    path="spec.template.spec.containers[0].resources.requests.cpu" />
+            </input>
+            <input placeholder="1Gi" label='Server Memory Request' name='server-memory'>
+                <valueFrom
+                    datasource="server"
+                    doc="kubernetes.raw"
+                    path="spec.template.spec.containers[0].resources.requests.memory" />
+            </input>
+            </box>
+            <box gap='xsmall'>
+            <input placeholder="250m" label='Server CPU Limit' name='server-cpu-limit'>
+                <valueFrom
+                    datasource="server"
+                    doc="kubernetes.raw"
+                    path="spec.template.spec.containers[0].resources.limits.cpu" />
+            </input>
+            <input placeholder="1Gi" label='Server Memory Limit' name='server-memory-limit'>
+                <valueFrom
+                    datasource="server"
+                    doc="kubernetes.raw"
+                    path="spec.template.spec.containers[0].resources.limits.memory" />
+            </input>
+            </box>
+        </box>
+    </box>
+</root>
