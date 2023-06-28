@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: neo4j-tls
+spec:
+  secretName: neo4j-tls
+  dnsNames:
+  - {{ .Values.neo4j.services.neo4j.hostname }}
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+    group: cert-manager.io

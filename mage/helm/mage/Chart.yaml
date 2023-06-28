@@ -1,0 +1,13 @@
+apiVersion: v2
+name: mage
+description: helm chart for mage
+type: application
+version: 0.1.0
+appVersion: 0.8.24
+dependencies:
+- name: postgres
+  version: 0.1.5
+  repository: https://pluralsh.github.io/module-library
+- name: mageai
+  version: 0.1.2
+  repository: https://mage-ai.github.io/helm-charts
