@@ -1,0 +1,10 @@
+apiVersion: v2
+name: imgproxy
+description: helm chart for imgproxy
+type: application
+version: 0.1.2
+appVersion: "v3.15.0"
+dependencies:
+  - name: imgproxy
+    version: 0.8.30
+    repository: https://helm.imgproxy.net/

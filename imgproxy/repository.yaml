@@ -1,0 +1,11 @@
+name: imgproxy
+description: Fast and secure standalone server for resizing and converting remote images
+category: PRODUCTIVITY
+private: true
+releaseStatus: ALPHA
+icon: plural/icons/imgproxy.png
+notes: plural/notes.tpl
+homepage: https://imgproxy.net/
+gitUrl: https://github.com/imgproxy/imgproxy
+contributors:
+- walkoss@pm.me
