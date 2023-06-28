@@ -64,6 +64,12 @@ spec:
                   'pd-ssd' or 'pd-balanced') \n If unspecified, the default disk type
                   is 'pd-standard'"
                 type: string
+              imageType:
+                description: ImageType is the image type to use for this node. Note
+                  that for a given image type, the latest version of it will be used.
+                  Please see https://cloud.google.com/kubernetes-engine/docs/concepts/node-images
+                  for available image types.
+                type: string
               kubernetesLabels:
                 additionalProperties:
                   type: string
@@ -99,12 +105,33 @@ spec:
                 description: "The name of a Google Compute Engine [machine type](https://cloud.google.com/compute/docs/machine-types)
                   \n If unspecified, the default machine type is `e2-medium`."
                 type: string
+              management:
+                description: Management configuration for this NodePool.
+                properties:
+                  autoRepair:
+                    description: AutoRepair is a flag that specifies whether the node
+                      auto-repair is enabled for the node pool. If enabled, the nodes
+                      in this node pool will be monitored and, if they fail health checks
+                      too many times, an automatic repair action will be triggered.
+                    type: boolean
+                  autoUpgrade:
+                    description: AutoUpgrade is a flag that specifies whether node auto-upgrade
+                      is enabled for the node pool. If enabled, node auto-upgrade helps
+                      keep the nodes in your node pool up to date with the latest release
+                      version of Kubernetes.
+                    type: boolean
+                type: object
               nodePoolName:
                 description: NodePoolName specifies the name of the GKE node pool corresponding
                   to this MachinePool. If you don't specify a name then a default name
                   will be created based on the namespace and name of the managed machine
                   pool.
                 type: string
+              preemptible:
+                description: 'Whether the nodes are created as preemptible VM instances.
+                  See: https://cloud.google.com/compute/docs/instances/preemptible for
+                  more information about preemptible VM instances.'
+                type: boolean
               providerIDList:
                 description: ProviderIDList are the provider IDs of instances in the
                   managed instance group corresponding to the nodegroup represented
@@ -116,12 +143,21 @@ spec:
                 description: Scaling specifies scaling for the node pool
                 properties:
                   maxCount:
+                    description: MaxCount is a maximum number of nodes for one location
+                      in the NodePool. Must be >= maxCount. There has to be enough quota
+                      to scale up the cluster.
                     format: int32
                     type: integer
                   minCount:
+                    description: MinCount is a minimum number of nodes for one location
+                      in the NodePool. Must be >= 1 and <= maxCount.
                     format: int32
                     type: integer
                 type: object
+              spot:
+                description: Spot flag for enabling Spot VM, which is a rebrand of the
+                  existing preemptible flag.
+                type: boolean
             type: object
           status:
             description: GCPManagedMachinePoolStatus defines the observed state of GCPManagedMachinePool.

@@ -9,12 +9,10 @@ metadata:
   name: {{ $name }}
 spec:
   clusterName: {{ $.Values.cluster.name }}
-  {{ if $values.replicas }}
   replicas: {{ $values.replicas }}
-  {{ end }}
   template:
     spec:
-      version: {{ $values.kubernetesVersion }}
+      version: {{ $values.kubernetesVersion | default $.Values.cluster.kubernetesVersion }}
       # failureDomain: # TODO: figure out if we should set this value here. Must match a key in the FailureDomains map stored on the cluster object.
       clusterName: {{ $.Values.cluster.name }}
       bootstrap:

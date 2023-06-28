@@ -356,15 +356,23 @@ workers:
     google:
       replicas: 0
       scaling:
-        maxCount: 6
-        minCount: 3
-      kubernetesLabels: {}
+        maxCount: 9
+        minCount: 1
+      management:
+        autoRepair: true
+        autoUpgrade: true
+      kubernetesLabels:
+        plural.sh/capacityType: ON_DEMAND
+        plural.sh/performanceType: BURST
       kubernetesTaints: {}
       additionalLabels: {}
       providerIDList: []
       machineType: e2-standard-2
       diskSizeGb: 50
       diskType: pd-standard
+      spot: false
+      preemptible: false
+      imageType: COS_CONTAINERD
   #################################
   ###        AWS WORKERS        ###
   #################################
@@ -855,12 +863,33 @@ workers:
     small-burst-on-demand:
       replicas: 3
       scaling:
-        maxCount: 6
-        minCount: 3
-      kubernetesLabels: {}
-      kubernetesTaints: {}
-      additionalLabels: {}
-      providerIDList: []
+        minCount: 1
+        maxCount: 9
+      management:
+        autoRepair: true
+        autoUpgrade: true
+      kubernetesLabels:
+        plural.sh/scalingGroup: small-burst-on-demand
       machineType: e2-standard-2
-      diskSizeGb: 50
-      diskType: pd-standard
+    medium-burst-on-demand:
+      replicas: 0
+      scaling:
+        minCount: 0
+        maxCount: 9
+      management:
+        autoRepair: true
+        autoUpgrade: true
+      kubernetesLabels:
+        plural.sh/scalingGroup: medium-burst-on-demand
+      machineType: e2-standard-4
+    large-burst-on-demand:
+      replicas: 0
+      scaling:
+        minCount: 0
+        maxCount: 9
+      management:
+        autoRepair: true
+        autoUpgrade: true
+      kubernetesLabels:
+        plural.sh/scalingGroup: large-burst-on-demand
+      machineType: e2-standard-8

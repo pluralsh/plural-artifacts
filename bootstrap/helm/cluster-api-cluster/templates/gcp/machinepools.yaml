@@ -12,6 +12,7 @@
   {{- fail (printf "Invalid value for scaling. Both minCount and maxCount must be set") }}
 {{- end }}
 {{- end }}
+{{- $management := ($values | default dict).management | default $defaultVals.management }}
 
 apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
 kind: GCPManagedMachinePool
@@ -21,6 +22,8 @@ spec:
   nodePoolName: {{ $name }}
   scaling:
     {{- toYaml $scaling | nindent 4 }}
+  management:
+    {{- toYaml $management | nindent 4 }}
   kubernetesLabels:
     {{- if $values.kubernetesLabels -}}
     {{- toYaml (merge $values.kubernetesLabels $defaultVals.kubernetesLabels)| nindent 4 }}
@@ -57,6 +60,21 @@ spec:
   diskType: {{ $values.diskType }}
   {{ else }}
   diskType: {{ $defaultVals.diskType }}
+  {{ end }}
+  {{ if $values.spot }}
+  spot: {{ $values.spot }}
+  {{ else }}
+  spot: {{ $defaultVals.spot }}
+  {{ end }}
+  {{ if $values.preemptible }}
+  preemptible: {{ $values.preemptible }}
+  {{ else }}
+  preemptible: {{ $defaultVals.preemptible }}
+  {{ end }}
+  {{ if $values.imageType }}
+  imageType: {{ $values.imageType }}
+  {{ else }}
+  imageType: {{ $defaultVals.imageType }}
   {{ end }}
 {{ end }}
 ---
