@@ -121,10 +121,10 @@ cluster:
   ###################################
   azure:
     # Name of AzureClusterIdentity to be used when reconciling this cluster.
-    clusterIdentityName: "cluster-identity"
+    clusterIdentityName: cluster-identity
     # Type of Azure Identity used.
     # One of: ServicePrincipal, ServicePrincipalCertificate, UserAssignedMSI, ManualServicePrincipal.
-    clusterIdentityType: "ServicePrincipal"
+    clusterIdentityType: ServicePrincipal
     # Used to identify the namespaces the clusters are allowed to use the identity from.
     # Namespaces can be selected either using an array of namespaces or with label selector.
     # An empty allowedNamespaces object indicates that AzureClusters can use this identity from any namespace.
@@ -136,7 +136,7 @@ cluster:
     # Service Principal password.
     clientSecret: ""
     # Name of Secret containing clientSecret.
-    clientSecretName: "cluster-identity-secret"
+    clientSecretName: cluster-identity-secret
     # Azure resource ID for the User Assigned MSI resource.
     resourceID: ""
     # Service Principal primary tenant ID.
@@ -154,10 +154,10 @@ cluster:
     virtualNetwork: {}
     # Network plugin used for building Kubernetes network.
     # One of: azure, kubenet.
-    networkPlugin: ""
+    networkPlugin: azure
     # Network policy used for building Kubernetes network.
     # One of: azure, calico.
-    networkPolicy: ""
+    networkPolicy: azure
     # Outbound configuration used by Nodes.
     # One of: loadBalancer, managedNATGateway, userAssignedNATGateway, userDefinedRouting.
     outboundType: ""
@@ -167,10 +167,11 @@ cluster:
     # It must be within the Kubernetes service address range specified in serviceCidr.
     dnsServiceIP: ""
     # SKU of the AKS to be provisioned.
-    sku: {}
+    sku:
+      tier: Paid
     # SKU of the loadBalancer to be provisioned.
     # One of: Basic, Standard.
-    loadBalancerSKU: ""
+    loadBalancerSKU: Standard
     # Azure Active Directory configuration to integrate with AKS for AAD authentication.
     aadProfile: {}
     # Profile of the cluster load balancer.
@@ -182,19 +183,19 @@ cluster:
       # Default is false. Changed to true as in old bootstrap.
       balanceSimilarNodeGroups: "true"
       # One of: least-waste, most-pods, priority, random.
-      expander: "random"
+      expander: random
       maxEmptyBulkDelete: "10"
       maxGracefulTerminationSec: "600"
-      maxNodeProvisionTime: "15m"
+      maxNodeProvisionTime: 15m
       maxTotalUnreadyPercentage: "45"
-      newPodScaleUpDelay: "0s"
+      newPodScaleUpDelay: 0s
       okTotalUnreadyCount: "3"
-      scanInterval: "10s"
-      scaleDownDelayAfterAdd: "10m"
-      scaleDownDelayAfterDelete: "10s"
-      scaleDownDelayAfterFailure: "3m"
-      scaleDownUnneededTime: "10m"
-      scaleDownUnreadyTime: "20m"
+      scanInterval: 10s
+      scaleDownDelayAfterAdd: 10m
+      scaleDownDelayAfterDelete: 10s
+      scaleDownDelayAfterFailure: 3m
+      scaleDownUnneededTime: 10m
+      scaleDownUnreadyTime: 20m
       # Default is 0.5. Changed to 0.7 as in old bootstrap.
       scaleDownUtilizationThreshold: "0.7"
       skipNodesWithLocalStorage: "false"
@@ -377,28 +378,25 @@ workers:
   ###        AWS WORKERS        ###
   #################################
   aws:
-    test-pool-0:
+    small-burst-spot:
       # annotations: {}
       # labels: {}
       replicas: 1
       spec:
         labels: {} # TODO: allow this to not be set
         additionalTags: {} # TODO: allow this to not be set
-    test-pool-1:
-      # annotations: {}
-      # labels: {}
+    large-burst-spot:
       replicas: 1
       spec:
         labels: {} # TODO: allow this to not be set
         additionalTags: {} # TODO: allow this to not be set
-        # amiType: ""
-        # capacityType: spot
   #################################
   ###       AZURE WORKERS       ###
   #################################
   azure:
     lsod1:
       replicas: 0
+      kubernetesVersion: v1.24.10
       spec:
         additionalTags:
           ScalingGroup: large-sustained-on-demand
@@ -420,6 +418,7 @@ workers:
         sku: Standard_D8as_v5
     lsod2:
       replicas: 0
+      kubernetesVersion: v1.24.10
       spec:
         additionalTags:
           ScalingGroup: large-sustained-on-demand
@@ -441,6 +440,7 @@ workers:
         sku: Standard_D8as_v5
     lsod3:
       replicas: 0
+      kubernetesVersion: v1.24.10
       spec:
         additionalTags:
           ScalingGroup: large-sustained-on-demand
@@ -462,6 +462,7 @@ workers:
         sku: Standard_D8as_v5
     lsspot1:
       replicas: 0
+      kubernetesVersion: v1.24.10
       spec:
         additionalTags:
           ScalingGroup: large-sustained-spot
@@ -471,7 +472,6 @@ workers:
         maxPods: 110
         mode: User
         nodeLabels:
-          kubernetes.azure.com/scalesetpriority: spot
           plural.sh/capacityType: SPOT
           plural.sh/performanceType: SUSTAINED
           plural.sh/scalingGroup: large-sustained-spot
@@ -492,6 +492,7 @@ workers:
             value: spot
     lsspot2:
       replicas: 0
+      kubernetesVersion: v1.24.10
       spec:
         additionalTags:
           ScalingGroup: large-sustained-spot
@@ -501,7 +502,6 @@ workers:
         maxPods: 110
         mode: User
         nodeLabels:
-          kubernetes.azure.com/scalesetpriority: spot
           plural.sh/capacityType: SPOT
           plural.sh/performanceType: SUSTAINED
           plural.sh/scalingGroup: large-sustained-spot
@@ -522,6 +522,7 @@ workers:
             value: spot
     lsspot3:
       replicas: 0
+      kubernetesVersion: v1.24.10
       spec:
         additionalTags:
           ScalingGroup: large-sustained-spot
@@ -531,7 +532,6 @@ workers:
         maxPods: 110
         mode: User
         nodeLabels:
-          kubernetes.azure.com/scalesetpriority: spot
           plural.sh/capacityType: SPOT
           plural.sh/performanceType: SUSTAINED
           plural.sh/scalingGroup: large-sustained-spot
@@ -552,6 +552,7 @@ workers:
             value: spot
     msod1:
       replicas: 0
+      kubernetesVersion: v1.24.10
       spec:
         additionalTags:
           ScalingGroup: medium-sustained-on-demand
@@ -573,6 +574,7 @@ workers:
         sku: Standard_D4as_v5
     msod2:
       replicas: 0
+      kubernetesVersion: v1.24.10
       spec:
         additionalTags:
           ScalingGroup: medium-sustained-on-demand
@@ -594,6 +596,7 @@ workers:
         sku: Standard_D4as_v5
     msod3:
       replicas: 0
+      kubernetesVersion: v1.24.10
       spec:
         additionalTags:
           ScalingGroup: medium-sustained-on-demand
@@ -615,6 +618,7 @@ workers:
         sku: Standard_D4as_v5
     msspot1:
       replicas: 0
+      kubernetesVersion: v1.24.10
       spec:
         additionalTags:
           ScalingGroup: medium-sustained-spot
@@ -624,7 +628,6 @@ workers:
         maxPods: 110
         mode: User
         nodeLabels:
-          kubernetes.azure.com/scalesetpriority: spot
           plural.sh/capacityType: SPOT
           plural.sh/performanceType: SUSTAINED
           plural.sh/scalingGroup: medium-sustained-spot
@@ -645,6 +648,7 @@ workers:
             value: spot
     msspot2:
       replicas: 0
+      kubernetesVersion: v1.24.10
       spec:
         additionalTags:
           ScalingGroup: medium-sustained-spot
@@ -654,7 +658,6 @@ workers:
         maxPods: 110
         mode: User
         nodeLabels:
-          kubernetes.azure.com/scalesetpriority: spot
           plural.sh/capacityType: SPOT
           plural.sh/performanceType: SUSTAINED
           plural.sh/scalingGroup: medium-sustained-spot
@@ -675,6 +678,7 @@ workers:
             value: spot
     msspot3:
       replicas: 0
+      kubernetesVersion: v1.24.10
       spec:
         additionalTags:
           ScalingGroup: medium-sustained-spot
@@ -684,7 +688,6 @@ workers:
         maxPods: 110
         mode: User
         nodeLabels:
-          kubernetes.azure.com/scalesetpriority: spot
           plural.sh/capacityType: SPOT
           plural.sh/performanceType: SUSTAINED
           plural.sh/scalingGroup: medium-sustained-spot
@@ -705,6 +708,7 @@ workers:
             value: spot
     ssod1:
       replicas: 1
+      kubernetesVersion: v1.24.10
       spec:
         additionalTags:
           ScalingGroup: small-sustained-on-demand
@@ -726,6 +730,7 @@ workers:
         sku: Standard_D2as_v5
     ssod2:
       replicas: 1
+      kubernetesVersion: v1.24.10
       spec:
         additionalTags:
           ScalingGroup: small-sustained-on-demand
@@ -747,6 +752,7 @@ workers:
         sku: Standard_D2as_v5
     ssod3:
       replicas: 1
+      kubernetesVersion: v1.24.10
       spec:
         additionalTags:
           ScalingGroup: small-sustained-on-demand
@@ -768,6 +774,7 @@ workers:
         sku: Standard_D2as_v5
     ssspot1:
       replicas: 0
+      kubernetesVersion: v1.24.10
       spec:
         additionalTags:
           ScalingGroup: small-sustained-spot
@@ -777,7 +784,6 @@ workers:
         maxPods: 110
         mode: User
         nodeLabels:
-          kubernetes.azure.com/scalesetpriority: spot
           plural.sh/capacityType: SPOT
           plural.sh/performanceType: SUSTAINED
           plural.sh/scalingGroup: small-sustained-spot
@@ -798,6 +804,7 @@ workers:
             value: spot
     ssspot2:
       replicas: 0
+      kubernetesVersion: v1.24.10
       spec:
         additionalTags:
           ScalingGroup: small-sustained-spot
@@ -807,7 +814,6 @@ workers:
         maxPods: 110
         mode: User
         nodeLabels:
-          kubernetes.azure.com/scalesetpriority: spot
           plural.sh/capacityType: SPOT
           plural.sh/performanceType: SUSTAINED
           plural.sh/scalingGroup: small-sustained-spot
@@ -828,6 +834,7 @@ workers:
             value: spot
     ssspot3:
       replicas: 0
+      kubernetesVersion: v1.24.10
       spec:
         additionalTags:
           ScalingGroup: small-sustained-spot
@@ -837,7 +844,6 @@ workers:
         maxPods: 110
         mode: User
         nodeLabels:
-          kubernetes.azure.com/scalesetpriority: spot
           plural.sh/capacityType: SPOT
           plural.sh/performanceType: SUSTAINED
           plural.sh/scalingGroup: small-sustained-spot

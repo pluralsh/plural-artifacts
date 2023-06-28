@@ -2,3 +2,8 @@ cluster-api-provider-azure:
   configVariables:
     exprimental:
       machinePool: true
+  controllerManager:
+    manager:
+      image:
+        repository: ghcr.io/pluralsh/cluster-api-azure-controller
+        tag: v1.9.9

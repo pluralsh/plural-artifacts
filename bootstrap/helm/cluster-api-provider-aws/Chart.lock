@@ -1,6 +1,6 @@
 dependencies:
 - name: cluster-api-provider-aws
   repository: https://pluralsh.github.io/capi-helm-charts
-  version: 0.1.5
-digest: sha256:05fe2e5e689e9d61aee52d3ae369ccba0c645bd55864571622c4021eb52397c8
-generated: "2023-06-16T14:19:36.033812+02:00"
+  version: 0.1.6
+digest: sha256:ac507a9342f9bb69db6c27f5fcbf36da0e1082da0c1d2cd2b7a341ef388363f6
+generated: "2023-06-23T10:22:38.850948144+02:00"

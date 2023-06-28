@@ -3,6 +3,8 @@ kind: AzureClusterIdentity
 apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
 metadata:
   name: {{ .Values.cluster.azure.clusterIdentityName }}
+  labels:
+    clusterctl.cluster.x-k8s.io/move-hierarchy: "true"
 spec:
   type: {{ .Values.cluster.azure.clusterIdentityType }}
   allowedNamespaces:
