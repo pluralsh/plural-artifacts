@@ -12,4 +12,4 @@ dependencies:
   repository: file:///Users/hans.rauer/Repos/module-library/helm/clickhouse
   version: 0.2.3
 digest: sha256:a7e5ba56414ff5e6ae393dd08cf1f040ef4c79d9b30c355fdd9388e8b3824bfd
-generated: "2023-06-26T18:52:30.541684+02:00"
+generated: "2023-06-28T20:22:37.934071+02:00"
