@@ -5,6 +5,7 @@
 replicaCount: 1
 
 postgres:
+  version: "15"
   enabled: true
   team: plural
   user: sentry
@@ -85,16 +86,16 @@ sentry:
   images:
     symbolicator:
       repository: dkr.plural.sh/sentry/getsentry/symbolicator
-      tag: 23.5.0
+      tag: 23.6.1
     snuba:
       repository: dkr.plural.sh/sentry/getsentry/snuba
-      tag: 23.5.0
+      tag: 23.6.1
     sentry:
       repository: dkr.plural.sh/sentry/getsentry/sentry
-      tag: 23.5.0-plural3.0.0
+      tag: 23.6.1-plural3.1.1
     relay:
       repository: dkr.plural.sh/sentry/getsentry/relay
-      tag: 23.5.0
+      tag: 23.6.1
 
   serviceAccount:
     enabled: true
@@ -672,6 +673,10 @@ clickhouse:
   database: sentry
   user: admin
   password: change_me
+
+  settings:
+    merge_tree/allow_nullable_key: 1
+    merge_tree/check_sample_column_is_correct: 0
   
   resources:
     requests:
@@ -686,6 +691,8 @@ clickhouse:
       helm.sh/hook: post-install
       helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
       helm.sh/hook-weight: "4"
+    initContainer:
+      timeout: "180s"
     image:
       repository: curlimages/curl
       tag: 7.79.1
@@ -699,7 +706,3 @@ clickhouse:
       - name: CLICKHOUSE_HOST
         value: service-sentry-clickhouse.sentry.svc.cluster.local:8123
     
-kafkaTopic: # TODO: hack since the db init fails to create this topic. Remove in the future once it's fixed in snuba.
-  enabled: true
-  cluster: kafka
-  namespace: kafka
