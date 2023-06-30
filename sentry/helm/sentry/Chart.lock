@@ -1,7 +1,7 @@
 dependencies:
 - name: sentry
   repository: https://sentry-kubernetes.github.io/charts
-  version: 19.0.0
+  version: 19.3.0
 - name: postgres
   repository: https://pluralsh.github.io/module-library
   version: 0.2.1
@@ -11,5 +11,5 @@ dependencies:
 - name: clickhouse
   repository: file:///Users/hans.rauer/Repos/module-library/helm/clickhouse
   version: 0.2.3
-digest: sha256:a7e5ba56414ff5e6ae393dd08cf1f040ef4c79d9b30c355fdd9388e8b3824bfd
-generated: "2023-06-28T20:22:37.934071+02:00"
+digest: sha256:a1516061fffed195393a024aebcf183d92cd7fdefcce38dfd093775c77562beb
+generated: "2023-06-30T16:37:39.086354+02:00"
