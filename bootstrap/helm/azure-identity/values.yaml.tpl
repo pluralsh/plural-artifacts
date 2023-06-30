@@ -1,4 +1,9 @@
+{{ $capi := and .Configuration (index .Configuration "cluster-api-cluster") }}
+
 aad-pod-identity:
+  {{- if $capi }}
+  enabled: false
+  {{- end }}
   adminsecret:
     cloud: AzurePublicCloud
     subscriptionID: {{ .Context.SubscriptionId }}
