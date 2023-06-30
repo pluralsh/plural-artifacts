@@ -19,6 +19,10 @@ sections:
     - name: hostname
       documentation: FQDN to use for your directus installation
       type: DOMAIN
+    - name: directusBucket
+      documentation: the bucket for blob assets stored in directus, like images
+      type: BUCKET
+      default: directus
     - name: adminEmail
       type: STRING
       documentation: email for the initial admin user
