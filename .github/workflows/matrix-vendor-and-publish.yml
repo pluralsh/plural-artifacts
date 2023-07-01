@@ -133,12 +133,12 @@ jobs:
         sudo make install-binary
         cd ..
     - uses: actions/checkout@v3
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v2
-      with:
-        role-to-assume: arn:aws:iam::312272277431:role/github-actions/plural-artifacts-ecr
-        aws-region: us-east-1
-        role-session-name: PluralArtifacts
+    # - name: Configure AWS credentials
+    #   uses: aws-actions/configure-aws-credentials@v2
+    #   with:
+    #     role-to-assume: arn:aws:iam::312272277431:role/github-actions/plural-artifacts-ecr
+    #     aws-region: us-east-1
+    #     role-session-name: PluralArtifacts
     - name: Login to Amazon ECR Public
       id: login-ecr-public
       uses: aws-actions/amazon-ecr-login@v1
