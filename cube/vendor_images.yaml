@@ -2,3 +2,5 @@ docker.io:
   images:
     cubejs/cube:
     - "v0.33.30"
+    cubejs/cubestore:
+    - "v0.33.30"

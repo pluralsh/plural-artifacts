@@ -31,7 +31,7 @@ Then, you'll to create a `configmap.yaml` inside `cube/helm/cube/templates` with
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: cube-schema
+  name: cube-model
 data:
 {{ (.Files.Glob "schemas/**.yaml").AsConfig | indent 2 }} # Note the **.yaml, adjust it if you want to use js models
 ```
@@ -42,11 +42,11 @@ cube:
   cube:
     config:
       volumes:
-      - name: cube-schema
+      - name: cube-model
         configMap:
-          name: cube-schema
+          name: cube-model
       volumeMounts:
-      - name: cube-schema
+      - name: cube-model
         readOnly: true
         mountPath: /cube/conf/schema/example.yaml
         subPath: example.yaml

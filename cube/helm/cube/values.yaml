@@ -38,3 +38,14 @@ cube:
       kubernetes.io/tls-acme: "true"
       cert-manager.io/cluster-issuer: letsencrypt-prod
     tls: true
+
+cubestore:
+  image:
+    # repository: dkr.plural.sh/cube/cubejs/cubestore # TODO: use this
+    tag: "v0.33.30"
+  
+  router:
+    livenessProbe:
+      enabled: false
+    readinessProbe:
+      enabled: false
