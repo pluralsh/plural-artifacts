@@ -1,0 +1,4 @@
+docker.io:
+  images:
+    cubejs/cube:
+    - "v0.33.30"

@@ -1,0 +1,23 @@
+name: cube-gcp
+description: Installs cube on an gcp gke cluster
+provider: GCP
+primary: true
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+sections:
+- name: cube
+  configuration:
+    - name: hostname
+      type: DOMAIN
+      documentation: the fully qualified domain name your cube api will be available at
+    - name: databaseType
+      type: STRING
+      documentation: the default database type to use for cube (postgres, bigquery, etc). Check the cube docs for more info at https://cube.dev/docs/config/databases
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: cube

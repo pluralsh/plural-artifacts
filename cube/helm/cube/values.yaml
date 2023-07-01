@@ -1,0 +1,40 @@
+cube:
+  image:
+    # repository: dkr.plural.sh/cube/cubejs/cube # TODO: use this
+    tag: "v0.33.30"
+    
+  cubestore:
+    host: cube-cubestore-router
+  
+  # TODO: check those probes 
+  api:
+    livenessProbe:
+      enabled: false
+    readinessProbe:
+      enabled: false
+
+  worker:
+    livenessProbe:
+      enabled: false
+    readinessProbe:
+      enabled: false
+
+  config:
+    apiSecret: sosecret
+    volumes:
+    - name: cube-schema
+      configMap:
+        name: cube-schema
+    volumeMounts:
+    - name: cube-schema
+      readOnly: true
+      mountPath: /cube/conf/schema/example.yaml
+      subPath: example.yaml
+  
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      kubernetes.io/tls-acme: "true"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+    tls: true

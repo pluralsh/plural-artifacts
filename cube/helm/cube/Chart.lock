@@ -1,0 +1,6 @@
+dependencies:
+- name: cube
+  repository: https://gadsme.github.io/charts
+  version: 2.0.1
+digest: sha256:29c047efdc365acc8591ed64d3403b7a745ef3f92b38f7983275b0838e1e4e21
+generated: "2023-07-01T01:25:19.392494+02:00"
