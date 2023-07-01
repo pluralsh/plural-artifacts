@@ -139,11 +139,11 @@ jobs:
     #     role-to-assume: arn:aws:iam::312272277431:role/github-actions/plural-artifacts-ecr
     #     aws-region: us-east-1
     #     role-session-name: PluralArtifacts
-    - name: Login to Amazon ECR Public
-      id: login-ecr-public
-      uses: aws-actions/amazon-ecr-login@v1
-      with:
-        registry-type: public
+    # - name: Login to Amazon ECR Public
+    #   id: login-ecr-public
+    #   uses: aws-actions/amazon-ecr-login@v1
+    #   with:
+    #     registry-type: public
     - uses: google-github-actions/auth@v1
       with:
         workload_identity_provider: 'projects/${{ secrets.GOOGLE_PROJECT_ID }}/locations/global/workloadIdentityPools/github/providers/github'
