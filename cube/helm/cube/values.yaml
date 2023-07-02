@@ -22,12 +22,6 @@ cube:
     readinessProbe:
       enabled: false
 
-  worker:
-    livenessProbe:
-      enabled: false
-    readinessProbe:
-      enabled: false
-
   config:
     apiSecret: sosecret
     volumes:
