@@ -1,6 +1,6 @@
 cube:
   image:
-    # repository: dkr.plural.sh/cube/cubejs/cube # TODO: use this
+    repository: dkr.plural.sh/cube/cubejs/cube
     tag: "v0.33.30" 
 
   datasources:
@@ -14,13 +14,6 @@ cube:
   
   cubestore:
     host: cube-cubestore-router
-  
-  # TODO: check those probes 
-  api:
-    livenessProbe:
-      enabled: false
-    readinessProbe:
-      enabled: false
 
   config:
     apiSecret: sosecret
@@ -44,11 +37,5 @@ cube:
 
 cubestore:
   image:
-    # repository: dkr.plural.sh/cube/cubejs/cubestore # TODO: use this
+    repository: dkr.plural.sh/cube/cubejs/cubestore
     tag: "v0.33.30"
-  
-  router:
-    livenessProbe:
-      enabled: false
-    readinessProbe:
-      enabled: false
