@@ -1,4 +1,4 @@
 docker.io:
-  images:
-    mageai/mageai:
-    - "0.8.24"
+  images-by-tag-regex:
+    mageai/mageai: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    mageai/mageai-azure: ^v?[0-9]+\.[0-9]+?\.[0-9]+$

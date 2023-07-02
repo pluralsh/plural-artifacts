@@ -1,0 +1,20 @@
+name: imgproxy-aws
+description: Installs imgproxy on an aws eks cluster
+provider: AWS
+primary: true
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+sections:
+- name: imgproxy
+  configuration:
+    - name: hostname
+      type: DOMAIN
+      documentation: the fully qualified domain name your imgproxy instance will be available at
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: imgproxy

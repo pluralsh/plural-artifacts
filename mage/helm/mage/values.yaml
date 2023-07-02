@@ -9,6 +9,7 @@ postgres:
 mageai:
   image:
     repository: dkr.plural.sh/mage/mageai/mageai
+    tag: 0.8.101
 
   volumes:
     - name: mage-fs
