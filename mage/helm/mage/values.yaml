@@ -7,9 +7,15 @@ postgres:
   password: REPLACE_ME
 
 mageai:
+  ingress:
+    enabled: true
+    className: "nginx"
+    annotations:
+      kubernetes.io/tls-acme: "true"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
   image:
     repository: dkr.plural.sh/mage/mageai/mageai
-    tag: 0.8.101
+    tag: 0.8.102
 
   volumes:
     - name: mage-fs
