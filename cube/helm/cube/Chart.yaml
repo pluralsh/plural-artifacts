@@ -2,7 +2,7 @@ apiVersion: v2
 name: cube
 description: helm chart for cube
 type: application
-version: 0.1.0
+version: 0.1.6
 appVersion: "v0.33.30"
 dependencies:
 - name: cube
