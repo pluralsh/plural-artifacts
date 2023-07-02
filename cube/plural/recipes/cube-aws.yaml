@@ -13,9 +13,6 @@ sections:
     - name: hostname
       type: DOMAIN
       documentation: the fully qualified domain name your cube api will be available at
-    - name: databaseType
-      type: STRING
-      documentation: the default database type to use for cube (postgres, bigquery, etc). Check the cube docs for more info at https://cube.dev/docs/config/databases
   items:
   - type: TERRAFORM
     name: aws

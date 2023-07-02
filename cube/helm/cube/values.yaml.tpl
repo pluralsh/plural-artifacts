@@ -12,9 +12,6 @@ cube:
     hostname: {{ .Values.hostname }}
   config:
     apiSecret: {{ $apiSecret }}
-  datasources:
-    default:
-      type: {{ .Values.databaseType }}
 
 cubestore:
   cloudStorage:

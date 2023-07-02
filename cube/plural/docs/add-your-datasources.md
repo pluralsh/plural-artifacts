@@ -12,14 +12,14 @@ cube:
       default: # one default datasource is required
         type: postgres
         host: <PG_DB_HOST>
-        port: 5432
+        port: "5432"
         name: postgres
         user: postgres
         pass: <PG_DB_PASSWORD>
       postgres_2: # you can define the name you want
         type: postgres
         host: <PG_DB_HOST2>
-        port: 5432
+        port: "5432"
         name: postgres
         user: postgres
         pass: <PG_DB_PASSWORD2>
