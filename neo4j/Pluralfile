@@ -1,0 +1,6 @@
+REPO neo4j
+ATTRIBUTES Plural repository.yaml
+
+TF terraform/*
+HELM helm/*
+RECIPE plural/recipes/*

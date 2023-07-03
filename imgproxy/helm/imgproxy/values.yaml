@@ -1,0 +1,3 @@
+imgproxy:
+  image:
+    repo: dkr.plural.sh/imgproxy/darthsim/imgproxy

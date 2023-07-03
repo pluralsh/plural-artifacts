@@ -1,0 +1,18 @@
+name: neo4j-gcp
+description: Installs neo4j on an gcp gke cluster
+provider: GCP
+primary: true
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+sections:
+- name: neo4j
+  configuration:
+    - name: hostname
+      documentation: FQDN to use for your neo4j installation
+      type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: neo4j

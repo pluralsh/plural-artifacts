@@ -1,0 +1,50 @@
+neo4j:
+  neo4j:
+    edition: community
+    name: neo4j
+
+  image:
+    customImage: dkr.plural.sh/neo4j/library/neo4j:5.9.0
+
+  volumes:
+    data:
+      mode: defaultStorageClass
+
+  services:
+    neo4j:
+      ports:
+        http:
+          enabled: true
+          port: 80
+          targetPort: 7474
+          name: http
+        https:
+          enabled: true
+          port: 443
+          targetPort: 7473
+          name: https
+        bolt:
+          enabled: true
+
+  ssl:
+    bolt:
+      privateKey:
+        secretName: neo4j-tls
+        subPath: tls.key
+      publicCertificate:
+        secretName: neo4j-tls
+        subPath: tls.crt
+    https:
+      privateKey:
+        secretName: neo4j-tls
+        subPath: tls.key
+      publicCertificate:
+        secretName: neo4j-tls
+        subPath: tls.crt
+      trustedCerts:
+        sources:
+        - secret:
+            name: neo4j-tls
+            items:
+            - key: tls.crt
+              path: tls.crt
