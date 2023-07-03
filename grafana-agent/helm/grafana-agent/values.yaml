@@ -118,6 +118,22 @@ traces:
       port: 4318
       targetPort: 4318
       protocol: "TCP"
+    - name: grpc-jaeger
+      port: 14250
+      targetPort: 14250
+      protocol: "TCP"
+    - name: http-jaeger
+      port: 14268
+      targetPort: 14268
+      protocol: "TCP"
+    - name: jaeger-binary
+      port: 6832
+      targetPort: 6832
+      protocol: "UDP"
+    - name: jaeger-compact
+      port: 6831
+      targetPort: 6831
+      protocol: "UDP"
     mimirHost: http://mimir-nginx.mimir
     lokiHost: http://loki-loki-distributed-gateway.loki/loki/api/v1/push
     tempoHost: http://tempo-gateway.tempo/otlp
@@ -158,6 +174,29 @@ traces:
             metrics = [otelcol.processor.batch.local.input]
             logs    = [otelcol.processor.batch.local.input]
             traces  = [otelcol.processor.batch.local.input]
+          }
+        }
+
+        otelcol.receiver.jaeger "local" {
+          protocols {
+            grpc {
+              endpoint = "0.0.0.0:14250"
+            }
+            thrift_http {
+              endpoint = "0.0.0.0:14268"
+            }
+            thrift_binary {
+              endpoint = "0.0.0.0:6832"
+            }
+            thrift_compact {
+              endpoint = "0.0.0.0:6831"
+            }
+          }
+
+          output {
+            metrics = [otelcol.exporter.otlphttp.local.input]
+            logs    = [otelcol.exporter.otlphttp.local.input]
+            traces  = [otelcol.exporter.otlphttp.local.input]
           }
         }
 

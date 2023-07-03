@@ -31,6 +31,17 @@ config:
     publicURL: {{ .Configuration.tempo.hostname }}
   {{- end }}
 
+{{- if and .Configuration.tempo (index .Configuration "grafana-agent") }}
+backend:
+  extraEnv:
+  - name: OTEL_EXPORTER_OTLP_ENDPOINT
+    value: http://grafana-agent-traces.grafana-agent.svc:4318
+  - name: OTEL_EXPORTER_OTLP_TRACES_INSECURE
+    value: "true"
+  - name: OTEL_SERVICE_NAME
+    value: trace-shield-backend
+{{- end }}
+
 ingress:
   hosts:
     - host: {{ .Values.frontendHostname }}
@@ -39,12 +50,14 @@ ingress:
           pathType: Prefix
         - path: /graphiql
           pathType: Prefix
-        - path: /tenant-hydrator
+        - path: /check
           pathType: Prefix
         - path: /user-webhook
           pathType: Prefix
+        - path: /oauth2/consent
+          pathType: Prefix
       frontendPaths:
-        - path: /real-frontend/.*
+        - path: /.*
           pathType: Prefix
   tls:
    - secretName: trace-shield-tls
@@ -168,19 +181,6 @@ keto:
             server_url: grafana-agent-traces.grafana-agent.svc:4318
       {{- end }}
       dsn: postgres://keto:{{ $ketoPostgresPass }}@plural-postgres-keto:5432/keto
-
-kratos-selfservice-ui-node:
-  kratosBrowserUrl: https://{{ .Values.frontendHostname }}/.ory/kratos/public/
-  ingress:
-    hosts:
-      - host: {{ .Values.frontendHostname }}
-        paths: 
-          - path: /.*
-            pathType: Prefix
-    tls:
-     - secretName: trace-shield-tls
-       hosts:
-         - {{ .Values.frontendHostname }}
 
 oathkeeper:
   oathkeeper:

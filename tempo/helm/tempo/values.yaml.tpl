@@ -38,28 +38,117 @@ tempo-distributed:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-tempo"
     {{- end }}
-  {{- if eq .Provider "azure" }}
+  {{- if and (eq .Provider "azure") (index .Configuration "grafana-agent") }}
   ingester:
+    {{- if (index .Configuration "grafana-agent") }}
+    extraEnv:
+    - name: JAEGER_AGENT_HOST
+      value: grafana-agent-traces.grafana-agent.svc
+    - name: JAEGER_AGENT_PORT
+      value: "6831"
+    - name: JAEGER_SAMPLER_TYPE
+      value: const
+    - name: JAEGER_SAMPLER_PARAM
+      value: "0.1"
+    {{- end }}
+    {{- if eq .Provider "azure" }}
     podLabels:
       aadpodidbinding: tempo
+    {{- end }}
   distributor:
+    {{- if (index .Configuration "grafana-agent") }}
+    extraEnv:
+    - name: JAEGER_AGENT_HOST
+      value: grafana-agent-traces.grafana-agent.svc
+    - name: JAEGER_AGENT_PORT
+      value: "6831"
+    - name: JAEGER_SAMPLER_TYPE
+      value: const
+    - name: JAEGER_SAMPLER_PARAM
+      value: "0.1"
+    {{- end }}
+    {{- if eq .Provider "azure" }}
     podLabels:
       aadpodidbinding: tempo
+    {{- end }}
   compactor:
+    {{- if (index .Configuration "grafana-agent") }}
+    extraEnv:
+    - name: JAEGER_AGENT_HOST
+      value: grafana-agent-traces.grafana-agent.svc
+    - name: JAEGER_AGENT_PORT
+      value: "6831"
+    - name: JAEGER_SAMPLER_TYPE
+      value: const
+    - name: JAEGER_SAMPLER_PARAM
+      value: "0.1"
+    {{- end }}
+    {{- if eq .Provider "azure" }}
     podLabels:
       aadpodidbinding: tempo
+    {{- end }}
   querier:
+    {{- if (index .Configuration "grafana-agent") }}
+    extraEnv:
+    - name: JAEGER_AGENT_HOST
+      value: grafana-agent-traces.grafana-agent.svc
+    - name: JAEGER_AGENT_PORT
+      value: "6831"
+    - name: JAEGER_SAMPLER_TYPE
+      value: const
+    - name: JAEGER_SAMPLER_PARAM
+      value: "0.1"
+    {{- end }}
+    {{- if eq .Provider "azure" }}
     podLabels:
       aadpodidbinding: tempo
+    {{- end }}
   queryFrontend:
+    {{- if (index .Configuration "grafana-agent") }}
+    extraEnv:
+    - name: JAEGER_AGENT_HOST
+      value: grafana-agent-traces.grafana-agent.svc
+    - name: JAEGER_AGENT_PORT
+      value: "6831"
+    - name: JAEGER_SAMPLER_TYPE
+      value: const
+    - name: JAEGER_SAMPLER_PARAM
+      value: "0.1"
+    {{- end }}
+    {{- if eq .Provider "azure" }}
     podLabels:
       aadpodidbinding: tempo
+    {{- end }}
   gateway:
+    {{- if (index .Configuration "grafana-agent") }}
+    extraEnv:
+    - name: JAEGER_AGENT_HOST
+      value: grafana-agent-traces.grafana-agent.svc
+    - name: JAEGER_AGENT_PORT
+      value: "6831"
+    - name: JAEGER_SAMPLER_TYPE
+      value: const
+    - name: JAEGER_SAMPLER_PARAM
+      value: "0.1"
+    {{- end }}
+    {{- if eq .Provider "azure" }}
     podLabels:
       aadpodidbinding: tempo
+    {{- end }}
   {{- if .Configuration.mimir }}
   metricsGenerator:
     enabled: true
+    {{- if (index .Configuration "grafana-agent") }}
+    extraEnv:
+    - name: JAEGER_AGENT_HOST
+      value: grafana-agent-traces.grafana-agent.svc
+    - name: JAEGER_AGENT_PORT
+      value: "6831"
+    - name: JAEGER_SAMPLER_TYPE
+      value: const
+    - name: JAEGER_SAMPLER_PARAM
+      value: "0.1"
+    {{- end }}
     {{- if eq .Provider "azure" }}
     podLabels:
       aadpodidbinding: tempo

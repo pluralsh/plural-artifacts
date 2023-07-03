@@ -1,10 +1,23 @@
 {{ $traceShield := and .Configuration (index .Configuration "trace-shield") }}
 
-{{- if eq .Provider "azure" }}
+{{- if or (eq .Provider "azure") (and .Configuration.tempo (index .Configuration "grafana-agent")) }}
 global:
+  {{- if and .Configuration.tempo (index .Configuration "grafana-agent") }}
+  extraEnv:
+  - name: JAEGER_AGENT_HOST
+    value: grafana-agent-traces.grafana-agent.svc
+  - name: JAEGER_AGENT_PORT
+    value: "6831"
+  - name: JAEGER_SAMPLER_TYPE
+    value: const
+  - name: JAEGER_SAMPLER_PARAM
+    value: "1"
+  {{- end }}
+  {{- if eq .Provider "azure" }}
   extraEnvFrom:
   - secretRef:
       name: mimir-azure-secret
+  {{- end }}
 {{- end }}
 
 

@@ -94,6 +94,10 @@ loki-distributed:
       querier:
         multi_tenant_queries_enabled: {{ .Values.multiTenant }}
       {{- end }}
+      {{- if and .Configuration.tempo (index .Configuration "grafana-agent") }}
+      tracing:
+        enabled: true
+      {{- end }}
       common:
         storage:
           {{- if eq .Provider "aws" }}
@@ -194,73 +198,158 @@ loki-distributed:
               prefix: loki_index_
               period: 24h
       {{- end }}
-  {{- if eq .Provider "azure" }}
+  {{- if or (eq .Provider "azure") (and .Configuration.tempo (index .Configuration "grafana-agent")) }}
   ingester:
-    extraArgs:
-    - -config.expand-env=true
+    {{- if and .Configuration.tempo (index .Configuration "grafana-agent") }}
+    extraEnv:
+    - name: JAEGER_AGENT_HOST
+      value: grafana-agent-traces.grafana-agent.svc
+    - name: JAEGER_AGENT_PORT
+      value: "6831"
+    - name: JAEGER_SAMPLER_TYPE
+      value: const
+    - name: JAEGER_SAMPLER_PARAM
+      value: "1"
+    {{- end }}
+    {{- if eq .Provider "azure" }}
     extraEnvFrom:
     - secretRef:
         name: redis-password
     - secretRef:
         name: loki-azure-secret
+    {{- end }}
   distributor:
-    extraArgs:
-    - -config.expand-env=true
+    {{- if and .Configuration.tempo (index .Configuration "grafana-agent") }}
+    extraEnv:
+    - name: JAEGER_AGENT_HOST
+      value: grafana-agent-traces.grafana-agent.svc
+    - name: JAEGER_AGENT_PORT
+      value: "6831"
+    - name: JAEGER_SAMPLER_TYPE
+      value: const
+    - name: JAEGER_SAMPLER_PARAM
+      value: "1"
+    {{- end }}
+    {{- if eq .Provider "azure" }}
     extraEnvFrom:
     - secretRef:
         name: redis-password
     - secretRef:
         name: loki-azure-secret
+    {{- end }}
   querier:
-    extraArgs:
-    - -config.expand-env=true
+    {{- if and .Configuration.tempo (index .Configuration "grafana-agent") }}
+    extraEnv:
+    - name: JAEGER_AGENT_HOST
+      value: grafana-agent-traces.grafana-agent.svc
+    - name: JAEGER_AGENT_PORT
+      value: "6831"
+    - name: JAEGER_SAMPLER_TYPE
+      value: const
+    - name: JAEGER_SAMPLER_PARAM
+      value: "1"
+    {{- end }}
+    {{- if eq .Provider "azure" }}
     extraEnvFrom:
     - secretRef:
         name: redis-password
     - secretRef:
         name: loki-azure-secret
+    {{- end }}
   queryFrontend:
-    extraArgs:
-    - -config.expand-env=true
+    {{- if and .Configuration.tempo (index .Configuration "grafana-agent") }}
+    extraEnv:
+    - name: JAEGER_AGENT_HOST
+      value: grafana-agent-traces.grafana-agent.svc
+    - name: JAEGER_AGENT_PORT
+      value: "6831"
+    - name: JAEGER_SAMPLER_TYPE
+      value: const
+    - name: JAEGER_SAMPLER_PARAM
+      value: "1"
+    {{- end }}
+    {{- if eq .Provider "azure" }}
     extraEnvFrom:
     - secretRef:
         name: redis-password
     - secretRef:
         name: loki-azure-secret
+    {{- end }}
   tableManager:
     enabled: false
-    extraArgs:
-    - -config.expand-env=true
+    {{- if and .Configuration.tempo (index .Configuration "grafana-agent") }}
+    extraEnv:
+    - name: JAEGER_AGENT_HOST
+      value: grafana-agent-traces.grafana-agent.svc
+    - name: JAEGER_AGENT_PORT
+      value: "6831"
+    - name: JAEGER_SAMPLER_TYPE
+      value: const
+    - name: JAEGER_SAMPLER_PARAM
+      value: "1"
+    {{- end }}
+    {{- if eq .Provider "azure" }}
     extraEnvFrom:
     - secretRef:
         name: redis-password
     - secretRef:
         name: loki-azure-secret
+    {{- end }}
   compactor:
-    enabled: true
-    extraArgs:
-    - -config.expand-env=true
+    {{- if and .Configuration.tempo (index .Configuration "grafana-agent") }}
+    extraEnv:
+    - name: JAEGER_AGENT_HOST
+      value: grafana-agent-traces.grafana-agent.svc
+    - name: JAEGER_AGENT_PORT
+      value: "6831"
+    - name: JAEGER_SAMPLER_TYPE
+      value: const
+    - name: JAEGER_SAMPLER_PARAM
+      value: "1"
+    {{- end }}
+    {{- if eq .Provider "azure" }}
     extraEnvFrom:
     - secretRef:
         name: redis-password
     - secretRef:
         name: loki-azure-secret
+    {{- end }}
   ruler:
-    enabled: true
-    extraArgs:
-    - -config.expand-env=true
+    {{- if and .Configuration.tempo (index .Configuration "grafana-agent") }}
+    extraEnv:
+    - name: JAEGER_AGENT_HOST
+      value: grafana-agent-traces.grafana-agent.svc
+    - name: JAEGER_AGENT_PORT
+      value: "6831"
+    - name: JAEGER_SAMPLER_TYPE
+      value: const
+    - name: JAEGER_SAMPLER_PARAM
+      value: "1"
+    {{- end }}
+    {{- if eq .Provider "azure" }}
     extraEnvFrom:
     - secretRef:
         name: redis-password
     - secretRef:
         name: loki-azure-secret
+    {{- end }}
   indexGateway:
-    enabled: true
-    extraArgs:
-    - -config.expand-env=true
+    {{- if and .Configuration.tempo (index .Configuration "grafana-agent") }}
+    extraEnv:
+    - name: JAEGER_AGENT_HOST
+      value: grafana-agent-traces.grafana-agent.svc
+    - name: JAEGER_AGENT_PORT
+      value: "6831"
+    - name: JAEGER_SAMPLER_TYPE
+      value: const
+    - name: JAEGER_SAMPLER_PARAM
+      value: "1"
+    {{- end }}
+    {{- if eq .Provider "azure" }}
     extraEnvFrom:
     - secretRef:
         name: redis-password
     - secretRef:
         name: loki-azure-secret
+    {{- end }}
   {{- end }}
