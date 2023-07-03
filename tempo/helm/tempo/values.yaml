@@ -23,22 +23,50 @@ global:
 
 tempo-distributed:
   multitenancyEnabled: true
+  ingester:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 512Mi
+    # # persistence:
+    # #   enabled: true
+    # #   size: 20Gi
   tempo:
     image:
       registry: dkr.plural.sh
       repository: tempo/grafana/tempo
       tag: 2.1.1
+  distributor:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 512Mi
+  compactor:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 512Mi
+  querier:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
   queryFrontend:
     query:
       image:
         registry: dkr.plural.sh
         repository: tempo/grafana/tempo-query
         tag: 2.1.1
-  # metricsGenerator:
-  #   enabled: true
-  #   config:
-  #     storage:
-  #       remote_write: []
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+  metricsGenerator:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 512Mi
+    walEmptyDir: {}
   traces:
     jaeger:
       grpc:
@@ -64,6 +92,7 @@ tempo-distributed:
       registry: dkr.plural.sh
       repository: tempo/nginxinc/nginx-unprivileged
       tag: 1.19-alpine
+    resources: {}
   metaMonitoring:
     serviceMonitor:
       enabled: true
@@ -73,3 +102,11 @@ tempo-distributed:
       registry: dkr.plural.sh
       repository: tempo/library/memcached
       tag: 1.5.17-alpine
+    resources: {}
+  memcachedExporter:
+    enabled: true
+    image:
+      registry: dkr.plural.sh
+      repository: tempo/prom/memcached-exporter
+      tag: v0.11.2
+    resources: {}

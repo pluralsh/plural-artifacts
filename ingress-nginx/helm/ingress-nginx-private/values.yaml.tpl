@@ -32,8 +32,8 @@ ingress-nginx:
       otel-max-queuesize: "2048"
       otel-schedule-delay-millis: "5000"
       otel-max-export-batch-size: "512"
-      otel-service-name: "internal-nginx" # Opentelemetry resource name
-      otel-sampler: "AlwaysOn" # Also: AlwaysOff, TraceIdRatioBased
+      otel-service-name: "internal-nginx"
+      otel-sampler: "AlwaysOn"
       otel-sampler-ratio: "1.0"
       otel-sampler-parent-based: "false"
       {{- end }}

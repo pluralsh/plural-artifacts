@@ -119,22 +119,6 @@ tempo-distributed:
     podLabels:
       aadpodidbinding: tempo
     {{- end }}
-  gateway:
-    {{- if (index .Configuration "grafana-agent") }}
-    extraEnv:
-    - name: JAEGER_AGENT_HOST
-      value: grafana-agent-traces.grafana-agent.svc
-    - name: JAEGER_AGENT_PORT
-      value: "6831"
-    - name: JAEGER_SAMPLER_TYPE
-      value: const
-    - name: JAEGER_SAMPLER_PARAM
-      value: "0.1"
-    {{- end }}
-    {{- if eq .Provider "azure" }}
-    podLabels:
-      aadpodidbinding: tempo
-    {{- end }}
   {{- if .Configuration.mimir }}
   metricsGenerator:
     enabled: true
