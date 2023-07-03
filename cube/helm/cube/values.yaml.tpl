@@ -13,9 +13,9 @@ cube:
   config:
     apiSecret: {{ $apiSecret }}
 
+{{ if $isGcp }}
 cubestore:
   cloudStorage:
-{{ if $isGcp }}
     gcp:
       credentialsFromSecret:
         name: cube-gcp-credentials
