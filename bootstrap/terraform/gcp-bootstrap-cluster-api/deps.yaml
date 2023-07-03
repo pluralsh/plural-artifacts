@@ -8,4 +8,8 @@ spec:
   dependencies: []
   providers:
   - gcp
-
+  outputs:
+    cluster: cluster
+    vpc_network: vpc_network
+  provider_wirings:
+    cluster: module.gcp-bootstrap-cluster-api.cluster

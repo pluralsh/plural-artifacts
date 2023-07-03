@@ -32,7 +32,7 @@ spec:
     {{- end }}
   {{- if or ($defaultVals.kubernetesTaints) (($values | default dict).kubernetesTaints) }}
   kubernetesTaints:
-  {{- toYaml (($values | default dict).kubernetesTaints | default $defaultVals.kubernetesTaints) | nindent 2 }}
+  {{- toYaml (($values | default dict).kubernetesTaints | default $defaultVals.kubernetesTaints) | nindent 4 }}
   {{- end }}
   additionalLabels:
     {{- if $values.additionalLabels -}}
@@ -40,12 +40,10 @@ spec:
     {{- else -}}
     {{- toYaml $defaultVals.additionalLabels | nindent 4 }}
     {{- end }}
+  {{ if $values.providerIDList }}
   providerIDList:
-    {{- if $values.providerIDList -}}
-    {{- toYaml (merge $values.providerIDList $defaultVals.providerIDList)| nindent 4 }}
-    {{- else -}}
-    {{- toYaml $defaultVals.providerIDList | nindent 4 }}
-    {{- end }}
+  {{ toYaml $values.providerIDList | nindent 2 }}
+  {{ end }}
   {{ if $values.machineType }}
   machineType: {{ $values.machineType }}
   {{ else }}
