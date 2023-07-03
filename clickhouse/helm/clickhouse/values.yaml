@@ -1,8 +1,14 @@
 altinity-clickhouse-operator:
+  secret:
+    create: true
+    username: clickhouse_operator
+    password: clickhouse_operator_password
+
   operator:
     image:
       repository: dkr.plural.sh/clickhouse/altinity/clickhouse-operator
       tag: 0.21.2
+      pullPolicy: Always
   resources:
     limits:
       memory: 128Mi
