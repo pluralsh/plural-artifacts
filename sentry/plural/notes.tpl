@@ -5,6 +5,8 @@ You've enabled Plural OIDC for your sentry instance.  Be sure to add more teamma
 {{ else }}
 Your initial admin credentials are:
 
+# TODO:
 username: {{ .Values.adminEmail }}
 password: {{ .sentry.sentry.user.password }}
+
 {{ end }}
