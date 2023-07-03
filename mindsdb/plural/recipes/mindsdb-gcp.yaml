@@ -1,0 +1,17 @@
+name: mindsdb-gcp
+description: Installs mindsdb on an aws eks cluster
+provider: GCP
+primary: true
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+
+
+sections:
+- name: mindsdb
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: mindsdb

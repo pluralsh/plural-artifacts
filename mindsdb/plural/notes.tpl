@@ -1,0 +1,1 @@
+Use `plural watch mindsdb` to track the status of your application

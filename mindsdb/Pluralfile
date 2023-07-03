@@ -1,0 +1,6 @@
+REPO mindsdb
+ATTRIBUTES mindsdb repository.yaml
+
+TF terraform/*
+HELM helm/*
+RECIPE plural/recipes/*

@@ -1,0 +1,17 @@
+name: mindsdb-aws
+description: Installs mindsdb on an aws eks cluster
+provider: AWS
+primary: true
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+
+
+sections:
+- name: mindsdb
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: mindsdb
