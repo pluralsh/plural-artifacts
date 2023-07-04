@@ -1,0 +1,14 @@
+{{- if .Values.kafkaTopic.enabled -}}
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  labels:
+    strimzi.io/cluster: {{ .Values.kafkaTopic.cluster }}
+  name: ingest-replay-recordings
+  namespace: {{ .Values.kafkaTopic.namespace }}
+spec:
+  config: {}
+  partitions: 1
+  replicas: 1
+  topicName: ingest-replay-recordings
+{{- end }}
