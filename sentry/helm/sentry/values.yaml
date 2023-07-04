@@ -696,7 +696,6 @@ clickhouse:
       - name: CLICKHOUSE_HOST
         value: service-sentry-clickhouse.sentry.svc.cluster.local:8123
 
-
 kafkaTopic: # TODO: hack since the db init fails to create this topic. Remove in the future once it's fixed in snuba.
   enabled: true
   cluster: kafka
