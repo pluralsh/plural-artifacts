@@ -17,6 +17,7 @@ clickhouse:
       {{ if eq .Provider "google" }}
       clusterIP: None
       {{ end }}
+  password: {{ dedupe . "sentry.clickhouse.password" (randAlphaNum 32) }}
 
 sentry:
   system:
