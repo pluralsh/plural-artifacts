@@ -1,8 +1,8 @@
 altinity-clickhouse-operator:
   secret:
     create: true
-    username: clickhouse_operator
-    password: clickhouse_operator_password
+    username: ""
+    password: ""
 
   operator:
     image:
