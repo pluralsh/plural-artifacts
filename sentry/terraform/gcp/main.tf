@@ -1,5 +1,4 @@
 locals {
-  namespace     = "sentry"
   sentry_sa_len = length(var.sentry_serviceaccount_suffixes)
 }
 
