@@ -82,7 +82,7 @@ configOverlays:
     - path: ['sentry', 'sentry', 'clickhouse', 'clickhouse', 'resources', 'requests', 'memory']
 
 sentry:
-  asHook: false # TODO: check if this works for first deployments
+  asHook: false
   images:
     symbolicator:
       repository: dkr.plural.sh/sentry/getsentry/symbolicator
@@ -142,7 +142,6 @@ sentry:
       kubernetes.io/tls-acme: "true"
       cert-manager.io/cluster-issuer: letsencrypt-prod
       nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
-###################  
   sentry:
     billingMetricsConsumer:
       env:
@@ -362,7 +361,6 @@ sentry:
       - name: BROKER_URL
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
   snuba:
-  #################
     consumer:
       env:
       - name: RABBITMQ_USER
@@ -539,8 +537,6 @@ sentry:
         requests:
           cpu: 20m
           memory: 100Mi
-
-  ##################3
     api:
       env:
       - name: RABBITMQ_USER
