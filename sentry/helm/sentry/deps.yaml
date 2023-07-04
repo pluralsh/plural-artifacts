@@ -23,6 +23,10 @@ spec:
     repo: rabbitmq
     version: '>= 0.1.8'
   - type: helm
+    name: clickhouse
+    repo: clickhouse
+    version: ">= 0.1.3"
+  - type: helm
     name: redis
     repo: redis
     version: '>= 0.1.1'

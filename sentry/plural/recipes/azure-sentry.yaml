@@ -13,6 +13,8 @@ dependencies:
   name: ingress-nginx-azure
 - repo: rabbitmq
   name: rabbitmq-azure
+- repo: clickhouse
+  name: clickhouse-azure
 - repo: redis
   name: azure-redis
 - repo: postgres

@@ -13,6 +13,8 @@ dependencies:
   name: ingress-nginx-aws
 - repo: rabbitmq
   name: rabbitmq-aws
+- repo: clickhouse
+  name: clickhouse-aws
 - repo: redis
   name: aws-redis
 - repo: postgres

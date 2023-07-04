@@ -13,6 +13,8 @@ dependencies:
   name: ingress-nginx-gcp
 - repo: rabbitmq
   name: rabbitmq-gcp
+- repo: clickhouse
+  name: clickhouse-gcp
 - repo: redis
   name: gcp-redis
 - repo: postgres
