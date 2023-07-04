@@ -607,8 +607,8 @@ sentry:
     host: service-sentry-clickhouse
     tcpPort: 9000
     httpPort: 8123
-    username: admin
-    password: change_me
+    username: sentry
+    password: ""
     database: sentry
     clusterName: sentry
     singleNode: false
@@ -658,16 +658,10 @@ sentry:
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
 
 clickhouse:
-  layout:
-    ## -- The number of shards in the cluster.
-    shardsCount: 1
-    ## -- The number of replicas per shard. If ClickhouseKeeper is enabled this is ignored and permanently set to 3.
-    replicasCount: 3
-
   enabled: true
   cluster: sentry
   database: sentry
-  user: admin
+  user: sentry
   password: change_me
 
   settings:
@@ -701,4 +695,3 @@ clickhouse:
     env:
       - name: CLICKHOUSE_HOST
         value: service-sentry-clickhouse.sentry.svc.cluster.local:8123
-    

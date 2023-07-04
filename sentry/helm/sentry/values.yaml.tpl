@@ -9,17 +9,17 @@ rabbitmq:
   cluster:
     namespace: {{ $rabbitmqNamespace }}  
 
+{{ $chPasswd := dedupe . "sentry.clickhouse.password" (randAlphaNum 32) }}
+{{ $chBackupPasswd := dedupe . "sentry.clickhouse.backup.backup_password" (randAlphaNum 32) }}
+
 clickhouse:
-  clickhouseKeeper:
-    enabled: true
-    serviceTemplate:
-      type: ClusterIP
-      {{ if eq .Provider "google" }}
-      clusterIP: None
-      {{ end }}
-  password: {{ dedupe . "sentry.clickhouse.password" (randAlphaNum 32) }}
+  password: {{ $chPasswd }}
+  backup:
+    backup_password: {{ $chBackupPasswd }}
 
 sentry:
+  externalClickhouse:
+    password: {{ $chPasswd }}
   system:
     secretKey: {{ dedupe . "sentry.sentry.system.secretKey" (randAlphaNum 32) }}
   symbolicator:
