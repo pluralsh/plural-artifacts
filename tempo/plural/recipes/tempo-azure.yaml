@@ -6,8 +6,8 @@ private: true
 dependencies:
 - repo: bootstrap
   name: azure-k8s
-# - repo: redis
-#   name: azure-redis
+- repo: grafana-agent
+  name: grafana-agent-azure
 sections:
 - name: tempo
   configuration:

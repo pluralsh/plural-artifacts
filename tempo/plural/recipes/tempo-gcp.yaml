@@ -1,13 +1,13 @@
-name: tempo-aws
-description: Installs tempo on an aws eks cluster
-provider: AWS
+name: tempo-gcp
+description: Installs tempo on a gcp gke cluster
+provider: GCP
 primary: true
 private: true
 dependencies:
 - repo: bootstrap
-  name: aws-k8s
-# - repo: redis
-#   name: aws-redis
+  name: gcp-k8s
+- repo: grafana-agent
+  name: grafana-agent-gcp
 sections:
 - name: tempo
   configuration:
@@ -22,6 +22,6 @@ sections:
     optional: true
   items:
   - type: TERRAFORM
-    name: aws
+    name: gcp
   - type: HELM
     name: tempo

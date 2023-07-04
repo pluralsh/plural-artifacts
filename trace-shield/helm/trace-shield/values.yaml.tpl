@@ -1,3 +1,9 @@
+{{ $grafanaAgent := and .Configuration (index .Configuration "grafana-agent") }}
+{{ $tempo := and .Configuration .Configuration.tempo }}
+{{- if and $grafanaAgent $tempo }}
+{{ $grafanaAgentNamespace := namespace "grafana-agent" }}
+{{- end }}
+
 {{ $hydraPostgresPass := dedupe . "trace-shield.postgresHydra.password" (randAlphaNum 32) }}
 postgresHydra:
   password: {{ $hydraPostgresPass}}
@@ -31,11 +37,11 @@ config:
     publicURL: {{ .Configuration.tempo.hostname }}
   {{- end }}
 
-{{- if and .Configuration.tempo (index .Configuration "grafana-agent") }}
+{{- if and $grafanaAgent $tempo }}
 backend:
   extraEnv:
   - name: OTEL_EXPORTER_OTLP_ENDPOINT
-    value: http://grafana-agent-traces.grafana-agent.svc:4318
+    value: http://grafana-agent-traces.{{ $grafanaAgentNamespace }}.svc:4318
   - name: OTEL_EXPORTER_OTLP_TRACES_INSECURE
     value: "true"
   - name: OTEL_SERVICE_NAME
@@ -67,7 +73,7 @@ ingress:
 kratos:
   kratos:
     config:
-      {{- if and .Configuration.tempo (index .Configuration "grafana-agent") }}
+      {{- if and $grafanaAgent $tempo }}
       tracing:
         service_name: Ory Kratos
         provider: otel
@@ -76,7 +82,7 @@ kratos:
             insecure: true
             sampling:
               sampling_ratio: 1.0
-            server_url: grafana-agent-traces.grafana-agent.svc:4318
+            server_url: grafana-agent-traces.{{ $grafanaAgentNamespace }}.svc:4318
       {{- end }}
       cookies:
         {{- if .Values.frontendHostname }}
@@ -138,7 +144,7 @@ hydraSecrets:
 hydra:
   hydra:
     config:
-      {{- if and .Configuration.tempo (index .Configuration "grafana-agent") }}
+      {{- if and $grafanaAgent $tempo }}
       tracing:
         service_name: Ory Hydra
         provider: otel
@@ -147,7 +153,7 @@ hydra:
             insecure: true
             sampling:
               sampling_ratio: 1.0
-            server_url: grafana-agent-traces.grafana-agent.svc:4318
+            server_url: grafana-agent-traces.{{ $grafanaAgentNamespace }}.svc:4318
       {{- end }}
       urls:
         self:
@@ -169,7 +175,7 @@ hydra:
 keto:
   keto:
     config:
-      {{- if and .Configuration.tempo (index .Configuration "grafana-agent") }}
+      {{- if and $grafanaAgent $tempo }}
       tracing:
         service_name: Ory Keto
         provider: otel
@@ -178,14 +184,14 @@ keto:
             insecure: true
             sampling:
               sampling_ratio: 1.0
-            server_url: grafana-agent-traces.grafana-agent.svc:4318
+            server_url: grafana-agent-traces.{{ $grafanaAgentNamespace }}.svc:4318
       {{- end }}
       dsn: postgres://keto:{{ $ketoPostgresPass }}@plural-postgres-keto:5432/keto
 
 oathkeeper:
   oathkeeper:
     config:
-      {{- if and .Configuration.tempo (index .Configuration "grafana-agent") }}
+      {{- if and $grafanaAgent $tempo }}
       tracing:
         service_name: Ory Oathkeeper
         provider: otel
@@ -194,7 +200,7 @@ oathkeeper:
             insecure: true
             sampling:
               sampling_ratio: 1.0
-            server_url: grafana-agent-traces.grafana-agent.svc:4318
+            server_url: grafana-agent-traces.{{ $grafanaAgentNamespace }}.svc:4318
       {{- end }}
       errors:
         handlers:

@@ -1,8 +1,14 @@
 {{ $traceShield := and .Configuration (index .Configuration "trace-shield") }}
 {{ $grafanaAgent := and .Configuration (index .Configuration "grafana-agent") }}
+{{ $tempo := and .Configuration .Configuration.tempo }}
 {{ $redisNamespace := namespace "redis" }}
 {{ $redisValues := .Applications.HelmValues "redis" }}
 {{ $monitoringNamespace := namespace "monitoring" }}
+
+{{- if and $grafanaAgent $tempo }}
+{{ $grafanaAgentNamespace := namespace "grafana-agent" }}
+{{- end }}
+
 global:
   application:
     links:
@@ -94,7 +100,7 @@ loki-distributed:
       querier:
         multi_tenant_queries_enabled: {{ .Values.multiTenant }}
       {{- end }}
-      {{- if and .Configuration.tempo (index .Configuration "grafana-agent") }}
+      {{- if and $grafanaAgent $tempo }}
       tracing:
         enabled: true
       {{- end }}
@@ -200,10 +206,10 @@ loki-distributed:
       {{- end }}
   {{- if or (eq .Provider "azure") (and .Configuration.tempo (index .Configuration "grafana-agent")) }}
   ingester:
-    {{- if and .Configuration.tempo (index .Configuration "grafana-agent") }}
+    {{- if and $grafanaAgent $tempo }}
     extraEnv:
     - name: JAEGER_AGENT_HOST
-      value: grafana-agent-traces.grafana-agent.svc
+      value: grafana-agent-traces.{{ $grafanaAgentNamespace }}.svc
     - name: JAEGER_AGENT_PORT
       value: "6831"
     - name: JAEGER_SAMPLER_TYPE
@@ -219,10 +225,10 @@ loki-distributed:
         name: loki-azure-secret
     {{- end }}
   distributor:
-    {{- if and .Configuration.tempo (index .Configuration "grafana-agent") }}
+    {{- if and $grafanaAgent $tempo }}
     extraEnv:
     - name: JAEGER_AGENT_HOST
-      value: grafana-agent-traces.grafana-agent.svc
+      value: grafana-agent-traces.{{ $grafanaAgentNamespace }}.svc
     - name: JAEGER_AGENT_PORT
       value: "6831"
     - name: JAEGER_SAMPLER_TYPE
@@ -238,10 +244,10 @@ loki-distributed:
         name: loki-azure-secret
     {{- end }}
   querier:
-    {{- if and .Configuration.tempo (index .Configuration "grafana-agent") }}
+    {{- if and $grafanaAgent $tempo }}
     extraEnv:
     - name: JAEGER_AGENT_HOST
-      value: grafana-agent-traces.grafana-agent.svc
+      value: grafana-agent-traces.{{ $grafanaAgentNamespace }}.svc
     - name: JAEGER_AGENT_PORT
       value: "6831"
     - name: JAEGER_SAMPLER_TYPE
@@ -257,10 +263,10 @@ loki-distributed:
         name: loki-azure-secret
     {{- end }}
   queryFrontend:
-    {{- if and .Configuration.tempo (index .Configuration "grafana-agent") }}
+    {{- if and $grafanaAgent $tempo }}
     extraEnv:
     - name: JAEGER_AGENT_HOST
-      value: grafana-agent-traces.grafana-agent.svc
+      value: grafana-agent-traces.{{ $grafanaAgentNamespace }}.svc
     - name: JAEGER_AGENT_PORT
       value: "6831"
     - name: JAEGER_SAMPLER_TYPE
@@ -277,10 +283,10 @@ loki-distributed:
     {{- end }}
   tableManager:
     enabled: false
-    {{- if and .Configuration.tempo (index .Configuration "grafana-agent") }}
+    {{- if and $grafanaAgent $tempo }}
     extraEnv:
     - name: JAEGER_AGENT_HOST
-      value: grafana-agent-traces.grafana-agent.svc
+      value: grafana-agent-traces.{{ $grafanaAgentNamespace }}.svc
     - name: JAEGER_AGENT_PORT
       value: "6831"
     - name: JAEGER_SAMPLER_TYPE
@@ -296,10 +302,10 @@ loki-distributed:
         name: loki-azure-secret
     {{- end }}
   compactor:
-    {{- if and .Configuration.tempo (index .Configuration "grafana-agent") }}
+    {{- if and $grafanaAgent $tempo }}
     extraEnv:
     - name: JAEGER_AGENT_HOST
-      value: grafana-agent-traces.grafana-agent.svc
+      value: grafana-agent-traces.{{ $grafanaAgentNamespace }}.svc
     - name: JAEGER_AGENT_PORT
       value: "6831"
     - name: JAEGER_SAMPLER_TYPE
@@ -315,10 +321,10 @@ loki-distributed:
         name: loki-azure-secret
     {{- end }}
   ruler:
-    {{- if and .Configuration.tempo (index .Configuration "grafana-agent") }}
+    {{- if and $grafanaAgent $tempo }}
     extraEnv:
     - name: JAEGER_AGENT_HOST
-      value: grafana-agent-traces.grafana-agent.svc
+      value: grafana-agent-traces.{{ $grafanaAgentNamespace }}.svc
     - name: JAEGER_AGENT_PORT
       value: "6831"
     - name: JAEGER_SAMPLER_TYPE
@@ -334,10 +340,10 @@ loki-distributed:
         name: loki-azure-secret
     {{- end }}
   indexGateway:
-    {{- if and .Configuration.tempo (index .Configuration "grafana-agent") }}
+    {{- if and $grafanaAgent $tempo }}
     extraEnv:
     - name: JAEGER_AGENT_HOST
-      value: grafana-agent-traces.grafana-agent.svc
+      value: grafana-agent-traces.{{ $grafanaAgentNamespace }}.svc
     - name: JAEGER_AGENT_PORT
       value: "6831"
     - name: JAEGER_SAMPLER_TYPE

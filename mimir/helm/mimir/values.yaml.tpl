@@ -1,11 +1,14 @@
 {{ $traceShield := and .Configuration (index .Configuration "trace-shield") }}
+{{ $grafanaAgent := and .Configuration (index .Configuration "grafana-agent") }}
+{{ $tempo := and .Configuration .Configuration.tempo }}
 
-{{- if or (eq .Provider "azure") (and .Configuration.tempo (index .Configuration "grafana-agent")) }}
+{{- if or (eq .Provider "azure") (and $grafanaAgent $tempo) }}
+{{ $grafanaAgentNamespace := namespace "grafana-agent" }}
 global:
-  {{- if and .Configuration.tempo (index .Configuration "grafana-agent") }}
+  {{- if and $grafanaAgent $tempo }}
   extraEnv:
   - name: JAEGER_AGENT_HOST
-    value: grafana-agent-traces.grafana-agent.svc
+    value: grafana-agent-traces.{{ $grafanaAgentNamespace }}.svc
   - name: JAEGER_AGENT_PORT
     value: "6831"
   - name: JAEGER_SAMPLER_TYPE
