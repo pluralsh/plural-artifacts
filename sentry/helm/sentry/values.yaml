@@ -78,6 +78,10 @@ sentry:
     existingSecretKey: key
 
     billingMetricsConsumer:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 300Mi
       env:
       - name: RABBITMQ_USER
         valueFrom:
@@ -92,6 +96,10 @@ sentry:
       - name: BROKER_URL
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     cron:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 300Mi
       env:
       - name: RABBITMQ_USER
         valueFrom:
@@ -126,6 +134,10 @@ sentry:
       - name: BROKER_URL
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     ingestMetricsConsumerPerf:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 300Mi
       env:
       - name: RABBITMQ_USER
         valueFrom:
@@ -140,6 +152,10 @@ sentry:
       - name: BROKER_URL
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     ingestMetricsConsumerRh:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 300Mi
       env:
       - name: RABBITMQ_USER
         valueFrom:
@@ -154,6 +170,10 @@ sentry:
       - name: BROKER_URL
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     ingestReplayRecordings:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 300Mi
       env:
       - name: RABBITMQ_USER
         valueFrom:
@@ -168,6 +188,10 @@ sentry:
       - name: BROKER_URL
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     postProcessForwardErrors:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 300Mi
       env:
       - name: RABBITMQ_USER
         valueFrom:
@@ -182,6 +206,10 @@ sentry:
       - name: BROKER_URL
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     postProcessForwardTransactions:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 300Mi
       env:
       - name: RABBITMQ_USER
         valueFrom:
@@ -196,6 +224,10 @@ sentry:
       - name: BROKER_URL
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     subscriptionConsumerEvents:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 300Mi
       env:
       - name: RABBITMQ_USER
         valueFrom:
@@ -210,6 +242,10 @@ sentry:
       - name: BROKER_URL
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     subscriptionConsumerSessions:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 300Mi
       env:
       - name: RABBITMQ_USER
         valueFrom:
@@ -224,6 +260,10 @@ sentry:
       - name: BROKER_URL
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     subscriptionConsumerTransactions:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 300Mi
       env:
       - name: RABBITMQ_USER
         valueFrom:
@@ -238,26 +278,12 @@ sentry:
       - name: BROKER_URL
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     web:
-      env:
-      - name: RABBITMQ_USER
-        valueFrom:
-          secretKeyRef:
-            name: sentry-rabbitmq-user-credentials
-            key: username
-      - name: RABBITMQ_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: sentry-rabbitmq-user-credentials
-            key: password
-      - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
       autoscaling:
         enabled: false
       resources:
         requests:
           cpu: 50m
           memory: 350Mi
-    worker:
       env:
       - name: RABBITMQ_USER
         valueFrom:
@@ -271,13 +297,31 @@ sentry:
             key: password
       - name: BROKER_URL
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
+    worker:
       autoscaling:
         enabled: false
       resources:
         requests:
           cpu: 50m
           memory: 750Mi
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
   relay:
+    resources:
+      requests:
+        cpu: 50m
+        memory: 300Mi
     env:
       - name: RABBITMQ_USER
         valueFrom:
@@ -322,6 +366,10 @@ sentry:
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
 
     consumer:
+      resources:
+        requests:
+          cpu: 20m
+          memory: 100Mi
       env:
       - name: RABBITMQ_USER
         valueFrom:
@@ -335,11 +383,11 @@ sentry:
             key: password
       - name: BROKER_URL
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
-      resources:
-        requests:
-          cpu: 20m
-          memory: 100Mi
     outcomesConsumer:
+      resources:
+        requests:
+          cpu: 20m
+          memory: 100Mi
       env:
       - name: RABBITMQ_USER
         valueFrom:
@@ -353,11 +401,11 @@ sentry:
             key: password
       - name: BROKER_URL
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
-      resources:
-        requests:
-          cpu: 20m
-          memory: 100Mi
     replacer:
+      resources:
+        requests:
+          cpu: 20m
+          memory: 100Mi
       env:
       - name: RABBITMQ_USER
         valueFrom:
@@ -371,11 +419,11 @@ sentry:
             key: password
       - name: BROKER_URL
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
+    replaysConsumer:
       resources:
         requests:
           cpu: 20m
           memory: 100Mi
-    replaysConsumer:
       env:
       - name: RABBITMQ_USER
         valueFrom:
@@ -390,6 +438,10 @@ sentry:
       - name: BROKER_URL
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     sessionsConsumer:
+      resources:
+        requests:
+          cpu: 20m
+          memory: 100Mi
       env:
       - name: RABBITMQ_USER
         valueFrom:
@@ -403,11 +455,11 @@ sentry:
             key: password
       - name: BROKER_URL
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
+    subscriptionConsumerEvents:
       resources:
         requests:
           cpu: 20m
           memory: 100Mi
-    subscriptionConsumerEvents:
       env:
       - name: RABBITMQ_USER
         valueFrom:
@@ -422,6 +474,10 @@ sentry:
       - name: BROKER_URL
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     subscriptionConsumerSessions:
+      resources:
+        requests:
+          cpu: 20m
+          memory: 100Mi
       env:
       - name: RABBITMQ_USER
         valueFrom:
@@ -436,6 +492,10 @@ sentry:
       - name: BROKER_URL
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     subscriptionConsumerTransactions:
+      resources:
+        requests:
+          cpu: 20m
+          memory: 100Mi
       env:
       - name: RABBITMQ_USER
         valueFrom:
@@ -450,24 +510,10 @@ sentry:
       - name: BROKER_URL
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     transactionsConsumer:
-      env:
-      - name: RABBITMQ_USER
-        valueFrom:
-          secretKeyRef:
-            name: sentry-rabbitmq-user-credentials
-            key: username
-      - name: RABBITMQ_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: sentry-rabbitmq-user-credentials
-            key: password
-      - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
       resources:
         requests:
           cpu: 20m
           memory: 100Mi
-    api:
       env:
       - name: RABBITMQ_USER
         valueFrom:
@@ -481,17 +527,28 @@ sentry:
             key: password
       - name: BROKER_URL
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
+    api:
       autoscaling:
         enabled: false
       resources:
         requests:
           cpu: 20m
           memory: 100Mi
-
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
 
   symbolicator:
-    autoscaling:
-      enabled: false
     api:
       resources:
         requests:
