@@ -3,6 +3,7 @@ description: An open-source message broker.
 category: MESSAGING
 icon: plural/icons/rabbitmq.png
 homepage: https://www.rabbitmq.com/
+notes: plural/notes.tpl
 gitUrl: https://github.com/rabbitmq/rabbitmq-server
 tags:
 - tag: operator
