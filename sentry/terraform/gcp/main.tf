@@ -40,7 +40,7 @@ resource "google_storage_bucket" "filestore_bucket" {
 resource "google_storage_bucket_iam_member" "filestore" {
   bucket = google_storage_bucket.filestore_bucket.name
   role = "roles/storage.admin"
-  member = "serviceAccount:${module.sentry-workflow-identity.gcp_service_account_email}"
+  member = "serviceAccount:${module.sentry-workload-identity.gcp_service_account_email}"
 
   depends_on = [
     google_storage_bucket.symbolicator_bucket,
