@@ -1,3 +1,4 @@
+{{- $isGcp := or (eq .Provider "google") (eq .Provider "gcp") }}
 {{- $rabbitmqNamespace := namespace "rabbitmq" }}
 global:
   application:
@@ -31,7 +32,7 @@ sentry:
       hosts:
       - {{ .Values.hostname }}
   filestore:
-  {{ if eq .Provider "google" }}
+  {{ if $isGcp }}
     backend: gcs
     gcs:
       bucketName: {{ .Values.filestoreBucket }}
@@ -71,15 +72,15 @@ sentry:
     from: {{ .SMTP.Sender }}
   {{ end }}
 
+  {{- if or $isGcp (eq .Provider "aws") }}
   serviceAccount:
-    {{ if eq .Provider "google" }}
+    {{ if $isGcp }}
     enabled: false
     {{ else if eq .Provider "aws" }}
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-sentry"
-    {{ else }}
-    annotations: {}
     {{ end }}
+  {{ end }}
 
   rabbitmq:
     host: rabbitmq.{{ namespace "rabbitmq" }}
