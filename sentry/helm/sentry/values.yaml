@@ -590,20 +590,7 @@ sentry:
 
   clickhouse:
     enabled: false
-    clickhouse:
-      # image: 'gcr.io/pluralsh/yandex/clickhouse-server'
-      # imageVersion: '20.8.9.6'
-      # init:
-      #   image: 'gcr.io/pluralsh/busybox'
-      #   imageVersion: latest
-      
-      metrics:
-        enabled: true
-        serviceMonitor:
-          enabled: true
   externalClickhouse:
-    ## Hostname or ip address of external clickhouse
-    ##
     host: service-sentry-clickhouse
     tcpPort: 9000
     httpPort: 8123
@@ -612,9 +599,6 @@ sentry:
     database: sentry
     clusterName: sentry
     singleNode: false
-    # existingSecret: secret-name
-    ## set existingSecretKey if key name inside existingSecret is different from 'postgres-password'
-    # existingSecretKey: secret-key-name
 
   externalRedis:
     host: redis-master.redis
