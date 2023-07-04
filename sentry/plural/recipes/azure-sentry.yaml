@@ -29,6 +29,10 @@ sections:
     documentation: s3 bucket to store miscellaneous files to
     type: BUCKET
     default: sentry-filestore
+  - name: clickhouseBackupBucket
+    documentation: s3 bucket to store clickhouse backups to
+    type: BUCKET
+    default: sentry-clickhouse-backups
   - name: adminEmail
     documentation: admin user email
     type: STRING
