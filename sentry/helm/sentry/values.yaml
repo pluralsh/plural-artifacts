@@ -74,6 +74,9 @@ sentry:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
   sentry:
+    existingSecret: sentry-system-secret
+    existingSecretKey: key
+
     billingMetricsConsumer:
       env:
       - name: RABBITMQ_USER
@@ -274,9 +277,6 @@ sentry:
         requests:
           cpu: 50m
           memory: 750Mi
-
-    existingSecret: sentry-system-secret
-    existingSecretKey: key
   relay:
     env:
       - name: RABBITMQ_USER
@@ -292,6 +292,35 @@ sentry:
       - name: BROKER_URL
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
   snuba:
+    dbInitJob:
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@/sentry
+    migrateJob:
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
+
     consumer:
       env:
       - name: RABBITMQ_USER
@@ -310,36 +339,6 @@ sentry:
         requests:
           cpu: 20m
           memory: 100Mi
-    dbInitJob:
-      env:
-      - name: RABBITMQ_USER
-        valueFrom:
-          secretKeyRef:
-            name: sentry-rabbitmq-user-credentials
-            key: username
-      - name: RABBITMQ_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: sentry-rabbitmq-user-credentials
-            key: password
-      - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@/sentry
-  
-    migrateJob:
-      env:
-      - name: RABBITMQ_USER
-        valueFrom:
-          secretKeyRef:
-            name: sentry-rabbitmq-user-credentials
-            key: username
-      - name: RABBITMQ_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: sentry-rabbitmq-user-credentials
-            key: password
-      - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
-  
     outcomesConsumer:
       env:
       - name: RABBITMQ_USER
@@ -489,10 +488,7 @@ sentry:
           cpu: 20m
           memory: 100Mi
 
-    
-    
-    
-    
+
   symbolicator:
     autoscaling:
       enabled: false
