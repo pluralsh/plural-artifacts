@@ -1,16 +1,10 @@
-# Default values for sentry.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
-replicaCount: 1
-
 postgres:
+  version: "15"
   enabled: true
   team: plural
   user: sentry
   dbName: sentry
   ownerChart: sentry
-  infix: ""
 
 rabbitmq:
   vhostName: sentry
@@ -18,135 +12,51 @@ rabbitmq:
     name: rabbitmq
     namespace: rabbitmq 
 
-configOverlays:
-- name: web-cpu
-  labels:
-    platform.plural.sh/component: sentry-web
-    platform.plural.sh/kind: deployment
-    platform.plural.sh/resource: cpu
-  spec:
-    name: web cpu
-    documentation: cpu requests for web deployment
-    updates:
-    - path: ['sentry', 'sentry', 'sentry', 'web', 'resources', 'requests', 'cpu']
-- name: web-mem
-  labels:
-    platform.plural.sh/component: sentry-web
-    platform.plural.sh/kind: deployment
-    platform.plural.sh/resource: memory
-  spec:
-    name: web memory
-    documentation: memory requests for web deployment
-    updates:
-    - path: ['sentry', 'sentry', 'sentry', 'web', 'resources', 'requests', 'memory']
-- name: worker-cpu
-  labels:
-    platform.plural.sh/component: sentry-worker
-    platform.plural.sh/kind: deployment
-    platform.plural.sh/resource: cpu
-  spec:
-    name: worker cpu
-    documentation: cpu requests for worker deployment
-    updates:
-    - path: ['sentry', 'sentry', 'sentry', 'worker', 'resources', 'requests', 'cpu']
-- name: worker-mem
-  labels:
-    platform.plural.sh/component: sentry-worker
-    platform.plural.sh/kind: deployment
-    platform.plural.sh/resource: memory
-  spec:
-    name: worker memory
-    documentation: memory requests for worker deployment
-    updates:
-    - path: ['sentry', 'sentry', 'sentry', 'worker', 'resources', 'requests', 'memory']
-- name: clickhouse-cpu
-  labels:
-    platform.plural.sh/component: sentry-clickhouse
-    platform.plural.sh/kind: statefulset
-    platform.plural.sh/resource: cpu
-  spec:
-    name: clickhouse cpu
-    documentation: cpu requests for clickhouse statefulset
-    updates:
-    - path: ['sentry', 'sentry', 'clickhouse', 'clickhouse', 'resources', 'requests', 'cpu']
-- name: clickhouse-mem
-  labels:
-    platform.plural.sh/component: sentry-clickhouse
-    platform.plural.sh/kind: statefulset
-    platform.plural.sh/resource: memory
-  spec:
-    name: clickhouse memory
-    documentation: memory requests for clickhouse statefulset
-    updates:
-    - path: ['sentry', 'sentry', 'clickhouse', 'clickhouse', 'resources', 'requests', 'memory']
-
 sentry:
+  asHook: false
   images:
     symbolicator:
-      repository: gcr.io/pluralsh/getsentry/symbolicator
+      repository: dkr.plural.sh/sentry/getsentry/symbolicator
+      tag: 23.6.1
     snuba:
-      repository: gcr.io/pluralsh/getsentry/snuba
+      repository: dkr.plural.sh/sentry/getsentry/snuba
+      tag: 23.6.1
     sentry:
-      repository: gcr.io/pluralsh/getsentry/sentry
-      tag: 21.5.1-extended
+      repository: dkr.plural.sh/sentry/getsentry/sentry
+      tag: 23.6.1-plural3.1.1
     relay:
-      repository: gcr.io/pluralsh/getsentry/relay
+      repository: dkr.plural.sh/sentry/getsentry/relay
+      tag: 23.6.1
 
   serviceAccount:
+    enabled: true
     name: sentry
 
   externalPostgresql:
-    host: plural-sentry
+    host: plural-postgres-sentry
     port: 5432
     username: sentry
-    # password: postgres
+    existingSecret: sentry.plural-postgres-sentry.credentials.postgresql.acid.zalan.do
+    existingSecretKey: password
     database: sentry
     sslMode: require
 
   postgresql:
     enabled: false
-    existingSecret: sentry.plural-sentry.credentials.postgresql.acid.zalan.do
-    existingSecretKey: password
-
-    image:
-      registry: gcr.io
-      repository: pluralsh/postgres
-      tag: 11.7.0-debian-10-r9
-    metrics:
-      image:
-        registry: gcr.io
-        repository: pluralsh/postgres-exporter
-        tag: 0.8.0
-      enabled: true
-      serviceMonitor:
-        enabled: true
   
   kafka:
     enabled: false
-    image:
-      registry: gcr.io/pluralsh
-    
-    zookeeper:
-      image:
-        registry: gcr.io/pluralsh
 
   metrics:
-    image:
-      repository: gcr.io/pluralsh/prom/statsd-exporter
-      tag: v0.20.2
     enabled: true
     serviceMonitor:
       enabled: true
+    image:
+      repository: gcr.io/pluralsh/prom/statsd-exporter
+      tag: v0.23.1
 
   redis:
     enabled: false
-    image:
-      registry: gcr.io/pluralsh
-      tag: 6.0.9-debian-10-r0
-    metrics:
-      image:
-        registry: gcr.io/pluralsh
-        tag: 1.12.1-debian-10-r11
 
   rabbitmq:
     enabled: false
@@ -158,94 +68,603 @@ sentry:
 
   ingress:
     enabled: true
+    ingressClassName: nginx
     annotations:
-      kubernetes.io/ingress.class: nginx
-      nginx.ingress.kubernetes.io/use-regex: "true"
       kubernetes.io/tls-acme: "true"
       cert-manager.io/cluster-issuer: letsencrypt-prod
       nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
-  
   sentry:
-    web:
-      autoscaling:
-        enabled: true
-      resources:
-        requests:
-          cpu: 50m
-          memory: 350Mi
-    worker:
-      autoscaling:
-        enabled: true
-      resources:
-        requests:
-          cpu: 50m
-          memory: 750Mi
-    ingestConsumer:
-      autoscaling:
-        enabled: true
+    existingSecret: sentry-system-secret
+    existingSecretKey: key
+
+    billingMetricsConsumer:
       resources:
         requests:
           cpu: 50m
           memory: 300Mi
-
-  snuba:
-    api:
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
+    cron:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 300Mi
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
+    ingestConsumer:
       autoscaling:
-        enabled: true
+        enabled: false
       resources:
         requests:
-          cpu: 20m
-          memory: 100Mi
-    sessionsConsumer:
+          cpu: 50m
+          memory: 300Mi
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
+    ingestMetricsConsumerPerf:
       resources:
         requests:
-          cpu: 20m
-          memory: 100Mi
+          cpu: 50m
+          memory: 300Mi
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
+    ingestMetricsConsumerRh:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 300Mi
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
+    ingestReplayRecordings:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 300Mi
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
+    postProcessForwardErrors:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 300Mi
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
+    postProcessForwardTransactions:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 300Mi
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
+    subscriptionConsumerEvents:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 300Mi
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
+    subscriptionConsumerSessions:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 300Mi
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
+    subscriptionConsumerTransactions:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 300Mi
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
+    web:
+      autoscaling:
+        enabled: false
+      resources:
+        requests:
+          cpu: 50m
+          memory: 350Mi
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
+    worker:
+      autoscaling:
+        enabled: false
+      resources:
+        requests:
+          cpu: 50m
+          memory: 750Mi
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
+  relay:
+    resources:
+      requests:
+        cpu: 50m
+        memory: 300Mi
+    env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
+  snuba:
+    dbInitJob:
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@/sentry
+    migrateJob:
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
+
     consumer:
       resources:
         requests:
           cpu: 20m
           memory: 100Mi
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     outcomesConsumer:
       resources:
         requests:
           cpu: 20m
           memory: 100Mi
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     replacer:
       resources:
         requests:
           cpu: 20m
           memory: 100Mi
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
+    replaysConsumer:
+      resources:
+        requests:
+          cpu: 20m
+          memory: 100Mi
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
+    sessionsConsumer:
+      resources:
+        requests:
+          cpu: 20m
+          memory: 100Mi
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
+    subscriptionConsumerEvents:
+      resources:
+        requests:
+          cpu: 20m
+          memory: 100Mi
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
+    subscriptionConsumerSessions:
+      resources:
+        requests:
+          cpu: 20m
+          memory: 100Mi
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
+    subscriptionConsumerTransactions:
+      resources:
+        requests:
+          cpu: 20m
+          memory: 100Mi
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     transactionsConsumer:
       resources:
         requests:
           cpu: 20m
           memory: 100Mi
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
+    api:
+      autoscaling:
+        enabled: false
+      resources:
+        requests:
+          cpu: 20m
+          memory: 100Mi
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
 
   symbolicator:
-    autoscaling:
-      enabled: true
     api:
       resources:
         requests:
           cpu: 20m
           memory: 50Mi
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
+
+
+  zookeeper:
+    enabled: false
 
   clickhouse:
-    clickhouse:
-      image: 'gcr.io/pluralsh/yandex/clickhouse-server'
-      imageVersion: '20.8.9.6'
-      init:
-        image: 'gcr.io/pluralsh/busybox'
-        imageVersion: latest
-      
-      metrics:
-        enabled: true
-        serviceMonitor:
-          enabled: true
+    enabled: false
+  externalClickhouse:
+    host: service-sentry-clickhouse
+    tcpPort: 9000
+    httpPort: 8123
+    username: sentry
+    password: ""
+    database: sentry
+    clusterName: sentry
+    singleNode: false
+
   externalRedis:
     host: redis-master.redis
     password: ""
 
   externalKafka:
     host: kafka-kafka-bootstrap.kafka
+
+  hooks:
+    activeDeadlineSeconds: 600
+    dbCheck:
+      image:
+        repository: gcr.io/pluralsh/library/busybox
+        tag: 1.36.0
+      env: 
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
+    dbInit:
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
+
+clickhouse:
+  enabled: true
+  cluster: sentry
+  database: sentry
+  user: sentry
+  password: change_me
+
+  settings:
+    merge_tree/allow_nullable_key: 1
+    merge_tree/check_sample_column_is_correct: 0
+  
+  resources:
+    requests:
+      cpu: 150m
+      memory: 300Mi
+    limits:
+      cpu: 500m
+      memory: 1Gi
+  postInstallationHook:
+    enabled: true
+    annotations:
+      helm.sh/hook: post-install
+      helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+      helm.sh/hook-weight: "4"
+    initContainer:
+      timeout: "180s"
+    image:
+      repository: curlimages/curl
+      tag: 7.79.1
+    command: ["sh", "-c"]
+    args:
+      - curl -Sv "${CLICKHOUSE_HOST}/?user=${CLICKHOUSE_USER}&password=${CLICKHOUSE_PASSWORD}" -d "SELECT * FROM information_schema.tables where table_schema = '{{ .Values.database }}'" && sleep 10
+    envFrom:
+      - secretRef:
+          name: sentry-snuba-env
+    env:
+      - name: CLICKHOUSE_HOST
+        value: service-sentry-clickhouse.sentry.svc.cluster.local:8123
+
+kafkaTopic: # TODO: hack since the db init fails to create this topic. Remove in the future once it's fixed in snuba.
+  enabled: true
+  cluster: kafka
+  namespace: kafka

@@ -13,6 +13,8 @@ dependencies:
   name: ingress-nginx-gcp
 - repo: rabbitmq
   name: rabbitmq-gcp
+- repo: clickhouse
+  name: clickhouse-gcp
 - repo: redis
   name: gcp-redis
 - repo: postgres
@@ -29,13 +31,15 @@ sections:
     documentation: gcs bucket to store miscellaneous files to
     type: BUCKET
     default: sentry-filestore
+  - name: clickhouseBackupBucket
+    documentation: s3 bucket to store clickhouse backups to
+    type: BUCKET
+    default: sentry-clickhouse-backups
   - name: adminEmail
     documentation: admin user email
     type: STRING
   items:
   - type: TERRAFORM
     name: gcp
-  - type: TERRAFORM
-    name: secrets
   - type: HELM
     name: sentry

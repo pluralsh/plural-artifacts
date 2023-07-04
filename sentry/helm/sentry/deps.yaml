@@ -4,6 +4,7 @@ metadata:
   application: true
   description: Deploys sentry crafted for the target cloud
 spec:
+  breaking: true
   dependencies:
   - type: helm
     name: bootstrap
@@ -22,6 +23,10 @@ spec:
     repo: rabbitmq
     version: '>= 0.1.8'
   - type: helm
+    name: clickhouse
+    repo: clickhouse
+    version: ">= 0.1.3"
+  - type: helm
     name: redis
     repo: redis
     version: '>= 0.1.1'
@@ -29,10 +34,6 @@ spec:
     name: kafka
     repo: kafka
     version: '>= 0.1.3'
-  - type: terraform
-    name: secrets
-    repo: sentry
-    version: '>= 0.1.0'
   - type: terraform
     name: aws
     repo: sentry

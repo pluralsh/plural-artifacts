@@ -21,7 +21,7 @@ module "assumable_role_sentry" {
   role_name                     = "${var.cluster_name}-${var.role_name}"
   provider_url                  = replace(data.aws_eks_cluster.cluster.identity[0].oidc[0].issuer, "https://", "")
   role_policy_arns              = [aws_iam_policy.sentry.arn]
-  oidc_fully_qualified_subjects = ["system:serviceaccount:${var.namespace}:${var.sentry_serviceaccount}"]
+  oidc_fully_qualified_subjects = formatlist("system:serviceaccount:${var.namespace}:${var.sentry_serviceaccount}-%s", var.sentry_serviceaccount_suffixes)
 }
 
 resource "aws_iam_policy" "sentry" {
@@ -55,23 +55,4 @@ data "aws_iam_policy_document" "sentry" {
       "arn:aws:s3:::${var.filestore_bucket}/*",
     ]
   }
-}
-
-data "aws_iam_role" "postgres" {
-  name = "${var.cluster_name}-postgres"
-}
-
-resource "kubernetes_service_account" "postgres" {
-  metadata {
-    name      = "postgres-pod"
-    namespace = var.namespace
-
-    annotations = {
-      "eks.amazonaws.com/role-arn" = data.aws_iam_role.postgres.arn
-    }
-  }
-
-  depends_on = [
-    kubernetes_namespace.sentry
-  ]
 }
