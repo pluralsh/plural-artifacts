@@ -89,7 +89,6 @@ sentry:
   externalRedis:
     host: redis-master.{{ namespace "redis" }}
     password: {{ $redisValues.redis.password }}
-  {{- end }}
 
   {{ $kafkaNamespace := namespace "kafka" }}
   externalKafka:
