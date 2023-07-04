@@ -1,7 +1,7 @@
 apiVersion: platform.plural.sh/v1alpha1
 kind: Runbook
 metadata:
-  name: clickhouse-scaling
+  name: sentry-scaling
   labels:
     platform.plural.sh/pinned: 'true'
 {{ include "sentry-plural.labels" . | indent 4 }}
@@ -9,7 +9,7 @@ spec:
   name: Clickhouse Scaling
   description: overview of how to accurately scale sentry's clickhouse cluster
   display: |-
-{{ .Files.Get "runbooks/db-scaling.xml" | indent 4 }}
+{{ .Files.Get "runbooks/clickhouse-scaling.xml" | indent 4 }}
   datasources:
   - name: cpu
     type: prometheus
