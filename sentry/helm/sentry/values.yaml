@@ -95,10 +95,10 @@ sentry:
     name: sentry
 
   externalPostgresql:
-    host: plural-sentry
+    host: plural-postgres-sentry
     port: 5432
     username: sentry
-    existingSecret: sentry.plural-sentry.credentials.postgresql.acid.zalan.do
+    existingSecret: sentry.plural-postgres-sentry.credentials.postgresql.acid.zalan.do
     existingSecretKey: password
     database: sentry
     sslMode: require
