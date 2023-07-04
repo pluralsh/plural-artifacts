@@ -1,5 +1,6 @@
 {{- $isGcp := or (eq .Provider "google") (eq .Provider "gcp") }}
 {{- $rabbitmqNamespace := namespace "rabbitmq" }}
+{{- $redisValues := .Applications.HelmValues "redis" }}
 global:
   application:
     links:
@@ -87,7 +88,8 @@ sentry:
 
   externalRedis:
     host: redis-master.{{ namespace "redis" }}
-    password: {{ importValue "Terraform" "redis_password" }}
+    password: {{ $redisValues.redis.password }}
+  {{- end }}
 
   {{ $kafkaNamespace := namespace "kafka" }}
   externalKafka:
