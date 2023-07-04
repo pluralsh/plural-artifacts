@@ -4,6 +4,7 @@ metadata:
   application: true
   description: Deploys sentry crafted for the target cloud
 spec:
+  breaking: true
   dependencies:
   - type: helm
     name: bootstrap
