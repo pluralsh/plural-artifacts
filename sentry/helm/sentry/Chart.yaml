@@ -17,5 +17,5 @@ dependencies:
   repository: https://pluralsh.github.io/module-library
 - name: clickhouse
   version: 0.2.3
-  repository: file:///Users/hans.rauer/Repos/module-library/helm/clickhouse
+  repository: https://pluralsh.github.io/module-library
   condition: clickhouse.enabled
