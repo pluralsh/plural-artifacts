@@ -46,14 +46,6 @@
       "bumpVersion": "patch"
     },
     {
-      "description": "Group Image Vendor updates",
-      "matchManagers": [
-        "regex"
-      ],
-      "groupName": "vendor-images",
-      "additionalBranchPrefix": ""
-    },
-    {
       "description": "Group airbyte Helm updates",
       "matchPaths": [
         "airbyte"
@@ -549,6 +541,21 @@
       "additionalBranchPrefix": ""
     },
     {
+      "description": "Group imgproxy Helm updates",
+      "matchPaths": [
+        "imgproxy"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "imgproxy",
+      "additionalBranchPrefix": ""
+    },
+    {
       "description": "Group influx Helm updates",
       "matchPaths": [
         "influx"
@@ -804,6 +811,21 @@
       "additionalBranchPrefix": ""
     },
     {
+      "description": "Group mage Helm updates",
+      "matchPaths": [
+        "mage"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "mage",
+      "additionalBranchPrefix": ""
+    },
+    {
       "description": "Group meilisearch Helm updates",
       "matchPaths": [
         "meilisearch"
@@ -951,6 +973,21 @@
         "helmv3"
       ],
       "groupName": "n8n",
+      "additionalBranchPrefix": ""
+    },
+    {
+      "description": "Group neo4j Helm updates",
+      "matchPaths": [
+        "neo4j"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "neo4j",
       "additionalBranchPrefix": ""
     },
     {
@@ -1537,18 +1574,6 @@
       ],
       "groupName": "yugabyte",
       "additionalBranchPrefix": ""
-    }
-  ],
-  "regexManagers": [
-    {
-      "fileMatch": [
-        "(^|/|\\.)vendor_images$"
-      ],
-      "matchStrings": [
-        "(?<depName>.*?):(?<currentValue>.*)"
-      ],
-      "versioningTemplate": "docker",
-      "datasourceTemplate": "docker"
     }
   ],
   "separateMinorPatch": true,

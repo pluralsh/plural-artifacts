@@ -29,16 +29,8 @@ default='[
         "description": "Bump helm chart versions",
         "matchManagers": ["helmv3"],
         "bumpVersion": "patch"
-    },
-    {
-        "description": "Group Image Vendor updates",
-        "matchManagers": ["regex"],
-        "groupName": "vendor-images",
-        "additionalBranchPrefix": ""
     }
 ]'
-
-app="test"
 
 base=$(jq ".packageRules |= ${default}" renovate.json)
 sum=$(echo $base)
