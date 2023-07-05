@@ -46,17 +46,9 @@
       "bumpVersion": "patch"
     },
     {
-      "description": "Group Image Vendor updates",
-      "matchManagers": [
-        "regex"
-      ],
-      "groupName": "vendor-images",
-      "additionalBranchPrefix": ""
-    },
-    {
       "description": "Group airbyte Helm updates",
-      "matchPaths": [
-        "airbyte"
+      "matchFileNames": [
+        "airbyte/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -70,8 +62,8 @@
     },
     {
       "description": "Group airflow Helm updates",
-      "matchPaths": [
-        "airflow"
+      "matchFileNames": [
+        "airflow/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -85,8 +77,8 @@
     },
     {
       "description": "Group argo-cd Helm updates",
-      "matchPaths": [
-        "argo-cd"
+      "matchFileNames": [
+        "argo-cd/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -100,8 +92,8 @@
     },
     {
       "description": "Group argo-workflows Helm updates",
-      "matchPaths": [
-        "argo-workflows"
+      "matchFileNames": [
+        "argo-workflows/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -115,8 +107,8 @@
     },
     {
       "description": "Group baserow Helm updates",
-      "matchPaths": [
-        "baserow"
+      "matchFileNames": [
+        "baserow/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -130,8 +122,8 @@
     },
     {
       "description": "Group bin Helm updates",
-      "matchPaths": [
-        "bin"
+      "matchFileNames": [
+        "bin/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -145,8 +137,8 @@
     },
     {
       "description": "Group bootstrap Helm updates",
-      "matchPaths": [
-        "bootstrap"
+      "matchFileNames": [
+        "bootstrap/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -160,8 +152,8 @@
     },
     {
       "description": "Group bytebase Helm updates",
-      "matchPaths": [
-        "bytebase"
+      "matchFileNames": [
+        "bytebase/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -175,8 +167,8 @@
     },
     {
       "description": "Group calendso Helm updates",
-      "matchPaths": [
-        "calendso"
+      "matchFileNames": [
+        "calendso/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -190,8 +182,8 @@
     },
     {
       "description": "Group chatwoot Helm updates",
-      "matchPaths": [
-        "chatwoot"
+      "matchFileNames": [
+        "chatwoot/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -205,8 +197,8 @@
     },
     {
       "description": "Group clickhouse Helm updates",
-      "matchPaths": [
-        "clickhouse"
+      "matchFileNames": [
+        "clickhouse/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -220,8 +212,8 @@
     },
     {
       "description": "Group crossplane Helm updates",
-      "matchPaths": [
-        "crossplane"
+      "matchFileNames": [
+        "crossplane/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -235,8 +227,8 @@
     },
     {
       "description": "Group dagster-agent Helm updates",
-      "matchPaths": [
-        "dagster-agent"
+      "matchFileNames": [
+        "dagster-agent/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -250,8 +242,8 @@
     },
     {
       "description": "Group dagster Helm updates",
-      "matchPaths": [
-        "dagster"
+      "matchFileNames": [
+        "dagster/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -265,8 +257,8 @@
     },
     {
       "description": "Group dash-controller Helm updates",
-      "matchPaths": [
-        "dash-controller"
+      "matchFileNames": [
+        "dash-controller/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -280,8 +272,8 @@
     },
     {
       "description": "Group datadog Helm updates",
-      "matchPaths": [
-        "datadog"
+      "matchFileNames": [
+        "datadog/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -295,8 +287,8 @@
     },
     {
       "description": "Group datahub Helm updates",
-      "matchPaths": [
-        "datahub"
+      "matchFileNames": [
+        "datahub/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -310,8 +302,8 @@
     },
     {
       "description": "Group dex Helm updates",
-      "matchPaths": [
-        "dex"
+      "matchFileNames": [
+        "dex/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -325,8 +317,8 @@
     },
     {
       "description": "Group directus Helm updates",
-      "matchPaths": [
-        "directus"
+      "matchFileNames": [
+        "directus/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -340,8 +332,8 @@
     },
     {
       "description": "Group elasticsearch Helm updates",
-      "matchPaths": [
-        "elasticsearch"
+      "matchFileNames": [
+        "elasticsearch/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -355,8 +347,8 @@
     },
     {
       "description": "Group etcd Helm updates",
-      "matchPaths": [
-        "etcd"
+      "matchFileNames": [
+        "etcd/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -370,8 +362,8 @@
     },
     {
       "description": "Group filecoin Helm updates",
-      "matchPaths": [
-        "filecoin"
+      "matchFileNames": [
+        "filecoin/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -385,8 +377,8 @@
     },
     {
       "description": "Group gcp-config-connector Helm updates",
-      "matchPaths": [
-        "gcp-config-connector"
+      "matchFileNames": [
+        "gcp-config-connector/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -400,8 +392,8 @@
     },
     {
       "description": "Group ghost Helm updates",
-      "matchPaths": [
-        "ghost"
+      "matchFileNames": [
+        "ghost/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -415,8 +407,8 @@
     },
     {
       "description": "Group gitlab Helm updates",
-      "matchPaths": [
-        "gitlab"
+      "matchFileNames": [
+        "gitlab/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -430,8 +422,8 @@
     },
     {
       "description": "Group goldilocks Helm updates",
-      "matchPaths": [
-        "goldilocks"
+      "matchFileNames": [
+        "goldilocks/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -445,8 +437,8 @@
     },
     {
       "description": "Group grafana-agent Helm updates",
-      "matchPaths": [
-        "grafana-agent"
+      "matchFileNames": [
+        "grafana-agent/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -460,8 +452,8 @@
     },
     {
       "description": "Group grafana-tempo Helm updates",
-      "matchPaths": [
-        "grafana-tempo"
+      "matchFileNames": [
+        "grafana-tempo/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -475,8 +467,8 @@
     },
     {
       "description": "Group grafana Helm updates",
-      "matchPaths": [
-        "grafana"
+      "matchFileNames": [
+        "grafana/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -490,8 +482,8 @@
     },
     {
       "description": "Group growthbook Helm updates",
-      "matchPaths": [
-        "growthbook"
+      "matchFileNames": [
+        "growthbook/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -505,8 +497,8 @@
     },
     {
       "description": "Group harbor Helm updates",
-      "matchPaths": [
-        "harbor"
+      "matchFileNames": [
+        "harbor/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -520,8 +512,8 @@
     },
     {
       "description": "Group hasura Helm updates",
-      "matchPaths": [
-        "hasura"
+      "matchFileNames": [
+        "hasura/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -535,8 +527,8 @@
     },
     {
       "description": "Group hydra Helm updates",
-      "matchPaths": [
-        "hydra"
+      "matchFileNames": [
+        "hydra/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -549,9 +541,24 @@
       "additionalBranchPrefix": ""
     },
     {
+      "description": "Group imgproxy Helm updates",
+      "matchFileNames": [
+        "imgproxy/**"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "imgproxy",
+      "additionalBranchPrefix": ""
+    },
+    {
       "description": "Group influx Helm updates",
-      "matchPaths": [
-        "influx"
+      "matchFileNames": [
+        "influx/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -565,8 +572,8 @@
     },
     {
       "description": "Group ingress-nginx Helm updates",
-      "matchPaths": [
-        "ingress-nginx"
+      "matchFileNames": [
+        "ingress-nginx/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -580,8 +587,8 @@
     },
     {
       "description": "Group istio Helm updates",
-      "matchPaths": [
-        "istio"
+      "matchFileNames": [
+        "istio/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -595,8 +602,8 @@
     },
     {
       "description": "Group jenkins Helm updates",
-      "matchPaths": [
-        "jenkins"
+      "matchFileNames": [
+        "jenkins/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -610,8 +617,8 @@
     },
     {
       "description": "Group jitsu Helm updates",
-      "matchPaths": [
-        "jitsu"
+      "matchFileNames": [
+        "jitsu/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -625,8 +632,8 @@
     },
     {
       "description": "Group jupyterhub Helm updates",
-      "matchPaths": [
-        "jupyterhub"
+      "matchFileNames": [
+        "jupyterhub/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -640,8 +647,8 @@
     },
     {
       "description": "Group kafka Helm updates",
-      "matchPaths": [
-        "kafka"
+      "matchFileNames": [
+        "kafka/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -655,8 +662,8 @@
     },
     {
       "description": "Group knative Helm updates",
-      "matchPaths": [
-        "knative"
+      "matchFileNames": [
+        "knative/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -670,8 +677,8 @@
     },
     {
       "description": "Group kratos Helm updates",
-      "matchPaths": [
-        "kratos"
+      "matchFileNames": [
+        "kratos/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -685,8 +692,8 @@
     },
     {
       "description": "Group kserve Helm updates",
-      "matchPaths": [
-        "kserve"
+      "matchFileNames": [
+        "kserve/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -700,8 +707,8 @@
     },
     {
       "description": "Group kubecost Helm updates",
-      "matchPaths": [
-        "kubecost"
+      "matchFileNames": [
+        "kubecost/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -715,8 +722,8 @@
     },
     {
       "description": "Group kubeflow Helm updates",
-      "matchPaths": [
-        "kubeflow"
+      "matchFileNames": [
+        "kubeflow/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -730,8 +737,8 @@
     },
     {
       "description": "Group kubescape Helm updates",
-      "matchPaths": [
-        "kubescape"
+      "matchFileNames": [
+        "kubescape/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -745,8 +752,8 @@
     },
     {
       "description": "Group kyverno Helm updates",
-      "matchPaths": [
-        "kyverno"
+      "matchFileNames": [
+        "kyverno/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -760,8 +767,8 @@
     },
     {
       "description": "Group lakefs Helm updates",
-      "matchPaths": [
-        "lakefs"
+      "matchFileNames": [
+        "lakefs/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -775,8 +782,8 @@
     },
     {
       "description": "Group lightdash Helm updates",
-      "matchPaths": [
-        "lightdash"
+      "matchFileNames": [
+        "lightdash/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -790,8 +797,8 @@
     },
     {
       "description": "Group loki Helm updates",
-      "matchPaths": [
-        "loki"
+      "matchFileNames": [
+        "loki/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -804,9 +811,24 @@
       "additionalBranchPrefix": ""
     },
     {
+      "description": "Group mage Helm updates",
+      "matchFileNames": [
+        "mage/**"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "mage",
+      "additionalBranchPrefix": ""
+    },
+    {
       "description": "Group meilisearch Helm updates",
-      "matchPaths": [
-        "meilisearch"
+      "matchFileNames": [
+        "meilisearch/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -820,8 +842,8 @@
     },
     {
       "description": "Group metabase Helm updates",
-      "matchPaths": [
-        "metabase"
+      "matchFileNames": [
+        "metabase/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -835,8 +857,8 @@
     },
     {
       "description": "Group mimir Helm updates",
-      "matchPaths": [
-        "mimir"
+      "matchFileNames": [
+        "mimir/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -850,8 +872,8 @@
     },
     {
       "description": "Group minecraft Helm updates",
-      "matchPaths": [
-        "minecraft"
+      "matchFileNames": [
+        "minecraft/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -865,8 +887,8 @@
     },
     {
       "description": "Group minio Helm updates",
-      "matchPaths": [
-        "minio"
+      "matchFileNames": [
+        "minio/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -880,8 +902,8 @@
     },
     {
       "description": "Group mlflow Helm updates",
-      "matchPaths": [
-        "mlflow"
+      "matchFileNames": [
+        "mlflow/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -895,8 +917,8 @@
     },
     {
       "description": "Group mongodb Helm updates",
-      "matchPaths": [
-        "mongodb"
+      "matchFileNames": [
+        "mongodb/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -910,8 +932,8 @@
     },
     {
       "description": "Group monitoring Helm updates",
-      "matchPaths": [
-        "monitoring"
+      "matchFileNames": [
+        "monitoring/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -925,8 +947,8 @@
     },
     {
       "description": "Group mysql Helm updates",
-      "matchPaths": [
-        "mysql"
+      "matchFileNames": [
+        "mysql/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -940,8 +962,8 @@
     },
     {
       "description": "Group n8n Helm updates",
-      "matchPaths": [
-        "n8n"
+      "matchFileNames": [
+        "n8n/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -954,9 +976,24 @@
       "additionalBranchPrefix": ""
     },
     {
+      "description": "Group neo4j Helm updates",
+      "matchFileNames": [
+        "neo4j/**"
+      ],
+      "matchManagers": [
+        "helm-requirements",
+        "helm-values",
+        "helmfile",
+        "helmsman",
+        "helmv3"
+      ],
+      "groupName": "neo4j",
+      "additionalBranchPrefix": ""
+    },
+    {
       "description": "Group nextcloud Helm updates",
-      "matchPaths": [
-        "nextcloud"
+      "matchFileNames": [
+        "nextcloud/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -970,8 +1007,8 @@
     },
     {
       "description": "Group nocodb Helm updates",
-      "matchPaths": [
-        "nocodb"
+      "matchFileNames": [
+        "nocodb/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -985,8 +1022,8 @@
     },
     {
       "description": "Group nvidia-operator Helm updates",
-      "matchPaths": [
-        "nvidia-operator"
+      "matchFileNames": [
+        "nvidia-operator/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1000,8 +1037,8 @@
     },
     {
       "description": "Group oauth2-proxy Helm updates",
-      "matchPaths": [
-        "oauth2-proxy"
+      "matchFileNames": [
+        "oauth2-proxy/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1015,8 +1052,8 @@
     },
     {
       "description": "Group oncall Helm updates",
-      "matchPaths": [
-        "oncall"
+      "matchFileNames": [
+        "oncall/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1030,8 +1067,8 @@
     },
     {
       "description": "Group postgres Helm updates",
-      "matchPaths": [
-        "postgres"
+      "matchFileNames": [
+        "postgres/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1045,8 +1082,8 @@
     },
     {
       "description": "Group posthog Helm updates",
-      "matchPaths": [
-        "posthog"
+      "matchFileNames": [
+        "posthog/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1060,8 +1097,8 @@
     },
     {
       "description": "Group prefect-agent Helm updates",
-      "matchPaths": [
-        "prefect-agent"
+      "matchFileNames": [
+        "prefect-agent/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1075,8 +1112,8 @@
     },
     {
       "description": "Group prefect-worker Helm updates",
-      "matchPaths": [
-        "prefect-worker"
+      "matchFileNames": [
+        "prefect-worker/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1090,8 +1127,8 @@
     },
     {
       "description": "Group prefect Helm updates",
-      "matchPaths": [
-        "prefect"
+      "matchFileNames": [
+        "prefect/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1105,8 +1142,8 @@
     },
     {
       "description": "Group rabbitmq Helm updates",
-      "matchPaths": [
-        "rabbitmq"
+      "matchFileNames": [
+        "rabbitmq/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1120,8 +1157,8 @@
     },
     {
       "description": "Group ray Helm updates",
-      "matchPaths": [
-        "ray"
+      "matchFileNames": [
+        "ray/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1135,8 +1172,8 @@
     },
     {
       "description": "Group redash Helm updates",
-      "matchPaths": [
-        "redash"
+      "matchFileNames": [
+        "redash/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1150,8 +1187,8 @@
     },
     {
       "description": "Group redis Helm updates",
-      "matchPaths": [
-        "redis"
+      "matchFileNames": [
+        "redis/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1165,8 +1202,8 @@
     },
     {
       "description": "Group redpanda Helm updates",
-      "matchPaths": [
-        "redpanda"
+      "matchFileNames": [
+        "redpanda/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1180,8 +1217,8 @@
     },
     {
       "description": "Group reloader Helm updates",
-      "matchPaths": [
-        "reloader"
+      "matchFileNames": [
+        "reloader/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1195,8 +1232,8 @@
     },
     {
       "description": "Group renovate-on-prem Helm updates",
-      "matchPaths": [
-        "renovate-on-prem"
+      "matchFileNames": [
+        "renovate-on-prem/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1210,8 +1247,8 @@
     },
     {
       "description": "Group retool Helm updates",
-      "matchPaths": [
-        "retool"
+      "matchFileNames": [
+        "retool/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1225,8 +1262,8 @@
     },
     {
       "description": "Group rook Helm updates",
-      "matchPaths": [
-        "rook"
+      "matchFileNames": [
+        "rook/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1240,8 +1277,8 @@
     },
     {
       "description": "Group sentry Helm updates",
-      "matchPaths": [
-        "sentry"
+      "matchFileNames": [
+        "sentry/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1255,8 +1292,8 @@
     },
     {
       "description": "Group sftpgo Helm updates",
-      "matchPaths": [
-        "sftpgo"
+      "matchFileNames": [
+        "sftpgo/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1270,8 +1307,8 @@
     },
     {
       "description": "Group sonarqube Helm updates",
-      "matchPaths": [
-        "sonarqube"
+      "matchFileNames": [
+        "sonarqube/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1285,8 +1322,8 @@
     },
     {
       "description": "Group spark Helm updates",
-      "matchPaths": [
-        "spark"
+      "matchFileNames": [
+        "spark/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1300,8 +1337,8 @@
     },
     {
       "description": "Group strapi Helm updates",
-      "matchPaths": [
-        "strapi"
+      "matchFileNames": [
+        "strapi/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1315,8 +1352,8 @@
     },
     {
       "description": "Group superset Helm updates",
-      "matchPaths": [
-        "superset"
+      "matchFileNames": [
+        "superset/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1330,8 +1367,8 @@
     },
     {
       "description": "Group terraria Helm updates",
-      "matchPaths": [
-        "terraria"
+      "matchFileNames": [
+        "terraria/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1345,8 +1382,8 @@
     },
     {
       "description": "Group tier Helm updates",
-      "matchPaths": [
-        "tier"
+      "matchFileNames": [
+        "tier/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1360,8 +1397,8 @@
     },
     {
       "description": "Group touca Helm updates",
-      "matchPaths": [
-        "touca"
+      "matchFileNames": [
+        "touca/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1375,8 +1412,8 @@
     },
     {
       "description": "Group trace-shield Helm updates",
-      "matchPaths": [
-        "trace-shield"
+      "matchFileNames": [
+        "trace-shield/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1390,8 +1427,8 @@
     },
     {
       "description": "Group trino Helm updates",
-      "matchPaths": [
-        "trino"
+      "matchFileNames": [
+        "trino/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1405,8 +1442,8 @@
     },
     {
       "description": "Group typesense Helm updates",
-      "matchPaths": [
-        "typesense"
+      "matchFileNames": [
+        "typesense/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1420,8 +1457,8 @@
     },
     {
       "description": "Group unleash Helm updates",
-      "matchPaths": [
-        "unleash"
+      "matchFileNames": [
+        "unleash/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1435,8 +1472,8 @@
     },
     {
       "description": "Group valheim Helm updates",
-      "matchPaths": [
-        "valheim"
+      "matchFileNames": [
+        "valheim/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1450,8 +1487,8 @@
     },
     {
       "description": "Group vault Helm updates",
-      "matchPaths": [
-        "vault"
+      "matchFileNames": [
+        "vault/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1465,8 +1502,8 @@
     },
     {
       "description": "Group vaultwarden Helm updates",
-      "matchPaths": [
-        "vaultwarden"
+      "matchFileNames": [
+        "vaultwarden/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1480,8 +1517,8 @@
     },
     {
       "description": "Group weaviate Helm updates",
-      "matchPaths": [
-        "weaviate"
+      "matchFileNames": [
+        "weaviate/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1495,8 +1532,8 @@
     },
     {
       "description": "Group wireguard Helm updates",
-      "matchPaths": [
-        "wireguard"
+      "matchFileNames": [
+        "wireguard/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1510,8 +1547,8 @@
     },
     {
       "description": "Group yatai Helm updates",
-      "matchPaths": [
-        "yatai"
+      "matchFileNames": [
+        "yatai/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1525,8 +1562,8 @@
     },
     {
       "description": "Group yugabyte Helm updates",
-      "matchPaths": [
-        "yugabyte"
+      "matchFileNames": [
+        "yugabyte/**"
       ],
       "matchManagers": [
         "helm-requirements",
@@ -1537,18 +1574,6 @@
       ],
       "groupName": "yugabyte",
       "additionalBranchPrefix": ""
-    }
-  ],
-  "regexManagers": [
-    {
-      "fileMatch": [
-        "(^|/|\\.)vendor_images$"
-      ],
-      "matchStrings": [
-        "(?<depName>.*?):(?<currentValue>.*)"
-      ],
-      "versioningTemplate": "docker",
-      "datasourceTemplate": "docker"
     }
   ],
   "separateMinorPatch": true,
