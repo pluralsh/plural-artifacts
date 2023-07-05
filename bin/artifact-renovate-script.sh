@@ -29,6 +29,12 @@ default='[
         "description": "Bump helm chart versions",
         "matchManagers": ["helmv3"],
         "bumpVersion": "patch"
+    },
+    {
+        "description": "Set scope of PRs",
+        "matchManagers": ["helmv3", "helmfile", "helm-requirements", "helm-values", "helmsman"],
+        "semanticCommitScope": "{{baseDir}}",
+        "semanticCommitType": "{{#if isPatch}}fix{{else}}feat{{/if}}"
     }
 ]'
 

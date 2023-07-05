@@ -46,6 +46,18 @@
       "bumpVersion": "patch"
     },
     {
+      "description": "Set scope of PRs",
+      "matchManagers": [
+        "helmv3",
+        "helmfile",
+        "helm-requirements",
+        "helm-values",
+        "helmsman"
+      ],
+      "semanticCommitScope": "{{baseDir}}",
+      "semanticCommitType": "{{#if isPatch}}fix{{else}}feat{{/if}}"
+    },
+    {
       "description": "Group airbyte Helm updates",
       "matchPaths": [
         "airbyte"
