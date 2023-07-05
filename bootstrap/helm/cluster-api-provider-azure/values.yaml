@@ -1,4 +1,9 @@
+crds:
+  create: true
+
 cluster-api-provider-azure:
+  crds:
+    create: false
   configVariables:
     exprimental:
       machinePool: true
@@ -6,4 +11,4 @@ cluster-api-provider-azure:
     manager:
       image:
         repository: ghcr.io/pluralsh/cluster-api-azure-controller
-        tag: v1.9.9
+        tag: v1.9.10

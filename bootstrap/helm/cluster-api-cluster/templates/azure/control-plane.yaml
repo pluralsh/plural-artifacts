@@ -23,6 +23,10 @@ spec:
   networkPolicy: {{ .Values.cluster.azure.networkPolicy }}
   outboundType: {{ .Values.cluster.azure.outboundType }}
   dnsServiceIP: {{ .Values.cluster.azure.dnsServiceIP }}
+  {{- with .Values.cluster.azure.identity }}
+  identity:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   {{- with .Values.cluster.azure.sku }}
   sku:
     {{- toYaml . | nindent 4 }}

@@ -166,6 +166,11 @@ cluster:
     # DNSServiceIP is an IP address assigned to the Kubernetes DNS service.
     # It must be within the Kubernetes service address range specified in serviceCidr.
     dnsServiceIP: ""
+    # Identity configuration used by the AKS control plane.
+    identity:
+      # The identity type to use.
+      # One of: SystemAssigned, UserAssigned.
+      type: SystemAssigned
     # SKU of the AKS to be provisioned.
     sku:
       tier: Paid
