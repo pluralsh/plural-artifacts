@@ -74,6 +74,9 @@ AzureManagedCluster
 {{- if and (eq .Values.provider "google") (eq .Values.type "managed") -}}
 GCPManagedCluster
 {{- end }}
+{{- if and (eq .Values.provider "kind") (eq .Values.type "managed") -}}
+DockerCluster
+{{- end }}
 {{- end }}
 
 {{/*
@@ -87,6 +90,9 @@ infrastructure.cluster.x-k8s.io/v1beta2
 infrastructure.cluster.x-k8s.io/v1beta1
 {{- end }}
 {{- if and (eq .Values.provider "google") (eq .Values.type "managed") -}}
+infrastructure.cluster.x-k8s.io/v1beta1
+{{- end }}
+{{- if and (eq .Values.provider "kind") (eq .Values.type "managed") -}}
 infrastructure.cluster.x-k8s.io/v1beta1
 {{- end }}
 {{- end }}
@@ -103,6 +109,9 @@ AzureManagedControlPlane
 {{- end }}
 {{- if and (eq .Values.provider "google") (eq .Values.type "managed") -}}
 GCPManagedControlPlane
+{{- end }}
+{{- if and (eq .Values.provider "kind") (eq .Values.type "managed") -}}
+KubeadmControlPlane
 {{- end }}
 {{- end }}
 
@@ -134,6 +143,9 @@ AzureManagedMachinePool
 {{- if and (eq .Values.provider "google") (eq .Values.type "managed") -}}
 GCPManagedMachinePool
 {{- end }}
+{{- if and (eq .Values.provider "kind") (eq .Values.type "managed") -}}
+DockerMachinePool
+{{- end }}
 {{- end }}
 
 {{/*
@@ -148,5 +160,20 @@ infrastructure.cluster.x-k8s.io/v1beta1
 {{- end }}
 {{- if and (eq .Values.provider "google") (eq .Values.type "managed") -}}
 infrastructure.cluster.x-k8s.io/v1beta1
+{{- end }}
+{{- if and (eq .Values.provider "kind") (eq .Values.type "managed") -}}
+infrastructure.cluster.x-k8s.io/v1beta1
+{{- end }}
+{{- end }}
+
+{{/*
+Create the configRef for the worker MachinePools
+*/}}
+{{- define "workers.configref" -}}
+{{- if and (eq .Values.provider "kind") (eq .Values.type "managed") -}}
+configRef:
+  apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
+  kind: KubeadmConfig
+  name: worker-mp-config
 {{- end }}
 {{- end }}
