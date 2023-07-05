@@ -232,6 +232,8 @@ jobs:
         node-version: 18.12.1
     - name: Install Semantic Release Plus
       run: npm install -g semantic-release-plus
+    - name: Install @semantic-release/commit-analyzer
+      run: npm install -g @semantic-release/commit-analyzer
     - name: installing plural
       uses: pluralsh/setup-plural@v0.1.5
       with: 
