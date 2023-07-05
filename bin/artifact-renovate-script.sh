@@ -31,14 +31,12 @@ default='[
         "bumpVersion": "patch"
     },
     {
-        "description": "Group Image Vendor updates",
-        "matchManagers": ["regex"],
-        "groupName": "vendor-images",
-        "additionalBranchPrefix": ""
+        "description": "Set scope of PRs",
+        "matchManagers": ["helmv3", "helmfile", "helm-requirements", "helm-values", "helmsman"],
+        "semanticCommitScope": "{{baseDir}}",
+        "semanticCommitType": "{{#if isPatch}}fix{{else}}feat{{/if}}"
     }
 ]'
-
-app="test"
 
 base=$(jq ".packageRules |= ${default}" renovate.json)
 sum=$(echo $base)

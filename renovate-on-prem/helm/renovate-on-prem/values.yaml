@@ -23,3 +23,5 @@ whitesource-renovate:
       memory: 1Gi
     limits:
       memory: 2Gi
+  livenessProbe:
+    failureThreshold: 30
