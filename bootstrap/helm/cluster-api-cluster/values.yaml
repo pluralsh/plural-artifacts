@@ -362,6 +362,11 @@ workers:
       machineType: e2-standard-2
       diskSizeGb: 50
       diskType: pd-standard
+    #########################################
+    ###        Docker WORKER DEFAULTS     ###
+    #########################################
+    kind:
+      replicas: 0
   #################################
   ###        AWS WORKERS        ###
   #################################
@@ -866,3 +871,9 @@ workers:
       machineType: e2-standard-2
       diskSizeGb: 50
       diskType: pd-standard
+  #################################
+  ###        Docker WORKERS     ###
+  #################################
+  kind:
+    small-burst-spot:
+      replicas: 3

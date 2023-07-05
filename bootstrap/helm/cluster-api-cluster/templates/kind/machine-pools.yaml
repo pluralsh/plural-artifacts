@@ -1,0 +1,15 @@
+{{- if and (eq .Values.provider "kind") (eq .Values.type "managed") -}}
+
+{{- $currentScope := . -}}
+{{- $defaultVals := .Values.workers.defaults.kind -}}
+
+{{- range $name, $values := .Values.workers.kind }}
+{{- with $currentScope}}
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: DockerMachinePool
+metadata:
+  name: {{ $name }}
+{{ end }}
+---
+{{ end }}
+{{- end }}

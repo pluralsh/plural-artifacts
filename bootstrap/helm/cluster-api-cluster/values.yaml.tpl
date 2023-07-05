@@ -31,3 +31,7 @@ cluster:
     project: {{ .Project }}
     region: {{ .Region }}
   {{ end }}
+
+  {{ if eq .Provider "kind" }}
+  kubernetesVersion: v1.27.3
+  {{ end }}
