@@ -1,0 +1,20 @@
+name: cube-azure
+description: Installs cube on an azure aks cluster
+provider: AZURE
+primary: true
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-azure
+sections:
+- name: cube
+  configuration:
+    - name: hostname
+      type: DOMAIN
+      documentation: the fully qualified domain name your cube api will be available at
+  items:
+  - type: TERRAFORM
+    name: azure
+  - type: HELM
+    name: cube
