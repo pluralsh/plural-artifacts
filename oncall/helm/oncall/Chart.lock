@@ -1,12 +1,12 @@
 dependencies:
 - name: postgres
   repository: https://pluralsh.github.io/module-library
-  version: 0.1.16
+  version: 0.1.17
 - name: rabbitmq
   repository: https://pluralsh.github.io/module-library
   version: 0.1.0
 - name: oncall
   repository: https://grafana.github.io/helm-charts
-  version: 1.1.40
-digest: sha256:c7d14506cd9d9a49e0f222ddc58010f66c62be5bd59012a3ac1bcbb93a0b476f
-generated: "2023-03-16T18:08:03.378045105Z"
+  version: 1.1.41
+digest: sha256:74154d3d34158551b567bd299a46dd1b7468864fa8602ce549e51dda1f1d7daf
+generated: "2023-07-05T16:31:56.404924223Z"
