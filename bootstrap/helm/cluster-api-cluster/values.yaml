@@ -151,7 +151,12 @@ cluster:
     # Name of the resource group containing cluster IaaS resources.
     nodeResourceGroupName: ""
     # Describes the vnet for the AKS cluster. Will be created if it does not exist.
-    virtualNetwork: {}
+    virtualNetwork:
+      cidrBlock: 10.1.0.0/16
+      name: plural-vnet
+      subnet:
+        cidrBlock: 10.1.0.0/18
+        name: plural-subnet
     # Network plugin used for building Kubernetes network.
     # One of: azure, kubenet.
     networkPlugin: azure
