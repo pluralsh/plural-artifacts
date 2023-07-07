@@ -1,3 +1,15 @@
+runbook:
+  description: "Runbook for Sentry"
+  runbookName: "Sentry"
+  components:
+    billingMetricsConsumer:
+      resourceNameTpl: '{{ template "sentry.fullname" $.Subcharts.sentry  }}-billing-metrics-consumer'
+      kind: deployment
+      path: path.to.component
+      prometheus:
+        podRegexTpl: "test"
+      
+    
 postgres:
   version: "15"
   enabled: true
