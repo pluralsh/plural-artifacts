@@ -1,13 +1,13 @@
 runbook:
   description: "Runbook for Sentry"
-  runbookName: "Sentry"
+  tplScope: "$"
   components:
     billingMetricsConsumer:
-      resourceNameTpl: '{{ template "sentry.fullname" $.Subcharts.sentry  }}-billing-metrics-consumer'
+      resourceNameTpl: '{{ .Values.runbook.description }}-billing-metrics-consumer'
       kind: deployment
       path: path.to.component
       prometheus:
-        podRegexTpl: "test"
+        podRegexTpl: '{{ .Values.runbook.description }}-billing-metrics-consumer-.*'
       
     
 postgres:
