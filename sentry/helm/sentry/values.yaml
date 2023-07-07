@@ -639,10 +639,10 @@ clickhouse:
   resources:
     requests:
       cpu: 150m
-      memory: 300Mi
+      memory: 1Gi
     limits:
       cpu: 500m
-      memory: 1Gi
+      memory: 2Gi
   postInstallationHook:
     enabled: true
     annotations:
