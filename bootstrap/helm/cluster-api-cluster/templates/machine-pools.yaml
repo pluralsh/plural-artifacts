@@ -23,6 +23,7 @@ spec:
       clusterName: {{ $.Values.cluster.name }}
       bootstrap:
         dataSecretName: ""
+        {{ include "workers.configref" . | nindent 8}}
       infrastructureRef:
         name: {{ $name }}
         apiVersion: {{ include "workers.infrastructure.apiVersion" . }}
