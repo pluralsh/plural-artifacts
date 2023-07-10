@@ -8,20 +8,6 @@ resource "kubernetes_namespace" "tempo" {
   }
 }
 
-resource "kubernetes_service_account" "tempo" {
-  metadata {
-    name      = "tempo"
-    namespace = var.namespace
-    annotations = {
-      "iam.gke.io/gcp-service-account" = module.tempo-workload-identity.gcp_service_account_email
-    }
-  }
-
-  depends_on = [
-    kubernetes_namespace.tempo
-  ]
-}
-
 resource "google_storage_bucket" "tempo" {
   name = var.tempo_bucket
   project = var.project_id

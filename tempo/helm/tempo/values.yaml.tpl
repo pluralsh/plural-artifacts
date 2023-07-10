@@ -1,8 +1,9 @@
 {{ $traceShield := and .Configuration (index .Configuration "trace-shield") }}
+{{ $isGcp := or (eq .Provider "google") (eq .Provider "gcp") }}
 
 {{- if eq .Provider "aws" }}
 provider: aws
-{{- else if eq .Provider "google" }}
+{{- else if $isGcp }}
 provider: google
 {{- else if eq .Provider "azure" }}
 provider: azure
@@ -30,14 +31,15 @@ datasource:
 {{- end }}
 
 tempo-distributed:
+  {{- if or (eq .Provider "aws") $isGcp }}
   serviceAccount:
-    {{- if eq .Provider "google" }}
-    create: false
-    {{- end }}
-    {{- if eq .Provider "aws" }}
     annotations:
-      eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-tempo"
-    {{- end }}
+      {{- if eq .Provider "aws" }}
+      eks.amazonaws.com/role-arn: {{ importValue "Terraform" "iam_role_arn" }}
+      {{- else if $isGcp }}
+      iam.gke.io/gcp-service-account: {{ importValue "Terraform" "iam_service_account" }}
+      {{- end }}
+  {{- end }}
   {{- if and (eq .Provider "azure") (index .Configuration "grafana-agent") }}
   ingester:
     {{- if (index .Configuration "grafana-agent") }}
@@ -153,7 +155,7 @@ tempo-distributed:
         bucket: {{ .Values.tempoBucket }}
         endpoint: s3.amazonaws.com
         region: {{ .Region }}
-      {{- else if eq .Provider "aws" }}
+      {{- else if $isGcp }}
       backend: gcs
       gcs:
         bucket_name: {{ .Values.tempoBucket }}

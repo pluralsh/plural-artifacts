@@ -104,7 +104,8 @@ rbac:
 traces: # TODO: split this into 2 deployment to allow for tail based sampling. First deployment will be the agent with a loadbalancer exporter, second will be the collector. Waiting for https://github.com/grafana/agent/pull/4148 to be merged.
   enabled: false
   image:
-    repository: dkr.plural.sh/grafana-agent/grafana/agent
+    registry: dkr.plural.sh
+    repository: grafana-agent/grafana/agent
     tag: v0.34.3
   controller:
     type: deployment
@@ -225,7 +226,8 @@ traces: # TODO: split this into 2 deployment to allow for tail based sampling. F
 logs:
   enabled: false
   image:
-    repository: dkr.plural.sh/grafana-agent/grafana/agent
+    registry: dkr.plural.sh
+    repository: grafana-agent/grafana/agent
     tag: v0.34.3
   controller:
     type: deployment
