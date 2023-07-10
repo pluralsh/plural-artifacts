@@ -1,7 +1,5 @@
 ingress-nginx:
   controller:
-    opentelemetry:
-      enabled: true
     image:
       registry: dkr.plural.sh
       image: ingress-nginx/ingress-nginx/controller

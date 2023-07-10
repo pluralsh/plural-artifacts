@@ -12,7 +12,7 @@ agent:
   pasued: false
   image:
     repository: dkr.plural.sh/grafana-agent/grafana/agent
-    tag: v0.34.1
+    tag: v0.34.3
   imagePullSecrets: []
   storage: {}
   volumes: []
@@ -105,7 +105,7 @@ traces: # TODO: split this into 2 deployment to allow for tail based sampling. F
   enabled: false
   image:
     repository: dkr.plural.sh/grafana-agent/grafana/agent
-    tag: v0.34.1
+    tag: v0.34.3
   controller:
     type: deployment
   agent:
@@ -226,7 +226,7 @@ logs:
   enabled: false
   image:
     repository: dkr.plural.sh/grafana-agent/grafana/agent
-    tag: v0.34.1
+    tag: v0.34.3
   controller:
     type: deployment
   agent:

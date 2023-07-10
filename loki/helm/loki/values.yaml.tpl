@@ -200,7 +200,7 @@ loki-distributed:
               prefix: loki_index_
               period: 24h
       {{- end }}
-  {{- if or (eq .Provider "azure") (and .Configuration.tempo (index .Configuration "grafana-agent")) }}
+  {{- if or (eq .Provider "azure") (and $grafanaAgent $tempo) }}
   ingester:
     {{- if and $grafanaAgent $tempo }}
     extraEnv:
