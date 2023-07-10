@@ -106,7 +106,7 @@ dagster:
       - name: "k8s-example-user-code-1"
         image:
           repository: ghcr.io/pluralsh/containers/dagster/user-code-example
-          tag: 1.3.13-plural1.0.4
+          tag: 1.3.13-plural1.0.9
           pullPolicy: Always
         resources:
           requests:
