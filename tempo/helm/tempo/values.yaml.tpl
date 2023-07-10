@@ -1,4 +1,5 @@
 {{ $traceShield := and .Configuration (index .Configuration "trace-shield") }}
+{{ $grafanaAgent := and .Configuration (index .Configuration "grafana-agent") }}
 {{ $isGcp := or (eq .Provider "google") (eq .Provider "gcp") }}
 
 {{- if eq .Provider "aws" }}
@@ -40,9 +41,9 @@ tempo-distributed:
       iam.gke.io/gcp-service-account: {{ importValue "Terraform" "iam_service_account" }}
       {{- end }}
   {{- end }}
-  {{- if and (eq .Provider "azure") (index .Configuration "grafana-agent") }}
+  {{- if and (eq .Provider "azure") $grafanaAgent }}
   ingester:
-    {{- if (index .Configuration "grafana-agent") }}
+    {{- if $grafanaAgent }}
     extraEnv:
     - name: JAEGER_AGENT_HOST
       value: grafana-agent-traces.grafana-agent.svc
@@ -58,7 +59,7 @@ tempo-distributed:
       aadpodidbinding: tempo
     {{- end }}
   distributor:
-    {{- if (index .Configuration "grafana-agent") }}
+    {{- if $grafanaAgent }}
     extraEnv:
     - name: JAEGER_AGENT_HOST
       value: grafana-agent-traces.grafana-agent.svc
@@ -74,7 +75,7 @@ tempo-distributed:
       aadpodidbinding: tempo
     {{- end }}
   compactor:
-    {{- if (index .Configuration "grafana-agent") }}
+    {{- if $grafanaAgent }}
     extraEnv:
     - name: JAEGER_AGENT_HOST
       value: grafana-agent-traces.grafana-agent.svc
@@ -90,7 +91,7 @@ tempo-distributed:
       aadpodidbinding: tempo
     {{- end }}
   querier:
-    {{- if (index .Configuration "grafana-agent") }}
+    {{- if $grafanaAgent }}
     extraEnv:
     - name: JAEGER_AGENT_HOST
       value: grafana-agent-traces.grafana-agent.svc
@@ -106,7 +107,7 @@ tempo-distributed:
       aadpodidbinding: tempo
     {{- end }}
   queryFrontend:
-    {{- if (index .Configuration "grafana-agent") }}
+    {{- if $grafanaAgent }}
     extraEnv:
     - name: JAEGER_AGENT_HOST
       value: grafana-agent-traces.grafana-agent.svc
@@ -124,7 +125,7 @@ tempo-distributed:
   {{- if .Configuration.mimir }}
   metricsGenerator:
     enabled: true
-    {{- if (index .Configuration "grafana-agent") }}
+    {{- if $grafanaAgent }}
     extraEnv:
     - name: JAEGER_AGENT_HOST
       value: grafana-agent-traces.grafana-agent.svc
