@@ -92,6 +92,71 @@ podLogs:
   enabled: false
   pipelineStages:
     - docker: {}
+  relabelings:
+  - sourceLabels:
+      - __meta_kubernetes_pod_controller_name
+    regex: ([0-9a-z-.]+?)(-[0-9a-f]{8,10})?
+    action: replace
+    targetLabel: __tmp_controller_name
+  - sourceLabels:
+      - __meta_kubernetes_pod_label_app_kubernetes_io_name
+      - __meta_kubernetes_pod_label_app
+      - __tmp_controller_name
+      - __meta_kubernetes_pod_name
+    regex: ^;*([^;]+)(;.*)?$
+    action: replace
+    targetLabel: app
+  - sourceLabels:
+      - __meta_kubernetes_pod_label_app_kubernetes_io_instance
+      - __meta_kubernetes_pod_label_release
+    regex: ^;*([^;]+)(;.*)?$
+    action: replace
+    targetLabel: instance
+  - sourceLabels:
+      - __meta_kubernetes_pod_label_app_kubernetes_io_component
+      - __meta_kubernetes_pod_label_component
+    regex: ^;*([^;]+)(;.*)?$
+    action: replace
+    targetLabel: component
+  - action: replace
+    sourceLabels:
+    - __meta_kubernetes_pod_node_name
+    targetLabel: node_name
+  - action: replace
+    sourceLabels:
+    - __meta_kubernetes_namespace
+    targetLabel: namespace
+  - action: replace
+    replacement: $1
+    separator: /
+    sourceLabels:
+    - namespace
+    - app
+    targetLabel: job
+  - action: replace
+    sourceLabels:
+    - __meta_kubernetes_pod_name
+    targetLabel: pod
+  - action: replace
+    sourceLabels:
+    - __meta_kubernetes_pod_container_name
+    targetLabel: container
+  - action: replace
+    replacement: /var/log/pods/*$1/*.log
+    separator: /
+    sourceLabels:
+    - __meta_kubernetes_pod_uid
+    - __meta_kubernetes_pod_container_name
+    targetLabel: __path__
+  - action: replace
+    regex: true/(.*)
+    replacement: /var/log/pods/*$1/*.log
+    separator: /
+    sourceLabels:
+    - __meta_kubernetes_pod_annotationpresent_kubernetes_io_config_hash
+    - __meta_kubernetes_pod_annotation_kubernetes_io_config_hash
+    - __meta_kubernetes_pod_container_name
+    targetLabel: __path__
   namespaceSelector:
     any: true
   selector:
