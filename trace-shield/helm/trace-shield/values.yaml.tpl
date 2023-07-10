@@ -1,8 +1,5 @@
 {{ $grafanaAgent := and .Configuration (index .Configuration "grafana-agent") }}
 {{ $tempo := and .Configuration .Configuration.tempo }}
-{{- if and $grafanaAgent $tempo }}
-{{ $grafanaAgentNamespace := namespace "grafana-agent" }}
-{{- end }}
 
 {{ $hydraPostgresPass := dedupe . "trace-shield.postgresHydra.password" (randAlphaNum 32) }}
 postgresHydra:
@@ -41,7 +38,7 @@ config:
 backend:
   extraEnv:
   - name: OTEL_EXPORTER_OTLP_ENDPOINT
-    value: http://grafana-agent-traces.{{ $grafanaAgentNamespace }}.svc:4318
+    value: http://grafana-agent-traces.{{ namespace "grafana-agent" }}.svc:4318
   - name: OTEL_EXPORTER_OTLP_TRACES_INSECURE
     value: "true"
   - name: OTEL_SERVICE_NAME
@@ -82,7 +79,7 @@ kratos:
             insecure: true
             sampling:
               sampling_ratio: 1.0
-            server_url: grafana-agent-traces.{{ $grafanaAgentNamespace }}.svc:4318
+            server_url: grafana-agent-traces.{{ namespace "grafana-agent" }}.svc:4318
       {{- end }}
       cookies:
         {{- if .Values.frontendHostname }}
@@ -153,7 +150,7 @@ hydra:
             insecure: true
             sampling:
               sampling_ratio: 1.0
-            server_url: grafana-agent-traces.{{ $grafanaAgentNamespace }}.svc:4318
+            server_url: grafana-agent-traces.{{ namespace "grafana-agent" }}.svc:4318
       {{- end }}
       urls:
         self:
@@ -184,7 +181,7 @@ keto:
             insecure: true
             sampling:
               sampling_ratio: 1.0
-            server_url: grafana-agent-traces.{{ $grafanaAgentNamespace }}.svc:4318
+            server_url: grafana-agent-traces.{{ namespace "grafana-agent" }}.svc:4318
       {{- end }}
       dsn: postgres://keto:{{ $ketoPostgresPass }}@plural-postgres-keto:5432/keto
 
@@ -200,7 +197,7 @@ oathkeeper:
             insecure: true
             sampling:
               sampling_ratio: 1.0
-            server_url: grafana-agent-traces.{{ $grafanaAgentNamespace }}.svc:4318
+            server_url: grafana-agent-traces.{{ namespace "grafana-agent" }}.svc:4318
       {{- end }}
       errors:
         handlers:

@@ -5,10 +5,6 @@
 {{ $redisValues := .Applications.HelmValues "redis" }}
 {{ $monitoringNamespace := namespace "monitoring" }}
 
-{{- if and $grafanaAgent $tempo }}
-{{ $grafanaAgentNamespace := namespace "grafana-agent" }}
-{{- end }}
-
 global:
   application:
     links:
@@ -209,7 +205,7 @@ loki-distributed:
     {{- if and $grafanaAgent $tempo }}
     extraEnv:
     - name: JAEGER_AGENT_HOST
-      value: grafana-agent-traces.{{ $grafanaAgentNamespace }}.svc
+      value: grafana-agent-traces.{{ namespace "grafana-agent" }}.svc
     - name: JAEGER_AGENT_PORT
       value: "6831"
     - name: JAEGER_SAMPLER_TYPE
@@ -228,7 +224,7 @@ loki-distributed:
     {{- if and $grafanaAgent $tempo }}
     extraEnv:
     - name: JAEGER_AGENT_HOST
-      value: grafana-agent-traces.{{ $grafanaAgentNamespace }}.svc
+      value: grafana-agent-traces.{{ namespace "grafana-agent" }}.svc
     - name: JAEGER_AGENT_PORT
       value: "6831"
     - name: JAEGER_SAMPLER_TYPE
@@ -247,7 +243,7 @@ loki-distributed:
     {{- if and $grafanaAgent $tempo }}
     extraEnv:
     - name: JAEGER_AGENT_HOST
-      value: grafana-agent-traces.{{ $grafanaAgentNamespace }}.svc
+      value: grafana-agent-traces.{{ namespace "grafana-agent" }}.svc
     - name: JAEGER_AGENT_PORT
       value: "6831"
     - name: JAEGER_SAMPLER_TYPE
@@ -266,7 +262,7 @@ loki-distributed:
     {{- if and $grafanaAgent $tempo }}
     extraEnv:
     - name: JAEGER_AGENT_HOST
-      value: grafana-agent-traces.{{ $grafanaAgentNamespace }}.svc
+      value: grafana-agent-traces.{{ namespace "grafana-agent" }}.svc
     - name: JAEGER_AGENT_PORT
       value: "6831"
     - name: JAEGER_SAMPLER_TYPE
@@ -286,7 +282,7 @@ loki-distributed:
     {{- if and $grafanaAgent $tempo }}
     extraEnv:
     - name: JAEGER_AGENT_HOST
-      value: grafana-agent-traces.{{ $grafanaAgentNamespace }}.svc
+      value: grafana-agent-traces.{{ namespace "grafana-agent" }}.svc
     - name: JAEGER_AGENT_PORT
       value: "6831"
     - name: JAEGER_SAMPLER_TYPE
@@ -305,7 +301,7 @@ loki-distributed:
     {{- if and $grafanaAgent $tempo }}
     extraEnv:
     - name: JAEGER_AGENT_HOST
-      value: grafana-agent-traces.{{ $grafanaAgentNamespace }}.svc
+      value: grafana-agent-traces.{{ namespace "grafana-agent" }}.svc
     - name: JAEGER_AGENT_PORT
       value: "6831"
     - name: JAEGER_SAMPLER_TYPE
@@ -324,7 +320,7 @@ loki-distributed:
     {{- if and $grafanaAgent $tempo }}
     extraEnv:
     - name: JAEGER_AGENT_HOST
-      value: grafana-agent-traces.{{ $grafanaAgentNamespace }}.svc
+      value: grafana-agent-traces.{{ namespace "grafana-agent" }}.svc
     - name: JAEGER_AGENT_PORT
       value: "6831"
     - name: JAEGER_SAMPLER_TYPE
@@ -343,7 +339,7 @@ loki-distributed:
     {{- if and $grafanaAgent $tempo }}
     extraEnv:
     - name: JAEGER_AGENT_HOST
-      value: grafana-agent-traces.{{ $grafanaAgentNamespace }}.svc
+      value: grafana-agent-traces.{{ namespace "grafana-agent" }}.svc
     - name: JAEGER_AGENT_PORT
       value: "6831"
     - name: JAEGER_SAMPLER_TYPE
