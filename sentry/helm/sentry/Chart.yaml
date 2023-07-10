@@ -2,7 +2,7 @@ apiVersion: v2
 name: sentry
 description: A Helm chart for deploying sentry on plural
 type: application
-version: 0.3.0
+version: 0.3.1
 appVersion: "23.6.1"
 dependencies:
 - name: sentry
@@ -21,4 +21,4 @@ dependencies:
   condition: clickhouse.enabled
 - name: runbook
   version: 0.1.0
-  repository: file:///Users/hans.rauer/Repos/module-library/helm/runbook
+  repository: https://github.com/pluralsh/module-library/ 
