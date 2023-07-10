@@ -1,6 +1,6 @@
 agent:
   # -- Enable the agent
-  enabled: true
+  enabled: false
   # -- The name of the cluster that will be added to the agent's external labels
   clusterName: ""
 
@@ -48,7 +48,7 @@ agent:
   disableSupportBundle: false
 
 metricsInstance:
-  enabled: true
+  enabled: false
   remoteWrite:
     mimir:
       url: http://mimir-nginx.mimir/api/v1/push
@@ -78,7 +78,7 @@ metricsInstance:
     #   instance: primary
 
 logInstance:
-  enabled: true
+  enabled: false
   clients:
     loki:
       url: http://loki-loki-distributed-gateway.loki/loki/api/v1/push
@@ -89,7 +89,7 @@ logInstance:
   podLogsSelector:  {}
 
 podLogs:
-  enabled: true
+  enabled: false
   pipelineStages:
     - docker: {}
   namespaceSelector:
@@ -101,8 +101,8 @@ rbac:
   create: true
 
 
-traces:
-  enabled: true
+traces: # TODO: split this into 2 deployment to allow for tail based sampling. First deployment will be the agent with a loadbalancer exporter, second will be the collector. Waiting for https://github.com/grafana/agent/pull/4148 to be merged.
+  enabled: false
   image:
     repository: dkr.plural.sh/grafana-agent/grafana/agent
     tag: v0.34.1
