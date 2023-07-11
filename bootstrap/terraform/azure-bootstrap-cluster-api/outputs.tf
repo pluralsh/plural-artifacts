@@ -1,5 +1,10 @@
 output "cluster" {
-  value = var.cluster_api ? one(data.azurerm_kubernetes_cluster.cluster[*]) : one(module.aks[*])
+  value = var.cluster_api ? merge(one(data.azurerm_kubernetes_cluster.cluster[*]), {
+    host=one(data.azurerm_kubernetes_cluster.cluster[*]).kube_config.0.host,
+    client_certificate=one(data.azurerm_kubernetes_cluster.cluster[*]).kube_config.0.client_certificate,
+    client_key=one(data.azurerm_kubernetes_cluster.cluster[*]).kube_config.0.client_key,
+    cluster_ca_certificate=one(data.azurerm_kubernetes_cluster.cluster[*]).kube_config.0.cluster_ca_certificate
+  }) : one(module.aks[*])
   sensitive = true
 }
 
