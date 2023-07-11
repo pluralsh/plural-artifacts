@@ -16,7 +16,7 @@ spec:
   - type: helm
     name: postgres
     repo: postgres
-    version: '>= 0.1.6'
+    version: '>= 0.2.13'
   - type: helm
     name: cluster-operator
     repo: rabbitmq
