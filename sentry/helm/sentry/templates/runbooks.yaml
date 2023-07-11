@@ -1,3 +1,9 @@
 {{- include "runbook.compile.tpl" ( dict "value" .Values.runbook.sentry "context" (dict "Chart" $.Chart "Subcharts" $.Subcharts "Release" $.Release "Template" $.Template "Values" $.Values ) ) }}
 ---
 {{- include "runbook.compile.tpl" ( dict "value" .Values.runbook.snuba "context" (dict "Chart" $.Chart "Subcharts" $.Subcharts "Release" $.Release "Template" $.Template "Values" $.Values ) ) }}
+---
+{{- include "runbook.compile.tpl" ( dict "value" .Values.runbook.relay "context" (dict "Chart" $.Chart "Subcharts" $.Subcharts "Release" $.Release "Template" $.Template "Values" $.Values ) ) }}
+{{- if .Values.sentry.symbolicator.enabled }}
+---
+{{- include "runbook.compile.tpl" ( dict "value" .Values.runbook.symbolicator "context" (dict "Chart" $.Chart "Subcharts" $.Subcharts "Release" $.Release "Template" $.Template "Values" $.Values ) ) }}
+{{- end }}

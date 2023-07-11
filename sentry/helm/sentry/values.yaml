@@ -4,155 +4,178 @@ runbook:
     labels: "{{ include \"sentry-plural.labels\" $ }}"
     runbookName: "sentry"
     components:
-      billingMetricsConsumer:
-        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-billing-metrics-consumer"
-        kind: deployment
-        path: sentry.sentry.billingMetricsConsumer
-        prometheus:
-          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-billing-metrics-consumer-.*"
-      cron:
-        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-cron"
-        kind: deployment
-        path: sentry.sentry.cron
-        prometheus:
-          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-cron-.*"
-      ingestConsumer:
-        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-ingest-consumer"
-        kind: deployment
-        path: sentry.sentry.ingestConsumer
-        prometheus:
-          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-ingest-consumer-.*"
-      ingestMetricsConsumerPerf:
-        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-ingest-metrics-consumer-perf"
-        kind: deployment
-        path: sentry.sentry.ingestMetricsConsumerPerf
-        prometheus:
-          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-ingest-metrics-consumer-perf-.*"
-      ingestMetricsConsumerRh:
-        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-ingest-metrics-consumer-rh"
-        kind: deployment
-        path: sentry.sentry.ingestMetricsConsumerRh
-        prometheus:
-          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-ingest-metrics-consumer-rh-.*"
-      ingestReplayRecordings:
-        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-ingest-replay-recordings"
-        kind: deployment
-        path: sentry.sentry.ingestReplayRecordings
-        prometheus:
-          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-ingest-replay-recordings-.*"
-      postProcessForwardErrors:
-        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-post-process-forward-errors"
-        kind: deployment
-        path: sentry.sentry.postProcessForwardErrors
-        prometheus:
-          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-post-process-forward-errors-.*"
-      postProcessForwardTransactions:
-        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-post-process-forward-transactions"
-        kind: deployment
-        path: sentry.sentry.postProcessForwardTransactions
-        prometheus:
-          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-post-process-forward-transactions-.*"
-      subscriptionConsumerEvents:
-        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-subscription-consumer-events"
-        kind: deployment
-        path: sentry.sentry.subscriptionConsumerEvents
-        prometheus:
-          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-subscription-consumer-events-.*"
-      subscriptionConsumerSessions:
-        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-subscription-consumer-sessions"
-        kind: deployment
-        path: sentry.sentry.subscriptionConsumerSessions
-        prometheus:
-          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-subscription-consumer-sessions-.*"
-      subscriptionConsumerTransactions:
-        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-subscription-consumer-transactions"
-        kind: deployment
-        path: sentry.sentry.subscriptionConsumerTransactions
-        prometheus:
-          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-subscription-consumer-transactions-.*"
       web:
         resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-web"
         kind: deployment
-        path: sentry.sentry.web
+        path: sentry.sentry.sentry.web
         prometheus:
           podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-web-.*"
       worker:
         resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-worker"
         kind: deployment
-        path: sentry.sentry.worker
+        path: sentry.sentry.sentry.worker
         prometheus:
           podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-worker-.*"
-      symbolicatorapi:
-        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-symbolicator-api"
+      ingestConsumer:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-ingest-consumer-attachments" # TODO: remove once we can split the resources for the 3 consumers properly. See https://github.com/sentry-kubernetes/charts/pull/924.
         kind: deployment
-        path: sentry.symbolicator.api
+        path: sentry.sentry.sentry.ingestConsumer
         prometheus:
-          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-symbolicator-api-.*"
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-ingest-consumer-.*"
+      ingestMetricsConsumerPerf:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-ingest-metrics-consumer-perf"
+        kind: deployment
+        path: sentry.sentry.sentry.ingestMetricsConsumerPerf
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-ingest-metrics-consumer-perf-.*"
+      ingestMetricsConsumerRh:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-ingest-metrics-consumer-rh"
+        kind: deployment
+        path: sentry.sentry.sentry.ingestMetricsConsumerRh
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-ingest-metrics-consumer-rh-.*"
+      ingestReplayRecordings:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-ingest-replay-recordings"
+        kind: deployment
+        path: sentry.sentry.sentry.ingestReplayRecordings
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-ingest-replay-recordings-.*"
+      ingestMonitors:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-ingest-monitors"
+        kind: deployment
+        path: sentry.sentry.sentry.ingestMonitors
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-ingest-monitors-.*"
+      billingMetricsConsumer:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-billing-metrics-consumer"
+        kind: deployment
+        path: sentry.sentry.sentry.billingMetricsConsumer
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-billing-metrics-consumer-.*"
+      cron:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-cron"
+        kind: deployment
+        path: sentry.sentry.sentry.cron
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-cron-.*"
+      subscriptionConsumerEvents:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-subscription-consumer-events"
+        kind: deployment
+        path: sentry.sentry.sentry.subscriptionConsumerEvents
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-subscription-consumer-events-.*"
+      subscriptionConsumerSessions:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-subscription-consumer-sessions"
+        kind: deployment
+        path: sentry.sentry.sentry.subscriptionConsumerSessions
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-subscription-consumer-sessions-.*"
+      subscriptionConsumerTransactions:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-subscription-consumer-transactions"
+        kind: deployment
+        path: sentry.sentry.sentry.subscriptionConsumerTransactions
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-subscription-consumer-transactions-.*"
+      postProcessForwardErrors:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-post-process-forward-errors"
+        kind: deployment
+        path: sentry.sentry.sentry.postProcessForwardErrors
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-post-process-forward-errors-.*"
+      postProcessForwardTransactions:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-post-process-forward-transactions"
+        kind: deployment
+        path: sentry.sentry.sentry.postProcessForwardTransactions
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-post-process-forward-transactions-.*"
   snuba:
-    description: "Runbook for Snuba components of Sentry"
+    description: "Runbook for Sentry Snuba components"
     labels: "{{ include \"sentry-plural.labels\" $ }}"
-    runbookName: "snuba-sentry"
+    runbookName: "sentry-snuba"
     components:
+      api:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-snuba-api"
+        kind: deployment
+        path: sentry.sentry.snuba.api
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-snuba-api-.*"
       consumer:
         resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-snuba-consumer"
         kind: deployment
-        path: sentry.snuba.consumer
+        path: sentry.sentry.snuba.consumer
         prometheus:
           podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-snuba-consumer-.*"
       outcomesConsumer:
         resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-snuba-outcomes-consumer"
         kind: deployment
-        path: sentry.snuba.outcomesConsumer
+        path: sentry.sentry.snuba.outcomesConsumer
         prometheus:
           podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-snuba-outcomes-consumer-.*"
       replacer:
         resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-snuba-replacer"
         kind: deployment
-        path: sentry.snuba.replacer
+        path: sentry.sentry.snuba.replacer
         prometheus:
           podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-snuba-replacer-.*"
-      replaysConsumer:
-        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-snuba-replays-consumer"
-        kind: deployment
-        path: sentry.snuba.replaysConsumer
-        prometheus:
-          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-snuba-replays-consumer-.*"
-      sessionsConsumer:
-        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-snuba-sessions-consumer"
-        kind: deployment
-        path: sentry.snuba.sessionsConsumer
-        prometheus:
-          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-snuba-sessions-consumer-.*"
       subscriptionConsumerEvents:
         resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-snuba-subscription-consumer-events"
         kind: deployment
-        path: sentry.snuba.subscriptionConsumerEvents
+        path: sentry.sentry.snuba.subscriptionConsumerEvents
         prometheus:
           podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-snuba-subscription-consumer-events-.*"
       subscriptionConsumerSessions:
         resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-snuba-subscription-consumer-sessions"
         kind: deployment
-        path: sentry.snuba.subscriptionConsumerSessions
+        path: sentry.sentry.snuba.subscriptionConsumerSessions
         prometheus:
           podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-snuba-subscription-consumer-sessions-.*"
       subscriptionConsumerTransactions:
         resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-snuba-subscription-consumer-transactions"
         kind: deployment
-        path: sentry.snuba.subscriptionConsumerTransactions
+        path: sentry.sentry.snuba.subscriptionConsumerTransactions
         prometheus:
           podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-snuba-subscription-consumer-transactions-.*"
+      replaysConsumer:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-snuba-replays-consumer"
+        kind: deployment
+        path: sentry.sentry.snuba.replaysConsumer
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-snuba-replays-consumer-.*"
+      sessionsConsumer:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-sessions-consumer"
+        kind: deployment
+        path: sentry.sentry.snuba.sessionsConsumer
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-sessions-consumer-.*"
       transactionsConsumer:
         resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-snuba-transactions-consumer"
         kind: deployment
-        path: sentry.snuba.transactionsConsumer
+        path: sentry.sentry.snuba.transactionsConsumer
         prometheus:
           podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-snuba-transactions-consumer-.*"
+  relay:
+    description: "Runbook for Sentry Relay"
+    labels: "{{ include \"sentry-plural.labels\" $ }}"
+    runbookName: "sentry-relay"
+    components:
       api:
-        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-snuba-api"
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-relay"
         kind: deployment
-        path: sentry.snuba.api
+        path: sentry.sentry.relay
         prometheus:
-          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-snuba-api-.*"
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-relay-.*"
+  symbolicator:
+    description: "Runbook for Sentry Symbolicator"
+    labels: "{{ include \"sentry-plural.labels\" $ }}"
+    runbookName: "sentry-symbolicator"
+    components:
+      api:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-symbolicator-api"
+        kind: deployment
+        path: sentry.sentry.symbolicator.api
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-symbolicator-api-.*"
+
 
 postgres:
   version: "15"
@@ -233,11 +256,13 @@ sentry:
     existingSecret: sentry-system-secret
     existingSecretKey: key
 
-    billingMetricsConsumer:
+    web:
+      autoscaling:
+        enabled: false
       resources:
         requests:
           cpu: 50m
-          memory: 300Mi
+          memory: 350Mi
       env:
       - name: RABBITMQ_USER
         valueFrom:
@@ -251,11 +276,13 @@ sentry:
             key: password
       - name: BROKER_URL
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
-    cron:
+    worker:
+      autoscaling:
+        enabled: false
       resources:
         requests:
           cpu: 50m
-          memory: 300Mi
+          memory: 750Mi
       env:
       - name: RABBITMQ_USER
         valueFrom:
@@ -343,7 +370,7 @@ sentry:
             key: password
       - name: BROKER_URL
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
-    postProcessForwardErrors:
+    ingestMonitors:
       resources:
         requests:
           cpu: 50m
@@ -361,7 +388,25 @@ sentry:
             key: password
       - name: BROKER_URL
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
-    postProcessForwardTransactions:
+    billingMetricsConsumer:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 300Mi
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
+    cron:
       resources:
         requests:
           cpu: 50m
@@ -433,13 +478,11 @@ sentry:
             key: password
       - name: BROKER_URL
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
-    web:
-      autoscaling:
-        enabled: false
+    postProcessForwardErrors:
       resources:
         requests:
           cpu: 50m
-          memory: 350Mi
+          memory: 300Mi
       env:
       - name: RABBITMQ_USER
         valueFrom:
@@ -453,13 +496,11 @@ sentry:
             key: password
       - name: BROKER_URL
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
-    worker:
-      autoscaling:
-        enabled: false
+    postProcessForwardTransactions:
       resources:
         requests:
           cpu: 50m
-          memory: 750Mi
+          memory: 300Mi
       env:
       - name: RABBITMQ_USER
         valueFrom:
@@ -521,6 +562,26 @@ sentry:
       - name: BROKER_URL
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
 
+    api:
+      autoscaling:
+        enabled: false
+      resources:
+        requests:
+          cpu: 20m
+          memory: 100Mi
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     consumer:
       resources:
         requests:
@@ -558,42 +619,6 @@ sentry:
       - name: BROKER_URL
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
     replacer:
-      resources:
-        requests:
-          cpu: 20m
-          memory: 100Mi
-      env:
-      - name: RABBITMQ_USER
-        valueFrom:
-          secretKeyRef:
-            name: sentry-rabbitmq-user-credentials
-            key: username
-      - name: RABBITMQ_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: sentry-rabbitmq-user-credentials
-            key: password
-      - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
-    replaysConsumer:
-      resources:
-        requests:
-          cpu: 20m
-          memory: 100Mi
-      env:
-      - name: RABBITMQ_USER
-        valueFrom:
-          secretKeyRef:
-            name: sentry-rabbitmq-user-credentials
-            key: username
-      - name: RABBITMQ_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: sentry-rabbitmq-user-credentials
-            key: password
-      - name: BROKER_URL
-        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
-    sessionsConsumer:
       resources:
         requests:
           cpu: 20m
@@ -665,7 +690,7 @@ sentry:
             key: password
       - name: BROKER_URL
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
-    transactionsConsumer:
+    replaysConsumer:
       resources:
         requests:
           cpu: 20m
@@ -683,9 +708,25 @@ sentry:
             key: password
       - name: BROKER_URL
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
-    api:
-      autoscaling:
-        enabled: false
+    sessionsConsumer:
+      resources:
+        requests:
+          cpu: 20m
+          memory: 100Mi
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
+    transactionsConsumer:
       resources:
         requests:
           cpu: 20m
