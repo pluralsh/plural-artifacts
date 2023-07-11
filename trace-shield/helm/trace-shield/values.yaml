@@ -5,7 +5,7 @@ backend:
     repository: ghcr.io/pluralsh/trace-shield/backend
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: 0.2.0
+    tag: 0.6.0
 
   imagePullSecrets: []
   nameOverride: ""
@@ -62,6 +62,8 @@ backend:
 
   affinity: {}
 
+  extraEnv: []
+
 frontend:
   replicaCount: 1
 
@@ -69,7 +71,7 @@ frontend:
     repository: ghcr.io/pluralsh/trace-shield/frontend
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: 0.2.0
+    tag: 0.6.0
 
   imagePullSecrets: []
   nameOverride: ""
@@ -133,7 +135,7 @@ controller:
     repository: ghcr.io/pluralsh/trace-shield-controller
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: sha-d33bdaa
+    tag: 0.1.1
 
   imagePullSecrets: []
   nameOverride: ""
@@ -213,7 +215,7 @@ config:
   tempo:
     enabled: false
     publicURL: tempo.az.onplural.sh
-    internalURL: tempo-tempo-distributed-gateway.tempo.svc.cluster.local # TODO: make compatible with gRPC and add gRPC ingress and oathkeeper rule
+    internalURL: tempo-gateway.tempo.svc.cluster.local # TODO: make compatible with gRPC and add gRPC ingress and oathkeeper rule
 
   observabilityIngress:
     className: nginx
@@ -249,12 +251,14 @@ ingress:
           pathType: Prefix
         - path: /graphiql
           pathType: Prefix
-        - path: /tenant-hydrator
+        - path: /check
           pathType: Prefix
         - path: /user-webhook
           pathType: Prefix
+        - path: /oauth2/consent
+          pathType: Prefix
       frontendPaths:
-        - path: /real-frontend/.*
+        - path: /.*
           pathType: Prefix
   tls:
    - secretName: trace-shield-tls
@@ -298,7 +302,7 @@ oathkeeper:
   enabled: true
   image:
     repository: davidspek/oathkeeper
-    tag: 0.40.2-fix-noop-mutator-2
+    tag: 0.40.2-fix-noop-mutator-2-tracing-0
   # sidecar:
   #   image:
   #     repository: oryd/oathkeeper-maester
@@ -782,7 +786,7 @@ hydra:
         secretName: hydra-tls
 
 kratos-selfservice-ui-node:
-  enabled: true
+  enabled: false
   image:
     repository: davidspek/kratos-selfservice-ui-node
     tag: hydrator-debug-4
@@ -812,7 +816,7 @@ kratos-selfservice-ui-node:
     hosts:
       - host: trace-shield.az.onplural.sh
         paths: 
-          - path: /.*
+          - path: /demo-frontend/.*
             pathType: Prefix
     tls:
      - secretName: trace-shield-tls

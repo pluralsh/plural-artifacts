@@ -1,0 +1,112 @@
+provider: aws
+tempoStorageIdentityId: ""
+tempoStorageIdentityClientId: ""
+
+datasource:
+  loki:
+    enabled: false
+    lokiId: loki-distributed
+  mimir:
+    enabled: false
+    mimirId: mimir
+  clusterTenantHeader:
+    enabled: false
+    value: ""
+  traceShield:
+    enabled: false
+    tempoPublicURL: ""
+
+global:
+  image:
+    # -- Overrides the Docker registry globally for all images, excluding enterprise.
+    registry: dkr.plural.sh
+
+tempo-distributed:
+  multitenancyEnabled: true
+  ingester:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 512Mi
+    # # persistence:
+    # #   enabled: true
+    # #   size: 20Gi
+  tempo:
+    image:
+      registry: dkr.plural.sh
+      repository: tempo/grafana/tempo
+      tag: 2.1.1
+  distributor:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 512Mi
+  compactor:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 512Mi
+  querier:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+  queryFrontend:
+    query:
+      image:
+        registry: dkr.plural.sh
+        repository: tempo/grafana/tempo-query
+        tag: 2.1.1
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+  metricsGenerator:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 512Mi
+    walEmptyDir: {}
+  traces:
+    jaeger:
+      grpc:
+        enabled: true
+      thriftBinary:
+        enabled: true
+      thriftCompact:
+        enabled: true
+      thriftHttp:
+        enabled: true
+    zipkin:
+      enabled: true
+    otlp:
+      http:
+        enabled: true
+      grpc:
+        enabled: true
+    opencensus:
+      enabled: true
+  gateway:
+    enabled: true
+    image:
+      registry: dkr.plural.sh
+      repository: tempo/nginxinc/nginx-unprivileged
+      tag: 1.19-alpine
+    resources: {}
+  metaMonitoring:
+    serviceMonitor:
+      enabled: true
+  memcached:
+    enabled: true
+    image:
+      registry: dkr.plural.sh
+      repository: tempo/library/memcached
+      tag: 1.5.17-alpine
+    resources: {}
+  memcachedExporter:
+    enabled: true
+    image:
+      registry: dkr.plural.sh
+      repository: tempo/prom/memcached-exporter
+      tag: v0.11.2
+    resources: {}
