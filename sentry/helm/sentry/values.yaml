@@ -1,3 +1,159 @@
+runbook:
+  sentry:
+    description: "Runbook for Sentry"
+    labels: "{{ include \"sentry-plural.labels\" $ }}"
+    runbookName: "sentry"
+    components:
+      billingMetricsConsumer:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-billing-metrics-consumer"
+        kind: deployment
+        path: sentry.sentry.billingMetricsConsumer
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-billing-metrics-consumer-.*"
+      cron:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-cron"
+        kind: deployment
+        path: sentry.sentry.cron
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-cron-.*"
+      ingestConsumer:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-ingest-consumer"
+        kind: deployment
+        path: sentry.sentry.ingestConsumer
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-ingest-consumer-.*"
+      ingestMetricsConsumerPerf:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-ingest-metrics-consumer-perf"
+        kind: deployment
+        path: sentry.sentry.ingestMetricsConsumerPerf
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-ingest-metrics-consumer-perf-.*"
+      ingestMetricsConsumerRh:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-ingest-metrics-consumer-rh"
+        kind: deployment
+        path: sentry.sentry.ingestMetricsConsumerRh
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-ingest-metrics-consumer-rh-.*"
+      ingestReplayRecordings:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-ingest-replay-recordings"
+        kind: deployment
+        path: sentry.sentry.ingestReplayRecordings
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-ingest-replay-recordings-.*"
+      postProcessForwardErrors:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-post-process-forward-errors"
+        kind: deployment
+        path: sentry.sentry.postProcessForwardErrors
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-post-process-forward-errors-.*"
+      postProcessForwardTransactions:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-post-process-forward-transactions"
+        kind: deployment
+        path: sentry.sentry.postProcessForwardTransactions
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-post-process-forward-transactions-.*"
+      subscriptionConsumerEvents:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-subscription-consumer-events"
+        kind: deployment
+        path: sentry.sentry.subscriptionConsumerEvents
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-subscription-consumer-events-.*"
+      subscriptionConsumerSessions:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-subscription-consumer-sessions"
+        kind: deployment
+        path: sentry.sentry.subscriptionConsumerSessions
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-subscription-consumer-sessions-.*"
+      subscriptionConsumerTransactions:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-subscription-consumer-transactions"
+        kind: deployment
+        path: sentry.sentry.subscriptionConsumerTransactions
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-subscription-consumer-transactions-.*"
+      web:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-web"
+        kind: deployment
+        path: sentry.sentry.web
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-web-.*"
+      worker:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-worker"
+        kind: deployment
+        path: sentry.sentry.worker
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-worker-.*"
+      symbolicatorapi:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-symbolicator-api"
+        kind: deployment
+        path: sentry.symbolicator.api
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-symbolicator-api-.*"
+  snuba:
+    description: "Runbook for Snuba components of Sentry"
+    labels: "{{ include \"sentry-plural.labels\" $ }}"
+    runbookName: "snuba-sentry"
+    components:
+      consumer:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-snuba-consumer"
+        kind: deployment
+        path: sentry.snuba.consumer
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-snuba-consumer-.*"
+      outcomesConsumer:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-snuba-outcomes-consumer"
+        kind: deployment
+        path: sentry.snuba.outcomesConsumer
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-snuba-outcomes-consumer-.*"
+      replacer:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-snuba-replacer"
+        kind: deployment
+        path: sentry.snuba.replacer
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-snuba-replacer-.*"
+      replaysConsumer:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-snuba-replays-consumer"
+        kind: deployment
+        path: sentry.snuba.replaysConsumer
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-snuba-replays-consumer-.*"
+      sessionsConsumer:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-snuba-sessions-consumer"
+        kind: deployment
+        path: sentry.snuba.sessionsConsumer
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-snuba-sessions-consumer-.*"
+      subscriptionConsumerEvents:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-snuba-subscription-consumer-events"
+        kind: deployment
+        path: sentry.snuba.subscriptionConsumerEvents
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-snuba-subscription-consumer-events-.*"
+      subscriptionConsumerSessions:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-snuba-subscription-consumer-sessions"
+        kind: deployment
+        path: sentry.snuba.subscriptionConsumerSessions
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-snuba-subscription-consumer-sessions-.*"
+      subscriptionConsumerTransactions:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-snuba-subscription-consumer-transactions"
+        kind: deployment
+        path: sentry.snuba.subscriptionConsumerTransactions
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-snuba-subscription-consumer-transactions-.*"
+      transactionsConsumer:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-snuba-transactions-consumer"
+        kind: deployment
+        path: sentry.snuba.transactionsConsumer
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-snuba-transactions-consumer-.*"
+      api:
+        resourceNameTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry }}-snuba-api"
+        kind: deployment
+        path: sentry.snuba.api
+        prometheus:
+          podRegexTpl: "{{ include \"sentry.fullname\" $.Subcharts.sentry  }}-snuba-api-.*"
+
 postgres:
   version: "15"
   enabled: true

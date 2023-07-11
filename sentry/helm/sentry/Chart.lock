@@ -11,5 +11,8 @@ dependencies:
 - name: clickhouse
   repository: https://pluralsh.github.io/module-library
   version: 0.2.4
-digest: sha256:3e1b3c646843d4c26d851888bcc8d8e715da2a55adb926a11a34814ea7925cbe
-generated: "2023-07-04T16:48:51.079529+02:00"
+- name: runbook
+  repository: file:///Users/hans.rauer/Repos/module-library/helm/runbook
+  version: 0.1.0
+digest: sha256:fde26e8ad9b4396eb52690e335d574dcd0ad7a9487250b579d155e6a0465f6aa
+generated: "2023-07-07T12:43:07.550065+02:00"
