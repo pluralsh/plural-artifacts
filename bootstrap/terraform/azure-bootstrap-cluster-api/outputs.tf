@@ -1,5 +1,5 @@
 output "cluster" {
-  value = one(module.aks[*])
+  value = var.cluster_api ? one(data.azurerm_kubernetes_cluster.cluster[*]) : one(module.aks[*])
   sensitive = true
 }
 
