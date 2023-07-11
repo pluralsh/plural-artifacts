@@ -1,5 +1,5 @@
 output "cluster" {
-  value = module.aks[*]
+  value = one(module.aks[*])
   sensitive = true
 }
 
