@@ -628,8 +628,8 @@ variable "enable_aks_insights" {
   default     = false
 }
 
-variable "migrated" {
+variable "cluster_api" {
   type = bool
-  description = "Whether cluster has been migrated to be controlled by the Cluster API or not"
+  description = "Whether cluster is controlled by the Cluster API or not"
   default = false
 }

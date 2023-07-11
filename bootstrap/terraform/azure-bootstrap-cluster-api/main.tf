@@ -1,18 +1,18 @@
 data "azurerm_kubernetes_cluster" "cluster" {
-  count = var.migrated ? 1: 0
+  count = var.cluster_api ? 1: 0
 
   name = var.name
   resource_group_name = var.resource_group
 }
 
 data "azurerm_resource_group" "group" {
-  count = var.migrated ? 0 : 1
+  count = var.cluster_api ? 0 : 1
 
   name = var.resource_group
 }
 
 module "network" {
-  count = var.migrated ? 0 : 1
+  count = var.cluster_api ? 0 : 1
 
   source = "github.com/pluralsh/terraform-azurerm-network?ref=plural"
 
@@ -25,7 +25,7 @@ module "network" {
 }
 
 module "aks" {
-  count = var.migrated ? 0 : 1
+  count = var.cluster_api ? 0 : 1
 
   source = "github.com/pluralsh/terraform-azurerm-aks?ref=ea5c22775e0352ef6fe7a9abe2d94306029b6a6e" # branch auto-scaler-profile
 
@@ -77,7 +77,7 @@ module "aks" {
 }
 
 resource "azurerm_kubernetes_cluster_node_pool" "main" {
-  for_each = var.migrated ? {} : {for idx, val in var.node_groups : val.name => val if idx != 0}
+  for_each = var.cluster_api ? {} : {for idx, val in var.node_groups : val.name => val if idx != 0}
 
   kubernetes_cluster_id = one(module.aks[*].aks_id)
 
@@ -104,13 +104,13 @@ resource "azurerm_kubernetes_cluster_node_pool" "main" {
 }
 
 data "azurerm_resource_group" "node_group" {
-  count = var.migrated ? 0 : 1
+  count = var.cluster_api ? 0 : 1
 
   name = one(module.aks[*].node_resource_group)
 }
 
 resource "azurerm_role_assignment" "aks-managed-identity" {
-  count = var.migrated ? 0 : 1
+  count = var.cluster_api ? 0 : 1
 
   scope                = one(data.azurerm_resource_group.group[*].id)
   role_definition_name = "Managed Identity Operator"
@@ -120,7 +120,7 @@ resource "azurerm_role_assignment" "aks-managed-identity" {
 }
 
 resource "azurerm_role_assignment" "aks-network-identity-kubelet" {
-  count = var.migrated ? 0 : 1
+  count = var.cluster_api ? 0 : 1
 
   scope                = one(module.network[*].vnet_id)
   role_definition_name = "Network Contributor"
@@ -130,7 +130,7 @@ resource "azurerm_role_assignment" "aks-network-identity-kubelet" {
 }
 
 resource "azurerm_role_assignment" "aks-network-identity-ssi" {
-  count = var.migrated ? 0 : 1
+  count = var.cluster_api ? 0 : 1
 
   scope                = one(module.network[*].vnet_id)
   role_definition_name = "Network Contributor"
@@ -140,7 +140,7 @@ resource "azurerm_role_assignment" "aks-network-identity-ssi" {
 }
 
 resource "azurerm_role_assignment" "aks-vm-contributor" {
-  count = var.migrated ? 0 : 1
+  count = var.cluster_api ? 0 : 1
 
   scope                = one(data.azurerm_resource_group.group[*].id)
   role_definition_name = "Virtual Machine Contributor"
@@ -150,7 +150,7 @@ resource "azurerm_role_assignment" "aks-vm-contributor" {
 }
 
 resource "azurerm_role_assignment" "aks-node-managed-identity" {
-  count = var.migrated ? 0 : 1
+  count = var.cluster_api ? 0 : 1
 
   scope                = one(data.azurerm_resource_group.node_group[*].id)
   role_definition_name = "Managed Identity Operator"
@@ -160,7 +160,7 @@ resource "azurerm_role_assignment" "aks-node-managed-identity" {
 }
 
 resource "azurerm_role_assignment" "aks-node-vm-contributor" {
-  count = var.migrated ? 0 : 1
+  count = var.cluster_api ? 0 : 1
 
   scope                = one(data.azurerm_resource_group.node_group[*].id)
   role_definition_name = "Virtual Machine Contributor"
@@ -170,7 +170,7 @@ resource "azurerm_role_assignment" "aks-node-vm-contributor" {
 }
 
 resource "kubernetes_namespace" "bootstrap" {
-  count = var.migrated ? 0 : 1
+  count = var.cluster_api ? 0 : 1
 
   metadata {
     name = var.namespace

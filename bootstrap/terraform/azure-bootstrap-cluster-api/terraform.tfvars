@@ -2,6 +2,7 @@
 resource_group = {{ .Project | quote }}
 name = {{ .Cluster | quote }}
 namespace = {{ .Namespace | quote }}
+cluster_api = {{ .ClusterAPI }}
 
 {{- if fileExists $tfOutput }}
 {{- $bootstrapOutputs := .Applications.TerraformValues "bootstrap" }}
