@@ -8,7 +8,7 @@ image:
   repository: dkr.plural.sh/mlflow/mlflow/mlflow
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: v2.3.2-plural1.2.0
+  tag: v2.4.2-plural1.3.2
 
 imagePullSecrets: []
 nameOverride: ""
