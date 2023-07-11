@@ -1,0 +1,9 @@
+dependencies:
+- name: postgres
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.5
+- name: mageai
+  repository: https://mage-ai.github.io/helm-charts
+  version: 0.1.2
+digest: sha256:dd45698821c408ea2e7d4092759b3349b81560831eecc5ae62585864c453f6c5
+generated: "2023-06-26T13:31:32.353565+02:00"

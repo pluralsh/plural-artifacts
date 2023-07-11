@@ -1,8 +1,8 @@
-prefect-orion:
-  orion:
+prefect-server:
+  server:
     image:
       repository: dkr.plural.sh/prefect/prefecthq/prefect
-      prefectTag: 2.10.4-python3.10
+      prefectTag: 2.10.12-python3.10
     resources:
       requests:
         cpu: 10m
@@ -22,32 +22,32 @@ prefect-orion:
       database: prefect
       username: prefect
       password: ""
-      existingSecret: prefect-orion-connection
+      existingSecret: prefect-server-connection
     containerPorts:
       postgresql: 5432
     externalHostname: plural-postgres-prefect
 
 test-base:
   enabled: false
-  repository: prefect
+  application: prefect
   testName: prefect-integration
-  promoteTag: warm
+  promoteTag: stable
 
 prefect-agent:
   enabled: true
   agent:
     image:
       repository: dkr.plural.sh/prefect/prefecthq/prefect
-      prefectTag: 2.10.4-python3.10
+      prefectTag: 2.10.11-python3.10
     resources:
       requests:
         cpu: 10m
         memory: 128Mi
       limits:
         memory: 256Mi
-    apiConfig: orion
-    orionApiConfig:
-      apiUrl: http://prefect-orion:4200/api
+    apiConfig: server
+    serverApiConfig:
+      apiUrl: http://prefect-server:4200/api
 
 postgres:
   team: plural
@@ -64,9 +64,9 @@ oidc-config:
   service:
     name: prefect-oauth2-proxy
     selector:
-      app.kubernetes.io/component: orion
+      app.kubernetes.io/component: prefect-server
       app.kubernetes.io/instance: prefect
-      app.kubernetes.io/name: prefect-orion
+      app.kubernetes.io/name: prefect-server
 
 service:
   type: ClusterIP

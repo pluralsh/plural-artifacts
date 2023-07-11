@@ -13,6 +13,8 @@ dependencies:
   name: ingress-nginx-azure
 - repo: rabbitmq
   name: rabbitmq-azure
+- repo: clickhouse
+  name: clickhouse-azure
 - repo: redis
   name: azure-redis
 - repo: postgres
@@ -29,13 +31,15 @@ sections:
     documentation: s3 bucket to store miscellaneous files to
     type: BUCKET
     default: sentry-filestore
+  - name: clickhouseBackupBucket
+    documentation: s3 bucket to store clickhouse backups to
+    type: BUCKET
+    default: sentry-clickhouse-backups
   - name: adminEmail
     documentation: admin user email
     type: STRING
   items:
   - type: TERRAFORM
     name: azure
-  - type: TERRAFORM
-    name: secrets
   - type: HELM
     name: sentry

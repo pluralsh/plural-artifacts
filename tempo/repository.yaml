@@ -1,0 +1,10 @@
+name: tempo
+description: An open-source high-scale distributed tracing backend.
+category: DEVOPS
+release_status: ALPHA
+icon: plural/icons/tempo.png
+notes: plural/notes.tpl
+gitUrl: https://github.com/grafana/tempo
+homepage: https://grafana.com/oss/tempo/
+tags:
+- tag: observability

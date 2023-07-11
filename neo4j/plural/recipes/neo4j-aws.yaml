@@ -1,0 +1,18 @@
+name: neo4j-aws
+description: Installs neo4j on an aws eks cluster
+provider: AWS
+primary: true
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+sections:
+- name: neo4j
+  configuration:
+    - name: hostname
+      documentation: FQDN to use for your neo4j installation
+      type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: neo4j

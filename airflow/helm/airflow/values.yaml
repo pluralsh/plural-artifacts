@@ -17,9 +17,11 @@ secrets:
 
 test-base:
   enabled: false
-  repository: airflow
+  application: airflow
   testName: airflow-integration
-  promoteTag: warm
+  promoteTag: stable
+  tags:
+  - 2.6.0
 
 postgres:
   enabled: true

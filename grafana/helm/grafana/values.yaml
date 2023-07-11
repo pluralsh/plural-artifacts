@@ -6,14 +6,7 @@ test-base:
   enabled: false
   application: grafana
   testName: grafana-integration
-  promoteTag: warm
-  steps:
-  - name: watch
-    description: wait until the `grafana` app crd is ready
-    template:
-      container:
-        image: gcr.io/pluralsh/test-base:0.2.2
-        args: ["grafana"]
+  promoteTag: stable
 
 secret:
   smtp:

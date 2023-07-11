@@ -3,6 +3,8 @@ altinity-clickhouse-operator:
     image:
       repository: dkr.plural.sh/clickhouse/altinity/clickhouse-operator
       tag: 0.21.2
+      # Needed since they do weird things with the upstream image
+      pullPolicy: Always
   resources:
     limits:
       memory: 128Mi

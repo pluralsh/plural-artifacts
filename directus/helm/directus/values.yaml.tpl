@@ -37,6 +37,15 @@ env:
   EMAIL_SMTP_PASSWORD: {{ .SMTP.Password }}
   EMAIL_SMTP_PORT: {{ .SMTP.Port }}
   {{ end }}
+{{ if eq .Provider "aws" }}
+  STORAGE_LOCATIONS: S3
+  STORAGE_S3_DRIVER: s3
+  STORAGE_S3_REGION: {{ .Region }}
+  STORAGE_S3_BUCKET: {{ .Values.directusBucket }}
+serviceAccount: 
+  annotations:
+    eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-directus"
+{{ end }}
 {{ if $isGcp }}
   STORAGE_LOCATIONS: google
   STORAGE_GOOGLE_DRIVER: gcs

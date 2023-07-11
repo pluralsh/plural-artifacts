@@ -1,18 +1,18 @@
 dependencies:
 - name: postgres
   repository: https://pluralsh.github.io/module-library
-  version: 0.1.13
-- name: prefect-orion
+  version: 0.2.1
+- name: prefect-server
   repository: https://prefecthq.github.io/prefect-helm
-  version: 2023.2.14
+  version: 2023.06.01
 - name: prefect-agent
   repository: https://prefecthq.github.io/prefect-helm
-  version: 2023.04.13
+  version: 2023.06.01
 - name: oidc-config
   repository: https://pluralsh.github.io/module-library
   version: 0.1.6
 - name: test-base
   repository: https://pluralsh.github.io/module-library
-  version: 0.1.3
-digest: sha256:9df07b0edbdfb0b4a6619102d0d1777c3f10c7d64d3c8d0af743ab6ffb4962fd
-generated: "2023-04-20T10:14:40.679212+02:00"
+  version: 0.1.10
+digest: sha256:cbf4072f686559577e5e6b98b5456758c6b1c98db25b067f27a8200a2e2643d1
+generated: "2023-06-14T11:41:05.114014-04:00"

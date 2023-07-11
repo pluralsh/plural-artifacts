@@ -1,4 +1,4 @@
-{{ $hostname := default "example.com" .Values.hostname }}
+{{ $hostname := default "typesense.dev.plural.sh" .Values.hostname }}
 
 global:
   application:
@@ -18,4 +18,4 @@ ingress:
        - {{ $hostname }}
 
 secretEnvs:
-  TYPESENSE_API_KEY: {{ dedupe . "typesense.apiKey" (randAlphaNum 26) }}
+  TYPESENSE_API_KEY: {{ dedupe . "typesense.secretEnvs.TYPESENSE_API_KEY" (randAlphaNum 26) }}

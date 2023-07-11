@@ -1,0 +1,41 @@
+cube:
+  image:
+    repository: dkr.plural.sh/cube/cubejs/cube
+    tag: "v0.33.30" 
+
+  datasources:
+    default:
+      type: postgres
+      host: demo-db.cube.dev
+      port: "5432"
+      name: ecom
+      user: cube
+      pass: "12345"
+  
+  cubestore:
+    host: cube-cubestore-router
+
+  config:
+    apiSecret: sosecret
+    volumes:
+    - name: cube-schema
+      configMap:
+        name: cube-schema
+    volumeMounts:
+    - name: cube-schema
+      readOnly: true
+      mountPath: /cube/conf/schema/example.yaml
+      subPath: example.yaml
+  
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      kubernetes.io/tls-acme: "true"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+    tls: true
+
+cubestore:
+  image:
+    repository: dkr.plural.sh/cube/cubejs/cubestore
+    tag: "v0.33.30"

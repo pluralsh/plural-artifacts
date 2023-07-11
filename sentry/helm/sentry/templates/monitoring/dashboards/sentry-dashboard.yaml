@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: sentry-issues-events-overview-dashboard
-  labels: {{ include "sentry.labels" . | nindent 4 }}
+  labels: {{ include "sentry-plural.labels" . | nindent 4 }}
     grafana_dashboard: sentry-issues-events-overview
   annotations:
     k8s-sidecar-target-directory: /tmp/dashboards/Sentry Dashboards

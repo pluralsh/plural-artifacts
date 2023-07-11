@@ -1,0 +1,4 @@
+{{- $replicaCount := int .Values.replicaCount }}
+{{- if not (or (eq $replicaCount 1) (gt $replicaCount 4)) }}
+{{ fail "Invalid replicaCount value. replicaCount should be either 1 or at least 5." }}
+{{- end }}

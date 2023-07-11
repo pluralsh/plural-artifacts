@@ -1,0 +1,9 @@
+dependencies:
+- name: prefect-worker
+  repository: https://prefecthq.github.io/prefect-helm
+  version: 2023.06.01
+- name: test-base
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.10
+digest: sha256:e0c398dcf26576904b9c8c875de1d2d5e2716d6a482fbb8b26a01916bdf965cb
+generated: "2023-06-14T11:41:16.642797-04:00"

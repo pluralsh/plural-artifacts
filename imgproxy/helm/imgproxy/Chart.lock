@@ -1,0 +1,6 @@
+dependencies:
+- name: imgproxy
+  repository: https://helm.imgproxy.net/
+  version: 0.8.30
+digest: sha256:e47066cf44eb02c97e7a02eed2d88862a078f1c6460cc91fd67712bba8e3d616
+generated: "2023-06-27T21:19:09.68068+02:00"

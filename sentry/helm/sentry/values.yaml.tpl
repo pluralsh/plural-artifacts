@@ -1,4 +1,6 @@
+{{- $isGcp := or (eq .Provider "google") (eq .Provider "gcp") }}
 {{- $rabbitmqNamespace := namespace "rabbitmq" }}
+{{- $redisValues := .Applications.HelmValues "redis" }}
 global:
   application:
     links:
@@ -9,9 +11,19 @@ rabbitmq:
   cluster:
     namespace: {{ $rabbitmqNamespace }}  
 
+{{ $chPasswd := dedupe . "sentry.clickhouse.password" (randAlphaNum 32) }}
+{{ $chBackupPasswd := dedupe . "sentry.clickhouse.backup.backup_password" (randAlphaNum 32) }}
+
+clickhouse:
+  password: {{ $chPasswd }}
+  backup:
+    backup_password: {{ $chBackupPasswd }}
+
 sentry:
+  externalClickhouse:
+    password: {{ $chPasswd }}
   system:
-    secretKey: {{ dedupe . "sentry.sentry.system.secretKey" (randAlphaNum 16) }}
+    secretKey: {{ dedupe . "sentry.sentry.system.secretKey" (randAlphaNum 32) }}
   symbolicator:
     enabled: true
   ingress:
@@ -21,7 +33,7 @@ sentry:
       hosts:
       - {{ .Values.hostname }}
   filestore:
-  {{ if eq .Provider "google" }}
+  {{ if $isGcp }}
     backend: gcs
     gcs:
       bucketName: {{ .Values.filestoreBucket }}
@@ -61,25 +73,22 @@ sentry:
     from: {{ .SMTP.Sender }}
   {{ end }}
 
+  {{- if or $isGcp (eq .Provider "aws") }}
   serviceAccount:
-    {{ if eq .Provider "google" }}
-    create: false
+    {{ if $isGcp }}
+    enabled: false
     {{ else if eq .Provider "aws" }}
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-sentry"
-    {{ else }}
-    annotations: {}
     {{ end }}
+  {{ end }}
 
   rabbitmq:
     host: rabbitmq.{{ namespace "rabbitmq" }}
-    auth:
-      username: {{ importValue "Terraform" "rabbitmq_username" }}
-      password: {{ importValue "Terraform" "rabbitmq_password" }}
 
   externalRedis:
     host: redis-master.{{ namespace "redis" }}
-    password: {{ importValue "Terraform" "redis_password" }}
+    password: {{ $redisValues.redis.password }}
 
   {{ $kafkaNamespace := namespace "kafka" }}
   externalKafka:

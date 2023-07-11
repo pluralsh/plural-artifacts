@@ -1,4 +1,5 @@
 {{ $grafanaAgent := and .Configuration (index .Configuration "grafana-agent") }}
+{{ $mimir := and .Configuration .Configuration.mimir }}
 global:
   rbac:
     pspEnabled: false
@@ -7,12 +8,12 @@ global:
 kube-prometheus-stack:
   grafana:
     namespaceOverride: {{ $monitoringNamespace }}
-{{- if $grafanaAgent }}
+{{- if and $grafanaAgent $mimir }}
   alertmanager:
     enabled: false
 {{- end }}
   prometheus:
-    {{- if $grafanaAgent }}
+    {{- if and $grafanaAgent $mimir }}
     enabled: false
     {{- end }}
     prometheusSpec:

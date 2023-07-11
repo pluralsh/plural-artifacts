@@ -41,8 +41,8 @@ spec:
     - name: DATABASE_PASSWORD
       valueFrom:
         secretKeyRef:
-          name: {{ .Values.airbyte.externalDatabase.existingSecret }}
-          key: {{ .Values.airbyte.externalDatabase.existingSecretPasswordKey }}
+          name: {{ .Values.global.database.secretName }}
+          key: {{ .Values.global.database.secretValue }}
     - name: DATABASE_URL
       valueFrom:
         configMapKeyRef:

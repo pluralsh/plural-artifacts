@@ -16,11 +16,15 @@ spec:
   - type: helm
     name: postgres
     repo: postgres
-    version: '>= 0.1.6'
+    version: '>= 0.2.13'
   - type: helm
     name: cluster-operator
     repo: rabbitmq
     version: '>= 0.1.8'
+  - type: helm
+    name: clickhouse
+    repo: clickhouse
+    version: ">= 0.1.3"
   - type: helm
     name: redis
     repo: redis
@@ -29,10 +33,6 @@ spec:
     name: kafka
     repo: kafka
     version: '>= 0.1.3'
-  - type: terraform
-    name: secrets
-    repo: sentry
-    version: '>= 0.1.0'
   - type: terraform
     name: aws
     repo: sentry

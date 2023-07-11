@@ -1,0 +1,11 @@
+apiVersion: v2
+name: neo4j
+description: helm chart for neo4j
+icon: https://neo4j.com/wp-content/themes/neo4jweb/v2-templates/brand/assets/logo-section-4.svg
+type: application
+version: 0.1.0
+appVersion: 5.9.0
+dependencies:
+- name: neo4j
+  version: 5.9.0
+  repository: file://../charts/neo4j-5.9.0.tgz

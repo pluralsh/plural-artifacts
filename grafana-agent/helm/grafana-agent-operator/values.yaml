@@ -1,0 +1,5 @@
+grafana-agent-operator:
+  image:
+    registry: dkr.plural.sh
+    repository: grafana-agent/grafana/agent-operator
+    tag: v0.34.3

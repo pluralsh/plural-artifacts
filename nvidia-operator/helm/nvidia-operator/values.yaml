@@ -19,6 +19,9 @@ gpu-operator:
     enabled: false
   operator:
     defaultRuntime: docker
+  dcgmExporter:
+    serviceMonitor:
+      enabled: true
   node-feature-discovery:
     worker:
       tolerations:

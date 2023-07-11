@@ -2,16 +2,23 @@ apiVersion: v2
 name: sentry
 description: A Helm chart for deploying sentry on plural
 type: application
-version: 0.2.16
-appVersion: "21.5.1"
+version: 0.3.2
+appVersion: "23.6.1"
 dependencies:
 - name: sentry
-  version: 11.3.3
-  repository: https://pluralsh.github.io/plural-helm-charts
+  version: 19.4.0
+  repository: https://sentry-kubernetes.github.io/charts
 - name: postgres
-  version: 0.1.13
+  version: 0.2.1
   repository: https://pluralsh.github.io/module-library
   condition: postgres.enabled
 - name: rabbitmq
   version: 0.1.0
+  repository: https://pluralsh.github.io/module-library
+- name: clickhouse
+  version: 0.2.4
+  repository: https://pluralsh.github.io/module-library
+  condition: clickhouse.enabled
+- name: runbook
+  version: 0.1.1
   repository: https://pluralsh.github.io/module-library

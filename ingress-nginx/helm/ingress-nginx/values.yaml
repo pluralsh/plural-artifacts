@@ -3,7 +3,7 @@ ingress-nginx:
     image:
       registry: dkr.plural.sh
       image: ingress-nginx/ingress-nginx/controller
-      tag: v1.6.4
+      tag: v1.7.0
       digest: null
       digestChroot: null
     admissionWebhooks:

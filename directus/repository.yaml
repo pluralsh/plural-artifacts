@@ -5,6 +5,7 @@ private: false
 releaseStatus: BETA
 icon: plural/icons/directus-logo-stacked.png
 notes: plural/notes.tpl
+docs: plural/docs
 homepage: https://directus.io/engine
 gitUrl: https://github.com/directus/directus
 oauthSettings:

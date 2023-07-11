@@ -21,7 +21,7 @@ mysql:
 
 image:
   repository: dkr.plural.sh/ghost/library/ghost
-  tag: 5.49.1-alpine
+  tag: 5.49.2-alpine
   pullPolicy: IfNotPresent
 
 resources: {}

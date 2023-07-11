@@ -1,0 +1,12 @@
+name: cube
+description: 📊 Cube — The Semantic Layer for Building Data Applications
+category: DATA
+private: true
+releaseStatus: ALPHA
+icon: plural/icons/cube.png
+notes: plural/notes.tpl
+docs: plural/docs
+homepage: https://cube.dev
+gitUrl: https://github.com/cube-js/cube
+contributors:
+- walkoss@pm.me
