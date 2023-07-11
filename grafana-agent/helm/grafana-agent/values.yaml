@@ -212,7 +212,7 @@ traces: # TODO: split this into 2 deployment to allow for tail based sampling. F
           format = "logfmt"
         }
 
-        mimir.rules.kubernetes "LABEL" {
+        mimir.rules.kubernetes "local" {
           address = {{ .Values.agent.mimirHost | quote }}
           tenant_id = {{ .Values.agent.lokiTenantId | quote }}
         }
@@ -225,6 +225,20 @@ traces: # TODO: split this into 2 deployment to allow for tail based sampling. F
           endpoint {
             url = {{ .Values.agent.lokiHost | quote }}
             tenant_id = {{ .Values.agent.lokiTenantId | quote }}
+          }
+        }
+
+        prometheus.operator.podmonitors "pods" {
+          forward_to = [otelcol.receiver.prometheus.default.receiver]
+        }
+
+        prometheus.operator.servicemonitors "services" {
+          forward_to = [otelcol.receiver.prometheus.default.receiver]
+        }
+
+        otelcol.receiver.prometheus "default" {
+          output {
+            metrics = [otelcol.processor.batch.local.input]
           }
         }
 
@@ -268,8 +282,6 @@ traces: # TODO: split this into 2 deployment to allow for tail based sampling. F
 
         otelcol.processor.batch "local" {
           output {
-            metrics = [otelcol.exporter.otlphttp.local.input]
-            logs    = [otelcol.exporter.otlphttp.local.input]
             traces  = [otelcol.exporter.otlphttp.local.input]
           }
         }
