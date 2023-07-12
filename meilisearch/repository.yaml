@@ -2,7 +2,7 @@ name: meilisearch
 description: A lightning-fast search engine that fits effortlessly into your apps, websites, and workflow.
 category: DATABASE
 releaseStatus: BETA
-icon: plural/icons/meilisearch.png
+icon: plural/icons/meilisearch_1x1.png
 notes: plural/notes.tpl
 homepage: https://www.meilisearch.com/
 gitUrl: https://github.com/meilisearch/meilisearch
