@@ -34,6 +34,15 @@ ingress:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
 
+ingressElastic:
+  enabled: false
+  hostname: ''
+  ingressClass: nginx
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+
 elasticsearch:
   nodes: 3
   resources:
