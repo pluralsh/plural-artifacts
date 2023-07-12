@@ -1,0 +1,29 @@
+{{ if .Values.ingressElastic.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: elastic
+  labels:
+{{ include "elasticsearch.labels" . | indent 4 }}
+  {{- with .Values.ingressElastic.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  ingressClassName: {{ .Values.ingressElastic.ingressClass }}
+  tls:
+  - hosts:
+    - {{ .Values.ingressElastic.hostname | quote }}
+    secretName: elastic-tls
+  rules:
+  - host: {{ .Values.ingressElastic.hostname | quote }}
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service: 
+            name: elasticsearch-es-http
+            port: 
+              name: http
+{{ end }}
