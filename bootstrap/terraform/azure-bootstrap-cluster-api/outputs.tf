@@ -9,19 +9,19 @@ output "cluster" {
 }
 
 output "kubelet_msi_id" {
-  value = one(module.aks[*].kubelet_identity[0].client_id)
+  value = var.cluster_api ? one(data.azurerm_kubernetes_cluster.cluster[*].kubelet_identity.0.client_id) : one(module.aks[*].kubelet_identity[0].client_id)
 }
 
 output "node_resource_group" {
-  value = one(data.azurerm_resource_group.node_group[*].name)
+  value = var.cluster_api ? one(data.azurerm_kubernetes_cluster.cluster[*].node_resource_group) : one(data.azurerm_resource_group.node_group[*].name)
 }
 
 output "cluster_name" {
-  value = one(module.aks[*].cluster_name)
+  value = var.cluster_api ? one(data.azurerm_kubernetes_cluster.cluster[*].name) : one(module.aks[*].cluster_name)
 }
 
 output "resource_group_name" {
-  value = one(module.aks[*].resource_group_name)
+  value = var.cluster_api ? one(data.azurerm_kubernetes_cluster.cluster[*].resource_group_name) : one(module.aks[*].resource_group_name)
 }
 
 output "network" {
