@@ -63,6 +63,6 @@ serviceAccount:
 {{- end }}
 {{- if $isGcp }}
 serviceAccount:
-  create: false
-  name: mlflow
+  annotations:
+    iam.gke.io/gcp-service-account: {{ importValue "Terraform" "service_account_email" }}
 {{- end }}
