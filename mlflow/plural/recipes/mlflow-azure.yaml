@@ -1,0 +1,30 @@
+name: mlflow-azure
+description: Installs mlflow on an azure aks cluster
+provider: AZURE
+private: true
+oidcSettings:
+  uriFormat: https://{domain}/oauth2/callback
+  authMethod: POST
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-azure
+- repo: postgres
+  name: azure-postgres
+sections:
+- name: mlflow
+  configuration:
+  - name: mlflow_bucket
+    type: BUCKET
+    default: mlflow
+    documentation: bucket to store the mlflow artifacts in
+  - name: hostname
+    documentation: FQDN to use for your MLFlow installation
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: azure
+  - type: HELM
+    name: mlflow
