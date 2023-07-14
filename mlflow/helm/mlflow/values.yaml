@@ -103,8 +103,7 @@ postgres:
   infix: ""
 
 config:
-  artifact:
-    defaultArtifactRoot: ""
+  artifact: {} # filled in template
   database:
     credentials:
       secretName: mlflow.plural-mlflow.credentials.postgresql.acid.zalan.do

@@ -50,7 +50,13 @@ spec:
           - "5000"
           env:
           - name: ARTIFACT_ROOT
-            value: {{ .Values.config.artifact.defaultArtifactRoot }}
+            {{- if .Values.config.artifact.azure.enabled }}
+            value: wasbs://{{ .Values.config.artifact.azure.accountName }}@{{ .Values.config.artifact.azure.container }}.blob.core.windows.net/
+            {{- else if .Values.config.artifact.aws.enabled }}
+            value: {{ .Values.config.artifact.aws.bucketUri }}
+            {{- else if .Values.config.artifact.gcp.enabled }}
+            value: {{ .Values.config.artifact.gcp.bucketUri }}
+            {{-end -}}
           - name: POSTGRES_USERNAME
             valueFrom:
               secretKeyRef:
@@ -61,8 +67,11 @@ spec:
               secretKeyRef:
                 name: {{ .Values.config.database.credentials.secretName }}
                 key: {{ .Values.config.database.credentials.passwordKey }}
-          - name: BACKEND_STORE_URI
-            value: postgresql://$(POSTGRES_USERNAME):$(POSTGRES_PASSWORD)@{{ .Values.config.database.host }}:{{ .Values.config.database.port }}/{{ .Values.config.database.dbname }}
+          {{- if .Values.config.artifact.azure.enabled }}
+          envFrom:
+          - secretRef:
+              name: {{ .Values.config.artifact.azure.existingSecret }}
+          {{- end }}
           ports:
             - name: http
               containerPort: 5000

@@ -42,15 +42,23 @@ ingress:
 {{- if eq .Provider "aws" }}
 config:
   artifact:
-    defaultArtifactRoot: s3://{{ .Values.mlflow_bucket }}/
+    aws:
+      enabled: true
+      bucketUri: s3://{{ .Values.mlflow_bucket }}/
 {{- else if $isGcp }}
 config:
   artifact:
-    defaultArtifactRoot: gs://{{ .Values.mlflow_bucket }}/
+    gcp:
+      enabled: true
+      bucketUri: gs://{{ .Values.mlflow_bucket }}/
 {{- else if $isAz }}
 config:
   artifact:
-    defaultArtifactRoot: az://{{ .Values.mlflow_bucket }}/
+    azure:
+      enabled: true
+      accountName: {{ .Context.StorageAccount }}
+      container: {{ .Values.bucket }}
+      existingSecret: mlflow-azure-secret
 {{- end }}
 
 {{- if eq .Provider "aws" }}
