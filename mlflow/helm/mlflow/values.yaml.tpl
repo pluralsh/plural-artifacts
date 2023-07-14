@@ -39,27 +39,23 @@ ingress:
     - secretName: mlflow-standalone-tls
       hosts:
         - {{ .Values.hostname }}
-{{- if eq .Provider "aws" }}
 config:
   artifact:
+    {{- if eq .Provider "aws" }}
     aws:
       enabled: true
       bucketUri: s3://{{ .Values.mlflow_bucket }}/
-{{- else if $isGcp }}
-config:
-  artifact:
+    {{- else if $isGcp }}
     gcp:
       enabled: true
       bucketUri: gs://{{ .Values.mlflow_bucket }}/
-{{- else if $isAz }}
-config:
-  artifact:
+    {{- else if $isAz }}
     azure:
       enabled: true
       accountName: {{ .Context.StorageAccount }}
-      container: {{ .Values.bucket }}
+      container: {{ .Values.mlflow_bucket }}
       existingSecret: mlflow-azure-secret
-{{- end }}
+    {{- end }}
 
 {{- if eq .Provider "aws" }}
 {{- end }}

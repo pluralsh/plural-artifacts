@@ -15,6 +15,6 @@ variable "storage_account_name" {
   type = string
 }
 
-variable "bucket" {
+variable "mlflow_bucket" {
   type = string
 }
