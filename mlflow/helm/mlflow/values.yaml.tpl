@@ -1,4 +1,5 @@
 {{ $isGcp := or (eq .Provider "google") (eq .Provider "gcp") }}
+{{ $isAz := or (eq .Provider "azure") (eq .Provider "azure") }}
 global:
   application:
     links:
@@ -46,6 +47,13 @@ config:
 config:
   artifact:
     defaultArtifactRoot: gs://{{ .Values.mlflow_bucket }}/
+{{- else if $isAz }}
+config:
+  artifact:
+    defaultArtifactRoot: az://{{ .Values.mlflow_bucket }}/
+{{- end }}
+
+{{- if eq .Provider "aws" }}
 {{- end }}
 
 {{- if eq .Provider "aws" }}
