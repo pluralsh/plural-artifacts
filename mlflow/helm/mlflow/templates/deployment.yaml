@@ -68,10 +68,16 @@ spec:
               containerPort: 5000
               protocol: TCP
           livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 45
+            periodSeconds: 60
             httpGet:
               path: /
               port: http
           readinessProbe:
+            failureThreshold: 5
+            initialDelaySeconds: 2
+            periodSeconds: 5
             httpGet:
               path: /
               port: http
