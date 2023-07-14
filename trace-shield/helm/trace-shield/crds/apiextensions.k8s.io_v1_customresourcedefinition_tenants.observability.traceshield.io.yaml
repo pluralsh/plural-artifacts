@@ -2,8 +2,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.1
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.12.0
   name: tenants.observability.traceshield.io
 spec:
   group: observability.traceshield.io
@@ -40,10 +39,679 @@ spec:
               limits:
                 description: Limits is the set of limits for the tenant
                 properties:
+                  loki:
+                    properties:
+                      blocked_queries:
+                        items:
+                          properties:
+                            hash:
+                              format: int32
+                              type: integer
+                            pattern:
+                              type: string
+                            regex:
+                              type: boolean
+                            types:
+                              items:
+                                description: BlockedQueryType is the type of blocked
+                                  query
+                                enum:
+                                - metric
+                                - filter
+                                - limited
+                                type: string
+                              type: array
+                          type: object
+                        type: array
+                      cardinality_limit:
+                        type: integer
+                      creation_grace_period:
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      deletion_mode:
+                        description: Global and per tenant deletion mode
+                        type: string
+                      enforce_metric_name:
+                        type: boolean
+                      increment_duplicate_timestamp:
+                        type: boolean
+                      index_gateway_shard_size:
+                        type: integer
+                      ingestion_burst_size_mb:
+                        type: number
+                      ingestion_rate_mb:
+                        type: number
+                      ingestion_rate_strategy:
+                        description: Distributor enforced limits.
+                        type: string
+                      max_cache_freshness_per_query:
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      max_chunks_per_query:
+                        description: Querier enforced limits.
+                        type: integer
+                      max_concurrent_tail_requests:
+                        type: integer
+                      max_entries_limit_per_query:
+                        type: integer
+                      max_global_streams_per_user:
+                        type: integer
+                      max_label_name_length:
+                        type: integer
+                      max_label_names_per_series:
+                        type: integer
+                      max_label_value_length:
+                        type: integer
+                      max_line_size:
+                        format: int64
+                        type: integer
+                      max_line_size_truncate:
+                        type: boolean
+                      max_querier_bytes_read:
+                        format: int64
+                        type: integer
+                      max_queriers_per_tenant:
+                        type: integer
+                      max_query_bytes_read:
+                        format: int64
+                        type: integer
+                      max_query_length:
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      max_query_lookback:
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      max_query_parallelism:
+                        type: integer
+                      max_query_range:
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      max_query_series:
+                        type: integer
+                      max_stats_cache_freshness:
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      max_streams_matchers_per_query:
+                        type: integer
+                      max_streams_per_user:
+                        description: Ingester enforced limits.
+                        type: integer
+                      min_sharding_lookback:
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      minimum_labels_number:
+                        type: integer
+                      per_stream_rate_limit:
+                        format: int64
+                        type: integer
+                      per_stream_rate_limit_burst:
+                        format: int64
+                        type: integer
+                      query_ready_index_num_days:
+                        type: integer
+                      query_timeout:
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      reject_old_samples:
+                        type: boolean
+                      reject_old_samples_max_age:
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      required_labels:
+                        items:
+                          type: string
+                        type: array
+                      retention_period:
+                        description: Global and per tenant retention
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      retention_stream:
+                        items:
+                          properties:
+                            period:
+                              type: string
+                            priority:
+                              type: integer
+                            selector:
+                              type: string
+                          type: object
+                        type: array
+                      ruler_alertmanager_config:
+                        properties:
+                          alert_relabel_configs:
+                            description: Configuration for alert relabeling.
+                            items:
+                              properties:
+                                action:
+                                  default: replace
+                                  description: Action is the action to be performed
+                                    for the relabeling.
+                                  enum:
+                                  - replace
+                                  - Replace
+                                  - keep
+                                  - Keep
+                                  - drop
+                                  - Drop
+                                  - hashmod
+                                  - HashMod
+                                  - labelmap
+                                  - LabelMap
+                                  - labeldrop
+                                  - LabelDrop
+                                  - labelkeep
+                                  - LabelKeep
+                                  - lowercase
+                                  - Lowercase
+                                  - uppercase
+                                  - Uppercase
+                                  - keepequal
+                                  - KeepEqual
+                                  - dropequal
+                                  - DropEqual
+                                  type: string
+                                modulus:
+                                  description: Modulus to take of the hash of concatenated
+                                    values from the source labels.
+                                  format: int64
+                                  type: integer
+                                regex:
+                                  description: Regex against which the concatenation
+                                    is matched.
+                                  type: string
+                                replacement:
+                                  description: Replacement is the regex replacement
+                                    pattern to be used.
+                                  type: string
+                                separator:
+                                  description: Separator is the string between concatenated
+                                    values from the source labels.
+                                  type: string
+                                source_labels:
+                                  description: A list of labels from which values
+                                    are taken and concatenated with the configured
+                                    separator in order.
+                                  items:
+                                    description: LabelName is a valid Prometheus label
+                                      name which may only contain ASCII letters, numbers,
+                                      as well as underscores.
+                                    pattern: ^[a-zA-Z_][a-zA-Z0-9_]*$
+                                    type: string
+                                  type: array
+                                target_label:
+                                  description: TargetLabel is the label to which the
+                                    resulting string is written in a replacement.
+                                    Regexp interpolation is allowed for the replace
+                                    action.
+                                  type: string
+                              type: object
+                            type: array
+                          alertmanager_client:
+                            description: Client configs for interacting with the Alertmanager
+                            properties:
+                              basic_auth_password:
+                                type: string
+                              basic_auth_username:
+                                type: string
+                              credentials:
+                                type: string
+                              credentials_file:
+                                type: string
+                              tls_ca_path:
+                                type: string
+                              tls_cert_path:
+                                type: string
+                              tls_cipher_suites:
+                                type: string
+                              tls_insecure_skip_verify:
+                                type: boolean
+                              tls_key_path:
+                                type: string
+                              tls_min_version:
+                                type: string
+                              tls_server_name:
+                                type: string
+                              type:
+                                type: string
+                            type: object
+                          alertmanager_refresh_interval:
+                            description: How long to wait between refreshing the list
+                              of Alertmanager based on DNS service discovery.
+                            pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                            type: string
+                          alertmanager_url:
+                            description: URL of the Alertmanager to send notifications
+                              to.
+                            type: string
+                          enable_alertmanager_discovery:
+                            description: Whether to use DNS SRV records to discover
+                              Alertmanager.
+                            type: boolean
+                          enable_alertmanager_v2:
+                            description: Enables the ruler notifier to use the Alertmananger
+                              V2 API.
+                            type: boolean
+                          notification_queue_capacity:
+                            description: Capacity of the queue for notifications to
+                              be sent to the Alertmanager.
+                            type: integer
+                          notification_timeout:
+                            description: HTTP timeout duration when sending notifications
+                              to the Alertmanager.
+                            pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                            type: string
+                        type: object
+                      ruler_evaluation_delay_duration:
+                        description: 'TODO(dannyk): this setting is misnamed and probably
+                          deprecatable.'
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      ruler_max_rule_groups_per_tenant:
+                        type: integer
+                      ruler_max_rules_per_rule_group:
+                        type: integer
+                      ruler_remote_evaluation_max_response_size:
+                        format: int64
+                        type: integer
+                      ruler_remote_evaluation_timeout:
+                        description: 'TODO(dannyk): possible enhancement is to align
+                          this with rule group interval'
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      ruler_remote_write_config:
+                        additionalProperties:
+                          properties:
+                            authorization:
+                              description: The HTTP authorization credentials for
+                                the targets.
+                              properties:
+                                credentials:
+                                  description: Secret special type for storing secrets.
+                                  type: string
+                                credentials_file:
+                                  type: string
+                                type:
+                                  type: string
+                              type: object
+                            basic_auth:
+                              description: The HTTP basic authentication credentials
+                                for the targets.
+                              properties:
+                                password:
+                                  description: Secret special type for storing secrets.
+                                  type: string
+                                password_file:
+                                  type: string
+                                username:
+                                  type: string
+                              required:
+                              - username
+                              type: object
+                            enable_http2:
+                              description: EnableHTTP2 specifies whether the client
+                                should configure HTTP2. The omitempty flag is not
+                                set, because it would be hidden from the marshalled
+                                configuration when set to false.
+                              type: boolean
+                            follow_redirects:
+                              description: FollowRedirects specifies whether the client
+                                should follow HTTP 3xx redirects. The omitempty flag
+                                is not set, because it would be hidden from the marshalled
+                                configuration when set to false.
+                              type: boolean
+                            headers:
+                              additionalProperties:
+                                type: string
+                              type: object
+                            metadata_config:
+                              description: MetadataConfig is the configuration for
+                                sending metadata to remote storage.
+                              properties:
+                                max_samples_per_send:
+                                  description: Maximum number of samples per send.
+                                  type: integer
+                                send:
+                                  description: Send controls whether we send metric
+                                    metadata to remote storage.
+                                  type: boolean
+                                send_interval:
+                                  description: SendInterval controls how frequently
+                                    we send metric metadata.
+                                  pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                                  type: string
+                              type: object
+                            name:
+                              type: string
+                            no_proxy:
+                              description: NoProxy contains addresses that should
+                                not use a proxy.
+                              type: string
+                            oauth2:
+                              description: The OAuth2 client credentials used to fetch
+                                a token for the targets.
+                              properties:
+                                client_id:
+                                  type: string
+                                client_secret:
+                                  description: Secret special type for storing secrets.
+                                  type: string
+                                client_secret_file:
+                                  type: string
+                                endpoint_params:
+                                  additionalProperties:
+                                    type: string
+                                  type: object
+                                no_proxy:
+                                  description: NoProxy contains addresses that should
+                                    not use a proxy.
+                                  type: string
+                                proxy_connect_header:
+                                  additionalProperties:
+                                    items:
+                                      description: Secret special type for storing
+                                        secrets.
+                                      type: string
+                                    type: array
+                                  description: ProxyConnectHeader optionally specifies
+                                    headers to send to proxies during CONNECT requests.
+                                    Assume that at least _some_ of these headers are
+                                    going to contain secrets and use Secret as the
+                                    value type instead of string.
+                                  type: object
+                                proxy_from_environment:
+                                  description: ProxyFromEnvironment makes use of net/http
+                                    ProxyFromEnvironment function to determine proxies.
+                                  type: boolean
+                                proxy_url:
+                                  description: HTTP proxy server to use to connect
+                                    to the targets.
+                                  type: string
+                                scopes:
+                                  items:
+                                    type: string
+                                  type: array
+                                tls_config:
+                                  description: TLSConfig configures the options for
+                                    TLS connections.
+                                  properties:
+                                    ca:
+                                      description: Text of the CA cert to use for
+                                        the targets.
+                                      type: string
+                                    ca_file:
+                                      description: The CA cert to use for the targets.
+                                      type: string
+                                    cert:
+                                      description: Text of the client cert file for
+                                        the targets.
+                                      type: string
+                                    cert_file:
+                                      description: The client cert file for the targets.
+                                      type: string
+                                    insecure_skip_verify:
+                                      description: Disable target certificate validation.
+                                      type: boolean
+                                    key:
+                                      description: Text of the client key file for
+                                        the targets.
+                                      type: string
+                                    key_file:
+                                      description: The client key file for the targets.
+                                      type: string
+                                    max_version:
+                                      description: Maximum TLS version.
+                                      type: integer
+                                    min_version:
+                                      description: Minimum TLS version.
+                                      type: integer
+                                    server_name:
+                                      description: Used to verify the hostname for
+                                        the targets.
+                                      type: string
+                                  required:
+                                  - insecure_skip_verify
+                                  type: object
+                                token_url:
+                                  type: string
+                              required:
+                              - client_id
+                              type: object
+                            proxy_connect_header:
+                              additionalProperties:
+                                items:
+                                  description: Secret special type for storing secrets.
+                                  type: string
+                                type: array
+                              description: ProxyConnectHeader optionally specifies
+                                headers to send to proxies during CONNECT requests.
+                                Assume that at least _some_ of these headers are going
+                                to contain secrets and use Secret as the value type
+                                instead of string.
+                              type: object
+                            proxy_from_environment:
+                              description: ProxyFromEnvironment makes use of net/http
+                                ProxyFromEnvironment function to determine proxies.
+                              type: boolean
+                            proxy_url:
+                              description: HTTP proxy server to use to connect to
+                                the targets.
+                              type: string
+                            queue_config:
+                              properties:
+                                batch_send_deadline:
+                                  description: Maximum time sample will wait in buffer.
+                                  pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                                  type: string
+                                capacity:
+                                  description: Number of samples to buffer per shard
+                                    before we block. Defaults to MaxSamplesPerSend.
+                                  type: integer
+                                max_backoff:
+                                  pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                                  type: string
+                                max_samples_per_send:
+                                  description: Maximum number of samples per send.
+                                  type: integer
+                                max_shards:
+                                  description: Max number of shards, i.e. amount of
+                                    concurrency.
+                                  type: integer
+                                min_backoff:
+                                  description: On recoverable errors, backoff exponentially.
+                                  pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                                  type: string
+                                min_shards:
+                                  description: Min number of shards, i.e. amount of
+                                    concurrency.
+                                  type: integer
+                                retry_on_http_429:
+                                  type: boolean
+                              type: object
+                            remote_timeout:
+                              pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                              type: string
+                            send_exemplars:
+                              type: boolean
+                            send_native_histograms:
+                              type: boolean
+                            sigv4:
+                              description: SigV4Config is the configuration for signing
+                                remote write requests with AWS's SigV4 verification
+                                process. Empty values will be retrieved using the
+                                AWS default credentials chain.
+                              properties:
+                                access_key:
+                                  type: string
+                                profile:
+                                  type: string
+                                region:
+                                  type: string
+                                role_arn:
+                                  type: string
+                                secret_key:
+                                  description: Secret special type for storing secrets.
+                                  type: string
+                              type: object
+                            tls_config:
+                              description: TLSConfig to use to connect to the targets.
+                              properties:
+                                ca:
+                                  description: Text of the CA cert to use for the
+                                    targets.
+                                  type: string
+                                ca_file:
+                                  description: The CA cert to use for the targets.
+                                  type: string
+                                cert:
+                                  description: Text of the client cert file for the
+                                    targets.
+                                  type: string
+                                cert_file:
+                                  description: The client cert file for the targets.
+                                  type: string
+                                insecure_skip_verify:
+                                  description: Disable target certificate validation.
+                                  type: boolean
+                                key:
+                                  description: Text of the client key file for the
+                                    targets.
+                                  type: string
+                                key_file:
+                                  description: The client key file for the targets.
+                                  type: string
+                                max_version:
+                                  description: Maximum TLS version.
+                                  type: integer
+                                min_version:
+                                  description: Minimum TLS version.
+                                  type: integer
+                                server_name:
+                                  description: Used to verify the hostname for the
+                                    targets.
+                                  type: string
+                              required:
+                              - insecure_skip_verify
+                              type: object
+                            url:
+                              type: string
+                            write_relabel_configs:
+                              items:
+                                properties:
+                                  action:
+                                    default: replace
+                                    description: Action is the action to be performed
+                                      for the relabeling.
+                                    enum:
+                                    - replace
+                                    - Replace
+                                    - keep
+                                    - Keep
+                                    - drop
+                                    - Drop
+                                    - hashmod
+                                    - HashMod
+                                    - labelmap
+                                    - LabelMap
+                                    - labeldrop
+                                    - LabelDrop
+                                    - labelkeep
+                                    - LabelKeep
+                                    - lowercase
+                                    - Lowercase
+                                    - uppercase
+                                    - Uppercase
+                                    - keepequal
+                                    - KeepEqual
+                                    - dropequal
+                                    - DropEqual
+                                    type: string
+                                  modulus:
+                                    description: Modulus to take of the hash of concatenated
+                                      values from the source labels.
+                                    format: int64
+                                    type: integer
+                                  regex:
+                                    description: Regex against which the concatenation
+                                      is matched.
+                                    type: string
+                                  replacement:
+                                    description: Replacement is the regex replacement
+                                      pattern to be used.
+                                    type: string
+                                  separator:
+                                    description: Separator is the string between concatenated
+                                      values from the source labels.
+                                    type: string
+                                  source_labels:
+                                    description: A list of labels from which values
+                                      are taken and concatenated with the configured
+                                      separator in order.
+                                    items:
+                                      description: LabelName is a valid Prometheus
+                                        label name which may only contain ASCII letters,
+                                        numbers, as well as underscores.
+                                      pattern: ^[a-zA-Z_][a-zA-Z0-9_]*$
+                                      type: string
+                                    type: array
+                                  target_label:
+                                    description: TargetLabel is the label to which
+                                      the resulting string is written in a replacement.
+                                      Regexp interpolation is allowed for the replace
+                                      action.
+                                    type: string
+                                type: object
+                              type: array
+                          required:
+                          - url
+                          type: object
+                          x-kubernetes-preserve-unknown-fields: true
+                        type: object
+                      ruler_remote_write_disabled:
+                        description: this field is the inversion of the general remote_write.enabled
+                          because the zero value of a boolean is false, and if it
+                          were ruler_remote_write_enabled, it would be impossible
+                          to know if the value was explicitly set or default
+                        type: boolean
+                      ruler_tenant_shard_size:
+                        type: integer
+                      shard_streams:
+                        properties:
+                          desired_rate:
+                            description: DesiredRate is the threshold used to shard
+                              the stream into smaller pieces. Expected to be in bytes.
+                            format: int64
+                            type: integer
+                          enabled:
+                            type: boolean
+                          logging_enabled:
+                            type: boolean
+                        type: object
+                      split_queries_by_interval:
+                        description: Query frontend enforced limits. The default is
+                          actually parameterized by the queryrange config.
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      tsdb_max_bytes_per_shard:
+                        format: int64
+                        type: integer
+                      tsdb_max_query_parallelism:
+                        type: integer
+                      unordered_writes:
+                        type: boolean
+                      volume_enabled:
+                        type: boolean
+                      volume_max_series:
+                        type: integer
+                    type: object
                   mimir:
                     properties:
                       accept_ha_samples:
                         type: boolean
+                      active_series_custom_trackers:
+                        additionalProperties:
+                          type: string
+                        description: Active series custom trackers
+                        type: object
                       alertmanager_max_alerts_count:
                         type: integer
                       alertmanager_max_alerts_size_bytes:
@@ -68,11 +736,16 @@ spec:
                         type: string
                       alertmanager_receivers_firewall_block_private_addresses:
                         type: boolean
+                      cache_unaligned_requests:
+                        type: boolean
                       cardinality_analysis_enabled:
                         description: Cardinality
                         type: boolean
                       compactor_block_upload_enabled:
                         type: boolean
+                      compactor_block_upload_max_block_size_bytes:
+                        format: int64
+                        type: integer
                       compactor_block_upload_validation_enabled:
                         type: boolean
                       compactor_block_upload_verify_chunks:
@@ -99,23 +772,6 @@ spec:
                         type: array
                       enforce_metadata_metric_name:
                         type: boolean
-                      forwarding_drop_older_than:
-                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
-                        type: string
-                      forwarding_endpoint:
-                        type: string
-                      forwarding_rules:
-                        additionalProperties:
-                          properties:
-                            ingest:
-                              description: Ingest defines whether a metric should
-                                still be pushed to the Ingesters despite it being
-                                forwarded.
-                              type: boolean
-                          type: object
-                        description: ForwardingRules are keyed by metric names, excluding
-                          labels.
-                        type: object
                       ha_cluster_label:
                         type: string
                       ha_max_clusters:
@@ -166,6 +822,8 @@ spec:
                         type: string
                       max_metadata_length:
                         type: integer
+                      max_native_histogram_buckets:
+                        type: integer
                       max_partial_query_length:
                         pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
                         type: string
@@ -182,22 +840,82 @@ spec:
                         description: Query-frontend limits.
                         pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
                         type: string
+                      metric_relabel_configs:
+                        items:
+                          properties:
+                            action:
+                              default: replace
+                              description: Action is the action to be performed for
+                                the relabeling.
+                              enum:
+                              - replace
+                              - Replace
+                              - keep
+                              - Keep
+                              - drop
+                              - Drop
+                              - hashmod
+                              - HashMod
+                              - labelmap
+                              - LabelMap
+                              - labeldrop
+                              - LabelDrop
+                              - labelkeep
+                              - LabelKeep
+                              - lowercase
+                              - Lowercase
+                              - uppercase
+                              - Uppercase
+                              - keepequal
+                              - KeepEqual
+                              - dropequal
+                              - DropEqual
+                              type: string
+                            modulus:
+                              description: Modulus to take of the hash of concatenated
+                                values from the source labels.
+                              format: int64
+                              type: integer
+                            regex:
+                              description: Regex against which the concatenation is
+                                matched.
+                              type: string
+                            replacement:
+                              description: Replacement is the regex replacement pattern
+                                to be used.
+                              type: string
+                            separator:
+                              description: Separator is the string between concatenated
+                                values from the source labels.
+                              type: string
+                            source_labels:
+                              description: A list of labels from which values are
+                                taken and concatenated with the configured separator
+                                in order.
+                              items:
+                                description: LabelName is a valid Prometheus label
+                                  name which may only contain ASCII letters, numbers,
+                                  as well as underscores.
+                                pattern: ^[a-zA-Z_][a-zA-Z0-9_]*$
+                                type: string
+                              type: array
+                            target_label:
+                              description: TargetLabel is the label to which the resulting
+                                string is written in a replacement. Regexp interpolation
+                                is allowed for the replace action.
+                              type: string
+                          type: object
+                        type: array
                       native_histograms_ingestion_enabled:
                         description: Native histograms
                         type: boolean
                       out_of_order_blocks_external_label_enabled:
                         type: boolean
                       out_of_order_time_window:
-                        description: 'Active series custom trackers TODO: re-enable
-                          once fixed ActiveSeriesCustomTrackersConfig CustomTrackersConfig
-                          `yaml:"active_series_custom_trackers,omitempty" json:"active_series_custom_trackers,omitempty"
-                          doc:"description=Additional custom trackers for active metrics.
-                          If there are active series matching a provided matcher (map
-                          value), the count will be exposed in the custom trackers
-                          metric labeled using the tracker name (map key). Zero valued
-                          counts are not exposed (and removed when they go back to
-                          zero)." category:"advanced"` Max allowed time window for
-                          out-of-order samples.'
+                        description: Max allowed time window for out-of-order samples.
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      query_ingesters_within:
                         pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
                         type: string
                       query_sharding_max_regexp_size_bytes:
@@ -214,6 +932,12 @@ spec:
                       results_cache_ttl:
                         pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
                         type: string
+                      results_cache_ttl_for_cardinality_query:
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      results_cache_ttl_for_labels_query:
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
                       results_cache_ttl_for_out_of_order_time_window:
                         pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
                         type: string
@@ -228,6 +952,8 @@ spec:
                       ruler_max_rules_per_rule_group:
                         type: integer
                       ruler_recording_rules_evaluation_enabled:
+                        type: boolean
+                      ruler_sync_rules_on_changes_enabled:
                         type: boolean
                       ruler_tenant_shard_size:
                         type: integer
@@ -249,6 +975,171 @@ spec:
                         type: string
                       store_gateway_tenant_shard_size:
                         description: Store-gateway.
+                        type: integer
+                    type: object
+                  tempo:
+                    properties:
+                      block_retention:
+                        description: Compactor enforced limits.
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      forwarders:
+                        description: Forwarders
+                        items:
+                          type: string
+                        type: array
+                      ingestion_burst_size_bytes:
+                        type: integer
+                      ingestion_rate_limit_bytes:
+                        type: integer
+                      ingestion_rate_strategy:
+                        description: Distributor enforced limits.
+                        type: string
+                      max_blocks_per_tag_values_query:
+                        type: integer
+                      max_bytes_per_tag_values_query:
+                        description: Querier and Ingester enforced limits.
+                        type: integer
+                      max_bytes_per_trace:
+                        description: MaxBytesPerTrace is enforced in the Ingester,
+                          Compactor, Querier (Search) and Serverless (Search). It
+                          is not used when doing a trace by id lookup.
+                        type: integer
+                      max_global_traces_per_user:
+                        type: integer
+                      max_search_duration:
+                        description: QueryFrontend enforced limits
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      max_traces_per_user:
+                        description: Ingester enforced limits.
+                        type: integer
+                      metrics_generator_collection_interval:
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      metrics_generator_disable_collection:
+                        type: boolean
+                      metrics_generator_forwarder_queue_size:
+                        type: integer
+                      metrics_generator_forwarder_workers:
+                        type: integer
+                      metrics_generator_max_active_series:
+                        format: int32
+                        type: integer
+                      metrics_generator_processor_local_blocks_complete_block_timeout:
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      metrics_generator_processor_local_blocks_flush_check_period:
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      metrics_generator_processor_local_blocks_max_block_bytes:
+                        format: int64
+                        type: integer
+                      metrics_generator_processor_local_blocks_max_block_duration:
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      metrics_generator_processor_local_blocks_max_live_traces:
+                        format: int64
+                        type: integer
+                      metrics_generator_processor_local_blocks_trace_idle_period:
+                        pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+                        type: string
+                      metrics_generator_processor_service_graphs_dimensions:
+                        items:
+                          type: string
+                        type: array
+                      metrics_generator_processor_service_graphs_enable_client_server_prefix:
+                        type: boolean
+                      metrics_generator_processor_service_graphs_histogram_buckets:
+                        items:
+                          type: number
+                        type: array
+                      metrics_generator_processor_service_graphs_peer_attributes:
+                        items:
+                          type: string
+                        type: array
+                      metrics_generator_processor_span_metrics_dimension_mapings:
+                        items:
+                          properties:
+                            join:
+                              type: string
+                            name:
+                              type: string
+                            source_labels:
+                              items:
+                                type: string
+                              type: array
+                          type: object
+                        type: array
+                      metrics_generator_processor_span_metrics_dimensions:
+                        items:
+                          type: string
+                        type: array
+                      metrics_generator_processor_span_metrics_enable_target_info:
+                        type: boolean
+                      metrics_generator_processor_span_metrics_filter_policies:
+                        items:
+                          properties:
+                            exclude:
+                              properties:
+                                attributes:
+                                  items:
+                                    properties:
+                                      key:
+                                        type: string
+                                      value:
+                                        type: object
+                                        x-kubernetes-preserve-unknown-fields: true
+                                    required:
+                                    - key
+                                    - value
+                                    type: object
+                                  type: array
+                                match_type:
+                                  enum:
+                                  - strict
+                                  - regex
+                                  type: string
+                              type: object
+                            include:
+                              properties:
+                                attributes:
+                                  items:
+                                    properties:
+                                      key:
+                                        type: string
+                                      value:
+                                        type: object
+                                        x-kubernetes-preserve-unknown-fields: true
+                                    required:
+                                    - key
+                                    - value
+                                    type: object
+                                  type: array
+                                match_type:
+                                  enum:
+                                  - strict
+                                  - regex
+                                  type: string
+                              type: object
+                          type: object
+                        type: array
+                      metrics_generator_processor_span_metrics_histogram_buckets:
+                        items:
+                          type: number
+                        type: array
+                      metrics_generator_processor_span_metrics_intrinsic_dimensions:
+                        additionalProperties:
+                          type: boolean
+                        type: object
+                      metrics_generator_processors:
+                        description: 'TODO: ensure the list only contains service-graphs
+                          and span-metrics'
+                        items:
+                          type: string
+                        type: array
+                      metrics_generator_ring_size:
+                        description: Metrics-generator config
                         type: integer
                     type: object
                 type: object

@@ -5,7 +5,7 @@ backend:
     repository: ghcr.io/pluralsh/trace-shield/backend
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: 0.6.1
+    tag: 0.7.0
 
   imagePullSecrets: []
   nameOverride: ""
@@ -71,7 +71,7 @@ frontend:
     repository: ghcr.io/pluralsh/trace-shield/frontend
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: 0.6.1
+    tag: 0.7.0
 
   imagePullSecrets: []
   nameOverride: ""
@@ -135,7 +135,7 @@ controller:
     repository: ghcr.io/pluralsh/trace-shield-controller
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: 0.1.1
+    tag: 0.3.24
 
   imagePullSecrets: []
   nameOverride: ""
@@ -301,8 +301,8 @@ postgresKeto:
 oathkeeper:
   enabled: true
   image:
-    repository: davidspek/oathkeeper
-    tag: 0.40.2-fix-noop-mutator-2-tracing-0
+    repository: oryd/oathkeeper
+    tag: v0.40.4
   # sidecar:
   #   image:
   #     repository: oryd/oathkeeper-maester
@@ -454,7 +454,7 @@ oathkeeper:
           config:
             introspection_url: http://trace-shield-hydra-admin:4445/admin/oauth2/introspect
             # scope_strategy: exact
-        
+
         oauth2_client_credentials:
           enabled: true
           config:
@@ -554,7 +554,7 @@ kratos:
   enabled: true
   image:
     repository: oryd/kratos
-    tag: v0.13.0
+    tag: v1.0.0
   secret:
     enabled: false
   ingress:
@@ -569,7 +569,7 @@ kratos:
         nginx.ingress.kubernetes.io/rewrite-target: /$1
       hosts:
         - host: trace-shield.az.onplural.sh
-          paths: 
+          paths:
             - path: /.ory/kratos/public/(.*)
               pathType: Prefix
       tls:
@@ -723,6 +723,9 @@ hydra:
   enabled: true
   secret:
     enabled: false
+  image:
+    repository: oryd/hydra
+    tag: v2.1.1
 
   maester:
     enabled: false
@@ -762,7 +765,7 @@ hydra:
         secretKeyRef:
           name: trace-shield-hydra
           key: dsn
-    
+
   ingress:
     public:
       enabled: true
@@ -815,7 +818,7 @@ kratos-selfservice-ui-node:
       #   proxy_set_header X-Forwarded-Uri $request_uri;
     hosts:
       - host: trace-shield.az.onplural.sh
-        paths: 
+        paths:
           - path: /demo-frontend/.*
             pathType: Prefix
     tls:
