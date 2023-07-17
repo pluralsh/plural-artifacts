@@ -6,9 +6,13 @@ data "azurerm_kubernetes_cluster" "cluster" {
 }
 
 data "azurerm_resource_group" "group" {
-  count = var.cluster_api ? 0 : 1
-
   name = var.resource_group
+}
+
+resource "azurerm_user_assigned_identity" "msi" {
+  name                = "plural"
+  resource_group_name = data.azurerm_resource_group.group.name
+  location            = data.azurerm_resource_group.group.location
 }
 
 module "network" {
@@ -17,7 +21,7 @@ module "network" {
   source = "github.com/pluralsh/terraform-azurerm-network?ref=plural"
 
   vnet_name           = var.network_name
-  resource_group_name = one(data.azurerm_resource_group.group[*].name)
+  resource_group_name = data.azurerm_resource_group.group.name
   address_space       = var.address_space
   subnet_prefixes     = var.subnet_prefixes
   subnet_names        = [var.subnet_name]
@@ -29,7 +33,7 @@ module "aks" {
 
   source = "github.com/pluralsh/terraform-azurerm-aks?ref=ea5c22775e0352ef6fe7a9abe2d94306029b6a6e" # branch auto-scaler-profile
 
-  resource_group_name              = one(data.azurerm_resource_group.group[*].name)
+  resource_group_name              = data.azurerm_resource_group.group.name
   kubernetes_version               = var.kubernetes_version
   orchestrator_version             = var.kubernetes_version
   prefix                           = var.name
@@ -41,7 +45,7 @@ module "aks" {
   enable_role_based_access_control = true
   rbac_aad_enabled                 = false 
   rbac_aad_managed                 = false
-  location                         = one(data.azurerm_resource_group.group[*].location)
+  location                         = data.azurerm_resource_group.group.location
   sku_tier                         = "Paid"
   private_cluster_enabled          = var.private_cluster
   enable_http_application_routing  = false
@@ -112,7 +116,7 @@ data "azurerm_resource_group" "node_group" {
 resource "azurerm_role_assignment" "aks-managed-identity" {
   count = var.cluster_api ? 0 : 1
 
-  scope                = one(data.azurerm_resource_group.group[*].id)
+  scope                = data.azurerm_resource_group.group.id
   role_definition_name = "Managed Identity Operator"
   principal_id         = one(module.aks[*].kubelet_identity[0].object_id)
 
@@ -142,7 +146,7 @@ resource "azurerm_role_assignment" "aks-network-identity-ssi" {
 resource "azurerm_role_assignment" "aks-vm-contributor" {
   count = var.cluster_api ? 0 : 1
 
-  scope                = one(data.azurerm_resource_group.group[*].id)
+  scope                = data.azurerm_resource_group.group.id
   role_definition_name = "Virtual Machine Contributor"
   principal_id         = one(module.aks[*].kubelet_identity[0].object_id)
 

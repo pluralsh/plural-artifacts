@@ -16,6 +16,7 @@ spec:
     cluster: cluster
     network: network
     kubelet_msi_id: kubelet_msi_id
+    plural_msi: plural_msi
     node_resource_group: node_resource_group
   provider_wirings:
     cluster: module.azure-bootstrap-cluster-api.cluster
