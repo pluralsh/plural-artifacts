@@ -56,7 +56,7 @@ spec:
             value: {{ .Values.config.artifact.aws.bucketUri }}
             {{- else if .Values.config.artifact.gcp.enabled }}
             value: {{ .Values.config.artifact.gcp.bucketUri }}
-            {{-end -}}
+            {{- end }}
           - name: POSTGRES_USERNAME
             valueFrom:
               secretKeyRef:
