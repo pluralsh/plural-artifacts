@@ -17,6 +17,10 @@ spec:
     name: knative-serving
     repo: knative
     version: '>= 0.1.24'
+  - type: helm
+    name: serving
+    repo: kubeflow
+    version: '>= 1.0.0'
   - type: terraform
     name: aws
     repo: kserve
