@@ -49,27 +49,29 @@ spec:
           - --port
           - "5000"
           env:
-          - name: ARTIFACT_ROOT
-            {{- if .Values.config.artifact.azure }}
-            value: wasbs://{{ .Values.config.artifact.azure.accountName }}@{{ .Values.config.artifact.azure.container }}.blob.core.windows.net/
-            {{- else if .Values.config.artifact.aws }}
-            value: {{ .Values.config.artifact.aws.bucketUri }}
-            {{- else if .Values.config.artifact.gcp }}
-            value: {{ .Values.config.artifact.gcp.bucketUri }}
+            - name: POSTGRES_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.config.database.credentials.secretName }}
+                  key: {{ .Values.config.database.credentials.userKey }}
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.config.database.credentials.secretName }}
+                  key: {{ .Values.config.database.credentials.passwordKey }}
+            - name: BACKEND_STORE_URI
+              value: postgresql://$(POSTGRES_USERNAME):$(POSTGRES_PASSWORD)@{{ .Values.config.database.host }}:{{ .Values.config.database.port }}/{{ .Values.config.database.dbname }}
+            {{- if eq .Values.config.artifact.type "azure" }}
+            - name: ARTIFACT_ROOT
+              value: "wasbs://{{ .Values.config.artifact.azure.accountName }}@{{ .Values.config.artifact.azure.container }}.blob.core.windows.net/"
+            {{- else if eq .Values.config.artifact.type "aws" }}
+            - name: ARTIFACT_ROOT
+              value: {{ .Values.config.artifact.aws.bucketUri }}
+            {{- else if or (eq .Values.config.artifact.type "gcp") (eq .Values.config.artifact.type "google") }}
+            - name: ARTIFACT_ROOT
+              value: {{ .Values.config.artifact.gcp.bucketUri }}
             {{- end }}
-          - name: POSTGRES_USERNAME
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.config.database.credentials.secretName }}
-                key: {{ .Values.config.database.credentials.userKey }}
-          - name: POSTGRES_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.config.database.credentials.secretName }}
-                key: {{ .Values.config.database.credentials.passwordKey }}
           {{- if .Values.config.artifact.azure }}
-          - name: BACKEND_STORE_URI
-            value: postgresql://$(POSTGRES_USERNAME):$(POSTGRES_PASSWORD)@{{ .Values.config.database.host }}:{{ .Values.config.database.port }}/{{ .Values.config.database.dbname }}
           envFrom:
           - secretRef:
               name: {{ .Values.config.artifact.azure.existingSecret }}

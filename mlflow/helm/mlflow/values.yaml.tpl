@@ -1,10 +1,6 @@
+{{ $isAws := eq .Provider "aws" }}
 {{ $isGcp := or (eq .Provider "google") (eq .Provider "gcp") }}
-{{ $isAz := or (eq .Provider "azure") (eq .Provider "azure") }}
-global:
-  application:
-    links:
-    - description: mlflow web ui
-      url: {{ .Values.hostname }}
+{{ $isAz := or (eq .Provider "azure") }}
 
 {{ if .OIDC }}
 podLabels:
@@ -31,17 +27,19 @@ oidc-config:
 ingress:
   enabled: true
   hosts:
-    - host: {{ .Values.hostname }}
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
+  - host: {{ .Values.hostname }}
+    paths:
+    - path: /
+      pathType: ImplementationSpecific
   tls:
-    - secretName: mlflow-standalone-tls
-      hosts:
-        - {{ .Values.hostname }}
+  - secretName: mlflow-tls
+    hosts:
+    - {{ .Values.hostname }}
+
 config:
   artifact:
-    {{- if eq .Provider "aws" }}
+    type: {{ .Provider }}
+    {{- if $isAws }}
     aws:
       bucketUri: s3://{{ .Values.mlflow_bucket }}/
     {{- else if $isGcp }}
@@ -54,16 +52,12 @@ config:
       existingSecret: mlflow-azure-secret
     {{- end }}
 
-{{- if eq .Provider "aws" }}
-{{- end }}
-
-{{- if eq .Provider "aws" }}
+{{ if $isAws }}
 serviceAccount:
   annotations:
     eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-mlflow"
-{{- end }}
-{{- if $isGcp }}
+{{ else if $isGcp }}
 serviceAccount:
   annotations:
     iam.gke.io/gcp-service-account: {{ importValue "Terraform" "service_account_email" }}
-{{- end }}
+{{ end }}
