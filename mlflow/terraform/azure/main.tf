@@ -19,7 +19,7 @@ data "azurerm_storage_account" "main" {
 }
 
 resource "azurerm_storage_container" "mlflow" {
-  name                  = var.bucket
+  name                  = var.mlflow_bucket
   storage_account_name  = data.azurerm_storage_account.main.name
   container_access_type = "private"
 }
