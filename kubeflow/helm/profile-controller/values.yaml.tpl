@@ -3,11 +3,13 @@ config:
     clusterName: {{ .Cluster }}
     {{- if eq .Provider "google"}}
     provider: GCP
-    {{- else if eq .Provider "aws" }}
+    {{- else }}
     provider: {{ upper .Provider }}
+    {{ end }}
     providerConfig:
       accountID: {{ .Project | quote }}
       region: {{ .Region }}
+    {{ if eq .Provider "aws" }}
       clusterOIDCIssuer: {{ importValue "Terraform" "oidc_issuer_url" }}
     {{- end }}
     storage:
