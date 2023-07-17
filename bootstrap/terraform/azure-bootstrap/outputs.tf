@@ -3,6 +3,10 @@ output "cluster" {
   sensitive = true
 }
 
+output "plural_msi" {
+  value = azurerm_user_assigned_identity.msi
+}
+
 output "kubelet_msi_id" {
   value = module.aks.kubelet_identity[0].client_id
 }

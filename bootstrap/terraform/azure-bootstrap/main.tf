@@ -2,6 +2,12 @@ data "azurerm_resource_group" "group" {
   name = var.resource_group
 }
 
+resource "azurerm_user_assigned_identity" "msi" {
+  name                = "plural"
+  resource_group_name = data.azurerm_resource_group.group.name
+  location            = data.azurerm_resource_group.group.location
+}
+
 module "network" {
   source              = "github.com/pluralsh/terraform-azurerm-network?ref=plural"
 
