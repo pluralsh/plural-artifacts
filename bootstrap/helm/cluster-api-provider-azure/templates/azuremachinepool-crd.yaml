@@ -424,7 +424,7 @@ spec:
                         description: DiffDiskSettings describe ephemeral disk settings for the os disk.
                         properties:
                           option:
-                            description: Option enables ephemeral OS when set to "Local" See https://docs.microsoft.com/en-us/azure/virtual-machines/ephemeral-os-disks for full details
+                            description: Option enables ephemeral OS when set to "Local" See https://learn.microsoft.com/azure/virtual-machines/ephemeral-os-disks for full details
                             enum:
                             - Local
                             type: string
@@ -550,14 +550,14 @@ spec:
                       type: object
                     type: array
                   vmSize:
-                    description: VMSize is the size of the Virtual Machine to build. See https://docs.microsoft.com/en-us/rest/api/compute/virtualmachines/createorupdate#virtualmachinesizetypes
+                    description: VMSize is the size of the Virtual Machine to build. See https://learn.microsoft.com/rest/api/compute/virtualmachines/createorupdate#virtualmachinesizetypes
                     type: string
                 required:
                 - osDisk
                 - vmSize
                 type: object
               userAssignedIdentities:
-                description: UserAssignedIdentities is a list of standalone Azure identities provided by the user The lifecycle of a user-assigned identity is managed separately from the lifecycle of the AzureMachinePool. See https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/how-to-manage-ua-identity-cli
+                description: UserAssignedIdentities is a list of standalone Azure identities provided by the user The lifecycle of a user-assigned identity is managed separately from the lifecycle of the AzureMachinePool. See https://learn.microsoft.com/azure/active-directory/managed-identities-azure-resources/how-to-manage-ua-identity-cli
                 items:
                   description: UserAssignedIdentity defines the user-assigned identities provided by the user to be assigned to Azure resources.
                   properties:

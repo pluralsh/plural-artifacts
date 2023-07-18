@@ -1,4 +1,4 @@
-AZURE_VERSION=v1.9.12
+AZURE_VERSION=v1.9.13
 
 azure:
 # Clean current CRDs
