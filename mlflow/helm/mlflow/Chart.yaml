@@ -2,8 +2,8 @@ apiVersion: v2
 name: mlflow
 description: helm chart for mlflow
 type: application
-version: 0.1.15
-appVersion: "v2.3.2"
+version: 0.1.16
+appVersion: "v2.5.0"
 dependencies:
 - name: postgres
   version: 0.2.1
