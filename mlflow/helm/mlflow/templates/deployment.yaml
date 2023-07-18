@@ -63,7 +63,19 @@ spec:
               value: postgresql://$(POSTGRES_USERNAME):$(POSTGRES_PASSWORD)@{{ .Values.config.database.host }}:{{ .Values.config.database.port }}/{{ .Values.config.database.dbname }}
             {{- if eq .Values.config.artifact.type "azure" }}
             - name: ARTIFACT_ROOT
-              value: "wasbs://{{ .Values.config.artifact.azure.accountName }}@{{ .Values.config.artifact.azure.container }}.blob.core.windows.net/"
+              value: "wasbs://{{ .Values.config.artifact.azure.container }}@{{ .Values.config.artifact.azure.accountName }}.blob.core.windows.net/artifacts"
+            - name: AZURE_STORAGE_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: mlflow-azure-secret
+                  key: AZURE_STORAGE_ACCESS_KEY
+            - name: AZURE_STORAGE_ACCOUNT
+              valueFrom:
+                secretKeyRef:
+                  name: mlflow-azure-secret
+                  key: AZURE_STORAGE_ACCOUNT
+            - name: AZURE_STORAGE_CONNECTION_STRING
+              value: DefaultEndpointsProtocol=https;AccountName=$(AZURE_STORAGE_ACCOUNT);AccountKey=$(AZURE_STORAGE_ACCESS_KEY);EndpointSuffix=core.windows.net
             {{- else if eq .Values.config.artifact.type "aws" }}
             - name: ARTIFACT_ROOT
               value: {{ .Values.config.artifact.aws.bucketUri }}
@@ -71,11 +83,6 @@ spec:
             - name: ARTIFACT_ROOT
               value: {{ .Values.config.artifact.gcp.bucketUri }}
             {{- end }}
-          {{- if .Values.config.artifact.azure }}
-          envFrom:
-          - secretRef:
-              name: {{ .Values.config.artifact.azure.existingSecret }}
-          {{- end }}
           ports:
             - name: http
               containerPort: 5000

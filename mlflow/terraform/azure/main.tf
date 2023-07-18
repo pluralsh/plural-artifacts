@@ -24,7 +24,7 @@ resource "azurerm_storage_container" "mlflow" {
   container_access_type = "private"
 }
 
-resource "kubernetes_secret" "harbor_mlflow_secret" {
+resource "kubernetes_secret" "mlflow_azure_secret" {
   metadata {
     name      = "mlflow-azure-secret"
     namespace = kubernetes_namespace.mlflow.id
