@@ -18,7 +18,7 @@ cluster:
   kubernetesVersion: v1.24.10
   azure:
     clientID: {{ .Context.ClientId }}
-    clientSecret: {{ .Context.ClientSecret }}
+    resourceID: {{ .Context.ResourceId }}
     tenantID: {{ .Context.TenantId }}
     subscriptionID: {{ .Context.SubscriptionId }}
     location: {{ .Region }}
