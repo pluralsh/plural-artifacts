@@ -5,5 +5,11 @@ dependencies:
 - name: oidc-config
   repository: https://pluralsh.github.io/module-library
   version: 0.1.6
-digest: sha256:1935a02d89057ce117dc0cfe401c897dd19d15b267da1eab82bf65f022610c47
-generated: "2023-06-02T14:52:45.201676+02:00"
+- name: runbook
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.1
+- name: test-base
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.10
+digest: sha256:7794aa4b811336e8308fa18382a0d40639b6784fd59f9773b1aad574fc2db820
+generated: "2023-07-19T13:15:22.169607+02:00"
