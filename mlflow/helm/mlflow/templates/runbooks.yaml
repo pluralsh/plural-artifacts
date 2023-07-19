@@ -1,0 +1,1 @@
+{{- include "runbook.compile.tpl" ( dict "value" .Values.runbook.mlflow "context" (dict "Chart" $.Chart "Subcharts" $.Subcharts "Release" $.Release "Template" $.Template "Values" $.Values ) ) }}

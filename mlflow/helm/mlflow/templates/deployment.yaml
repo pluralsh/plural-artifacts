@@ -31,27 +31,10 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
-        - name: init-migrations
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command:
-          - mlflow
-          - db
-          - upgrade
-          - $(BACKEND_STORE_URI)
-          env:
-          - name: POSTGRES_USERNAME
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.config.database.credentials.secretName }}
-                key: {{ .Values.config.database.credentials.userKey }}
-          - name: POSTGRES_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.config.database.credentials.secretName }}
-                key: {{ .Values.config.database.credentials.passwordKey }}
-          - name: BACKEND_STORE_URI
-            value: postgresql://$(POSTGRES_USERNAME):$(POSTGRES_PASSWORD)@{{ .Values.config.database.host }}:{{ .Values.config.database.port }}/{{ .Values.config.database.dbname }}
+        - name: wait-for-postgres
+          image: "{{ .Values.initContainer.image.repository }}:{{ .Values.initContainer.image.tag }}"
+          imagePullPolicy: {{ .Values.initContainer.image.pullPolicy }}
+          command: [ "/bin/sh", "-c", "until nc -zv {{ .Values.config.database.host }} {{ .Values.config.database.port }} -w5; do echo 'waiting for db'; sleep 5; done" ]
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -71,29 +54,55 @@ spec:
           - --port
           - "5000"
           env:
-          - name: ARTIFACT_ROOT
-            value: {{ .Values.config.artifact.defaultArtifactRoot }}
-          - name: POSTGRES_USERNAME
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.config.database.credentials.secretName }}
-                key: {{ .Values.config.database.credentials.userKey }}
-          - name: POSTGRES_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.config.database.credentials.secretName }}
-                key: {{ .Values.config.database.credentials.passwordKey }}
-          - name: BACKEND_STORE_URI
-            value: postgresql://$(POSTGRES_USERNAME):$(POSTGRES_PASSWORD)@{{ .Values.config.database.host }}:{{ .Values.config.database.port }}/{{ .Values.config.database.dbname }}
+            - name: POSTGRES_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.config.database.credentials.secretName }}
+                  key: {{ .Values.config.database.credentials.userKey }}
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.config.database.credentials.secretName }}
+                  key: {{ .Values.config.database.credentials.passwordKey }}
+            - name: BACKEND_STORE_URI
+              value: postgresql://$(POSTGRES_USERNAME):$(POSTGRES_PASSWORD)@{{ .Values.config.database.host }}:{{ .Values.config.database.port }}/{{ .Values.config.database.dbname }}
+            {{- if eq .Values.config.artifact.type "azure" }}
+            - name: ARTIFACT_ROOT
+              value: "wasbs://{{ .Values.config.artifact.azure.container }}@{{ .Values.config.artifact.azure.accountName }}.blob.core.windows.net/artifacts"
+            - name: AZURE_STORAGE_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: mlflow-azure-secret
+                  key: AZURE_STORAGE_ACCESS_KEY
+            - name: AZURE_STORAGE_ACCOUNT
+              valueFrom:
+                secretKeyRef:
+                  name: mlflow-azure-secret
+                  key: AZURE_STORAGE_ACCOUNT
+            - name: AZURE_STORAGE_CONNECTION_STRING
+              value: DefaultEndpointsProtocol=https;AccountName=$(AZURE_STORAGE_ACCOUNT);AccountKey=$(AZURE_STORAGE_ACCESS_KEY);EndpointSuffix=core.windows.net
+            {{- else if eq .Values.config.artifact.type "aws" }}
+            - name: ARTIFACT_ROOT
+              value: {{ .Values.config.artifact.aws.bucketUri }}
+            {{- else if or (eq .Values.config.artifact.type "gcp") (eq .Values.config.artifact.type "google") }}
+            - name: ARTIFACT_ROOT
+              value: {{ .Values.config.artifact.gcp.bucketUri }}
+            {{- end }}
           ports:
             - name: http
               containerPort: 5000
               protocol: TCP
           livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 45
+            periodSeconds: 60
             httpGet:
               path: /
               port: http
           readinessProbe:
+            failureThreshold: 5
+            initialDelaySeconds: 2
+            periodSeconds: 5
             httpGet:
               path: /
               port: http

@@ -4,6 +4,7 @@ metadata:
   application: true
   description: Deploys mlflow crafted for the target cloud
 spec:
+  breaking: false
   dependencies:
   - type: helm
     name: bootstrap
@@ -16,7 +17,7 @@ spec:
   - type: helm
     name: postgres
     repo: postgres
-    version: ">= 0.1.6"
+    version: ">= 0.2.13"
   - type: terraform
     name: aws
     repo: mlflow

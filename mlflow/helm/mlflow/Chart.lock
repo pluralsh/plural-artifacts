@@ -1,9 +1,15 @@
 dependencies:
 - name: postgres
   repository: https://pluralsh.github.io/module-library
-  version: 0.1.10
+  version: 0.2.1
 - name: oidc-config
   repository: https://pluralsh.github.io/module-library
   version: 0.1.6
-digest: sha256:9d13157c887d8d240bc7b805ec3cc69465671d9f2844ae35cc9640905064418b
-generated: "2022-10-21T15:35:21.45383+02:00"
+- name: runbook
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.1
+- name: test-base
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.10
+digest: sha256:7794aa4b811336e8308fa18382a0d40639b6784fd59f9773b1aad574fc2db820
+generated: "2023-07-19T13:15:22.169607+02:00"

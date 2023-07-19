@@ -1,6 +1,0 @@
-dependencies:
-- name: oidc-config
-  repository: https://pluralsh.github.io/module-library
-  version: 0.1.6
-digest: sha256:7954c988414a1ac91cbe65edba1d0de9070dd0d62b00eae0f3e28ea60019ac7e
-generated: "2022-06-13T21:31:21.396656+02:00"
