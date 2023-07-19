@@ -167,6 +167,7 @@ cluster:
     # One of: loadBalancer, managedNATGateway, userAssignedNATGateway, userDefinedRouting.
     outboundType: ""
     # String literal containing an SSH public key base64 encoded.
+    # Use empty string to autogenerate new key. Use null value to not set key.
     sshPublicKey: ""
     # DNSServiceIP is an IP address assigned to the Kubernetes DNS service.
     # It must be within the Kubernetes service address range specified in serviceCidr.
