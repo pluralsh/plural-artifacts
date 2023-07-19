@@ -27,7 +27,7 @@ redis:
 n8n:
   image:
     repository: dkr.plural.sh/n8n/n8nio/n8n
-    tag: 0.224.1
+    tag: 0.236.3
   extraEnvSecrets:
     DB_POSTGRESDB_PASSWORD:
       name: n8n.plural-n8n.credentials.postgresql.acid.zalan.do
@@ -72,3 +72,11 @@ database:
   secret: n8n.plural-n8n.credentials.postgresql.acid.zalan.do
   host: n8n-master
   port: "5432"
+
+test-base:
+  enabled: false
+  application: n8n
+  testName: n8n-integration
+  promoteTag: stable
+  tags:
+  - 0.236.3

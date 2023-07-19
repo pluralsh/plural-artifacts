@@ -8,5 +8,8 @@ dependencies:
 - name: n8n
   repository: file://../../../../n8n-helm-chart
   version: 0.10.0
-digest: sha256:fb88ddd868a26097e583a98cdf9f0d2d3cb6f89557e97182635c11f7a20623df
-generated: "2023-04-17T16:37:07.926931-04:00"
+- name: test-base
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.10
+digest: sha256:fc3a9af8f0ee854b2a4b489f2f4d171b5ba42145c9e1fea7f4fe4a8fdbf64582
+generated: "2023-07-19T09:15:52.357311-04:00"
