@@ -93,3 +93,11 @@ runbook:
         path: mlflow
         prometheus:
           podRegexTpl: "{{ include \"mlflow.fullname\" $ }}-.*"
+
+test-base:
+  enabled: false
+  application: mlflow
+  testName: mlflow-integration
+  promoteTag: stable
+  tags:
+  - 2.5.0
