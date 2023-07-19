@@ -1,42 +1,18 @@
-# Default values for mlflow.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
 replicaCount: 1
 
 image:
   repository: dkr.plural.sh/mlflow/mlflow/mlflow
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
   tag: v2.5.0-plural1.4.0
 
-imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
+initContainer:
+  image:
+    repository: gcr.io/pluralsh/library/busybox
+    pullPolicy: IfNotPresent
+    tag: 1.36.1
 
 serviceAccount:
-  # Specifies whether a service account should be created
   create: true
-  # Annotations to add to the service account
-  annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
-  name: ""
-
-podAnnotations: {}
-
-podLabels: {}
-
-podSecurityContext: {}
-  # fsGroup: 2000
-
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
 
 service:
   type: ClusterIP
@@ -50,17 +26,10 @@ ingress:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
 
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+resources:
+  requests:
+    cpu: 50m
+    memory: 400Mi
 
 autoscaling:
   enabled: false
@@ -92,6 +61,14 @@ postgres:
   dbName: mlflow
   ownerChart: mlflow
   infix: ""
+  resources:
+    requests:
+      cpu: 100m
+      memory: 100Mi
+    limits:
+      cpu: '2'
+      memory: 1Gi
+
 
 config:
   artifact: {} # filled in template
@@ -103,3 +80,16 @@ config:
     host: plural-mlflow
     port: '5432'
     dbname: mlflow
+
+runbook:
+  mlflow:
+    description: "Runbook for MLFlow"
+    labels: "{{ include \"mlflow.labels\" $ }}"
+    runbookName: "mlflow"
+    components:
+      server:
+        resourceNameTpl: "{{ include \"mlflow.fullname\" $ }}"
+        kind: deployment
+        path: mlflow
+        prometheus:
+          podRegexTpl: "{{ include \"mlflow.fullname\" $ }}-.*"
