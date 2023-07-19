@@ -8,10 +8,10 @@ sections:
   - name: bootstrap
     configuration:
       - name: client_id
-        documentation: Azure client ID for the User Assigned MSI resource
+        documentation: Service principal client ID
         type: STRING
-      - name: resource_id
-        documentation: Azure resource ID for the User Assigned MSI resource
+      - name: client_secret
+        documentation: Service principal password
         type: STRING
     items:
       - type: TERRAFORM

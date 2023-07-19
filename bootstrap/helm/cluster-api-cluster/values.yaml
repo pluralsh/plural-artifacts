@@ -124,7 +124,7 @@ cluster:
     clusterIdentityName: cluster-identity
     # Type of Azure Identity used.
     # One of: ServicePrincipal, ServicePrincipalCertificate, UserAssignedMSI, ManualServicePrincipal.
-    clusterIdentityType: UserAssignedMSI
+    clusterIdentityType: ServicePrincipal
     # Used to identify the namespaces the clusters are allowed to use the identity from.
     # Namespaces can be selected either using an array of namespaces or with label selector.
     # An empty allowedNamespaces object indicates that AzureClusters can use this identity from any namespace.
@@ -136,7 +136,7 @@ cluster:
     # Service Principal password.
     clientSecret: ""
     # Name of Secret containing clientSecret.
-    clientSecretName: ""
+    clientSecretName: cluster-identity-secret
     # Azure resource ID for the User Assigned MSI resource.
     resourceID: ""
     # Service Principal primary tenant ID.
