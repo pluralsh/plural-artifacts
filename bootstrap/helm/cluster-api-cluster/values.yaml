@@ -1,4 +1,4 @@
-provider: ""
+provider: azure
 ## managed or unmanaged, currently only managed is supported
 type: managed
 
@@ -167,8 +167,9 @@ cluster:
     # One of: loadBalancer, managedNATGateway, userAssignedNATGateway, userDefinedRouting.
     outboundType: ""
     # String literal containing an SSH public key base64 encoded.
-    # Use empty string to autogenerate new key. Use null value to not set key.
-    sshPublicKey: ""
+    # Use empty string ('""' as in the template we are not using quote function) to autogenerate new key.
+    # Use null (comment or set to "") value to not set key.
+    sshPublicKey: '""'
     # DNSServiceIP is an IP address assigned to the Kubernetes DNS service.
     # It must be within the Kubernetes service address range specified in serviceCidr.
     dnsServiceIP: ""
