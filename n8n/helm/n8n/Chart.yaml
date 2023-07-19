@@ -2,8 +2,8 @@ apiVersion: v2
 name: n8n
 description: helm chart for n8n
 type: application
-version: 0.1.15
-appVersion: "0.213.0"
+version: 0.1.16
+appVersion: "0.236.3"
 dependencies:
 - name: postgres
   version: 0.1.17
@@ -15,4 +15,7 @@ dependencies:
 - name: n8n
   version: 0.10.0
   repository: file://../../../../n8n-helm-chart
-
+- name: test-base
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.10
+  condition: test-base.enabled
