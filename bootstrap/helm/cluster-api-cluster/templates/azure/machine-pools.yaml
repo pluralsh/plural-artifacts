@@ -54,6 +54,12 @@ spec:
   scaling:
     {{- toYaml $scaling | nindent 4 }}
   {{- end }}
+  {{- if or ($defaultVals.spec.scaleDownMode) (($values.spec | default dict).scaleDownMode) }}
+  scaleDownMode: {{ ($values.spec | default dict).scaleDownMode | default $defaultVals.spec.scaleDownMode }}
+  {{- end }}
+  {{- if or ($defaultVals.spec.spotMaxPrice) (($values.spec | default dict).spotMaxPrice) }}
+  spotMaxPrice: {{ ($values.spec | default dict).spotMaxPrice | default $defaultVals.spec.spotMaxPrice }}
+  {{- end }}
   maxPods: {{ ($values.spec | default dict).maxPods | default $defaultVals.spec.maxPods }}
   osDiskType: {{ ($values.spec | default dict).osDiskType | default $defaultVals.spec.osDiskType }}
   {{- if or ($defaultVals.spec.scaleSetPriority) (($values.spec | default dict).scaleSetPriority) }}

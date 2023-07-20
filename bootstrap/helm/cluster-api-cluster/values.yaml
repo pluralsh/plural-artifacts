@@ -498,6 +498,8 @@ workers:
         scaling:
           maxSize: 9
           minSize: 0
+        scaleDownMode: Delete
+        spotMaxPrice: -1
         sku: Standard_D8as_v5
         taints:
           - effect: NoSchedule
@@ -528,6 +530,8 @@ workers:
         scaling:
           maxSize: 9
           minSize: 0
+        scaleDownMode: Delete
+        spotMaxPrice: -1
         sku: Standard_D8as_v5
         taints:
           - effect: NoSchedule
@@ -558,6 +562,8 @@ workers:
         scaling:
           maxSize: 9
           minSize: 0
+        scaleDownMode: Delete
+        spotMaxPrice: -1
         sku: Standard_D8as_v5
         taints:
           - effect: NoSchedule
@@ -654,6 +660,8 @@ workers:
         scaling:
           maxSize: 9
           minSize: 0
+        scaleDownMode: Delete
+        spotMaxPrice: -1
         sku: Standard_D4as_v5
         taints:
           - effect: NoSchedule
@@ -684,6 +692,8 @@ workers:
         scaling:
           maxSize: 9
           minSize: 0
+        scaleDownMode: Delete
+        spotMaxPrice: -1
         sku: Standard_D4as_v5
         taints:
           - effect: NoSchedule
@@ -714,6 +724,8 @@ workers:
         scaling:
           maxSize: 9
           minSize: 0
+        scaleDownMode: Delete
+        spotMaxPrice: -1
         sku: Standard_D4as_v5
         taints:
           - effect: NoSchedule
@@ -810,6 +822,8 @@ workers:
         scaling:
           maxSize: 9
           minSize: 0
+        scaleDownMode: Delete
+        spotMaxPrice: -1
         sku: Standard_D2as_v5
         taints:
           - effect: NoSchedule
@@ -840,6 +854,8 @@ workers:
         scaling:
           maxSize: 9
           minSize: 0
+        scaleDownMode: Delete
+        spotMaxPrice: -1
         sku: Standard_D2as_v5
         taints:
           - effect: NoSchedule
@@ -870,6 +886,8 @@ workers:
         scaling:
           maxSize: 9
           minSize: 0
+        scaleDownMode: Delete
+        spotMaxPrice: -1
         sku: Standard_D2as_v5
         taints:
           - effect: NoSchedule
