@@ -353,7 +353,6 @@ workers:
         osDiskSizeGB: 50
         osDiskType: Managed
         osType: Linux
-        scaleSetPriority: Regular
         scaling:
           maxSize: 5
           minSize: 1
