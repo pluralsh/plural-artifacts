@@ -1,7 +1,7 @@
 name: mindsdb
 description: MindsDB is a Server for Artificial Intelligence Logic, enabling developers to ship AI powered systems from prototyping & experimentation to production in a fast & scalable way.
 category: DATA
-private: false3
+private: false
 releaseStatus: BETA
 icon: plural/icons/mindsdb.png
 notes: plural/notes.tpl
