@@ -14,7 +14,9 @@ spec:
   nodeResourceGroupName: {{ .Values.cluster.azure.nodeResourceGroupName }}
   subscriptionID: {{ .Values.cluster.azure.subscriptionID }}
   version: {{ .Values.cluster.kubernetesVersion }}
-  sshPublicKey: {{ .Values.cluster.azure.sshPublicKey }}
+  {{- if ne .Values.cluster.azure.sshPublicKey "skip" }}
+  sshPublicKey: {{ .Values.cluster.azure.sshPublicKey | quote }}
+  {{- end }}
   {{- with .Values.cluster.azure.virtualNetwork }}
   virtualNetwork:
     {{- toYaml . | nindent 4 }}
