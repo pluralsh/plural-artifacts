@@ -36,11 +36,11 @@ output "cluster_public_subnet_ids" {
 }
 
 output "worker_role_arn" {
-  value = module.cluster[0].worker_iam_role_arn
+  value = var.create_cluster ? module.cluster[0].worker_iam_role_arn : ""
 }
 
 output "node_groups" {
-  value = [for d in merge(module.single_az_node_groups[0].node_groups, module.multi_az_node_groups[0].node_groups): d]
+  value = try(var.create_cluster ?[for d in merge(module.single_az_node_groups[0].node_groups, module.multi_az_node_groups[0].node_groups): d]: tomap(false), {})
 }
 
 output "vpc" {
