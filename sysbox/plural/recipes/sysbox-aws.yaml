@@ -1,0 +1,17 @@
+name: sysbox-aws
+description: Installs sysbox on an aws eks cluster
+provider: AWS
+primary: true
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+
+
+sections:
+- name: sysbox
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: sysbox

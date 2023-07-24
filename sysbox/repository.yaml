@@ -1,0 +1,6 @@
+name: sysbox
+description: sysbox deployed on plural
+category: SECURITY
+private: true
+icon: plural/icons/sysbox.png
+notes: plural/notes.tpl

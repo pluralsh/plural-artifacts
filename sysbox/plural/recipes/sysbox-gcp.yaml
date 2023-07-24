@@ -1,0 +1,17 @@
+name: sysbox-gcp
+description: Installs sysbox on an aws eks cluster
+provider: GCP
+primary: true
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+
+
+sections:
+- name: sysbox
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: sysbox
