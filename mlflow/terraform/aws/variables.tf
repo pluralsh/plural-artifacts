@@ -33,3 +33,9 @@ variable "bucket_tags" {
   description = "tags to apply to the buckets"
   default     = {}
 }
+
+variable "enable_versioning" {
+  type = bool
+  description = "enable s3 object versioning"
+  default = false
+}
