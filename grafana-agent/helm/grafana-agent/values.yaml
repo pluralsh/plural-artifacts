@@ -1,6 +1,6 @@
 agent:
   # -- Enable the agent
-  enabled: true
+  enabled: false
   # -- The name of the cluster that will be added to the agent's external labels
   clusterName: ""
 
@@ -11,8 +11,8 @@ agent:
   version: ""
   pasued: false
   image:
-    repository: grafana/agent
-    tag: v0.31.3
+    repository: dkr.plural.sh/grafana-agent/grafana/agent
+    tag: v0.34.3
   imagePullSecrets: []
   storage: {}
   volumes: []
@@ -48,7 +48,7 @@ agent:
   disableSupportBundle: false
 
 metricsInstance:
-  enabled: true
+  enabled: false
   remoteWrite:
     mimir:
       url: http://mimir-nginx.mimir/api/v1/push
@@ -78,7 +78,7 @@ metricsInstance:
     #   instance: primary
 
 logInstance:
-  enabled: true
+  enabled: false
   clients:
     loki:
       url: http://loki-loki-distributed-gateway.loki/loki/api/v1/push
@@ -89,9 +89,74 @@ logInstance:
   podLogsSelector:  {}
 
 podLogs:
-  enabled: true
+  enabled: false
   pipelineStages:
     - docker: {}
+  relabelings:
+  - sourceLabels:
+      - __meta_kubernetes_pod_controller_name
+    regex: ([0-9a-z-.]+?)(-[0-9a-f]{8,10})?
+    action: replace
+    targetLabel: __tmp_controller_name
+  - sourceLabels:
+      - __meta_kubernetes_pod_label_app_kubernetes_io_name
+      - __meta_kubernetes_pod_label_app
+      - __tmp_controller_name
+      - __meta_kubernetes_pod_name
+    regex: ^;*([^;]+)(;.*)?$
+    action: replace
+    targetLabel: app
+  - sourceLabels:
+      - __meta_kubernetes_pod_label_app_kubernetes_io_instance
+      - __meta_kubernetes_pod_label_release
+    regex: ^;*([^;]+)(;.*)?$
+    action: replace
+    targetLabel: instance
+  - sourceLabels:
+      - __meta_kubernetes_pod_label_app_kubernetes_io_component
+      - __meta_kubernetes_pod_label_component
+    regex: ^;*([^;]+)(;.*)?$
+    action: replace
+    targetLabel: component
+  - action: replace
+    sourceLabels:
+    - __meta_kubernetes_pod_node_name
+    targetLabel: node_name
+  - action: replace
+    sourceLabels:
+    - __meta_kubernetes_namespace
+    targetLabel: namespace
+  - action: replace
+    replacement: $1
+    separator: /
+    sourceLabels:
+    - namespace
+    - app
+    targetLabel: job
+  - action: replace
+    sourceLabels:
+    - __meta_kubernetes_pod_name
+    targetLabel: pod
+  - action: replace
+    sourceLabels:
+    - __meta_kubernetes_pod_container_name
+    targetLabel: container
+  - action: replace
+    replacement: /var/log/pods/*$1/*.log
+    separator: /
+    sourceLabels:
+    - __meta_kubernetes_pod_uid
+    - __meta_kubernetes_pod_container_name
+    targetLabel: __path__
+  - action: replace
+    regex: true/(.*)
+    replacement: /var/log/pods/*$1/*.log
+    separator: /
+    sourceLabels:
+    - __meta_kubernetes_pod_annotationpresent_kubernetes_io_config_hash
+    - __meta_kubernetes_pod_annotation_kubernetes_io_config_hash
+    - __meta_kubernetes_pod_container_name
+    targetLabel: __path__
   namespaceSelector:
     any: true
   selector:
@@ -101,14 +166,45 @@ rbac:
   create: true
 
 
-traces:
-  enabled: true
+traces: # TODO: split this into 2 deployment to allow for tail based sampling. First deployment will be the agent with a loadbalancer exporter, second will be the collector. Waiting for https://github.com/grafana/agent/pull/4148 to be merged.
+  enabled: false
+  image:
+    registry: dkr.plural.sh
+    repository: grafana-agent/grafana/agent
+    tag: v0.34.3
   controller:
     type: deployment
   agent:
+    extraPorts:
+    - name: grpc-otlp
+      port: 4317
+      targetPort: 4317
+      protocol: "TCP"
+    - name: http-otlp
+      port: 4318
+      targetPort: 4318
+      protocol: "TCP"
+    - name: grpc-jaeger
+      port: 14250
+      targetPort: 14250
+      protocol: "TCP"
+    - name: http-jaeger
+      port: 14268
+      targetPort: 14268
+      protocol: "TCP"
+    - name: jaeger-binary
+      port: 6832
+      targetPort: 6832
+      protocol: "UDP"
+    - name: jaeger-compact
+      port: 6831
+      targetPort: 6831
+      protocol: "UDP"
     mimirHost: http://mimir-nginx.mimir
     lokiHost: http://loki-loki-distributed-gateway.loki/loki/api/v1/push
+    tempoHost: http://tempo-gateway.tempo/otlp
     lokiTenantId: ""
+    tempoTenantId: ""
     configMap:
       content: |
         logging {
@@ -132,11 +228,72 @@ traces:
           }
         }
 
+        otelcol.receiver.otlp "local" {
+          http {
+            endpoint = "0.0.0.0:4318"
+          }
+          grpc {
+            endpoint = "0.0.0.0:4317"
+          }
+
+          output {
+            metrics = [otelcol.processor.batch.local.input]
+            logs    = [otelcol.processor.batch.local.input]
+            traces  = [otelcol.processor.batch.local.input]
+          }
+        }
+
+        otelcol.receiver.jaeger "local" {
+          protocols {
+            grpc {
+              endpoint = "0.0.0.0:14250"
+            }
+            thrift_http {
+              endpoint = "0.0.0.0:14268"
+            }
+            thrift_binary {
+              endpoint = "0.0.0.0:6832"
+            }
+            thrift_compact {
+              endpoint = "0.0.0.0:6831"
+            }
+          }
+
+          output {
+            metrics = [otelcol.exporter.otlphttp.local.input]
+            logs    = [otelcol.exporter.otlphttp.local.input]
+            traces  = [otelcol.exporter.otlphttp.local.input]
+          }
+        }
+
+        otelcol.processor.batch "local" {
+          output {
+            metrics = [otelcol.exporter.otlphttp.local.input]
+            logs    = [otelcol.exporter.otlphttp.local.input]
+            traces  = [otelcol.exporter.otlphttp.local.input]
+          }
+        }
+
+        otelcol.exporter.otlphttp "local" {
+          client {
+            endpoint = {{ .Values.agent.tempoHost | quote }}
+            auth     = otelcol.auth.headers.local.handler
+          }
+        }
+
+        otelcol.auth.headers "local" {
+          header {
+            key          = "X-Scope-OrgID"
+            value        = {{ .Values.agent.tempoTenantId | quote }}
+          }
+        }
+
 logs:
   enabled: false
   image:
-    repository: grafana/agent
-    tag: null
+    registry: dkr.plural.sh
+    repository: grafana-agent/grafana/agent
+    tag: v0.34.3
   controller:
     type: deployment
   agent:

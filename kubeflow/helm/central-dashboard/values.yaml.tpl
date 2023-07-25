@@ -1,6 +1,10 @@
 {{ $istioNamespace := namespace "istio" }}
 {{ $hostname := .Values.hostname }}
 global:
+  application:
+    links:
+    - description: kubeflow dashboard ui
+      url: {{ $hostname }}
   istioNamespace: {{ $istioNamespace }}
   domain: {{ $hostname }}
 

@@ -3,6 +3,7 @@ description: An open-source platform that streamlines machine learning developme
 category: DEVOPS
 icon: plural/icons/mlflow.png
 notes: plural/notes.tpl
+docs: plural/docs
 homepage: https://mlflow.org/
 gitUrl: https://github.com/mlflow/mlflow
 oauthSettings:

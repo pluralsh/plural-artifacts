@@ -1,13 +1,12 @@
 {{ $istioNamespace := namespace "istio" }}
 {{ $knativeNamespace := namespace "knative" }}
 {{ $kubeflowNamespace := namespace "kubeflow" }}
-{{ $kubeflowValues := .Applications.HelmValues "kubeflow" }}
 kserve:
   kserve:
     controller:
       gateway:
         {{- if .Configuration.kubeflow }}
-        domain: {{ $kubeflowValues.global.domain }}
+        domain: {{ .Configuration.kubeflow.hostname }}
         {{- end }}
         localGateway:
           gateway: {{ $knativeNamespace }}/knative-local-gateway

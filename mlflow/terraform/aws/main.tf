@@ -18,6 +18,7 @@ module "s3_buckets" {
   bucket_names  = [var.mlflow_bucket]
   policy_prefix = var.role_name
   force_destroy = var.force_destroy_bucket
+  bucket_tags   = var.bucket_tags
 }
 
 module "assumable_role_mlflow" {

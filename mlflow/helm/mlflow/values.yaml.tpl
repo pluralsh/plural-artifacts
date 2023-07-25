@@ -1,8 +1,6 @@
-global:
-  application:
-    links:
-    - description: mlflow web ui
-      url: {{ .Values.hostname }}
+{{ $isAws := eq .Provider "aws" }}
+{{ $isGcp := or (eq .Provider "google") (eq .Provider "gcp") }}
+{{ $isAz := or (eq .Provider "azure") }}
 
 {{ if .OIDC }}
 podLabels:
@@ -29,22 +27,37 @@ oidc-config:
 ingress:
   enabled: true
   hosts:
-    - host: {{ .Values.hostname }}
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
+  - host: {{ .Values.hostname }}
+    paths:
+    - path: /
+      pathType: ImplementationSpecific
   tls:
-    - secretName: mlflow-standalone-tls
-      hosts:
-        - {{ .Values.hostname }}
-{{- if eq .Provider "aws" }}
+  - secretName: mlflow-tls
+    hosts:
+    - {{ .Values.hostname }}
+
 config:
   artifact:
-    defaultArtifactRoot: s3://{{ .Values.mlflow_bucket }}/
-{{- end }}
+    type: {{ .Provider }}
+    {{- if $isAws }}
+    aws:
+      bucketUri: s3://{{ .Values.mlflow_bucket }}/
+    {{- else if $isGcp }}
+    gcp:
+      bucketUri: gs://{{ .Values.mlflow_bucket }}/
+    {{- else if $isAz }}
+    azure:
+      accountName: {{ .Context.StorageAccount }}
+      container: {{ .Values.mlflow_bucket }}
+      existingSecret: mlflow-azure-secret
+    {{- end }}
 
-{{- if eq .Provider "aws" }}
+{{ if $isAws }}
 serviceAccount:
   annotations:
     eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-mlflow"
-{{- end }}
+{{ else if $isGcp }}
+serviceAccount:
+  annotations:
+    iam.gke.io/gcp-service-account: {{ importValue "Terraform" "service_account_email" }}
+{{ end }}

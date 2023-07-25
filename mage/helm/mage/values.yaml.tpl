@@ -18,31 +18,26 @@ jwt:
   secret: {{ $mageJwtSecret }}
 
 mageai:
-    ingress:
-      enabled: true
-      className: "nginx"
-      annotations:
-        kubernetes.io/tls-acme: "true"
-        cert-manager.io/cluster-issuer: letsencrypt-prod
+  ingress:
+    hosts:
+    - host: {{ $hostname }}
+      paths:
+        - path: '/'
+          pathType: ImplementationSpecific
+    tls:
+    - secretName: mage-tls
       hosts:
-      - host: {{ $hostname }}
-        paths:
-          - path: '/'
-            pathType: ImplementationSpecific
-      tls:
-      - secretName: mage-tls
-        hosts:
-          - {{ $hostname }}
+        - {{ $hostname }}
 
-    env:
-    - name: MAGE_DATABASE_CONNECTION_URL
-      valueFrom:
-        secretKeyRef:
-            name: mage.plural-postgres-mage.credentials.postgresql.acid.zalan.do
-            key: dsn
-    - name: REQUIRE_USER_AUTHENTICATION
-      value: "1"
-    - name: MAGE_PUBLIC_HOST
-      value: {{ $hostname }}
-    - name: JWT_SECRET
-      value: {{ $mageJwtSecret }}
+  env:
+  - name: MAGE_DATABASE_CONNECTION_URL
+    valueFrom:
+      secretKeyRef:
+          name: mage-postgres-dsn
+          key: dsn
+  - name: REQUIRE_USER_AUTHENTICATION
+    value: "1"
+  - name: MAGE_PUBLIC_HOST
+    value: {{ $hostname }}
+  - name: JWT_SECRET
+    value: {{ $mageJwtSecret }}

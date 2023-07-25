@@ -29,23 +29,15 @@ default='[
         "description": "Bump helm chart versions",
         "matchManagers": ["helmv3"],
         "bumpVersion": "patch"
-    },
-    {
-        "description": "Group Image Vendor updates",
-        "matchManagers": ["regex"],
-        "groupName": "vendor-images",
-        "additionalBranchPrefix": ""
     }
 ]'
-
-app="test"
 
 base=$(jq ".packageRules |= ${default}" renovate.json)
 sum=$(echo $base)
 
 for dir in $(echo */ | sed 's/\///g'); do
 
-    sum=$(echo $sum | jq ".packageRules |= .+ [{\"description\": \"Group $dir Helm updates\", \"matchPaths\": [\"$dir\"], \"matchManagers\": [\"helm-requirements\", \"helm-values\", \"helmfile\", \"helmsman\", \"helmv3\"], \"groupName\": \"$dir\", \"additionalBranchPrefix\": \"\"}]")
+    sum=$(echo $sum | jq ".packageRules |= .+ [{\"description\": \"Group $dir Helm updates\", \"matchPaths\": [\"$dir\"], \"matchManagers\": [\"helm-requirements\", \"helm-values\", \"helmfile\", \"helmsman\", \"helmv3\"], \"groupName\": \"$dir\", \"additionalBranchPrefix\": \"\", \"semanticCommitScope\": \"$dir\", \"semanticCommitType\": \"{{#if isPatch}}fix{{else}}feat{{/if}}\"}]")
 
 done
 echo $sum | jq > renovate.json

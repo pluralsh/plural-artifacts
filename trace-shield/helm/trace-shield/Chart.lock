@@ -1,27 +1,27 @@
 dependencies:
 - name: kratos
   repository: https://k8s.ory.sh/helm/charts
-  version: 0.32.0
+  version: 0.33.4
 - name: oathkeeper
   repository: https://k8s.ory.sh/helm/charts
-  version: 0.32.0
+  version: 0.33.4
 - name: hydra
   repository: https://k8s.ory.sh/helm/charts
-  version: 0.32.0
+  version: 0.33.4
 - name: kratos-selfservice-ui-node
   repository: https://k8s.ory.sh/helm/charts
-  version: 0.32.0
+  version: 0.33.4
 - name: keto
   repository: https://k8s.ory.sh/helm/charts
-  version: 0.32.0
+  version: 0.33.4
 - name: postgres
   repository: https://pluralsh.github.io/module-library
-  version: 0.1.17
+  version: 0.2.1
 - name: postgres
   repository: https://pluralsh.github.io/module-library
-  version: 0.1.17
+  version: 0.2.1
 - name: postgres
   repository: https://pluralsh.github.io/module-library
-  version: 0.1.17
-digest: sha256:fea136e92b6cd3f449526b22225115209bb5161d110fed5dfd15fd53427807e4
-generated: "2023-05-02T13:10:37.671349+02:00"
+  version: 0.2.1
+digest: sha256:6109663232118ae8a792952ca47c9249c6514f03ff8c26d7d241fc9e89dd8263
+generated: "2023-07-13T14:30:05.418259+02:00"

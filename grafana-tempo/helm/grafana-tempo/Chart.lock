@@ -1,6 +1,0 @@
-dependencies:
-- name: tempo-distributed
-  repository: https://pluralsh.github.io/plural-helm-charts
-  version: 0.9.16
-digest: sha256:1a0c9512edffd5d14f25e88175eb993f05db03d220939381fa6791fa0a6f5d3f
-generated: "2021-10-04T17:37:28.035376439+02:00"

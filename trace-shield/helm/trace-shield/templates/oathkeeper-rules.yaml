@@ -368,7 +368,7 @@ data:
       match:
         methods:
           - GET
-        url: https://{{ .Values.config.tempo.publicURL }}/api/<traces|search|v2/search><.*>
+        url: https://{{ .Values.config.tempo.publicURL }}/api/<echo|traces|search|v2/search><.*>
       authenticators:
         - handler: oauth2_introspection
         - handler: oauth2_client_credentials

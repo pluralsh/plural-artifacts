@@ -2,6 +2,7 @@ name: elasticsearch
 description: de facto open source search databse
 category: DATABASE
 private: false
+docs: plural/docs
 icon: plural/icons/elastic.png
 notes: plural/notes.tpl
 homepage: https://www.elastic.co/

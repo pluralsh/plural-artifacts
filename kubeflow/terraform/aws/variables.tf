@@ -23,10 +23,6 @@ variable "force_destroy_pipelines_bucket" {
   description = "If true, the bucket will be deleted even if it contains objects."
 }
 
-variable "node_role_arn" {
-  type = string
-}
-
 variable "tags" {
   description = "A map of tags to add to all resources"
   type        = map(string)
@@ -154,12 +150,6 @@ variable "single_az_node_groups" {
     }
   }
   description = "Node groups to add to your cluster. A single managed node group will be created in each availability zone."
-}
-
-variable "private_subnets" {
-  description = "A list of private subnets for the EKS worker groups."
-  type        = list(any)
-  default     = []
 }
 
 variable "role_name" {

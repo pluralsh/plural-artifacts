@@ -1,4 +1,3 @@
-{{ $bootstrapOutputs := .Applications.TerraformValues "bootstrap" }}
 config:
   infrastructure:
     clusterName: {{ .Cluster }}
@@ -6,11 +5,13 @@ config:
     provider: GCP
     {{- else }}
     provider: {{ upper .Provider }}
-    {{- end }}
+    {{ end }}
     providerConfig:
       accountID: {{ .Project | quote }}
       region: {{ .Region }}
-      clusterOIDCIssuer: {{ $bootstrapOutputs.cluster_oidc_issuer_url }}
+    {{ if eq .Provider "aws" }}
+      clusterOIDCIssuer: {{ importValue "Terraform" "oidc_issuer_url" }}
+    {{- end }}
     storage:
       provider: S3
       bucketName: {{ .Values.pipelines_bucket }}

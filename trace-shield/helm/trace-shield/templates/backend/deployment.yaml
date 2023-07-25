@@ -34,6 +34,9 @@ spec:
           image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
           env:
+            {{- with .Values.backend.extraEnv }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
             - name: KRATOS_ADMIN_URL
               value: http://{{ include "kratos.fullname" .Subcharts.kratos }}-admin
             - name: KRATOS_PUBLIC_URL
