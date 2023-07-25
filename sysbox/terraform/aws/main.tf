@@ -23,7 +23,7 @@ data "aws_eks_node_group" "main" {
 }
 
 module "node_groups" {
-  source               = "github.com/pluralsh/module-library//terraform/eks-node-groups/single-az-node-groups?ref=feat/ubuntu-ng"
+  source               = "github.com/pluralsh/module-library//terraform/eks-node-groups/single-az-node-groups?ref=feat-ubuntu-ng"
   cluster_name         = var.cluster_name
   default_iam_role_arn = data.aws_eks_node_group.main.node_role_arn
   tags                 = var.tags
