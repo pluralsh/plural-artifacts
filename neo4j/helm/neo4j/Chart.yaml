@@ -3,7 +3,7 @@ name: neo4j
 description: helm chart for neo4j
 icon: https://neo4j.com/wp-content/themes/neo4jweb/v2-templates/brand/assets/logo-section-4.svg
 type: application
-version: 0.1.0
+version: 0.1.1
 appVersion: 5.9.0
 dependencies:
 - name: neo4j
