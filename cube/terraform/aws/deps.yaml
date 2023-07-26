@@ -12,5 +12,4 @@ spec:
   providers:
   - aws
   outputs:
-    iam_access_key_id: iam_access_key_id
-    iam_access_key_secret: iam_access_key_secret
+    iam_role_arn: iam_role_arn
