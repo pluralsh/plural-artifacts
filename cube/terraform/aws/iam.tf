@@ -7,17 +7,3 @@ module "assumable_role_cube" {
   role_policy_arns              = [module.s3_buckets.policy_arn]
   oidc_fully_qualified_subjects = ["system:serviceaccount:${var.namespace}:${var.cube_serviceaccount}"]
 }
-
-resource "aws_iam_user" "cube" {
-  name = "${var.cluster_name}-cube"
-}
-
-resource "aws_iam_access_key" "cube" {
-  user = aws_iam_user.cube.name
-}
-
-resource "aws_iam_policy_attachment" "cube-user" {
-  name = "${var.cluster_name}-cube-policy"
-  users = [aws_iam_user.cube.name]
-  policy_arn = module.s3_buckets.policy_arn
-}
