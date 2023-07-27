@@ -1,8 +1,8 @@
 name: neo4j
 description: Neo4j is the world’s leading Graph Database.
 category: DATABASE
-private: true
-releaseStatus: ALPHA
+private: false
+releaseStatus: BETA
 icon: plural/icons/logo.png
 notes: plural/notes.tpl
 homepage: https://neo4j.com/
