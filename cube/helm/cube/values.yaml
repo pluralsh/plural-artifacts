@@ -39,3 +39,11 @@ cubestore:
   image:
     repository: dkr.plural.sh/cube/cubejs/cubestore
     tag: "v0.33.30"
+  router:
+    serviceAccount:
+      create: true
+      name: cube-router
+  workers:
+    serviceAccount:
+      create: true
+      name: cube-workers
