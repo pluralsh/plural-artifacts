@@ -13,7 +13,7 @@ cube:
   config:
     apiSecret: {{ $apiSecret }}
 
-{{ if or ($isGcp) (eq .Provider "aws) }}
+{{ if or ($isGcp) (eq .Provider "aws") }}
 cubestore:
   cloudStorage:
 {{ if $isGcp }}
