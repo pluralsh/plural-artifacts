@@ -23,6 +23,8 @@ cluster:
     subscriptionID: {{ .Context.SubscriptionId }}
     location: {{ .Region }}
     resourceGroupName: {{ .Project }}
+    virtualNetwork:
+      name: {{ .Values.network_name | quote }}
   {{ end }}
 
   {{ if eq .Provider "google" }}

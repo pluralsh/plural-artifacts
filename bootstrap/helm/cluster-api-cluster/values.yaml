@@ -153,7 +153,7 @@ cluster:
     # Describes the vnet for the AKS cluster. Will be created if it does not exist.
     virtualNetwork:
       cidrBlock: 10.1.0.0/16
-      name: plural-vnet
+      name: ""
       subnet:
         cidrBlock: 10.1.0.0/18
         name: plural-subnet
