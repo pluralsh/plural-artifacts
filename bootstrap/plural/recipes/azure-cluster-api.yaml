@@ -6,13 +6,7 @@ private: true
 dependencies: []
 sections:
   - name: bootstrap
-    configuration:
-      - name: client_id
-        documentation: Service principal client ID
-        type: STRING
-      - name: client_secret
-        documentation: Service principal password
-        type: STRING
+    configuration: []
     items:
       - type: TERRAFORM
         name: azure-bootstrap-cluster-api
