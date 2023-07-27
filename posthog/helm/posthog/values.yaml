@@ -12,7 +12,7 @@ posthog:
         cpu: 20m
         memory: 500Mi
       limits:
-        memory: 1Gi
+        memory: 2Gi
     livenessProbe:
       failureThreshold: 10
     topologySpreadConstraints:
