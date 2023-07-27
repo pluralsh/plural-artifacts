@@ -21,13 +21,13 @@ variable "node_groups_defaults" {
     min_capacity     = 0
     max_capacity     = 3
 
-    instance_types       = ["t3.large", "t3a.large"]
-    disk_size            = 50
-    ami_release_version  = "1.22.15-20221222"
+    instance_types = ["t3.large", "t3a.large"]
+    disk_size      = 50
+    #ami_release_version  = "1.22.15-20221222"
     force_update_version = true
-    ami_type             = "AL2_x86_64"
-    k8s_labels           = {}
-    k8s_taints           = []
+    #ami_type             = "AL2_x86_64"
+    k8s_labels = {}
+    k8s_taints = []
   }
 }
 
@@ -39,6 +39,7 @@ variable "single_az_node_groups" {
       capacity_type   = "ON_DEMAND"
       instance_types  = ["t3.large", "t3a.large"]
       ami_filter_name = "ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"
+      ami_type        = "CUSTOM"
       k8s_labels = {
         "plural.sh/capacityType"    = "ON_DEMAND"
         "plural.sh/performanceType" = "BURST"
@@ -74,12 +75,12 @@ variable "launch_templates" {
       #capacity_reservation_specification     = try(each.value.capacity_reservation_specification, {})
       #cpu_options                            = try(each.value.cpu_options, {})
       #credit_specification                   = try(each.value.credit_specification, {})
-      #elastic_gpu_specifications             = try(each.value.elastic_gpu_specifications, {})
-      #elastic_inference_accelerator          = try(each.value.elastic_inference_accelerator, {})
+      elastic_gpu_specifications    = {}
+      elastic_inference_accelerator = {}
       #enclave_options                        = try(each.value.enclave_options, {})
       #instance_market_options                = try(each.value.instance_market_options, {})
       #maintenance_options                    = try(each.value.maintenance_options, {})
-      #license_specifications                 = try(each.value.license_specifications, {})
+      license_specifications = {}
       #metadata_options                       = try(each.value.metadata_options, {})
       #enable_monitoring                      = try(each.value.enable_monitoring, null)
       #network_interfaces                     = try(each.value.network_interfaces, [])
