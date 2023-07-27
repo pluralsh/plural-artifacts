@@ -1,8 +1,8 @@
 name: imgproxy
 description: Fast and secure standalone server for resizing and converting remote images
 category: PRODUCTIVITY
-private: true
-releaseStatus: ALPHA
+private: false
+releaseStatus: BETA
 icon: plural/icons/imgproxy.png
 notes: plural/notes.tpl
 homepage: https://imgproxy.net/
