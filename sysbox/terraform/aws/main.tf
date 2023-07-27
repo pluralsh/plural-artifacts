@@ -33,4 +33,3 @@ module "node_groups" {
   set_desired_size     = false
   private_subnets      = data.aws_eks_node_group.main.subnet_ids
 }
-
