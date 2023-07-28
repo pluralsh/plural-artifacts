@@ -42,10 +42,14 @@ variable "single_az_node_groups" {
       ami_type        = "CUSTOM"
       k8s_labels = {
         "plural.sh/capacityType"    = "ON_DEMAND"
-        "plural.sh/performanceType" = "BURST"
+        "plural.sh/performanceType" = "SUSTAINED"
         "plural.sh/scalingGroup"    = "sysbox-small-burst-ondemand"
       }
       k8s_taints = [{
+        key    = "plural.sh/sysbox"
+        value  = "true"
+        effect = "NO_SCHEDULE"
+        }, {
         key    = "plural.sh/capacityType"
         value  = "ON_DEMAND"
         effect = "NO_SCHEDULE"
