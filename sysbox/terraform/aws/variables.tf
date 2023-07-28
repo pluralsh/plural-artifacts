@@ -17,8 +17,8 @@ variable "node_groups_defaults" {
   description = "map of maps of node groups to create. See \"`node_groups` and `node_groups_defaults` keys\" section in README.md for more details"
   type        = any
   default = {
-    desired_capacity = 0
-    min_capacity     = 0
+    desired_capacity = 1
+    min_capacity     = 1
     max_capacity     = 3
 
     instance_types = ["t3.large", "t3a.large"]
