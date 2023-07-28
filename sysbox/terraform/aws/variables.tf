@@ -75,7 +75,14 @@ variable "launch_templates" {
       #disable_api_termination                = try(each.value.disable_api_termination, null)
       #kernel_id                              = try(each.value.kernel_id, null)
       #ram_disk_id                            = try(each.value.ram_disk_id, null)
-      #block_device_mappings                  = try(each.value.block_device_mappings, {})
+      block_device_mappings = {
+        device_name = "/dev/xvda"
+        ebs = {
+          volume_size           = 50
+          volume_type           = "gp2"
+          delete_on_termination = true
+        }
+      }
       #capacity_reservation_specification     = try(each.value.capacity_reservation_specification, {})
       #cpu_options                            = try(each.value.cpu_options, {})
       #credit_specification                   = try(each.value.credit_specification, {})
