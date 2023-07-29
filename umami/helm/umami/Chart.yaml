@@ -1,0 +1,13 @@
+apiVersion: v2
+name: umami
+description: helm chart for umami
+type: application
+version: 0.1.0
+appVersion: "v1.0.0"
+dependencies:
+- name: umami
+  version: 1.14.0
+  repository: https://christianknell.github.io/helm-charts
+- name: postgres
+  version: 0.1.5
+  repository: https://pluralsh.github.io/module-library

@@ -1,0 +1,34 @@
+postgres:
+  team: plural
+  user: umami
+  dbName: umami
+  ownerChart: umami
+  infix: '-postgres'
+  password: REPLACE_ME
+
+umami:
+  image:
+    repository: dkr.plural.sh/umami/umami-software/umami
+    tag: "postgresql-v1.40.0"
+  
+  postgresql:
+    enabled: false
+  
+  database:
+    existingSecret: umami-postgres-dsn
+    databaseUrlKey: dsn
+  
+  ingress:
+    enabled: true
+    className: "nginx"
+    annotations:
+      kubernetes.io/tls-acme: "true"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+  
+  umami:
+    removeDisableLoginEnv: true
+    disableLogin: "0"
+  
+  extraEnv:
+    - name: "DISABLE_BOT_CHECK"
+      value: "0"
