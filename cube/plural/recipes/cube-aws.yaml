@@ -13,6 +13,10 @@ sections:
     - name: hostname
       type: DOMAIN
       documentation: the fully qualified domain name your cube api will be available at
+    - name: cubeBucket
+      type: BUCKET
+      documentation: s3 bucket for storing cube files
+      default: cube
   items:
   - type: TERRAFORM
     name: aws

@@ -1,6 +1,6 @@
 dependencies:
-- name: armo-cluster-components
-  repository: https://armosec.github.io/armo-helm/
-  version: 1.7.8
-digest: sha256:8e85cca5edddfaf04b0f973f4124f70a57e4c94c40fdc872a32314b218ced94b
-generated: "2022-06-06T23:53:17.11106-04:00"
+- name: kubescape-cloud-operator
+  repository: https://kubescape.github.io/helm-charts/
+  version: 1.14.2
+digest: sha256:512ade4d367e27011de877b5fe6fa382d329115be21d36b0760a320f13236d2c
+generated: "2023-07-27T13:21:52.953356-04:00"

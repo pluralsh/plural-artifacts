@@ -1,8 +1,8 @@
 name: cube
 description: 📊 Cube — The Semantic Layer for Building Data Applications
 category: DATA
-private: true
-releaseStatus: ALPHA
+private: false
+releaseStatus: BETA
 icon: plural/icons/cube.png
 notes: plural/notes.tpl
 docs: plural/docs

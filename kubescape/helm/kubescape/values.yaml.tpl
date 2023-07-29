@@ -1,4 +1,4 @@
-armo-cluster-components:
+kubescape-cloud-operator:
   clusterName: plrl/{{ .Provider }}/{{ .Cluster }}
-  accountGuid: {{ .Values.accountGuid }}
+  account: {{ .Values.accountGuid }}
   armoNameSpace: {{ namespace "kubescape" }}

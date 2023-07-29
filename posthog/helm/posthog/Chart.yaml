@@ -2,7 +2,7 @@ apiVersion: v2
 name: posthog
 description: helm chart for posthog
 type: application
-version: 0.1.10
+version: 0.1.11
 appVersion: "1.43.1"
 dependencies:
 - name: posthog
