@@ -3,4 +3,4 @@ docker.io:
     metabase/metabase: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
   images:
     metabase/metabase:
-    - v0.46.6.1
+    - v0.46.6.4
