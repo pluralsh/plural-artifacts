@@ -127,3 +127,9 @@ variable "launch_templates" {
     }
   }
 }
+
+variable "private_subnets" {
+  description = "A list of private subnets for the EKS worker groups."
+  type        = list(any)
+  default     = []
+}
