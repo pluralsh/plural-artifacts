@@ -5,8 +5,6 @@ primary: true
 dependencies:
 - repo: bootstrap
   name: gcp-k8s
-
-
 sections:
 - name: sysbox
   configuration: []
