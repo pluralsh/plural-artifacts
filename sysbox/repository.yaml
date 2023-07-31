@@ -4,3 +4,5 @@ category: SECURITY
 private: true
 icon: plural/icons/sysbox.png
 notes: plural/notes.tpl
+gitUrl: https://github.com/nestybox/sysbox
+homepage: https://www.nestybox.com/sysbox
