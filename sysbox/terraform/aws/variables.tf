@@ -34,8 +34,8 @@ variable "node_groups_defaults" {
 variable "single_az_node_groups" {
   type = any
   default = {
-    sysbox_small_burst_on_demand = {
-      name            = "sysbox-small-burst-ondemand"
+    sysbox_small_sustained_on_demand = {
+      name            = "sysbox-small-sustained-ondemand"
       capacity_type   = "ON_DEMAND"
       instance_types  = ["t3.large", "t3a.large"]
       ami_filter_name = "ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"
@@ -62,8 +62,8 @@ variable "single_az_node_groups" {
 variable "launch_templates" {
   type = any
   default = {
-    sysbox_small_burst_on_demand = {
-      launch_template_name = "sysbox-small-burst-ondemand"
+    sysbox_small_sustained_on_demand = {
+      launch_template_name = "sysbox-small-sustained-ondemand"
       ami_filter_name      = "ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"
       #ebs_optimized                          = null
       #key_name                               = null
