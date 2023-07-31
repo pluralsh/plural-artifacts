@@ -1,6 +1,7 @@
 name: sysbox-azure
 description: Installs sysbox on an aws eks cluster
 provider: AZURE
+private: true
 primary: true
 dependencies:
 - repo: bootstrap
