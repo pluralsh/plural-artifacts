@@ -34,8 +34,8 @@ variable "node_groups_defaults" {
 variable "single_az_node_groups" {
   type = any
   default = {
-    sysbox_small_sustained_on_demand = {
-      name            = "sysbox-small-sustained-ondemand"
+    sysbox_s_ondemand = {
+      name            = "sysbox-s-ondemand"
       capacity_type   = "ON_DEMAND"
       instance_types  = ["t3.large", "t3a.large"]
       ami_filter_name = "ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"
@@ -43,7 +43,7 @@ variable "single_az_node_groups" {
       k8s_labels = {
         "plural.sh/capacityType"    = "ON_DEMAND"
         "plural.sh/performanceType" = "SUSTAINED"
-        "plural.sh/scalingGroup"    = "sysbox-small-burst-ondemand"
+        "plural.sh/scalingGroup"    = "sysbox-s-ondemand"
       }
       k8s_taints = [{
         key    = "plural.sh/sysbox"
@@ -62,8 +62,8 @@ variable "single_az_node_groups" {
 variable "launch_templates" {
   type = any
   default = {
-    sysbox_small_sustained_on_demand = {
-      launch_template_name = "sysbox-small-sustained-ondemand"
+    sysbox_s_ondemand = {
+      launch_template_name = "sysbox-s-ondemand"
       ami_filter_name      = "ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"
       #ebs_optimized                          = null
       #key_name                               = null
