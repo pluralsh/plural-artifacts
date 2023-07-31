@@ -1,4 +1,4 @@
 #namespace = {{ .Namespace | quote }}
 #cluster_name = {{ .Cluster | quote }}
-namespace = sysbox
-cluster_name = pluraldev
+namespace = "sysbox"
+cluster_name = "pluraldev"
