@@ -128,6 +128,9 @@ infrastructure.cluster.x-k8s.io/v1beta1
 {{- if and (eq .Values.provider "google") (eq .Values.type "managed") -}}
 infrastructure.cluster.x-k8s.io/v1beta1
 {{- end }}
+{{- if and (eq .Values.provider "kind") (eq .Values.type "managed") -}}
+controlplane.cluster.x-k8s.io/v1beta1
+{{- end }}
 {{- end }}
 
 {{/*
