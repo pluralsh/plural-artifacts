@@ -42,6 +42,7 @@ variable "single_az_node_groups" {
         "plural.sh/capacityType"    = "ON_DEMAND"
         "plural.sh/performanceType" = "SUSTAINED"
         "plural.sh/scalingGroup"    = "sysbox-s-ondemand"
+        "sysbox-install" = "yes"
       }
       k8s_taints = [{
         key    = "plural.sh/sysbox"
@@ -51,7 +52,10 @@ variable "single_az_node_groups" {
         key    = "plural.sh/capacityType"
         value  = "ON_DEMAND"
         effect = "NO_SCHEDULE"
-      }]
+      }
+eks.amazonaws.com/capacityType=ON_DEMAND
+eks.amazonaws.com/nodegroup=small-burst-on-demand-us-east-2c-subnet-09231904575210d72
+      ]
     }
   }
   description = "Node groups to add to your cluster. A single managed node group will be created in each availability zone."
