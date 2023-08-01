@@ -68,6 +68,7 @@ variable "launch_templates" {
       launch_template_name = "sysbox-s-ondemand"
       ami_filter_name      = "ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"
       #ebs_optimized                          = null
+      create_key_air = true
       #key_name                               = null
       #vpc_security_group_ids                 = null
       #cluster_primary_security_group_id      = null
