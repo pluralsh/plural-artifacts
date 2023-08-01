@@ -8,6 +8,17 @@ test-base:
   testName: grafana-integration
   promoteTag: stable
 
+config-overlays:
+  configOverlays:
+    ingress-class:
+      spec:
+        name: Ingress Class
+        documentation: class name to use for airbyte's web ingress (set to internal-nginx if you want it hosted privately)
+        folder: network
+        subfolder: security
+        updates:
+        - path: [grafana, grafana, ingress, annotations, 'kubernetes.io/ingress.class']
+
 secret:
   smtp:
     enabled: false

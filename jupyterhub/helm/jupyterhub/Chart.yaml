@@ -2,7 +2,7 @@ apiVersion: v2
 name: jupyterhub
 description: helm chart for jupyterhub
 type: application
-version: 0.1.5
+version: 0.1.6
 appVersion: "3.1.1"
 maintainers:
   - name: Samuel Gordalina
@@ -11,6 +11,9 @@ dependencies:
   - name: jupyterhub
     version: 2.0.0
     repository: https://jupyterhub.github.io/helm-chart/
+  - name: config-overlays
+    version: 0.1.1
+    repository: https://pluralsh.github.io/module-library
   - name: postgres
     version: 0.1.16
     repository: https://pluralsh.github.io/module-library

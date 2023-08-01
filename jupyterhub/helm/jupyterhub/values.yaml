@@ -6,6 +6,18 @@ postgres:
   infix: '-postgres'
   password: REPLACE_ME
 
+
+config-overlays:
+  configOverlays:
+    ingress-class:
+      spec:
+        name: Ingress Class
+        documentation: class name to use for airbyte's web ingress (set to internal-nginx if you want it hosted privately)
+        folder: network
+        subfolder: security
+        updates:
+        - path: [jupyterhub, jupyterhub, ingress, ingressClassName]
+
 jupyterhub:
   hub:
     # image:
