@@ -39,11 +39,10 @@ variable "single_az_node_groups" {
       ami_filter_name = "ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"
       ami_type        = "CUSTOM"
       k8s_labels = {
-        "plural.sh/capacityType"         = "ON_DEMAND"
-        "plural.sh/performanceType"      = "SUSTAINED"
-        "plural.sh/scalingGroup"         = "sysbox-s-ondemand"
-        "eks.amazonaws.com/capacityType" = "ON_DEMAND"
-        "sysbox-install"                 = "yes"
+        "plural.sh/capacityType"    = "ON_DEMAND"
+        "plural.sh/performanceType" = "SUSTAINED"
+        "plural.sh/scalingGroup"    = "sysbox-s-ondemand"
+        "sysbox-install"            = "yes"
       }
       k8s_taints = [{
         key    = "plural.sh/sysbox"
