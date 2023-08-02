@@ -1,0 +1,1 @@
+Use `plural watch keycloak` to track the status of your application
