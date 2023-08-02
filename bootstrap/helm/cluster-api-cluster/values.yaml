@@ -394,17 +394,41 @@ workers:
   #################################
   aws:
     small-burst-spot:
-      # annotations: {}
-      # labels: {}
-      replicas: 1
+      replicas: 3
       spec:
-        labels: {} # TODO: allow this to not be set
-        additionalTags: {} # TODO: allow this to not be set
+        labels: { } # TODO: allow this to not be set
+        additionalTags: { } # TODO: allow this to not be set
+        scaling:
+          maxSize: 27
+          minSize: 1
+        updateConfig:
+          maxUnavailable: 1
+    medium-burst-spot:
+      replicas: 0
+      spec:
+        labels: { } # TODO: allow this to not be set
+        additionalTags: { } # TODO: allow this to not be set
+        instanceType: t3.xlarge
+        scaling:
+          maxSize: 27
+          minSize: 0
+        taints:
+          - effect: no-schedule
+            key: plural.sh/capacityType
+            value: SPOT
     large-burst-spot:
-      replicas: 1
+      replicas: 0
       spec:
-        labels: {} # TODO: allow this to not be set
-        additionalTags: {} # TODO: allow this to not be set
+        labels: { } # TODO: allow this to not be set
+        additionalTags: { } # TODO: allow this to not be set
+        instanceType: t3.2xlarge
+        scaling:
+          maxSize: 27
+          minSize: 0
+        taints:
+          - effect: no-schedule
+            key: plural.sh/capacityType
+            value: SPOT
   #################################
   ###       AZURE WORKERS       ###
   #################################
