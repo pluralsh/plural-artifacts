@@ -69,6 +69,16 @@ postgres:
       cpu: '2'
       memory: 1Gi
 
+config-overlays:
+  configOverlays:
+    ingress-class:
+      spec:
+        name: Ingress Class
+        documentation: class name to use for airbyte's web ingress (set to internal-nginx if you want it hosted privately)
+        folder: network
+        subfolder: security
+        updates:
+        - path: [mlflow, ingress, className]
 
 config:
   artifact: {} # filled in template

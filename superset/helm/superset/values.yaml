@@ -13,6 +13,14 @@ test-base:
   - 2.1.0
 
 configOverlays:
+- name: ingress-class
+  spec:
+    name: Ingress Class
+    documentation: class name to use for airbyte's web ingress (set to internal-nginx if you want it hosted privately)
+    folder: network
+    subfolder: security
+    updates:
+    - path: [superset, superset, ingress, annotations, 'kubernetes.io/ingress.class']
 - name: dkr-repository
   spec:
     name: Image registry

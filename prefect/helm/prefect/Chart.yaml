@@ -2,9 +2,12 @@ apiVersion: v2
 name: prefect
 description: helm chart for prefect server
 type: application
-version: 0.2.3
+version: 0.2.4
 appVersion: v2.10.12
 dependencies:
+- name: config-overlays
+  version: 0.1.1
+  repository: https://pluralsh.github.io/module-library
 - name: postgres
   version: 0.2.1
   repository: https://pluralsh.github.io/module-library

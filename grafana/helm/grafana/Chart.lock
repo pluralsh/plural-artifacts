@@ -5,8 +5,11 @@ dependencies:
 - name: test-base
   repository: https://pluralsh.github.io/module-library
   version: 0.1.10
+- name: config-overlays
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.1
 - name: postgres
   repository: https://pluralsh.github.io/module-library
   version: 0.1.16
-digest: sha256:dfc1193c104c63d7587d433919b617e6bed71f066cbc62e6e514534c04c121cc
-generated: "2023-06-14T11:40:54.225027-04:00"
+digest: sha256:5debaebeeb4afef10e7e4c7cf79efff20f4e0cde1ae474b9be10f99028028872
+generated: "2023-08-01T16:35:27.49995-04:00"

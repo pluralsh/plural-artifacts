@@ -221,6 +221,14 @@ private:
       port: 80
 
 configOverlays:
+  - name: ingress-class
+    spec:
+      name: Ingress Class
+      documentation: class name to use for airbyte's web ingress (set to internal-nginx if you want it hosted privately)
+      folder: network
+      subfolder: security
+      updates:
+      - path: [airbyte, airbyte, webapp, ingress, className]
   - name: job-cpu
     spec:
       name: Job CPU

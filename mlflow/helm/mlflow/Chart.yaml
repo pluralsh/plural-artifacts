@@ -2,7 +2,7 @@ apiVersion: v2
 name: mlflow
 description: helm chart for mlflow
 type: application
-version: 0.1.16
+version: 0.1.17
 appVersion: "v2.5.0"
 dependencies:
 - name: postgres
@@ -19,4 +19,6 @@ dependencies:
   repository: https://pluralsh.github.io/module-library
   version: 0.1.10
   condition: test-base.enabled
-
+- name: config-overlays
+  version: 0.1.1
+  repository: https://pluralsh.github.io/module-library

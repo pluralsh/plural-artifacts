@@ -184,6 +184,14 @@ argocd-image-updater:
 
 config-overlays:
   configOverlays:
+    ingress-class:
+      spec:
+        name: Ingress Class
+        documentation: class name to use for airbyte's web ingress (set to internal-nginx if you want it hosted privately)
+        folder: network
+        subfolder: security
+        updates:
+        - path: ['argo-cd', 'argo-cd', server, ingress, annotations, 'kubernetes.io/ingress.class']
     controller-cpu:
       #labels:
       #  platform.plural.sh/component: argo-cd
