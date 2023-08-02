@@ -3,7 +3,7 @@ name: umami
 description: helm chart for umami
 type: application
 version: 0.1.0
-appVersion: "v1.0.0"
+appVersion: 2.4.1
 dependencies:
 - name: umami
   version: 1.14.0
