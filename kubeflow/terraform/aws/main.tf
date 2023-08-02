@@ -103,5 +103,5 @@ module "node_groups" {
 
   node_groups            = var.single_az_node_groups
   set_desired_size       = false
-  private_subnets        = data.aws_eks_node_group.main.subnet_idss
+  private_subnets        = data.aws_eks_node_group.main.subnet_ids
 }
