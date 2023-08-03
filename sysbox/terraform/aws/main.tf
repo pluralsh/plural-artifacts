@@ -22,11 +22,6 @@ data "aws_eks_node_group" "main" {
   node_group_name = tolist(data.aws_eks_node_groups.cluster.names)[0]
 }
 
-#data "aws_subnet" "example" {
-#  for_each = data.aws_subnets.example.ids
-#  id       = each.value
-#}
-
 module "node_groups" {
   source               = "github.com/pluralsh/module-library//terraform/eks-node-groups/single-az-node-groups?ref=feat-ubuntu-ng"
   cluster_name         = var.cluster_name
