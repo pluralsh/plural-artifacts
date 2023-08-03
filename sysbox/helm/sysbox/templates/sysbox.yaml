@@ -34,12 +34,12 @@ metadata:
   namespace: kube-system
 spec:
   selector:
-      matchLabels:
-        sysbox-install: "yes"
+    matchLabels:
+      sysbox-install: "yes"
   template:
     metadata:
-        labels:
-          sysbox-install: "yes"
+      labels:
+        sysbox-install: "yes"
     spec:
       serviceAccountName: sysbox-label-node
       nodeSelector:
@@ -52,6 +52,10 @@ spec:
       - key: "plural.sh/sysbox"
         operator: "Equal"
         value: "true"
+        effect: "NoSchedule"
+      - key: "plural.sh/capacityType"
+        operator: "Equal"
+        value: "ON_DEMAND"
         effect: "NoSchedule"
       containers:
       - name: sysbox-deploy-k8s
