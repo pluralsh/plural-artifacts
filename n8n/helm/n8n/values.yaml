@@ -32,6 +32,11 @@ n8n:
     DB_POSTGRESDB_PASSWORD:
       name: n8n.plural-n8n.credentials.postgresql.acid.zalan.do
       key: password
+  initContainers:
+  - name: wait-for-postgres
+    image: gcr.io/pluralsh/library/busybox:1.36.1
+    imagePullPolicy: IfNotPresent
+    command: [ "/bin/sh", "-c", "until nc -zv {{ .Values.config.database.postgresdb.host }} 5432 -w1; do echo 'waiting for db'; sleep 1; done" ]
   config:
     database:
       type: postgresdb
