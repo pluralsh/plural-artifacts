@@ -1,7 +1,7 @@
 name: sysbox
 description: sysbox deployed on plural
 category: SECURITY
-private: true
+private: false
 icon: plural/icons/sysbox.png
 notes: plural/notes.tpl
 gitUrl: https://github.com/nestybox/sysbox
