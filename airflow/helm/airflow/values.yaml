@@ -21,7 +21,7 @@ test-base:
   testName: airflow-integration
   promoteTag: stable
   tags:
-  - 2.6.0
+  - 2.6.3
 
 postgres:
   enabled: true
@@ -313,7 +313,7 @@ airflow:
     executor: CeleryExecutor
     image:
       repository: ghcr.io/pluralsh/containers/apache/airflow
-      tag: 2.6.0-python3.10-plural1.4.0
+      tag: 2.6.3-python3.10-plural1.4.4
 
     config:
       ## security

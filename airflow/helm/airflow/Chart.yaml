@@ -3,7 +3,7 @@ name: airflow
 description: A Helm chart for airflow deployable on plural
 type: application
 version: 0.3.37
-appVersion: "2.6.0"
+appVersion: "2.6.3"
 sources:
   - https://github.com/pluralsh/plural-artifacts/airflow/helm/airflow
 maintainers:
