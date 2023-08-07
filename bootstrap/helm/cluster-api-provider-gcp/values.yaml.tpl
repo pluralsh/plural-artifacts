@@ -1,3 +1,5 @@
+{{- if .Context.Credentials }}
 cluster-api-provider-gcp:
   managerBootstrapCredentials:
-    credentialsJson: {{ .Context.Credentials | quote | b64dec | quote }}
+    credentialsJson: {{ .Context.Credentials | b64dec | quote }}
+{{- end }}

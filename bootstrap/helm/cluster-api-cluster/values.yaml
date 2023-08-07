@@ -225,7 +225,8 @@ cluster:
     region: ""
     # AdditionalLabels is an optional set of tags to add to GCP resources managed by the GCP provider,
     # in addition to the ones added by default.
-    additionalLabels: {}
+    additionalLabels:
+      managed-by: plural
     # EnableAutopilot indicates whether to enable autopilot for this GKE cluster.
     #
     # Note: Autopilot enabled clusters are not supported at this time.
@@ -254,7 +255,7 @@ cluster:
       gcpFilestoreCsiDriverEnabled: true
     # Network encapsulates all things related to the GCP network.
     network:
-      name: plural-network
+      name: ""
       # AutoCreateSubnetworks: When set to true, the VPC network is created
       # in "auto" mode. When set to false, the VPC network is created in
       # "custom" mode.
