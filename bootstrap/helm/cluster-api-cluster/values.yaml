@@ -375,7 +375,7 @@ workers:
       kubernetesLabels:
         plural.sh/capacityType: ON_DEMAND
         plural.sh/performanceType: BURST
-      kubernetesTaints: {}
+      kubernetesTaints: []
       additionalLabels: {}
       providerIDList: []
       machineType: e2-standard-2

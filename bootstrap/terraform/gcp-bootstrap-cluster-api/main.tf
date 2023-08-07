@@ -1,5 +1,5 @@
 resource "google_compute_network" "vpc_network" {
-  count = var.migrated ? 0 : 1
+  count = var.cluster_api ? 0 : 1
   name                    = local.vpc_network_name
   auto_create_subnetworks = "false"
 
@@ -14,7 +14,7 @@ resource "google_compute_network" "vpc_network" {
 }
 
 resource "google_compute_subnetwork" "vpc_subnetwork" {
-  count = var.migrated ? 0 : 1
+  count = var.cluster_api ? 0 : 1
   name = local.vpc_subnetwork_name
   ip_cidr_range = var.vpc_subnetwork_cidr_range
   network = one(google_compute_network.vpc_network[*].name)
@@ -44,7 +44,7 @@ resource "google_compute_subnetwork" "vpc_subnetwork" {
 }
 
 module "gke" {
-  count = var.migrated ? 0 : 1
+  count = var.cluster_api ? 0 : 1
   source                     = "github.com/pluralsh/terraform-google-kubernetes-engine?ref=filestore-csi-driver"
   project_id                 = var.gcp_project_id
   name                       = var.cluster_name
@@ -89,7 +89,7 @@ module "gke" {
 }
 
 resource "kubernetes_namespace" "bootstrap" {
-  count = var.migrated ? 0 : 1
+  count = var.cluster_api ? 0 : 1
 
   metadata {
     name = var.namespace
@@ -104,7 +104,7 @@ resource "kubernetes_namespace" "bootstrap" {
 }
 
 resource "kubernetes_service_account" "certmanager" {
-  count = var.migrated ? 0 : 1
+  count = var.cluster_api ? 0 : 1
   metadata {
     name      = "certmanager"
     namespace = var.namespace
@@ -118,7 +118,7 @@ resource "kubernetes_service_account" "certmanager" {
 }
 
 data "google_container_cluster" "cluster" {
-  count = var.migrated ? 1 : 0
+  count = var.cluster_api ? 1 : 0
   name = var.cluster_name
   location = var.gcp_region
 }

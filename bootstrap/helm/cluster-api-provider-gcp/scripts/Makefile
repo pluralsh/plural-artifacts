@@ -1,4 +1,4 @@
-GCP_VERSION=v1.3.7
+GCP_VERSION=v1.4.0
 
 gcp:
 # Clean current CRDs
