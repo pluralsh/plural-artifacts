@@ -11,4 +11,4 @@ cluster-api-provider-gcp:
     manager:
       image:
         repository: ghcr.io/pluralsh/cluster-api-gcp-controller
-        tag: v1.4.0
+        tag: v1.4.1
