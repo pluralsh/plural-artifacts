@@ -1,0 +1,76 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "sysbox.fullname" . }}-post-delete-job
+  namespace: kube-system
+  annotations:
+    helm.sh/hook: post-delete
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+    helm.sh/hook-weight: "1"
+spec:
+  template:
+    spec:
+      containers:
+      - name: {{ include "sysbox.fullname" }}-clean-up
+        image: {{ .Values.postDeleteInstallationHook.image.repository }}:{{ .Values.postDeleteInstallationHook.image.tag }}
+        command: ["/bin/sh"]
+        args:
+        - -c
+        - >-
+          kubectl apply -f /post_delete/sysbox_uninstall.yaml &&
+          sleep 60 && 
+          kubectl delete -f /post_delete/sysbox_uninstall.yaml --wait --timeout=30s &&
+          kubectl delete cm sysbox-uninstall -n kube-system
+        volumeMounts:
+        - name: sysbox-uninstall-volume
+          mountPath: /post_delete/sysbox_uninstall.yaml
+          subPath: sysbox_uninstall.yaml
+      restartPolicy: Never
+      serviceAccountName: {{ include "sysbox.fullname" . }}-post-delete-job
+      volumes:
+        - name: sysbox-uninstall-volume
+          configMap:
+            name: sysbox-uninstall
+  restartPolicy: Never
+  backoffLimit: 4
+---
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: {{ include "sysbox.fullname" . }}-post-delete-job
+  namespace: kybe-system
+  annotations:
+    helm.sh/hook: post-delete
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+    helm.sh/hook-weight: "1"
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ include "sysbox.fullname" . }}-post-delete-job
+  annotations:
+    helm.sh/hook: post-delete
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+    helm.sh/hook-weight: "1"
+rules:
+- apiGroups: [""]
+  resources: ["serviceaccounts", "clusterroles", "clusterrolebindings", "daemonsets"]
+  verbs: ["create", "get", "list", "watch", "update", "patch", "delete"]
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ include "sysbox.fullname" . }}-post-delete-job
+  namespace: kube-system
+  annotations:
+    helm.sh/hook: post-delete
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+    helm.sh/hook-weight: "1"
+subjects:
+- kind: ServiceAccount
+  name: {{ include "sysbox.fullname" . }}-post-delete-job
+  namespace: kube-system
+roleRef:
+  kind: Role
+  name: {{ include "sysbox.fullname" . }}-post-delete-job
+  apiGroup: rbac.authorization.k8s.io

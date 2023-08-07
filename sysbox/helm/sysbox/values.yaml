@@ -80,3 +80,9 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+postDeleteInstallationHook:
+  image:
+    repository: bitnami/kubectl
+    tag: 1.27.3
+  enabled: true
