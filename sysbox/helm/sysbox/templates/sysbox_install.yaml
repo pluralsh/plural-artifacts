@@ -4,11 +4,21 @@ kind: ServiceAccount
 metadata:
   name: sysbox-label-node
   namespace: kube-system
+  label:
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    meta.helm.sh/release-name: sysbox
+    meta.helm.sh/release-namespace: sysbox
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: sysbox-node-labeler
+  label:
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    meta.helm.sh/release-name: sysbox
+    meta.helm.sh/release-namespace: sysbox
 rules:
 - apiGroups: [""]
   resources: ["nodes"]
@@ -18,6 +28,11 @@ kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: sysbox-label-node-rb
+  label:
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    meta.helm.sh/release-name: sysbox
+    meta.helm.sh/release-namespace: sysbox
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -32,6 +47,11 @@ kind: DaemonSet
 metadata:
   name: sysbox-deploy-k8s
   namespace: kube-system
+  label:
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    meta.helm.sh/release-name: sysbox
+    meta.helm.sh/release-namespace: sysbox
 spec:
   selector:
     matchLabels:
@@ -161,6 +181,11 @@ apiVersion: node.k8s.io/v1
 kind: RuntimeClass
 metadata:
   name: sysbox-runc
+  label:
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    meta.helm.sh/release-name: sysbox
+    meta.helm.sh/release-namespace: sysbox
 handler: sysbox-runc
 scheduling:
   nodeSelector:
