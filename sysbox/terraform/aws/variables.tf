@@ -126,6 +126,7 @@ variable "launch_templates" {
         #  "plural.sh/capacityType=SPOT:NoSchedule"
         #]
       }
+      max_pods_per_node = 16
     }
   }
 }
