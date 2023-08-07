@@ -64,7 +64,8 @@ variable "launch_templates" {
   default = {
     sysbox_s_ondemand = {
       launch_template_name = "sysbox-s-ondemand"
-      ami_filter_name      = "ubuntu-eks/k8s_1.23/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"
+      #ami_filter_name      = "ubuntu-eks/k8s_1.23/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"
+      ami_filter_name = "latch-bio/sysbox-eks_0.6.2/k8s_1.23/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"
       #ebs_optimized                          = null
       create_key_pair = true
       #key_name                               = null
