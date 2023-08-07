@@ -1,3 +1,11 @@
+data "azurerm_resource_group" "group" {
+  name = var.resource_group
+}
+
+data "azurerm_resource_group" "node_group" {
+  name = var.cluster_api ? one(data.azurerm_kubernetes_cluster.cluster[*].node_resource_group) : one(module.aks[*].node_resource_group)
+}
+
 data "azurerm_kubernetes_cluster" "cluster" {
   count = var.cluster_api ? 1: 0
 
@@ -5,8 +13,11 @@ data "azurerm_kubernetes_cluster" "cluster" {
   resource_group_name = var.resource_group
 }
 
-data "azurerm_resource_group" "group" {
-  name = var.resource_group
+data "azurerm_virtual_network" "vnet" {
+  count = var.cluster_api ? 1: 0
+
+  name                = var.network_name
+  resource_group_name = var.resource_group
 }
 
 module "network" {
@@ -101,10 +112,12 @@ resource "azurerm_kubernetes_cluster_node_pool" "main" {
   tags                  = merge(each.value.tags, var.tags)
 }
 
-data "azurerm_resource_group" "node_group" {
-  count = var.cluster_api ? 0 : 1
+resource "azurerm_role_assignment" "aks-network-identity-ssi" {
+  scope                = var.cluster_api ? one(data.azurerm_virtual_network.vnet[*].id) : one(module.network[*].vnet_id)
+  role_definition_name = "Network Contributor"
+  principal_id         = var.cluster_api ? one(data.azurerm_kubernetes_cluster.cluster[*].identity[0].principal_id) : one(module.aks[*].system_assigned_identity[0].principal_id)
 
-  name = one(module.aks[*].node_resource_group)
+  depends_on = [data.azurerm_virtual_network.vnet, data.azurerm_kubernetes_cluster.cluster, module.aks, module.network]
 }
 
 resource "azurerm_role_assignment" "aks-managed-identity" {
@@ -127,16 +140,6 @@ resource "azurerm_role_assignment" "aks-network-identity-kubelet" {
   depends_on = [module.aks, module.network]
 }
 
-resource "azurerm_role_assignment" "aks-network-identity-ssi" {
-  count = var.cluster_api ? 0 : 1
-
-  scope                = one(module.network[*].vnet_id)
-  role_definition_name = "Network Contributor"
-  principal_id         = one(module.aks[*].system_assigned_identity[0].principal_id)
-
-  depends_on = [module.aks, module.network]
-}
-
 resource "azurerm_role_assignment" "aks-vm-contributor" {
   count = var.cluster_api ? 0 : 1
 
@@ -150,7 +153,7 @@ resource "azurerm_role_assignment" "aks-vm-contributor" {
 resource "azurerm_role_assignment" "aks-node-managed-identity" {
   count = var.cluster_api ? 0 : 1
 
-  scope                = one(data.azurerm_resource_group.node_group[*].id)
+  scope                = data.azurerm_resource_group.node_group.id
   role_definition_name = "Managed Identity Operator"
   principal_id         = one(module.aks[*].kubelet_identity[0].object_id)
 
@@ -160,7 +163,7 @@ resource "azurerm_role_assignment" "aks-node-managed-identity" {
 resource "azurerm_role_assignment" "aks-node-vm-contributor" {
   count = var.cluster_api ? 0 : 1
 
-  scope                = one(data.azurerm_resource_group.node_group[*].id)
+  scope                = data.azurerm_resource_group.node_group.id
   role_definition_name = "Virtual Machine Contributor"
   principal_id         = one(module.aks[*].kubelet_identity[0].object_id)
 
