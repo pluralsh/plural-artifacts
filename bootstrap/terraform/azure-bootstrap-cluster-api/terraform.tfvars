@@ -6,7 +6,7 @@ cluster_api = {{ .ClusterAPI }}
 
 {{- if fileExists $tfOutput }}
 {{- $bootstrapOutputs := .Applications.TerraformValues "bootstrap" }}
-{{- if $bootstrapOutputs }}
+{{- if and $bootstrapOutputs (not .ClusterAPI) }}
 
 network_name = {{ $bootstrapOutputs.network.vnet_name | quote }}
 subnet_prefixes = yamldecode(<<EOT
