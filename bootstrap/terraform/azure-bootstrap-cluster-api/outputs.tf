@@ -13,7 +13,7 @@ output "kubelet_msi_id" {
 }
 
 output "node_resource_group" {
-  value = var.cluster_api ? one(data.azurerm_kubernetes_cluster.cluster[*].node_resource_group) : one(data.azurerm_resource_group.node_group[*].name)
+  value = data.azurerm_resource_group.node_group.name
 }
 
 output "cluster_name" {
@@ -25,5 +25,5 @@ output "resource_group_name" {
 }
 
 output "network" {
-  value = one(module.network[*])
+  value = var.cluster_api ? one(data.azurerm_virtual_network.vnet[*]) : one(module.network[*])
 }
