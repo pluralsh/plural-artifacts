@@ -64,29 +64,18 @@ resource "kubernetes_secret" "google-application-credentials" {
 
 module "airbyte-workload-identity" {
   source              = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
-  name                = "${var.cluster_name}-airbyte-wi"
+  name                = "${var.cluster_name}-airbyte"
   namespace           = var.namespace
   project_id          = var.project_id
   use_existing_k8s_sa = true
   annotate_k8s_sa     = false
-  k8s_sa_name         = "default"
+  k8s_sa_name         = "airbyte-admin"
   roles               = var.roles
+  gcp_sa_name         = google_service_account.airbyte.name
+  use_existing_gcp_sa = true
 
   depends_on = [
-    kubernetes_namespace.airbyte
-  ]
-}
-
-resource "kubernetes_default_service_account" "default" {
-  metadata {
-    name      = "default"
-    namespace = var.namespace
-    annotations = {
-      "iam.gke.io/gcp-service-account" = module.airbyte-workload-identity.gcp_service_account_email
-    }
-  }
-
-  depends_on = [
-    kubernetes_namespace.airbyte
+    kubernetes_namespace.airbyte,
+    google_service_account.airbyte
   ]
 }
