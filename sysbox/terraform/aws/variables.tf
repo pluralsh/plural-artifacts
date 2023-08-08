@@ -52,6 +52,26 @@ variable "single_az_node_groups" {
         },
       ]
     }
+    sysbox_s_ondemand_plural = {
+      name           = "sysbox-s-ondemand-plural"
+      capacity_type  = "ON_DEMAND"
+      instance_types = ["t3.large", "t3a.large"]
+      ami_type       = "CUSTOM"
+      k8s_labels = {
+        "plural.sh/capacityType"    = "ON_DEMAND"
+        "plural.sh/performanceType" = "SUSTAINED"
+        "plural.sh/scalingGroup"    = "sysbox-s-ondemand-plural"
+        #"sysbox-install"            = "yes"
+        "crio-runtime"   = "running"
+        "sysbox-runtime" = "true"
+      }
+      k8s_taints = [{
+        key    = "plural.sh/sysbox"
+        value  = "true"
+        effect = "NO_SCHEDULE"
+        },
+      ]
+    }
   }
   description = "Node groups to add to your cluster. A single managed node group will be created in each availability zone."
 }
@@ -65,16 +85,7 @@ variable "launch_templates" {
       ami_owners           = ["099720109477"] # Canonical
       #ami_filter_name = "latch-bio/sysbox-eks_0.6.2/k8s_1.23/images/hvm-ssd/ubuntu-focal-20.04-amd64-server"
       #owners = ["312272277431"] # Plural
-      #ebs_optimized                          = null
       create_key_pair = true
-      #key_name                               = null
-      #vpc_security_group_ids                 = null
-      #cluster_primary_security_group_id      = null
-      #launch_template_default_version        = null
-      #update_launch_template_default_version = null
-      #disable_api_termination                = null
-      #kernel_id                              = null
-      #ram_disk_id                            = null
       block_device_mappings = {
         device_name = "/dev/xvda"
         ebs = {
@@ -83,49 +94,38 @@ variable "launch_templates" {
           delete_on_termination = true
         }
       }
-      #capacity_reservation_specification     = {}
-      #cpu_options                            = {}
-      #credit_specification                   = {}
       elastic_gpu_specifications    = {}
       elastic_inference_accelerator = {}
-      #enclave_options                        = {}
-      #instance_market_options                = {}
-      #maintenance_options                    = {}
-      license_specifications = {}
-      #metadata_options                       = {}
-      #enable_monitoring                      = {}
-      #network_interfaces                     = {}
-      #placement                              = {}
-      #private_dns_name_options               = {}
-      #launch_template_tags                   = {}
-      #tag_specifications                     = {}
-      # the following are required if you need custom user data in you launch template, e.g. because you're using custom AMI 
-      enable_bootstrap_user_data = true
-      #cluster_name               = ""
-      #cluster_endpoint           = ""
-      #cluster_auth_base64        = ""
-      # this is optional if you're using a custom 
-      #cluster_service_ipv4_cidr = ""
-      #pre_bootstrap_user_data   = ""
-      post_bootstrap_user_data = <<-EOT
-        echo "All done"
-      EOT
-      # TODO: actually make this a map in the vars, easier for kubelet args
-      #bootstrap_extra_args = try(each.value.bootstrap_extra_args, "")
-      k8s_labels = {} # leave empty, will reuse the same labels as the node group
-      k8s_taints = [] # leave empty, will reuse the same taints as the node group
-      kubelet_extra_args = {
-        #"--node-labels" = [
-        #  "plural.sh/scalingGroup=buildx-spot-x86",
-        #  "plural.sh/capacityType=ON_DEMAND",
-        #  "plural.sh/performanceType=BURST",
-        #]
-        #"--register-with-taints" = [
-        #  "plural.sh/reserved=BUILDX:NoSchedule",
-        #  "plural.sh/capacityType=SPOT:NoSchedule"
-        #]
+      license_specifications        = {}
+      enable_bootstrap_user_data    = true
+      k8s_labels                    = {} # leave empty, will reuse the same labels as the node group
+      k8s_taints                    = [] # leave empty, will reuse the same taints as the node group
+      kubelet_extra_args            = {}
+      max_pods_per_node             = 16
+    }
+    sysbox_s_ondemand_plural = {
+      launch_template_name = "sysbox-s-ondemand-plural"
+      #ami_filter_name      = "ubuntu-eks/k8s_1.23/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"
+      #ami_owners           = ["099720109477"] # Canonical
+      ami_filter_name = "latch-bio/sysbox-eks_0.6.2/k8s_1.23/images/hvm-ssd/ubuntu-focal-20.04-amd64-server"
+      owners          = ["312272277431"] # Plural
+      create_key_pair = true
+      block_device_mappings = {
+        device_name = "/dev/xvda"
+        ebs = {
+          volume_size           = 50
+          volume_type           = "gp2"
+          delete_on_termination = true
+        }
       }
-      max_pods_per_node = 16
+      elastic_gpu_specifications    = {}
+      elastic_inference_accelerator = {}
+      license_specifications        = {}
+      enable_bootstrap_user_data    = true
+      k8s_labels                    = {} # leave empty, will reuse the same labels as the node group
+      k8s_taints                    = [] # leave empty, will reuse the same taints as the node group
+      kubelet_extra_args            = {}
+      max_pods_per_node             = 16
     }
   }
 }
