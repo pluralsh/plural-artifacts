@@ -32,6 +32,8 @@ cluster:
   google:
     project: {{ .Project }}
     region: {{ .Region }}
+    network:
+      name: {{ .Values.vpc_name | quote }}
   {{ end }}
 
   {{ if eq .Provider "kind" }}
