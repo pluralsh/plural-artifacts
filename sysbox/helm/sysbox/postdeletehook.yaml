@@ -19,8 +19,7 @@ spec:
         - >-
           kubectl apply -f /post_delete/sysbox_uninstall.yaml &&
           sleep 60 && 
-          kubectl delete -f /post_delete/sysbox_uninstall.yaml --wait --timeout=30s &&
-          kubectl delete cm sysbox-uninstall -n kube-system
+          kubectl delete -f /post_delete/sysbox_uninstall.yaml --wait --timeout=30s
         volumeMounts:
         - name: sysbox-uninstall-volume
           mountPath: /post_delete/sysbox_uninstall.yaml
@@ -38,7 +37,7 @@ kind: ServiceAccount
 apiVersion: v1
 metadata:
   name: {{ include "sysbox.fullname" . }}-post-delete-job
-  namespace: kybe-system
+  namespace: kube-system
   annotations:
     helm.sh/hook: post-delete
     helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
