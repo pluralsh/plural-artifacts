@@ -84,7 +84,7 @@ variable "launch_templates" {
       ami_filter_name      = "ubuntu-eks/k8s_1.23/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"
       ami_owners           = ["099720109477"] # Canonical
       #ami_filter_name = "latch-bio/sysbox-eks_0.6.2/k8s_1.23/images/hvm-ssd/ubuntu-focal-20.04-amd64-server"
-      #owners = ["312272277431"] # Plural
+      #ami_owners = ["312272277431"] # Plural
       create_key_pair = true
       block_device_mappings = {
         device_name = "/dev/xvda"
@@ -107,8 +107,9 @@ variable "launch_templates" {
       launch_template_name = "sysbox-s-ondemand-plural"
       #ami_filter_name      = "ubuntu-eks/k8s_1.23/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"
       #ami_owners           = ["099720109477"] # Canonical
-      ami_filter_name = "latch-bio/sysbox-eks_0.6.2/k8s_1.23/images/hvm-ssd/ubuntu-focal-20.04-amd64-server"
-      owners          = ["312272277431"] # Plural
+      #ami_filter_name = "latch-bio/sysbox-eks_0.6.2/k8s_1.23/images/hvm-ssd/ubuntu-focal-20.04-amd64-server"
+      ami_filter_name = "pluraldev-02/sysbox-eks_0.6.2/k8s_1.23/images/hvm-ssd/ubuntu-focal-20.04-amd64-server"
+      ami_owners      = ["312272277431"] # Plural
       create_key_pair = true
       block_device_mappings = {
         device_name = "/dev/xvda"
