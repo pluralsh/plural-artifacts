@@ -42,17 +42,14 @@ variable "single_az_node_groups" {
         "plural.sh/performanceType" = "SUSTAINED"
         "plural.sh/scalingGroup"    = "sysbox-s-ondemand"
         "sysbox-install"            = "yes"
+        #"crio-runtime"              = "running"
+        #"sysbox-runtime"            = "true"
       }
       k8s_taints = [{
         key    = "plural.sh/sysbox"
         value  = "true"
         effect = "NO_SCHEDULE"
-        }, {
-        key    = "plural.sh/capacityType"
-        value  = "ON_DEMAND"
-        effect = "NO_SCHEDULE"
-        }
-        #eks.amazonaws.com/nodegroup=small-burst-on-demand-us-east-2c-subnet-09231904575210d72
+        },
       ]
     }
   }
