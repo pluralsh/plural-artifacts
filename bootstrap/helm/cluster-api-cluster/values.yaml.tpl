@@ -15,7 +15,7 @@ cluster:
   {{ end }}
 
   {{ if eq .Provider "azure" }}
-  kubernetesVersion: v1.24.10
+  kubernetesVersion: v1.25.11
   azure:
     clientID: {{ .Context.ClientId }}
     clientSecret: {{ .Context.ClientSecret }}

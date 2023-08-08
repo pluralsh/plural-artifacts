@@ -435,7 +435,7 @@ workers:
   azure:
     lsod1:
       replicas: 0
-      kubernetesVersion: v1.24.10
+      kubernetesVersion: v1.25.11
       spec:
         additionalTags:
           ScalingGroup: large-sustained-on-demand
@@ -457,7 +457,7 @@ workers:
         sku: Standard_D8as_v5
     lsod2:
       replicas: 0
-      kubernetesVersion: v1.24.10
+      kubernetesVersion: v1.25.11
       spec:
         additionalTags:
           ScalingGroup: large-sustained-on-demand
@@ -479,7 +479,7 @@ workers:
         sku: Standard_D8as_v5
     lsod3:
       replicas: 0
-      kubernetesVersion: v1.24.10
+      kubernetesVersion: v1.25.11
       spec:
         additionalTags:
           ScalingGroup: large-sustained-on-demand
@@ -501,7 +501,7 @@ workers:
         sku: Standard_D8as_v5
     lsspot1:
       replicas: 0
-      kubernetesVersion: v1.24.10
+      kubernetesVersion: v1.25.11
       spec:
         additionalTags:
           ScalingGroup: large-sustained-spot
@@ -533,7 +533,7 @@ workers:
             value: spot
     lsspot2:
       replicas: 0
-      kubernetesVersion: v1.24.10
+      kubernetesVersion: v1.25.11
       spec:
         additionalTags:
           ScalingGroup: large-sustained-spot
@@ -565,7 +565,7 @@ workers:
             value: spot
     lsspot3:
       replicas: 0
-      kubernetesVersion: v1.24.10
+      kubernetesVersion: v1.25.11
       spec:
         additionalTags:
           ScalingGroup: large-sustained-spot
@@ -597,7 +597,7 @@ workers:
             value: spot
     msod1:
       replicas: 0
-      kubernetesVersion: v1.24.10
+      kubernetesVersion: v1.25.11
       spec:
         additionalTags:
           ScalingGroup: medium-sustained-on-demand
@@ -619,7 +619,7 @@ workers:
         sku: Standard_D4as_v5
     msod2:
       replicas: 0
-      kubernetesVersion: v1.24.10
+      kubernetesVersion: v1.25.11
       spec:
         additionalTags:
           ScalingGroup: medium-sustained-on-demand
@@ -641,7 +641,7 @@ workers:
         sku: Standard_D4as_v5
     msod3:
       replicas: 0
-      kubernetesVersion: v1.24.10
+      kubernetesVersion: v1.25.11
       spec:
         additionalTags:
           ScalingGroup: medium-sustained-on-demand
@@ -663,7 +663,7 @@ workers:
         sku: Standard_D4as_v5
     msspot1:
       replicas: 0
-      kubernetesVersion: v1.24.10
+      kubernetesVersion: v1.25.11
       spec:
         additionalTags:
           ScalingGroup: medium-sustained-spot
@@ -695,7 +695,7 @@ workers:
             value: spot
     msspot2:
       replicas: 0
-      kubernetesVersion: v1.24.10
+      kubernetesVersion: v1.25.11
       spec:
         additionalTags:
           ScalingGroup: medium-sustained-spot
@@ -727,7 +727,7 @@ workers:
             value: spot
     msspot3:
       replicas: 0
-      kubernetesVersion: v1.24.10
+      kubernetesVersion: v1.25.11
       spec:
         additionalTags:
           ScalingGroup: medium-sustained-spot
@@ -759,7 +759,7 @@ workers:
             value: spot
     ssod1:
       replicas: 1
-      kubernetesVersion: v1.24.10
+      kubernetesVersion: v1.25.11
       spec:
         additionalTags:
           ScalingGroup: small-sustained-on-demand
@@ -781,7 +781,7 @@ workers:
         sku: Standard_D2as_v5
     ssod2:
       replicas: 1
-      kubernetesVersion: v1.24.10
+      kubernetesVersion: v1.25.11
       spec:
         additionalTags:
           ScalingGroup: small-sustained-on-demand
@@ -803,7 +803,7 @@ workers:
         sku: Standard_D2as_v5
     ssod3:
       replicas: 1
-      kubernetesVersion: v1.24.10
+      kubernetesVersion: v1.25.11
       spec:
         additionalTags:
           ScalingGroup: small-sustained-on-demand
@@ -825,7 +825,7 @@ workers:
         sku: Standard_D2as_v5
     ssspot1:
       replicas: 0
-      kubernetesVersion: v1.24.10
+      kubernetesVersion: v1.25.11
       spec:
         additionalTags:
           ScalingGroup: small-sustained-spot
@@ -857,7 +857,7 @@ workers:
             value: spot
     ssspot2:
       replicas: 0
-      kubernetesVersion: v1.24.10
+      kubernetesVersion: v1.25.11
       spec:
         additionalTags:
           ScalingGroup: small-sustained-spot
@@ -889,7 +889,7 @@ workers:
             value: spot
     ssspot3:
       replicas: 0
-      kubernetesVersion: v1.24.10
+      kubernetesVersion: v1.25.11
       spec:
         additionalTags:
           ScalingGroup: small-sustained-spot
