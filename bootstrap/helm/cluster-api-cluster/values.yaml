@@ -962,4 +962,4 @@ workers:
   #################################
   kind:
     small-burst-spot:
-      replicas: 3
+      replicas: 1
