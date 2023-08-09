@@ -111,7 +111,8 @@ variable "launch_templates" {
       #ami_filter_name = "pluraldev-02/sysbox-eks_0.6.2/k8s_1.23/images/hvm-ssd/ubuntu-focal-20.04-amd64-server"
       #ami_filter_name = "pluraldev-03/sysbox-eks_0.6.2/k8s_1.23/images/hvm-ssd/ubuntu-focal-20.04-amd64-server"
       #ami_filter_name = "pluraldev-04-prebuilt-crio/sysbox-eks_0.6.2/k8s_1.23/images/hvm-ssd/ubuntu-focal-20.04-amd64-server"
-      ami_filter_name = "pluraldev-05-cleanup-part1/sysbox-eks_0.6.2/k8s_1.23/images/hvm-ssd/ubuntu-focal-20.04-amd64-server"
+      #ami_filter_name = "pluraldev-05-cleanup-part1/sysbox-eks_0.6.2/k8s_1.23/images/hvm-ssd/ubuntu-focal-20.04-amd64-server"
+      ami_filter_name = "pluraldev-05-cleanup-part2/sysbox-eks_0.6.2/k8s_1.23/images/hvm-ssd/ubuntu-focal-20.04-amd64-server"
       ami_owners      = ["312272277431"] # Plural
       create_key_pair = true
       block_device_mappings = {
