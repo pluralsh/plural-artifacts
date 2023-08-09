@@ -1,0 +1,22 @@
+name: appsmith-gcp
+description: Installs appsmith on an gcp gke cluster
+provider: GCP
+primary: true
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+- repo: mongodb
+  name: mongodb-gcp
+sections:
+- name: appsmith
+  configuration:
+    - name: hostname
+      type: DOMAIN
+      documentation: the fully qualified domain name your appsmith instance will be available at
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: appsmith

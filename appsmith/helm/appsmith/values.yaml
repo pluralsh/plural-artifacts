@@ -1,0 +1,21 @@
+mongoNamespace: mongodb
+
+appsmith:
+  mongodb:
+    enabled: true # find a way to fix error "MongoDB Replica Set is not enabled"
+
+  image:
+    registry: dkr.plural.sh
+    repository: appsmith/appsmith/appsmith-ce
+    tag: v1.9.31
+
+  ingress:
+    enabled: true
+    className: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      kubernetes.io/tls-acme: "true"
+    certManager: true
+
+  autoupdate:
+    enabled: false
