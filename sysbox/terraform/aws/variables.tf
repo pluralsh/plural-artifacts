@@ -32,24 +32,6 @@ variable "node_groups_defaults" {
 variable "single_az_node_groups" {
   type = any
   default = {
-    sysbox_s_ondemand = {
-      name           = "sysbox-s-ondemand"
-      capacity_type  = "ON_DEMAND"
-      instance_types = ["t3.large", "t3a.large"]
-      ami_type       = "CUSTOM"
-      k8s_labels = {
-        "plural.sh/capacityType"    = "ON_DEMAND"
-        "plural.sh/performanceType" = "SUSTAINED"
-        "plural.sh/scalingGroup"    = "sysbox-s-ondemand"
-        "sysbox-install"            = "yes"
-      }
-      k8s_taints = [{
-        key    = "plural.sh/sysbox"
-        value  = "true"
-        effect = "NO_SCHEDULE"
-        },
-      ]
-    }
     sysbox_s_ondemand_plural = {
       name           = "sysbox-s-ondemand-plural"
       capacity_type  = "ON_DEMAND"
@@ -103,17 +85,9 @@ variable "launch_templates" {
     }
     sysbox_s_ondemand_plural = {
       launch_template_name = "sysbox-s-ondemand-plural"
-      #ami_filter_name      = "ubuntu-eks/k8s_1.23/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"
-      #ami_owners           = ["099720109477"] # Canonical
-      #ami_filter_name = "latch-bio/sysbox-eks_0.6.2/k8s_1.23/images/hvm-ssd/ubuntu-focal-20.04-amd64-server"
-      #ami_filter_name = "pluraldev-02/sysbox-eks_0.6.2/k8s_1.23/images/hvm-ssd/ubuntu-focal-20.04-amd64-server"
-      #ami_filter_name = "pluraldev-03/sysbox-eks_0.6.2/k8s_1.23/images/hvm-ssd/ubuntu-focal-20.04-amd64-server"
-      #ami_filter_name = "pluraldev-04-prebuilt-crio/sysbox-eks_0.6.2/k8s_1.23/images/hvm-ssd/ubuntu-focal-20.04-amd64-server"
-      #ami_filter_name = "pluraldev-05-cleanup-part1/sysbox-eks_0.6.2/k8s_1.23/images/hvm-ssd/ubuntu-focal-20.04-amd64-server"
-      #ami_filter_name = "pluraldev-05-cleanup-part2/sysbox-eks_0.6.2/k8s_1.23/images/hvm-ssd/ubuntu-focal-20.04-amd64-server"
-      ami_filter_name = "pluraldev-05-cleanup-part3/sysbox-eks_0.6.2/k8s_1.23/images/hvm-ssd/ubuntu-focal-20.04-amd64-server"
-      ami_owners      = ["312272277431"] # Plural
-      create_key_pair = true
+      ami_filter_name      = "pluraldev-05-cleanup-part4-crio-binary/sysbox-eks_0.6.2/k8s_1.23/images/hvm-ssd/ubuntu-focal-20.04-amd64-server"
+      ami_owners           = ["312272277431"] # Plural
+      create_key_pair      = true
       block_device_mappings = {
         device_name = "/dev/xvda"
         ebs = {
