@@ -128,7 +128,7 @@ airflow:
 
   airflow:
     config:
-      AIRFLOW__WEBSERVER__BASE_URL: https://{{ $hostname }}/
+      AIRFLOW__WEBSERVER__BASE_URL: https://{{ $hostname }}
     {{ if eq .Provider "google" }}
       AIRFLOW__LOGGING__REMOTE_BASE_LOG_FOLDER: "gs://{{ .Values.airflowBucket }}/airflow/logs"
     {{ end }}
