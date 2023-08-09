@@ -59,30 +59,6 @@ variable "single_az_node_groups" {
 variable "launch_templates" {
   type = any
   default = {
-    sysbox_s_ondemand = {
-      launch_template_name = "sysbox-s-ondemand"
-      ami_filter_name      = "ubuntu-eks/k8s_1.23/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"
-      ami_owners           = ["099720109477"] # Canonical
-      #ami_filter_name = "latch-bio/sysbox-eks_0.6.2/k8s_1.23/images/hvm-ssd/ubuntu-focal-20.04-amd64-server"
-      #ami_owners = ["312272277431"] # Plural
-      create_key_pair = true
-      block_device_mappings = {
-        device_name = "/dev/xvda"
-        ebs = {
-          volume_size           = 50
-          volume_type           = "gp2"
-          delete_on_termination = true
-        }
-      }
-      elastic_gpu_specifications    = {}
-      elastic_inference_accelerator = {}
-      license_specifications        = {}
-      enable_bootstrap_user_data    = true
-      k8s_labels                    = {} # leave empty, will reuse the same labels as the node group
-      k8s_taints                    = [] # leave empty, will reuse the same taints as the node group
-      kubelet_extra_args            = {}
-      max_pods_per_node             = 16
-    }
     sysbox_s_ondemand_plural = {
       launch_template_name = "sysbox-s-ondemand-plural"
       ami_filter_name      = "pluraldev-05-cleanup-part4-crio-binary/sysbox-eks_0.6.2/k8s_1.23/images/hvm-ssd/ubuntu-focal-20.04-amd64-server"
