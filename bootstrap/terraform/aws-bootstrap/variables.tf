@@ -368,3 +368,208 @@ variable "aws_region" {
   default = "us-east-2"
   description = "The region you wish to deploy to"
 }
+
+
+## Launch Template vars
+
+variable "generate_launch_template" {
+  type = bool
+  default = false
+  description = "whether to generate a custom launch template for your nodes, useful for customizing security configuration or base ami"
+}
+
+variable "block_device_map" {
+  type = map(object({
+    no_device    = optional(bool, null)
+    virtual_name = optional(string, null)
+    ebs = optional(object({
+      delete_on_termination = optional(bool, true)
+      encrypted             = optional(bool, true)
+      iops                  = optional(number, null)
+      kms_key_id            = optional(string, null)
+      snapshot_id           = optional(string, null)
+      throughput            = optional(number, null)
+      volume_size           = optional(number, 20)
+      volume_type           = optional(string, "gp3")
+    }))
+  }))
+
+  description = <<-EOT
+    Map of block device name specification, see [launch_template.block-devices](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template#block-devices).
+    EOT
+  # See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template#ebs
+  default = { "/dev/xvda" = { ebs = {} } }
+}
+
+variable "update_config" {
+  type        = list(map(number))
+  default     = []
+  description = <<-EOT
+    Configuration for the `eks_node_group` [`update_config` Configuration Block](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_node_group#update_config-configuration-block).
+    Specify exactly one of `max_unavailable` (node count) or `max_unavailable_percentage` (percentage of nodes).
+    EOT
+}
+
+variable "kubelet_additional_options" {
+  type        = list(string)
+  description = <<-EOT
+    Additional flags to pass to kubelet.
+    DO NOT include `--node-labels` or `--node-taints`,
+    use `kubernetes_labels` and `kubernetes_taints` to specify those."
+    EOT
+  default     = []
+  validation {
+    condition = (length(compact(var.kubelet_additional_options)) == 0 ? true :
+      length(regexall("--node-labels", join(" ", var.kubelet_additional_options))) == 0 &&
+      length(regexall("--node-taints", join(" ", var.kubelet_additional_options))) == 0
+    )
+    error_message = "Var kubelet_additional_options must not contain \"--node-labels\" or \"--node-taints\".  Use `kubernetes_labels` and `kubernetes_taints` to specify labels and taints."
+  }
+}
+
+variable "ami_image_id" {
+  type        = string
+  default     = null
+  description = "AMI to use"
+}
+
+variable "ami_release_version" {
+  type        = list(string)
+  default     = []
+  description = "EKS AMI version to use, e.g. For AL2 \"1.16.13-20200821\" or for bottlerocket \"1.2.0-ccf1b754\" (no \"v\") or  for Windows \"2023.02.14\". For AL2, bottlerocket and Windows, it defaults to latest version for Kubernetes version."
+  validation {
+    condition = (
+      length(var.ami_release_version) == 0 ? true : length(regexall("(^\\d+\\.\\d+\\.\\d+-[\\da-z]+$)|(^\\d+\\.\\d+\\.\\d+$)", var.ami_release_version[0])) == 1
+    )
+    error_message = "Var ami_release_version, if supplied, must be like for AL2 \"1.16.13-20200821\" or for bottlerocket \"1.2.0-ccf1b754\" (no \"v\") or for Windows \"2023.02.14\"."
+  }
+}
+
+variable "resources_to_tag" {
+  type        = list(string)
+  description = "List of auto-launched resource types to tag. Valid types are \"instance\", \"volume\", \"elastic-gpu\", \"spot-instances-request\", \"network-interface\"."
+  default     = ["instance", "volume", "network-interface"]
+  validation {
+    condition = (
+      length(compact([for r in var.resources_to_tag : r if !contains(["instance", "volume", "elastic-gpu", "spot-instances-request", "network-interface"], r)])) == 0
+    )
+    error_message = "Invalid resource type in `resources_to_tag`. Valid types are \"instance\", \"volume\", \"elastic-gpu\", \"spot-instances-request\", \"network-interface\"."
+  }
+}
+
+variable "before_cluster_joining_userdata" {
+  type        = list(string)
+  default     = []
+  description = "Additional `bash` commands to execute on each worker node before joining the EKS cluster (before executing the `bootstrap.sh` script). For more info, see https://kubedex.com/90-days-of-aws-eks-in-production"
+  validation {
+    condition = (
+      length(var.before_cluster_joining_userdata) < 2
+    )
+    error_message = "You may not specify more than one `before_cluster_joining_userdata`."
+  }
+}
+
+variable "after_cluster_joining_userdata" {
+  type        = list(string)
+  default     = []
+  description = "Additional `bash` commands to execute on each worker node after joining the EKS cluster (after executing the `bootstrap.sh` script). For more info, see https://kubedex.com/90-days-of-aws-eks-in-production"
+  validation {
+    condition = (
+      length(var.after_cluster_joining_userdata) < 2
+    )
+    error_message = "You may not specify more than one `after_cluster_joining_userdata`."
+  }
+}
+
+variable "bootstrap_additional_options" {
+  type        = list(string)
+  default     = []
+  description = "Additional options to bootstrap.sh. DO NOT include `--kubelet-additional-args`, use `kubelet_additional_options` var instead."
+  validation {
+    condition = (
+      length(var.bootstrap_additional_options) < 2
+    )
+    error_message = "You may not specify more than one `bootstrap_additional_options`."
+  }
+}
+
+variable "userdata_override_base64" {
+  type        = list(string)
+  default     = []
+  description = <<-EOT
+    Many features of this module rely on the `bootstrap.sh` provided with Amazon Linux, and this module
+    may generate "user data" that expects to find that script. If you want to use an AMI that is not
+    compatible with the Amazon Linux `bootstrap.sh` initialization, then use `userdata_override_base64` to provide
+    your own (Base64 encoded) user data. Use "" to prevent any user data from being set.
+
+    Setting `userdata_override_base64` disables `kubernetes_taints`, `kubelet_additional_options`,
+    `before_cluster_joining_userdata`, `after_cluster_joining_userdata`, and `bootstrap_additional_options`.
+    EOT
+  validation {
+    condition = (
+      length(var.userdata_override_base64) < 2
+    )
+    error_message = "You may not specify more than one `userdata_override_base64`."
+  }
+}
+
+variable "metadata_http_endpoint_enabled" {
+  type        = bool
+  default     = true
+  description = "Set false to disable the Instance Metadata Service."
+}
+
+variable "metadata_http_put_response_hop_limit" {
+  type        = number
+  default     = 2
+  description = <<-EOT
+    The desired HTTP PUT response hop limit (between 1 and 64) for Instance Metadata Service requests.
+    The default is `2` to allows containerized workloads assuming the instance profile, but it's not really recomended. You should use OIDC service accounts instead.
+    EOT
+  validation {
+    condition = (
+      var.metadata_http_put_response_hop_limit >= 1
+    )
+    error_message = "IMDS hop limit must be at least 1 to work."
+  }
+}
+
+variable "metadata_http_tokens_required" {
+  type        = bool
+  default     = true
+  description = "Set true to require IMDS session tokens, disabling Instance Metadata Service Version 1."
+}
+
+variable "placement" {
+  type        = list(any)
+  default     = []
+  description = <<-EOT
+    Configuration for the [`placement` Configuration Block](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template#placement) of the launch template.
+    Leave list empty for defaults. Pass list with single object with attributes matching the `placement` block to configure it.
+    Note that this configures the launch template only. Some elements will be ignored by the Auto Scaling Group
+    that actually launches instances. Consult AWS documentation for details.
+    EOT
+}
+
+variable "cpu_options" {
+  type        = list(any)
+  default     = []
+  description = <<-EOT
+    Configuration for the [`cpu_options` Configuration Block](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template#cpu_options) of the launch template.
+    Leave list empty for defaults. Pass list with single object with attributes matching the `cpu_options` block to configure it.
+    Note that this configures the launch template only. Some elements will be ignored by the Auto Scaling Group
+    that actually launches instances. Consult AWS documentation for details.
+    EOT
+}
+
+variable "enclave_enabled" {
+  type        = bool
+  default     = false
+  description = "Set to `true` to enable Nitro Enclaves on the instance."
+}
+
+variable "detailed_monitoring_enabled" {
+  type        = bool
+  default     = false
+  description = "The launched EC2 instance will have detailed monitoring enabled. Defaults to false"
+}

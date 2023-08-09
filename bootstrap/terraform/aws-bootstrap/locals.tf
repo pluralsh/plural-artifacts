@@ -9,4 +9,5 @@ locals {
     cluster_config            = try(var.create_cluster ? module.cluster.config_map_aws_auth : tomap(false), {})
     cluster_oidc_issuer_url   = var.create_cluster ? module.cluster.cluster_oidc_issuer_url : data.aws_eks_cluster.cluster[0].identity[0].oidc.0.issuer
     cluster_endpoint          = var.create_cluster ? module.cluster.cluster_endpoint : data.aws_eks_cluster.cluster[0].endpoint
+    cluster_ca_data           = var.create_cluster ? module.cluster.cluster_certificate_authority_data : data.aws_eks_cluster.cluster[0].certificate_authority[0].data
 }

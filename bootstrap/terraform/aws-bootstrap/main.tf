@@ -58,12 +58,16 @@ module "cluster" {
   map_roles = concat(var.map_roles, var.manual_roles)
 }
 
+locals {
+  node_defaults = var.generate_launch_template ? merge(var.node_groups_defaults, { launch_template_id = aws_launch_template.default[0].id }) : var.node_groups_defaults
+}
+
 module "single_az_node_groups" {
   source                 = "github.com/pluralsh/module-library//terraform/eks-node-groups/single-az-node-groups?ref=20e64863ffc5e361045db8e6b81b9d244a55809e"
   cluster_name           = var.cluster_name
   default_iam_role_arn   = module.cluster.worker_iam_role_arn
   tags                   = {}
-  node_groups_defaults   = var.node_groups_defaults
+  node_groups_defaults   = local.node_defaults
 
   node_groups            = try(var.create_cluster ? var.single_az_node_groups : tomap(false), {})
   set_desired_size       = false
@@ -79,7 +83,7 @@ module "multi_az_node_groups" {
   cluster_name           = var.cluster_name
   default_iam_role_arn   = module.cluster.worker_iam_role_arn
   tags                   = {}
-  node_groups_defaults   = var.node_groups_defaults
+  node_groups_defaults   = local.node_defaults
 
   node_groups            =  try(var.create_cluster ? var.multi_az_node_groups : tomap(false), {})
   set_desired_size       = false
