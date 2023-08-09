@@ -42,8 +42,6 @@ variable "single_az_node_groups" {
         "plural.sh/performanceType" = "SUSTAINED"
         "plural.sh/scalingGroup"    = "sysbox-s-ondemand"
         "sysbox-install"            = "yes"
-        #"crio-runtime"              = "running"
-        #"sysbox-runtime"            = "true"
       }
       k8s_taints = [{
         key    = "plural.sh/sysbox"
@@ -61,9 +59,9 @@ variable "single_az_node_groups" {
         "plural.sh/capacityType"    = "ON_DEMAND"
         "plural.sh/performanceType" = "SUSTAINED"
         "plural.sh/scalingGroup"    = "sysbox-s-ondemand-plural"
-        #"sysbox-install"            = "yes"
-        "crio-runtime"   = "running"
-        "sysbox-runtime" = "true"
+        "sysbox-install"            = "yes"
+        "crio-runtime"              = "running"
+        "sysbox-runtime"            = "running"
       }
       k8s_taints = [{
         key    = "plural.sh/sysbox"
