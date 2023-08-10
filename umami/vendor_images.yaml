@@ -1,0 +1,4 @@
+ghcr.io:
+  images:
+    umami-software/umami:
+    - "postgresql-v2.4.1"
