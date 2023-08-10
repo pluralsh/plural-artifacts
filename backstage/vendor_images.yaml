@@ -1,0 +1,4 @@
+ghcr.io:
+  images:
+    backstage/backstage:
+    - "1.16.0-next.2"

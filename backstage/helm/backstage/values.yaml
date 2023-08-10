@@ -1,0 +1,33 @@
+postgres:
+  team: plural
+  user: backstage
+  dbName: backstage
+  ownerChart: backstage
+  infix: '-postgres'
+  password: REPLACE_ME
+
+backstage:
+  backstage:
+    image:
+      registry: dkr.plural.sh
+      repository: backstage/backstage/backstage
+      tag: 1.16.0-next.2
+
+    appConfig:
+      techdocs:
+        builder: 'local'
+        publisher:
+          type: 'local'
+
+  ingress:
+    enabled: true
+    className: nginx
+    annotations:
+      kubernetes.io/tls-acme: "true"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+    tls:
+      enabled: true
+      secretName: backstage-tls
+
+  postgresql:
+    enabled: false

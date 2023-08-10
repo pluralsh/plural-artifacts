@@ -1,0 +1,11 @@
+name: backstage
+description: Backstage is an open platform for building developer portals
+category: PRODUCTIVITY
+private: true
+releaseStatus: ALPHA
+icon: plural/icons/backstage.png
+notes: plural/notes.tpl
+homepage: https://backstage.io/
+gitUrl: https://github.com/backstage/backstage
+contributors:
+- walkoss@pm.me
