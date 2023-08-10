@@ -253,7 +253,7 @@ variable "num_static_ips" {
 
 variable "kubernetes_version" {
   type = string
-  default = "1.24.14-gke.1200"
+  default = "1.24.14-gke.1400"
 }
 
 variable "vpc_subnetwork_cidr_range" {
