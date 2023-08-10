@@ -39,7 +39,7 @@ variable "multi_az_node_groups" {
       ami_type       = "CUSTOM"
       k8s_labels = {
         "plural.sh/capacityType"    = "ON_DEMAND"
-        "plural.sh/performanceType" = "SUSTAINED"
+        "plural.sh/performanceType" = "BURST"
         "plural.sh/scalingGroup"    = "sysbox-s-ondemand-plural"
         "sysbox-install"            = "yes"
         "crio-runtime"              = "running"
