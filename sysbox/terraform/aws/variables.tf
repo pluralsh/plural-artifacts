@@ -61,10 +61,9 @@ variable "launch_templates" {
   default = {
     sysbox_s_ondemand_plural = {
       launch_template_name = "sysbox-s-ondemand-plural"
-      #ami_filter_name      = "pluraldev-05-cleanup-part4-crio-binary/sysbox-eks_0.6.2/k8s_1.23/images/hvm-ssd/ubuntu-focal-20.04-amd64-server"
-      ami_filter_name = "pluraldev-05-cleanup-part4-crio-binary-fix1/sysbox-eks_0.6.2/k8s_1.23/images/hvm-ssd/ubuntu-focal-20.04-amd64-server"
-      ami_owners      = ["312272277431"] # Plural
-      create_key_pair = true
+      ami_filter_name      = "pluraldev-05-cleanup-part4-crio-binary-fix2/sysbox-eks_0.6.2/k8s_1.23/images/hvm-ssd/ubuntu-focal-20.04-amd64-server"
+      ami_owners           = ["312272277431"] # Plural
+      create_key_pair      = true
       block_device_mappings = {
         device_name = "/dev/xvda"
         ebs = {
