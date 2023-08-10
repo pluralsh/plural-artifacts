@@ -1,0 +1,4 @@
+docker.io:
+  images:
+    appsmith/appsmith-ce:
+    - "v1.9.31"

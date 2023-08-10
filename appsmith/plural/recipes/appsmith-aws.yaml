@@ -1,0 +1,22 @@
+name: appsmith-aws
+description: Installs appsmith on an aws eks cluster
+provider: AWS
+primary: true
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+- repo: mongodb
+  name: mongodb-aws
+sections:
+- name: appsmith
+  configuration:
+    - name: hostname
+      type: DOMAIN
+      documentation: the fully qualified domain name your appsmith instance will be available at
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: appsmith

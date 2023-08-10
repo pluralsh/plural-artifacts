@@ -1,0 +1,11 @@
+name: appsmith
+description: Framework to build admin panels, internal tools, and dashboards. Integrates with 15+ databases and any API.
+category: PRODUCTIVITY
+private: true
+releaseStatus: ALPHA
+icon: plural/icons/appsmith.png
+notes: plural/notes.tpl
+homepage: https://www.appsmith.com/
+gitUrl: https://github.com/appsmithorg/appsmith
+contributors:
+- walkoss@pm.me
