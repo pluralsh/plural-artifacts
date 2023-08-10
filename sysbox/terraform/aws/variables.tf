@@ -73,6 +73,8 @@ variable "launch_templates" {
         }
       }
       enable_bootstrap_user_data = true
+      bootstrap_extra_args       = "--use-max-pods true"
+      max_pods_per_node          = 69
     }
   }
 }
