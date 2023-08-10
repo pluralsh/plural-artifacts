@@ -8,6 +8,8 @@ sections:
   - name: bootstrap
     configuration: []
     items:
+      - type: TERRAFORM
+        name: kind-bootstrap-cluster-api
       - type: HELM
         name: bootstrap
       - type: HELM
