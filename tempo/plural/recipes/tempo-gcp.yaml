@@ -2,7 +2,6 @@ name: tempo-gcp
 description: Installs tempo on a gcp gke cluster
 provider: GCP
 primary: true
-private: true
 dependencies:
 - repo: bootstrap
   name: gcp-k8s
