@@ -29,7 +29,7 @@ variable "node_groups_defaults" {
   }
 }
 
-variable "single_az_node_groups" {
+variable "multi_az_node_groups" {
   type = any
   default = {
     sysbox_s_ondemand_plural = {
@@ -53,7 +53,7 @@ variable "single_az_node_groups" {
       ]
     }
   }
-  description = "Node groups to add to your cluster. A single managed node group will be created in each availability zone."
+  description = "Node groups to add to your cluster. A single managed node group will be created across each AZ."
 }
 
 variable "launch_templates" {
@@ -72,14 +72,7 @@ variable "launch_templates" {
           delete_on_termination = true
         }
       }
-      elastic_gpu_specifications    = {}
-      elastic_inference_accelerator = {}
-      license_specifications        = {}
-      enable_bootstrap_user_data    = true
-      k8s_labels                    = {} # leave empty, will reuse the same labels as the node group
-      k8s_taints                    = [] # leave empty, will reuse the same taints as the node group
-      kubelet_extra_args            = {}
-      max_pods_per_node             = 16
+      enable_bootstrap_user_data = true
     }
   }
 }

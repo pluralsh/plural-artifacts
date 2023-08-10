@@ -28,7 +28,7 @@ module "node_groups" {
   default_iam_role_arn = data.aws_eks_node_group.main.node_role_arn
   tags                 = var.tags
   node_groups_defaults = var.node_groups_defaults
-  node_groups          = var.single_az_node_groups
+  node_groups          = var.multi_az_node_groups
   launch_templates     = var.launch_templates
   set_desired_size     = false
   private_subnet_ids   = var.private_subnets[*].id
