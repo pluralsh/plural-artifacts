@@ -1,0 +1,9 @@
+dependencies:
+- name: umami
+  repository: https://christianknell.github.io/helm-charts
+  version: 1.14.0
+- name: postgres
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.5
+digest: sha256:e7efcaf3f2611252330a76bf731458913b17c028512f00f6111b2e0d40bd69b8
+generated: "2023-07-29T20:47:45.966701+02:00"

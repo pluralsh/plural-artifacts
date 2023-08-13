@@ -18,7 +18,7 @@ There's also a Makefile with some useful utilities for managing these files.
 We are focused on properly compensating any contributions to the Plural platform, which includes a meaningful bounty for either adding an application to this repo or upgrading an existing one.  Currently the rewards are:
 
 * $75 for a tested, successful application upgrade
-* $300 for a new application onboarded.
+* $300 for a new application onboarded that is on our roadmap (https://github.com/orgs/pluralsh/projects/2).
 
 To be eligible for the upgrade bounty you'll want to follow the steps for upgrading an application below and we simply need to confirm it was correct and properly tested.  
 
@@ -26,7 +26,9 @@ To be eligible for an application onboarding bounty, the process is a bit more i
 
 To claim the reward, you should get in touch with us on our discord at https://discord.gg/pluralsh and we'll simply need to confirm that you did the work (easy way to do that is linking your discord handle on the relevant PRs) and will give you the bounty you've earned.
 
-(small disclaimer: these bounties are subject to change)
+(Disclaimer: These bounties are subject to change
+ 
+Contributor hereby grants to Plural and its affiliates a non-exclusive, perpetual, irrevocable, worldwide, royalty-free, transferable, sublicensable (through multiple tiers) license to freely use, make available and otherwise exploit any materials or contributions submitted by Contributor for any purpose (“Contributions”). Contributor represents, warrants and covenants that: (a) all contributions and Plural’s use thereof will comply with all applicable laws, rules and regulations as well as all applicable third party and open source licenses; (b) Contributor’s submission of Contributions is not and will not be inconsistent with any obligation Contributor may have to others; (c) neither Contributor’s submission of Contributions, nor Plural’s development, use, production, distribution or other exploitation thereof will infringe, misappropriate or violate any intellectual property or other right of any person or entity (including, without limitation, Contributor); and (d) Contributor has the full right to provide Plural with the Contributions and foregoing license. Plural reserves the right to review all Contributions and may or may not, within Plural’s sole discretion, use or incorporate Contributions into Plural’s offerings. Contributor is providing Contributions as an independent contractor and is not a partner, joint venture or agent of Plural and shall not bind nor attempt to bind Plural to any contract. Contributor is not a Plural employee or consultant, and Contributor shall not be eligible to participate in any of Plural’s employee benefit plans, fringe benefit programs, group insurance arrangements or similar programs. )
 
 ### Adding a new application
 

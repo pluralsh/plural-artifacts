@@ -1,0 +1,22 @@
+name: umami-aws
+description: Installs umami on an aws eks cluster
+provider: AWS
+primary: true
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+- repo: postgres
+  name: aws-postgres
+sections:
+- name: umami
+  configuration:
+    - name: hostname
+      documentation: FQDN to use for your umami installation
+      type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: umami

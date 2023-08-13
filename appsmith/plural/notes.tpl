@@ -1,0 +1,1 @@
+Use `plural watch appsmith` to track the status of your application

@@ -2,7 +2,7 @@ name: tempo-aws
 description: Installs tempo on an aws eks cluster
 provider: AWS
 primary: true
-private: true
+private: false
 dependencies:
 - repo: bootstrap
   name: aws-k8s

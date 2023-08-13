@@ -2,7 +2,7 @@ name: tempo-azure
 description: Installs tempo on an azure aks cluster
 provider: GCP
 primary: true
-private: true
+private: false
 dependencies:
 - repo: bootstrap
   name: azure-k8s

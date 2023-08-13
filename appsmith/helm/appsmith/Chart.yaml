@@ -1,0 +1,10 @@
+apiVersion: v2
+name: appsmith
+description: helm chart for appsmith
+type: application
+version: 0.1.0
+appVersion: "v1.9.31"
+dependencies:
+- name: appsmith
+  version: 2.0.3
+  repository: https://helm.appsmith.com
