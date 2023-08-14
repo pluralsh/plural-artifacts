@@ -1,0 +1,22 @@
+name: backstage-aws
+description: Installs backstage on an aws eks cluster
+provider: AWS
+primary: true
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+- repo: postgres
+  name: aws-postgres
+sections:
+- name: backstage
+  configuration:
+    - name: hostname
+      type: DOMAIN
+      documentation: the fully qualified domain name your backstage instance will be available at
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: backstage

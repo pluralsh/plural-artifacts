@@ -1,0 +1,22 @@
+name: backstage-azure
+description: Installs backstage on an azure aks cluster
+provider: AZURE
+primary: true
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-azure
+- repo: postgres
+  name: azure-postgres
+sections:
+- name: backstage
+  configuration:
+    - name: hostname
+      type: DOMAIN
+      documentation: the fully qualified domain name your backstage instance will be available at
+  items:
+  - type: TERRAFORM
+    name: azure
+  - type: HELM
+    name: backstage

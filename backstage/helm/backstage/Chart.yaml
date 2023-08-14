@@ -1,0 +1,13 @@
+apiVersion: v2
+name: backstage
+description: helm chart for backstage
+type: application
+version: 0.1.0
+appVersion: "v1.16.0"
+dependencies:
+- name: backstage
+  version: 1.2.0
+  repository: https://backstage.github.io/charts
+- name: postgres
+  version: 0.1.5
+  repository: https://pluralsh.github.io/module-library

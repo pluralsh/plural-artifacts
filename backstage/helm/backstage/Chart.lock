@@ -1,0 +1,9 @@
+dependencies:
+- name: backstage
+  repository: https://backstage.github.io/charts
+  version: 1.2.0
+- name: postgres
+  repository: https://pluralsh.github.io/module-library
+  version: 0.1.5
+digest: sha256:b66307bc6f776fb9e026fe97f2239b1cbed0c106e1b4de870be1fcdf21ed40b0
+generated: "2023-08-09T19:15:01.182389+02:00"
