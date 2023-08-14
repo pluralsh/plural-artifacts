@@ -118,3 +118,8 @@ airbyte:
       rootUser: {{ importValue "Terraform" "access_key_id" }}
       rootPassword: {{ importValue "Terraform" "secret_access_key" }}
   {{- end }}
+  serviceAccount:
+    {{ if $isGcp }}
+    annotations:
+      iam.gke.io/gcp-service-account: {{ importValue "Terraform" "gcp_sa_email" }}
+    {{ end }}

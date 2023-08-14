@@ -9,3 +9,7 @@ output "secret_access_key" {
 output "credentials_json" {
   value = google_service_account_key.airbyte_key.private_key
 }
+
+output "gcp_sa_email" {
+  value = google_service_account.airbyte.email
+}

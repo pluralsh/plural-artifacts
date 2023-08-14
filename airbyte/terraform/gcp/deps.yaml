@@ -2,7 +2,7 @@ apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
   description: airbyte gcp setup 
-  version: 0.1.4
+  version: 0.1.5
 spec:
   dependencies:
   - name: gcp-bootstrap
@@ -15,3 +15,4 @@ spec:
     access_key_id: access_key_id
     secret_access_key: secret_access_key
     credentials_json: credentials_json
+    gcp_sa_email: gcp_sa_email
