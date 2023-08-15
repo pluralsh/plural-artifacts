@@ -4,7 +4,7 @@
 global:
   application:
     links:
-    - description: airbyte web ui
+    - description: appsmith web ui
       url: {{ .Values.hostname }}
 
 mongoNamespace: {{ namespace "mongodb" }}
