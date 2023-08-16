@@ -1,3 +1,12 @@
+resource "kubernetes_namespace" "sysbox" {
+  metadata {
+    name = var.namespace
+    labels = {
+      "app.kubernetes.io/managed-by" = "plural"
+      "app.plural.sh/name"           = "sysbox"
+    }
+  }
+}
 
 data "aws_eks_cluster" "cluster" {
   name = var.cluster_name
