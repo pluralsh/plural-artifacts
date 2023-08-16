@@ -62,7 +62,7 @@ variable "launch_templates" {
     sysbox_s_ondemand_plural = {
       launch_template_name = "sysbox-s-ondemand-plural"
       ami_filter_name      = "plural/sysbox-eks_0.6.2/k8s_1.23/ubuntu-focal-20.04-amd64-server/0.1.1"
-      ami_owners           = ["312272277431"] # Plural
+      ami_owners           = ["654897662046"]
       create_key_pair      = true
       block_device_mappings = {
         device_name = "/dev/xvda"
