@@ -2,10 +2,10 @@ apiVersion: v2
 name: nocodb
 description: nocodb helm chart for deployment on Plural
 type: application
-version: 0.1.10
+version: 0.1.11
 appVersion: 0.83.8
 dependencies:
 - name: postgres
-  version: 0.1.12
+  version: 0.2.1
   repository: https://pluralsh.github.io/module-library
   condition: postgres.enabled

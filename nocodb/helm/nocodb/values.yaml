@@ -46,7 +46,7 @@ image:
   repository: dkr.plural.sh/nocodb/nocodb/nocodb
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: 0.83.8
+  tag: 0.109.7
 
 imagePullSecrets: []
 nameOverride: ""
