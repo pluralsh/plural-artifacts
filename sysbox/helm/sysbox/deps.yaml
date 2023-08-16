@@ -14,13 +14,4 @@ spec:
     repo: sysbox
     version: '>= 0.1.0'
     optional: true
-  - type: terraform
-    name: azure
-    repo: sysbox
-    version: '>= 0.1.0'
-    optional: true
-  - type: terraform
-    name: gcp
-    repo: sysbox
-    version: '>= 0.1.0'
-    optional: true
+    
