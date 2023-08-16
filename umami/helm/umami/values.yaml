@@ -8,7 +8,8 @@ postgres:
 
 umami:
   image:
-    repository: dkr.plural.sh/umami/umami-software/umami
+    registry: dkr.plural.sh/umami
+    repository: umami-software/umami
     tag: "postgresql-v2.4.1"
   
   postgresql:
