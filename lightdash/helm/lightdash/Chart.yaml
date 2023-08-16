@@ -2,11 +2,11 @@ apiVersion: v2
 name: lightdash
 description: helm chart for lightdash
 type: application
-version: 0.1.5
+version: 0.1.6
 appVersion: v0.530.0
 dependencies:
   - name: lightdash
-    version: 0.8.4
+    version: 0.8.9
     repository: https://lightdash.github.io/helm-charts
   - name: postgres
     version: 0.1.17
