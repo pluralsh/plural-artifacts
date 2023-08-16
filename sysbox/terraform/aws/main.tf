@@ -23,7 +23,7 @@ data "aws_eks_node_group" "main" {
 }
 
 module "launch_templates" {
-  source   = "github.com/pluralsh/module-library//terraform/eks-node-groups/launch-template?ref=feat-ubuntu-ng"
+  source   = "github.com/pluralsh/module-library//terraform/eks-node-groups/launch-template?ref=eks-node-groups-v1.0.0"
   for_each = var.launch_templates
 
   tags = try(each.value.tags, {})
@@ -81,7 +81,7 @@ module "launch_templates" {
 
 
 module "node_groups" {
-  source               = "github.com/pluralsh/module-library//terraform/eks-node-groups/multi-az-node-groups?ref=feat-ubuntu-ng"
+  source               = "github.com/pluralsh/module-library//terraform/eks-node-groups/multi-az-node-groups?ref=eks-node-groups-v1.0.0"
   cluster_name         = var.cluster_name
   default_iam_role_arn = data.aws_eks_node_group.main.node_role_arn
   tags                 = var.tags
