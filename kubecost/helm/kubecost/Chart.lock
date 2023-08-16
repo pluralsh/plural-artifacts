@@ -1,9 +1,9 @@
 dependencies:
 - name: cost-analyzer
   repository: https://kubecost.github.io/cost-analyzer/
-  version: 1.102.2
+  version: 1.105.1
 - name: test-base
   repository: https://pluralsh.github.io/module-library
   version: 0.1.10
-digest: sha256:ff1e1c2eafeb889c530cfb9d19f15996e8962eb1b3401b4fdfbb9f6d4761f385
-generated: "2023-06-14T11:40:59.473543-04:00"
+digest: sha256:1d72b27214ca93b1f005c9ffc8f5912f8aa840780b81656971bea5dcbf354f56
+generated: "2023-08-16T22:18:02.498841186Z"
