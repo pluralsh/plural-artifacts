@@ -1,0 +1,1 @@
+Use `plural watch sysbox` to track the status of your application

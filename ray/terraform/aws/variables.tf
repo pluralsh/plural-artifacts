@@ -1,5 +1,5 @@
 variable "namespace" {
-  type = string
+  type    = string
   default = "ray"
 }
 
@@ -8,7 +8,7 @@ variable "cluster_name" {
 }
 
 variable "create_single_az_node_groups" {
-  type = bool
+  type    = bool
   default = false
 }
 
@@ -27,16 +27,16 @@ variable "node_groups_defaults" {
   type        = any
   default = {
     desired_capacity = 0
-    min_capacity = 0
-    max_capacity = 3
+    min_capacity     = 0
+    max_capacity     = 3
 
-    instance_types = ["t3.large", "t3a.large"]
-    disk_size = 50
-    ami_release_version = "1.22.15-20221222"
+    instance_types       = ["t3.large", "t3a.large"]
+    disk_size            = 50
+    ami_release_version  = "1.22.15-20221222"
     force_update_version = true
-    ami_type = "AL2_x86_64"
-    k8s_labels = {}
-    k8s_taints = []
+    ami_type             = "AL2_x86_64"
+    k8s_labels           = {}
+    k8s_taints           = []
   }
 }
 
@@ -44,17 +44,18 @@ variable "single_az_node_groups" {
   type = any
   default = {
     ray_small_burst_spot = {
-      name = "ray-small-burst-spot"
-      capacity_type = "SPOT"
+      name           = "ray-small-burst-spot"
+      capacity_type  = "SPOT"
       instance_types = ["t3.large", "t3a.large"]
       k8s_labels = {
-        "plural.sh/capacityType" = "SPOT"
+        "plural.sh/capacityType"    = "SPOT"
         "plural.sh/performanceType" = "BURST"
-        "plural.sh/scalingGroup" = "ray-small-burst-spot"
+        "plural.sh/scalingGroup"    = "ray-small-burst-spot"
+        "sysbox-install"            = "yes"
       }
       k8s_taints = [{
-        key = "plural.sh/capacityType"
-        value = "SPOT"
+        key    = "plural.sh/capacityType"
+        value  = "SPOT"
         effect = "NO_SCHEDULE"
       }]
     }
