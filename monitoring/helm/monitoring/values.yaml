@@ -8,7 +8,7 @@ loki:
     pspEnabled: false
   image:
     repository: dkr.plural.sh/monitoring/grafana/loki
-    tag: 2.4.2
+    tag: 2.8.4
   podAnnotations:
     prometheus.io/scrape: "true"
     prometheus.io/port: "3100"
@@ -19,7 +19,7 @@ promtail:
   image:
     registry: dkr.plural.sh
     repository: monitoring/grafana/promtail
-    tag: 2.4.2
+    tag: 2.8.4
   podAnnotations:
     prometheus.io/scrape: "true"
     prometheus.io/port: "3101"
@@ -156,7 +156,7 @@ kube-prometheus-stack:
       logLevel: debug
       image:
         repository: dkr.plural.sh/monitoring/prometheus/alertmanager
-        tag: v0.24.0
+        tag: v0.25.0
 
   prometheusOperator:
     admissionWebhooks:
@@ -167,29 +167,29 @@ kube-prometheus-stack:
           sha: ""
     image:
       repository: dkr.plural.sh/monitoring/prometheus-operator/prometheus-operator
-      tag: v0.58.0
+      tag: v0.67.1
       sha: ""
     prometheusConfigReloader:
       image:
         repository: dkr.plural.sh/monitoring/prometheus-operator/prometheus-config-reloader
-        tag: v0.58.0
+        tag: v0.67.1
         sha: ""
     thanosImage:
       repository: dkr.plural.sh/monitoring/thanos/thanos
-      tag: v0.28.0
+      tag: v0.31.0
       sha: ""
   
   kube-state-metrics:
     image:
       repository: dkr.plural.sh/monitoring/kube-state-metrics/kube-state-metrics
-      tag: v2.5.0
+      tag: v2.8.2
     podSecurityPolicy:
       enabled: false
 
   prometheus-node-exporter:
     image:
       repository: dkr.plural.sh/monitoring/prometheus/node-exporter
-      tag: v1.3.1
+      tag: v1.6.1
     rbac:
       pspEnabled: false
     tolerations:
@@ -236,7 +236,7 @@ kube-prometheus-stack:
     prometheusSpec:
       image:
         repository: dkr.plural.sh/monitoring/prometheus/prometheus
-        tag: v2.37.0
+        tag: v2.46.0
         sha: ""
       resources:
         requests:
@@ -283,7 +283,7 @@ opentelemetry-operator:
   manager:
     image:
       repository: dkr.plural.sh/monitoring/open-telemetry/opentelemetry-operator/opentelemetry-operator
-      tag: v0.59.0
+      tag: v0.82.0
     serviceMonitor:
       enabled: true
     prometheusRule:
@@ -291,12 +291,12 @@ opentelemetry-operator:
   kubeRBACProxy:
     image:
       repository: dkr.plural.sh/monitoring/kubebuilder/kube-rbac-proxy
-      tag: v0.8.0
+      tag: v0.14.1
   collector:
     enabled: false
     image:
       repository: gcr.io/pluralsh/otel/opentelemetry-collector
-      tag: 0.59.0
+      tag: 0.83.0
     tempoNamespace: grafana-tempo
 
 vpa:
@@ -329,7 +329,7 @@ vpa:
   updater:
     image:
       repository: dkr.plural.sh/monitoring/k8s-artifacts-prod/autoscaling/vpa-updater
-      tag: 0.9.2
+      tag: 0.11.0
 
   recommender:
     # recommender.enabled -- If true, the vpa recommender component will be installed.
@@ -360,7 +360,7 @@ vpa:
       # recommender.image.pullPolicy -- The pull policy for the recommender image. Recommend not changing this
       pullPolicy: Always
       # recommender.image.tag -- Overrides the image tag whose default is the chart appVersion
-      tag: 0.9.2
+      tag: 0.11.0
     # recommender.podAnnotations -- Annotations to add to the recommender pod
     podAnnotations: {}
     # recommender.podSecurityContetxt -- The security context for the recommender pod

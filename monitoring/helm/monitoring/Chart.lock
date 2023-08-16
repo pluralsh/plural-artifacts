@@ -4,15 +4,15 @@ dependencies:
   version: 39.13.0
 - name: loki
   repository: https://grafana.github.io/helm-charts
-  version: 2.9.1
+  version: 2.16.0
 - name: promtail
   repository: https://grafana.github.io/helm-charts
   version: 3.11.0
 - name: opentelemetry-operator
   repository: https://open-telemetry.github.io/opentelemetry-helm-charts
-  version: 0.12.0
+  version: 0.35.1
 - name: vpa
   repository: https://charts.fairwinds.com/stable
-  version: 0.4.2
-digest: sha256:9b84774630023f82f5c08f274f2f36d5197e1b8108542d40d9d143802fb5fd14
-generated: "2022-09-13T17:50:46.461204+02:00"
+  version: 0.5.0
+digest: sha256:b268f047940408128017099f6323653d1fb49cdbadd10a3c31f55ed784c1a703
+generated: "2023-08-16T22:18:42.351558695Z"
