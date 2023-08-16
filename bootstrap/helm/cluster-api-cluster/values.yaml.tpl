@@ -37,7 +37,7 @@ cluster:
   {{ end }}
 
   {{ if eq .Provider "kind" }}
-  kubernetesVersion: v1.27.3
+  kubernetesVersion: v1.23.13
   serviceCidrBlocks:
     - 10.128.0.0/12
   {{ end }}

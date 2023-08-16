@@ -1,0 +1,13 @@
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  description: Creates a local Kubernetes cluster using KinD
+  version: 0.1.0
+spec:
+  dependencies: []
+  providers:
+  - kind
+  outputs:
+    cluster: cluster
+  provider_wirings:
+    cluster: module.kind-bootstrap-cluster-api.cluster
