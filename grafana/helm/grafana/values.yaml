@@ -40,11 +40,11 @@ grafana:
 
   image:
     repository: dkr.plural.sh/grafana/grafana/grafana
-    tag: 9.4.3
+    tag: 9.4.13
   initChownData:
     image:
       repository: gcr.io/pluralsh/library/busybox
-      tag: 1.36.0
+      tag: 1.36.1
   downloadDashboardsImage:
     repository: gcr.io/pluralsh/curlimages/curl
   grafana.ini:
