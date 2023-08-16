@@ -725,7 +725,7 @@ hydra:
     enabled: false
   image:
     repository: oryd/hydra
-    tag: v2.1.1
+    tag: v2.2.0
 
   maester:
     enabled: false

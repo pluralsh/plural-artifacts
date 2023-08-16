@@ -2,27 +2,27 @@ apiVersion: v2
 name: trace-shield
 description: helm chart for trace-shield
 type: application
-version: 0.1.15
+version: 0.1.16
 appVersion: "v0.7.0"
 dependencies:
 - name: kratos
-  version: 0.33.4
+  version: 0.36.0
   repository: https://k8s.ory.sh/helm/charts
   condition: kratos.enabled
 - name: oathkeeper
-  version: 0.33.4
+  version: 0.36.0
   repository: https://k8s.ory.sh/helm/charts
   condition: oathkeeper.enabled
 - name: hydra
-  version: 0.33.4
+  version: 0.36.0
   repository: https://k8s.ory.sh/helm/charts
   condition: hydra.enabled
 - name: kratos-selfservice-ui-node
-  version: 0.33.4
+  version: 0.36.0
   repository: https://k8s.ory.sh/helm/charts
   condition: kratos-selfservice-ui-node.enabled
 - name: keto
-  version: 0.33.4
+  version: 0.36.0
   repository: https://k8s.ory.sh/helm/charts
   condition: keto.enabled
 - name: postgres
