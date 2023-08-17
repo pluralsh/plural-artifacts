@@ -1,8 +1,4 @@
 REPO bootstrap
 ATTRIBUTES Plural repository.yaml
 
-TF terraform/*
-HELM helm/*
-RECIPE plural/recipes/*
-TAG plural/tags/helm/*
-TAG plural/tags/terraform/*
+HELM helm/cluster-api-cluster

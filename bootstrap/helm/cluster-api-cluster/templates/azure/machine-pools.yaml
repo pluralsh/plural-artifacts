@@ -13,6 +13,7 @@ apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
 kind: AzureManagedMachinePool
 metadata:
   annotations:
+    helm.sh/resource-policy: keep
     {{- if (hasKey $values "annotations") -}}
     {{- toYaml (merge $values.annotations $defaultVals.annotations)| nindent 4 }}
     {{- else -}}

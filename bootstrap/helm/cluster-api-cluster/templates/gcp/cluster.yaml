@@ -3,6 +3,8 @@ apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
 kind: GCPManagedCluster
 metadata:
   name: {{ .Values.cluster.name }}
+  annotations:
+    helm.sh/resource-policy: keep
 spec:
   project: {{ .Values.cluster.google.project }}
   region: {{ .Values.cluster.google.region }}
