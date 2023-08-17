@@ -9,6 +9,8 @@ apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
 kind: DockerMachinePool
 metadata:
   name: {{ $name }}
+  annotations:
+    helm.sh/resource-policy: keep
 spec:
   template:
       extraMounts:

@@ -2,6 +2,8 @@ apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
 kind: KubeadmConfig
 metadata:
   name: worker-mp-config
+  annotations:
+    helm.sh/resource-policy: keep
 spec:
   joinConfiguration:
     nodeRegistration:

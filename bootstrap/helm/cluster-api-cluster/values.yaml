@@ -961,5 +961,7 @@ workers:
   ###        Docker WORKERS     ###
   #################################
   kind:
-    small-burst-spot:
-      replicas: 2
+    small-burst-0:
+      replicas: 1
+    small-burst-1:
+      replicas: 1
