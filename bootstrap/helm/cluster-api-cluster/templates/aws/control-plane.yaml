@@ -3,6 +3,8 @@ kind: AWSManagedControlPlane
 apiVersion: controlplane.cluster.x-k8s.io/v1beta2
 metadata:
   name: {{ .Values.cluster.name }}
+  annotations:
+    helm.sh/resource-policy: keep
 spec:
   region: {{ .Values.cluster.aws.region }}
   sshKeyName: {{ .Values.cluster.aws.sshKeyName }}
