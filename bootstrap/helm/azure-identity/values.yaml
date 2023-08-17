@@ -3,6 +3,7 @@
 # Declare variables to be passed into your templates.
 
 aad-pod-identity:
+  enabled: true
   mic:
     resources:
       requests:

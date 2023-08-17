@@ -2,9 +2,10 @@ apiVersion: v2
 name: azure-identity
 description: Enables azure pod identity bindings
 type: application
-version: 0.1.14
+version: 0.1.15
 appVersion: "1.16.0"
 dependencies:
 - name: aad-pod-identity
   version: 4.0.0
   repository: https://raw.githubusercontent.com/Azure/aad-pod-identity/master/charts
+  condition: aad-pod-identity.enabled
