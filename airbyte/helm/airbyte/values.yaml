@@ -22,7 +22,7 @@ replicaCount: 1
 bootloader:
   image:
     repository: dkr.plural.sh/airbyte/airbyte/bootloader
-    tag: 0.50.8
+    tag: 0.50.19
 
 airbyte:
   version: 0.50.8
@@ -56,7 +56,7 @@ airbyte:
   worker:
     image:
       repository: dkr.plural.sh/airbyte/airbyte/worker
-      tag: 0.50.8
+      tag: 0.50.19
     
     log:
       level: INFO
@@ -67,7 +67,7 @@ airbyte:
         memory: 3Gi
 
     containerOrchestrator:
-      image: dkr.plural.sh/airbyte/airbyte/container-orchestrator:0.50.8
+      image: dkr.plural.sh/airbyte/airbyte/container-orchestrator:0.50.19
 
     livenessProbe:
       enabled: true
@@ -88,12 +88,12 @@ airbyte:
   cron:
     image:
       repository: dkr.plural.sh/airbyte/airbyte/cron
-      tag: 0.50.8
+      tag: 0.50.19
 
   server:
     image:
       repository: dkr.plural.sh/airbyte/airbyte/server
-      tag: 0.50.8
+      tag: 0.50.19
     
     log:
       level: INFO
@@ -122,13 +122,13 @@ airbyte:
   connector-builder-server:
     image:
       repository: dkr.plural.sh/airbyte/airbyte/connector-builder-server
-      tag: 0.50.8
+      tag: 0.50.19
 
   airbyte-bootloader:
     enabled: false
     image:
       repository: dkr.plural.sh/airbyte/airbyte/bootloader
-      tag: 0.50.8
+      tag: 0.50.19
     extraInitContainers:
     - name: wait-for-pg
       image: gcr.io/pluralsh/busybox:latest
@@ -144,18 +144,18 @@ airbyte:
   pod-sweeper:
     image:
       repository: dkr.plural.sh/airbyte/bitnami/kubectl
-      tag: 1.27.2
+      tag: 1.27.4
 
   metrics:
     enabled: true
     image:
       repository: dkr.plural.sh/airbyte/airbyte/metrics-reporter
-      tag: 0.50.8
+      tag: 0.50.19
 
   webapp:
     image:
       repository: dkr.plural.sh/airbyte/airbyte/webapp
-      tag: 0.50.8
+      tag: 0.50.19
 
     ingress:
       enabled: false
