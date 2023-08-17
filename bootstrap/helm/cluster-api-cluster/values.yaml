@@ -962,6 +962,4 @@ workers:
   #################################
   kind:
     small-burst-0:
-      replicas: 1
-    small-burst-1:
-      replicas: 1
+      replicas: 2
