@@ -64,7 +64,7 @@ oidc-config:
   service:
     name: prefect-oauth2-proxy
     selector:
-      app.kubernetes.io/component: prefect-server
+      app.kubernetes.io/component: server
       app.kubernetes.io/instance: prefect
       app.kubernetes.io/name: prefect-server
 
