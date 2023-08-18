@@ -27,7 +27,7 @@ externalDb:
 retool:
   retool:
     config:
-      postgres:
+      postgresql:
         host: <YOUR_DB_HOSTNAME>
         port: 5432
         db: <YOUR_DB_NAME>
