@@ -6,3 +6,7 @@ output "cluster" {
 output "vpc_network" {
   value = one(google_compute_network.vpc_network[*])
 }
+
+output "capi_sa_workload_identity_email" {
+  value = module.capi-workload-identity.gcp_service_account_email
+}

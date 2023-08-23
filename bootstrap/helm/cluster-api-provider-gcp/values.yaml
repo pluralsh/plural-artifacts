@@ -12,3 +12,4 @@ cluster-api-provider-gcp:
       image:
         repository: ghcr.io/pluralsh/cluster-api-gcp-controller
         tag: v1.4.3
+  bootstrapMode: false

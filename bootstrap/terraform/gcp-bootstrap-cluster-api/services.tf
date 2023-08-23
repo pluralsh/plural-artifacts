@@ -26,7 +26,6 @@ resource "google_project_service" "container" {
 }
 
 resource "google_project_service" "iam" {
-  count = var.cluster_api ? 0 : 1
   project = var.gcp_project_id
   service = "iam.googleapis.com"
 
