@@ -19,6 +19,7 @@ cluster:
   aws:
     ## The region to deploy the cluster to
     region: ""
+    availabilityZones: {}
     ## The name of the ssh key to use for the cluster
     sshKeyName: default
     ## The cluster addons to deploy
@@ -395,20 +396,32 @@ workers:
   #################################
   aws:
     small-burst-spot:
-      replicas: 3
+      replicas: 0
       spec:
-        labels: { } # TODO: allow this to not be set
+        labels:
+          plural.sh/capacityType: SPOT
+          plural.sh/performanceType: BURST
+          plural.sh/scalingGroup: small-burst-spot
         additionalTags: { } # TODO: allow this to not be set
+        capacityType: spot
         scaling:
           maxSize: 27
-          minSize: 1
+          minSize: 0
+        taints:
+          - effect: no-schedule
+            key: plural.sh/capacityType
+            value: SPOT
         updateConfig:
           maxUnavailable: 1
     medium-burst-spot:
       replicas: 0
       spec:
-        labels: { } # TODO: allow this to not be set
+        labels:
+          plural.sh/capacityType: SPOT
+          plural.sh/performanceType: BURST
+          plural.sh/scalingGroup: medium-burst-spot
         additionalTags: { } # TODO: allow this to not be set
+        capacityType: spot
         instanceType: t3.xlarge
         scaling:
           maxSize: 27
@@ -420,9 +433,13 @@ workers:
     large-burst-spot:
       replicas: 0
       spec:
-        labels: { } # TODO: allow this to not be set
+        labels:
+          plural.sh/capacityType: SPOT
+          plural.sh/performanceType: BURST
+          plural.sh/scalingGroup: large-burst-spot
         additionalTags: { } # TODO: allow this to not be set
         instanceType: t3.2xlarge
+        capacityType: spot
         scaling:
           maxSize: 27
           minSize: 0
@@ -430,6 +447,126 @@ workers:
           - effect: no-schedule
             key: plural.sh/capacityType
             value: SPOT
+    medium-burst-spot-az-a:
+      replicas: 0
+      spec:
+        labels:
+          plural.sh/capacityType: ON_DEMAND
+          plural.sh/performanceType: BURST
+          plural.sh/scalingGroup: medium-burst-on-demand
+        additionalTags: { } # TODO: allow this to not be set
+        instanceType: t3.xlarge
+        scaling:
+          maxSize: 27
+          minSize: 0
+        availabilityZone: A
+    medium-burst-spot-az-b:
+      replicas: 0
+      spec:
+        labels:
+          plural.sh/capacityType: ON_DEMAND
+          plural.sh/performanceType: BURST
+          plural.sh/scalingGroup: medium-burst-on-demand
+        additionalTags: { } # TODO: allow this to not be set
+        instanceType: t3.xlarge
+        scaling:
+          maxSize: 27
+          minSize: 0
+        availabilityZone: B
+    medium-burst-spot-az-c:
+      replicas: 0
+      spec:
+        labels:
+          plural.sh/capacityType: ON_DEMAND
+          plural.sh/performanceType: BURST
+          plural.sh/scalingGroup: medium-burst-on-demand
+        additionalTags: { } # TODO: allow this to not be set
+        instanceType: t3.xlarge
+        scaling:
+          maxSize: 27
+          minSize: 0
+        availabilityZone: C
+    large-burst-spot-az-a:
+      replicas: 0
+      spec:
+        labels:
+          plural.sh/capacityType: ON_DEMAND
+          plural.sh/performanceType: BURST
+          plural.sh/scalingGroup: medium-burst-on-demand
+        additionalTags: { } # TODO: allow this to not be set
+        instanceType: t3.2xlarge
+        scaling:
+          maxSize: 27
+          minSize: 0
+        availabilityZone: A
+    large-burst-spot-az-b:
+      replicas: 0
+      spec:
+        labels:
+          plural.sh/capacityType: ON_DEMAND
+          plural.sh/performanceType: BURST
+          plural.sh/scalingGroup: medium-burst-on-demand
+        additionalTags: { } # TODO: allow this to not be set
+        instanceType: t3.2xlarge
+        scaling:
+          maxSize: 27
+          minSize: 0
+        availabilityZone: B
+    large-burst-spot-az-c:
+      replicas: 0
+      spec:
+        labels:
+          plural.sh/capacityType: ON_DEMAND
+          plural.sh/performanceType: BURST
+          plural.sh/scalingGroup: medium-burst-on-demand
+        additionalTags: { } # TODO: allow this to not be set
+        instanceType: t3.2xlarge
+        scaling:
+          maxSize: 27
+          minSize: 0
+        availabilityZone: C
+    small-burst-spot-az-a:
+      replicas: 1
+      spec:
+        labels:
+          plural.sh/capacityType: ON_DEMAND
+          plural.sh/performanceType: BURST
+          plural.sh/scalingGroup: small-burst-on-demand
+        additionalTags: { } # TODO: allow this to not be set
+        scaling:
+          maxSize: 1
+          minSize: 1
+        availabilityZone: A
+        updateConfig:
+          maxUnavailable: 1
+    small-burst-spot-az-b:
+      replicas: 1
+      spec:
+        labels:
+          plural.sh/capacityType: ON_DEMAND
+          plural.sh/performanceType: BURST
+          plural.sh/scalingGroup: small-burst-on-demand
+        additionalTags: { } # TODO: allow this to not be set
+        scaling:
+          maxSize: 1
+          minSize: 1
+        availabilityZone: B
+        updateConfig:
+          maxUnavailable: 1
+    small-burst-spot-az-c:
+      replicas: 1
+      spec:
+        labels:
+          plural.sh/capacityType: ON_DEMAND
+          plural.sh/performanceType: BURST
+          plural.sh/scalingGroup: small-burst-on-demand
+        additionalTags: { } # TODO: allow this to not be set
+        scaling:
+          maxSize: 1
+          minSize: 1
+        availabilityZone: C
+        updateConfig:
+          maxUnavailable: 1
   #################################
   ###       AZURE WORKERS       ###
   #################################
