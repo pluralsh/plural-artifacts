@@ -56,9 +56,21 @@ spec:
   scaling:
     {{- toYaml $scaling | nindent 4 }}
   {{- end }}
+  {{- if .Values.cluster.aws.availabilityZones }}
+  {{- if (eq (($values.spec | default dict).availabilityZone) "A")}}
+  availabilityZones: [{{- .Values.cluster.aws.availabilityZones.zonea }}]
+  {{- end}}
+  {{- if (eq (($values.spec | default dict).availabilityZone) "B")}}
+  availabilityZones: [{{- .Values.cluster.aws.availabilityZones.zoneb }}]
+  {{- end}}
+  {{- if (eq (($values.spec | default dict).availabilityZone) "C")}}
+  availabilityZones: [{{- .Values.cluster.aws.availabilityZones.zonec }}]
+  {{- end}}
+  {{- else}}
   {{- if or ($defaultVals.spec.availabilityZones) (($values.spec | default dict).availabilityZones) }}
   availabilityZones:
   {{- toYaml (($values.spec | default dict).availabilityZones | default $defaultVals.spec.availabilityZones) | nindent 2 }}
+  {{- end }}
   {{- end }}
   {{- if or ($defaultVals.spec.subnetIDs) (($values.spec | default dict).subnetIDs) }}
   subnetIDs:

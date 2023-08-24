@@ -6,6 +6,9 @@ cluster:
   kubernetesVersion: v1.24
   aws:
     region: {{ .Region }}
+    {{ if .AvailabilityZones }}
+    availabilityZones: {{ toYaml .AvailabilityZones | nindent 6 }}
+    {{ end }}
     iamAuthenticatorConfig:
       mapRoles:
       - rolearn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-capa-controller"
