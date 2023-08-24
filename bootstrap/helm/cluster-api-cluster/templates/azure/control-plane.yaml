@@ -9,7 +9,13 @@ spec:
   identityRef:
     apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
     kind: AzureClusterIdentity
+    {{- if .Values.cluster.azure.clusterIdentity.bootstrapMode }}
     name: {{ .Values.cluster.azure.clusterIdentityName }}
+    {{- else if .Values.cluster.azure.clusterIdentity.workloadIdentity.enabled }}
+    name: {{ .Values.cluster.azure.clusterIdentity.workloadIdentity.name }}
+    {{- else }}
+    name: {{ .Values.cluster.azure.clusterIdentity.name }}
+    {{- end }}
     namespace: {{ .Release.Namespace }}
   location: {{ .Values.cluster.azure.location }}
   resourceGroupName: {{ .Values.cluster.azure.resourceGroupName }}

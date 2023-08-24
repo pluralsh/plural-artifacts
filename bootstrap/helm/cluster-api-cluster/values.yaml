@@ -121,27 +121,34 @@ cluster:
   ###        AZURE CLUSTER        ###
   ###################################
   azure:
-    # Name of AzureClusterIdentity to be used when reconciling this cluster.
-    clusterIdentityName: cluster-identity
-    # Type of Azure Identity used.
-    # One of: ServicePrincipal, ServicePrincipalCertificate, UserAssignedMSI, ManualServicePrincipal.
-    clusterIdentityType: ServicePrincipal
-    # Used to identify the namespaces the clusters are allowed to use the identity from.
-    # Namespaces can be selected either using an array of namespaces or with label selector.
-    # An empty allowedNamespaces object indicates that AzureClusters can use this identity from any namespace.
-    # If this object is nil, no namespaces will be allowed (default behaviour, if this field is not provided)
-    # A namespace should be either in the NamespaceList or match with Selector to use the identity.
-    allowedNamespaces: {}
-    # Service Principal client ID. Both Service Principal and User Assigned MSI can use this field.
-    clientID: ""
-    # Service Principal password.
-    clientSecret: ""
-    # Name of Secret containing clientSecret.
-    clientSecretName: cluster-identity-secret
-    # Azure resource ID for the User Assigned MSI resource.
-    resourceID: ""
-    # Service Principal primary tenant ID.
-    tenantID: ""
+    clusterIdentity:
+      bootstrapMode: false
+      # Credentials for the cluster identity used to bootstrap cluster.
+      bootstrapCredentials:
+        # Service Principal client ID used during bootstrapping.
+        clientID: ""
+        # Service Principal password used during bootstrapping.
+        clientSecret: ""
+      # Settings for the workload identity used by the cluster after bootstrapping.
+      workloadIdentity:
+        # If the default AzureClusterIdentity should be created.
+        enabled: true
+        # Name of AzureClusterIdentity to be used when reconciling this cluster.
+        name: default
+        # Service Principal or User Assigned MSI Client ID.
+        clientID: ""
+        # Used to identify the namespaces the clusters are allowed to use the identity from.
+        # Namespaces can be selected either using an array of namespaces or with label selector.
+        # An empty allowedNamespaces object indicates that AzureClusters can use this identity from any namespace.
+        # If this object is nil, no namespaces will be allowed (default behaviour, if this field is not provided)
+        # A namespace should be either in the NamespaceList or match with Selector to use the identity.
+        # Make sure that the namespace this cluster is deployed in is allowed.
+        allowedNamespaces: {}
+      # Primary tenant ID for the cluster Identity.
+      tenantID: ""
+      # Name of AzureClusterIdentity to be used when reconciling this cluster.
+      # This field is only used when workloadIdentity is disabled and not used during cluster bootstrapping.
+      name: ""
     # GUID of the Azure subscription to hold this cluster.
     subscriptionID: ""
     # String matching one of the canonical Azure region names.

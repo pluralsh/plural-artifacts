@@ -48,8 +48,9 @@ module "aks" {
   os_disk_size_gb                  = var.node_groups[0].os_disk_size_gb
   os_disk_type                     = var.node_groups[0].os_disk_type
   enable_role_based_access_control = true
-  rbac_aad_enabled                 = false 
+  rbac_aad_enabled                 = false
   rbac_aad_managed                 = false
+  oidc_issuer_enabled              = true
   location                         = data.azurerm_resource_group.group.location
   sku_tier                         = "Paid"
   private_cluster_enabled          = var.private_cluster
@@ -168,6 +169,27 @@ resource "azurerm_role_assignment" "aks-node-vm-contributor" {
   principal_id         = one(module.aks[*].kubelet_identity[0].object_id)
 
   depends_on = [module.aks]
+}
+
+resource "azurerm_user_assigned_identity" "capz" {
+  location            = data.azurerm_resource_group.group.location
+  name                = "${var.cluster_name}-capz"
+  resource_group_name = data.azurerm_resource_group.group.name
+}
+
+resource "azurerm_role_assignment" "rg-contributor" {
+  scope                = data.azurerm_resource_group.group.id
+  role_definition_name = "Contributor"
+  principal_id         = azurerm_user_assigned_identity.capz.principal_id
+}
+
+resource "azurerm_federated_identity_credential" "capz" {
+  name                = "${var.cluster_name}-capz-federated-identity"
+  resource_group_name = data.azurerm_resource_group.group.name
+  audience            = ["api://AzureADTokenExchange"]
+  issuer              = module.aks[0].oidc_issuer_url
+  parent_id           = azurerm_user_assigned_identity.capz.id
+  subject             = "system:serviceaccount:${var.namespace}:bootstrap-cluster-api-provider-azure"
 }
 
 resource "kubernetes_namespace" "bootstrap" {

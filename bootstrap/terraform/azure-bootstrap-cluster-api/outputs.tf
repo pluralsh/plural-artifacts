@@ -27,3 +27,7 @@ output "resource_group_name" {
 output "network" {
   value = var.cluster_api ? one(data.azurerm_virtual_network.vnet[*]) : one(module.network[*])
 }
+
+output "capz_assigned_identity_client_id" {
+  value = azurerm_user_assigned_identity.capz.client_id
+}
