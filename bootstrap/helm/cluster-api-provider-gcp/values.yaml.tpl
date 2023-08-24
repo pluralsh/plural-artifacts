@@ -4,5 +4,5 @@ cluster-api-provider-gcp:
       iam.gke.io/gcp-service-account: {{ importValue "Terraform" "capi_sa_workload_identity_email" }}
 {{- if .Context.Credentials }}
   managerBootstrapCredentials:
-    credentialsJson: {{ .Context.Credentials | b64dec | quote }}
+    credentialsJson: {{ .Context.Credentials | quote }}
 {{- end }}
