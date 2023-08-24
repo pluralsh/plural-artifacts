@@ -3,8 +3,4 @@ kind: Dependencies
 metadata:
   description: installs the open source solution for azure workload identity
 spec:
-  dependencies:
-  - type: terraform
-    name: azure-bootstrap
-    repo: bootstrap
-    version: '>= 0.1.20'
+  dependencies: []
