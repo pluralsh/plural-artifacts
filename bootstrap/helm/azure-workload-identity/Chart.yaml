@@ -1,0 +1,11 @@
+apiVersion: v2
+name: azure-workload-identity
+description: A Helm chart for Kubernetes
+type: application
+version: 0.1.0
+appVersion: "v1.1.0"
+dependencies:
+- name: workload-identity-webhook
+  version: 1.1.0
+  repository: https://azure.github.io/azure-workload-identity/charts
+  condition: workload-identity-webhook.enabled

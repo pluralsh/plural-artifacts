@@ -31,3 +31,5 @@ sections:
         name: cluster-api-provider-azure
       - type: HELM
         name: cluster-api-cluster
+      - type: HELM
+        name: azure-workload-identity
