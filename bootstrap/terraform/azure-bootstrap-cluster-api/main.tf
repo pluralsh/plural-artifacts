@@ -187,7 +187,7 @@ resource "azurerm_federated_identity_credential" "capz" {
   name                = "${var.name}-capz-federated-identity"
   resource_group_name = data.azurerm_resource_group.group.name
   audience            = ["api://AzureADTokenExchange"]
-  issuer              = module.aks[0].oidc_issuer_url
+  issuer              = var.cluster_api ? one(data.azurerm_kubernetes_cluster.cluster[*].oidc_issuer_url) : one(module.aks[*].oidc_issuer_url)
   parent_id           = azurerm_user_assigned_identity.capz.id
   subject             = "system:serviceaccount:${var.namespace}:bootstrap-cluster-api-provider-azure"
 }
