@@ -325,7 +325,7 @@ workers:
         amiType: AL2_x86_64 # AL2_x86_64, AL2_x86_64_GPU, AL2_ARM_64
         amiVersion: ""
         capacityType: onDemand # onDemand, spot
-        diskSize: ""
+        diskSize: 50
         instanceType: t3a.large
         roleName: ""
         scaling:
