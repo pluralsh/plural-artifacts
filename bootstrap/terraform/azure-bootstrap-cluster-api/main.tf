@@ -183,6 +183,12 @@ resource "azurerm_role_assignment" "rg-contributor" {
   principal_id         = azurerm_user_assigned_identity.capz.principal_id
 }
 
+resource "azurerm_role_assignment" "node-rg-contributor" {
+  scope                = data.azurerm_resource_group.node_group.id
+  role_definition_name = "Contributor"
+  principal_id         = azurerm_user_assigned_identity.capz.principal_id
+}
+
 resource "azurerm_federated_identity_credential" "capz" {
   name                = "${var.name}-capz-federated-identity"
   resource_group_name = data.azurerm_resource_group.group.name
