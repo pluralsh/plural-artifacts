@@ -23,5 +23,5 @@ Name of the AAD Pod Identity used for bootstrapping
 Name of the AAD Pod Identity Binding used for bootstrapping
 */}}
 {{- define "azure-bootstrap.pod-identity-binding" -}}
-{{- printf "%s-binding" (include "pod-identity-name" .) }}
+{{- printf "%s-binding" (include "azure-bootstrap.pod-identity-name" .) }}
 {{- end }}
