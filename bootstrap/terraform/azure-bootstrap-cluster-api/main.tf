@@ -173,7 +173,7 @@ resource "azurerm_role_assignment" "aks-node-vm-contributor" {
 
 resource "azurerm_user_assigned_identity" "capz" {
   location            = data.azurerm_resource_group.group.location
-  name                = "${var.cluster_name}-capz"
+  name                = "${var.name}-capz"
   resource_group_name = data.azurerm_resource_group.group.name
 }
 
@@ -184,7 +184,7 @@ resource "azurerm_role_assignment" "rg-contributor" {
 }
 
 resource "azurerm_federated_identity_credential" "capz" {
-  name                = "${var.cluster_name}-capz-federated-identity"
+  name                = "${var.name}-capz-federated-identity"
   resource_group_name = data.azurerm_resource_group.group.name
   audience            = ["api://AzureADTokenExchange"]
   issuer              = module.aks[0].oidc_issuer_url
