@@ -8,5 +8,5 @@ output "vpc_network" {
 }
 
 output "capi_sa_workload_identity_email" {
-  value = one(module.capi-workload-identity[*].gcp_service_account_email)
+  value = module.capi-workload-identity.gcp_service_account_email
 }

@@ -1,4 +1,4 @@
-{{- if and (not .Values.cluster.azure.clusterIdentity.bootstrapMode) .Values.cluster.azure.clusterIdentity.workloadIdentity.enabled }}
+{{- if and (eq .Values.provider "azure") (eq .Values.type "managed") (not .Values.cluster.azure.clusterIdentity.bootstrapMode) .Values.cluster.azure.clusterIdentity.workloadIdentity.enabled }}
 kind: AzureClusterIdentity
 apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
 metadata:

@@ -163,7 +163,6 @@ module "certmanager-workload-identity" {
 }
 
 module "capi-workload-identity" {
-  count               = var.cluster_api ? 1 : 0
   source              = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
   name                = "${var.cluster_name}-cluster-api-provider-gcp"
   namespace           = var.namespace
