@@ -21,11 +21,6 @@ cluster:
   kubernetesVersion: v1.25.11
   azure:
     clusterIdentity:
-      {{- if and .Context.ClientId .Context.ClientSecret }}
-      bootstrapCredentials:
-        clientID: {{ .Context.ClientId }}
-        clientSecret: {{ .Context.ClientSecret }}
-      {{- end }}
       workloadIdentity:
         clientID: {{ importValue "Terraform" "capz_assigned_identity_client_id" }}
       tenantID: {{ .Context.TenantId }}
