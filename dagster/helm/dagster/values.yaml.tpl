@@ -23,7 +23,7 @@ oidcProxy:
 
 dagster:
   {{ if .OIDC }}
-  dagit:
+  dagsterWebserver:
     labels:
       security.plural.sh/inject-oauth-sidecar: "true"
     deploymentLabels:
@@ -37,7 +37,7 @@ dagster:
     {{ end }}
   {{ end }}
   ingress:
-    dagit:
+    dagit: # should be renamed dagsterWebserver when dagster helm chart fix the merge between dagsterWebserver and dagit dict values
       host: {{ .Values.hostname }}
       {{ if .OIDC }}
       precedingPaths:

@@ -18,7 +18,7 @@ spec:
     name: metrics-oauth
   selector:
     {{- include "dagster.selectorLabels" . | nindent 4 }}
-    component: {{ include "dagster.dagit.componentName" . }}
+    component: {{ include "dagster.webserver.componentName" . }}
 ---
 apiVersion: v1
 kind: Secret
