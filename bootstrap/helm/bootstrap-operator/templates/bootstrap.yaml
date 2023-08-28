@@ -17,6 +17,37 @@ spec:
         managerImage: registry.k8s.io/capi-operator/cluster-api-operator:v0.2.0
         kubeRBACProxyImage: gcr.io/kubebuilder/kube-rbac-proxy:v0.8.0
   cloudSpec:
-  {{ if .Values.operator.cloud }}
-        {{ toYaml .Values.operator.cloud | nindent 4 }}
-  {{ end }}
+  {{- if .Values.operator.cloud.aws.enabled }}
+    aws:
+      {{- range $k, $v := .Values.operator.cloud.aws }}
+      {{- if ne $k "enabled" }}
+      {{- if or (kindIs "string" $v) (kindIs "bool" $v) (kindIs "int" $v) (kindIs "float64" $v) }}
+      {{ $k }}: {{ $v }}
+      {{- else }}
+      {{ $k }}: {{- toYaml $v | nindent 8 }}
+      {{- end }}
+      {{- end }}
+      {{- end }}
+  {{- else if .Values.operator.cloud.azure.enabled }}
+    azure:
+      {{- range $k, $v := .Values.operator.cloud.azure }}
+      {{- if ne $k "enabled" }}
+      {{- if or (kindIs "string" $v) (kindIs "bool" $v) (kindIs "int" $v) (kindIs "float64" $v) }}
+      {{ $k }}: {{ $v }}
+      {{- else }}
+      {{ $k }}: {{- toYaml $v | nindent 8 }}
+      {{- end }}
+      {{- end }}
+      {{- end }}
+  {{- else if .Values.operator.cloud.gcp.enabled }}
+    gcp:
+      {{- range $k, $v := .Values.operator.cloud.gcp }}
+      {{- if ne $k "enabled" }}
+      {{- if or (kindIs "string" $v) (kindIs "bool" $v) (kindIs "int" $v) (kindIs "float64" $v) }}
+      {{ $k }}: {{ $v }}
+      {{- else }}
+      {{ $k }}: {{- toYaml $v | nindent 8 }}
+      {{- end }}
+      {{- end }}
+      {{- end }}
+  {{- end }}
