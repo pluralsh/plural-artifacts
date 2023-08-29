@@ -15,7 +15,7 @@ tests:
         documentIndex: 0
       - matchRegex:
           path: metadata.name
-          pattern: RELEASE-NAME-azure-bootstrap-identity
+          pattern: -azure-bootstrap-identity$
         documentIndex: 0
   - it: should not be created if bootstrapMode is false
     set:
