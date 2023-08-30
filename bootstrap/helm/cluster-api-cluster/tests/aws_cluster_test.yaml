@@ -1,0 +1,23 @@
+suite: test aws cluster
+templates:
+  - aws/cluster.yaml
+tests:
+  - it: should be created with the controlPlaneEndpoint
+    set:
+      cluster.name: test
+      provider: aws
+      type: managed
+      cluster.aws.controlPlaneEndpoint: abc
+    asserts:
+      - template: aws/cluster.yaml
+        hasDocuments:
+          count: 1
+      - template: aws/cluster.yaml
+        documentIndex: 0
+        isKind:
+          of: AWSManagedCluster
+      - template: aws/cluster.yaml
+        documentIndex: 0
+        equal:
+          path: spec.controlPlaneEndpoint
+          value: abc
