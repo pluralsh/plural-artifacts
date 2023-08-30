@@ -14,7 +14,8 @@ retool:
   replicaCount: 2
 
   image:
-    tag: 2.107.8
+    repository: "tryretool/backend"
+    tag: 2.123.1
 
   postgresql:
     enabled: false
