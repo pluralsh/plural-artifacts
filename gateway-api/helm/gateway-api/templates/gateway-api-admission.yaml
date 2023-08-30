@@ -1,0 +1,33 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: gateway-api-admission
+  annotations:
+    cert-manager.io/inject-ca-from: {{ .Release.Namespace }}/{{ include "gateway-api.fullname" . }}-serving-cert
+  labels:
+  {{- include "gateway-api.labels" . | nindent 4 }}
+webhooks:
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: '{{ include "gateway-api.fullname" . }}-admission-server'
+      namespace: '{{ .Release.Namespace }}'
+      path: /validate
+  failurePolicy: Fail
+  matchPolicy: Equivalent
+  name: validate.gateway.networking.k8s.io
+  rules:
+  - apiGroups:
+    - gateway.networking.k8s.io
+    apiVersions:
+    - v1alpha2
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - gateways
+    - gatewayclasses
+    - httproutes
+  sideEffects: None
