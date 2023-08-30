@@ -47,7 +47,7 @@ resources:
     cpu: 100m
     memory: 50Mi
   requests:
-    cpu: 100m
+    cpu: 10m
     memory: 50Mi
 
 livenessProbe: {}
