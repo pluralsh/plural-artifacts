@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ include "gateway-api.fullname" . }}-serving-cert
+spec:
+  secretName: {{ include "gateway-api.fullname" . }}-serving-cert
+  dnsNames:
+  - gateway-api-admission-server
+  - gateway-api-admission-server.{{ .Release.Namespace }}.svc
+  issuerRef:
+    kind: Issuer
+    name: {{ include "gateway-api.fullname" . }}-selfsigned
