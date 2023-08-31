@@ -13,3 +13,14 @@ cluster-api-provider-gcp:
         repository: ghcr.io/pluralsh/cluster-api-gcp-controller
         tag: v1.4.3
   bootstrapMode: false
+
+job:
+  enabled: true
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-weight: "-5"
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+  image:
+    repository: bitnami/kubectl
+    tag: 1.25.8
+    pullPolicy: IfNotPresent
