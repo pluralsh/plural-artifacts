@@ -20,14 +20,14 @@ redis:
   enabled: true
   auth:
     enabled: false
-  
+
   replica:
     replicaCount: 0
 
 n8n:
   image:
     repository: dkr.plural.sh/n8n/n8nio/n8n
-    tag: 0.236.3
+    tag: 1.5.1
   extraEnvSecrets:
     DB_POSTGRESDB_PASSWORD:
       name: n8n.plural-n8n.credentials.postgresql.acid.zalan.do
