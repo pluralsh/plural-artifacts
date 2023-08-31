@@ -3,7 +3,7 @@ name: n8n
 description: helm chart for n8n
 type: application
 version: 0.1.18
-appVersion: "0.236.3"
+appVersion: "1.5.1"
 dependencies:
 - name: postgres
   version: 0.1.17
@@ -13,8 +13,8 @@ dependencies:
   repository: https://charts.bitnami.com/bitnami
   condition: redis.enabled
 - name: n8n
-  version: 0.10.0
-  repository: file://../../../../n8n-helm-chart
+  version: 0.12.0
+  repository: https://pluralsh.github.io/plural-helm-charts
 - name: test-base
   repository: https://pluralsh.github.io/module-library
   version: 0.1.10

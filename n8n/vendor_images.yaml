@@ -1,3 +1,4 @@
 docker.io:
   images-by-tag-regex:
-    n8nio/n8n: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    # the below regex can be used to limit the regex range so that only versions >= v1.4.0 are matched
+    n8nio/n8n: (?:^v?1\.(?:[4-9]|[1-9][0-9]{1,})\.[0-9]+$)|(?:^v?(?:[2-9]|[1-9][0-9]{1,})\.[0-9]+?\.[0-9]+$)
