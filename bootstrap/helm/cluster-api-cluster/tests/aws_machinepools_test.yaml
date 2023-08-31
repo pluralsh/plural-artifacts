@@ -1,0 +1,108 @@
+suite: test machine pools
+templates:
+  - aws/machinepools.yaml
+tests:
+  - it: check kind
+    set:
+      cluster.name: test
+      provider: aws
+      type: managed
+    asserts:
+      - template: aws/machinepools.yaml
+        hasDocuments:
+          count: 12
+      - template: aws/machinepools.yaml
+        documentIndex: 0
+        isKind:
+          of: AWSManagedMachinePool
+  - it: test defaults
+    set:
+      cluster.name: test
+      provider: aws
+      type: managed
+      cluster.aws.region: abc
+      cluster.kubernetesVersion: v1.2.3
+    asserts:
+      - equal:
+          path: spec.amiType
+          value: AL2_x86_64
+      - equal:
+          path: spec.diskSize
+          value: 50
+    template: aws/machinepools.yaml
+  - it: test large-burst-spot
+    set:
+      cluster.name: test
+      provider: aws
+      type: managed
+      cluster.aws.region: abc
+      cluster.kubernetesVersion: v1.2.3
+    asserts:
+      - equal:
+          path: spec.capacityType
+          value: spot
+      - equal:
+          path: spec.eksNodegroupName
+          value: large-burst-spot
+      - equal:
+          path: spec.instanceType
+          value: t3.2xlarge
+    template: aws/machinepools.yaml
+    documentIndex: 0
+  - it: test large-burst-spot-az-a
+    set:
+      cluster.name: test
+      provider: aws
+      type: managed
+      cluster.aws.region: abc
+      cluster.kubernetesVersion: v1.2.3
+    asserts:
+      - equal:
+          path: spec.capacityType
+          value: onDemand
+      - equal:
+          path: spec.eksNodegroupName
+          value: large-burst-spot-az-a
+      - equal:
+          path: spec.instanceType
+          value: t3.2xlarge
+    template: aws/machinepools.yaml
+    documentIndex: 1
+  - it: test large-burst-spot-az-b
+    set:
+      cluster.name: test
+      provider: aws
+      type: managed
+      cluster.aws.region: abc
+      cluster.kubernetesVersion: v1.2.3
+    asserts:
+      - equal:
+          path: spec.capacityType
+          value: onDemand
+      - equal:
+          path: spec.eksNodegroupName
+          value: large-burst-spot-az-b
+      - equal:
+          path: spec.instanceType
+          value: t3.2xlarge
+    template: aws/machinepools.yaml
+    documentIndex: 2
+  - it: test large-burst-spot-az-c
+    set:
+      cluster.name: test
+      provider: aws
+      type: managed
+      cluster.aws.region: abc
+      cluster.kubernetesVersion: v1.2.3
+    asserts:
+      - equal:
+          path: spec.capacityType
+          value: onDemand
+      - equal:
+          path: spec.eksNodegroupName
+          value: large-burst-spot-az-c
+      - equal:
+          path: spec.instanceType
+          value: t3.2xlarge
+    template: aws/machinepools.yaml
+    documentIndex: 3

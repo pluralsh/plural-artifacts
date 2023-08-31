@@ -1,0 +1,101 @@
+suite: test azure cluster identity
+templates:
+  - azure/bootstrap-cluster-identity.yaml
+  - azure/cluster-workload-identity.yaml
+  - azure/control-plane.yaml
+tests:
+  - it: should be created if bootstrapMode is true
+    set:
+      cluster.name: test
+      provider: azure
+      type: managed
+      cluster.azure.clusterIdentity.tenantID: tenant-id
+      cluster.azure.clusterIdentity.bootstrapCredentials.clientID: client-id
+      cluster.azure.clusterIdentity.bootstrapCredentials.clientSecret: client-secret
+      cluster.azure.clusterIdentity.bootstrapMode: true
+    asserts:
+      - template: azure/bootstrap-cluster-identity.yaml
+        hasDocuments:
+          count: 4
+      - template: azure/bootstrap-cluster-identity.yaml
+        documentIndex: 0
+        isKind:
+          of: AzureClusterIdentity
+      - template: azure/bootstrap-cluster-identity.yaml
+        documentIndex: 0
+        matchRegex:
+          path: metadata.name
+          pattern: -azure-bootstrap-identity$
+      - template: azure/bootstrap-cluster-identity.yaml
+        documentIndex: 0
+        equal:
+          path: spec.tenantID
+          value: tenant-id
+      - template: azure/bootstrap-cluster-identity.yaml
+        documentIndex: 0
+        equal:
+          path: spec.clientID
+          value: client-id
+      - template: azure/bootstrap-cluster-identity.yaml
+        documentIndex: 1
+        equal:
+          path: data.clientSecret
+          value: client-secret
+          decodeBase64: true
+      - template: azure/bootstrap-cluster-identity.yaml
+        documentIndex: 2
+        equal:
+          path: spec.clientID
+          value: client-id
+      - template: azure/bootstrap-cluster-identity.yaml
+        documentIndex: 2
+        equal:
+          path: spec.tenantID
+          value: tenant-id
+      - template: azure/bootstrap-cluster-identity.yaml
+        documentIndex: 3
+        matchRegex:
+          path: spec.azureIdentity
+          pattern: test-NAMESPACE-RELEASE-NAME-azure-bootstrap-identity$
+      - template: azure/cluster-workload-identity.yaml
+        hasDocuments:
+          count: 0
+      - template: azure/control-plane.yaml
+        hasDocuments:
+          count: 1
+      - template: azure/control-plane.yaml
+        documentIndex: 0
+        matchRegex:
+          path: spec.identityRef.name
+          pattern: -azure-bootstrap-identity$
+  - it: should not be created if bootstrapMode is false
+    set:
+      cluster.name: test
+      provider: azure
+      type: managed
+      cluster.azure.clusterIdentity.tenantID: tenant-id
+      cluster.azure.clusterIdentity.workloadIdentity.name: default
+      cluster.azure.clusterIdentity.workloadIdentity.clientID: client-id
+      cluster.azure.clusterIdentity.bootstrapMode: false
+    asserts:
+      - template: azure/bootstrap-cluster-identity.yaml
+        hasDocuments:
+          count: 0
+      - template: azure/cluster-workload-identity.yaml
+        hasDocuments:
+          count: 1
+      - template: azure/cluster-workload-identity.yaml
+        documentIndex: 0
+        equal:
+          path: spec.clientID
+          value: client-id
+      - template: azure/cluster-workload-identity.yaml
+        documentIndex: 0
+        equal:
+          path: spec.tenantID
+          value: tenant-id
+      - template: azure/control-plane.yaml
+        documentIndex: 0
+        equal:
+          path: spec.identityRef.name
+          value: default
