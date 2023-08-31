@@ -1,0 +1,23 @@
+name: keycloak-gcp
+description: Installs keycloak on an aws eks cluster
+provider: GCP
+primary: true
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+
+
+- repo: postgres
+  name: gcp-postgres
+
+sections:
+- name: keycloak
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: keycloak

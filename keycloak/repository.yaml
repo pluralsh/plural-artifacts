@@ -1,0 +1,6 @@
+name: keycloak
+description: keycloak deployed on plural
+category: SECURITY
+private: true
+icon: plural/icons/keycloak.png
+notes: plural/notes.tpl
