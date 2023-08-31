@@ -1,5 +1,5 @@
 REPO keycloak
-ATTRIBUTES phasetwo repository.yaml
+ATTRIBUTES Plural repository.yaml
 
 TF terraform/*
 HELM helm/*
