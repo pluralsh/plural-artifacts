@@ -3,8 +3,4 @@ kind: Dependencies
 metadata:
   description: installs the open source solution for azure active directory pod bindings
 spec:
-  dependencies:
-  - type: terraform
-    name: azure-bootstrap
-    repo: bootstrap
-    version: '>= 0.1.1'
+  dependencies: []
