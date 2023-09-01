@@ -1,3 +1,4 @@
+enabled: {{ .ClusterAPI }}
 provider: {{ .Provider }}
 cluster:
   name: {{ .Cluster }}
