@@ -5,6 +5,7 @@ private: false
 icon: plural/icons/retool.png
 darkIcon: plural/icons/retool-dark.jpeg
 homepage: https://retool.com
+docs: plural/docs
 gitUrl: https://github.com/tryretool/retool-onpremise
 notes: plural/notes.tpl
 tags:

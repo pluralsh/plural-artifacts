@@ -3,6 +3,7 @@ description: An open-source and self-hosted customer engagement suite.
 category: PRODUCTIVITY
 icon: plural/icons/chatwoot.png
 notes: plural/notes.tpl
+docs: plural/docs
 gitUrl: https://github.com/chatwoot/chatwoot
 homepage: https://www.chatwoot.com/
 tags:

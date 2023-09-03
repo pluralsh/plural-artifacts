@@ -6,10 +6,10 @@ dependencies:
   repository: https://charts.bitnami.com/bitnami
   version: 17.9.5
 - name: n8n
-  repository: file://../../../../n8n-helm-chart
-  version: 0.10.0
+  repository: https://pluralsh.github.io/plural-helm-charts
+  version: 0.12.0
 - name: test-base
   repository: https://pluralsh.github.io/module-library
   version: 0.1.10
-digest: sha256:fc3a9af8f0ee854b2a4b489f2f4d171b5ba42145c9e1fea7f4fe4a8fdbf64582
-generated: "2023-07-19T09:15:52.357311-04:00"
+digest: sha256:ba24b8f4783c55b92ba7e4e0e6360619c908578d56d362ff19b4c3d08ed8ac0a
+generated: "2023-08-31T16:37:27.202397+02:00"

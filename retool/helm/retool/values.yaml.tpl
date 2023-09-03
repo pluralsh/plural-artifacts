@@ -1,3 +1,9 @@
+global:
+  application:
+    links:
+    - description: retool web ui
+      url: {{ .Values.hostname }}
+
 retool:
   config:
     licenseKey: {{ .Values.licenseKey }}

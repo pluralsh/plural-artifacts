@@ -17,7 +17,7 @@ module "vpc" {
   database_subnets = var.database_subnets
 
   enable_nat_gateway = true
-  single_nat_gateway = true
+  single_nat_gateway = false
 
   public_subnet_tags = {
     "kubernetes.io/cluster/${var.cluster_name}" = "shared"

@@ -8,17 +8,20 @@ postgres:
   user: retool
   dbName: retool
   ownerChart: retool
-  infix: postgres
+  infix: -postgres
 
 retool:
-  image:
-    tag: 2.107.8
+  replicaCount: 2
 
-  postgres:
+  image:
+    repository: tryretool/backend
+    tag: 3.4.14
+
+  postgresql:
     enabled: false
 
   config:
-    postgres:
+    postgresql:
       host: plural-postgres-retool
       port: 5432
       db: retool
@@ -38,4 +41,4 @@ retool:
   
   environmentVariables:
   - name: POSTGRES_SSL_REJECT_UNAUTHORIZED
-    value: 'true'
+    value: 'false'

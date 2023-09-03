@@ -1,0 +1,22 @@
+name: backstage-gcp
+description: Installs backstage on an gcp gke cluster
+provider: GCP
+primary: true
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+- repo: postgres
+  name: gcp-postgres
+sections:
+- name: backstage
+  configuration:
+    - name: hostname
+      type: DOMAIN
+      documentation: the fully qualified domain name your backstage instance will be available at
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: backstage

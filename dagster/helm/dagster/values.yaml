@@ -15,7 +15,7 @@ test-base:
   testName: dagster-integration
   promoteTag: stable
   tags:
-  - 1.3.13
+  - 1.4.10
 
 config-overlays:
   configOverlays:
@@ -38,17 +38,17 @@ dagster:
   dagsterDaemon:
     image:
       repository: dkr.plural.sh/dagster/dagster/dagster-celery-k8s
-      tag: 1.3.13
+      tag: 1.4.10
     resources:
       requests:
         cpu: 15m
         memory: 156Mi
       limits:
         memory: 256Mi
-  dagit:
+  dagsterWebserver:
     image:
       repository: dkr.plural.sh/dagster/dagster/dagster-celery-k8s
-      tag: 1.3.13
+      tag: 1.4.10
     resources:
       requests:
         cpu: 25m
@@ -62,7 +62,7 @@ dagster:
   pipelineRun:
     image:
       repository: dkr.plural.sh/dagster/dagster/user-code-example
-      tag: 1.3.13
+      tag: 1.4.10
 
   ingress:
     enabled: true
@@ -86,7 +86,7 @@ dagster:
       celeryK8sRunLauncher:
         image:
           repository: dkr.plural.sh/dagster/dagster/dagster-celery-k8s
-          tag: 1.3.13
+          tag: 1.4.10
 
   postgresql:
     enabled: false
@@ -106,7 +106,7 @@ dagster:
       - name: "k8s-example-user-code-1"
         image:
           repository: ghcr.io/pluralsh/containers/dagster/user-code-example
-          tag: 1.3.13-plural1.0.9
+          tag: 1.4.10-plural1.1.10
           pullPolicy: Always
         resources:
           requests:

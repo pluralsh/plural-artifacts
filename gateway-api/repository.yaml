@@ -1,0 +1,12 @@
+name: gateway-api
+description: gateway-api deployed on plural
+category: NETWORK
+icon: plural/icons/k8s.png
+notes: plural/notes.tpl
+gitUrl: https://github.com/kubernetes-sigs/gateway-api
+homepage: https://gateway-api.sigs.k8s.io/
+tags:
+- tag: gateway-api
+- tag: network
+- tag: ingress
+- tag: service-mesh

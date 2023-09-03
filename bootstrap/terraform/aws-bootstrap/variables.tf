@@ -28,7 +28,7 @@ variable "cluster_log_retention_in_days" {
 variable "kubernetes_version" {
   type = string
   description = "Kubernetes version to use for the cluster"
-  default = "1.23"
+  default = "1.24"
 }
 
 variable "vpc_cni_addon_version" {
@@ -225,7 +225,7 @@ variable "node_groups_defaults" {
 
     instance_types = ["t3.large", "t3a.large"]
     disk_size = 50
-    ami_release_version = "1.23.16-20230217"
+    ami_release_version = "1.24.15-20230816"
     force_update_version = true
     ami_type = "AL2_x86_64"
     k8s_labels = {}
