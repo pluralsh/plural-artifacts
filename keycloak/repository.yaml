@@ -4,3 +4,5 @@ category: SECURITY
 private: true
 icon: plural/icons/keycloak.png
 notes: plural/notes.tpl
+contributors:
+- cfornari@startopsgroup.com
