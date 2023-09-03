@@ -8,7 +8,7 @@ appVersion: "v1.0.0"
 dependencies:
 - name: keycloakx
   version: 2.2.1
-  repository: https://artifacthub.io/packages/helm/codecentric/keycloakx
+  repository: https://codecentric.github.io/helm-charts
 - name: postgres
   version: 0.1.5
   repository: https://pluralsh.github.io/module-library
