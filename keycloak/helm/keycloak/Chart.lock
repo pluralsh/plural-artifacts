@@ -1,14 +1,9 @@
-apiVersion: v2
-name: keycloak
-description: helm chart for keycloak
-type: application
-version: 0.1.0
-appVersion: "v1.0.0"
-
 dependencies:
 - name: keycloakx
-  version: 2.2.1
   repository: https://codecentric.github.io/helm-charts
+  version: 2.2.1
 - name: postgres
-  version: 0.1.5
   repository: https://pluralsh.github.io/module-library
+  version: 0.1.5
+digest: sha256:5a180a558372b18a78e68df99202f9cc3ff2558bfd35b064963c222889419c19
+generated: "2023-09-03T16:53:43.603205-07:00"
