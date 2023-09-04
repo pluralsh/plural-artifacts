@@ -25,13 +25,13 @@ cluster:
     addons:
       - conflictResolution: overwrite
         name: kube-proxy
-        version: v1.24.10-eksbuild.2
+        version: v1.24.15-eksbuild.2
       - conflictResolution: overwrite
         name: vpc-cni
-        version: v1.12.6-eksbuild.1
+        version: v1.13.4-eksbuild.1
       - conflictResolution: overwrite
         name: coredns
-        version: v1.9.3-eksbuild.3
+        version: v1.9.3-eksbuild.6
 
     network:
       # vpc:
