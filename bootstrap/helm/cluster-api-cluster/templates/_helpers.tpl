@@ -62,6 +62,25 @@ Create the name of the service account to use
 {{- end }}
 
 {{/*
+Creates the Kubernetes version for the cluster
+# TODO: this should actually be used to sanatize the `.Values.cluster.kubernetesVersion` value to what the providers support instead of defining these static versions
+*/}}
+{{- define "cluster.kubernetesVersion" -}}
+{{- if eq .Values.provider "aws" -}}
+v1.24
+{{- end }}
+{{- if eq .Values.provider "azure" -}}
+v1.25.11
+{{- end }}
+{{- if and (eq .Values.provider "gcp") (eq .Values.type "managed") -}}
+1.24.14-gke.2700
+{{- end }}
+{{- if eq .Values.provider "kind" -}}
+v1.25.11
+{{- end }}
+{{- end }}
+
+{{/*
 Create the kind for the infrastructureRef for the cluster
 */}}
 {{- define "cluster.infrastructure.kind" -}}
@@ -202,7 +221,7 @@ spec:
   template:
     spec:
       {{- if or (eq .ctx.Values.provider "gcp") (eq .ctx.Values.provider "azure") (eq .ctx.Values.provider "kind") }}
-      version: {{ .values.kubernetesVersion | default .ctx.Values.cluster.kubernetesVersion }}
+      version: {{ .values.kubernetesVersion | default (include "cluster.kubernetesVersion" .ctx) }}
       {{- end }}
       clusterName: {{ .ctx.Values.cluster.name }}
       bootstrap:

@@ -9,7 +9,6 @@ cluster:
   name: {{ .Cluster }}
 
   {{- if eq .Provider "aws" }}
-  kubernetesVersion: v1.24
   aws:
     region: {{ .Region }}
     iamAuthenticatorConfig:
@@ -26,7 +25,6 @@ cluster:
   {{- end }}
 
   {{- if eq .Provider "azure" }}
-  kubernetesVersion: v1.25.11
   azure:
     clusterIdentity:
       workloadIdentity:
@@ -40,7 +38,6 @@ cluster:
   {{- end }}
 
   {{- if $isGcp }}
-  kubernetesVersion: 1.24.14-gke.2700
   gcp:
     project: {{ .Project }}
     region: {{ .Region }}
@@ -49,7 +46,6 @@ cluster:
   {{- end }}
 
   {{- if eq .Provider "kind" }}
-  kubernetesVersion: v1.23.13
   serviceCidrBlocks:
     - 10.128.0.0/12
   {{- end }}

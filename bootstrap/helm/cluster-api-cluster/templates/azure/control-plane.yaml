@@ -21,7 +21,7 @@ spec:
   resourceGroupName: {{ .Values.cluster.azure.resourceGroupName }}
   nodeResourceGroupName: {{ .Values.cluster.azure.nodeResourceGroupName }}
   subscriptionID: {{ .Values.cluster.azure.subscriptionID }}
-  version: {{ .Values.cluster.kubernetesVersion }}
+  version: {{ include "cluster.kubernetesVersion" . }}
   {{- if ne .Values.cluster.azure.sshPublicKey "skip" }}
   sshPublicKey: {{ .Values.cluster.azure.sshPublicKey | quote }}
   {{- end }}

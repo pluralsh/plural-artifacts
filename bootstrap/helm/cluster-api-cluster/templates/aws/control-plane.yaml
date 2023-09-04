@@ -8,7 +8,7 @@ metadata:
 spec:
   region: {{ .Values.cluster.aws.region }}
   sshKeyName: {{ .Values.cluster.aws.sshKeyName }}
-  version: {{ .Values.cluster.kubernetesVersion }}
+  version: {{ include "cluster.kubernetesVersion" . }}
   {{- with .Values.cluster.aws.addons }}
   addons:
   {{- toYaml . | nindent 4 }}
