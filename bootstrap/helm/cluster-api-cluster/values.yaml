@@ -9,7 +9,7 @@ cluster:
   kubernetesVersion: ""
   ## The cidr blocks for pods
   podCidrBlocks:
-    - 192.168.0.0/16
+    - 192.168.0.0/16 # TODO: shouldn't this also be getting propagated to things like what `.Values.cluster.aws.network.vpc.cidrBlock` is setting?
   ## The cidr blocks for services
   serviceCidrBlocks: [] # TODO: check if we should be setting this
 
@@ -44,7 +44,7 @@ cluster:
       #   internetGatewayId: ""
       #   tags: {}
       #   availabilityZoneUsageLimit: 3 # TODO: is set to 3 by default
-      #   availabilityZoneSelection: Ordered # TODO: set by default to Ordered. Can be Ordered or Random
+      #   availabilityZoneSelection: Ordered # TODO: How do we deal with people choosing ones manually in the init flow now? Should we only allow number input and always use ordered for the time being? Set by default to Ordered. Can be Ordered or Random
       # subnets: []
       # # - id: ""
       # #   cidrBlock: ""
