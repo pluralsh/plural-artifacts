@@ -66,16 +66,15 @@ Creates the Kubernetes version for the cluster
 # TODO: this should actually be used to sanatize the `.Values.cluster.kubernetesVersion` value to what the providers support instead of defining these static versions
 */}}
 {{- define "cluster.kubernetesVersion" -}}
-{{- if eq .Values.provider "aws" -}}
+{{- if .Values.cluster.kubernetesVersion -}}
+{{ .Values.cluster.kubernetesVersion }}
+{{- else if eq .Values.provider "aws" -}}
 v1.24
-{{- end }}
-{{- if eq .Values.provider "azure" -}}
+{{- else if eq .Values.provider "azure" -}}
 v1.25.11
-{{- end }}
-{{- if and (eq .Values.provider "gcp") (eq .Values.type "managed") -}}
+{{- else if and (eq .Values.provider "gcp") (eq .Values.type "managed") -}}
 1.24.14-gke.2700
-{{- end }}
-{{- if eq .Values.provider "kind" -}}
+{{- else if eq .Values.provider "kind" -}}
 v1.25.11
 {{- end }}
 {{- end }}
