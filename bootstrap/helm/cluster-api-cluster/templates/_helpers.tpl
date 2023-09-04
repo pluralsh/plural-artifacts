@@ -71,7 +71,7 @@ AWSManagedCluster
 {{- if and (eq .Values.provider "azure") (eq .Values.type "managed") -}}
 AzureManagedCluster
 {{- end }}
-{{- if and (eq .Values.provider "google") (eq .Values.type "managed") -}}
+{{- if and (eq .Values.provider "gcp") (eq .Values.type "managed") -}}
 GCPManagedCluster
 {{- end }}
 {{- if and (eq .Values.provider "kind") (eq .Values.type "managed") -}}
@@ -89,7 +89,7 @@ infrastructure.cluster.x-k8s.io/v1beta2
 {{- if and (eq .Values.provider "azure") (eq .Values.type "managed") -}}
 infrastructure.cluster.x-k8s.io/v1beta1
 {{- end }}
-{{- if and (eq .Values.provider "google") (eq .Values.type "managed") -}}
+{{- if and (eq .Values.provider "gcp") (eq .Values.type "managed") -}}
 infrastructure.cluster.x-k8s.io/v1beta1
 {{- end }}
 {{- if and (eq .Values.provider "kind") (eq .Values.type "managed") -}}
@@ -107,7 +107,7 @@ AWSManagedControlPlane
 {{- if and (eq .Values.provider "azure") (eq .Values.type "managed") -}}
 AzureManagedControlPlane
 {{- end }}
-{{- if and (eq .Values.provider "google") (eq .Values.type "managed") -}}
+{{- if and (eq .Values.provider "gcp") (eq .Values.type "managed") -}}
 GCPManagedControlPlane
 {{- end }}
 {{- if and (eq .Values.provider "kind") (eq .Values.type "managed") -}}
@@ -125,7 +125,7 @@ controlplane.cluster.x-k8s.io/v1beta2
 {{- if and (eq .Values.provider "azure") (eq .Values.type "managed") -}}
 infrastructure.cluster.x-k8s.io/v1beta1
 {{- end }}
-{{- if and (eq .Values.provider "google") (eq .Values.type "managed") -}}
+{{- if and (eq .Values.provider "gcp") (eq .Values.type "managed") -}}
 infrastructure.cluster.x-k8s.io/v1beta1
 {{- end }}
 {{- if and (eq .Values.provider "kind") (eq .Values.type "managed") -}}
@@ -143,7 +143,7 @@ AWSManagedMachinePool
 {{- if and (eq .Values.provider "azure") (eq .Values.type "managed") -}}
 AzureManagedMachinePool
 {{- end }}
-{{- if and (eq .Values.provider "google") (eq .Values.type "managed") -}}
+{{- if and (eq .Values.provider "gcp") (eq .Values.type "managed") -}}
 GCPManagedMachinePool
 {{- end }}
 {{- if and (eq .Values.provider "kind") (eq .Values.type "managed") -}}
@@ -161,7 +161,7 @@ infrastructure.cluster.x-k8s.io/v1beta2
 {{- if and (eq .Values.provider "azure") (eq .Values.type "managed") -}}
 infrastructure.cluster.x-k8s.io/v1beta1
 {{- end }}
-{{- if and (eq .Values.provider "google") (eq .Values.type "managed") -}}
+{{- if and (eq .Values.provider "gcp") (eq .Values.type "managed") -}}
 infrastructure.cluster.x-k8s.io/v1beta1
 {{- end }}
 {{- if and (eq .Values.provider "kind") (eq .Values.type "managed") -}}
@@ -179,4 +179,41 @@ configRef:
   kind: KubeadmConfig
   name: worker-mp-config
 {{- end }}
+{{- end }}
+
+{{/*
+Create a MachinePool for the given values
+  ctx = . context
+  name = the name of the MachinePool resource
+  values = the values for this specific MachinePool resource
+  defaultVals = the default values for the MachinePool resource
+*/}}
+{{- define "workers.machinePool" -}}
+{{- $replicas := (.values | default dict).replicas | default .defaultVals.replicas }}
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: MachinePool
+metadata:
+  name: {{ .name }}
+  annotations:
+    helm.sh/resource-policy: keep
+spec:
+  clusterName: {{ .ctx.Values.cluster.name }}
+  replicas: {{ $replicas }}
+  template:
+    spec:
+      {{- if or (eq .ctx.Values.provider "gcp") (eq .ctx.Values.provider "azure") (eq .ctx.Values.provider "kind") }}
+      version: {{ .values.kubernetesVersion | default .ctx.Values.cluster.kubernetesVersion }}
+      {{- end }}
+      clusterName: {{ .ctx.Values.cluster.name }}
+      bootstrap:
+        {{- if or (eq .ctx.Values.provider "gcp") (eq .ctx.Values.provider "azure") (eq .ctx.Values.provider "aws") }}
+        dataSecretName: ""
+        {{- end }}
+        {{- if eq .ctx.Values.provider "kind" }}
+        {{- include "workers.configref" .ctx | nindent 8 }}
+        {{- end }}
+      infrastructureRef:
+        name: {{ .name }}
+        apiVersion: {{ include "workers.infrastructure.apiVersion" .ctx }}
+        kind: {{ include "workers.infrastructure.kind" .ctx }}
 {{- end }}

@@ -1,4 +1,4 @@
-provider: ""
+provider: "" # Can be aws, gcp, azure or kind
 ## managed or unmanaged, currently only managed is supported
 type: managed
 
@@ -19,7 +19,6 @@ cluster:
   aws:
     ## The region to deploy the cluster to
     region: ""
-    availabilityZones: {}
     ## The name of the ssh key to use for the cluster
     sshKeyName: default
     ## The cluster addons to deploy
@@ -225,7 +224,7 @@ cluster:
   ###################################
   ###         GCP CLUSTER         ###
   ###################################
-  google:
+  gcp:
     # Project is the id of the project to deploy the cluster to.
     project: ""
     # Region represents the location (region or zone) in which the GKE cluster will be created.
@@ -317,10 +316,11 @@ workers:
     ###        AWS WORKER DEFAULTS        ###
     #########################################
     aws:
-      replicas: 0 # TODO: update MachinePool to support default values
+      replicas: 0
       labels: {}
       annotations:
         cluster.x-k8s.io/replicas-managed-by: external-autoscaler
+      isMultiAZ: false # if false, will create a node group per AZ
       spec:
         amiType: AL2_x86_64 # AL2_x86_64, AL2_x86_64_GPU, AL2_ARM_64
         amiVersion: ""
@@ -344,20 +344,20 @@ workers:
     ###       AZURE WORKER DEFAULTS       ###
     #########################################
     azure:
+      replicas: 0
+      labels: {}
       annotations:
         cluster.x-k8s.io/replicas-managed-by: external-autoscaler
-      labels: {}
-      replicas: 0
+      isMultiAZ: false # if false, will create a node group per AZ
       spec:
         availabilityZones:
-          - "1"
+        - "1"
+        - "2"
+        - "3"
         enableNodePublicIP: false
         maxPods: 110
         mode: User
-        nodeLabels:
-          plural.sh/capacityType: ON_DEMAND
-          plural.sh/performanceType: SUSTAINED
-          plural.sh/scalingGroup: medium-sustained-on-demand
+        nodeLabels: {}
         nodePublicIPPrefixID: ""
         osDiskSizeGB: 50
         osDiskType: Managed
@@ -373,26 +373,31 @@ workers:
     #########################################
     ###        GCP WORKER DEFAULTS        ###
     #########################################
-    google:
+    gcp:
       replicas: 0
-      scaling:
-        maxCount: 9
-        minCount: 1
-      management:
-        autoRepair: true
-        autoUpgrade: true
-      kubernetesLabels:
-        plural.sh/capacityType: ON_DEMAND
-        plural.sh/performanceType: BURST
-      kubernetesTaints: []
-      additionalLabels: {}
-      providerIDList: []
-      machineType: e2-standard-2
-      diskSizeGb: 50
-      diskType: pd-standard
-      spot: false
-      preemptible: false
-      imageType: COS_CONTAINERD
+      labels: {}
+      annotations:
+        cluster.x-k8s.io/replicas-managed-by: external-autoscaler
+      isMultiAZ: false # if false, will create a node group per AZ # TODO: false currently unsupported so all node groups set this to true
+      spec:
+        scaling:
+          maxCount: 9
+          minCount: 1
+        management:
+          autoRepair: true
+          autoUpgrade: true
+        kubernetesLabels:
+          plural.sh/capacityType: ON_DEMAND
+          plural.sh/performanceType: BURST
+        kubernetesTaints: []
+        additionalLabels: {}
+        providerIDList: []
+        machineType: e2-standard-2
+        diskSizeGb: 50
+        diskType: pd-standard
+        spot: false
+        preemptible: false
+        imageType: COS_CONTAINERD
     #########################################
     ###        Docker WORKER DEFAULTS     ###
     #########################################
@@ -403,7 +408,7 @@ workers:
   #################################
   aws:
     small-burst-spot:
-      replicas: 0
+      isMultiAZ: true
       spec:
         labels:
           plural.sh/capacityType: SPOT
@@ -421,7 +426,7 @@ workers:
         updateConfig:
           maxUnavailable: 1
     medium-burst-spot:
-      replicas: 0
+      isMultiAZ: true
       spec:
         labels:
           plural.sh/capacityType: SPOT
@@ -438,7 +443,7 @@ workers:
             key: plural.sh/capacityType
             value: SPOT
     large-burst-spot:
-      replicas: 0
+      isMultiAZ: true
       spec:
         labels:
           plural.sh/capacityType: SPOT
@@ -454,85 +459,7 @@ workers:
           - effect: no-schedule
             key: plural.sh/capacityType
             value: SPOT
-    medium-burst-spot-az-a:
-      replicas: 0
-      spec:
-        labels:
-          plural.sh/capacityType: ON_DEMAND
-          plural.sh/performanceType: BURST
-          plural.sh/scalingGroup: medium-burst-on-demand
-        additionalTags: { } # TODO: allow this to not be set
-        instanceType: t3.xlarge
-        scaling:
-          maxSize: 27
-          minSize: 0
-        availabilityZone: A
-    medium-burst-spot-az-b:
-      replicas: 0
-      spec:
-        labels:
-          plural.sh/capacityType: ON_DEMAND
-          plural.sh/performanceType: BURST
-          plural.sh/scalingGroup: medium-burst-on-demand
-        additionalTags: { } # TODO: allow this to not be set
-        instanceType: t3.xlarge
-        scaling:
-          maxSize: 27
-          minSize: 0
-        availabilityZone: B
-    medium-burst-spot-az-c:
-      replicas: 0
-      spec:
-        labels:
-          plural.sh/capacityType: ON_DEMAND
-          plural.sh/performanceType: BURST
-          plural.sh/scalingGroup: medium-burst-on-demand
-        additionalTags: { } # TODO: allow this to not be set
-        instanceType: t3.xlarge
-        scaling:
-          maxSize: 27
-          minSize: 0
-        availabilityZone: C
-    large-burst-spot-az-a:
-      replicas: 0
-      spec:
-        labels:
-          plural.sh/capacityType: ON_DEMAND
-          plural.sh/performanceType: BURST
-          plural.sh/scalingGroup: medium-burst-on-demand
-        additionalTags: { } # TODO: allow this to not be set
-        instanceType: t3.2xlarge
-        scaling:
-          maxSize: 27
-          minSize: 0
-        availabilityZone: A
-    large-burst-spot-az-b:
-      replicas: 0
-      spec:
-        labels:
-          plural.sh/capacityType: ON_DEMAND
-          plural.sh/performanceType: BURST
-          plural.sh/scalingGroup: medium-burst-on-demand
-        additionalTags: { } # TODO: allow this to not be set
-        instanceType: t3.2xlarge
-        scaling:
-          maxSize: 27
-          minSize: 0
-        availabilityZone: B
-    large-burst-spot-az-c:
-      replicas: 0
-      spec:
-        labels:
-          plural.sh/capacityType: ON_DEMAND
-          plural.sh/performanceType: BURST
-          plural.sh/scalingGroup: medium-burst-on-demand
-        additionalTags: { } # TODO: allow this to not be set
-        instanceType: t3.2xlarge
-        scaling:
-          maxSize: 27
-          minSize: 0
-        availabilityZone: C
-    small-burst-spot-az-a:
+    small-burst-on-demand:
       replicas: 1
       spec:
         labels:
@@ -543,49 +470,39 @@ workers:
         scaling:
           maxSize: 1
           minSize: 1
-        availabilityZone: A
         updateConfig:
           maxUnavailable: 1
-    small-burst-spot-az-b:
-      replicas: 1
+    medium-burst-on-demand:
       spec:
         labels:
           plural.sh/capacityType: ON_DEMAND
           plural.sh/performanceType: BURST
-          plural.sh/scalingGroup: small-burst-on-demand
+          plural.sh/scalingGroup: medium-burst-on-demand
         additionalTags: { } # TODO: allow this to not be set
+        instanceType: t3.xlarge
         scaling:
-          maxSize: 1
-          minSize: 1
-        availabilityZone: B
-        updateConfig:
-          maxUnavailable: 1
-    small-burst-spot-az-c:
-      replicas: 1
+          maxSize: 27
+          minSize: 0
+    large-burst-on-demand:
       spec:
         labels:
           plural.sh/capacityType: ON_DEMAND
           plural.sh/performanceType: BURST
-          plural.sh/scalingGroup: small-burst-on-demand
+          plural.sh/scalingGroup: medium-burst-on-demand
         additionalTags: { } # TODO: allow this to not be set
+        instanceType: t3.2xlarge
         scaling:
-          maxSize: 1
-          minSize: 1
-        availabilityZone: C
-        updateConfig:
-          maxUnavailable: 1
+          maxSize: 27
+          minSize: 0
   #################################
   ###       AZURE WORKERS       ###
   #################################
   azure:
-    lsod1:
-      replicas: 0
+    lsod:
       kubernetesVersion: v1.25.11
       spec:
-        additionalTags:
+        additionalTags: # TODO: allow this to not be set
           ScalingGroup: large-sustained-on-demand
-        availabilityZones:
-          - "1"
         enableNodePublicIP: false
         maxPods: 110
         mode: User
@@ -600,58 +517,13 @@ workers:
           maxSize: 9
           minSize: 0
         sku: Standard_D8as_v5
-    lsod2:
+    lsspot:
       replicas: 0
+      isMultiAZ: true
       kubernetesVersion: v1.25.11
       spec:
-        additionalTags:
-          ScalingGroup: large-sustained-on-demand
-        availabilityZones:
-          - "2"
-        enableNodePublicIP: false
-        maxPods: 110
-        mode: User
-        nodeLabels:
-          plural.sh/capacityType: ON_DEMAND
-          plural.sh/performanceType: SUSTAINED
-          plural.sh/scalingGroup: large-sustained-on-demand
-        osDiskSizeGB: 50
-        osDiskType: Managed
-        osType: Linux
-        scaling:
-          maxSize: 9
-          minSize: 0
-        sku: Standard_D8as_v5
-    lsod3:
-      replicas: 0
-      kubernetesVersion: v1.25.11
-      spec:
-        additionalTags:
-          ScalingGroup: large-sustained-on-demand
-        availabilityZones:
-          - "3"
-        enableNodePublicIP: false
-        maxPods: 110
-        mode: User
-        nodeLabels:
-          plural.sh/capacityType: ON_DEMAND
-          plural.sh/performanceType: SUSTAINED
-          plural.sh/scalingGroup: large-sustained-on-demand
-        osDiskSizeGB: 50
-        osDiskType: Managed
-        osType: Linux
-        scaling:
-          maxSize: 9
-          minSize: 0
-        sku: Standard_D8as_v5
-    lsspot1:
-      replicas: 0
-      kubernetesVersion: v1.25.11
-      spec:
-        additionalTags:
+        additionalTags: # TODO: allow this to not be set
           ScalingGroup: large-sustained-spot
-        availabilityZones:
-          - "1"
         enableNodePublicIP: false
         maxPods: 110
         mode: User
@@ -676,78 +548,11 @@ workers:
           - effect: NoSchedule
             key: kubernetes.azure.com/scalesetpriority
             value: spot
-    lsspot2:
-      replicas: 0
+    msod:
       kubernetesVersion: v1.25.11
       spec:
-        additionalTags:
-          ScalingGroup: large-sustained-spot
-        availabilityZones:
-          - "2"
-        enableNodePublicIP: false
-        maxPods: 110
-        mode: User
-        nodeLabels:
-          plural.sh/capacityType: SPOT
-          plural.sh/performanceType: SUSTAINED
-          plural.sh/scalingGroup: large-sustained-spot
-        osDiskSizeGB: 50
-        osDiskType: Managed
-        osType: Linux
-        scaleSetPriority: Spot
-        scaling:
-          maxSize: 9
-          minSize: 0
-        scaleDownMode: Delete
-        spotMaxPrice: -1
-        sku: Standard_D8as_v5
-        taints:
-          - effect: NoSchedule
-            key: plural.sh/capacityType
-            value: SPOT
-          - effect: NoSchedule
-            key: kubernetes.azure.com/scalesetpriority
-            value: spot
-    lsspot3:
-      replicas: 0
-      kubernetesVersion: v1.25.11
-      spec:
-        additionalTags:
-          ScalingGroup: large-sustained-spot
-        availabilityZones:
-          - "3"
-        enableNodePublicIP: false
-        maxPods: 110
-        mode: User
-        nodeLabels:
-          plural.sh/capacityType: SPOT
-          plural.sh/performanceType: SUSTAINED
-          plural.sh/scalingGroup: large-sustained-spot
-        osDiskSizeGB: 50
-        osDiskType: Managed
-        osType: Linux
-        scaleSetPriority: Spot
-        scaling:
-          maxSize: 9
-          minSize: 0
-        scaleDownMode: Delete
-        spotMaxPrice: -1
-        sku: Standard_D8as_v5
-        taints:
-          - effect: NoSchedule
-            key: plural.sh/capacityType
-            value: SPOT
-          - effect: NoSchedule
-            key: kubernetes.azure.com/scalesetpriority
-            value: spot
-    msod1:
-      replicas: 0
-      kubernetesVersion: v1.25.11
-      spec:
-        additionalTags:
+        additionalTags: # TODO: allow this to not be set
           ScalingGroup: medium-sustained-on-demand
-        availabilityZones:
-          - "1"
         enableNodePublicIP: false
         maxPods: 110
         mode: User
@@ -762,58 +567,12 @@ workers:
           maxSize: 9
           minSize: 0
         sku: Standard_D4as_v5
-    msod2:
-      replicas: 0
+    msspot:
+      isMultiAZ: true
       kubernetesVersion: v1.25.11
       spec:
-        additionalTags:
-          ScalingGroup: medium-sustained-on-demand
-        availabilityZones:
-          - "2"
-        enableNodePublicIP: false
-        maxPods: 110
-        mode: User
-        nodeLabels:
-          plural.sh/capacityType: ON_DEMAND
-          plural.sh/performanceType: SUSTAINED
-          plural.sh/scalingGroup: medium-sustained-on-demand
-        osDiskSizeGB: 50
-        osDiskType: Managed
-        osType: Linux
-        scaling:
-          maxSize: 9
-          minSize: 0
-        sku: Standard_D4as_v5
-    msod3:
-      replicas: 0
-      kubernetesVersion: v1.25.11
-      spec:
-        additionalTags:
-          ScalingGroup: medium-sustained-on-demand
-        availabilityZones:
-          - "3"
-        enableNodePublicIP: false
-        maxPods: 110
-        mode: User
-        nodeLabels:
-          plural.sh/capacityType: ON_DEMAND
-          plural.sh/performanceType: SUSTAINED
-          plural.sh/scalingGroup: medium-sustained-on-demand
-        osDiskSizeGB: 50
-        osDiskType: Managed
-        osType: Linux
-        scaling:
-          maxSize: 9
-          minSize: 0
-        sku: Standard_D4as_v5
-    msspot1:
-      replicas: 0
-      kubernetesVersion: v1.25.11
-      spec:
-        additionalTags:
+        additionalTags: # TODO: allow this to not be set
           ScalingGroup: medium-sustained-spot
-        availabilityZones:
-          - "1"
         enableNodePublicIP: false
         maxPods: 110
         mode: User
@@ -838,78 +597,12 @@ workers:
           - effect: NoSchedule
             key: kubernetes.azure.com/scalesetpriority
             value: spot
-    msspot2:
-      replicas: 0
-      kubernetesVersion: v1.25.11
-      spec:
-        additionalTags:
-          ScalingGroup: medium-sustained-spot
-        availabilityZones:
-          - "2"
-        enableNodePublicIP: false
-        maxPods: 110
-        mode: User
-        nodeLabels:
-          plural.sh/capacityType: SPOT
-          plural.sh/performanceType: SUSTAINED
-          plural.sh/scalingGroup: medium-sustained-spot
-        osDiskSizeGB: 50
-        osDiskType: Managed
-        osType: Linux
-        scaleSetPriority: Spot
-        scaling:
-          maxSize: 9
-          minSize: 0
-        scaleDownMode: Delete
-        spotMaxPrice: -1
-        sku: Standard_D4as_v5
-        taints:
-          - effect: NoSchedule
-            key: plural.sh/capacityType
-            value: SPOT
-          - effect: NoSchedule
-            key: kubernetes.azure.com/scalesetpriority
-            value: spot
-    msspot3:
-      replicas: 0
-      kubernetesVersion: v1.25.11
-      spec:
-        additionalTags:
-          ScalingGroup: medium-sustained-spot
-        availabilityZones:
-          - "3"
-        enableNodePublicIP: false
-        maxPods: 110
-        mode: User
-        nodeLabels:
-          plural.sh/capacityType: SPOT
-          plural.sh/performanceType: SUSTAINED
-          plural.sh/scalingGroup: medium-sustained-spot
-        osDiskSizeGB: 50
-        osDiskType: Managed
-        osType: Linux
-        scaleSetPriority: Spot
-        scaling:
-          maxSize: 9
-          minSize: 0
-        scaleDownMode: Delete
-        spotMaxPrice: -1
-        sku: Standard_D4as_v5
-        taints:
-          - effect: NoSchedule
-            key: plural.sh/capacityType
-            value: SPOT
-          - effect: NoSchedule
-            key: kubernetes.azure.com/scalesetpriority
-            value: spot
-    ssod1:
+    ssod:
       replicas: 1
       kubernetesVersion: v1.25.11
       spec:
-        additionalTags:
+        additionalTags: # TODO: allow this to not be set
           ScalingGroup: small-sustained-on-demand
-        availabilityZones:
-          - "1"
         enableNodePublicIP: false
         maxPods: 110
         mode: System
@@ -924,122 +617,12 @@ workers:
           maxSize: 9
           minSize: 1
         sku: Standard_D2as_v5
-    ssod2:
-      replicas: 1
+    ssspot:
+      isMultiAZ: true
       kubernetesVersion: v1.25.11
       spec:
-        additionalTags:
-          ScalingGroup: small-sustained-on-demand
-        availabilityZones:
-          - "2"
-        enableNodePublicIP: false
-        maxPods: 110
-        mode: System
-        nodeLabels:
-          plural.sh/capacityType: ON_DEMAND
-          plural.sh/performanceType: SUSTAINED
-          plural.sh/scalingGroup: small-sustained-on-demand
-        osDiskSizeGB: 50
-        osDiskType: Managed
-        osType: Linux
-        scaling:
-          maxSize: 9
-          minSize: 1
-        sku: Standard_D2as_v5
-    ssod3:
-      replicas: 1
-      kubernetesVersion: v1.25.11
-      spec:
-        additionalTags:
-          ScalingGroup: small-sustained-on-demand
-        availabilityZones:
-          - "3"
-        enableNodePublicIP: false
-        maxPods: 110
-        mode: System
-        nodeLabels:
-          plural.sh/capacityType: ON_DEMAND
-          plural.sh/performanceType: SUSTAINED
-          plural.sh/scalingGroup: small-sustained-on-demand
-        osDiskSizeGB: 50
-        osDiskType: Managed
-        osType: Linux
-        scaling:
-          maxSize: 9
-          minSize: 1
-        sku: Standard_D2as_v5
-    ssspot1:
-      replicas: 0
-      kubernetesVersion: v1.25.11
-      spec:
-        additionalTags:
+        additionalTags: # TODO: allow this to not be set
           ScalingGroup: small-sustained-spot
-        availabilityZones:
-          - "1"
-        enableNodePublicIP: false
-        maxPods: 110
-        mode: User
-        nodeLabels:
-          plural.sh/capacityType: SPOT
-          plural.sh/performanceType: SUSTAINED
-          plural.sh/scalingGroup: small-sustained-spot
-        osDiskSizeGB: 50
-        osDiskType: Managed
-        osType: Linux
-        scaleSetPriority: Spot
-        scaling:
-          maxSize: 9
-          minSize: 0
-        scaleDownMode: Delete
-        spotMaxPrice: -1
-        sku: Standard_D2as_v5
-        taints:
-          - effect: NoSchedule
-            key: plural.sh/capacityType
-            value: SPOT
-          - effect: NoSchedule
-            key: kubernetes.azure.com/scalesetpriority
-            value: spot
-    ssspot2:
-      replicas: 0
-      kubernetesVersion: v1.25.11
-      spec:
-        additionalTags:
-          ScalingGroup: small-sustained-spot
-        availabilityZones:
-          - "2"
-        enableNodePublicIP: false
-        maxPods: 110
-        mode: User
-        nodeLabels:
-          plural.sh/capacityType: SPOT
-          plural.sh/performanceType: SUSTAINED
-          plural.sh/scalingGroup: small-sustained-spot
-        osDiskSizeGB: 50
-        osDiskType: Managed
-        osType: Linux
-        scaleSetPriority: Spot
-        scaling:
-          maxSize: 9
-          minSize: 0
-        scaleDownMode: Delete
-        spotMaxPrice: -1
-        sku: Standard_D2as_v5
-        taints:
-          - effect: NoSchedule
-            key: plural.sh/capacityType
-            value: SPOT
-          - effect: NoSchedule
-            key: kubernetes.azure.com/scalesetpriority
-            value: spot
-    ssspot3:
-      replicas: 0
-      kubernetesVersion: v1.25.11
-      spec:
-        additionalTags:
-          ScalingGroup: small-sustained-spot
-        availabilityZones:
-          - "3"
         enableNodePublicIP: false
         maxPods: 110
         mode: User
@@ -1067,40 +650,47 @@ workers:
   #################################
   ###        GCP WORKERS        ###
   #################################
-  google:
+  gcp:
     small-burst-on-demand:
       replicas: 3
-      scaling:
-        minCount: 1
-        maxCount: 9
-      management:
-        autoRepair: true
-        autoUpgrade: true
-      kubernetesLabels:
-        plural.sh/scalingGroup: small-burst-on-demand
-      machineType: e2-standard-2
+      isMultiAZ: true
+      spec:
+        scaling:
+          minCount: 1
+          maxCount: 9
+        management:
+          autoRepair: true
+          autoUpgrade: true
+        kubernetesLabels:
+          plural.sh/scalingGroup: small-burst-on-demand
+        additionalLabels: { } # TODO: allow this to not be set
+        machineType: e2-standard-2
     medium-burst-on-demand:
-      replicas: 0
-      scaling:
-        minCount: 0
-        maxCount: 9
-      management:
-        autoRepair: true
-        autoUpgrade: true
-      kubernetesLabels:
-        plural.sh/scalingGroup: medium-burst-on-demand
-      machineType: e2-standard-4
+      isMultiAZ: true
+      spec:
+        scaling:
+          minCount: 0
+          maxCount: 9
+        management:
+          autoRepair: true
+          autoUpgrade: true
+        kubernetesLabels:
+          plural.sh/scalingGroup: medium-burst-on-demand
+        additionalLabels: { } # TODO: allow this to not be set
+        machineType: e2-standard-4
     large-burst-on-demand:
-      replicas: 0
-      scaling:
-        minCount: 0
-        maxCount: 9
-      management:
-        autoRepair: true
-        autoUpgrade: true
-      kubernetesLabels:
-        plural.sh/scalingGroup: large-burst-on-demand
-      machineType: e2-standard-8
+      isMultiAZ: true
+      spec:
+        scaling:
+          minCount: 0
+          maxCount: 9
+        management:
+          autoRepair: true
+          autoUpgrade: true
+        kubernetesLabels:
+          plural.sh/scalingGroup: large-burst-on-demand
+        additionalLabels: { } # TODO: allow this to not be set
+        machineType: e2-standard-8
   #################################
   ###        Docker WORKERS     ###
   #################################

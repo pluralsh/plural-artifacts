@@ -16,7 +16,9 @@ spec:
       extraMounts:
         - containerPath: /var/run/docker.sock
           hostPath: /var/run/docker.sock
-{{ end }}
+---
+{{- include "workers.machinePool" (dict "ctx" $currentScope "name" $name "values" $values "defaultVals" $defaultVals) }}
+{{- end }}
 ---
 {{ end }}
 {{- end }}
