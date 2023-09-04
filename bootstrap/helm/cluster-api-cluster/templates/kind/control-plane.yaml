@@ -42,5 +42,4 @@ spec:
       extraMounts:
         - containerPath: /var/run/docker.sock
           hostPath: /var/run/docker.sock
-
 {{- end }}

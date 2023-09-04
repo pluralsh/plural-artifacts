@@ -1,4 +1,4 @@
-{{- if and (eq .Values.provider "google") (eq .Values.type "managed") -}}
+{{- if and (eq .Values.provider "gcp") (eq .Values.type "managed") -}}
 apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
 kind: GCPManagedControlPlane
 metadata:
@@ -7,17 +7,17 @@ metadata:
     helm.sh/resource-policy: keep
 spec:
   clusterName: {{ .Values.cluster.name }}
-  {{ with .Values.cluster.google }}
+  {{- with .Values.cluster.gcp }}
   project: {{ .project }}
   location: {{ .region }}
   enableAutopilot: {{ .enableAutopilot | default false }}
   enableWorkloadIdentity: {{ .enableWorkloadIdentity }}
-  {{ if ne .releaseChannel "unspecified" }}
+  {{- if ne .releaseChannel "unspecified" }}
   releaseChannel: {{ .releaseChannel }}
-  {{ end }}
+  {{- end }}
   endpoint:
     host: ""
     port: 0
-  {{ end }}
+  {{- end }}
   controlPlaneVersion: {{ .Values.cluster.kubernetesVersion | quote }}
 {{- end }}

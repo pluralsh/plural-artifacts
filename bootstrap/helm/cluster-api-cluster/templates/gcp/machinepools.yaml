@@ -1,82 +1,25 @@
-{{- if and (eq .Values.provider "google") (eq .Values.type "managed") -}}
-
+{{- if and (eq .Values.provider "gcp") (eq .Values.type "managed") -}}
 {{- $currentScope := . -}}
-{{- $defaultVals := .Values.workers.defaults.google -}}
-
-{{- range $name, $values := .Values.workers.google }}
+{{- $defaultVals := .Values.workers.defaults.gcp -}}
+{{- range $name, $values := .Values.workers.gcp }}
 {{- with $currentScope}}
-{{- $nodePoolName := $.Values.cluster.name }}
-{{- $scaling := ($values | default dict).scaling | default $defaultVals.scaling }}
-{{- if $scaling }}
-{{- if not (and (hasKey $scaling "minCount") (hasKey $scaling "maxCount")) }}
-  {{- fail (printf "Invalid value for scaling. Both minCount and maxCount must be set") }}
+{{- $isMultiAZ := ($values | default dict).isMultiAZ | default $defaultVals.isMultiAZ }}
+{{- if not $isMultiAZ }}
+  {{- fail (printf "Invalid value for isMultiAZ. GCP currently only supports `true` for this value") }}
 {{- end }}
+{{- $availabilityZones := ($values.spec | default dict).availabilityZones | default $defaultVals.spec.availabilityZones }}
+{{- if and (not $isMultiAZ) (not $availabilityZones) }}
+  {{- fail (printf "Invalid value for isMultiAZ. availabilityZones must be set") }}
 {{- end }}
-{{- $management := ($values | default dict).management | default $defaultVals.management }}
-
-apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
-kind: GCPManagedMachinePool
-metadata:
-  name: {{ $name }}
-  annotations:
-    helm.sh/resource-policy: keep
-spec:
-  nodePoolName: {{ $name }}
-  scaling:
-    {{- toYaml $scaling | nindent 4 }}
-  management:
-    {{- toYaml $management | nindent 4 }}
-  kubernetesLabels:
-    {{- if $values.kubernetesLabels -}}
-    {{- toYaml (merge $values.kubernetesLabels $defaultVals.kubernetesLabels)| nindent 4 }}
-    {{- else -}}
-    {{- toYaml $defaultVals.kubernetesLabels | nindent 4 }}
-    {{- end }}
-  {{- if or ($defaultVals.kubernetesTaints) (($values | default dict).kubernetesTaints) }}
-  kubernetesTaints:
-  {{- toYaml (($values | default dict).kubernetesTaints | default $defaultVals.kubernetesTaints) | nindent 4 }}
-  {{- end }}
-  additionalLabels:
-    {{- if $values.additionalLabels -}}
-    {{- toYaml (merge $values.additionalLabels $defaultVals.additionalLabels)| nindent 4 }}
-    {{- else -}}
-    {{- toYaml $defaultVals.additionalLabels | nindent 4 }}
-    {{- end }}
-  {{ if $values.providerIDList }}
-  providerIDList:
-  {{ toYaml $values.providerIDList | nindent 2 }}
-  {{ end }}
-  {{ if $values.machineType }}
-  machineType: {{ $values.machineType }}
-  {{ else }}
-  machineType: {{ $defaultVals.machineType }}
-  {{ end }}
-  {{ if $values.diskSizeGb }}
-  diskSizeGb: {{ $values.diskSizeGb }}
-  {{ else }}
-  diskSizeGb: {{ $defaultVals.diskSizeGb }}
-  {{ end }}
-  {{ if $values.diskType }}
-  diskType: {{ $values.diskType }}
-  {{ else }}
-  diskType: {{ $defaultVals.diskType }}
-  {{ end }}
-  {{ if $values.spot }}
-  spot: {{ $values.spot }}
-  {{ else }}
-  spot: {{ $defaultVals.spot }}
-  {{ end }}
-  {{ if $values.preemptible }}
-  preemptible: {{ $values.preemptible }}
-  {{ else }}
-  preemptible: {{ $defaultVals.preemptible }}
-  {{ end }}
-  {{ if $values.imageType }}
-  imageType: {{ $values.imageType }}
-  {{ else }}
-  imageType: {{ $defaultVals.imageType }}
-  {{ end }}
-{{ end }}
+{{- if not $isMultiAZ }}
+{{ range $az := $availabilityZones }}
+{{- include "workers.gcp.managedMachinePool" (dict "ctx" $currentScope "name" (printf "%s-%s" $name $az) "defaultVals" $defaultVals "values" $values "availabilityZones" (list $az)) }}
 ---
-{{ end }}
-{{ end }}
+{{- end }}
+{{- else }}
+{{- include "workers.gcp.managedMachinePool" (dict "ctx" $currentScope "name" $name "defaultVals" $defaultVals "values" $values "availabilityZones" $availabilityZones) }}
+---
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
