@@ -1,0 +1,6 @@
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  description: installs the open source solution for azure workload identity
+spec:
+  dependencies: []
