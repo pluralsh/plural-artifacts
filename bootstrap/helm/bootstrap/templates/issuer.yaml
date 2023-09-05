@@ -1,5 +1,4 @@
-{{ if index $.Values "cert-manager" "enabled" }}
-{{   if empty .Values.acmeServer }}
+{{- if empty .Values.acmeServer }}
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
@@ -13,7 +12,7 @@ metadata:
   name: letsencrypt-staging
 spec:
   selfSigned: {}
-{{   else }}
+{{- else }}
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
@@ -25,14 +24,14 @@ spec:
     # certificates, and issues related to your account.
     email: {{ .Values.ownerEmail }}
     server: {{ .Values.acmeServer }}
-    {{ if .Values.acmeEAB.kid }}
+    {{- if .Values.acmeEAB.kid }}
     externalAccountBinding:
       keyID: {{ .Values.acmeEAB.kid }}
       keySecretRef:
         name: acme-eab-secret
         key: eab-secret
       keyAlgorithm: HS256
-    {{ end }}
+    {{- end }}
     privateKeySecretRef:
       # Secret resource that will be used to store the account's private key.
       name: cert-manager-key
@@ -60,5 +59,4 @@ spec:
     - http01:
         ingress:
           class: nginx
-{{   end }}
-{{ end }}
+{{- end }}
