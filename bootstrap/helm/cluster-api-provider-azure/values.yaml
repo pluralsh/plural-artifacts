@@ -1,0 +1,26 @@
+crds:
+  create: true
+
+cluster-api-provider-azure:
+  bootstrapMode: false # we should never set this to true since it uses a deprecated method for setting the credentials
+  crds:
+    create: false
+  configVariables:
+    exprimental:
+      machinePool: true
+  controllerManager:
+    manager:
+      image:
+        repository: ghcr.io/pluralsh/cluster-api-azure-controller
+        tag: v1.9.14
+
+job:
+  enabled: true
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-weight: "-5"
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+  image:
+    repository: bitnami/kubectl
+    tag: 1.25.8
+    pullPolicy: IfNotPresent

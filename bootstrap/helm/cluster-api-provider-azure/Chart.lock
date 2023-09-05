@@ -1,0 +1,6 @@
+dependencies:
+- name: cluster-api-provider-azure
+  repository: https://pluralsh.github.io/capi-helm-charts
+  version: 0.1.8
+digest: sha256:a121b432405288d78644e268fab20ac4369a2bfd13084094b9de9e0f65c05ad1
+generated: "2023-08-24T17:11:19.117169+02:00"
