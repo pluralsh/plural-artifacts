@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "bootstrap-operator.name" -}}
+{{- define "azure-workload-identity-plural.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "bootstrap-operator.fullname" -}}
+{{- define "azure-workload-identity-plural.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "bootstrap-operator.chart" -}}
+{{- define "azure-workload-identity-plural.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "bootstrap-operator.labels" -}}
-helm.sh/chart: {{ include "bootstrap-operator.chart" . }}
-{{ include "bootstrap-operator.controllerSelectorLabels" . }}
+{{- define "azure-workload-identity-plural.labels" -}}
+helm.sh/chart: {{ include "azure-workload-identity-plural.chart" . }}
+{{ include "azure-workload-identity-plural.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,18 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "bootstrap-operator.controllerSelectorLabels" -}}
-app.kubernetes.io/name: {{ include "bootstrap-operator.name" . }}-controller
+{{- define "azure-workload-identity-plural.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "azure-workload-identity-plural.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
-
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "bootstrap-operator.serviceAccountName" -}}
+{{- define "azure-workload-identity-plural.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "bootstrap-operator.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "azure-workload-identity-plural.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}

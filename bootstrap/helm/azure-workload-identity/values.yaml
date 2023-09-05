@@ -1,0 +1,13 @@
+workload-identity-webhook:
+  enabled: true
+  image:
+    repository: mcr.microsoft.com/oss/azure/workload-identity/webhook
+    pullPolicy: IfNotPresent
+    release: v1.1.0
+  resources:
+    limits:
+      cpu: 100m
+      memory: 30Mi
+    requests:
+      cpu: 100m
+      memory: 20Mi
