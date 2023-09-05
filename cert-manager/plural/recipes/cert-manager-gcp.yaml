@@ -1,0 +1,17 @@
+name: cert-manager-gcp
+description: Installs cert-manager on an aws eks cluster
+provider: GCP
+primary: true
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+sections:
+- name: cert-manager
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: cert-manager

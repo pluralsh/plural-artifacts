@@ -1,0 +1,6 @@
+REPO cert-manager
+ATTRIBUTES Plural repository.yaml
+
+TF terraform/*
+HELM helm/*
+RECIPE plural/recipes/*

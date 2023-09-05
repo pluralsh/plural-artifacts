@@ -1,0 +1,15 @@
+name: cert-manager-kind
+description: Installs cert-manager on a KinD cluster
+provider: KIND
+primary: true
+dependencies:
+- repo: bootstrap
+  name: kind-k8s
+sections:
+- name: cert-manager
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: cert-manager

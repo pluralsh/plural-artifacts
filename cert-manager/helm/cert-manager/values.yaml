@@ -1,0 +1,27 @@
+cert-manager:
+  enabled: true
+  installCRDs: true
+  image:
+    repository: dkr.plural.sh/cert-manager/jetstack/cert-manager-controller
+    tag: v1.12.4
+  webhook:
+    image:
+      repository: dkr.plural.sh/cert-manager/jetstack/cert-manager-webhook
+      tag: v1.12.4
+  cainjector:
+    image:
+      repository: dkr.plural.sh/cert-manager/jetstack/cert-manager-cainjector
+      tag: v1.12.4
+  startupapicheck:
+    image:
+      repository: dkr.plural.sh/cert-manager/jetstack/cert-manager-ctl
+      tag: v1.12.4
+  serviceAccount:
+    name: cert-manager
+  prometheus:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+  securityContext:
+    fsGroup: 1000
+    runAsNonRoot: true

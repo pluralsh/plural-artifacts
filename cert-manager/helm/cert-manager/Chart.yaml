@@ -1,0 +1,11 @@
+apiVersion: v2
+name: cert-manager
+description: helm chart for cert-manager
+type: application
+version: 0.1.1
+appVersion: v1.12.4
+dependencies:
+- name: cert-manager
+  version: v1.12.4
+  repository: https://charts.jetstack.io
+  condition: cert-manager.enabled
