@@ -1,8 +1,9 @@
+{{ $isGcp := or (eq .Provider "google") (eq .Provider "gcp") }}
 postgres-operator:
   configAwsOrGcp:
   {{ if or (eq .Provider "aws") (eq .Provider "azure") (eq .Provider "equinix") (eq .Provider "kind") }}
     wal_s3_bucket: {{ .Values.wal_bucket }}
-  {{ else if eq .Provider "google" }}
+  {{ else if $isGcp }}
     additional_secret_mount: postgres-gcp-creds
     additional_secret_mount_path: "/var/secrets/google"
 
