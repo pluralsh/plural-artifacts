@@ -1,3 +1,4 @@
+{{ $isGcp := or (eq .Provider "google") (eq .Provider "gcp") }}
 {{ $traceShield := and .Configuration (index .Configuration "trace-shield") }}
 {{ $grafanaAgent := and .Configuration (index .Configuration "grafana-agent") }}
 {{ $tempo := and .Configuration .Configuration.tempo }}
@@ -54,7 +55,7 @@ mimir-distributed:
   {{- if and .Values.basicAuth .Values.hostname (not $traceShield) }}
   gateway:
     enabledNonEnterprise: true
-    ingress: 
+    ingress:
       enabled: true
       annotations:
         nginx.ingress.kubernetes.io/auth-type: basic
@@ -84,7 +85,7 @@ mimir-distributed:
           s3:
             endpoint: s3.{{ .Region }}.amazonaws.com
             region: {{ .Region }}
-          {{- else if eq .Provider "google" }}
+          {{- else if $isGcp }}
           backend: gcs
           gcs:
           {{- else if eq .Provider "azure" }}
@@ -99,7 +100,7 @@ mimir-distributed:
         backend: s3
         s3:
           bucket_name: {{ .Values.mimirBlocksBucket }}
-        {{- else if eq .Provider "google" }}
+        {{- else if $isGcp }}
         backend: gcs
         gcs:
           bucket_name: {{ .Values.mimirBlocksBucket }}
@@ -115,7 +116,7 @@ mimir-distributed:
         backend: s3
         s3:
           bucket_name: {{ .Values.mimirAlertBucket }}
-        {{- else if eq .Provider "google" }}
+        {{- else if $isGcp }}
         backend: gcs
         gcs:
           bucket_name: {{ .Values.mimirAlertBucket }}
@@ -129,7 +130,7 @@ mimir-distributed:
         backend: s3
         s3:
           bucket_name: {{ .Values.mimirRulerBucket }}
-        {{- else if eq .Provider "google" }}
+        {{- else if $isGcp }}
         backend: gcs
         gcs:
           bucket_name: {{ .Values.mimirRulerBucket }}

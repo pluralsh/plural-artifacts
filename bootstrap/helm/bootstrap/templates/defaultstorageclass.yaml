@@ -6,7 +6,7 @@ metadata:
   labels: {{ include "bootstrap.labels" . | nindent 4 }}
 spec:
   name: ebs-csi
-{{- else if eq .Values.provider "google" }}
+{{- else if or (eq .Values.provider "google") (eq .Values.provider "gcp") }}
 apiVersion: platform.plural.sh/v1alpha1
 kind: DefaultStorageClass
 metadata:

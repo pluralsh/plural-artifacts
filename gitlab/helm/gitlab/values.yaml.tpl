@@ -1,3 +1,4 @@
+{{ $isGcp := or (eq .Provider "google") (eq .Provider "gcp") }}
 global:
   application:
     links:
@@ -51,13 +52,13 @@ global:
         secret: objectstore-connection
         key: connection
   serviceAccount:
-    {{ if eq .Provider "google" }}
+    {{ if $isGcp }}
     create: false
     {{ end }}
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-gitlab"
 
-{{ if eq .Provider "google" }}
+{{ if $isGcp }}
 serviceAccount:
   create: false
   name: gitlab-runner
@@ -97,7 +98,7 @@ gitlab:
         s3BucketName: {{ .Values.runnerCacheBucket }}
         s3BucketLocation: {{ .Region }}
       {{ end }}
-      {{ if eq .Provider "google" }}
+      {{ if $isGcp }}
         cacheType: gcs
         gcsBucketName: {{ .Values.runnerCacheBucket }}
       {{ end }}
@@ -109,7 +110,7 @@ gitlab:
       {{ end }}
 
 railsConnection:
-{{ if eq .Provider "google" }}
+{{ if $isGcp }}
   provider: Google
   google_project: {{ .Project }}
   google_application_default: true
@@ -134,7 +135,7 @@ registryConnection:
     region: {{ .Region }}
     v4auth: true
 {{ end }}
-{{ if eq .Provider "google" }}
+{{ if $isGcp }}
   gcs:
     bucket: {{ .Values.registryBucket }}
 {{ end }}

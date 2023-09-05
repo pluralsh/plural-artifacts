@@ -1,3 +1,4 @@
+{{ $isGcp := or (eq .Provider "google") (eq .Provider "gcp") }}
 {{ $pluraldns := .Network.PluralDns }}
 {{ $providerArgs := dict "provider" .Provider "cluster" .Cluster }}
 {{ if eq .Provider "google" }}
@@ -10,6 +11,8 @@ external-dns:
   extraArgs:
     plural-cluster: {{ $providerArgs.cluster }}
     plural-provider: {{ $providerArgs.provider }}
+  {{ else if $isGcp }}
+  provider: google
   {{ else }}
   provider: {{ .Provider }}
   {{ end }}
@@ -21,7 +24,7 @@ external-dns:
   rbac:
     create: true
   serviceAccount:
-{{ if eq .Provider "google" }}
+{{ if $isGcp }}
     create: false
 {{ end }}
     name: {{ default "external-dns" .Values.externaldns_service_account }}
@@ -31,7 +34,7 @@ external-dns:
     {{- end }}
   domainFilters:
   - {{ .Network.Subdomain }}
-  {{- if eq .Provider "google" }}
+  {{- if $isGcp }}
   google:
     project: {{ .Project }}
   {{- end }}
@@ -85,8 +88,8 @@ regcreds:
 provider: {{ .Provider }}
 ownerEmail: {{ .Config.Email }}
 
-{{ if eq (default "google" .Provider) "aws" }}
-{{- if not .Values.disable_cluster_autoscaler }} 
+{{ if eq .Provider "aws" }}
+{{- if not .Values.disable_cluster_autoscaler }}
 cluster-autoscaler:
   enabled: true
   awsRegion: {{ .Region }}
@@ -179,7 +182,7 @@ dnsSolver:
     environment: AzurePublicCloud
 {{ end }}
 
-{{ if eq .Provider "google" }}
+{{ if $isGcp }}
 cert-manager:
   serviceAccount:
     create: false

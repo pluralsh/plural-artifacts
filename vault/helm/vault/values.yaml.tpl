@@ -1,3 +1,4 @@
+{{ $isGcp := or ($isGcp) (eq .Provider "gcp") }}
 global:
   application:
     links:
@@ -10,7 +11,7 @@ vault:
       {{- if eq .Provider "aws" }}
       VAULT_SEAL_TYPE: awskms
       {{- end }}
-      {{- if eq .Provider "google" }}
+      {{- if $isGcp }}
       VAULT_SEAL_TYPE: gcpckms
       GOOGLE_PROJECT: {{ .Project }}
       GOOGLE_REGION: {{ importValue "Terraform" "google_kms_key_ring_location" }}
@@ -25,7 +26,7 @@ vault:
       secretName: vault-env-secret
       secretKey: VAULT_AWSKMS_SEAL_KEY_ID
     {{- end }}
-    {{- if eq .Provider "google" }}
+    {{- if $isGcp }}
     - envName: VAULT_GCPCKMS_SEAL_CRYPTO_KEY
       secretName: vault-env-secret
       secretKey: VAULT_GCPCKMS_SEAL_CRYPTO_KEY
@@ -63,7 +64,7 @@ vault:
       annotations:
         eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-vault"
     {{ end }}
-    {{ if eq .Provider "google" }}
+    {{ if $isGcp }}
     serviceAccount:
       create: false
       name: vault
@@ -73,7 +74,7 @@ envSecret:
   {{- if eq .Provider "aws" }}
   VAULT_AWSKMS_SEAL_KEY_ID: {{ importValue "Terraform" "aws_kms_key_id" }}
   {{- end }}
-  {{- if eq .Provider "google" }}
+  {{- if $isGcp }}
   VAULT_GCPCKMS_SEAL_KEY_RING: {{ importValue "Terraform" "google_kms_key_ring_name" }}
   VAULT_GCPCKMS_SEAL_CRYPTO_KEY: {{ importValue "Terraform" "google_kms_crypto_key_name" }}
   {{- end }}
