@@ -35,7 +35,7 @@ resource "azurerm_federated_identity_credential" "cert_manager" {
   name                = "${var.name}-cert-manager-federated-identity"
   resource_group_name = data.azurerm_resource_group.group.name
   audience            = ["api://AzureADTokenExchange"]
-  issuer              = one(data.azurerm_kubernetes_cluster.cluster[*].oidc_issuer_url)
+  issuer              = data.azurerm_kubernetes_cluster.cluster.oidc_issuer_url
   parent_id           = azurerm_user_assigned_identity.cert_manager.id
   subject             = "system:serviceaccount:${var.namespace}:${var.serviceaccount_name}"
 }
