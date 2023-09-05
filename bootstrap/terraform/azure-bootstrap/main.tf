@@ -52,7 +52,7 @@ module "aks" {
   rbac_aad_managed                 = false
   oidc_issuer_enabled              = true
   location                         = data.azurerm_resource_group.group.location
-  sku_tier                         = "Paid"
+  sku_tier                         = "Standard"
   private_cluster_enabled          = var.private_cluster
   enable_http_application_routing  = false
   azure_policy_enabled             = false

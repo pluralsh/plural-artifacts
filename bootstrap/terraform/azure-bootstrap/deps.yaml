@@ -20,4 +20,4 @@ spec:
     capz_assigned_identity_client_id: capz_assigned_identity_client_id
   provider_wirings:
     cluster: module.azure-bootstrap-cluster-api.cluster
-  provider_vsn: "0.1.3"
+  provider_vsn: "0.1.4"
