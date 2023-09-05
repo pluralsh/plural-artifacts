@@ -2,9 +2,8 @@ apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
   description: Creates an AKS cluster and prepares it for bootstrapping
-  version: 0.3.4
+  version: 0.2.0
 spec:
-  breaking: true
   dependencies: []
   providers:
   - azure
