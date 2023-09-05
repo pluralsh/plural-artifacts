@@ -1,3 +1,4 @@
+{{ $isGcp := or (eq .Provider "google") (eq .Provider "gcp") }}
 {{- $redisNamespace := namespace "redis" }}
 {{ $redisValues := .Applications.HelmValues "redis" }}
 global:
@@ -8,7 +9,7 @@ global:
 
 chatwoot:
   serviceAccount:
-    {{- if eq .Provider "google" }}
+    {{- if $isGcp }}
     create: false
     {{- end }}
     name: chatwoot
@@ -41,7 +42,7 @@ chatwoot:
     ACTIVE_STORAGE_SERVICE: amazon
     S3_BUCKET_NAME: {{ .Values.chatwootBucket }}
     AWS_REGION: {{ .Region }}
-    {{- else if eq .Provider "google" }}
+    {{- else if $isGcp }}
     ACTIVE_STORAGE_SERVICE: google
     GCS_PROJECT: {{ .Project }}
     GCS_BUCKET: {{ .Values.chatwootBucket }}

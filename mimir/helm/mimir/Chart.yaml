@@ -2,7 +2,7 @@ apiVersion: v2
 name: mimir
 description: helm chart for mimir
 type: application
-version: 0.1.5
+version: 0.1.6
 appVersion: 2.7.1
 dependencies:
 - name: mimir-distributed

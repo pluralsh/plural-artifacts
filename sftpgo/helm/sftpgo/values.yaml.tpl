@@ -1,3 +1,4 @@
+{{ $isGcp := or (eq .Provider "google") (eq .Provider "gcp") }}
 {{ $sftpgoPgPwd := dedupe . "sftpgo.postgres.password" (randAlphaNum 20) }}
 
 postgres:
@@ -36,7 +37,7 @@ sftpgo:
       service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: '3600'
     {{ end }}
   {{ end }}
-{{ if eq .Provider "google" }}
+{{ if $isGcp }}
   serviceAccount:
     annotations:
       iam.gke.io/gcp-service-account: {{ importValue "Terraform" "gcp_sa_workload_identity_email" }}

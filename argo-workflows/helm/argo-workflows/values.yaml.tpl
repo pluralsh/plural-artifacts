@@ -1,3 +1,4 @@
+{{ $isGcp := or (eq .Provider "google") (eq .Provider "gcp") }}
 {{- if .OIDC }}
 oidcSecret:
   clientID: {{ .OIDC.ClientId }}
@@ -79,7 +80,7 @@ artifactRepository:
       name: minio-secret
       key: secret-key
   {{ end }}
-  {{ if eq .Provider "google" }}
+  {{ if $isGcp }}
   gcs:
     bucket: {{ .Values.workflowBucket | quote }}
   {{ end }}
@@ -99,7 +100,7 @@ serviceAccount:
   annotations:
     eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-argo-workflows"
   {{- end }}
-  {{ if eq .Provider "google" }}
+  {{ if $isGcp }}
   annotations:
     iam.gke.io/gcp-service-account: {{ importValue "Terraform" "service_account_email" }}
   {{ end }}

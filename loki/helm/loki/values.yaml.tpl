@@ -1,3 +1,4 @@
+{{ $isGcp := or (eq .Provider "google") (eq .Provider "gcp") }}
 {{ $traceShield := and .Configuration (index .Configuration "trace-shield") }}
 {{ $grafanaAgent := and .Configuration (index .Configuration "grafana-agent") }}
 {{ $tempo := and .Configuration .Configuration.tempo }}
@@ -44,7 +45,7 @@ datasource:
 {{- end }}
 
 loki-distributed:
-  {{- if eq .Provider "google" }}
+  {{- if $isGcp }}
   serviceAccount:
     create: false
   {{- end }}
@@ -107,7 +108,7 @@ loki-distributed:
             s3: s3://{{ .Region }}
             bucketnames: {{ .Values.lokiBucket }}
             region: {{ .Region }}
-          {{- else if eq .Provider "google" }}
+          {{- else if $isGcp }}
           gcs:
             bucket_name: {{ .Values.lokiBucket }}
           {{- else if eq .Provider "azure" }}
@@ -135,7 +136,7 @@ loki-distributed:
         storage:
           {{- if eq .Provider "aws" }}
           type: s3
-          {{- else if eq .Provider "google" }}
+          {{- else if $isGcp }}
           type: gcs
           {{- else if eq .Provider "azure" }}
           type: azure
@@ -151,7 +152,7 @@ loki-distributed:
           region: {{ .Region }}
         boltdb_shipper:
           shared_store: s3
-        {{- else if eq .Provider "google" }}
+        {{- else if $isGcp }}
         gcs:
           bucket_name: {{ .Values.lokiBucket }}
         boltdb_shipper:
@@ -175,7 +176,7 @@ loki-distributed:
             index:
               prefix: loki_index_
               period: 24h
-      {{- else if eq .Provider "google" }}
+      {{- else if $isGcp }}
       compactor:
         shared_store: gcs
       schema_config:

@@ -1,3 +1,4 @@
+{{ $isGcp := or (eq .Provider "google") (eq .Provider "gcp") }}
 global:
   application:
     links:
@@ -8,8 +9,9 @@ global:
 
 serviceAccount:
   annotations:
+    {{ if eq .Provider "aws" }}
     eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-argo-workflows"
-    {{ if eq .Provider "google" }}
+    {{ else if $isGcp }}
     iam.gke.io/gcp-service-account: {{ importValue "Terraform" "service_account_email" }}
     {{ end }}
 
@@ -54,7 +56,7 @@ env:
     S3_BUCKET: {{ .Values.growthbookBucket }}
     S3_REGION: {{ .Region }}
 {{ end }}
-{{ if eq .Provider "gcp" }}
+{{ if $isGcp }}
   rest:
     UPLOAD_METHOD: google-cloud
     GCS_BUCKET_NAME: {{ .Values.growthbookBucket }}

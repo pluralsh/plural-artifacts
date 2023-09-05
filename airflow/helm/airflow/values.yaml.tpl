@@ -1,3 +1,4 @@
+{{ $isGcp := or (eq .Provider "google") (eq .Provider "gcp") }}
 global:
   application:
     links:
@@ -80,13 +81,13 @@ airflow:
               else:
                   return {}
           oauth_user_info = _get_oauth_user_info
-        
+
         SECURITY_MANAGER_CLASS = PluralSecurityManager
 
         SQLALCHEMY_DATABASE_URI = conf.get('core', 'SQL_ALCHEMY_CONN')
-        
+
         AUTH_TYPE = AUTH_OAUTH
-        
+
         # registration configs
         AUTH_USER_REGISTRATION = True  # allow users who are not already in the FAB DB
         AUTH_USER_REGISTRATION_ROLE = "Admin"  # this role will be given in addition to any AUTH_ROLES_MAPPING
@@ -112,7 +113,7 @@ airflow:
                 }
             }
         ]
-        
+
         # force users to re-auth after 30min of inactivity (to keep roles in sync)
         PERMANENT_SESSION_LIFETIME = 1800
   {{ end }}
@@ -129,7 +130,7 @@ airflow:
   airflow:
     config:
       AIRFLOW__WEBSERVER__BASE_URL: https://{{ $hostname }}
-    {{ if eq .Provider "google" }}
+    {{ if $isGcp }}
       AIRFLOW__LOGGING__REMOTE_BASE_LOG_FOLDER: "gs://{{ .Values.airflowBucket }}/airflow/logs"
     {{ end }}
     {{ if or (eq .Provider "aws") (eq .Provider "azure") (eq .Provider "kind") }}
@@ -138,8 +139,8 @@ airflow:
     {{ if or (eq .Provider "azure") (eq .Provider "kind") }}
       AIRFLOW__LOGGING__REMOTE_LOG_CONN_ID: minio
     {{ end }}
-  
-    {{ if eq .Provider "google" }}
+
+    {{ if $isGcp }}
     connections:
     ## see docs: https://airflow.apache.org/docs/apache-airflow-providers-google/stable/connections/gcp.html
     - id: plural
@@ -180,7 +181,7 @@ airflow:
     {{ end }}
 
   serviceAccount:
-  {{ if eq .Provider "google" }}
+  {{ if $isGcp }}
     create: false
   {{ end }}
     annotations:

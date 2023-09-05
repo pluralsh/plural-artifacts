@@ -1,3 +1,4 @@
+{{ $isGcp := or (eq .Provider "google") (eq .Provider "gcp") }}
 {{ $hostname := .Values.hostname }}
 {{ $notaryHostname := .Values.notaryHostname }}
 {{- $redisNamespace := namespace "redis" }}
@@ -47,7 +48,7 @@ harbor:
     imageChartStorage:
       {{- if eq .Provider "aws" }}
       type: s3
-      {{- else if eq .Provider "google" }}
+      {{- else if $isGcp }}
       type: gcs
       {{- else if eq .Provider "azure" }}
       type: azure
@@ -56,7 +57,7 @@ harbor:
       s3:
         region: {{ .Region }}
         bucket: {{ .Values.bucket }}
-      {{- else if eq .Provider "google" }}
+      {{- else if $isGcp }}
       gcs:
         bucket: {{ .Values.bucket }}
         useWorkloadIdentity: true
@@ -66,12 +67,12 @@ harbor:
         container: {{ .Values.bucket }}
         existingSecret: harbor-azure-secret
       {{- end }}
-{{- if or (eq .Provider "aws") (eq .Provider "google") }}
+{{- if or (eq .Provider "aws") $isGcp }}
 serviceAccount:
   annotations:
     {{- if eq .Provider "aws" }}
     eks.amazonaws.com/role-arn: {{ importValue "Terraform" "iam_role_arn" }}
-    {{- else if eq .Provider "google" }}
+    {{- else if $isGcp }}
     iam.gke.io/gcp-service-account: {{ importValue "Terraform" "service_account_email" }}
     {{- end }}
 {{- end }}
