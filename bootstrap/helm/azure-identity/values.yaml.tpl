@@ -1,3 +1,4 @@
+enabled: {{ not .ClusterAPI }}
 aad-pod-identity:
   adminsecret:
     cloud: AzurePublicCloud
