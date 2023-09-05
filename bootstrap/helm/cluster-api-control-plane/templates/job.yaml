@@ -1,0 +1,64 @@
+{{- if .Values.job.enabled -}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "cluster-api-control-plane-plural.fullname" . }}-wait-for-provider
+  labels:
+    {{- include "cluster-api-control-plane-plural.labels" . | nindent 4 }}
+  annotations:
+    {{- toYaml .Values.job.annotations | nindent 4 }}
+spec:
+  template:
+    spec:
+      containers:
+      - name: wait-for-provider
+        image: {{ .Values.job.image.repository }}:{{ .Values.job.image.tag }}
+        imagePullPolicy: {{ .Values.job.image.pullPolicy }}
+        command: ["kubectl"]
+        args: ["wait", "--for=condition=Available", "--timeout=600s", "deployment/{{ include "cluster-api-control-plane.fullname" (index .Subcharts "cluster-api-control-plane") }}-controller-manager", "-n", "{{ .Release.namespace }}"]
+      restartPolicy: Never
+      serviceAccountName: {{ include "cluster-api-control-plane-plural.fullname" . }}-wait-for-provider
+  backoffLimit: 4
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ include "cluster-api-control-plane-plural.fullname" . }}-wait-for-provider
+  labels:
+    {{- include "cluster-api-control-plane-plural.labels" . | nindent 4 }}
+  annotations:
+    {{- toYaml .Values.job.annotations | nindent 4 }}
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list", "watch"]
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ include "cluster-api-control-plane-plural.fullname" . }}-wait-for-provider
+  labels:
+    {{- include "cluster-api-control-plane-plural.labels" . | nindent 4 }}
+  annotations:
+    {{- toYaml .Values.job.annotations | nindent 4 }}
+subjects:
+- kind: ServiceAccount
+  name: {{ include "cluster-api-control-plane-plural.fullname" . }}-wait-for-provider
+  namespace: {{ .Release.namespace }}
+roleRef:
+  kind: Role
+  name: {{ include "cluster-api-control-plane-plural.fullname" . }}-wait-for-provider
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ include "cluster-api-control-plane-plural.fullname" . }}-wait-for-provider
+  labels:
+    {{- include "cluster-api-control-plane-plural.labels" . | nindent 4 }}
+  annotations:
+    {{- toYaml .Values.job.annotations | nindent 4 }}
+{{- end }}
