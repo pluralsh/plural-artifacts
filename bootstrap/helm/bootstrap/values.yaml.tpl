@@ -4,7 +4,7 @@
 {{ if eq .Provider "google" }}
   {{ $_ := set $providerArgs "provider" "gcp" }}
 {{ end }}
-{{ $certManager := and .Configuration (index .Configuration "cert-manager") }}
+{{ $certManager := chartInstalled "cert-manager" "cert-manager" }}
 
 external-dns:
   {{ if $pluraldns }}
