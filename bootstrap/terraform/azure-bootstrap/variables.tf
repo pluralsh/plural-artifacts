@@ -627,3 +627,9 @@ variable "enable_aks_insights" {
   type        = bool
   default     = false
 }
+
+variable "cluster_api" {
+  type = bool
+  description = "Whether cluster is controlled by the Cluster API or not"
+  default = false
+}

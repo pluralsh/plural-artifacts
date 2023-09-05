@@ -1,8 +1,8 @@
 apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
-  description: Creates a AKS cluster and prepares it for bootstrapping 
-  version: 0.1.28
+  description: Creates an AKS cluster and prepares it for bootstrapping
+  version: 0.2.0
 spec:
   dependencies: []
   providers:
@@ -16,6 +16,7 @@ spec:
     network: network
     kubelet_msi_id: kubelet_msi_id
     node_resource_group: node_resource_group
+    capz_assigned_identity_client_id: capz_assigned_identity_client_id
   provider_wirings:
     cluster: module.azure-bootstrap.cluster
-  provider_vsn: "0.1.2"
+  provider_vsn: "0.1.4"
