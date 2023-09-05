@@ -2,10 +2,10 @@ apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
   description: cert-manager aws setup
-  version: 0.1.0
+  version: 0.1.1
 spec:
   dependencies:
-  - name: aws-bootstrap-cluster-api
+  - name: aws-bootstrap
     repo: bootstrap
     type: terraform
     version: '>= 0.1.1'

@@ -2,10 +2,10 @@ apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
   description: cert-manager gcp setup
-  version: 0.1.0
+  version: 0.1.1
 spec:
   dependencies:
-  - name: gcp-bootstrap-cluster-api
+  - name: gcp-bootstrap
     repo: bootstrap
     type: terraform
     version: '>= 0.1.1'

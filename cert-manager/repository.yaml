@@ -1,7 +1,7 @@
 name: cert-manager
 description: cert-manager deployed on plural
 category: DEVOPS
-private: true
+private: false
 icon: plural/icons/cert-manager.png
 notes: plural/notes.tpl
 gitUrl: https://github.com/cert-manager/cert-manager
