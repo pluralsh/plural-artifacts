@@ -1,0 +1,6 @@
+dependencies:
+- name: cluster-api-provider-docker
+  repository: https://pluralsh.github.io/capi-helm-charts
+  version: 0.1.4
+digest: sha256:63ba00b5ded9a225d4a3a01373810078fafd1c0f6f20e09911934a0a69972ef6
+generated: "2023-09-05T13:08:48.119369+02:00"

@@ -1,0 +1,6 @@
+dependencies:
+- name: cluster-api-bootstrap
+  repository: https://pluralsh.github.io/capi-helm-charts
+  version: 0.1.6
+digest: sha256:0f68504758f18d0df554d395770f5f4646ffcbe66a19c767de9d3f73d0dfbdca
+generated: "2023-09-05T13:06:05.337568+02:00"
