@@ -2,6 +2,7 @@ name: cert-manager-kind
 description: Installs cert-manager on a KinD cluster
 provider: KIND
 primary: true
+private: true
 dependencies:
 - repo: bootstrap
   name: kind-k8s

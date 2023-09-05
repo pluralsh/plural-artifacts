@@ -2,6 +2,7 @@ name: cert-manager-aws
 description: Installs cert-manager on an aws eks cluster
 provider: AWS
 primary: true
+private: true
 dependencies:
 - repo: bootstrap
   name: aws-k8s
