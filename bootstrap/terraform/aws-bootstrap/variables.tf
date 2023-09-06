@@ -368,3 +368,13 @@ variable "aws_region" {
   default = "us-east-2"
   description = "The region you wish to deploy to"
 }
+
+variable "capa_serviceaccount" {
+  type = string
+  default = "bootstrap-cluster-api-provider-aws"
+}
+
+variable "capi_serviceaccount" {
+  type = string
+  default = "bootstrap-cluster-api-core"
+}

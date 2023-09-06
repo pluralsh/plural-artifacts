@@ -3,6 +3,8 @@ data "aws_availability_zones" "available" {}
 data "aws_caller_identity" "current" {}
 
 module "vpc" {
+  count =  var.create_cluster ? 1:0
+
   source                 = "github.com/pluralsh/terraform-aws-vpc?ref=worker_subnet"
   name                   = var.vpc_name
   cidr                   = var.vpc_cidr
@@ -36,6 +38,8 @@ module "vpc" {
 }
 
 module "cluster" {
+  count =  var.create_cluster ? 1:0
+
   source                        = "github.com/pluralsh/terraform-aws-eks?ref=output-service-cidr"
   cluster_name                  = var.cluster_name
   cluster_version               = var.kubernetes_version
@@ -59,15 +63,17 @@ module "cluster" {
 }
 
 module "single_az_node_groups" {
+  count =  var.create_cluster ? 1:0
+
   source                 = "github.com/pluralsh/module-library//terraform/eks-node-groups/single-az-node-groups?ref=20e64863ffc5e361045db8e6b81b9d244a55809e"
   cluster_name           = var.cluster_name
-  default_iam_role_arn   = module.cluster.worker_iam_role_arn
+  default_iam_role_arn   = module.cluster[0].worker_iam_role_arn
   tags                   = {}
   node_groups_defaults   = var.node_groups_defaults
 
   node_groups            = try(var.create_cluster ? var.single_az_node_groups : tomap(false), {})
   set_desired_size       = false
-  private_subnets        = var.create_cluster ? module.vpc.worker_private_subnets : []
+  private_subnets        = var.create_cluster ? module.vpc[0].worker_private_subnets : []
 
   ng_depends_on = [
     local.cluster_config
@@ -75,9 +81,11 @@ module "single_az_node_groups" {
 }
 
 module "multi_az_node_groups" {
+  count =  var.create_cluster ? 1:0
+
   source                 = "github.com/pluralsh/module-library//terraform/eks-node-groups/multi-az-node-groups?ref=20e64863ffc5e361045db8e6b81b9d244a55809e"
   cluster_name           = var.cluster_name
-  default_iam_role_arn   = module.cluster.worker_iam_role_arn
+  default_iam_role_arn   = one(module.cluster[*].worker_iam_role_arn)
   tags                   = {}
   node_groups_defaults   = var.node_groups_defaults
 
@@ -136,6 +144,8 @@ resource "aws_eks_addon" "kube_proxy" {
 }
 
 resource "kubernetes_namespace" "bootstrap" {
+  count =  var.create_cluster ? 1:0
+
   metadata {
     name = "bootstrap"
     labels = {

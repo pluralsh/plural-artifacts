@@ -1,5 +1,8 @@
 vpc_name = {{ .Values.vpc_name | quote }}
 cluster_name = {{ .Cluster | quote }}
+{{- if eq .ClusterAPI true }}
+create_cluster = false
+{{- end }}
 
 map_roles = [
   {

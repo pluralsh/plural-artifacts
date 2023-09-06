@@ -9,6 +9,7 @@ spec:
   providers:
   - aws
   outputs:
+    capa_iam_role_arn: capa_iam_role_arn
     endpoint: cluster_endpoint
     cluster_private_subnets: cluster_private_subnets
     cluster_worker_private_subnets: cluster_worker_private_subnets
