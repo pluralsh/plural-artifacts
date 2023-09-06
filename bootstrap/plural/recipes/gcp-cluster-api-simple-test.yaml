@@ -16,7 +16,7 @@ sections:
           message: must begin with a lowercase letter, and can only contain lowercase letters, numbers or hyphens after
     items:
       - type: TERRAFORM
-        name: gcp-bootstrap-cluster-api
+        name: gcp-bootstrap
       - type: HELM
         name: bootstrap
       - type: HELM
