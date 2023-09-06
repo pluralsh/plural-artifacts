@@ -14,5 +14,8 @@ dependencies:
 - name: vpa
   repository: https://charts.fairwinds.com/stable
   version: 0.4.2
-digest: sha256:9b84774630023f82f5c08f274f2f36d5197e1b8108542d40d9d143802fb5fd14
-generated: "2022-09-13T17:50:46.461204+02:00"
+- name: silence-operator
+  repository: https://wiremind.github.io/wiremind-helm-charts
+  version: 0.0.6
+digest: sha256:d2d2137c6f819b3083f1a4d6965467b2c2a362be2a143abc2504af007cb4151b
+generated: "2023-09-05T14:40:47.094072-04:00"
