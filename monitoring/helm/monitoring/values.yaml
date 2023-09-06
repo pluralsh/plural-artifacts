@@ -2,8 +2,6 @@ global:
   rbac:
     pspEnabled: false
 
-silences: {}
-
 loki:
   enabled: true
   rbac:
@@ -382,20 +380,3 @@ vpa:
     nodeSelector: {}
     tolerations: []
     affinity: {}
-
-silence-operator:
-  sync:
-    enabled: true
-    init:
-      method:
-        kubernetes:
-          enabled: true
-          image:
-            name: ghcr.io/pluralsh/containers/kubectl
-            tag: 1.27-plural1.0.0
-  rbac:
-    create: true
-  operator:
-    alertmanager:
-      service:
-        address: "http://monitoring-alertmanager.monitoring:9093"

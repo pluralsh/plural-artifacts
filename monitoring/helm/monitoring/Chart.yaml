@@ -23,6 +23,3 @@ dependencies:
 - name: vpa
   version: 0.4.2
   repository: https://charts.fairwinds.com/stable
-- name: silence-operator
-  version: 0.0.6
-  repository: https://wiremind.github.io/wiremind-helm-charts

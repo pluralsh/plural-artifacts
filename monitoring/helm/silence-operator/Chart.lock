@@ -1,0 +1,6 @@
+dependencies:
+- name: silence-operator
+  repository: https://wiremind.github.io/wiremind-helm-charts
+  version: 0.0.6
+digest: sha256:95128fe4e6765a00cb3d655dfe5d9720711740bccc9c933381743add2e71c739
+generated: "2023-09-06T13:55:17.876963-04:00"
