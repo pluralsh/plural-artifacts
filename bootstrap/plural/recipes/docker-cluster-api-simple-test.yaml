@@ -1,0 +1,26 @@
+name: docker-cluster-api-simple-test
+description: Creates an Docker cluster and installs the bootstrap chart
+provider: KIND
+primary: false
+private: true
+dependencies: []
+sections:
+  - name: bootstrap
+    configuration: []
+    items:
+      - type: TERRAFORM
+        name: kind-bootstrap-cluster-api
+      - type: HELM
+        name: bootstrap
+      - type: HELM
+        name: plural-certmanager-webhook
+      - type: HELM
+        name: cluster-api-core
+      - type: HELM
+        name: cluster-api-bootstrap
+      - type: HELM
+        name: cluster-api-control-plane
+      - type: HELM
+        name: cluster-api-provider-docker
+      - type: HELM
+        name: cluster-api-cluster

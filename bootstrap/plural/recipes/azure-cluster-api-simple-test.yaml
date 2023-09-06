@@ -1,0 +1,37 @@
+name: azure-cluster-api-simple-test
+description: Creates an AKS cluster and installs the bootstrap chart
+provider: AZURE
+primary: false
+private: true
+dependencies: []
+sections:
+  - name: bootstrap
+    configuration:
+      - name: network_name
+        documentation: Arbitary name for the network to place your cluster in, eg "plural"
+        type: STRING
+        validation:
+          type: REGEX
+          regex: '[a-z][\-a-z0-9]{0,61}[a-z0-9]'
+          message: must begin with a lowercase letter, and can only contain lowercase letters, numbers or hyphens after
+    items:
+      - type: TERRAFORM
+        name: azure-bootstrap
+      - type: HELM
+        name: bootstrap
+      - type: HELM
+        name: azure-identity
+      - type: HELM
+        name: plural-certmanager-webhook
+      - type: HELM
+        name: cluster-api-core
+      - type: HELM
+        name: cluster-api-bootstrap
+      - type: HELM
+        name: cluster-api-control-plane
+      - type: HELM
+        name: cluster-api-provider-azure
+      - type: HELM
+        name: cluster-api-cluster
+      - type: HELM
+        name: azure-workload-identity
