@@ -1,0 +1,156 @@
+suite: test machine pools
+templates:
+  - aws/machinepools.yaml
+tests:
+  - it: check kind
+    set:
+      cluster.name: test
+      provider: aws
+      type: managed
+      workers.defaults.aws.spec.availabilityZones:
+      - us-east-1a
+      - us-east-1b
+      - us-east-1c
+    asserts:
+      - template: aws/machinepools.yaml
+        hasDocuments:
+          count: 24
+      - template: aws/machinepools.yaml
+        documentIndex: 0
+        isKind:
+          of: AWSManagedMachinePool
+      - template: aws/machinepools.yaml
+        documentIndex: 13
+        isKind:
+          of: MachinePool
+  - it: test defaults
+    set:
+      cluster.name: test
+      provider: aws
+      type: managed
+      cluster.aws.region: abc
+      cluster.kubernetesVersion: v1.2.3
+      workers.defaults.aws.spec.availabilityZones:
+      - us-east-1a
+      - us-east-1b
+      - us-east-1c
+    asserts:
+      - equal:
+          path: spec.amiType
+          value: AL2_x86_64
+        documentIndex: 0
+      - equal:
+          path: spec.diskSize
+          value: 50
+        documentIndex: 2
+    template: aws/machinepools.yaml
+  - it: test large-burst-spot
+    set:
+      cluster.name: test
+      provider: aws
+      type: managed
+      cluster.aws.region: abc
+      cluster.kubernetesVersion: v1.2.3
+      workers.defaults.aws.spec.availabilityZones:
+      - us-east-1a
+      - us-east-1b
+      - us-east-1c
+    asserts:
+      - equal:
+          path: spec.capacityType
+          value: spot
+      - equal:
+          path: spec.eksNodegroupName
+          value: large-burst-spot
+      - equal:
+          path: spec.instanceType
+          value: t3.2xlarge
+      - equal:
+          path: spec.availabilityZones
+          value:
+          - us-east-1a
+          - us-east-1b
+          - us-east-1c
+    template: aws/machinepools.yaml
+    documentIndex: 6
+  - it: test large-burst-on-demand-us-east-1a
+    set:
+      cluster.name: test
+      provider: aws
+      type: managed
+      cluster.aws.region: abc
+      cluster.kubernetesVersion: v1.2.3
+      workers.defaults.aws.spec.availabilityZones:
+      - us-east-1a
+      - us-east-1b
+      - us-east-1c
+    asserts:
+      - equal:
+          path: spec.capacityType
+          value: onDemand
+      - equal:
+          path: spec.eksNodegroupName
+          value: large-burst-on-demand-us-east-1a
+      - equal:
+          path: spec.instanceType
+          value: t3.2xlarge
+      - equal:
+          path: spec.availabilityZones
+          value:
+          - us-east-1a
+    template: aws/machinepools.yaml
+    documentIndex: 0
+  - it: test large-burst-on-demand-us-east-1b
+    set:
+      cluster.name: test
+      provider: aws
+      type: managed
+      cluster.aws.region: abc
+      cluster.kubernetesVersion: v1.2.3
+      workers.defaults.aws.spec.availabilityZones:
+      - us-east-1a
+      - us-east-1b
+      - us-east-1c
+    asserts:
+      - equal:
+          path: spec.capacityType
+          value: onDemand
+      - equal:
+          path: spec.eksNodegroupName
+          value: large-burst-on-demand-us-east-1b
+      - equal:
+          path: spec.instanceType
+          value: t3.2xlarge
+      - equal:
+          path: spec.availabilityZones
+          value:
+          - us-east-1b
+    template: aws/machinepools.yaml
+    documentIndex: 2
+  - it: test large-burst-on-demand-us-east-1c
+    set:
+      cluster.name: test
+      provider: aws
+      type: managed
+      cluster.aws.region: abc
+      cluster.kubernetesVersion: v1.2.3
+      workers.defaults.aws.spec.availabilityZones:
+      - us-east-1a
+      - us-east-1b
+      - us-east-1c
+    asserts:
+      - equal:
+          path: spec.capacityType
+          value: onDemand
+      - equal:
+          path: spec.eksNodegroupName
+          value: large-burst-on-demand-us-east-1c
+      - equal:
+          path: spec.instanceType
+          value: t3.2xlarge
+      - equal:
+          path: spec.availabilityZones
+          value:
+          - us-east-1c
+    template: aws/machinepools.yaml
+    documentIndex: 4

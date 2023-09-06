@@ -1,0 +1,22 @@
+{{- if and (eq .Values.provider "aws") (eq .Values.type "managed") -}}
+{{- $currentScope := . -}}
+{{- $defaultVals := .Values.workers.defaults.aws -}}
+{{- range $name, $values := .Values.workers.aws }}
+{{- with $currentScope }}
+{{- $isMultiAZ := ($values | default dict).isMultiAZ | default $defaultVals.isMultiAZ }}
+{{- $availabilityZones := ($values.spec | default dict).availabilityZones | default $defaultVals.spec.availabilityZones }}
+{{- if and (not $isMultiAZ) (not $availabilityZones) }}
+  {{- fail (printf "Invalid value for isMultiAZ. availabilityZones must be set") }}
+{{- end }}
+{{- if not $isMultiAZ }}
+{{ range $az := $availabilityZones }}
+{{- include "workers.aws.managedMachinePool" (dict "ctx" $currentScope "name" (printf "%s-%s" $name $az) "defaultVals" $defaultVals "values" $values "availabilityZones" (list $az)) }}
+---
+{{- end }}
+{{- else }}
+{{- include "workers.aws.managedMachinePool" (dict "ctx" $currentScope "name" $name "defaultVals" $defaultVals "values" $values "availabilityZones" $availabilityZones) }}
+---
+{{- end }}
+{{- end }}
+{{- end }}
+{{ end }}

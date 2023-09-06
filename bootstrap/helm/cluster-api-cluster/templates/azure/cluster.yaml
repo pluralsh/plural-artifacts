@@ -1,0 +1,9 @@
+{{- if and (eq .Values.provider "azure") (eq .Values.type "managed") -}}
+kind: AzureManagedCluster
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+metadata:
+  name: {{ .Values.cluster.name }}
+  annotations:
+    helm.sh/resource-policy: keep
+spec: {}
+{{- end }}

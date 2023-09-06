@@ -1,0 +1,25 @@
+{{- if and (eq .Values.provider "gcp") (eq .Values.type "managed") -}}
+{{- $currentScope := . -}}
+{{- $defaultVals := .Values.workers.defaults.gcp -}}
+{{- range $name, $values := .Values.workers.gcp }}
+{{- with $currentScope}}
+{{- $isMultiAZ := ($values | default dict).isMultiAZ | default $defaultVals.isMultiAZ }}
+{{- if not $isMultiAZ }}
+  {{- fail (printf "Invalid value for isMultiAZ. GCP currently only supports `true` for this value") }}
+{{- end }}
+{{- $availabilityZones := ($values.spec | default dict).availabilityZones | default $defaultVals.spec.availabilityZones }}
+{{- if and (not $isMultiAZ) (not $availabilityZones) }}
+  {{- fail (printf "Invalid value for isMultiAZ. availabilityZones must be set") }}
+{{- end }}
+{{- if not $isMultiAZ }}
+{{ range $az := $availabilityZones }}
+{{- include "workers.gcp.managedMachinePool" (dict "ctx" $currentScope "name" (printf "%s-%s" $name $az) "defaultVals" $defaultVals "values" $values "availabilityZones" (list $az)) }}
+---
+{{- end }}
+{{- else }}
+{{- include "workers.gcp.managedMachinePool" (dict "ctx" $currentScope "name" $name "defaultVals" $defaultVals "values" $values "availabilityZones" $availabilityZones) }}
+---
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
