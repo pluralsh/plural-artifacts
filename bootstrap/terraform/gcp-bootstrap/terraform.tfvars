@@ -4,9 +4,12 @@ cluster_name = {{ .Cluster | quote }}
 vpc_name_prefix = {{ .Values.vpc_name | quote }}
 externaldns_sa_name = "{{ .Cluster }}-externaldns"
 gcp_region = {{ .Region | quote }}
+{{- if .ClusterAPI }}
+cluster_api = {{ .ClusterAPI }}
+{{- end }}
 {{- if fileExists $tfOutput }}
 {{- $bootstrapOutputs := .Applications.TerraformValues "bootstrap" }}
-{{- if $bootstrapOutputs }}
+{{- if and $bootstrapOutputs (not .ClusterAPI) }}
 network_policy_enabled = {{ $bootstrapOutputs.cluster.network_policy_enabled }}
 {{- if eq $bootstrapOutputs.cluster.datapath_provider "" }}
 datapath_provider = "DATAPATH_PROVIDER_UNSPECIFIED"

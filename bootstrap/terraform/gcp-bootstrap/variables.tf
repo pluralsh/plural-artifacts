@@ -343,7 +343,6 @@ variable "regional_cluster" {
   default     = true
 }
 
-
 variable "cluster_zones" {
   type        = list(string)
   description = "The zones to host the cluster in (optional if regional cluster / required if zonal)"
@@ -359,4 +358,10 @@ variable "grant_registry_access" {
   type        = bool
   description = "Grants created cluster-specific service account storage.objectViewer and artifactregistry.reader roles."
   default     = false
+}
+
+variable "cluster_api" {
+  type = bool
+  description = "Whether cluster has been migrated to be controlled by the Cluster API or not"
+  default = false
 }
