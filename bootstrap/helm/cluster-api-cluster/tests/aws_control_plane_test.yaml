@@ -1,0 +1,43 @@
+suite: test control plane
+templates:
+  - aws/control-plane.yaml
+tests:
+  - it: check kind
+    set:
+      cluster.name: test
+      provider: aws
+      type: managed
+      cluster.aws.controlPlaneEndpoint: abc
+    asserts:
+      - template: aws/control-plane.yaml
+        hasDocuments:
+          count: 1
+      - template: aws/control-plane.yaml
+        documentIndex: 0
+        isKind:
+          of: AWSManagedControlPlane
+  - it: should equal
+    set:
+      cluster.name: test
+      provider: aws
+      type: managed
+      cluster.aws.region: abc
+      cluster.kubernetesVersion: v1.2.3
+    asserts:
+      - equal:
+          path: spec.region
+          value: abc
+      - equal:
+          path: spec.sshKeyName
+          value: default
+      - equal:
+          path: spec.version
+          value: v1.2.3
+      - equal:
+          path: spec.eksClusterName
+          value: test
+      - equal:
+          path: spec.eksClusterName
+          value: test
+        template: aws/control-plane.yaml
+        documentIndex: 0

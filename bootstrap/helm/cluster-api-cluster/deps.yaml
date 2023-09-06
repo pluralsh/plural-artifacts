@@ -1,0 +1,7 @@
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  application: true
+  description: installs a cluster using cluster-api
+spec:
+  dependencies: []
