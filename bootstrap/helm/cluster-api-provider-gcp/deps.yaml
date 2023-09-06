@@ -1,0 +1,7 @@
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  application: true
+  description: installs the cluster api provider gcp
+spec:
+  dependencies: []
