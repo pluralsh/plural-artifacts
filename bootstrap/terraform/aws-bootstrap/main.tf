@@ -37,8 +37,6 @@ module "vpc" {
 }
 
 module "cluster" {
-  # count =  var.create_cluster ? 1 : 0
-
   source                        = "github.com/pluralsh/terraform-aws-eks?ref=output-service-cidr"
   cluster_name                  = var.cluster_name
   cluster_version               = var.kubernetes_version
