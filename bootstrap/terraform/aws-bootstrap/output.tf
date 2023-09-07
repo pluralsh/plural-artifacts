@@ -35,15 +35,15 @@ output "cluster_public_subnet_ids" {
 }
 
 output "worker_role_arn" {
-  value = var.create_cluster ? one(module.cluster[*].worker_iam_role_arn) : ""
+  value = var.create_cluster ? one(module.cluster[*].worker_iam_role_arn) : data.aws_eks_node_group.cluster[0].node_role_arn
 }
 
 output "node_groups" {
-  value = var.create_cluster ? [for d in merge(one(module.single_az_node_groups[*].node_groups), one(module.multi_az_node_groups[*].node_groups)): d] : {}
+  value = try(var.create_cluster ? [for d in merge(one(module.single_az_node_groups[*].node_groups), one(module.multi_az_node_groups[*].node_groups)): d] : tomap(false), {})
 }
 
 output "vpc" {
-  value = var.create_cluster ? one(module.vpc[*]) : one(data.aws_vpc.vpc[*])
+  value = try(var.create_cluster ? one(module.vpc[*]) : tomap(false), one(data.aws_vpc.vpc[*]))
 }
 
 output "vpc_cidr" {
@@ -52,7 +52,7 @@ output "vpc_cidr" {
 
 
 output "cluster" {
-  value =  var.create_cluster ? one(module.cluster[*]) : (data.aws_eks_cluster.cluster[*])
+  value =  try(var.create_cluster ? one(module.cluster[*]) : tomap(false), one(data.aws_eks_cluster.cluster[*]))
 }
 
 output "cluster_service_ipv4_cidr" {

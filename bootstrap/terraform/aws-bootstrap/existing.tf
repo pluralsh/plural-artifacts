@@ -20,8 +20,8 @@ data "aws_eks_node_group" "cluster" {
 }
 
 data "aws_subnet" "cluster_subnets" {
-  count = var.create_cluster ? 0 : length(one(data.aws_eks_cluster.test_cluster[*].vpc_config[0].subnet_ids))
-  id    = tolist(one(data.aws_eks_cluster.test_cluster[*].vpc_config[0].subnet_ids))[count.index]
+  count = var.create_cluster ? 0 : length(one(data.aws_eks_cluster.cluster[*].vpc_config[0].subnet_ids))
+  id    = tolist(one(data.aws_eks_cluster.cluster[*].vpc_config[0].subnet_ids))[count.index]
 }
 
 

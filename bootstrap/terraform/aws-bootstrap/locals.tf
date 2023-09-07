@@ -3,7 +3,7 @@ locals {
   create_vpc                = var.create_cluster && var.create_vpc ? true : false
   vpc_id                    = var.create_cluster ? one(module.vpc[*].vpc_id) : one(data.aws_eks_cluster.cluster[*].vpc_config[0].vpc_id)
   cluster_id                = var.create_cluster ? one(module.cluster[*].cluster_id) : one(data.aws_eks_cluster.cluster[*].id)
-  cluster_config            = var.create_cluster ? one(module.cluster[*].config_map_aws_auth) : {}
+  cluster_config            = try(var.create_cluster ? one(module.cluster[*].config_map_aws_auth) : tomap(false), {})
   cluster_oidc_issuer_url   = var.create_cluster ? one(module.cluster[*].cluster_oidc_issuer_url) : one(data.aws_eks_cluster.cluster[*].identity[0].oidc.0.issuer)
   cluster_endpoint          = var.create_cluster ? one(module.cluster[*].cluster_endpoint) : one(data.aws_eks_cluster.cluster[*].endpoint)
 }
