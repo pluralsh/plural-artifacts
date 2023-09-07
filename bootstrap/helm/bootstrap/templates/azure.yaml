@@ -1,4 +1,4 @@
-{{ if eq .Values.provider "azure" }}
+{{- if and (eq .Values.provider "azure") .Values.azurePodIdentity.enabled }}
 apiVersion: "aadpodidentity.k8s.io/v1"
 kind: AzureIdentity
 metadata:
@@ -17,4 +17,4 @@ metadata:
 spec:
   azureIdentity: externaldns
   selector: externaldns
-{{ end }}
+{{- end }}
