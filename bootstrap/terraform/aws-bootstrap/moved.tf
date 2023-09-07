@@ -1,7 +1,7 @@
-moved {
-  from = module.cluster
-  to   = module.cluster[0]
-}
+# moved {
+#   from = module.cluster
+#   to   = module.cluster[0]
+# }
 
 moved {
   from = module.vpc
