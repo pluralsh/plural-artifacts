@@ -269,6 +269,7 @@ data "aws_iam_policy_document" "capa_controller_eks" {
       "iam:DeleteRole",
       "iam:CreateRole",
       "iam:TagRole",
+      "iam:UntagRole",
       "iam:AttachRolePolicy",
     ]
   }
