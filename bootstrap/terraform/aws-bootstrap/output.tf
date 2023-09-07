@@ -11,7 +11,7 @@ output "cluster_oidc_issuer_url" {
 }
 
 output "cluster_private_subnets" {
-  value = data.aws_subnet.private_subnets
+  value = local.private_subnet
 }
 
 output "cluster_worker_private_subnets" {
@@ -19,7 +19,7 @@ output "cluster_worker_private_subnets" {
 }
 
 output "cluster_public_subnets" {
-  value = data.aws_subnet.public_subnets
+  value = local.public_subnet
 }
 
 output "cluster_private_subnet_ids" {
@@ -35,28 +35,28 @@ output "cluster_public_subnet_ids" {
 }
 
 output "worker_role_arn" {
-  value = var.create_cluster ? module.cluster[0].worker_iam_role_arn : ""
+  value = var.create_cluster ? one(module.cluster[*].worker_iam_role_arn) : ""
 }
 
 output "node_groups" {
-  value = try(var.create_cluster ?[for d in merge(module.single_az_node_groups[0].node_groups, module.multi_az_node_groups[0].node_groups): d]: tomap(false), {})
+  value = var.create_cluster ? [for d in merge(one(module.single_az_node_groups[*].node_groups), one(module.multi_az_node_groups[*].node_groups)): d] : {}
 }
 
 output "vpc" {
-  value = try(var.create_cluster ? module.vpc[0] : tomap(false), data.aws_vpc.vpc[0])
+  value = var.create_cluster ? one(module.vpc[*]) : one(data.aws_vpc.vpc[*])
 }
 
 output "vpc_cidr" {
-  value = var.create_cluster ? module.vpc[0].vpc_cidr_block : data.aws_vpc.vpc[0].cidr_block
+  value = var.create_cluster ? one(module.vpc[*].vpc_cidr_block) : one(data.aws_vpc.vpc[*].cidr_block)
 }
 
 
 output "cluster" {
-  value =  try(var.create_cluster ? module.cluster[0] : tomap(false), data.aws_eks_cluster.cluster[0])
+  value =  var.create_cluster ? one(module.cluster[*]) : (data.aws_eks_cluster.cluster[*])
 }
 
 output "cluster_service_ipv4_cidr" {
-  value = var.create_cluster ? module.cluster[0].cluster_service_ipv4_cidr : data.aws_eks_cluster.cluster[0].kubernetes_network_config[0].service_ipv4_cidr
+  value = var.create_cluster ? one(module.cluster[*].cluster_service_ipv4_cidr) : one(data.aws_eks_cluster.cluster[*].kubernetes_network_config[0].service_ipv4_cidr)
 }
 
 output "capa_iam_role_arn" {
