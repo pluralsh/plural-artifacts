@@ -1,4 +1,4 @@
-name: azure-cluster-api-simple-test
+name: azure-cluster-api-migrate-test
 description: Creates an AKS cluster and installs the bootstrap chart
 provider: AZURE
 primary: false
@@ -19,6 +19,8 @@ sections:
         name: azure-bootstrap
       - type: HELM
         name: bootstrap
+      - type: HELM
+        name: azure-identity
       - type: HELM
         name: plural-certmanager-webhook
       - type: HELM

@@ -220,3 +220,6 @@ metrics-server:
     tag: 0.6.2
   apiService:
     create: true
+
+azurePodIdentity:
+  enabled: true
