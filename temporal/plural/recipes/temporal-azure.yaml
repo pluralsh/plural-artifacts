@@ -1,0 +1,26 @@
+name: temporal-azure
+description: Installs temporal on an aws eks cluster
+provider: AZURE
+primary: true
+oidcSettings:
+  uriFormat: https://{domain}/auth/sso/callback
+  authMethod: POST
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-azure
+- repo: postgres
+  name: azure-postgres
+sections:
+- name: temporal
+  configuration:
+  - name: hostname
+    documentation: the fqdn for the temporal admin console
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: azure
+  - type: HELM
+    name: temporal

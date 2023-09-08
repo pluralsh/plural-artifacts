@@ -1,0 +1,86 @@
+postgres:
+  team: plural
+  user: temporal
+  dbName: temporal
+  ownerChart: temporal
+  infix: '-postgres'
+
+temporal:
+  web:
+    config:
+      auth:
+      enabled: true
+      providers:
+        label: sso # for internal use; in future may expose as button text
+        type: oidc 
+        issuerUrl: 
+        clientId: xxxxx-xxxx.apps.googleusercontent.com
+        clientSecret: xxxxxxxxxxxxxxxxxxxx
+        callbackUrl: https://xxxx.com:8080/auth/sso/callback
+        scopes:
+          - openid
+          
+    ingress:
+      enabled: false
+      className: nginx
+      aannotations:
+        kubernetes.io/tls-acme: "true"
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+  server:
+    config:
+      persistence:
+        default:
+          driver: "sql"
+
+          sql:
+            driver: "postgres"
+            host: plural-postgres-temporal
+            port: 5432
+            database: temporal
+            user: temporal
+            existingSecret: temporal.plural-postgres-temporal.credentials.postgresql.acid.zalan.do
+            maxConns: 20
+            maxConnLifetime: "1h"
+            tls:
+              enabled: true
+              enableHostVerification: false
+
+        visibility:
+          driver: "sql"
+
+          sql:
+            driver: "postgres"
+            host: plural-postgres-temporal
+            port: 5432
+            database: temporal
+            user: temporal
+            existingSecret: temporal.plural-postgres-temporal.credentials.postgresql.acid.zalan.do
+            maxConns: 20
+            maxConnLifetime: "1h"
+            tls:
+              enabled: true
+              enableHostVerification: false
+
+  cassandra:
+    enabled: false
+
+  mysql:
+    enabled: false
+
+  postgresql:
+    enabled: true
+
+  prometheus:
+    enabled: true
+
+  grafana:
+    enabled: true
+    
+  elasticsearch:
+    enabled: false
+
+  schema:
+    setup:
+      enabled: true
+    update:
+      enabled: true

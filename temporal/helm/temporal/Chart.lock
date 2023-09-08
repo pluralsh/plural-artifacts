@@ -1,0 +1,9 @@
+dependencies:
+- name: postgres
+  repository: https://pluralsh.github.io/module-library
+  version: 0.2.1
+- name: temporal
+  repository: ""
+  version: 0.27.0
+digest: sha256:c0eb9c749e97bd2fb45ab7433a4b98d679fd074fb31077f9188f880bd3ffb34e
+generated: "2023-09-08T12:40:11.231282-04:00"

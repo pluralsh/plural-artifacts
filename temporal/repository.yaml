@@ -1,0 +1,9 @@
+name: temporal
+description: temporal deployed on plural
+category: MESSAGING
+private: true
+icon: plural/icons/temporal.png
+notes: plural/notes.tpl
+oauthSettings:
+  uriFormat: https://{domain}/auth/sso/callback
+  authMethod: POST

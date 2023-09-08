@@ -1,0 +1,26 @@
+name: temporal-gcp
+description: Installs temporal on an aws eks cluster
+provider: GCP
+primary: true
+oidcSettings:
+  uriFormat: https://{domain}/auth/sso/callback
+  authMethod: POST
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-gcp
+- repo: postgres
+  name: gcp-postgres
+sections:
+- name: temporal
+  configuration:
+  - name: hostname
+    documentation: the fqdn for the temporal admin console
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: gcp
+  - type: HELM
+    name: temporal
