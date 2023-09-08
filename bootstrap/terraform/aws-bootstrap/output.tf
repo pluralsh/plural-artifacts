@@ -39,7 +39,7 @@ output "worker_role_arn" {
 }
 
 output "node_groups" {
-  value = try(var.create_cluster ? [for d in merge(one(module.single_az_node_groups[*].node_groups), one(module.multi_az_node_groups[*].node_groups)): d] : tomap(false), {})
+  value = try(var.create_cluster ? [for d in merge(one(module.single_az_node_groups[*].node_groups), one(module.multi_az_node_groups[*].node_groups)): d] : tomap(false), one(data.aws_eks_node_group.cluster[*]))
 }
 
 output "vpc" {
