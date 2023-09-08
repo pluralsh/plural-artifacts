@@ -96,6 +96,7 @@ data "aws_iam_policy_document" "capa_controller" {
       "elasticloadbalancing:CreateLoadBalancer",
       "elasticloadbalancing:ConfigureHealthCheck",
       "elasticloadbalancing:DeleteLoadBalancer",
+      "elasticloadbalancing:CreateTargetGroup",
       "elasticloadbalancing:DeleteTargetGroup",
       "elasticloadbalancing:DescribeLoadBalancers",
       "elasticloadbalancing:DescribeLoadBalancerAttributes",
