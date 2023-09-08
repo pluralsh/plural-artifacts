@@ -101,6 +101,7 @@ data "aws_iam_policy_document" "capa_controller" {
       "elasticloadbalancing:DescribeLoadBalancers",
       "elasticloadbalancing:DescribeLoadBalancerAttributes",
       "elasticloadbalancing:DescribeTargetGroups",
+      "elasticloadbalancing:DescribeListeners",
       "elasticloadbalancing:ApplySecurityGroupsToLoadBalancer",
       "elasticloadbalancing:DescribeTags",
       "elasticloadbalancing:ModifyLoadBalancerAttributes",
