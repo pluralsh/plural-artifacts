@@ -1,6 +1,8 @@
 provider: ""
 
 gateway:
+  autoscaling:
+    minReplicas: 2
   topologySpreadConstraints:
   - maxSkew: 1
     topologyKey: topology.kubernetes.io/zone
