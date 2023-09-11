@@ -1,0 +1,17 @@
+name: istio-cni-aws
+description: Installs istio-cni on an aws eks cluster
+provider: AWS
+primary: true
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: istio
+  name: istio-aws
+sections:
+- name: istio-cni
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: istio-cni

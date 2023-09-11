@@ -1,0 +1,36 @@
+global:
+  hub: gcr.io/istio-release
+
+cni:
+  enabled: true
+  cni:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 100Mi
+    # privileged: true # Possibly needed for ambient mode
+    excludeNamespaces:
+    - istio
+    - istio-ingress
+    - kube-system
+    # ambient:
+    #   enabled: false
+    #   redirectMode: ebpf
+      # redirectMode: iptables # this is the default. For GKE and new AKS it would need to be ebpf
+
+ztunnel:
+  enabled: false
+  hub: gcr.io/istio-release
+  istioNamespace: istio
+  redirectMode: ebpf
+  # redirectMode: iptables # this is the default. For GKE and new AKS it would need to be ebpf
+  resources:
+    requests:
+      cpu: 100m
+      memory: 1024Mi
+  meshConfig:
+    defaultConfig:
+      proxyMetadata:
+        ISTIO_META_ENABLE_HBONE: "true" # Needed for ambient mode
+        CA_ADDRESS: istiod.istio.svc:15012 # Hack until new chart is released
+        XDS_ADDRESS: istiod.istio.svc:15012 # Hack until new chart is released

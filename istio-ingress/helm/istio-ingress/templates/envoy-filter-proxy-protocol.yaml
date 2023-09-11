@@ -1,0 +1,20 @@
+{{- if eq .Values.provider "aws" }}
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: proxy-protocol
+  labels:
+  {{- include "istio-ingress-plural.labels" . | nindent 4 }}
+spec:
+  workloadSelector:
+    labels:
+      {{- include "gateway.selectorLabels" .Subcharts.gateway | nindent 6 }}
+  configPatches:
+  - applyTo: LISTENER
+    patch:
+      operation: MERGE
+      value:
+        listener_filters:
+        - name: envoy.filters.listener.proxy_protocol
+        - name: envoy.filters.listener.tls_inspector
+{{- end }}

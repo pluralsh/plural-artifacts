@@ -1,0 +1,15 @@
+name: istio-ingress-azure
+description: Installs istio-ingress on an aws eks cluster
+provider: AZURE
+primary: true
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+sections:
+- name: istio-ingress
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: istio-ingress

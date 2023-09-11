@@ -1,0 +1,19 @@
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  application: true
+  description: Deploys kiali crafted for the target cloud
+spec:
+  dependencies:
+  - type: helm
+    name: bootstrap
+    repo: bootstrap
+    version: '>= 0.5.1'
+  - type: helm
+    name: istio
+    repo: istio
+    version: '>= 0.1.101'
+  - type: terraform
+    name: kube
+    repo: kiali
+    version: '>= 0.1.0'

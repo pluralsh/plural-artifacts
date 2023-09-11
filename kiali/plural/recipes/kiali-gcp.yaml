@@ -1,0 +1,20 @@
+name: kiali-gcp
+description: Installs kiali on an aws eks cluster
+provider: GCP
+primary: true
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: istio
+  name: istio-gcp
+sections:
+- name: kiali
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for the Kiali installation
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: kiali

@@ -1,0 +1,17 @@
+{{- if eq .Values.monitoring.enabled true }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: kiali-service-monitor
+  labels: {{ include "istio.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: kiali
+  namespaceSelector:
+    matchNames:
+    - {{ .Release.Namespace }}
+  endpoints:
+  - port: http-metrics
+    path: '/'
+{{- end }}
