@@ -1,8 +1,14 @@
+virtualService:
+  enabled: true
+  gateway: ""
+
 kiali-server:
   enabled: true
   auth:
     strategy: token
   istio_namespace: istio
+  server:
+    web_root: /
   # api:
   #   namespaces:
   #     exclude:
@@ -74,3 +80,6 @@ kiali-server:
     #       var-datasource: default
     #       var-cluster: ''
     #       var-instance: All
+
+monitoring:
+  enabled: false # with Istio we should have Istio scrape the pod

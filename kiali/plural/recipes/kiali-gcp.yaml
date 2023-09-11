@@ -4,7 +4,7 @@ provider: GCP
 primary: true
 oidcSettings:
   authMethod: POST
-  uriFormat: https://{domain}/auth/callback
+  uriFormat: https://{domain}/api/auth/openid_redirect
   domainKey: hostname
 dependencies:
 - repo: bootstrap

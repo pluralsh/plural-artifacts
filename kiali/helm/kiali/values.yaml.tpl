@@ -6,6 +6,9 @@ global:
     - description: kiali web ui
       url: {{ .Values.hostname }}
 
+virtualService:
+  gateway: {{ namespace "istio-ingress" }}/istio-ingress
+
 kiali-server:
   server:
     web_fqdn: {{ .Values.hostname }}
