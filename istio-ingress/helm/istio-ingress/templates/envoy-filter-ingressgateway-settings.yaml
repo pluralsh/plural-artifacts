@@ -2,7 +2,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
-  name: ingressgateway-settings
+  name: {{ include "istio-ingress-plural.fullname" . }}-ingressgateway-settings
   labels:
   {{- include "istio-ingress-plural.labels" . | nindent 4 }}
 spec:

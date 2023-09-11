@@ -11,3 +11,13 @@ gateway:
 {{- end }}
 
 provider: {{ .Provider }}
+
+istioGateway:
+  hosts:
+  - {{ .Network.Subdomain }}
+  - "*.{{ .Network.Subdomain }}"
+  tls:
+    commonName: {{ .Network.Subdomain }}
+    dnsNames:
+    - {{ .Network.Subdomain }}
+    - "*.{{ .Network.Subdomain }}"

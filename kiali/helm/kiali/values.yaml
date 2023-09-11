@@ -1,7 +1,7 @@
 kiali-server:
   enabled: true
   auth:
-    strategy: anonymous
+    strategy: token
   istio_namespace: istio
   # api:
   #   namespaces:

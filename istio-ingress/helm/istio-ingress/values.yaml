@@ -8,3 +8,14 @@ gateway:
     labelSelector:
       matchLabels:
         istio: ingress
+
+istioGateway:
+  enabled: true
+  hosts: []
+  tls:
+    enabled: true
+    commonName: ""
+    dnsNames: []
+    issuerRef:
+      name: letsencrypt-prod
+      kind: ClusterIssuer
