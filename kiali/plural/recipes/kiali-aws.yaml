@@ -3,8 +3,8 @@ description: Installs kiali on an aws eks cluster
 provider: AWS
 primary: true
 oidcSettings:
-  authMethod: POST
-  uriFormat: https://{domain}/api/auth/openid_redirect
+  authMethod: BASIC
+  uriFormat: https://{domain}
   domainKey: hostname
 dependencies:
 - repo: bootstrap

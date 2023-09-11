@@ -19,13 +19,12 @@ kiali-server:
       client_id: {{ .OIDC.ClientId }}
       disable_rbac: true
       authentication_timeout: 300
-      username_claim: "email"
+      username_claim: email
       client_secret: {{ .OIDC.ClientSecret }}
       issuer_uri: {{ .OIDC.Configuration.Issuer }}
       scopes:
-      - "openid"
-      - "profile"
-      - "groups"
+      - openid
+      - profile
   {{- end }}
   istio_namespace: {{ namespace "istio" }}
   external_services:

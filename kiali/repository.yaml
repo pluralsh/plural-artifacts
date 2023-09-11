@@ -7,8 +7,8 @@ notes: plural/notes.tpl
 homepage: https://kiali.io/
 gitUrl: https://github.com/kiali/kiali
 oauthSettings:
-  uriFormat: https://{domain}/auth/callback
-  authMethod: POST
+  uriFormat: https://{domain}
+  authMethod: BASIC
 tags:
 - tag: istio
 - tag: network

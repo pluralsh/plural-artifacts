@@ -8,6 +8,9 @@ kiali-server:
     strategy: token
   istio_namespace: istio
   server:
+    # address:
+    web_port: 443
+    web_schema: https
     web_root: /
   # api:
   #   namespaces:
