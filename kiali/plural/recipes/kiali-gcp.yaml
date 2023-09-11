@@ -2,9 +2,15 @@ name: kiali-gcp
 description: Installs kiali on an aws eks cluster
 provider: GCP
 primary: true
+oidcSettings:
+  authMethod: POST
+  uriFormat: https://{domain}/auth/callback
+  domainKey: hostname
 dependencies:
 - repo: bootstrap
   name: gcp-k8s
+- repo: monitoring
+  name: monitoring-gcp
 - repo: istio
   name: istio-gcp
 sections:

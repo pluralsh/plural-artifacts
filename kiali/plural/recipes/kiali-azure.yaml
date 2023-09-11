@@ -2,9 +2,15 @@ name: kiali-azure
 description: Installs kiali on an aws eks cluster
 provider: AZURE
 primary: true
+oidcSettings:
+  authMethod: POST
+  uriFormat: https://{domain}/auth/callback
+  domainKey: hostname
 dependencies:
 - repo: bootstrap
   name: azure-k8s
+- repo: monitoring
+  name: monitoring-azure
 - repo: istio
   name: istio-azure
 sections:

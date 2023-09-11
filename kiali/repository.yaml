@@ -6,6 +6,9 @@ icon: plural/icons/kiali.png
 notes: plural/notes.tpl
 homepage: https://kiali.io/
 gitUrl: https://github.com/kiali/kiali
+oauthSettings:
+  uriFormat: https://{domain}/auth/callback
+  authMethod: POST
 tags:
 - tag: istio
 - tag: network
