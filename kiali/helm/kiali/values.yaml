@@ -6,6 +6,13 @@ kiali-server:
   enabled: true
   auth:
     strategy: token
+    openid:
+      disable_rbac: true
+      authentication_timeout: 300
+      username_claim: email
+      scopes:
+      - openid
+      - profile
   istio_namespace: istio
   server:
     # address:
@@ -60,10 +67,12 @@ kiali-server:
           namespace: istio-ingress
     prometheus:
       url: http://monitoring-prometheus.monitoring:9090
-    # tracing:
+    tracing:
+      enabled: false
     #   use_grpc: false # we would actually want this to be true, but it doesn't work currently
       # in_cluster_url: http://grafana-tempo-tempo-distributed-query-frontend.grafana-tempo:16686
     grafana:
+      enabled: false
       auth:
         type: basic # TODO: don't use admin password for Kiali to access grafana in values.yaml.tpl
       dashboards:

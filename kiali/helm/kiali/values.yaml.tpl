@@ -17,21 +17,14 @@ kiali-server:
     strategy: openid
     openid:
       client_id: {{ .OIDC.ClientId }}
-      disable_rbac: true
-      authentication_timeout: 300
-      username_claim: email
       client_secret: {{ .OIDC.ClientSecret }}
       issuer_uri: {{ .OIDC.Configuration.Issuer }}
-      scopes:
-      - openid
-      - profile
   {{- end }}
   istio_namespace: {{ namespace "istio" }}
   external_services:
     istio:
       root_namespace: {{ namespace "istio" }}
       component_status:
-        enabled: true
         components:
         - app_label: istiod
           is_core: true
@@ -45,6 +38,7 @@ kiali-server:
     {{ $grafanaValues := .Applications.HelmValues "grafana" }}
     {{ $grafanaNamespace := namespace "grafana" }}
     grafana:
+      enabled: true
       auth:
         username: {{ $grafanaValues.grafana.grafana.admin.user }}
         password: {{ $grafanaValues.grafana.grafana.admin.password }}
