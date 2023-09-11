@@ -10,3 +10,4 @@ dependencies:
   repository: https://pluralsh.github.io/module-library
 - name: temporal
   version: 0.27.0
+  repository: https://pluralsh.github.io/plural-helm-charts

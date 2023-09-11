@@ -4,6 +4,7 @@ category: MESSAGING
 private: true
 icon: plural/icons/temporal.png
 notes: plural/notes.tpl
+gitUrl: https://github.com/temporalio/temporal
 oauthSettings:
   uriFormat: https://{domain}/auth/sso/callback
   authMethod: POST
