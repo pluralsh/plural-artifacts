@@ -41,3 +41,13 @@ kiali-server:
           namespace: {{ namespace "istio-ingress" }}
     prometheus:
       url: http://monitoring-prometheus.{{ $monitoringNamespace }}:9090
+    {{- if .Configuration.grafana }}
+    {{ $grafanaValues := .Applications.HelmValues "grafana" }}
+    {{ $grafanaNamespace := namespace "grafana" }}
+    grafana:
+      auth:
+        username: {{ $grafanaValues.grafana.grafana.admin.user }}
+        password: {{ $grafanaValues.grafana.grafana.admin.password }}
+      url: https://{{ .Configuration.grafana.hostname }}
+      in_cluster_url: http://grafana.{{ $grafanaNamespace }}:80
+    {{- end }}

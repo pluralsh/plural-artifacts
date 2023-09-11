@@ -63,28 +63,27 @@ kiali-server:
     # tracing:
     #   use_grpc: false # we would actually want this to be true, but it doesn't work currently
       # in_cluster_url: http://grafana-tempo-tempo-distributed-query-frontend.grafana-tempo:16686
-    # grafana:
-    #   auth:
-    #     type: basic
-    #     username: admin
-    #     password: ""
-    #   url:
-    #     https://grafana.kubeflow-aws.com
-    #   in_cluster_url: http://grafana.grafana:80
-    #   dashboards:
-    #   - name: "Istio Service Dashboard"
-    #     variables:
-    #       namespace: var-namespace
-    #       service: var-service
-    #   - name: "Istio Workload Dashboard"
-    #     variables:
-    #       namespace: var-namespace
-    #       service: var-service
-    #   - name: "Kubernetes / API server"
-    #     variables:
-    #       var-datasource: default
-    #       var-cluster: ''
-    #       var-instance: All
+    grafana:
+      auth:
+        type: basic # TODO: don't use admin password for Kiali to access grafana in values.yaml.tpl
+      dashboards:
+      - name: "Istio Mesh Dashboard"
+      - name: "Istio Control Plane Dashboard"
+      - name: "Istio Performance Dashboard"
+      - name: "Istio Wasm Extension Dashboard"
+      - name: "Istio Service Dashboard"
+        variables:
+          namespace: var-namespace
+          service: var-service
+      - name: "Istio Workload Dashboard"
+        variables:
+          namespace: var-namespace
+          service: var-service
+      - name: "Kubernetes / API server"
+        variables:
+          var-datasource: default
+          var-cluster: ''
+          var-instance: All
 
 monitoring:
   enabled: false # with Istio we should have Istio scrape the pod
