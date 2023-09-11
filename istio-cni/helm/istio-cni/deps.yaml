@@ -12,7 +12,7 @@ spec:
   - type: helm
     name: istio
     repo: istio
-    version: '>= 0.1.101'
+    version: '>= 0.2.0'
   - type: terraform
     name: kube
     repo: istio-cni
