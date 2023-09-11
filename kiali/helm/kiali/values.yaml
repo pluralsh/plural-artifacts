@@ -19,7 +19,9 @@ kiali-server:
   #     - kube-.*
   #     - openshift.*
   #     - ibm.*
-  # deployment:
+  deployment:
+    pod_annotations:
+      proxy.istio.io/config: '{ "holdApplicationUntilProxyStarts": true }' # TODO: remove once https://github.com/kiali/kiali/issues/6598 is resolved
   #   override_ingress_yaml:
   #     metadata:
   #       annotations:
