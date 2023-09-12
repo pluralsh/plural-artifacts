@@ -1,7 +1,8 @@
 name: temporal
 description: temporal deployed on plural
 category: MESSAGING
-private: true
+releaseStatus: BETA
+private: false
 icon: plural/icons/temporal.png
 notes: plural/notes.tpl
 gitUrl: https://github.com/temporalio/temporal
