@@ -1,5 +1,5 @@
 name: istio-ingress-azure
-description: Installs istio-ingress on an aws eks cluster
+description: Installs istio-ingress on an azure aks cluster
 provider: AZURE
 primary: true
 dependencies:

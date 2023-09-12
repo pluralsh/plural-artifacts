@@ -1,5 +1,5 @@
 name: istio-ingress-gcp
-description: Installs istio-ingress on an aws eks cluster
+description: Installs istio-ingress on a gcp gke cluster
 provider: GCP
 primary: true
 dependencies:

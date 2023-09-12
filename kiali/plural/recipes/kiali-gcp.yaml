@@ -1,5 +1,5 @@
 name: kiali-gcp
-description: Installs kiali on an aws eks cluster
+description: Installs kiali on a gcp gke cluster
 provider: GCP
 primary: true
 oidcSettings:

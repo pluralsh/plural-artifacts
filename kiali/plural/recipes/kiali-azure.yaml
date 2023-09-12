@@ -1,5 +1,5 @@
 name: kiali-azure
-description: Installs kiali on an aws eks cluster
+description: Installs kiali on an azure aks cluster
 provider: AZURE
 primary: true
 oidcSettings:

@@ -1,5 +1,5 @@
 name: istio-cni-azure
-description: Installs istio-cni on an aws eks cluster
+description: Installs istio-cni on an azure aks cluster
 provider: AZURE
 primary: true
 dependencies:

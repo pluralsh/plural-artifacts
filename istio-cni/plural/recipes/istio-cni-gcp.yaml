@@ -1,5 +1,5 @@
 name: istio-cni-gcp
-description: Installs istio-cni on an aws eks cluster
+description: Installs istio-cni on a gcp gke cluster
 provider: GCP
 primary: true
 dependencies:
