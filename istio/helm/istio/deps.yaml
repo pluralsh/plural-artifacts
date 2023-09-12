@@ -4,7 +4,7 @@ metadata:
   application: true
   description: deploys istio operator and istio itself
 spec:
-  breaking: true
+  breaking: false
   dependencies:
   - type: helm
     name: bootstrap
