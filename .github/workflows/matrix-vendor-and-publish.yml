@@ -54,7 +54,7 @@ jobs:
           echo "{$APP_APPLY_MATRIX_PROJECTS_JSON}"
           APP_APPLY_MATRIX_JSON="{\"include\": ${APP_APPLY_MATRIX_INCLUDE_JSON}}"
           echo "${APP_APPLY_MATRIX_JSON}"
-          
+
           CONTINUE_APP_APPLY_JOB="no"
           if [[ "${APP_APPLY_MATRIX_PROJECTS_JSON}" != "[]" && ${{ github.event_name }} != 'pull_request' ]]
           then
@@ -90,7 +90,7 @@ jobs:
           echo "{$VENDOR_MATRIX_PROJECTS_JSON}"
           VENDOR_MATRIX_JSON="{\"include\": ${VENDOR_MATRIX_INCLUDE_JSON}}"
           echo "${VENDOR_MATRIX_JSON}"
-          
+
           CONTINUE_VENDOR_JOB="no"
           if [[ "${VENDOR_MATRIX_PROJECTS_JSON}" != "[]" && ${{ github.event_name }} != 'pull_request' ]]
           then
@@ -236,9 +236,9 @@ jobs:
       run: npm install -g @semantic-release/commit-analyzer
     - name: installing plural
       uses: pluralsh/setup-plural@v0.1.5
-      with: 
+      with:
         config: ${{ secrets.PLURAL_CONF }}
-        vsn: 0.6.18
+        vsn: 0.7.6
     - run: plural apply -f ${{ matrix.pluralfile }}
     - name: 'Run Semantic Release'
       run: APP_NAME=${{ matrix.repository }} semantic-release
