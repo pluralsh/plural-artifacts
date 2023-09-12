@@ -15,7 +15,12 @@ kiali-server:
       - profile
   istio_namespace: istio
   server:
-    # address:
+    observability:
+      tracing:
+        collector_type: otel
+        sampling_rate: 1.0
+        otel:
+          protocol: http
     web_port: 443
     web_schema: https
     web_root: /

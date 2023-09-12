@@ -1,5 +1,7 @@
 {{- $monitoringNamespace := namespace "monitoring" -}}
 {{- $mimir := and .Configuration .Configuration.mimir }}
+{{ $grafanaAgent := and .Configuration (index .Configuration "grafana-agent") }}
+{{ $tempo := and .Configuration .Configuration.tempo }}
 
 global:
   application:
@@ -12,6 +14,13 @@ virtualService:
 
 kiali-server:
   server:
+    {{- if and $grafanaAgent $tempo }}
+    {{ $grafanaAgentNamespace := namespace "grafana-agent" }}
+    observability:
+      tracing:
+        collector_url: grafana-agent-traces.{{ $grafanaAgentNamespace }}.svc:4318
+        enabled: true
+    {{- end }}
     web_fqdn: {{ .Values.hostname }}
   {{- if .OIDC }}
   auth:
