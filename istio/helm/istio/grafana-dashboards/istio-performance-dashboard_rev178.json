@@ -48,7 +48,7 @@
       }
     ]
   },
-  "description": "Istio Performance Dashboard version 1.11.0",
+  "description": "Istio Performance Dashboard version 1.19.0",
   "editable": false,
   "gnetId": 11829,
   "graphTooltip": 0,
@@ -103,7 +103,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${datasource}",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -135,7 +135,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "(sum(irate(container_cpu_usage_seconds_total{pod=~\"istio-ingressgateway-.*\",container=\"istio-proxy\"}[1m])) / (round(sum(irate(istio_requests_total{source_workload=\"istio-ingressgateway\", reporter=\"source\"}[1m])), 0.001)/1000))",
+          "expr": "(sum(irate(container_cpu_usage_seconds_total{pod=~\"istio-ingress.*\",container=\"istio-proxy\"}[1m])) / (round(sum(irate(istio_requests_total{source_workload=\"istio-ingress\", reporter=\"source\"}[1m])), 0.001)/1000))",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -143,7 +143,7 @@
           "refId": "A"
         },
         {
-          "expr": "(sum(irate(container_cpu_usage_seconds_total{namespace!=\"istio-system\",container=\"istio-proxy\"}[1m]))/ (round(sum(irate(istio_requests_total[1m])), 0.001)/1000))/ (sum(irate(istio_requests_total{source_workload=\"istio-ingressgateway\"}[1m])) >bool 10)",
+          "expr": "(sum(irate(container_cpu_usage_seconds_total{namespace!=\"istio-system\",container=\"istio-proxy\"}[1m]))/ (round(sum(irate(istio_requests_total[1m])), 0.001)/1000))/ (sum(irate(istio_requests_total{source_workload=\"istio-ingress\"}[1m])) >bool 10)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "istio-proxy",
@@ -196,7 +196,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${datasource}",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -228,7 +228,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(container_cpu_usage_seconds_total{pod=~\"istio-ingressgateway-.*\",container=\"istio-proxy\"}[1m]))",
+          "expr": "sum(rate(container_cpu_usage_seconds_total{pod=~\"istio-ingress.*\",container=\"istio-proxy\"}[1m]))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "istio-ingressgateway",
@@ -301,7 +301,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${datasource}",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -333,7 +333,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(container_memory_working_set_bytes{pod=~\"istio-ingressgateway-.*\"}) / count(container_memory_working_set_bytes{pod=~\"istio-ingressgateway-.*\",container!=\"POD\"})",
+          "expr": "sum(container_memory_working_set_bytes{pod=~\"istio-ingress.*\"}) / count(container_memory_working_set_bytes{pod=~\"istio-ingress.*\",container!=\"POD\"})",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "per istio-ingressgateway",
@@ -393,7 +393,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${datasource}",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -425,7 +425,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(istio_response_bytes_sum{source_workload=\"istio-ingressgateway\", reporter=\"source\"}[1m]))",
+          "expr": "sum(irate(istio_response_bytes_sum{source_workload=\"istio-ingress\", reporter=\"source\"}[1m]))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "istio-ingressgateway",
@@ -498,7 +498,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${datasource}",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -596,7 +596,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${datasource}",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -683,7 +683,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${datasource}",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -770,7 +770,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${datasource}",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -870,7 +870,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${datasource}",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -1024,7 +1024,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${datasource}",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -1129,7 +1129,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${datasource}",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -1226,7 +1226,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${datasource}",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -1316,17 +1316,18 @@
     "list": [
       {
         "current": {
-          "selected": false,
+          "selected": true,
           "text": "default",
           "value": "default"
         },
-        "hide": 2,
+        "hide": 0,
         "includeAll": false,
-        "label": "Data Source",
+        "label": null,
         "multi": false,
-        "name": "DS_PROMETHEUS",
+        "name": "datasource",
         "options": [],
         "query": "prometheus",
+        "queryValue": "",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,

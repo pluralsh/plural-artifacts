@@ -48,7 +48,7 @@
       }
     ]
   },
-  "description": "Istio Service Dashboard version 1.11.0",
+  "description": "Istio Service Dashboard version 1.19.0",
   "editable": false,
   "gnetId": 7636,
   "graphTooltip": 0,
@@ -100,7 +100,7 @@
             "rgba(237, 129, 40, 0.89)",
             "rgba(50, 172, 45, 0.97)"
           ],
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "${datasource}",
           "fieldConfig": {
             "defaults": {
               "custom": {}
@@ -201,7 +201,7 @@
             "rgba(237, 129, 40, 0.89)",
             "rgba(245, 54, 54, 0.9)"
           ],
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "${datasource}",
           "decimals": null,
           "fieldConfig": {
             "defaults": {
@@ -298,7 +298,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "${datasource}",
           "fieldConfig": {
             "defaults": {
               "custom": {}
@@ -417,7 +417,7 @@
             "rgba(237, 129, 40, 0.89)",
             "#d44a3a"
           ],
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "${datasource}",
           "fieldConfig": {
             "defaults": {
               "custom": {}
@@ -519,7 +519,7 @@
             "rgba(237, 129, 40, 0.89)",
             "rgba(50, 172, 45, 0.97)"
           ],
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "${datasource}",
           "fieldConfig": {
             "defaults": {
               "custom": {}
@@ -620,7 +620,7 @@
             "rgba(237, 129, 40, 0.89)",
             "rgba(245, 54, 54, 0.9)"
           ],
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "${datasource}",
           "decimals": null,
           "fieldConfig": {
             "defaults": {
@@ -717,7 +717,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "${datasource}",
           "fieldConfig": {
             "defaults": {
               "custom": {}
@@ -836,7 +836,7 @@
             "rgba(237, 129, 40, 0.89)",
             "#d44a3a"
           ],
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "${datasource}",
           "fieldConfig": {
             "defaults": {
               "custom": {}
@@ -974,7 +974,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "${datasource}",
           "fieldConfig": {
             "defaults": {
               "custom": {}
@@ -1081,7 +1081,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "${datasource}",
           "fieldConfig": {
             "defaults": {
               "custom": {}
@@ -1188,7 +1188,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "${datasource}",
           "description": "",
           "fieldConfig": {
             "defaults": {
@@ -1352,7 +1352,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "${datasource}",
           "fieldConfig": {
             "defaults": {
               "custom": {}
@@ -1514,7 +1514,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "${datasource}",
           "fieldConfig": {
             "defaults": {
               "custom": {}
@@ -1676,7 +1676,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "${datasource}",
           "fieldConfig": {
             "defaults": {
               "custom": {}
@@ -1780,7 +1780,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "${datasource}",
           "fieldConfig": {
             "defaults": {
               "custom": {}
@@ -1923,7 +1923,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "${datasource}",
           "fieldConfig": {
             "defaults": {
               "custom": {}
@@ -2030,7 +2030,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "${datasource}",
           "fieldConfig": {
             "defaults": {
               "custom": {}
@@ -2137,7 +2137,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "${datasource}",
           "description": "",
           "fieldConfig": {
             "defaults": {
@@ -2301,7 +2301,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "${datasource}",
           "fieldConfig": {
             "defaults": {
               "custom": {}
@@ -2463,7 +2463,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "${datasource}",
           "fieldConfig": {
             "defaults": {
               "custom": {}
@@ -2625,7 +2625,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "${datasource}",
           "fieldConfig": {
             "defaults": {
               "custom": {}
@@ -2729,7 +2729,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${DS_PROMETHEUS}",
+          "datasource": "${datasource}",
           "fieldConfig": {
             "defaults": {
               "custom": {}
@@ -2848,7 +2848,7 @@
         "includeAll": false,
         "label": null,
         "multi": false,
-        "name": "DS_PROMETHEUS",
+        "name": "datasource",
         "options": [],
         "query": "prometheus",
         "queryValue": "",
@@ -2860,7 +2860,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "${DS_PROMETHEUS}",
+        "datasource": "${datasource}",
         "definition": "",
         "hide": 0,
         "includeAll": false,
@@ -2868,9 +2868,9 @@
         "multi": false,
         "name": "service",
         "options": [],
-        "query": "label_values(destination_service)",
+        "query": "query_result(sum(istio_requests_total{}) by (destination_service) or sum(istio_tcp_sent_bytes_total{}) by (destination_service))",
         "refresh": 1,
-        "regex": "",
+        "regex": "/.*destination_service=\"([^\"]*).*/",
         "skipUrlSync": false,
         "sort": 0,
         "tagValuesQuery": "",
@@ -2886,17 +2886,38 @@
           "text": "destination",
           "value": "destination"
         },
-        "datasource": "${DS_PROMETHEUS}",
+        "datasource": "${datasource}",
         "definition": "",
         "hide": 0,
         "includeAll": false,
         "label": "Reporter",
         "multi": true,
         "name": "qrep",
-        "options": [],
-        "query": "label_values(reporter)",
+        "query": "source,destination",
         "refresh": 1,
         "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "custom",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "${datasource}",
+        "definition": "",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Client Cluster",
+        "multi": true,
+        "name": "srccluster",
+        "options": [],
+        "query": "query_result(sum(istio_requests_total{reporter=~\"$qrep\", destination_service=\"$service\"}) by (source_cluster) or sum(istio_tcp_sent_bytes_total{reporter=~\"$qrep\", destination_service=~\"$service\"}) by (source_cluster))",
+        "refresh": 1,
+        "regex": "/.*cluster=\"([^\"]*).*/",
         "skipUrlSync": false,
         "sort": 2,
         "tagValuesQuery": "",
@@ -2908,7 +2929,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "${DS_PROMETHEUS}",
+        "datasource": "${datasource}",
         "definition": "",
         "hide": 0,
         "includeAll": true,
@@ -2920,7 +2941,7 @@
         "refresh": 1,
         "regex": "/.*namespace=\"([^\"]*).*/",
         "skipUrlSync": false,
-        "sort": 2,
+        "sort": 3,
         "tagValuesQuery": "",
         "tags": [],
         "tagsQuery": "",
@@ -2930,7 +2951,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "${DS_PROMETHEUS}",
+        "datasource": "${datasource}",
         "definition": "",
         "hide": 0,
         "includeAll": true,
@@ -2942,7 +2963,7 @@
         "refresh": 1,
         "regex": "/.*workload=\"([^\"]*).*/",
         "skipUrlSync": false,
-        "sort": 3,
+        "sort": 4,
         "tagValuesQuery": "",
         "tags": [],
         "tagsQuery": "",
@@ -2952,17 +2973,17 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "${DS_PROMETHEUS}",
+        "datasource": "${datasource}",
         "definition": "",
         "hide": 0,
         "includeAll": true,
-        "label": "Service Workload Namespace",
+        "label": "Service Workload Cluster",
         "multi": true,
-        "name": "dstns",
+        "name": "dstcluster",
         "options": [],
-        "query": "query_result(sum(istio_requests_total{reporter=\"destination\", destination_service=\"$service\"}) by (destination_workload_namespace) or sum(istio_tcp_sent_bytes_total{reporter=\"destination\", destination_service=~\"$service\"}) by (destination_workload_namespace))",
+        "query": "query_result(sum(istio_requests_total{reporter=\"destination\", destination_service=\"$service\"}) by (destination_cluster) or sum(istio_tcp_sent_bytes_total{reporter=\"destination\", destination_service=~\"$service\"}) by (destination_cluster))",
         "refresh": 1,
-        "regex": "/.*namespace=\"([^\"]*).*/",
+        "regex": "/.*cluster=\"([^\"]*).*/",
         "skipUrlSync": false,
         "sort": 2,
         "tagValuesQuery": "",
@@ -2974,7 +2995,29 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "${DS_PROMETHEUS}",
+        "datasource": "${datasource}",
+        "definition": "",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Service Workload Namespace",
+        "multi": true,
+        "name": "dstns",
+        "options": [],
+        "query": "query_result(sum(istio_requests_total{reporter=\"destination\", destination_service=\"$service\"}) by (destination_workload_namespace) or sum(istio_tcp_sent_bytes_total{reporter=\"destination\", destination_service=~\"$service\"}) by (destination_workload_namespace))",
+        "refresh": 1,
+        "regex": "/.*namespace=\"([^\"]*).*/",
+        "skipUrlSync": false,
+        "sort": 3,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "${datasource}",
         "definition": "",
         "hide": 0,
         "includeAll": true,
@@ -2982,11 +3025,11 @@
         "multi": true,
         "name": "dstwl",
         "options": [],
-        "query": "query_result( sum(istio_requests_total{reporter=\"destination\", destination_service=~\"$service\", destination_workload_namespace=~\"$dstns\"}) by (destination_workload) or sum(istio_tcp_sent_bytes_total{reporter=\"destination\", destination_service=~\"$service\", destination_workload_namespace=~\"$dstns\"}) by (destination_workload))",
+        "query": "query_result( sum(istio_requests_total{reporter=\"destination\", destination_service=~\"$service\", destination_cluster=~\"$dstcluster\", destination_workload_namespace=~\"$dstns\"}) by (destination_workload) or sum(istio_tcp_sent_bytes_total{reporter=\"destination\", destination_service=~\"$service\", destination_cluster=~\"$dstcluster\", destination_workload_namespace=~\"$dstns\"}) by (destination_workload))",
         "refresh": 1,
         "regex": "/.*workload=\"([^\"]*).*/",
         "skipUrlSync": false,
-        "sort": 3,
+        "sort": 4,
         "tagValuesQuery": "",
         "tags": [],
         "tagsQuery": "",

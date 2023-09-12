@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: istio-extension-dashboard
+  labels: {{ include "istio.labels" . | nindent 4 }}
+    grafana_dashboard: istio-extension-dashboard
+  annotations:
+    k8s-sidecar-target-directory: /tmp/dashboards/Istio Dashboards
+data:
+  istio-extension-dashboard.json: |-
+{{ .Files.Get "grafana-dashboards/istio-extension-dashboard_rev135.json" | indent 4 }}

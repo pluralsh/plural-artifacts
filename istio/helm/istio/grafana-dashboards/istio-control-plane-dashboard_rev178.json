@@ -48,7 +48,7 @@
       }
     ]
   },
-  "description": "Istio Control Plane Dashboard version 1.11.0",
+  "description": "Istio Control Plane Dashboard version 1.19.0",
   "editable": false,
   "gnetId": 7645,
   "graphTooltip": 1,
@@ -72,7 +72,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${datasource}",
       "fill": 1,
       "gridPos": {
         "h": 5,
@@ -170,7 +170,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${datasource}",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -322,7 +322,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${datasource}",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -425,7 +425,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${datasource}",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -519,7 +519,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${datasource}",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -618,7 +618,7 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${datasource}",
       "description": "Shows the rate of pilot pushes",
       "fill": 1,
       "gridPos": {
@@ -740,7 +740,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${datasource}",
       "description": "Captures a variety of pilot errors",
       "fill": 1,
       "gridPos": {
@@ -891,7 +891,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${datasource}",
       "description": "Shows the total time it takes to push a config update to a proxy",
       "fill": 1,
       "gridPos": {
@@ -998,7 +998,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${datasource}",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -1040,28 +1040,12 @@
           "refId": "B"
         },
         {
-          "expr": "pilot_conflict_outbound_listener_http_over_current_tcp{app=\"istiod\"}",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "Outbound Listeners (http over current tcp)",
-          "refId": "A"
-        },
-        {
           "expr": "pilot_conflict_outbound_listener_tcp_over_current_tcp{app=\"istiod\"}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
           "legendFormat": "Outbound Listeners (tcp over current tcp)",
           "refId": "C"
-        },
-        {
-          "expr": "pilot_conflict_outbound_listener_tcp_over_current_http{app=\"istiod\"}",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 1,
-          "legendFormat": "Outbound Listeners (tcp over current http)",
-          "refId": "D"
         }
       ],
       "thresholds": [],
@@ -1110,7 +1094,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${datasource}",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -1222,7 +1206,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${datasource}",
       "description": "Shows details about Envoy proxies in the mesh",
       "fill": 1,
       "gridPos": {
@@ -1324,7 +1308,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${datasource}",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -1410,7 +1394,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": "${datasource}",
       "description": "Shows the size of XDS requests and responses",
       "fill": 1,
       "gridPos": {
@@ -1518,7 +1502,7 @@
     },
     {
       "collapsed": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1535,7 +1519,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": null,
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1631,7 +1615,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": null,
       "description": "",
       "fill": 1,
       "fillGradient": 0,
@@ -1739,7 +1723,7 @@
         "includeAll": false,
         "label": null,
         "multi": false,
-        "name": "DS_PROMETHEUS",
+        "name": "datasource",
         "options": [],
         "query": "prometheus",
         "queryValue": "",
