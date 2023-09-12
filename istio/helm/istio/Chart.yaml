@@ -2,13 +2,14 @@ apiVersion: v2
 name: istio
 description: A chart bundling the istio operator for plural
 type: application
-version: 0.1.101
-appVersion: "1.10.4"
+version: 0.2.1
+appVersion: "1.19.0"
 dependencies:
-- name: istio-operator
-  version: 1.7.0
-  repository: file://../../../../istio/manifests/charts/istio-operator
-- name: kiali-server
-  version: 1.37.0
-  repository: https://kiali.org/helm-charts
-  condition: monitoring.kiali.enabled
+- name: base
+  version: 1.19.0
+  repository: https://istio-release.storage.googleapis.com/charts
+  condition: base.enabled
+- name: istiod
+  version: 1.19.0
+  repository: https://istio-release.storage.googleapis.com/charts
+  condition: istiod.enabled

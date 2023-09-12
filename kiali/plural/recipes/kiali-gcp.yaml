@@ -1,0 +1,28 @@
+name: kiali-gcp
+description: Installs kiali on a gcp gke cluster
+provider: GCP
+primary: true
+oidcSettings:
+  authMethod: BASIC
+  uriFormat: https://{domain}
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+- repo: monitoring
+  name: monitoring-gcp
+- repo: istio
+  name: istio-gcp
+- repo: istio-ingress
+  name: istio-ingress-gcp
+sections:
+- name: kiali
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for the Kiali installation
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: kiali

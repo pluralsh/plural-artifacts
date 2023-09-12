@@ -1,0 +1,12 @@
+name: istio-cni
+description: istio-cni deployed on plural
+category: NETWORK
+private: true
+icon: plural/icons/istio.png
+notes: plural/notes.tpl
+homepage: https://istio.io/
+gitUrl: https://github.com/istio/istio
+tags:
+- tag: istio
+- tag: network
+- tag: security

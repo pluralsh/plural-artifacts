@@ -1,0 +1,28 @@
+name: kiali-azure
+description: Installs kiali on an azure aks cluster
+provider: AZURE
+primary: true
+oidcSettings:
+  authMethod: BASIC
+  uriFormat: https://{domain}
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: azure-k8s
+- repo: monitoring
+  name: monitoring-azure
+- repo: istio
+  name: istio-azure
+- repo: istio-ingress
+  name: istio-ingress-azure
+sections:
+- name: kiali
+  configuration:
+  - name: hostname
+    documentation: FQDN to use for the Kiali installation
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: kiali

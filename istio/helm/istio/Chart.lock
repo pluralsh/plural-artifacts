@@ -1,9 +1,9 @@
 dependencies:
-- name: istio-operator
-  repository: file://../../../../istio/manifests/charts/istio-operator
-  version: 1.7.0
-- name: kiali-server
-  repository: https://kiali.org/helm-charts
-  version: 1.37.0
-digest: sha256:10b858c65dfcd8753ef51b973744599299bc7920c58e07e9a66eaba03b54f121
-generated: "2021-10-01T14:59:12.877845849+02:00"
+- name: base
+  repository: https://istio-release.storage.googleapis.com/charts
+  version: 1.19.0
+- name: istiod
+  repository: https://istio-release.storage.googleapis.com/charts
+  version: 1.19.0
+digest: sha256:9af8a05504305c68c87dd6195b63f1c2cf82e9fec521335bba19da353cee743e
+generated: "2023-09-11T12:24:02.323413+02:00"

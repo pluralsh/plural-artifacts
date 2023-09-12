@@ -1,0 +1,12 @@
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  description: istio-ingress kubernetes setup
+  version: 0.1.0
+spec:
+  dependencies: []
+  providers:
+  - aws
+  - azure
+  - gcp
+  - kind

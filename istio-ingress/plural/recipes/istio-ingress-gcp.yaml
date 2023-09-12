@@ -1,0 +1,15 @@
+name: istio-ingress-gcp
+description: Installs istio-ingress on a gcp gke cluster
+provider: GCP
+primary: true
+dependencies:
+- repo: bootstrap
+  name: gcp-k8s
+sections:
+- name: istio-ingress
+  configuration: []
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: istio-ingress
