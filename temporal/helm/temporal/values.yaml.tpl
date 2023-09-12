@@ -3,6 +3,15 @@ global:
     links:
     - description: temporal web ui
       url: {{ .Values.hostname }}
+    {{ if .Values.grpcHostname }}
+    - description: grpc endpoint
+      url: {{ .Values.grpcHostname }}
+    {{ end }}
+
+{{ if .Values.grpcHostname }}
+grpc:
+  hostname: {{ .Values.grpcHostname }}
+{{ end }}
 
 {{ if .OIDC }}
 oidc:

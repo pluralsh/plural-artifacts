@@ -19,6 +19,9 @@ sections:
   - name: hostname
     documentation: the fqdn for the temporal admin console
     type: DOMAIN
+  - name: grpcHostname
+    documentation: fqdn for temporals grpc service (this will be used for temporal clients)
+    type: DOMAIN
   items:
   - type: TERRAFORM
     name: aws

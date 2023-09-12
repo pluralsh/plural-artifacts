@@ -9,6 +9,17 @@ oidc:
   clientId: bogus
   clientSecret: bogus
 
+grpc:
+  hostname: ~
+  ingressClass: internal-nginx
+  service: temporal-frontend
+  port: grpc-rpc
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
+    kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+
 temporal:
   web:
     config:
