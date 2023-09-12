@@ -1,4 +1,5 @@
 {{- $monitoringNamespace := namespace "monitoring" -}}
+{{- $mimir := and .Configuration .Configuration.mimir }}
 
 global:
   application:
@@ -33,7 +34,13 @@ kiali-server:
           is_proxy: true
           namespace: {{ namespace "istio-ingress" }}
     prometheus:
+      {{- if $mimir }}
+      url: http://mimir-nginx.mimir/prometheus
+      custom_headers:
+        X-Scope-OrgID: {{ .Cluster }}
+      {{- else }}
       url: http://monitoring-prometheus.{{ $monitoringNamespace }}:9090
+      {{- end }}
     {{- if .Configuration.grafana }}
     {{ $grafanaValues := .Applications.HelmValues "grafana" }}
     {{ $grafanaNamespace := namespace "grafana" }}
