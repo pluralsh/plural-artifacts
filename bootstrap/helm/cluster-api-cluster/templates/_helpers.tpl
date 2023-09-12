@@ -68,12 +68,6 @@ Creates the Kubernetes version for the cluster
 {{- define "cluster.kubernetesVersion" -}}
 {{- if .Values.cluster.kubernetesVersion -}}
 {{ .Values.cluster.kubernetesVersion }}
-{{- else if eq .Values.provider "aws" -}}
-v1.24
-{{- else if eq .Values.provider "azure" -}}
-v1.25.11
-{{- else if and (eq .Values.provider "gcp") (eq .Values.type "managed") -}}
-1.24.16
 {{- else if eq .Values.provider "kind" -}}
 v1.25.11
 {{- end }}
