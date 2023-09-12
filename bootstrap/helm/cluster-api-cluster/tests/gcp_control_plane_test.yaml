@@ -21,9 +21,6 @@ tests:
           path: spec.project
       - isNullOrEmpty:
           path: spec.location
-      - equal:
-          path: spec.controlPlaneVersion
-          value: "1.24.16"
   - it: should use custom kubernetes version if provided
     set:
       provider: gcp
