@@ -13,6 +13,8 @@ dependencies:
   name: monitoring-gcp
 - repo: istio
   name: istio-gcp
+- repo: istio-ingress
+  name: istio-ingress-gcp
 sections:
 - name: kiali
   configuration:

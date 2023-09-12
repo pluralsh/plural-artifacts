@@ -13,6 +13,8 @@ dependencies:
   name: monitoring-azure
 - repo: istio
   name: istio-azure
+- repo: istio-ingress
+  name: istio-ingress-azure
 sections:
 - name: kiali
   configuration:

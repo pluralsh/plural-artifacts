@@ -16,7 +16,16 @@ spec:
   - type: helm
     name: istio
     repo: istio
-    version: '>= 0.1.101'
+    version: '>= 0.2.0'
+  - type: helm
+    name: istio-ingress
+    repo: istio-ingress
+    version: '>= 0.1.0'
+  - type: helm
+    name: istio-cni
+    repo: istio-cni
+    version: '>= 0.1.0'
+    optional: true
   - type: terraform
     name: kube
     repo: kiali

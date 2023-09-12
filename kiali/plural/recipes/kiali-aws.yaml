@@ -13,6 +13,8 @@ dependencies:
   name: monitoring-aws
 - repo: istio
   name: istio-aws
+- repo: istio-ingress
+  name: istio-ingress-aws
 sections:
 - name: kiali
   configuration:
