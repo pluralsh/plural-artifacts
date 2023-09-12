@@ -4,6 +4,6 @@ dependencies:
   version: 0.2.1
 - name: temporal
   repository: https://pluralsh.github.io/plural-helm-charts
-  version: 0.27.0
-digest: sha256:0c60d28b4cdcdf25a3c374733d2eee5ad8d9e1d5d93ea3fe53eaf99ae8a8d848
-generated: "2023-09-11T15:21:43.624619-04:00"
+  version: 0.27.2
+digest: sha256:24f3caa6c334437e3f5bda423a4d0057feddefec01eaea1f4cd412812893599f
+generated: "2023-09-11T18:22:25.139019-04:00"

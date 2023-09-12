@@ -5,25 +5,31 @@ postgres:
   ownerChart: temporal
   infix: '-postgres'
 
+oidc:
+  clientId: bogus
+  clientSecret: bogus
+
 temporal:
   web:
     config:
       auth:
-      enabled: true
-      providers:
-        label: sso # for internal use; in future may expose as button text
-        type: oidc 
-        issuerUrl: 
-        clientId: xxxxx-xxxx.apps.googleusercontent.com
-        clientSecret: xxxxxxxxxxxxxxxxxxxx
-        callbackUrl: https://xxxx.com:8080/auth/sso/callback
-        scopes:
-          - openid
+        enabled: true
+        providers:
+        - label: Login With Plural # for internal use; in future may expose as button text
+          type: oidc 
+          issuerUrl: ~
+          clientId: ~
+          clientSecret: ~
+          callbackUrl: ~
+          scopes:
+            - openid
+            - profile
+            - email
           
     ingress:
       enabled: false
       className: nginx
-      aannotations:
+      annotations:
         kubernetes.io/tls-acme: "true"
         cert-manager.io/cluster-issuer: letsencrypt-prod
   server:
@@ -71,15 +77,22 @@ temporal:
     enabled: true
 
   prometheus:
-    enabled: true
+    enabled: false
 
   grafana:
-    enabled: true
+    enabled: false
     
   elasticsearch:
     enabled: false
 
   schema:
+    extraEnv:
+    - name: SQL_TLS_DISABLE_HOST_VERIFICATION
+      value: 'true'
+    - name: SQL_TLS_ENABLED
+      value: 'true'
+    - name: SQL_TLS
+      value: 'true'
     setup:
       enabled: true
     update:
