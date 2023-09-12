@@ -2,13 +2,14 @@ apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
   description: Creates an EKS cluster and prepares it for bootstrapping
-  version: 0.1.53
+  version: 0.1.54
 spec:
   breaking: false
   dependencies: []
   providers:
   - aws
   outputs:
+    capa_iam_role_arn: capa_iam_role_arn
     endpoint: cluster_endpoint
     cluster_private_subnets: cluster_private_subnets
     cluster_worker_private_subnets: cluster_worker_private_subnets
