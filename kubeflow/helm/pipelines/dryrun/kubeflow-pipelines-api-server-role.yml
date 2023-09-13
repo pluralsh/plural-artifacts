@@ -1,0 +1,60 @@
+---
+# Source: pipelines/templates/api-server/role.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-api-server-role
+  namespace: kubeflow
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+      - pods/log
+    verbs:
+      - get
+      - list
+      - delete
+  - apiGroups:
+      - argoproj.io
+    resources:
+      - workflows
+    verbs:
+      - create
+      - get
+      - list
+      - watch
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - kubeflow.org
+    resources:
+      - scheduledworkflows
+    verbs:
+      - create
+      - get
+      - list
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - authorization.k8s.io
+    resources:
+      - subjectaccessreviews
+    verbs:
+      - create
+  - apiGroups:
+      - authentication.k8s.io
+    resources:
+      - tokenreviews
+    verbs:
+      - create

@@ -1,0 +1,23 @@
+---
+# Source: pipelines/templates/cache/server/authorizationpolicy.yaml
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-cache-server
+  namespace: kubeflow
+spec:
+  rules:
+    - {}
+  selector:
+    matchLabels:
+      app: pipelines-cache-server
+      app.kubernetes.io/name: pipelines-cache-server
+      app.kubernetes.io/instance: kubeflow

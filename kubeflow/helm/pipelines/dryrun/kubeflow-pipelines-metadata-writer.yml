@@ -1,0 +1,46 @@
+---
+# Source: pipelines/templates/metadata/writer/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeflow-pipelines-metadata-writer
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pipelines-metadata-writer
+      app.kubernetes.io/name: pipelines-metadata-writer
+      app.kubernetes.io/instance: kubeflow
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: pipelines-metadata-writer
+        app.kubernetes.io/name: pipelines-metadata-writer
+        app.kubernetes.io/instance: kubeflow
+    spec:
+      serviceAccountName: kubeflow-pipelines-metadata-writer
+      securityContext: {}
+      containers:
+        - name: pipelines-metadata-writer
+          securityContext: {}
+          image: "gcr.io/ml-pipeline/metadata-writer:1.8.1"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: NAMESPACE_TO_WATCH
+              value: ""
+          envFrom:
+            - configMapRef:
+                name: kubeflow-pipelines-metadata-writer-parameters
+          resources: {}

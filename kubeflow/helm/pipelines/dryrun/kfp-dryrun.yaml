@@ -1,0 +1,3666 @@
+---
+# Source: pipelines/templates/api-server/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kubeflow-pipelines-api-server
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: pipelines/templates/argo-workflow-controller/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kubeflow-pipelines-argo-workflow-controller
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: pipelines/templates/cache/deployer/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kubeflow-pipelines-cache-deployer
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: pipelines/templates/cache/server/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kubeflow-pipelines-cache-server
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: pipelines/templates/metadata/envoy/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kubeflow-pipelines-metadata-envoy
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: pipelines/templates/metadata/grpc-server/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kubeflow-pipelines-metadata-grpc-server
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: pipelines/templates/metadata/writer/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kubeflow-pipelines-metadata-writer
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: pipelines/templates/persistence-agent/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kubeflow-pipelines-persistence-agent
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: pipelines/templates/scheduled-workflow/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kubeflow-pipelines-scheduled-workflow
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: pipelines/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-container-builder
+  namespace: kubeflow
+---
+# Source: pipelines/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: pipeline-runner
+  namespace: kubeflow
+---
+# Source: pipelines/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-viewer
+  namespace: kubeflow
+---
+# Source: pipelines/templates/viewer-controller/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kubeflow-pipelines-viewer-controller
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: pipelines/templates/visualization-server/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kubeflow-pipelines-visualization-server
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: pipelines/templates/web-app/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kubeflow-pipelines-web-app
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: pipelines/templates/database/secrets.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: pipelines-db-user
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+type: Opaque
+data:
+  USERNAME: cGlwZWxpbmVz
+  PASSWORD: "U3VwZXJTZWN1cmVQYXNzd29yZA=="
+---
+# Source: pipelines/templates/api-server/configmap.yaml
+apiVersion: v1
+data:
+  KUBEFLOW_USERID_HEADER: kubeflow-userid
+  KUBEFLOW_USERID_PREFIX: ""
+  DEFAULTPIPELINERUNNERSERVICEACCOUNT: default-editor
+  MULTIUSER: "true"
+  ML_PIPELINE_VISUALIZATIONSERVER_SERVICE_HOST: kubeflow-pipelines-visualization-server
+  ML_PIPELINE_VISUALIZATIONSERVER_SERVICE_PORT: "8888"
+  OBJECTSTORECONFIG_SECURE: "true"
+kind: ConfigMap
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-api-server-parameters
+  namespace: kubeflow
+---
+# Source: pipelines/templates/argo-workflow-controller/configmap.yaml
+apiVersion: v1
+data:
+  containerRuntimeExecutor: pns
+  executor: |
+    imagePullPolicy: IfNotPresent
+    resources:
+      requests:
+        cpu: 0.01
+        memory: 32Mi
+      limits:
+        cpu: 0.5
+        memory: 512Mi
+kind: ConfigMap
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-argo-workflow-controller
+  namespace: kubeflow
+---
+# Source: pipelines/templates/argo-workflow-controller/configmap.yaml
+apiVersion: v1
+data:
+  default-v1: |
+    archiveLogs: true
+    s3:
+      bucket: pipelines-bucket
+      keyPrefix: pipelines
+      endpoint: s3.amazonaws.com
+      region: us-east-2
+      insecure: false
+      keyFormat: "pipelines/{{workflow.namespace}}/pipelines/{{workflow.name}}/{{pod.name}}"
+kind: ConfigMap
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    workflows.argoproj.io/default-artifact-repository: default-v1
+  name: artifact-repositories
+  namespace: kubeflow
+---
+# Source: pipelines/templates/configmap.yaml
+apiVersion: v1
+data:
+  appName: pipeline
+  appVersion: 1.8.1
+  autoUpdatePipelineDefaultVersion: "true"
+  bucketHost: s3.amazonaws.com
+  bucketRegion: us-east-2
+  bucketName: pipelines-bucket
+  defaultPipelineRoot: s3://pipelines-bucket/pipelines
+  cacheDb: cachedb
+  cacheImage: gcr.io/google-containers/busybox
+  cacheNodeRestrictions: "false"
+  cronScheduleTimezone: UTC
+  dbHost: kubeflow-mysql-cluster-mysql-master.kubeflow.svc.cluster.local
+  dbPort: "3306"
+  dbConMaxLifeTime: 120s
+  dbDriverName: mysql
+  dbGroupConcatMaxLen: "4194304"
+  mlmdDb: metadb
+  pipelineDb: mlpipeline
+kind: ConfigMap
+metadata:
+  labels:
+    app.kubernetes.io/component: ml-pipeline
+    app.kubernetes.io/name: kubeflow-pipelines
+    application-crd-id: kubeflow-pipelines
+  name: pipeline-install-config
+  namespace: kubeflow
+---
+# Source: pipelines/templates/metadata/envoy/configmap.yaml
+apiVersion: v1
+data:
+  envoy.yaml: |-
+    admin:
+      access_log_path: /tmp/admin_access.log
+      address:
+        socket_address: { address: 0.0.0.0, port_value: 9901 }
+
+    static_resources:
+      listeners:
+        - name: listener_0
+          address:
+            socket_address: { address: 0.0.0.0, port_value: 9090 }
+          filter_chains:
+            - filters:
+                - name: envoy.http_connection_manager
+                  config:
+                    codec_type: auto
+                    stat_prefix: ingress_http
+                    route_config:
+                      name: local_route
+                      virtual_hosts:
+                        - name: local_service
+                          domains: ["*"]
+                          routes:
+                            - match: { prefix: "/" }
+                              route:
+                                cluster: metadata-cluster
+                                max_grpc_timeout: 0s
+                          cors:
+                            allow_origin:
+                              - "*"
+                            allow_methods: GET, PUT, DELETE, POST, OPTIONS
+                            allow_headers: keep-alive,user-agent,cache-control,content-type,content-transfer-encoding,custom-header-1,x-accept-content-transfer-encoding,x-accept-response-streaming,x-user-agent,x-grpc-web,grpc-timeout
+                            max_age: "1728000"
+                            expose_headers: custom-header-1,grpc-status,grpc-message
+                    http_filters:
+                      - name: envoy.grpc_web
+                      - name: envoy.cors
+                      - name: envoy.router
+      clusters:
+        - name: metadata-cluster
+          connect_timeout: 30.0s
+          type: logical_dns
+          http2_protocol_options: {}
+          lb_policy: round_robin
+          hosts: [{ socket_address: { address: "kubeflow-pipelines-metadata-grpc-server", port_value: 8080 }}]
+kind: ConfigMap
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-metadata-envoy-config
+  namespace: kubeflow
+---
+# Source: pipelines/templates/metadata/writer/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kubeflow-pipelines-metadata-writer-parameters
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+data:
+  METADATA_GRPC_SERVICE_SERVICE_HOST: kubeflow-pipelines-metadata-grpc-server
+  METADATA_GRPC_SERVICE_SERVICE_PORT: "8080"
+---
+# Source: pipelines/templates/persistence-agent/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kubeflow-pipelines-persistence-agent-parameters
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+data:
+  NAMESPACE: ""
+  TTL_SECONDS_AFTER_WORKFLOW_FINISH: "86400"
+  NUM_WORKERS: "2"
+  API_SERVER_HOST_SERVICE: kubeflow-pipelines-api-server
+  API_SERVER_HTTP_PORT: "8888"
+  API_SERVER_GRPC_PORT: "8887"
+  API_SERVER_BASE_PATH: "/apis/v1beta1"
+  MAX_CLIENT_QPS: "5"
+  MAX_CLIENT_BURST: "10"
+---
+# Source: pipelines/templates/web-app/configmap.yaml
+apiVersion: v1
+data:
+  ARGO_ARCHIVE_LOGS: "true"
+  ARGO_ARCHIVE_ARTIFACTORY: s3
+  ARGO_ARCHIVE_BUCKETNAME: pipelines-bucket
+  ARGO_ARCHIVE_PREFIX: pipelines
+  AWS_REGION: us-east-2
+  VIEWER_TENSORBOARD_POD_TEMPLATE_SPEC_PATH: /etc/config/viewer-tensorboard-template.json
+  VIEWER_TENSORBOARD_TF_IMAGE_NAME: tensorflow/tensorflow
+  METADATA_ENVOY_SERVICE_SERVICE_HOST: kubeflow-pipelines-metadata-envoy.kubeflow.svc.cluster.local
+  METADATA_ENVOY_SERVICE_SERVICE_PORT: "9090"
+  ML_PIPELINE_SERVICE_HOST: kubeflow-pipelines-api-server.kubeflow.svc.cluster.local
+  ML_PIPELINE_SERVICE_PORT: "8888"
+  DISABLE_GKE_METADATA: "true"
+  DEPLOYMENT: KUBEFLOW
+  ARTIFACTS_SERVICE_PROXY_NAME: ml-pipeline-ui-artifact
+  ARTIFACTS_SERVICE_PROXY_PORT: "80"
+  ARTIFACTS_SERVICE_PROXY_ENABLED: "false"
+  ENABLE_AUTHZ: "true"
+  KUBEFLOW_USERID_HEADER: kubeflow-userid
+  KUBEFLOW_USERID_PREFIX: ""
+  ALLOW_CUSTOM_VISUALIZATIONS: "true"
+kind: ConfigMap
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-web-app-parameters
+  namespace: kubeflow
+---
+# Source: pipelines/templates/web-app/configmap.yaml
+apiVersion: v1
+data:
+  viewer-tensorboard-template.json: |
+    {
+        "spec": {
+            "serviceAccountName": "default-editor",
+            "containers": [
+                {
+                    "env": [
+                        {
+                            "name": "AWS_ACCESS_KEY_ID",
+                            "valueFrom": {
+                                "secretKeyRef": {
+                                    "name": "pipelines-s3-secret",
+                                    "key": "username"
+                                }
+                            }
+                        },
+                        {
+                            "name": "AWS_SECRET_ACCESS_KEY",
+                            "valueFrom": {
+                                "secretKeyRef": {
+                                    "name": "pipelines-s3-secret",
+                                    "key": "password"
+                                }
+                            }
+                        },
+                        {
+                            "name": "AWS_REGION",
+                            "value": "us-east-2"
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+kind: ConfigMap
+metadata:
+  name: kubeflow-pipelines-web-app-viewer-template
+  namespace: kubeflow
+---
+# Source: pipelines/templates/api-server/clusterrole.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-api-server-cluster-role
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+      - pods/log
+    verbs:
+      - get
+      - list
+      - delete
+  - apiGroups:
+      - argoproj.io
+    resources:
+      - workflows
+    verbs:
+      - create
+      - get
+      - list
+      - watch
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - kubeflow.org
+    resources:
+      - scheduledworkflows
+    verbs:
+      - create
+      - get
+      - list
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - authorization.k8s.io
+    resources:
+      - subjectaccessreviews
+    verbs:
+      - create
+  - apiGroups:
+      - authentication.k8s.io
+    resources:
+      - tokenreviews
+    verbs:
+      - create
+---
+# Source: pipelines/templates/api-server/clusterrole.yaml
+aggregationRule:
+  clusterRoleSelectors:
+    - matchLabels:
+        rbac.authorization.kubeflow.org/aggregate-to-kubeflow-pipelines-edit: "true"
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+    rbac.authorization.kubeflow.org/aggregate-to-kubeflow-edit: "true"
+  name: kubeflow-pipelines-edit
+rules: []
+---
+# Source: pipelines/templates/api-server/clusterrole.yaml
+aggregationRule:
+  clusterRoleSelectors:
+    - matchLabels:
+        rbac.authorization.kubeflow.org/aggregate-to-kubeflow-pipelines-view: "true"
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+    rbac.authorization.kubeflow.org/aggregate-to-kubeflow-pipelines-edit: "true"
+    rbac.authorization.kubeflow.org/aggregate-to-kubeflow-view: "true"
+  name: kubeflow-pipelines-view
+rules: []
+---
+# Source: pipelines/templates/api-server/clusterrole.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+    rbac.authorization.kubeflow.org/aggregate-to-kubeflow-pipelines-edit: "true"
+  name: aggregate-to-kubeflow-pipelines-edit
+rules:
+  - apiGroups:
+      - pipelines.kubeflow.org
+    resources:
+      - pipelines
+      - pipelines/versions
+    verbs:
+      - create
+      - delete
+      - update
+  - apiGroups:
+      - pipelines.kubeflow.org
+    resources:
+      - experiments
+    verbs:
+      - archive
+      - create
+      - delete
+      - unarchive
+  - apiGroups:
+      - pipelines.kubeflow.org
+    resources:
+      - runs
+    verbs:
+      - archive
+      - create
+      - delete
+      - retry
+      - terminate
+      - unarchive
+  - apiGroups:
+      - pipelines.kubeflow.org
+    resources:
+      - jobs
+    verbs:
+      - create
+      - delete
+      - disable
+      - enable
+  - apiGroups:
+      - kubeflow.org
+    resources:
+      - scheduledworkflows
+    verbs:
+      - '*'
+  - apiGroups:
+    - argoproj.io
+    resources:
+      - cronworkflows
+      - cronworkflows/finalizers
+      - workflows
+      - workflows/finalizers
+      - workfloweventbindings
+      - workflowtemplates
+    verbs:
+      - '*'
+---
+# Source: pipelines/templates/api-server/clusterrole.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+    rbac.authorization.kubeflow.org/aggregate-to-kubeflow-pipelines-view: "true"
+  name: aggregate-to-kubeflow-pipelines-view
+rules:
+  - apiGroups:
+      - pipelines.kubeflow.org
+    resources:
+      - pipelines
+      - pipelines/versions
+      - experiments
+      - runs
+      - jobs
+    verbs:
+      - get
+      - list
+  - apiGroups:
+      - kubeflow.org
+    resources:
+      - viewers
+    verbs:
+      - create
+      - get
+      - delete
+  - apiGroups:
+      - pipelines.kubeflow.org
+    resources:
+      - visualizations
+    verbs:
+      - create
+---
+# Source: pipelines/templates/argo-workflow-controller/clusterrole.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-argo-workflow-controller-cluster-role
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+      - pods/exec
+    verbs:
+      - create
+      - get
+      - list
+      - watch
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+    verbs:
+      - get
+      - watch
+      - list
+  - apiGroups:
+      - ""
+    resources:
+      - persistentvolumeclaims
+    verbs:
+      - create
+      - delete
+      - get
+  - apiGroups:
+      - argoproj.io
+    resources:
+      - workflows
+      - workflows/finalizers
+      - workflowtasksets
+      - workflowtasksets/finalizers
+    verbs:
+      - get
+      - list
+      - watch
+      - update
+      - patch
+      - delete
+      - create
+  - apiGroups:
+      - argoproj.io
+    resources:
+      - workflowtemplates
+      - workflowtemplates/finalizers
+      - clusterworkflowtemplates
+      - clusterworkflowtemplates/finalizers
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - serviceaccounts
+    verbs:
+      - get
+      - list
+  - apiGroups:
+      - argoproj.io
+    resources:
+      - cronworkflows
+      - cronworkflows/finalizers
+    verbs:
+      - get
+      - list
+      - watch
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - ""
+    resources:
+      - events
+    verbs:
+      - create
+      - patch
+  - apiGroups:
+      - policy
+    resources:
+      - poddisruptionbudgets
+    verbs:
+      - create
+      - get
+      - delete
+---
+# Source: pipelines/templates/argo-workflow-controller/clusterrole.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    application-crd-id: kubeflow-pipelines
+    rbac.authorization.k8s.io/aggregate-to-admin: "true"
+  name: argo-aggregate-to-admin
+rules:
+  - apiGroups:
+      - argoproj.io
+    resources:
+      - workflows
+      - workflows/finalizers
+      - workfloweventbindings
+      - workfloweventbindings/finalizers
+      - workflowtemplates
+      - workflowtemplates/finalizers
+      - cronworkflows
+      - cronworkflows/finalizers
+      - clusterworkflowtemplates
+      - clusterworkflowtemplates/finalizers
+      - workflowtasksets
+      - workflowtasksets/finalizers
+    verbs:
+      - create
+      - delete
+      - deletecollection
+      - get
+      - list
+      - patch
+      - update
+      - watch
+---
+# Source: pipelines/templates/argo-workflow-controller/clusterrole.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    application-crd-id: kubeflow-pipelines
+    rbac.authorization.k8s.io/aggregate-to-edit: "true"
+  name: argo-aggregate-to-edit
+rules:
+  - apiGroups:
+      - argoproj.io
+    resources:
+      - workflows
+      - workflows/finalizers
+      - workfloweventbindings
+      - workfloweventbindings/finalizers
+      - workflowtemplates
+      - workflowtemplates/finalizers
+      - cronworkflows
+      - cronworkflows/finalizers
+      - clusterworkflowtemplates
+      - clusterworkflowtemplates/finalizers
+    verbs:
+      - create
+      - delete
+      - deletecollection
+      - get
+      - list
+      - patch
+      - update
+      - watch
+---
+# Source: pipelines/templates/argo-workflow-controller/clusterrole.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    application-crd-id: kubeflow-pipelines
+    rbac.authorization.k8s.io/aggregate-to-view: "true"
+  name: argo-aggregate-to-view
+rules:
+  - apiGroups:
+      - argoproj.io
+    resources:
+      - workflows
+      - workflows/finalizers
+      - workfloweventbindings
+      - workfloweventbindings/finalizers
+      - workflowtemplates
+      - workflowtemplates/finalizers
+      - cronworkflows
+      - cronworkflows/finalizers
+      - clusterworkflowtemplates
+      - clusterworkflowtemplates/finalizers
+    verbs:
+      - get
+      - list
+      - watch
+---
+# Source: pipelines/templates/cache/deployer/clusterrole.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-cache-deployer-cluster-role
+rules:
+  - apiGroups:
+      - certificates.k8s.io
+    resources:
+      - certificatesigningrequests
+      - certificatesigningrequests/approval
+    verbs:
+      - create
+      - delete
+      - get
+      - update
+  - apiGroups:
+      - admissionregistration.k8s.io
+    resources:
+      - mutatingwebhookconfigurations
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+  - apiGroups:
+      - certificates.k8s.io
+    resourceNames:
+      - kubernetes.io/*
+    resources:
+      - signers
+    verbs:
+      - approve
+---
+# Source: pipelines/templates/cache/server/clusterrole.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-cache-server-cluster-role
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+    verbs:
+      - get
+      - list
+      - watch
+      - update
+      - patch
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+    verbs:
+      - get
+  - apiGroups:
+      - argoproj.io
+    resources:
+      - workflows
+    verbs:
+      - get
+      - list
+      - watch
+      - update
+      - patch
+---
+# Source: pipelines/templates/metadata/writer/clusterrole.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-metadata-writer-cluster-role
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+    verbs:
+      - get
+      - list
+      - watch
+      - update
+      - patch
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+    verbs:
+      - get
+  - apiGroups:
+      - argoproj.io
+    resources:
+      - workflows
+    verbs:
+      - get
+      - list
+      - watch
+      - update
+      - patch
+---
+# Source: pipelines/templates/persistence-agent/clusterrole.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-persistence-agent-cluster-role
+rules:
+  - apiGroups:
+      - argoproj.io
+    resources:
+      - workflows
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - kubeflow.org
+    resources:
+      - scheduledworkflows
+    verbs:
+      - get
+      - list
+      - watch
+---
+# Source: pipelines/templates/scheduled-workflow/clusterrole.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-scheduled-workflow-cluster-role
+rules:
+  - apiGroups:
+      - argoproj.io
+    resources:
+      - workflows
+    verbs:
+      - create
+      - get
+      - list
+      - watch
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - kubeflow.org
+    resources:
+      - scheduledworkflows
+      - scheduledworkflows/finalizers
+    verbs:
+      - create
+      - get
+      - list
+      - watch
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - ""
+    resources:
+      - events
+    verbs:
+      - create
+      - patch
+---
+# Source: pipelines/templates/viewer-controller/clusterrole.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-viewer-controller-cluster-role
+rules:
+  - apiGroups:
+      - '*'
+    resources:
+      - deployments
+      - services
+    verbs:
+      - create
+      - get
+      - list
+      - watch
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - kubeflow.org
+    resources:
+      - viewers
+      - viewers/finalizers
+    verbs:
+      - create
+      - get
+      - list
+      - watch
+      - update
+      - patch
+      - delete
+---
+# Source: pipelines/templates/web-app/clusterrole.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-web-app-cluster-role
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+      - pods/log
+    verbs:
+      - get
+  - apiGroups:
+      - ""
+    resources:
+      - events
+    verbs:
+      - list
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - get
+      - list
+  - apiGroups:
+      - kubeflow.org
+    resources:
+      - viewers
+    verbs:
+      - create
+      - get
+      - list
+      - watch
+      - delete
+  - apiGroups:
+      - argoproj.io
+    resources:
+      - workflows
+    verbs:
+      - get
+      - list
+---
+# Source: pipelines/templates/api-server/clusterrolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-api-server-cluster-role-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kubeflow-pipelines-api-server-cluster-role
+subjects:
+  - kind: ServiceAccount
+    name: kubeflow-pipelines-api-server
+    namespace: kubeflow
+---
+# Source: pipelines/templates/argo-workflow-controller/clusterrolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-argo-workflow-controller-cluster-role-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kubeflow-pipelines-argo-workflow-controller-cluster-role
+subjects:
+  - kind: ServiceAccount
+    name: kubeflow-pipelines-argo-workflow-controller
+    namespace: kubeflow
+---
+# Source: pipelines/templates/cache/deployer/clusterrolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-cache-deployer-cluster-role-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kubeflow-pipelines-cache-deployer-cluster-role
+subjects:
+  - kind: ServiceAccount
+    name: kubeflow-pipelines-cache-deployer
+    namespace: kubeflow
+---
+# Source: pipelines/templates/cache/server/clusterrolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-cache-server-cluster-role-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kubeflow-pipelines-cache-server-cluster-role
+subjects:
+  - kind: ServiceAccount
+    name: kubeflow-pipelines-cache-server
+    namespace: kubeflow
+---
+# Source: pipelines/templates/metadata/writer/clusterrolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-metadata-writer-cluster-role-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kubeflow-pipelines-metadata-writer-cluster-role
+subjects:
+  - kind: ServiceAccount
+    name: kubeflow-pipelines-metadata-writer
+    namespace: kubeflow
+---
+# Source: pipelines/templates/persistence-agent/clusterrolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-persistence-agent-cluster-role-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kubeflow-pipelines-persistence-agent-cluster-role
+subjects:
+  - kind: ServiceAccount
+    name: kubeflow-pipelines-persistence-agent
+    namespace: kubeflow
+---
+# Source: pipelines/templates/scheduled-workflow/clusterrolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-scheduled-workflow-cluster-role-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kubeflow-pipelines-scheduled-workflow-cluster-role
+subjects:
+  - kind: ServiceAccount
+    name: kubeflow-pipelines-scheduled-workflow
+    namespace: kubeflow
+---
+# Source: pipelines/templates/viewer-controller/clusterrolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-viewer-controller-cluster-role-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kubeflow-pipelines-viewer-controller-cluster-role
+subjects:
+  - kind: ServiceAccount
+    name: kubeflow-pipelines-viewer-controller
+    namespace: kubeflow
+---
+# Source: pipelines/templates/web-app/clusterrolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-web-app-cluster-role-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kubeflow-pipelines-web-app-cluster-role
+subjects:
+  - kind: ServiceAccount
+    name: kubeflow-pipelines-web-app
+    namespace: kubeflow
+---
+# Source: pipelines/templates/api-server/role.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-api-server-role
+  namespace: kubeflow
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+      - pods/log
+    verbs:
+      - get
+      - list
+      - delete
+  - apiGroups:
+      - argoproj.io
+    resources:
+      - workflows
+    verbs:
+      - create
+      - get
+      - list
+      - watch
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - kubeflow.org
+    resources:
+      - scheduledworkflows
+    verbs:
+      - create
+      - get
+      - list
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - authorization.k8s.io
+    resources:
+      - subjectaccessreviews
+    verbs:
+      - create
+  - apiGroups:
+      - authentication.k8s.io
+    resources:
+      - tokenreviews
+    verbs:
+      - create
+---
+# Source: pipelines/templates/argo-workflow-controller/role.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-argo-workflow-controller-role
+  namespace: kubeflow
+rules:
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - create
+  - get
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - get
+---
+# Source: pipelines/templates/cache/deployer/role.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-cache-deployer-role
+  namespace: kubeflow
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - create
+      - delete
+      - get
+      - patch
+      - list
+---
+# Source: pipelines/templates/cache/server/role.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-cache-server-role
+  namespace: kubeflow
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+    verbs:
+      - get
+      - list
+      - watch
+      - update
+      - patch
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+    verbs:
+      - get
+  - apiGroups:
+      - argoproj.io
+    resources:
+      - workflows
+    verbs:
+      - get
+      - list
+      - watch
+      - update
+      - patch
+---
+# Source: pipelines/templates/metadata/writer/role.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-metadata-writer-role
+  namespace: kubeflow
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+    verbs:
+      - get
+      - list
+      - watch
+      - update
+      - patch
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+    verbs:
+      - get
+  - apiGroups:
+      - argoproj.io
+    resources:
+      - workflows
+    verbs:
+      - get
+      - list
+      - watch
+      - update
+      - patch
+---
+# Source: pipelines/templates/persistence-agent/role.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-persistence-agent-role
+  namespace: kubeflow
+rules:
+  - apiGroups:
+      - argoproj.io
+    resources:
+      - workflows
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - kubeflow.org
+    resources:
+      - scheduledworkflows
+    verbs:
+      - get
+      - list
+      - watch
+---
+# Source: pipelines/templates/role.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: pipeline-runner
+  namespace: kubeflow
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - get
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+    verbs:
+      - get
+      - watch
+      - list
+  - apiGroups:
+      - ""
+    resources:
+      - persistentvolumes
+      - persistentvolumeclaims
+    verbs:
+      - '*'
+  - apiGroups:
+      - snapshot.storage.k8s.io
+    resources:
+      - volumesnapshots
+    verbs:
+      - create
+      - delete
+      - get
+  - apiGroups:
+      - argoproj.io
+    resources:
+      - workflows
+    verbs:
+      - get
+      - list
+      - watch
+      - update
+      - patch
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+      - pods/exec
+      - pods/log
+      - services
+    verbs:
+      - '*'
+  - apiGroups:
+      - ""
+      - apps
+      - extensions
+    resources:
+      - deployments
+      - replicasets
+    verbs:
+      - '*'
+  - apiGroups:
+      - kubeflow.org
+    resources:
+      - '*'
+    verbs:
+      - '*'
+  - apiGroups:
+      - batch
+    resources:
+      - jobs
+    verbs:
+      - '*'
+  - apiGroups:
+      - machinelearning.seldon.io
+    resources:
+      - seldondeployments
+    verbs:
+      - '*'
+---
+# Source: pipelines/templates/scheduled-workflow/role.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-scheduled-workflow-role
+  namespace: kubeflow
+rules:
+  - apiGroups:
+      - argoproj.io
+    resources:
+      - workflows
+    verbs:
+      - create
+      - get
+      - list
+      - watch
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - kubeflow.org
+    resources:
+      - scheduledworkflows
+      - scheduledworkflows/finalizers
+    verbs:
+      - create
+      - get
+      - list
+      - watch
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - ""
+    resources:
+      - events
+    verbs:
+      - create
+      - patch
+---
+# Source: pipelines/templates/viewer-controller/role.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-viewer-controller-role
+  namespace: kubeflow
+rules:
+  - apiGroups:
+      - '*'
+    resources:
+      - deployments
+      - services
+    verbs:
+      - create
+      - get
+      - list
+      - watch
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - kubeflow.org
+    resources:
+      - viewers
+      - viewers/finalizers
+    verbs:
+      - create
+      - get
+      - list
+      - watch
+      - update
+      - patch
+      - delete
+---
+# Source: pipelines/templates/web-app/role.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-web-app-role
+  namespace: kubeflow
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+      - pods/log
+    verbs:
+      - get
+  - apiGroups:
+      - ""
+    resources:
+      - events
+    verbs:
+      - list
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - get
+      - list
+  - apiGroups:
+      - kubeflow.org
+    resources:
+      - viewers
+    verbs:
+      - create
+      - get
+      - list
+      - watch
+      - delete
+  - apiGroups:
+      - argoproj.io
+    resources:
+      - workflows
+    verbs:
+      - get
+      - list
+---
+# Source: pipelines/templates/api-server/rolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-api-server-role-binding
+  namespace: kubeflow
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: kubeflow-pipelines-api-server-role
+subjects:
+  - kind: ServiceAccount
+    name: kubeflow-pipelines-api-server
+    namespace: kubeflow
+---
+# Source: pipelines/templates/argo-workflow-controller/rolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-argo-workflow-controller-role-binding
+  namespace: kubeflow
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: kubeflow-pipelines-argo-workflow-controller-role
+subjects:
+  - kind: ServiceAccount
+    name: kubeflow-pipelines-argo-workflow-controller
+    namespace: kubeflow
+---
+# Source: pipelines/templates/cache/deployer/rolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-cache-deployer-role-binding
+  namespace: kubeflow
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: kubeflow-pipelines-cache-deployer-role
+subjects:
+  - kind: ServiceAccount
+    name: kubeflow-pipelines-cache-deployer
+    namespace: kubeflow
+---
+# Source: pipelines/templates/cache/server/rolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-cache-server-role-binding
+  namespace: kubeflow
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: kubeflow-pipelines-cache-server-role
+subjects:
+  - kind: ServiceAccount
+    name: kubeflow-pipelines-cache-server
+    namespace: kubeflow
+---
+# Source: pipelines/templates/metadata/writer/rolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-metadata-writer-role-binding
+  namespace: kubeflow
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: kubeflow-pipelines-metadata-writer-role
+subjects:
+  - kind: ServiceAccount
+    name: kubeflow-pipelines-metadata-writer
+    namespace: kubeflow
+---
+# Source: pipelines/templates/persistence-agent/rolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-persistence-agent-role-binding
+  namespace: kubeflow
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: kubeflow-pipelines-persistence-agent-role
+subjects:
+  - kind: ServiceAccount
+    name: kubeflow-pipelines-persistence-agent
+    namespace: kubeflow
+---
+# Source: pipelines/templates/rolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: pipeline-runner-binding
+  namespace: kubeflow
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: pipeline-runner
+subjects:
+  - kind: ServiceAccount
+    name: pipeline-runner
+    namespace: kubeflow
+---
+# Source: pipelines/templates/scheduled-workflow/rolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-scheduled-workflow-role-binding
+  namespace: kubeflow
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: kubeflow-pipelines-scheduled-workflow-roles
+subjects:
+  - kind: ServiceAccount
+    name: kubeflow-pipelines-scheduled-workflow
+    namespace: kubeflow
+---
+# Source: pipelines/templates/viewer-controller/rolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-viewer-controller-role-binding
+  namespace: kubeflow
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: kubeflow-pipelines-viewer-controller-role
+subjects:
+  - kind: ServiceAccount
+    name: kubeflow-pipelines-viewer-controller
+    namespace: kubeflow
+---
+# Source: pipelines/templates/web-app/rolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-web-app-role-binding
+  namespace: kubeflow
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: kubeflow-pipelines-web-app-role
+subjects:
+  - kind: ServiceAccount
+    name: kubeflow-pipelines-web-app
+    namespace: kubeflow
+---
+# Source: pipelines/templates/api-server/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubeflow-pipelines-api-server
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    prometheus.io/port: "8888"
+    prometheus.io/scheme: http
+    prometheus.io/scrape: "true"
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8888
+      targetPort: http-api-server
+      protocol: TCP
+      name: http-api-server
+    - port: 8887
+      targetPort: grpc-api-server
+      protocol: TCP
+      name: grpc-api-server
+  selector:
+    app: pipelines-api
+    app.kubernetes.io/name: pipelines-api
+    app.kubernetes.io/instance: kubeflow
+---
+# Source: pipelines/templates/api-server/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: ml-pipeline
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    prometheus.io/port: "8888"
+    prometheus.io/scheme: http
+    prometheus.io/scrape: "true"
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8888
+      targetPort: http-api-server
+      protocol: TCP
+      name: http-api-server
+    - port: 8887
+      targetPort: grpc-api-server
+      protocol: TCP
+      name: grpc-api-server
+  selector:
+    app: pipelines-api
+    app.kubernetes.io/name: pipelines-api
+    app.kubernetes.io/instance: kubeflow
+---
+# Source: pipelines/templates/argo-workflow-controller/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubeflow-pipelines-argo-workflow-controller
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9090
+      targetPort: metrics
+      protocol: TCP
+      name: http-metrics
+  selector:
+    app: pipelines-argo
+    app.kubernetes.io/name: pipelines-argo
+    app.kubernetes.io/instance: kubeflow
+---
+# Source: pipelines/templates/cache/server/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubeflow-pipelines-cache-server
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 443
+      targetPort: webhook-api
+      protocol: TCP
+      name: http-webhook-api
+  selector:
+      app: pipelines-cache-server
+      app.kubernetes.io/name: pipelines-cache-server
+      app.kubernetes.io/instance: kubeflow
+---
+# Source: pipelines/templates/metadata/envoy/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubeflow-pipelines-metadata-envoy
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9090
+      targetPort: md-envoy
+      protocol: TCP
+      name: http-md-envoy
+    - port: 9901
+      targetPort: envoy-admin
+      protocol: TCP
+      name: http-envoy-admin
+  selector:
+      app: pipelines-metadata-envoy
+      app.kubernetes.io/name: pipelines-metadata-envoy
+      app.kubernetes.io/instance: kubeflow
+---
+# Source: pipelines/templates/metadata/grpc-server/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubeflow-pipelines-metadata-grpc-server
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: api
+      protocol: TCP
+      name: grpc-api
+  selector:
+      app: pipelines-metadata-grpc-server
+      app.kubernetes.io/name: pipelines-metadata-grpc-server
+      app.kubernetes.io/instance: kubeflow
+---
+# Source: pipelines/templates/visualization-server/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubeflow-pipelines-visualization-server
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8888
+      targetPort: website
+      protocol: TCP
+      name: http-website
+  selector:
+    app: pipelines-visualization-server
+    app.kubernetes.io/name: pipelines-visualization-server
+    app.kubernetes.io/instance: kubeflow
+---
+# Source: pipelines/templates/web-app/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubeflow-pipelines-web-app
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: website
+      protocol: TCP
+      name: http-website
+  selector:
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+---
+# Source: pipelines/templates/api-server/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeflow-pipelines-api-server
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pipelines-api
+      app.kubernetes.io/name: pipelines-api
+      app.kubernetes.io/instance: kubeflow
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: pipelines-api
+        app.kubernetes.io/name: pipelines-api
+        app.kubernetes.io/instance: kubeflow
+    spec:
+      serviceAccountName: kubeflow-pipelines-api-server
+      securityContext:
+        {}
+      containers:
+        - name: pipelines-api-server
+          securityContext:
+            {}
+          image: "gcr.io/ml-pipeline/api-server:1.8.1"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: AUTO_UPDATE_PIPELINE_DEFAULT_VERSION
+              valueFrom:
+                configMapKeyRef:
+                  key: autoUpdatePipelineDefaultVersion
+                  name: pipeline-install-config
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: OBJECTSTORECONFIG_HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: bucketHost
+                  name: pipeline-install-config
+            - name: OBJECTSTORECONFIG_BUCKETNAME
+              valueFrom:
+                configMapKeyRef:
+                  key: bucketName
+                  name: pipeline-install-config
+            - name: OBJECTSTORECONFIG_REGION
+              valueFrom:
+                configMapKeyRef:
+                  key: bucketRegion
+                  name: pipeline-install-config
+            - name: OBJECTSTORECONFIG_ACCESSKEY
+              valueFrom:
+                secretKeyRef:
+                  key: username
+                  name: pipelines-s3-secret
+            - name: OBJECTSTORECONFIG_SECRETACCESSKEY
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: pipelines-s3-secret
+            - name: DBCONFIG_USER
+              valueFrom:
+                secretKeyRef:
+                  key: USERNAME
+                  name: pipelines-db-user
+            - name: DBCONFIG_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: PASSWORD
+                  name: pipelines-db-user
+            - name: DBCONFIG_DBNAME
+              valueFrom:
+                configMapKeyRef:
+                  key: pipelineDb
+                  name: pipeline-install-config
+            - name: DBCONFIG_HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: dbHost
+                  name: pipeline-install-config
+            - name: DBCONFIG_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: dbPort
+                  name: pipeline-install-config
+            - name: DBCONFIG_CONMAXLIFETIME
+              valueFrom:
+                configMapKeyRef:
+                  key: dbConMaxLifeTime
+                  name: pipeline-install-config
+            - name: DBCONFIG_DRIVERNAME
+              valueFrom:
+                configMapKeyRef:
+                  key: dbDriverName
+                  name: pipeline-install-config
+            - name: DBCONFIG_GROUPCONCATMAXLEN
+              valueFrom:
+                configMapKeyRef:
+                  key: dbGroupConcatMaxLen
+                  name: pipeline-install-config
+          envFrom:
+            - configMapRef:
+                name: kubeflow-pipelines-api-server-parameters
+          ports:
+            - name: http-api-server
+              containerPort: 8888
+              protocol: TCP
+            - name: grpc-api-server
+              containerPort: 8887
+              protocol: TCP
+          livenessProbe:
+            exec:
+              command:
+                - wget
+                - -q
+                - -S
+                - -O
+                - '-'
+                - http://localhost:8888/apis/v1beta1/healthz
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            timeoutSeconds: 2
+          readinessProbe:
+            exec:
+              command:
+                - wget
+                - -q
+                - -S
+                - -O
+                - '-'
+                - http://localhost:8888/apis/v1beta1/healthz
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            timeoutSeconds: 2
+          resources:
+            {}
+---
+# Source: pipelines/templates/argo-workflow-controller/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeflow-pipelines-argo-workflow-controller
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pipelines-argo
+      app.kubernetes.io/name: pipelines-argo
+      app.kubernetes.io/instance: kubeflow
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+        prometheus.io/path: /metrics
+        prometheus.io/port: "9090"
+        prometheus.io/scheme: http
+        prometheus.io/scrape: "true"
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: pipelines-argo
+        app.kubernetes.io/name: pipelines-argo
+        app.kubernetes.io/instance: kubeflow
+    spec:
+      serviceAccountName: kubeflow-pipelines-argo-workflow-controller
+      securityContext:
+        # runAsNonRoot: true # TODO: Fix runAsNonRoot
+        {}
+      containers:
+        - name: pipelines-argo-workflow-controller
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+          image: "gcr.io/ml-pipeline/workflow-controller:v3.2.3-license-compliance"
+          imagePullPolicy: IfNotPresent
+          args:
+            - --configmap
+            - kubeflow-pipelines-argo-workflow-controller
+            - --executor-image
+            - gcr.io/ml-pipeline/argoexec:v3.2.3-license-compliance
+          command:
+            - workflow-controller
+          env:
+          - name: LEADER_ELECTION_IDENTITY
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.name
+          ports:
+            - name: metrics
+              containerPort: 9090
+              protocol: TCP
+            - name: health
+              containerPort: 6060
+              protocol: TCP
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: 6060
+            initialDelaySeconds: 90
+            periodSeconds: 60
+            timeoutSeconds: 30
+          resources:
+            limits:
+              cpu: 100m
+              memory: 500Mi
+            requests:
+              cpu: 100m
+              memory: 500Mi
+---
+# Source: pipelines/templates/cache/deployer/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeflow-pipelines-cache-deployer
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pipelines-cache-deployer
+      app.kubernetes.io/name: pipelines-cache-deployer
+      app.kubernetes.io/instance: kubeflow
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: pipelines-cache-deployer
+        app.kubernetes.io/name: pipelines-cache-deployer
+        app.kubernetes.io/instance: kubeflow
+    spec:
+      serviceAccountName: kubeflow-pipelines-cache-deployer
+      securityContext:
+        {}
+      containers:
+        - name: pipelines-cache-deployer
+          securityContext:
+            {}
+          image: "gcr.io/ml-pipeline/cache-deployer:1.8.1"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: NAMESPACE_TO_WATCH
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          resources:
+            {}
+---
+# Source: pipelines/templates/cache/server/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeflow-pipelines-cache-server
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pipelines-cache-server
+      app.kubernetes.io/name: pipelines-cache-server
+      app.kubernetes.io/instance: kubeflow
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: pipelines-cache-server
+        app.kubernetes.io/name: pipelines-cache-server
+        app.kubernetes.io/instance: kubeflow
+    spec:
+      serviceAccountName: kubeflow-pipelines-cache-server
+      securityContext:
+        {}
+      containers:
+        - name: pipelines-cache-server
+          securityContext:
+            {}
+          image: "gcr.io/ml-pipeline/cache-server:1.8.1"
+          imagePullPolicy: IfNotPresent
+          args:
+            - --db_driver=$(DBCONFIG_DRIVER)
+            - --db_host=$(DBCONFIG_HOST_NAME)
+            - --db_port=$(DBCONFIG_PORT)
+            - --db_name=$(DBCONFIG_DB_NAME)
+            - --db_user=$(DBCONFIG_USER)
+            - --db_password=$(DBCONFIG_PASSWORD)
+            - --namespace_to_watch=$(NAMESPACE_TO_WATCH)
+          env:
+            - name: NAMESPACE_TO_WATCH
+              value: ""
+            - name: CACHE_IMAGE
+              valueFrom:
+                configMapKeyRef:
+                  key: cacheImage
+                  name: pipeline-install-config
+            - name: CACHE_NODE_RESTRICTIONS
+              valueFrom:
+                configMapKeyRef:
+                  key: cacheNodeRestrictions
+                  name: pipeline-install-config
+            - name: DBCONFIG_DRIVER
+              value: mysql
+            - name: DBCONFIG_DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  key: cacheDb
+                  name: pipeline-install-config
+            - name: DBCONFIG_HOST_NAME
+              valueFrom:
+                configMapKeyRef:
+                  key: dbHost
+                  name: pipeline-install-config
+            - name: DBCONFIG_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: dbPort
+                  name: pipeline-install-config
+            - name: DBCONFIG_USER
+              valueFrom:
+                secretKeyRef:
+                  key: USERNAME
+                  name: pipelines-db-user
+            - name: DBCONFIG_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: PASSWORD
+                  name: pipelines-db-user
+          ports:
+            - name: webhook-api
+              containerPort: 8443
+              protocol: TCP
+          resources:
+            {}
+          volumeMounts:
+            - mountPath: /etc/webhook/certs
+              name: webhook-tls-certs
+              readOnly: true
+      volumes:
+        - secret:
+            secretName: webhook-server-tls
+          name: webhook-tls-certs
+---
+# Source: pipelines/templates/metadata/envoy/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeflow-pipelines-metadata-envoy
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pipelines-metadata-envoy
+      app.kubernetes.io/name: pipelines-metadata-envoy
+      app.kubernetes.io/instance: kubeflow
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "false"
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+      labels:
+        app: pipelines-metadata-envoy
+        app.kubernetes.io/name: pipelines-metadata-envoy
+        app.kubernetes.io/instance: kubeflow
+    spec:
+      serviceAccountName: kubeflow-pipelines-metadata-envoy
+      securityContext:
+        {}
+      containers:
+        - name: pipelines-metadata-envoy
+          securityContext:
+            {}
+          image: "gcr.io/ml-pipeline/metadata-envoy:1.8.1"
+          imagePullPolicy: IfNotPresent
+          args:
+            - /config/envoy.yaml
+          ports:
+            - name: md-envoy
+              containerPort: 9090
+              protocol: TCP
+            - name: envoy-admin
+              containerPort: 9901
+              protocol: TCP
+          resources:
+            {}
+          volumeMounts:
+            - mountPath: /config
+              name: config-volume
+      volumes:
+        - configMap:
+            name: kubeflow-pipelines-metadata-envoy-config
+          name: config-volume
+---
+# Source: pipelines/templates/metadata/grpc-server/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeflow-pipelines-metadata-grpc-server
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pipelines-metadata-grpc-server
+      app.kubernetes.io/name: pipelines-metadata-grpc-server
+      app.kubernetes.io/instance: kubeflow
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: pipelines-metadata-grpc-server
+        app.kubernetes.io/name: pipelines-metadata-grpc-server
+        app.kubernetes.io/instance: kubeflow
+    spec:
+      serviceAccountName: kubeflow-pipelines-metadata-grpc-server
+      securityContext:
+        {}
+      containers:
+        - name: pipelines-metadata-grpc-server
+          securityContext:
+            {}
+          image: "gcr.io/tfx-oss-public/ml_metadata_store_server:1.5.0"
+          imagePullPolicy: IfNotPresent
+          args:
+            - --grpc_port=8080
+            - --mysql_config_database=$(MYSQL_DATABASE)
+            - --mysql_config_host=$(MYSQL_HOST)
+            - --mysql_config_port=$(MYSQL_PORT)
+            - --mysql_config_user=$(DBCONFIG_USER)
+            - --mysql_config_password=$(DBCONFIG_PASSWORD)
+            - --enable_database_upgrade=true
+          command:
+            - /bin/metadata_store_server
+          env:
+            - name: DBCONFIG_USER
+              valueFrom:
+                secretKeyRef:
+                  key: USERNAME
+                  name: pipelines-db-user
+            - name: DBCONFIG_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: PASSWORD
+                  name: pipelines-db-user
+            - name: MYSQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  key: mlmdDb
+                  name: pipeline-install-config
+            - name: MYSQL_HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: dbHost
+                  name: pipeline-install-config
+            - name: MYSQL_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: dbPort
+                  name: pipeline-install-config
+          ports:
+            - name: api
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            tcpSocket:
+              port: api
+            timeoutSeconds: 2
+          readinessProbe:
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            tcpSocket:
+              port: api
+            timeoutSeconds: 2
+          resources:
+            {}
+---
+# Source: pipelines/templates/metadata/writer/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeflow-pipelines-metadata-writer
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pipelines-metadata-writer
+      app.kubernetes.io/name: pipelines-metadata-writer
+      app.kubernetes.io/instance: kubeflow
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: pipelines-metadata-writer
+        app.kubernetes.io/name: pipelines-metadata-writer
+        app.kubernetes.io/instance: kubeflow
+    spec:
+      serviceAccountName: kubeflow-pipelines-metadata-writer
+      securityContext:
+        {}
+      containers:
+        - name: pipelines-metadata-writer
+          securityContext:
+            {}
+          image: "gcr.io/ml-pipeline/metadata-writer:1.8.1"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: NAMESPACE_TO_WATCH
+              value: ""
+          envFrom:
+            - configMapRef:
+                name: kubeflow-pipelines-metadata-writer-parameters
+          resources:
+            {}
+---
+# Source: pipelines/templates/persistence-agent/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeflow-pipelines-persistence-agent
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pipelines-persistence-agent
+      app.kubernetes.io/name: pipelines-persistence-agent
+      app.kubernetes.io/instance: kubeflow
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: pipelines-persistence-agent
+        app.kubernetes.io/name: pipelines-persistence-agent
+        app.kubernetes.io/instance: kubeflow
+    spec:
+      serviceAccountName: kubeflow-pipelines-persistence-agent
+      securityContext:
+        {}
+      containers:
+        - name: pipelines-persistence-agent
+          securityContext:
+            {}
+          image: "gcr.io/ml-pipeline/persistenceagent:1.8.1"
+          imagePullPolicy: IfNotPresent
+          args:
+            - --logtostderr=true
+            - --namespace=$(NAMESPACE)
+            - --ttlSecondsAfterWorkflowFinish=$(TTL_SECONDS_AFTER_WORKFLOW_FINISH)
+            - --numWorker=$(NUM_WORKERS)
+            - --mlPipelineAPIServerName=$(API_SERVER_HOST_SERVICE)
+            - --mlPipelineServiceHttpPort=$(API_SERVER_HTTP_PORT)
+            - --mlPipelineServiceGRPCPort=$(API_SERVER_GRPC_PORT)
+            - --mlPipelineAPIServerBasePath=$(API_SERVER_BASE_PATH)
+            - --clientQPS=$(MAX_CLIENT_QPS)
+            - --clientBurst=$(MAX_CLIENT_BURST)
+          command:
+            - persistence_agent
+          envFrom:
+            - configMapRef:
+                name: kubeflow-pipelines-persistence-agent-parameters
+          resources:
+            {}
+---
+# Source: pipelines/templates/scheduled-workflow/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeflow-pipelines-scheduled-workflow
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pipelines-scheduled-workflow
+      app.kubernetes.io/name: pipelines-scheduled-workflow
+      app.kubernetes.io/instance: kubeflow
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: pipelines-scheduled-workflow
+        app.kubernetes.io/name: pipelines-scheduled-workflow
+        app.kubernetes.io/instance: kubeflow
+    spec:
+      serviceAccountName: kubeflow-pipelines-scheduled-workflow
+      securityContext:
+        {}
+      containers:
+        - name: pipelines-scheduled-workflow
+          securityContext:
+            {}
+          image: "gcr.io/ml-pipeline/scheduledworkflow:1.8.1"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: NAMESPACE
+              value: ""
+            - name: CRON_SCHEDULE_TIMEZONE
+              valueFrom:
+                configMapKeyRef:
+                  key: cronScheduleTimezone
+                  name: pipeline-install-config
+          resources:
+            {}
+---
+# Source: pipelines/templates/viewer-controller/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeflow-pipelines-viewer-controller
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pipelines-viewer-controller
+      app.kubernetes.io/name: pipelines-viewer-controller
+      app.kubernetes.io/instance: kubeflow
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: pipelines-viewer-controller
+        app.kubernetes.io/name: pipelines-viewer-controller
+        app.kubernetes.io/instance: kubeflow
+    spec:
+      serviceAccountName: kubeflow-pipelines-viewer-controller
+      securityContext:
+        {}
+      containers:
+        - name: pipelines-viewer-controller
+          securityContext:
+            {}
+          image: "gcr.io/ml-pipeline/viewer-crd-controller:1.8.1"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: NAMESPACE
+              value: ""
+            - name: MAX_NUM_VIEWERS
+              value: "50"
+            - name: MINIO_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          resources:
+            {}
+---
+# Source: pipelines/templates/visualization-server/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeflow-pipelines-visualization-server
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pipelines-visualization-server
+      app.kubernetes.io/name: pipelines-visualization-server
+      app.kubernetes.io/instance: kubeflow
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: pipelines-visualization-server
+        app.kubernetes.io/name: pipelines-visualization-server
+        app.kubernetes.io/instance: kubeflow
+    spec:
+      serviceAccountName: kubeflow-pipelines-visualization-server
+      securityContext:
+        {}
+      containers:
+        - name: pipelines-visualization-server
+          securityContext:
+            {}
+          image: "gcr.io/ml-pipeline/visualization-server:1.8.1"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: website
+              containerPort: 8888
+              protocol: TCP
+          livenessProbe:
+            exec:
+              command:
+                - wget
+                - -q
+                - -S
+                - -O
+                - '-'
+                - http://localhost:8888/
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            timeoutSeconds: 2
+          readinessProbe:
+            exec:
+              command:
+                - wget
+                - -q
+                - -S
+                - -O
+                - '-'
+                - http://localhost:8888/
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            timeoutSeconds: 2
+          resources:
+            {}
+---
+# Source: pipelines/templates/web-app/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeflow-pipelines-web-app
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pipelines
+      app.kubernetes.io/name: pipelines
+      app.kubernetes.io/instance: kubeflow
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: pipelines
+        app.kubernetes.io/name: pipelines
+        app.kubernetes.io/instance: kubeflow
+    spec:
+      serviceAccountName: kubeflow-pipelines-web-app
+      securityContext:
+        {}
+      containers:
+        - name: pipelines-web-app
+          securityContext:
+            {}
+          image: "gcr.io/ml-pipeline/frontend:1.8.1"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  key: username
+                  name: pipelines-s3-secret
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: pipelines-s3-secret
+          ports:
+            - name: website
+              containerPort: 3000
+              protocol: TCP
+          livenessProbe:
+            exec:
+              command:
+                - wget
+                - -q
+                - -S
+                - -O
+                - '-'
+                - http://localhost:3000/apis/v1beta1/healthz
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            timeoutSeconds: 2
+          readinessProbe:
+            exec:
+              command:
+                - wget
+                - -q
+                - -S
+                - -O
+                - '-'
+                - http://localhost:3000/apis/v1beta1/healthz
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            timeoutSeconds: 2
+          resources:
+            {}
+          envFrom:
+            - configMapRef:
+                name: kubeflow-pipelines-web-app-parameters
+          volumeMounts:
+            - mountPath: /etc/config
+              name: config-volume
+              readOnly: true
+      volumes:
+        - configMap:
+            name: kubeflow-pipelines-web-app-viewer-template
+          name: config-volume
+---
+# Source: pipelines/templates/api-server/authorizationpolicy.yaml
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-api-server
+  namespace: kubeflow
+spec:
+  rules:
+    - from:
+        - source:
+            principals:
+              - cluster.local/ns/kubeflow/sa/kubeflow-pipelines-api-server
+              - cluster.local/ns/kubeflow/sa/kubeflow-pipelines-web-app
+              - cluster.local/ns/kubeflow/sa/kubeflow-pipelines-persistence-agent
+              - cluster.local/ns/kubeflow/sa/kubeflow-pipelines-scheduled-workflow
+              - cluster.local/ns/kubeflow/sa/kubeflow-pipelines-viewer-controller
+              - cluster.local/ns/kubeflow/sa/kubeflow-pipelines-cache-server
+    - when:
+        - key: request.headers[kubeflow-userid]
+          notValues:
+            - '*'
+  selector:
+    matchLabels:
+      app: pipelines-api
+      app.kubernetes.io/name: pipelines-api
+      app.kubernetes.io/instance: kubeflow
+---
+# Source: pipelines/templates/cache/server/authorizationpolicy.yaml
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-cache-server
+  namespace: kubeflow
+spec:
+  rules:
+    - {}
+  selector:
+    matchLabels:
+      app: pipelines-cache-server
+      app.kubernetes.io/name: pipelines-cache-server
+      app.kubernetes.io/instance: kubeflow
+---
+# Source: pipelines/templates/metadata/grpc-server/authorizationpolicy.yaml
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-metadata-grpc-server
+  namespace: kubeflow
+spec:
+  action: ALLOW
+  rules:
+    - {}
+  selector:
+    matchLabels:
+      app: pipelines-metadata-grpc-server
+      app.kubernetes.io/name: pipelines-metadata-grpc-server
+      app.kubernetes.io/instance: kubeflow
+---
+# Source: pipelines/templates/visualization-server/authorizationpolicy.yaml
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-visualization-server
+  namespace: kubeflow
+spec:
+  rules:
+    - from:
+        - source:
+            principals:
+              - cluster.local/ns/kubeflow/sa/kubeflow-pipelines-api-server
+              - cluster.local/ns/kubeflow/sa/kubeflow-pipelines-web-app
+              - cluster.local/ns/kubeflow/sa/kubeflow-pipelines-persistence-agent
+              - cluster.local/ns/kubeflow/sa/kubeflow-pipelines-scheduled-workflow
+              - cluster.local/ns/kubeflow/sa/kubeflow-pipelines-viewer-controller
+              - cluster.local/ns/kubeflow/sa/kubeflow-pipelines-cache-server
+  selector:
+    matchLabels:
+      app: pipelines-visualization-server
+      app.kubernetes.io/name: pipelines-visualization-server
+      app.kubernetes.io/instance: kubeflow
+---
+# Source: pipelines/templates/web-app/authorizationpolicy.yaml
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-web-app
+  namespace: kubeflow
+spec:
+  rules:
+    - from:
+        - source:
+            namespaces:
+              - istio
+  selector:
+    matchLabels:
+      app: pipelines
+      app.kubernetes.io/name: pipelines
+      app.kubernetes.io/instance: kubeflow
+---
+# Source: pipelines/templates/api-server/destinationrule.yaml
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-api-server
+  namespace: kubeflow
+spec:
+  host: kubeflow-pipelines-api-server.kubeflow.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+---
+# Source: pipelines/templates/metadata/grpc-server/destinationrule.yaml
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-metadata-grpc-server
+  namespace: kubeflow
+spec:
+  host: kubeflow-pipelines-metadata-grpc-server.kubeflow.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+---
+# Source: pipelines/templates/visualization-server/destinationrule.yaml
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-visualization-server
+  namespace: kubeflow
+spec:
+  host: kubeflow-pipelines-visualization-server.kubeflow.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+---
+# Source: pipelines/templates/web-app/destinationrule.yaml
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-web-app
+  namespace: kubeflow
+spec:
+  host: kubeflow-pipelines-web-app.kubeflow.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+---
+# Source: pipelines/templates/database/databases.yaml
+apiVersion: mysql.presslabs.org/v1alpha1
+kind: MysqlDatabase
+metadata:
+  name: pipelines-database
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  database: mlpipeline
+  clusterRef:
+    name: kubeflow-mysql-cluster
+    namespace: kubeflow
+---
+# Source: pipelines/templates/database/databases.yaml
+apiVersion: mysql.presslabs.org/v1alpha1
+kind: MysqlDatabase
+metadata:
+  name: pipelines-cache-database
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  database: cachedb
+  clusterRef:
+    name: kubeflow-mysql-cluster
+    namespace: kubeflow
+---
+# Source: pipelines/templates/database/databases.yaml
+apiVersion: mysql.presslabs.org/v1alpha1
+kind: MysqlDatabase
+metadata:
+  name: pipelines-metadata-database
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  database: metadb
+  clusterRef:
+    name: kubeflow-mysql-cluster
+    namespace: kubeflow
+---
+# Source: pipelines/templates/database/database-user.yaml
+apiVersion: mysql.presslabs.org/v1alpha1
+kind: MysqlUser
+metadata:
+  name: pipelines-mysql-user
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  user: pipelines
+  clusterRef:
+    name: kubeflow-mysql-cluster
+    namespace: kubeflow
+  password:
+    name: pipelines-db-user
+    key: PASSWORD
+  allowedHosts:
+    - "%"
+  permissions:
+    - schema: mlpipeline
+      tables:
+      - "*"
+      permissions:
+      - ALL
+    - schema: cachedb
+      tables:
+      - "*"
+      permissions:
+      - ALL
+    - schema: metadb
+      tables:
+      - "*"
+      permissions:
+      - ALL
+---
+# Source: pipelines/templates/metadata/grpc-server/virtualservice.yaml
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: kubeflow-pipelines-metadata-grpc-server
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  gateways:
+    - "kubeflow-gateway"
+  hosts:
+    - "*"
+  http:
+    - headers:
+        request:
+          add:
+            x-forwarded-prefix: /ml_metadata
+      match:
+        - uri:
+            prefix: /ml_metadata
+      rewrite:
+        uri: /ml_metadata
+      route:
+        - destination:
+            host: kubeflow-pipelines-metadata-envoy.kubeflow.svc.cluster.local
+            port:
+              number: 9090
+---
+# Source: pipelines/templates/web-app/virtualservice.yaml
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: kubeflow-pipelines-web-app
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  gateways:
+    - "kubeflow-gateway"
+  hosts:
+    - "*"
+  http:
+    - headers:
+        request:
+          add:
+            x-forwarded-prefix: /pipeline
+      match:
+        - uri:
+            prefix: /pipeline
+      rewrite:
+        uri: /pipeline
+      route:
+        - destination:
+            host: kubeflow-pipelines-web-app.kubeflow.svc.cluster.local
+            port:
+              number: 80
+      timeout: 300s

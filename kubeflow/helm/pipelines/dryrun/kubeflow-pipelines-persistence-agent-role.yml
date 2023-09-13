@@ -1,0 +1,32 @@
+---
+# Source: pipelines/templates/persistence-agent/role.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-persistence-agent-role
+  namespace: kubeflow
+rules:
+  - apiGroups:
+      - argoproj.io
+    resources:
+      - workflows
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - kubeflow.org
+    resources:
+      - scheduledworkflows
+    verbs:
+      - get
+      - list
+      - watch

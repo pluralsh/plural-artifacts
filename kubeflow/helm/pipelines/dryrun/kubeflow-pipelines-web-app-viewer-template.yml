@@ -1,0 +1,42 @@
+---
+# Source: pipelines/templates/web-app/configmap.yaml
+apiVersion: v1
+data:
+  viewer-tensorboard-template.json: |
+    {
+        "spec": {
+            "serviceAccountName": "default-editor",
+            "containers": [
+                {
+                    "env": [
+                        {
+                            "name": "AWS_ACCESS_KEY_ID",
+                            "valueFrom": {
+                                "secretKeyRef": {
+                                    "name": "pipelines-s3-secret",
+                                    "key": "username"
+                                }
+                            }
+                        },
+                        {
+                            "name": "AWS_SECRET_ACCESS_KEY",
+                            "valueFrom": {
+                                "secretKeyRef": {
+                                    "name": "pipelines-s3-secret",
+                                    "key": "password"
+                                }
+                            }
+                        },
+                        {
+                            "name": "AWS_REGION",
+                            "value": "us-east-2"
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+kind: ConfigMap
+metadata:
+  name: kubeflow-pipelines-web-app-viewer-template
+  namespace: kubeflow

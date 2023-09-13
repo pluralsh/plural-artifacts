@@ -1,0 +1,56 @@
+---
+# Source: pipelines/templates/persistence-agent/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeflow-pipelines-persistence-agent
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pipelines-persistence-agent
+      app.kubernetes.io/name: pipelines-persistence-agent
+      app.kubernetes.io/instance: kubeflow
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: pipelines-persistence-agent
+        app.kubernetes.io/name: pipelines-persistence-agent
+        app.kubernetes.io/instance: kubeflow
+    spec:
+      serviceAccountName: kubeflow-pipelines-persistence-agent
+      securityContext: {}
+      containers:
+        - name: pipelines-persistence-agent
+          securityContext: {}
+          image: "gcr.io/ml-pipeline/persistenceagent:1.8.1"
+          imagePullPolicy: IfNotPresent
+          args:
+            - --logtostderr=true
+            - --namespace=$(NAMESPACE)
+            - --ttlSecondsAfterWorkflowFinish=$(TTL_SECONDS_AFTER_WORKFLOW_FINISH)
+            - --numWorker=$(NUM_WORKERS)
+            - --mlPipelineAPIServerName=$(API_SERVER_HOST_SERVICE)
+            - --mlPipelineServiceHttpPort=$(API_SERVER_HTTP_PORT)
+            - --mlPipelineServiceGRPCPort=$(API_SERVER_GRPC_PORT)
+            - --mlPipelineAPIServerBasePath=$(API_SERVER_BASE_PATH)
+            - --clientQPS=$(MAX_CLIENT_QPS)
+            - --clientBurst=$(MAX_CLIENT_BURST)
+          command:
+            - persistence_agent
+          envFrom:
+            - configMapRef:
+                name: kubeflow-pipelines-persistence-agent-parameters
+          resources: {}

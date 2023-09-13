@@ -1,0 +1,17 @@
+---
+# Source: pipelines/templates/metadata/writer/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kubeflow-pipelines-metadata-writer-parameters
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+data:
+  METADATA_GRPC_SERVICE_SERVICE_HOST: kubeflow-pipelines-metadata-grpc-server
+  METADATA_GRPC_SERVICE_SERVICE_PORT: "8080"
