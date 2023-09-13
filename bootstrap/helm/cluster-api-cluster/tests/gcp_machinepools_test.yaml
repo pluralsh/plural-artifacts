@@ -1,0 +1,70 @@
+suite: test gcp machine pools
+templates:
+  - gcp/machinepools.yaml
+tests:
+  - it: should be created with default values when provider is gcp
+    set:
+      provider: gcp
+      type: managed
+    asserts:
+      - hasDocuments:
+          count: 6
+      - documentIndex: 0
+        isKind:
+          of: GCPManagedMachinePool
+      - documentIndex: 1
+        isKind:
+          of: MachinePool
+      - documentIndex: 0
+        equal:
+          path: metadata.name
+          value: large-burst-on-demand
+      - documentIndex: 0
+        equal:
+          path: spec.nodePoolName
+          value: large-burst-on-demand
+      - documentIndex: 0
+        equal:
+          path: spec.machineType
+          value: e2-standard-8
+      - documentIndex: 2
+        equal:
+          path: metadata.name
+          value: medium-burst-on-demand
+      - documentIndex: 2
+        equal:
+          path: spec.nodePoolName
+          value: medium-burst-on-demand
+      - documentIndex: 2
+        equal:
+          path: spec.machineType
+          value: e2-standard-4
+      - documentIndex: 4
+        equal:
+          path: metadata.name
+          value: small-burst-on-demand
+      - documentIndex: 4
+        equal:
+          path: spec.nodePoolName
+          value: small-burst-on-demand
+      - documentIndex: 4
+        equal:
+          path: spec.machineType
+          value: e2-standard-2
+  - it: should have custom kubernetes version set
+    set:
+      provider: gcp
+      type: managed
+      cluster.kubernetesVersion: 1.24
+    asserts:
+      - documentIndex: 1
+        equal:
+          path: spec.template.spec.version
+          value: "1.24"
+  - it: should not be created when provider is not gcp
+    set:
+      type: managed
+    asserts:
+      - hasDocuments:
+          count: 0
+
