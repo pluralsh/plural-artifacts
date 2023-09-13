@@ -235,10 +235,10 @@ jobs:
     - name: Install @semantic-release/commit-analyzer
       run: npm install -g @semantic-release/commit-analyzer
     - name: installing plural
-      uses: pluralsh/setup-plural@v0.1.5
+      uses: pluralsh/setup-plural@v0.1.9
       with:
         config: ${{ secrets.PLURAL_CONF }}
-        vsn: 0.7.6
+        vsn: 0.7.8
     - run: plural apply -f ${{ matrix.pluralfile }}
     - name: 'Run Semantic Release'
       run: APP_NAME=${{ matrix.repository }} semantic-release
