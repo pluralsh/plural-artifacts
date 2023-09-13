@@ -64,6 +64,7 @@ spec:
   {{- if .availabilityZones }}
   availabilityZones: {{- toYaml .availabilityZones | nindent 2 }}
   {{- end}}
+  availabilityZoneSubnetType: {{ (.values.spec | default dict).availabilityZoneSubnetType | default .defaultVals.spec.availabilityZoneSubnetType }}
   {{- if or (.defaultVals.spec.subnetIDs) ((.values.spec | default dict).subnetIDs) }}
   subnetIDs:
   {{- toYaml ((.values.spec | default dict).subnetIDs | default .defaultVals.spec.subnetIDs) | nindent 2 }}

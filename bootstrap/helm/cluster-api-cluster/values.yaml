@@ -332,6 +332,7 @@ workers:
           maxSize: 5
           minSize: 1
         availabilityZones: []
+        availabilityZoneSubnetType: private
         subnetIDs: []
         labels: {}
         taints: {}
