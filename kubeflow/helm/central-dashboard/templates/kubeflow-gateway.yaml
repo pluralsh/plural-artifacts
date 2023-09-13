@@ -6,7 +6,7 @@ metadata:
   namespace: kubeflow
 spec:
   selector:
-    istio: ingressgateway
+    istio: ingress
   servers:
   - hosts:
     - {{ .Values.global.domain }}

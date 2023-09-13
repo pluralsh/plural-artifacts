@@ -1,4 +1,4 @@
-{{ $istioNamespace := namespace "istio" }}
+{{ $istioNamespace := namespace "istio-ingress" }}
 {{ $hostname := .Values.hostname }}
 global:
   application:
