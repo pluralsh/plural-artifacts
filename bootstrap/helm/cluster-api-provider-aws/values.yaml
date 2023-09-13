@@ -25,6 +25,6 @@ job:
     helm.sh/hook-weight: "-5"
     helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
   image:
-    repository: bitnami/kubectl
+    repository: gcr.io/pluralsh/bitnami/kubectl
     tag: 1.25.8
     pullPolicy: IfNotPresent
