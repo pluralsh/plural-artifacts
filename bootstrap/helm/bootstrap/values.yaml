@@ -4,6 +4,7 @@ acme:
   # secret: ""
 
 external-dns:
+  enabled: true
   serviceAccount:
     name: external-dns
     create: true
