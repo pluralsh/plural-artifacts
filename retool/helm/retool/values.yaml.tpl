@@ -5,6 +5,9 @@ global:
       url: {{ .Values.hostname }}
 
 retool:
+  workflows:
+    temporal:
+      host: temporal-frontend.{{ namespace "temporal" }}
   config:
     licenseKey: {{ .Values.licenseKey }}
     encryptionKey: {{ dedupe . "retool.retool.config.encryptionKey" (randAlphaNum 26) }}
