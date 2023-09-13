@@ -25,8 +25,3 @@ helm-dependencies-%: # syncs helm dependencies for a chart
 
 upload-%: # uploads artifacts
 	plural apply -f $*/Pluralfile
-
-download-temporal-chart: # downloads temporal's helm chart since it isn't published by them
-	cd temporal/helm/temporal/charts && curl -L https://github.com/temporalio/helm-charts/archive/refs/tags/v1.21.5.tar.gz | tar -xz
-	mv temporal/helm/temporal/charts/helm-charts-1.21.5 temporal/helm/temporal/charts/temporal
-	rm -rf temporal/helm/temporal/charts/temporal/.github
