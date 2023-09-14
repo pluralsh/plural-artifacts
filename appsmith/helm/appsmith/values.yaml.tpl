@@ -1,6 +1,12 @@
 {{ $encryptionPassword := dedupe . "appsmith.appsmith.applicationConfig.APPSMITH_ENCRYPTION_PASSWORD" (randAlphaNum 20) }}
 {{ $encryptionSalt := dedupe . "appsmith.appsmith.applicationConfig.APPSMITH_ENCRYPTION_SALT" (randAlphaNum 20) }}
 
+global:
+  application:
+    links:
+    - description: appsmith web ui
+      url: {{ .Values.hostname }}
+
 mongoNamespace: {{ namespace "mongodb" }}
 
 appsmith:
