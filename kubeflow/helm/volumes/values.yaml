@@ -59,8 +59,8 @@ webApp:
     prefix: /volumes
     gateways:
       - kubeflow-gateway
-    hosts:
-      - '*'
+    # hosts to add additional to the value of global.domain
+    hosts: []
 
   resources:
     requests:

@@ -72,8 +72,8 @@ virtualService:
   prefix: /pipeline
   gateways:
     - kubeflow-gateway
-  hosts:
-    - '*'
+  # hosts to add additional to the value of global.domain
+  hosts: []
 
 apiServer:
   image:
@@ -188,8 +188,8 @@ metadata:
       prefix: /ml_metadata
       gateways:
         - kubeflow-gateway
-      hosts:
-        - '*'
+      # hosts to add additional to the value of global.domain
+      hosts: []
   writer:
     image:
       repository: gcr.io/ml-pipeline/metadata-writer

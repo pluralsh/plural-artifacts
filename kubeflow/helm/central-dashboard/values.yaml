@@ -81,6 +81,8 @@ virtualService:
   annotations: {}
   gateways:
     - kubeflow-gateway
+  # hosts to add additional to the value of global.domain
+  hosts: []
 
 resources:
   requests:

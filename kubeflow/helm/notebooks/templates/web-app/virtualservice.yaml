@@ -13,6 +13,7 @@ spec:
     - {{ . | quote }}
     {{- end }}
   hosts:
+    - {{ .Values.global.domain }}
     {{- range .Values.webApp.virtualService.hosts }}
     - {{ . | quote }}
     {{- end }}

@@ -57,8 +57,9 @@ webApp:
     prefix: /katib
     gateways:
       - kubeflow-gateway
-    hosts:
-      - '*'
+    # hosts to add additional to the value of global.domain
+    hosts: []
+
   resources:
     requests:
       cpu: 32m

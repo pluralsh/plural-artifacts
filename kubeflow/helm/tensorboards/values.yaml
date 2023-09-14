@@ -58,8 +58,8 @@ webApp:
     prefix: /tensorboards
     gateways:
       - kubeflow-gateway
-    hosts:
-      - '*'
+    # hosts to add additional to the value of global.domain
+    hosts: []
 
   resources:
     requests:
