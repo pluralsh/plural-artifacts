@@ -6,6 +6,8 @@ tests:
     set:
       provider: gcp
       type: managed
+      workers.defaults.gcp.labels:
+        test: test
     asserts:
       - hasDocuments:
           count: 6
@@ -51,6 +53,14 @@ tests:
         equal:
           path: spec.machineType
           value: e2-standard-2
+      - isSubset:
+          path: metadata.labels
+          content:
+            test: test
+      - isSubset:
+          path: metadata.annotations
+          content:
+            cluster.x-k8s.io/replicas-managed-by: external-autoscaler
   - it: should have custom kubernetes version set
     set:
       provider: gcp
@@ -67,4 +77,3 @@ tests:
     asserts:
       - hasDocuments:
           count: 0
-

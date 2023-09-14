@@ -30,6 +30,8 @@ tests:
       type: managed
       cluster.aws.region: abc
       cluster.kubernetesVersion: v1.2.3
+      workers.defaults.aws.labels:
+        test: test
       workers.defaults.aws.spec.availabilityZones:
       - us-east-1a
       - us-east-1b
@@ -39,10 +41,77 @@ tests:
           path: spec.amiType
           value: AL2_x86_64
         documentIndex: 0
+      - isSubset:
+          path: metadata.labels
+          content:
+            test: test
+      - isSubset:
+          path: metadata.annotations
+          content:
+            cluster.x-k8s.io/replicas-managed-by: external-autoscaler
       - equal:
           path: spec.diskSize
           value: 50
         documentIndex: 2
+    template: aws/machinepools.yaml
+  - it: test override
+    set:
+      cluster.name: test
+      provider: aws
+      type: managed
+      cluster.aws.region: abc
+      cluster.kubernetesVersion: v1.2.3
+      workers.defaults.aws.spec.availabilityZones:
+      - us-east-1a
+      - us-east-1b
+      - us-east-1c
+      workers.aws.small-burst-spot:
+        labels:
+          test: test
+        annotations:
+          test: test
+        spec:
+          amiType: AL2_x86_64_GPU
+          diskSize: 100
+    asserts:
+      - equal:
+          path: spec.eksNodegroupName
+          value: small-burst-spot
+        documentIndex: 22
+      - equal:
+          path: metadata.name
+          value: small-burst-spot
+        documentIndex: 23
+      - isSubset:
+          path: metadata.labels
+          content:
+            test: test
+        documentIndex: 22
+      - isSubset:
+          path: metadata.annotations
+          content:
+            cluster.x-k8s.io/replicas-managed-by: external-autoscaler
+            test: test
+        documentIndex: 22
+      - isSubset:
+          path: metadata.labels
+          content:
+            test: test
+        documentIndex: 23
+      - isSubset:
+          path: metadata.annotations
+          content:
+            cluster.x-k8s.io/replicas-managed-by: external-autoscaler
+            test: test
+        documentIndex: 23
+      - equal:
+          path: spec.diskSize
+          value: 100
+        documentIndex: 22
+      - equal:
+          path: spec.amiType
+          value: AL2_x86_64_GPU
+        documentIndex: 22
     template: aws/machinepools.yaml
   - it: test large-burst-spot
     set:

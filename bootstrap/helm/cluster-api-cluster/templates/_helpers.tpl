@@ -208,6 +208,17 @@ metadata:
   name: {{ .name }}
   annotations:
     helm.sh/resource-policy: keep
+    {{- if (hasKey .values "annotations") -}}
+    {{- toYaml (merge .values.annotations .defaultVals.annotations)| nindent 4 }}
+    {{- else -}}
+    {{- toYaml .defaultVals.annotations | nindent 4 }}
+    {{- end }}
+  labels:
+    {{- if (hasKey .values "labels") -}}
+    {{- toYaml (merge .values.labels .defaultVals.labels)| nindent 4 }}
+    {{- else -}}
+    {{- toYaml .defaultVals.labels | nindent 4 }}
+    {{- end }}
 spec:
   clusterName: {{ .ctx.Values.cluster.name }}
   replicas: {{ $replicas }}
