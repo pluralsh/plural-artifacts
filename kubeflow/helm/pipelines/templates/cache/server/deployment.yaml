@@ -43,9 +43,20 @@ spec:
             - --db_user=$(DBCONFIG_USER)
             - --db_password=$(DBCONFIG_PASSWORD)
             - --namespace_to_watch=$(NAMESPACE_TO_WATCH)
+            - --listen_ports=$(WEBHOOK_PORT)
           env:
             - name: NAMESPACE_TO_WATCH
               value: ""
+            - name: DEFAULT_CACHE_STALENESS
+              valueFrom:
+                configMapKeyRef:
+                  key: DEFAULT_CACHE_STALENESS
+                  name: pipeline-install-config
+            - name: MAXIMUM_CACHE_STALENESS
+              valueFrom:
+                configMapKeyRef:
+                  key: MAXIMUM_CACHE_STALENESS
+                  name: pipeline-install-config
             - name: CACHE_IMAGE
               valueFrom:
                 configMapKeyRef:
@@ -83,6 +94,8 @@ spec:
                 secretKeyRef:
                   key: PASSWORD
                   name: pipelines-db-user
+            - name: WEBHOOK_PORT
+              value: "8443"
           ports:
             - name: webhook-api
               containerPort: 8443
