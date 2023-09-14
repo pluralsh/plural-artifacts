@@ -91,7 +91,7 @@ spec:
       {{- include "gateway.selectorLabels" .Subcharts.gateway | nindent 6 }}
   jwtRules:
   - forwardOriginalToken: true
-    outputPayloadToHeader: Authorization # TODO: needed so the requestauth resource in user namespace works
+    outputPayloadToHeader: Authorization # TODO: needed so the requestauth resource in user namespace works. Overwrites what `forward_bearer_token` sets in the envoy filter. Should the auth token or JWT be passed in the authorization header?
     fromHeaders: # TODO: possibly add this to profile controller setup
     - name: cookie
       prefix: IdToken=

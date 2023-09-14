@@ -15,6 +15,9 @@ fullnameOverride: ""
 
 provider: ""
 
+# TODO: investigate XSRF filter in envoy
+# TODO: check if we should be passing the access token through in the Authorization header or just the JWT
+
 oidc:
   clientID: ""
   clientSecret: ""
@@ -22,6 +25,8 @@ oidc:
   scopes:
   - openid
   - profile
+  - offline
+  - offline_access
 
 gateway:
   name: kubeflow-gateway
