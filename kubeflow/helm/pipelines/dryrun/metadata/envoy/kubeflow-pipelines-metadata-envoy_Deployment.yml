@@ -1,0 +1,55 @@
+# Source: pipelines/templates/metadata/envoy/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeflow-pipelines-metadata-envoy
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pipelines-metadata-envoy
+      app.kubernetes.io/name: pipelines-metadata-envoy
+      app.kubernetes.io/instance: kubeflow
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "false"
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+      labels:
+        app: pipelines-metadata-envoy
+        app.kubernetes.io/name: pipelines-metadata-envoy
+        app.kubernetes.io/instance: kubeflow
+    spec:
+      serviceAccountName: kubeflow-pipelines-metadata-envoy
+      securityContext: {}
+      containers:
+        - name: pipelines-metadata-envoy
+          securityContext: {}
+          image: "gcr.io/ml-pipeline/metadata-envoy:1.8.1"
+          imagePullPolicy: IfNotPresent
+          args:
+            - /config/envoy.yaml
+          ports:
+            - name: md-envoy
+              containerPort: 9090
+              protocol: TCP
+            - name: envoy-admin
+              containerPort: 9901
+              protocol: TCP
+          resources: {}
+          volumeMounts:
+            - mountPath: /config
+              name: config-volume
+      volumes:
+        - configMap:
+            name: kubeflow-pipelines-metadata-envoy-config
+          name: config-volume

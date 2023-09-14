@@ -1,0 +1,34 @@
+# Source: pipelines/templates/api-server/authorizationpolicy.yaml
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+  name: kubeflow-pipelines-api-server
+  namespace: kubeflow
+spec:
+  rules:
+    - from:
+        - source:
+            principals:
+              - cluster.local/ns/kubeflow/sa/kubeflow-pipelines-api-server
+              - cluster.local/ns/kubeflow/sa/kubeflow-pipelines-web-app
+              - cluster.local/ns/kubeflow/sa/kubeflow-pipelines-persistence-agent
+              - cluster.local/ns/kubeflow/sa/kubeflow-pipelines-scheduled-workflow
+              - cluster.local/ns/kubeflow/sa/kubeflow-pipelines-viewer-controller
+              - cluster.local/ns/kubeflow/sa/kubeflow-pipelines-cache-server
+    - when:
+        - key: request.headers[kubeflow-userid]
+          notValues:
+            - '*'
+  selector:
+    matchLabels:
+      app: pipelines-api
+      app.kubernetes.io/name: pipelines-api
+      app.kubernetes.io/instance: kubeflow

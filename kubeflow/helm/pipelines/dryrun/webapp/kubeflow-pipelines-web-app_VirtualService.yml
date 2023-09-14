@@ -1,0 +1,35 @@
+# Source: pipelines/templates/web-app/virtualservice.yaml
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: kubeflow-pipelines-web-app
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  gateways:
+    - "kubeflow-gateway"
+  hosts:
+    - "*"
+  http:
+    - headers:
+        request:
+          add:
+            x-forwarded-prefix: /pipeline
+      match:
+        - uri:
+            prefix: /pipeline
+      rewrite:
+        uri: /pipeline
+      route:
+        - destination:
+            host: kubeflow-pipelines-web-app.kubeflow.svc.cluster.local
+            port:
+              number: 80
+      timeout: 300s

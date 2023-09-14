@@ -1,0 +1,25 @@
+# Source: pipelines/templates/metadata/grpc-server/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubeflow-pipelines-metadata-grpc-server
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: api
+      protocol: TCP
+      name: grpc-api
+  selector:
+    app: pipelines-metadata-grpc-server
+    app.kubernetes.io/name: pipelines-metadata-grpc-server
+    app.kubernetes.io/instance: kubeflow

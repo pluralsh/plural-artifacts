@@ -1,0 +1,23 @@
+# Source: pipelines/templates/persistence-agent/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kubeflow-pipelines-persistence-agent-parameters
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+data:
+  NAMESPACE: ""
+  TTL_SECONDS_AFTER_WORKFLOW_FINISH: "86400"
+  NUM_WORKERS: "2"
+  API_SERVER_HOST_SERVICE: kubeflow-pipelines-api-server
+  API_SERVER_HTTP_PORT: "8888"
+  API_SERVER_GRPC_PORT: "8887"
+  API_SERVER_BASE_PATH: "/apis/v1beta1"
+  MAX_CLIENT_QPS: "5"
+  MAX_CLIENT_BURST: "10"

@@ -1,0 +1,25 @@
+# Source: pipelines/templates/argo-workflow-controller/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubeflow-pipelines-argo-workflow-controller
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9090
+      targetPort: metrics
+      protocol: TCP
+      name: http-metrics
+  selector:
+    app: pipelines-argo
+    app.kubernetes.io/name: pipelines-argo
+    app.kubernetes.io/instance: kubeflow

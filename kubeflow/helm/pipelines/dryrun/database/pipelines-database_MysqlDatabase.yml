@@ -1,0 +1,19 @@
+# Source: pipelines/templates/database/databases.yaml
+apiVersion: mysql.presslabs.org/v1alpha1
+kind: MysqlDatabase
+metadata:
+  name: pipelines-database
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  database: mlpipeline
+  clusterRef:
+    name: kubeflow-mysql-cluster
+    namespace: kubeflow

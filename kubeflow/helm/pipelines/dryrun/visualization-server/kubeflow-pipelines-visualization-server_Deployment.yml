@@ -1,0 +1,67 @@
+# Source: pipelines/templates/visualization-server/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeflow-pipelines-visualization-server
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pipelines-visualization-server
+      app.kubernetes.io/name: pipelines-visualization-server
+      app.kubernetes.io/instance: kubeflow
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: pipelines-visualization-server
+        app.kubernetes.io/name: pipelines-visualization-server
+        app.kubernetes.io/instance: kubeflow
+    spec:
+      serviceAccountName: kubeflow-pipelines-visualization-server
+      securityContext: {}
+      containers:
+        - name: pipelines-visualization-server
+          securityContext: {}
+          image: "gcr.io/ml-pipeline/visualization-server:1.8.1"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: website
+              containerPort: 8888
+              protocol: TCP
+          livenessProbe:
+            exec:
+              command:
+                - wget
+                - -q
+                - -S
+                - -O
+                - '-'
+                - http://localhost:8888/
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            timeoutSeconds: 2
+          readinessProbe:
+            exec:
+              command:
+                - wget
+                - -q
+                - -S
+                - -O
+                - '-'
+                - http://localhost:8888/
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            timeoutSeconds: 2
+          resources: {}

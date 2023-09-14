@@ -1,0 +1,148 @@
+# Source: pipelines/templates/api-server/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeflow-pipelines-api-server
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pipelines-api
+      app.kubernetes.io/name: pipelines-api
+      app.kubernetes.io/instance: kubeflow
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: pipelines-api
+        app.kubernetes.io/name: pipelines-api
+        app.kubernetes.io/instance: kubeflow
+    spec:
+      serviceAccountName: kubeflow-pipelines-api-server
+      securityContext: {}
+      containers:
+        - name: pipelines-api-server
+          securityContext: {}
+          image: "gcr.io/ml-pipeline/api-server:1.8.1"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: AUTO_UPDATE_PIPELINE_DEFAULT_VERSION
+              valueFrom:
+                configMapKeyRef:
+                  key: autoUpdatePipelineDefaultVersion
+                  name: pipeline-install-config
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: OBJECTSTORECONFIG_HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: bucketHost
+                  name: pipeline-install-config
+            - name: OBJECTSTORECONFIG_BUCKETNAME
+              valueFrom:
+                configMapKeyRef:
+                  key: bucketName
+                  name: pipeline-install-config
+            - name: OBJECTSTORECONFIG_REGION
+              valueFrom:
+                configMapKeyRef:
+                  key: bucketRegion
+                  name: pipeline-install-config
+            - name: OBJECTSTORECONFIG_ACCESSKEY
+              valueFrom:
+                secretKeyRef:
+                  key: username
+                  name: pipelines-s3-secret
+            - name: OBJECTSTORECONFIG_SECRETACCESSKEY
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: pipelines-s3-secret
+            - name: DBCONFIG_USER
+              valueFrom:
+                secretKeyRef:
+                  key: USERNAME
+                  name: pipelines-db-user
+            - name: DBCONFIG_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: PASSWORD
+                  name: pipelines-db-user
+            - name: DBCONFIG_DBNAME
+              valueFrom:
+                configMapKeyRef:
+                  key: pipelineDb
+                  name: pipeline-install-config
+            - name: DBCONFIG_HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: dbHost
+                  name: pipeline-install-config
+            - name: DBCONFIG_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: dbPort
+                  name: pipeline-install-config
+            - name: DBCONFIG_CONMAXLIFETIME
+              valueFrom:
+                configMapKeyRef:
+                  key: dbConMaxLifeTime
+                  name: pipeline-install-config
+            - name: DBCONFIG_DRIVERNAME
+              valueFrom:
+                configMapKeyRef:
+                  key: dbDriverName
+                  name: pipeline-install-config
+            - name: DBCONFIG_GROUPCONCATMAXLEN
+              valueFrom:
+                configMapKeyRef:
+                  key: dbGroupConcatMaxLen
+                  name: pipeline-install-config
+          envFrom:
+            - configMapRef:
+                name: kubeflow-pipelines-api-server-parameters
+          ports:
+            - name: http-api-server
+              containerPort: 8888
+              protocol: TCP
+            - name: grpc-api-server
+              containerPort: 8887
+              protocol: TCP
+          livenessProbe:
+            exec:
+              command:
+                - wget
+                - -q
+                - -S
+                - -O
+                - '-'
+                - http://localhost:8888/apis/v1beta1/healthz
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            timeoutSeconds: 2
+          readinessProbe:
+            exec:
+              command:
+                - wget
+                - -q
+                - -S
+                - -O
+                - '-'
+                - http://localhost:8888/apis/v1beta1/healthz
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            timeoutSeconds: 2
+          resources: {}

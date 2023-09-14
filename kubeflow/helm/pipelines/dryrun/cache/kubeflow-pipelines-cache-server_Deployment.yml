@@ -1,0 +1,99 @@
+# Source: pipelines/templates/cache/server/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeflow-pipelines-cache-server
+  namespace: kubeflow
+  labels:
+    helm.sh/chart: pipelines-0.1.89
+    app: pipelines
+    app.kubernetes.io/name: pipelines
+    app.kubernetes.io/instance: kubeflow
+    app.kubernetes.io/version: "1.8.1"
+    version: "1.8.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pipelines-cache-server
+      app.kubernetes.io/name: pipelines-cache-server
+      app.kubernetes.io/instance: kubeflow
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: pipelines-cache-server
+        app.kubernetes.io/name: pipelines-cache-server
+        app.kubernetes.io/instance: kubeflow
+    spec:
+      serviceAccountName: kubeflow-pipelines-cache-server
+      securityContext: {}
+      containers:
+        - name: pipelines-cache-server
+          securityContext: {}
+          image: "gcr.io/ml-pipeline/cache-server:1.8.1"
+          imagePullPolicy: IfNotPresent
+          args:
+            - --db_driver=$(DBCONFIG_DRIVER)
+            - --db_host=$(DBCONFIG_HOST_NAME)
+            - --db_port=$(DBCONFIG_PORT)
+            - --db_name=$(DBCONFIG_DB_NAME)
+            - --db_user=$(DBCONFIG_USER)
+            - --db_password=$(DBCONFIG_PASSWORD)
+            - --namespace_to_watch=$(NAMESPACE_TO_WATCH)
+          env:
+            - name: NAMESPACE_TO_WATCH
+              value: ""
+            - name: CACHE_IMAGE
+              valueFrom:
+                configMapKeyRef:
+                  key: cacheImage
+                  name: pipeline-install-config
+            - name: CACHE_NODE_RESTRICTIONS
+              valueFrom:
+                configMapKeyRef:
+                  key: cacheNodeRestrictions
+                  name: pipeline-install-config
+            - name: DBCONFIG_DRIVER
+              value: mysql
+            - name: DBCONFIG_DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  key: cacheDb
+                  name: pipeline-install-config
+            - name: DBCONFIG_HOST_NAME
+              valueFrom:
+                configMapKeyRef:
+                  key: dbHost
+                  name: pipeline-install-config
+            - name: DBCONFIG_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: dbPort
+                  name: pipeline-install-config
+            - name: DBCONFIG_USER
+              valueFrom:
+                secretKeyRef:
+                  key: USERNAME
+                  name: pipelines-db-user
+            - name: DBCONFIG_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: PASSWORD
+                  name: pipelines-db-user
+          ports:
+            - name: webhook-api
+              containerPort: 8443
+              protocol: TCP
+          resources: {}
+          volumeMounts:
+            - mountPath: /etc/webhook/certs
+              name: webhook-tls-certs
+              readOnly: true
+      volumes:
+        - secret:
+            secretName: webhook-server-tls
+          name: webhook-tls-certs
