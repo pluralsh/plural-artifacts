@@ -2,22 +2,17 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-oidcProxy:
-  enabled: false
-  upstream: static://200
-  issuer: https://oidc.plural.sh/
-  clientID: ""
-  clientSecret: ""
-  cookieSecret: ""
-
 global:
-  domain: kubeflow.kubeflow-aws.com
-  istioNamespace: istio
+  domain: ""
+  istioIngressServiceAccount: kubeflow-gateway
   clusterDomain: cluster.local
   userIDHeader: kubeflow-userid
   userIDPrefix: ""
-  oidcIssuer: https://oidc.plural.sh/
-  jwksURI: https://oidc.plural.sh/.well-known/jwks.json
+  oidc:
+    issuer: ""
+    jwksURI: ""
+    authEndpoint: ""
+    tokenEndpoint: ""
 
 kubeflowComponents:
   notebooks:

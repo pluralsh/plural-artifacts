@@ -10,7 +10,7 @@ spec:
     - from:
         - source:
             principals:
-              - cluster.local/ns/{{ .Values.global.istioNamespace }}/sa/istio-ingress
+              - cluster.local/ns/{{ .Release.Namespace }}/sa/{{ .Values.global.istioIngressServiceAccount }}
   selector:
     matchLabels:
       {{- include "central-dashboard.selectorLabels" . | nindent 6 }}

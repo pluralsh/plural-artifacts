@@ -1,0 +1,116 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: {{ include "gateway-plural.fullname" . }}-oauth2
+  labels:
+  {{- include "gateway-plural.labels" . | nindent 4 }}
+spec:
+  workloadSelector:
+    labels:
+      {{- include "gateway.selectorLabels" .Subcharts.gateway | nindent 6 }}
+  configPatches:
+  - applyTo: CLUSTER
+    match:
+      cluster:
+        service: oauth
+    patch:
+      operation: ADD
+      value:
+        connect_timeout: 10s
+        lb_policy: ROUND_ROBIN
+        load_assignment:
+          cluster_name: oauth
+          endpoints:
+          - lb_endpoints:
+            - endpoint:
+                address:
+                  socket_address:
+                    address: {{ trimPrefix "https://" .Values.global.oidc.issuer | trimSuffix "/" }}
+                    port_value: 443
+        name: oauth
+        transport_socket:
+          name: envoy.transport_sockets.tls
+          typed_config:
+            '@type': type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.UpstreamTlsContext
+            sni: {{ trimPrefix "https://" .Values.global.oidc.issuer | trimSuffix "/" }}
+        type: LOGICAL_DNS
+  - applyTo: HTTP_FILTER
+    match:
+      context: GATEWAY
+      listener:
+        filterChain:
+          filter:
+            name: envoy.filters.network.http_connection_manager
+            subFilter:
+              name: envoy.filters.http.jwt_authn
+        portNumber: 443
+    patch:
+      operation: INSERT_BEFORE
+      value:
+        name: envoy.kubeflow.oauth
+        typed_config:
+          '@type': type.googleapis.com/envoy.extensions.filters.http.oauth2.v3.OAuth2
+          config:
+            {{- with .Values.oidc.scopes }}
+            auth_scopes:
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+            authorization_endpoint: {{ .Values.global.oidc.authEndpoint }}
+            credentials:
+              client_id: {{ .Values.oidc.clientID }}
+              hmac_secret:
+                name: hmac
+                sds_config:
+                  path: /etc/istio/config/hmac-secret.yaml
+              token_secret:
+                name: token
+                sds_config:
+                  path: /etc/istio/config/token-secret.yaml
+            forward_bearer_token: true
+            redirect_path_matcher:
+              path:
+                exact: /oauth2/callback
+            redirect_uri: https://%REQ(:authority)%/oauth2/callback
+            signout_path:
+              path:
+                exact: /logout
+            token_endpoint:
+              cluster: oauth
+              timeout: 5s
+              uri: {{ .Values.global.oidc.tokenEndpoint }}
+---
+apiVersion: security.istio.io/v1
+kind: RequestAuthentication
+metadata:
+  name: {{ include "gateway-plural.fullname" . }}-oauth2
+  labels:
+  {{- include "gateway-plural.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "gateway.selectorLabels" .Subcharts.gateway | nindent 6 }}
+  jwtRules:
+  - forwardOriginalToken: true
+    fromHeaders:
+    - name: cookie
+      prefix: IdToken=
+    issuer: {{ .Values.global.oidc.issuer }}
+    jwksUri: {{ .Values.global.oidc.jwksURI }}
+    outputClaimToHeaders:
+    - header: {{ .Values.global.userIDHeader }}
+      claim: email
+---
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: {{ include "gateway-plural.fullname" . }}-oauth2
+  labels:
+  {{- include "gateway-plural.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "gateway.selectorLabels" .Subcharts.gateway | nindent 6 }}
+  rules:
+  - from:
+    - source:
+        requestPrincipals: ["*"]

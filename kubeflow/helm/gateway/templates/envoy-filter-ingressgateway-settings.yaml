@@ -1,0 +1,28 @@
+{{- if eq .Values.provider "aws" }}
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: {{ include "gateway-plural.fullname" . }}-ingressgateway-settings
+  labels:
+  {{- include "gateway-plural.labels" . | nindent 4 }}
+spec:
+  workloadSelector:
+    labels:
+      {{- include "gateway.selectorLabels" .Subcharts.gateway | nindent 6 }}
+  configPatches:
+  - applyTo: NETWORK_FILTER
+    match:
+      listener:
+        filterChain:
+          filter:
+            name: envoy.filters.network.http_connection_manager
+    patch:
+      operation: MERGE
+      value:
+        name: envoy.filters.network.http_connection_manager
+        typed_config:
+          '@type': type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+          skip_xff_append: false
+          use_remote_address: true
+          xff_num_trusted_hops: 1
+{{- end }}

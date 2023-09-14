@@ -1,0 +1,6 @@
+dependencies:
+- name: gateway
+  repository: https://pluralsh.github.io/plural-helm-charts
+  version: 1.19.1
+digest: sha256:07ce90c69d8d013e339d6d1bb45ece138c0d20abeb6079dc6b09b6aa9edeb8b9
+generated: "2023-09-14T15:38:52.229116+02:00"

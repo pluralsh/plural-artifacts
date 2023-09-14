@@ -44,6 +44,8 @@ sections:
   - type: HELM
     name: aws-iam-controller
   - type: HELM
+    name: gateway
+  - type: HELM
     name: central-dashboard
   - type: HELM
     name: katib
