@@ -2,7 +2,6 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: {{ include "katib.fullname" . }}-web-app
-  namespace: kubeflow
   labels: {{- include "katib.labels" . | nindent 4 }}
   {{- with .Values.webApp.virtualService.annotations }}
   annotations:

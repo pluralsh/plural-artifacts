@@ -3,10 +3,16 @@
 # Declare variables to be passed into your templates.
 
 global:
-  istioNamespace: istio
+  domain: ""
+  istioIngressServiceAccount: kubeflow-gateway
   clusterDomain: cluster.local
   userIDHeader: kubeflow-userid
   userIDPrefix: ""
+  oidc:
+    issuer: ""
+    jwksURI: ""
+    authEndpoint: ""
+    tokenEndpoint: ""
 
 imagePullSecrets: []
 nameOverride: ""
@@ -28,7 +34,7 @@ webApp:
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: v1.4
-  
+
   podAnnotations:
     sidecar.istio.io/inject: "true"
     cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
@@ -244,7 +250,7 @@ controller:
   service:
     metrics:
       port: 8080
-  
+
   podAnnotations:
     sidecar.istio.io/inject: "true"
     cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
@@ -263,7 +269,7 @@ controller:
     # readOnlyRootFilesystem: true
     # runAsNonRoot: true
     # runAsUser: 1000
-  
+
   resources:
     requests:
       cpu: 100m

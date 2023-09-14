@@ -4,7 +4,6 @@ metadata:
   name: {{ include "profile-controller.fullname" . }}
   labels:
     {{- include "profile-controller.labels" . | nindent 4 }}
-  namespace: kubeflow
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}

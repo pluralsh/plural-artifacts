@@ -58,7 +58,6 @@ data:
 kind: ConfigMap
 metadata:
   name: katib-config
-  namespace: kubeflow
   labels: {{- include "katib.labels" . | nindent 4 }}
 ---
 apiVersion: v1
@@ -137,4 +136,3 @@ metadata:
   labels:
     app: katib-trial-templates
   name: trial-template
-  namespace: kubeflow

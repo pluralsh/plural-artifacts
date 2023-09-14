@@ -4,7 +4,6 @@ metadata:
   name: {{ include "central-dashboard.fullname" . }}
   labels:
     {{- include "central-dashboard.labels" . | nindent 4 }}
-  namespace: kubeflow
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}

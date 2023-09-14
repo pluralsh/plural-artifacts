@@ -3,7 +3,6 @@ kind: AuthorizationPolicy
 metadata:
   labels: {{- include "central-dashboard.labels" . | nindent 4 }}
   name: {{ include "central-dashboard.fullname" . }}
-  namespace: kubeflow
 spec:
   action: ALLOW
   rules:

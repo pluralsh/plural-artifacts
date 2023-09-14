@@ -12,7 +12,7 @@ webhooks:
       caBundle: Cg==
       service:
         name: {{ include "katib.fullname" . }}-controller
-        namespace: kubeflow
+        namespace: {{ .Release.Namespace }}
         path: /validate-experiment
     failurePolicy: Ignore
     name: validator.experiment.katib.kubeflow.org

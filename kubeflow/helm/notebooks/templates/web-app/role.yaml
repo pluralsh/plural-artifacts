@@ -4,7 +4,6 @@ kind: Role
 metadata:
   labels: {{- include "notebooks.labels" . | nindent 4 }}
   name: {{ include "notebooks.fullname" . }}-web-app-notebook-role
-  namespace: kubeflow
 rules:
   - apiGroups:
       - ""

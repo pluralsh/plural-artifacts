@@ -4,7 +4,6 @@ metadata:
   name: {{ include "notebooks.fullname" . }}-controller
   labels:
     {{- include "notebooks.labels" . | nindent 4 }}
-  namespace: kubeflow
 spec:
   {{- if not .Values.controller.autoscaling.enabled }}
   replicas: {{ .Values.controller.replicaCount }}

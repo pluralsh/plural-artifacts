@@ -3,7 +3,6 @@ kind: Certificate
 metadata:
   labels: {{- include "katib.labels" . | nindent 4 }}
   name: {{ include "katib.fullname" . }}-controller-certs
-  namespace: kubeflow
 spec:
   commonName: {{ include "katib.fullname" . }}-controller.kubeflow.svc
   dnsNames:

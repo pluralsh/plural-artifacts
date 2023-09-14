@@ -2,7 +2,6 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: {{ include "profile-controller.fullname" . }}-kfam
-  namespace: kubeflow
   labels: {{- include "profile-controller.labels" . | nindent 4 }}
   {{- with .Values.virtualService.annotations }}
   annotations:

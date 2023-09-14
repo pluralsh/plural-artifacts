@@ -3,14 +3,13 @@ kind: AuthorizationPolicy
 metadata:
   labels: {{- include "profile-controller.labels" . | nindent 4 }}
   name: {{ include "profile-controller.fullname" . }}-kfam
-  namespace: kubeflow
 spec:
   action: ALLOW
   rules:
     - from:
         - source:
             principals:
-              - cluster.local/ns/kubeflow/sa/{{ .Release.Name }}-central-dashboard
+              - cluster.local/ns/{{ .Release.Namespace }}/sa/{{ .Release.Name }}-central-dashboard #TODO: make this more robust
   selector:
     matchLabels:
       {{- include "profile-controller.selectorLabels" . | nindent 6 }}

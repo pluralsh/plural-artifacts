@@ -24,7 +24,6 @@ kind: ConfigMap
 metadata:
   labels: {{- include "pipelines.labels" . | nindent 4 }}
   name: {{ include "pipelines.fullname" . }}-web-app-parameters
-  namespace: kubeflow
 ---
 apiVersion: v1
 data:
@@ -65,4 +64,3 @@ data:
 kind: ConfigMap
 metadata:
   name: {{ include "pipelines.fullname" . }}-web-app-viewer-template
-  namespace: kubeflow

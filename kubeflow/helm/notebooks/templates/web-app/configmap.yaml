@@ -163,7 +163,6 @@ kind: ConfigMap
 metadata:
   labels: {{- include "notebooks.labels" . | nindent 4 }}
   name: {{ include "notebooks.fullname" . }}-web-app-config
-  namespace: kubeflow
 ---
 apiVersion: v1
 data:
@@ -423,7 +422,6 @@ kind: ConfigMap
 metadata:
   labels: {{- include "notebooks.labels" . | nindent 4 }}
   name: {{ include "notebooks.fullname" . }}-web-app-logos
-  namespace: kubeflow
 ---
 apiVersion: v1
 data:
@@ -435,4 +433,3 @@ kind: ConfigMap
 metadata:
   labels: {{- include "notebooks.labels" . | nindent 4 }}
   name: {{ include "notebooks.fullname" . }}-web-app-parameters
-  namespace: kubeflow

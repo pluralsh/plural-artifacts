@@ -9,4 +9,3 @@ kind: ConfigMap
 metadata:
   labels: {{- include "notebooks.labels" . | nindent 4 }}
   name: {{ include "notebooks.fullname" . }}-controller-config
-  namespace: kubeflow

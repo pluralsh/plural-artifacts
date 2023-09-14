@@ -3,10 +3,16 @@
 # Declare variables to be passed into your templates.
 
 global:
-  istioNamespace: istio
+  domain: ""
+  istioIngressServiceAccount: kubeflow-gateway
   clusterDomain: cluster.local
   userIDHeader: kubeflow-userid
   userIDPrefix: ""
+  oidc:
+    issuer: ""
+    jwksURI: ""
+    authEndpoint: ""
+    tokenEndpoint: ""
 
 imagePullSecrets: []
 nameOverride: ""
@@ -29,7 +35,7 @@ webApp:
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: 0.5.2 # newer version with snapshot support causes error due to missing snapshot class
-  
+
   podAnnotations:
     sidecar.istio.io/inject: "true"
     cluster-autoscaler.kubernetes.io/safe-to-evict: "true"

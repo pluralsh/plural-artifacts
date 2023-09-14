@@ -3,7 +3,6 @@ kind: Certificate
 metadata:
   labels: {{- include "notebooks.labels" . | nindent 4 }}
   name: {{ include "notebooks.fullname" . }}-pod-defaults-certs
-  namespace: kubeflow
 spec:
   commonName: {{ include "notebooks.fullname" . }}-pod-defaults.kubeflow.svc
   dnsNames:

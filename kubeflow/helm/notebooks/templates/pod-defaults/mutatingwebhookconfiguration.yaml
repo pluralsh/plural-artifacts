@@ -10,7 +10,7 @@ webhooks:
       caBundle: ""
       service:
         name: {{ include "notebooks.fullname" . }}-pod-defaults
-        namespace: kubeflow
+        namespace: {{ .Release.Namespace }}
         path: /apply-poddefault
     name: admission-webhook-deployment.kubeflow.org
     admissionReviewVersions: ["v1beta1"]

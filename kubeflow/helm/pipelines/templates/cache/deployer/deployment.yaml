@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "pipelines.fullname" . }}-cache-deployer
-  namespace: kubeflow
   labels:
     {{- include "pipelines.labels" . | nindent 4 }}
 spec:

@@ -8,5 +8,4 @@ data:
 kind: ConfigMap
 metadata:
   name: {{ include "volumes.fullname" . }}-controller-config
-  namespace: kubeflow
   labels: {{- include "volumes.labels" . | nindent 4 }}

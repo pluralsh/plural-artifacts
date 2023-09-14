@@ -5,7 +5,6 @@ kind: ConfigMap
 metadata:
   labels: {{- include "profile-controller.labels" . | nindent 4 }}
   name: {{ include "profile-controller.fullname" . }}-config
-  namespace: kubeflow
 ---
 apiVersion: v1
 data:
@@ -17,4 +16,3 @@ kind: ConfigMap
 metadata:
   labels: {{- include "profile-controller.labels" . | nindent 4 }}
   name: {{ include "profile-controller.fullname" . }}-templates
-  namespace: kubeflow

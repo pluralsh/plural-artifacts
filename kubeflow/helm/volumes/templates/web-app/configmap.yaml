@@ -13,7 +13,6 @@ kind: ConfigMap
 metadata:
   labels: {{- include "volumes.labels" . | nindent 4 }}
   name: {{ include "volumes.fullname" . }}-web-app-config
-  namespace: kubeflow
 ---
 apiVersion: v1
 data:
@@ -24,4 +23,3 @@ kind: ConfigMap
 metadata:
   labels: {{- include "volumes.labels" . | nindent 4 }}
   name: {{ include "volumes.fullname" . }}-web-app-parameters
-  namespace: kubeflow

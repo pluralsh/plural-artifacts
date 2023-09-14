@@ -127,7 +127,6 @@ kind: ConfigMap
 metadata:
   labels: {{- include "central-dashboard.labels" . | nindent 4 }}
   name: {{ include "central-dashboard.fullname" . }}-config
-  namespace: kubeflow
 ---
 apiVersion: v1
 data:
@@ -141,4 +140,3 @@ kind: ConfigMap
 metadata:
   labels: {{- include "central-dashboard.labels" . | nindent 4 }}
   name: {{ include "central-dashboard.fullname" . }}-parameters
-  namespace: kubeflow

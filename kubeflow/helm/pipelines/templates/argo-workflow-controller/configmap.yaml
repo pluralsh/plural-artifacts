@@ -14,7 +14,6 @@ kind: ConfigMap
 metadata:
   labels: {{- include "pipelines.labels" . | nindent 4 }}
   name: {{ include "pipelines.fullname" . }}-argo-workflow-controller
-  namespace: kubeflow
 ---
 apiVersion: v1
 data:
@@ -33,4 +32,3 @@ metadata:
   annotations:
     workflows.argoproj.io/default-artifact-repository: default-v1
   name: artifact-repositories
-  namespace: kubeflow

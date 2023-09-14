@@ -5,12 +5,16 @@
 replicaCount: 1
 
 global:
-  istioNamespace: istio
+  domain: ""
+  istioIngressServiceAccount: kubeflow-gateway
   clusterDomain: cluster.local
   userIDHeader: kubeflow-userid
   userIDPrefix: ""
-  oidcIssuer: https://oidc.plural.sh/
-  jwksURI: https://oidc.plural.sh/.well-known/jwks.json
+  oidc:
+    issuer: ""
+    jwksURI: ""
+    authEndpoint: ""
+    tokenEndpoint: ""
 
 image:
   repository: ghcr.io/pluralsh/kubeflow-profile-controller

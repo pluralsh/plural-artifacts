@@ -8,5 +8,4 @@ data:
 kind: ConfigMap
 metadata:
   name: {{ include "tensorboards.fullname" . }}-controller-config
-  namespace: kubeflow
   labels: {{- include "tensorboards.labels" . | nindent 4 }}

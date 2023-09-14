@@ -3,14 +3,13 @@ kind: AuthorizationPolicy
 metadata:
   labels: {{- include "serving.labels" . | nindent 4 }}
   name: {{ include "serving.fullname" . }}-web-app
-  namespace: kubeflow
 spec:
   action: ALLOW
   rules:
     - from:
         - source:
             principals:
-              - cluster.local/ns/{{ .Values.global.istioNamespace }}/sa/istio-ingressgateway-service-account
+              - cluster.local/ns/{{ .Release.Namespace }}/sa/{{ .Values.global.istioIngressServiceAccount }}
   selector:
     matchLabels:
       {{- include "serving.selectorLabels" . | nindent 6 }}

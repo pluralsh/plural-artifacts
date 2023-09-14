@@ -12,7 +12,7 @@ webhooks:
       caBundle: Cg==
       service:
         name: {{ include "katib.fullname" . }}-controller
-        namespace: kubeflow
+        namespace: {{ .Release.Namespace }}
         path: /mutate-experiment
     failurePolicy: Ignore
     name: defaulter.experiment.katib.kubeflow.org
@@ -33,7 +33,7 @@ webhooks:
       caBundle: Cg==
       service:
         name: {{ include "katib.fullname" . }}-controller-controller
-        namespace: kubeflow
+        namespace: {{ .Release.Namespace }}
         path: /mutate-pod
     failurePolicy: Ignore
     name: mutator.pod.katib.kubeflow.org

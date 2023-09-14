@@ -3,10 +3,16 @@
 # Declare variables to be passed into your templates.
 
 global:
-  istioNamespace: istio
+  domain: ""
+  istioIngressServiceAccount: kubeflow-gateway
   clusterDomain: cluster.local
   userIDHeader: kubeflow-userid
   userIDPrefix: ""
+  oidc:
+    issuer: ""
+    jwksURI: ""
+    authEndpoint: ""
+    tokenEndpoint: ""
 
 imagePullSecrets: []
 nameOverride: ""
