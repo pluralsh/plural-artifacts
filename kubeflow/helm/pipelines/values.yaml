@@ -155,7 +155,7 @@ cache:
       repository: gcr.io/ml-pipeline/cache-server
       pullPolicy: IfNotPresent
       # Overrides the image tag whose default is the chart appVersion.
-      tag: 1.8.1
+      tag: 2.0.1
     service:
       port: 443
   deployer:
@@ -163,7 +163,7 @@ cache:
       repository: gcr.io/ml-pipeline/cache-deployer
       pullPolicy: IfNotPresent
       # Overrides the image tag whose default is the chart appVersion.
-      tag: 1.8.1
+      tag: 2.0.1
 
 metadata:
   envoy:
