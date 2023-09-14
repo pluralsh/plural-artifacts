@@ -1,0 +1,9 @@
+dependencies:
+- name: postgres
+  repository: https://pluralsh.github.io/module-library
+  version: 0.2.1
+- name: temporal
+  repository: https://pluralsh.github.io/plural-helm-charts
+  version: 0.27.2
+digest: sha256:24f3caa6c334437e3f5bda423a4d0057feddefec01eaea1f4cd412812893599f
+generated: "2023-09-11T18:22:25.139019-04:00"

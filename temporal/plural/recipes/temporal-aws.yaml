@@ -1,0 +1,29 @@
+name: temporal-aws
+description: Installs temporal on an aws eks cluster
+provider: AWS
+primary: true
+oidcSettings:
+  uriFormat: https://{domain}/auth/sso/callback
+  authMethod: POST
+  domainKey: hostname
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+- repo: postgres
+  name: aws-postgres
+sections:
+- name: temporal
+  configuration:
+  - name: hostname
+    documentation: the fqdn for the temporal admin console
+    type: DOMAIN
+  - name: grpcHostname
+    documentation: fqdn for temporals grpc service (this will be used for temporal clients)
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: temporal
