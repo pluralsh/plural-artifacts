@@ -110,6 +110,8 @@ rules:
       - retry
       - terminate
       - unarchive
+      - reportMetrics
+      - readArtifact
   - apiGroups:
       - pipelines.kubeflow.org
     resources:
