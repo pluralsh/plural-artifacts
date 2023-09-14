@@ -119,7 +119,11 @@ argoWorkflowController:
     repository: gcr.io/ml-pipeline/workflow-controller
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: v3.2.3-license-compliance
+    tag: v3.3.10-license-compliance
+  executorImage:
+    repository: gcr.io/ml-pipeline/argoexec
+    pullPolicy: IfNotPresent
+    tag: v3.3.10-license-compliance
   resources:
     requests:
       cpu: 100m

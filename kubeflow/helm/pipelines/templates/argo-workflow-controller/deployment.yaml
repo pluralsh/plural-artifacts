@@ -39,7 +39,7 @@ spec:
             - --configmap
             - {{ include "pipelines.fullname" . }}-argo-workflow-controller
             - --executor-image
-            - gcr.io/ml-pipeline/argoexec:v3.2.3-license-compliance
+            - "{{ .Values.argoWorkflowController.executorImage.repository }}:{{ .Values.argoWorkflowController.executorImage.tag }}"
           command:
             - workflow-controller
           env:
