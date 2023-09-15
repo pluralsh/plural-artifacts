@@ -1,8 +1,8 @@
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
-  labels: {{- include "tensorboards.labels" . | nindent 4 }}
   name: {{ include "tensorboards.fullname" . }}-web-app
+  labels: {{- include "tensorboards.labels" . | nindent 4 }}
 spec:
   action: ALLOW
   rules:

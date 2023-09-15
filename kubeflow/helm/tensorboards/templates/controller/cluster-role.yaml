@@ -65,27 +65,14 @@ rules:
   - apiGroups:
       - tensorboard.kubeflow.org
     resources:
+      - tensorboards/finalizers
+    verbs:
+      - update
+  - apiGroups:
+      - tensorboard.kubeflow.org
+    resources:
       - tensorboards/status
     verbs:
       - get
       - patch
       - update
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  labels: {{- include "tensorboards.labels" . | nindent 4 }}
-  name: {{ include "tensorboards.fullname" . }}-controller-proxy-cluster-role
-rules:
-  - apiGroups:
-      - authentication.k8s.io
-    resources:
-      - tokenreviews
-    verbs:
-      - create
-  - apiGroups:
-      - authorization.k8s.io
-    resources:
-      - subjectaccessreviews
-    verbs:
-      - create
