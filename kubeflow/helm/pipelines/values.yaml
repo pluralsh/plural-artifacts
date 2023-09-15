@@ -32,7 +32,7 @@ image:
   repository: gcr.io/ml-pipeline/frontend
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: 1.8.1
+  tag: 2.0.1
 
 imagePullSecrets: []
 nameOverride: ""
@@ -110,7 +110,7 @@ visualizationServer:
     repository: gcr.io/ml-pipeline/visualization-server
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: 1.8.1
+    tag: 2.0.1
   service:
     port: 8888
 
