@@ -35,7 +35,7 @@ spec:
           image: "{{ .Values.persistenceAgent.image.repository }}:{{ .Values.persistenceAgent.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.persistenceAgent.image.pullPolicy }}
           args:
-            - --logtostderr=true
+            - --logtostderr=true # TODO: why are we specifying this while the upstream manifest doesn't?
             - --namespace=$(NAMESPACE)
             - --ttlSecondsAfterWorkflowFinish=$(TTL_SECONDS_AFTER_WORKFLOW_FINISH)
             - --numWorker=$(NUM_WORKERS)
@@ -47,11 +47,25 @@ spec:
             - --clientBurst=$(MAX_CLIENT_BURST)
           command:
             - persistence_agent
+          env:
+            - name: NAMESPACE # TODO: should this be specified? Or should it only be specified in single user mode?
+              value: ""
           envFrom:
             - configMapRef:
                 name: {{ include "pipelines.fullname" . }}-persistence-agent-parameters
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: /var/run/secrets/kubeflow/tokens
+              name: persistenceagent-sa-token
+      volumes:
+        - name: persistenceagent-sa-token
+          projected:
+            sources:
+              - serviceAccountToken:
+                  audience: pipelines.kubeflow.org
+                  expirationSeconds: 3600
+                  path: persistenceagent-sa-token
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

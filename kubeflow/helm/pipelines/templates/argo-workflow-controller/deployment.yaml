@@ -38,7 +38,7 @@ spec:
             - --configmap
             - {{ include "pipelines.fullname" . }}-argo-workflow-controller
             - --executor-image
-            - gcr.io/ml-pipeline/argoexec:v3.2.3-license-compliance
+            - "{{ .Values.argoWorkflowController.executorImage.repository }}:{{ .Values.argoWorkflowController.executorImage.tag }}"
           command:
             - workflow-controller
           env:
@@ -64,6 +64,7 @@ spec:
             timeoutSeconds: 30
           resources:
             {{- toYaml .Values.argoWorkflowController.resources | nindent 12 }}
+      priorityClassName: {{ include "pipelines.fullname" . }}-argo-workflow-controller
       {{- with .Values.nodeSelector }}
       nodeSelector:
         kubernetes.io/os: linux

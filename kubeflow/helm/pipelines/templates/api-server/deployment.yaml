@@ -143,6 +143,18 @@ spec:
             initialDelaySeconds: 3
             periodSeconds: 5
             timeoutSeconds: 2
+          startupProbe:
+            exec:
+              command:
+                - wget
+                - -q
+                - -S
+                - -O
+                - '-'
+                - http://localhost:8888/apis/v1beta1/healthz
+            failureThreshold: 12
+            periodSeconds: 5
+            timeoutSeconds: 2
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
