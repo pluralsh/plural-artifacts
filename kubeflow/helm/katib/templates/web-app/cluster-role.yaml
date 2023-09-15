@@ -5,12 +5,18 @@ metadata:
   name: {{ include "katib.fullname" . }}-web-app-cluster-role
 rules:
   - apiGroups:
+      - authorization.k8s.io
+    resources:
+      - subjectaccessreviews
+    verbs:
+      - create
+  - apiGroups:
       - ""
     resources:
       - configmaps
       - namespaces
     verbs:
-      - '*'
+      - "*"
   - apiGroups:
       - kubeflow.org
     resources:
@@ -18,7 +24,19 @@ rules:
       - trials
       - suggestions
     verbs:
-      - '*'
+      - "*"
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+    verbs:
+      - list
+  - apiGroups:
+      - ""
+    resources:
+      - pods/log
+    verbs:
+      - get
 ---
 aggregationRule:
   clusterRoleSelectors:
