@@ -33,10 +33,10 @@ kubeflowComponents:
 replicaCount: 1
 
 image:
-  repository: public.ecr.aws/j1r0q0g6/notebooks/central-dashboard
+  repository: docker.io/kubeflownotebookswg/centraldashboard # TODO: switch to Angular version once it's decent
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: v1.4
+  tag: v1.8.0-rc.0
 
 imagePullSecrets: []
 nameOverride: ""
@@ -74,6 +74,9 @@ service:
 config:
   profileControllerService: kubeflow-profile-controller-kfam.kubeflow.svc.cluster.local
   kfamPort: 8082
+  logoutURL: /logout
+  prometheusURL: "" # TODO: we need to add support for adding headers for compatibility with in-cluster Mimir. For Trace Shield we would need either basic auth or proper OAuth2
+  metricsDashboard: "" # TODO: based on https://github.com/kubeflow/kubeflow/pull/7116 this allows you to add a link to a Grafana dashboard or something
   registrationFlow:
     enabled: true
 
