@@ -17,10 +17,10 @@ global:
 replicaCount: 1
 
 image:
-  repository: public.ecr.aws/j1r0q0g6/training/training-operator
+  repository: docker.io/kubeflow/training-operator
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "174e8813666951ded505daf334a37f60fd50c18d"
+  tag: v1-855e096 # TODO: get upstream to use semver for their images as well
 
 imagePullSecrets: []
 nameOverride: ""

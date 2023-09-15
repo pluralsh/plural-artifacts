@@ -30,7 +30,7 @@ serviceAccount:
 config:
   volumeViewerImage:
     repository: filebrowser/filebrowser
-    tag: v2.25.0 # TODO: check if we want to use the s6 image variant
+    tag: v2.25.0 # TODO: The `viewer-spec.yaml` template doesn't seem to be working properly, making the defaulting webhook set the image to latest
   rwoScheduling:
     enabled: true
 
