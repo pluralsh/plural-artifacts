@@ -29,6 +29,6 @@ spec:
         uri: /
       route:
         - destination:
-            host: {{ include "serving.fullname" . }}-web-app.kubeflow.svc.{{ .Values.global.clusterDomain }}
+            host: {{ include "serving.fullname" . }}-web-app.{{ .Release.Namespace }}.svc.{{ .Values.global.clusterDomain }}
             port:
               number: {{ .Values.webApp.service.port }}

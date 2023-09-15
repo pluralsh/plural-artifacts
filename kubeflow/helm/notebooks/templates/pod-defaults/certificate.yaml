@@ -4,10 +4,10 @@ metadata:
   labels: {{- include "notebooks.labels" . | nindent 4 }}
   name: {{ include "notebooks.fullname" . }}-pod-defaults-certs
 spec:
-  commonName: {{ include "notebooks.fullname" . }}-pod-defaults.kubeflow.svc
+  commonName: {{ include "notebooks.fullname" . }}-pod-defaults.{{ .Release.Namespace }}.svc
   dnsNames:
-    - {{ include "notebooks.fullname" . }}-pod-defaults.kubeflow.svc
-    - {{ include "notebooks.fullname" . }}-pod-defaults.kubeflow.svc.cluster.local
+    - {{ include "notebooks.fullname" . }}-pod-defaults.{{ .Release.Namespace }}.svc
+    - {{ include "notebooks.fullname" . }}-pod-defaults.{{ .Release.Namespace }}.svc.cluster.local
   isCA: true
   issuerRef:
     kind: ClusterIssuer

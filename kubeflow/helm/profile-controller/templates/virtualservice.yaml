@@ -29,6 +29,6 @@ spec:
         uri: /
       route:
         - destination:
-            host: {{ include "profile-controller.fullname" . }}-kfam.kubeflow.svc.{{ .Values.global.clusterDomain }}
+            host: {{ include "profile-controller.fullname" . }}-kfam.{{ .Release.Namespace }}.svc.{{ .Values.global.clusterDomain }}
             port:
               number: {{ .Values.service.kfam.port }}

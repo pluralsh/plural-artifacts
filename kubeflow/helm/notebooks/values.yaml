@@ -30,10 +30,10 @@ serviceAccount:
 webApp:
   replicaCount: 1
   image:
-    repository: public.ecr.aws/j1r0q0g6/notebooks/jupyter-web-app
+    repository: docker.io/kubeflownotebookswg/jupyter-web-app
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: v1.4
+    tag: v1.8.0-rc.0
 
   podAnnotations:
     sidecar.istio.io/inject: "true"
@@ -242,10 +242,10 @@ controller:
     # The idle time after which to cull the notebook (minutes)
     idleTime: 1440 # 1 day
   image:
-    repository: public.ecr.aws/j1r0q0g6/notebooks/notebook-controller
+    repository: docker.io/kubeflownotebookswg/notebook-controller
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: v1.5.0
+    tag: v1.8.0-rc.0
 
   service:
     metrics:
@@ -295,10 +295,10 @@ controller:
 podDefaults:
   replicaCount: 1
   image:
-    repository: public.ecr.aws/j1r0q0g6/notebooks/admission-webhook
+    repository: docker.io/kubeflownotebookswg/poddefaults-webhook
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: v1.5.0
+    tag: v1.8.0-rc.0
   service:
     port: 443
 

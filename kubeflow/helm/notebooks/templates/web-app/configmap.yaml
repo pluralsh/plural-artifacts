@@ -429,6 +429,7 @@ data:
   UI: default
   USERID_HEADER: {{ .Values.global.userIDHeader }}
   USERID_PREFIX: {{ .Values.global.userIDPrefix | quote }}
+  APP_SECURE_COOKIES: "true"
 kind: ConfigMap
 metadata:
   labels: {{- include "notebooks.labels" . | nindent 4 }}

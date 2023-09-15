@@ -29,6 +29,6 @@ spec:
         uri: {{ .Values.webApp.virtualService.prefix }}/
       route:
         - destination:
-            host: {{ include "katib.fullname" . }}-web-app.kubeflow.svc.{{ .Values.global.clusterDomain }}
+            host: {{ include "katib.fullname" . }}-web-app.{{ .Release.Namespace }}.svc.{{ .Values.global.clusterDomain }}
             port:
               number: {{ .Values.webApp.service.port }}

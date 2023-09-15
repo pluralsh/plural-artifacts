@@ -26,6 +26,6 @@ spec:
         uri: /
       route:
         - destination:
-            host: {{ include "central-dashboard.fullname" . }}.kubeflow.svc.{{ .Values.global.clusterDomain }}
+            host: {{ include "central-dashboard.fullname" . }}.{{ .Release.Namespace }}.svc.{{ .Values.global.clusterDomain }}
             port:
               number: {{ .Values.service.port }}
