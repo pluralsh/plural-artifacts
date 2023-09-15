@@ -41,19 +41,9 @@ rules:
       - update
       - watch
   - apiGroups:
-      - networking.istio.io
+      - kubeflow.org
     resources:
-      - virtualservices
-    verbs:
-      - create
-      - get
-      - list
-      - update
-      - watch
-  - apiGroups:
-      - pvcviewer.kubeflow.org
-    resources:
-      - pvcviewers
+     - pvcviewers
     verbs:
       - create
       - delete
@@ -63,29 +53,26 @@ rules:
       - update
       - watch
   - apiGroups:
-      - pvcviewer.kubeflow.org
+     - kubeflow.org
+    resources:
+     - pvcviewers/finalizers
+    verbs:
+      - update
+  - apiGroups:
+      - kubeflow.org
     resources:
       - pvcviewers/status
     verbs:
       - get
       - patch
       - update
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  labels: {{- include "volumes.labels" . | nindent 4 }}
-  name: {{ include "volumes.fullname" . }}-controller-proxy-cluster-role
-rules:
   - apiGroups:
-      - authentication.k8s.io
+     - networking.istio.io
     resources:
-      - tokenreviews
+      - virtualservices
     verbs:
       - create
-  - apiGroups:
-      - authorization.k8s.io
-    resources:
-      - subjectaccessreviews
-    verbs:
-      - create
+      - get
+      - list
+      - update
+      - watch
