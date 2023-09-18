@@ -39,10 +39,6 @@ spec:
               value: ""
             - name: MAX_NUM_VIEWERS
               value: "50"
-            - name: MINIO_NAMESPACE
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.namespace
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
