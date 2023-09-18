@@ -14,7 +14,9 @@ global:
     authEndpoint: ""
     tokenEndpoint: ""
 
-replicaCount: 1
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
 
 config:
   databases:
@@ -31,16 +33,6 @@ config:
     bucketName: pipelines-bucket
     bucketRegion: us-east-2
 
-image:
-  repository: gcr.io/ml-pipeline/frontend
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: 2.0.1
-
-imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
-
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
@@ -50,32 +42,70 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
-podAnnotations:
-  sidecar.istio.io/inject: "true"
+webapp:
+  replicaCount: 1
 
-podSecurityContext: {}
-  # fsGroup: 2000
+  image:
+    repository: gcr.io/ml-pipeline/frontend
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: 2.0.1
 
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
+  podAnnotations:
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+    sidecar.istio.io/inject: "true"
 
-service:
-  port: 80
+  podSecurityContext: {}
+    # fsGroup: 2000
 
-virtualService:
-  annotations: {}
-  prefix: /pipeline
-  gateways:
-    - kubeflow-gateway
-  # hosts to add additional to the value of global.domain
-  hosts: []
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  service:
+    port: 80
+
+  virtualService:
+    annotations: {}
+    prefix: /pipeline
+    gateways:
+      - kubeflow-gateway
+    # hosts to add additional to the value of global.domain
+    hosts: []
+
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
 
 apiServer:
+
+  replicaCount: 1
+
   image:
     repository: gcr.io/ml-pipeline/api-server
     pullPolicy: IfNotPresent
@@ -87,28 +117,145 @@ apiServer:
     grpc:
       port: 8887
 
+  resources: {}
+
+  podAnnotations:
+    sidecar.istio.io/inject: "true"
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
 persistenceAgent:
+  replicaCount: 1
   image:
     repository: gcr.io/ml-pipeline/persistenceagent
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: 2.0.1
+  resources: {}
+
+  podAnnotations:
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
 
 scheduledWorkflow:
+  replicaCount: 1
   image:
     repository: gcr.io/ml-pipeline/scheduledworkflow
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: 2.0.1
+  resources: {}
+
+  podAnnotations:
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
 
 viewerController:
+  replicaCount: 1
   image:
     repository: gcr.io/ml-pipeline/viewer-crd-controller
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: 2.0.1
+  resources: {}
+
+  podAnnotations:
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
 
 visualizationServer:
+  replicaCount: 1
   image:
     repository: gcr.io/ml-pipeline/visualization-server
     pullPolicy: IfNotPresent
@@ -116,8 +263,37 @@ visualizationServer:
     tag: 2.0.1
   service:
     port: 8888
+  resources: {}
+
+  podAnnotations:
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
 
 argoWorkflowController:
+  replicaCount: 1
   image:
     repository: gcr.io/ml-pipeline/workflow-controller
     pullPolicy: IfNotPresent
@@ -149,11 +325,21 @@ argoWorkflowController:
     prometheus.io/scrape: "true"
     prometheus.io/path: /metrics
   podSecurityContext: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
   service:
     port: 9090
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
 
 cache:
   server:
+    replicaCount: 1
     image:
       repository: gcr.io/ml-pipeline/cache-server
       pullPolicy: IfNotPresent
@@ -161,6 +347,37 @@ cache:
       tag: 2.0.1
     service:
       port: 443
+    resources: {}
+
+    podAnnotations:
+      cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+      sidecar.istio.io/inject: "true"
+
+    podSecurityContext: {}
+      # fsGroup: 2000
+
+    securityContext: {}
+      # capabilities:
+      #   drop:
+      #   - ALL
+      # readOnlyRootFilesystem: true
+      # runAsNonRoot: true
+      # runAsUser: 1000
+
+    autoscaling:
+      enabled: false
+      minReplicas: 1
+      maxReplicas: 100
+      targetCPUUtilizationPercentage: 80
+      # targetMemoryUtilizationPercentage: 80
+
+    nodeSelector: {}
+
+    tolerations: []
+
+    affinity: {}
+
+
   deployer:
     image:
       repository: gcr.io/ml-pipeline/cache-deployer
@@ -170,6 +387,7 @@ cache:
 
 metadata:
   envoy:
+    replicaCount: 1
     image:
       repository: gcr.io/ml-pipeline/metadata-envoy
       pullPolicy: IfNotPresent
@@ -179,7 +397,31 @@ metadata:
       port: 9090
       admin:
         port: 9901
+    resources: {}
+    podAnnotations:
+      sidecar.istio.io/inject: "false"
+      cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+    podSecurityContext: {}
+      # fsGroup: 2000
+    securityContext: {}
+      # capabilities:
+      #   drop:
+      #   - ALL
+      # readOnlyRootFilesystem: true
+      # runAsNonRoot: true
+      # runAsUser: 1000
+    autoscaling:
+      enabled: false
+      minReplicas: 1
+      maxReplicas: 100
+      targetCPUUtilizationPercentage: 80
+      # targetMemoryUtilizationPercentage: 80
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}
+
   grpc:
+    replicaCount: 1
     image:
       repository: gcr.io/tfx-oss-public/ml_metadata_store_server
       pullPolicy: IfNotPresent
@@ -194,34 +436,52 @@ metadata:
         - kubeflow-gateway
       # hosts to add additional to the value of global.domain
       hosts: []
+    resources: {}
+    podAnnotations:
+      cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+    podSecurityContext: {}
+      # fsGroup: 2000
+    securityContext: {}
+      # capabilities:
+      #   drop:
+      #   - ALL
+      # readOnlyRootFilesystem: true
+      # runAsNonRoot: true
+      # runAsUser: 1000
+    autoscaling:
+      enabled: false
+      minReplicas: 1
+      maxReplicas: 100
+      targetCPUUtilizationPercentage: 80
+      # targetMemoryUtilizationPercentage: 80
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}
   writer:
+    replicaCount: 1
     image:
       repository: gcr.io/ml-pipeline/metadata-writer
       pullPolicy: IfNotPresent
       # Overrides the image tag whose default is the chart appVersion.
       tag: 2.0.1
-
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
-
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
-
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
+    resources: {}
+    podAnnotations:
+      cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+    podSecurityContext: {}
+      # fsGroup: 2000
+    securityContext: {}
+      # capabilities:
+      #   drop:
+      #   - ALL
+      # readOnlyRootFilesystem: true
+      # runAsNonRoot: true
+      # runAsUser: 1000
+    autoscaling:
+      enabled: false
+      minReplicas: 1
+      maxReplicas: 100
+      targetCPUUtilizationPercentage: 80
+      # targetMemoryUtilizationPercentage: 80
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}

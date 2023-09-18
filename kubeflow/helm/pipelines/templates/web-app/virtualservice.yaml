@@ -3,33 +3,33 @@ kind: VirtualService
 metadata:
   name: {{ include "pipelines.fullname" . }}-web-app
   labels: {{- include "pipelines.labels" . | nindent 4 }}
-  {{- with .Values.virtualService.annotations }}
+  {{- with .Values.webapp.virtualService.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
   gateways:
-    {{- range .Values.virtualService.gateways }}
+    {{- range .Values.webapp.virtualService.gateways }}
     - {{ . | quote }}
     {{- end }}
   hosts:
     - {{ .Values.global.domain }}
-    {{- range .Values.virtualService.hosts }}
+    {{- range .Values.webapp.virtualService.hosts }}
     - {{ . | quote }}
     {{- end }}
   http:
     - headers:
         request:
           add:
-            x-forwarded-prefix: {{ .Values.virtualService.prefix }}
+            x-forwarded-prefix: {{ .Values.webapp.virtualService.prefix }}
       match:
         - uri:
-            prefix: {{ .Values.virtualService.prefix }}
+            prefix: {{ .Values.webapp.virtualService.prefix }}
       rewrite:
-        uri: {{ .Values.virtualService.prefix }}
+        uri: {{ .Values.webapp.virtualService.prefix }}
       route:
         - destination:
             host: {{ include "pipelines.fullname" . }}-web-app.{{ .Release.Namespace }}.svc.{{ .Values.global.clusterDomain }}
             port:
-              number: {{ .Values.service.port }}
+              number: {{ .Values.webapp.service.port }}
       timeout: 300s
