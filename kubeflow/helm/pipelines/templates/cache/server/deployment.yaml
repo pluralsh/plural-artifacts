@@ -69,7 +69,10 @@ spec:
                   key: cacheNodeRestrictions
                   name: pipeline-install-config
             - name: DBCONFIG_DRIVER
-              value: mysql # TODO: make configurable
+              valueFrom:
+                configMapKeyRef:
+                  key: dbDriverName
+                  name: pipeline-install-config
             - name: DBCONFIG_DB_NAME
               valueFrom:
                 configMapKeyRef:
