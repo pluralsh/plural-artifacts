@@ -42,7 +42,9 @@ spec:
             - --db_user=$(DBCONFIG_USER)
             - --db_password=$(DBCONFIG_PASSWORD)
             - --namespace_to_watch=$(NAMESPACE_TO_WATCH)
-            - --listen_ports=$(WEBHOOK_PORT)
+            - --listen_port=$(WEBHOOK_PORT)
+            - --tls_cert_filename=tls.crt
+            - --tls_key_filename=tls.key
           env:
             - name: NAMESPACE_TO_WATCH
               value: ""
@@ -67,7 +69,7 @@ spec:
                   key: cacheNodeRestrictions
                   name: pipeline-install-config
             - name: DBCONFIG_DRIVER
-              value: mysql
+              value: mysql # TODO: make configurable
             - name: DBCONFIG_DB_NAME
               valueFrom:
                 configMapKeyRef:
@@ -107,7 +109,7 @@ spec:
               readOnly: true
       volumes:
         - secret:
-            secretName: webhook-server-tls
+            secretName: {{ include "pipelines.fullname" . }}-cache-server-tls
           name: webhook-tls-certs
       {{- with .Values.nodeSelector }}
       nodeSelector:
