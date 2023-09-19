@@ -4,6 +4,8 @@ metadata:
   name: kubeflow-mysql-cluster
 spec:
   replicas: 2
+  mysqlVersion: "8.0"
+  image: dkr.plural.sh/mysql/library/percona:8.0.32-24
   secretName: kubeflow-mysql-cluster-root
   volumeSpec:
     persistentVolumeClaim:
