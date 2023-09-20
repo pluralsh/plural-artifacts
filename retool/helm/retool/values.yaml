@@ -17,7 +17,7 @@ retool:
 
   image:
     repository: tryretool/backend
-    tag: 3.4.14
+    tag: 3.10.2
   
   workflows:
     temporal:
