@@ -1,10 +1,10 @@
-AZURE_VERSION=v1.9.14
+AZURE_VERSION=v1.11.0
 
 azure:
 # Clean current CRDs
 	rm -rf ../templates/*-crd.yaml
 	mkdir tmp
-	wget https://github.com/pluralsh/cluster-api-provider-azure/releases/download/${AZURE_VERSION}/infrastructure-components.yaml
+	wget https://github.com/kubernetes-sigs/cluster-api-provider-azure/releases/download/${AZURE_VERSION}/infrastructure-components.yaml
 # This rewrites the data to stringData in the secret
 	yq 'select(.kind == "Secret") | .stringData += .data | del(.data)' infrastructure-components.yaml > tmp.yaml
 # This removes the Secret from the yaml

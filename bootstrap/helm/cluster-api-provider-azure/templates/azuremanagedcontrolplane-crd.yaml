@@ -202,6 +202,24 @@ spec:
               dnsServiceIP:
                 description: DNSServiceIP is an IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address range specified in serviceCidr. Immutable.
                 type: string
+              httpProxyConfig:
+                description: HTTPProxyConfig is the HTTP proxy configuration for the cluster. Immutable.
+                properties:
+                  httpProxy:
+                    description: HTTPProxy is the HTTP proxy server endpoint to use.
+                    type: string
+                  httpsProxy:
+                    description: HTTPSProxy is the HTTPS proxy server endpoint to use.
+                    type: string
+                  noProxy:
+                    description: NoProxy indicates the endpoints that should not go through proxy.
+                    items:
+                      type: string
+                    type: array
+                  trustedCa:
+                    description: TrustedCA is the alternative CA cert to use for connecting to proxy servers.
+                    type: string
+                type: object
               identity:
                 description: Identity configuration used by the AKS control plane.
                 properties:
@@ -285,6 +303,11 @@ spec:
                 - azure
                 - kubenet
                 type: string
+              networkPluginMode:
+                description: NetworkPluginMode is the mode the network plugin should use. Allowed value is "overlay".
+                enum:
+                - overlay
+                type: string
               networkPolicy:
                 description: NetworkPolicy used for building Kubernetes network. Allowed values are "azure", "calico". Immutable.
                 enum:
@@ -294,6 +317,13 @@ spec:
               nodeResourceGroupName:
                 description: NodeResourceGroupName is the name of the resource group containing cluster IaaS resources. Will be populated to default in webhook. Immutable.
                 type: string
+              oidcIssuerProfile:
+                description: OIDCIssuerProfile is the OIDC issuer profile of the Managed Cluster.
+                properties:
+                  enabled:
+                    description: Enabled is whether the OIDC issuer is enabled.
+                    type: boolean
+                type: object
               outboundType:
                 description: Outbound configuration used by Nodes. Immutable.
                 enum:
@@ -495,6 +525,13 @@ spec:
                   - type
                   type: object
                 type: array
+              oidcIssuerProfile:
+                description: OIDCIssuerProfile is the OIDC issuer profile of the Managed Cluster.
+                properties:
+                  issuerURL:
+                    description: IssuerURL is the OIDC issuer url of the Managed Cluster.
+                    type: string
+                type: object
               ready:
                 description: Ready is true when the provider resource is ready.
                 type: boolean

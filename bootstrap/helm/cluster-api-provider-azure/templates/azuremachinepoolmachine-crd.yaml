@@ -4,7 +4,7 @@ kind: CustomResourceDefinition
 metadata:
   name: azuremachinepoolmachines.infrastructure.cluster.x-k8s.io
   annotations:
-    cert-manager.io/inject-ca-from: '{{ .Release.Namespace }}/{{ include "cluster-api-provider-azure.fullname" . }}-serving-cert'
+    cert-manager.io/inject-ca-from: '{{ .Release.Namespace }}/{{ include "cluster-api-provider-azure.fullname" . }}-capz-serving-cert'
     controller-gen.kubebuilder.io/version: v0.9.2
   labels:
     clusterctl.cluster.x-k8s.io: ""
@@ -18,7 +18,7 @@ spec:
       clientConfig:
         caBundle: Cg==
         service:
-          name: '{{ include "cluster-api-provider-azure.fullname" . }}-webhook-service'
+          name: '{{ include "cluster-api-provider-azure.fullname" . }}-capz-webhook-service'
           namespace: '{{ .Release.Namespace }}'
           path: /convert
       conversionReviewVersions:
