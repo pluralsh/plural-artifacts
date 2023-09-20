@@ -2,8 +2,8 @@ apiVersion: v2
 name: retool
 description: helm chart for retool
 type: application
-version: 0.1.5
-appVersion: "v3.4.14"
+version: 0.1.6
+appVersion: "v3.10.2"
 dependencies:
 - name: postgres
   version: 0.1.5
