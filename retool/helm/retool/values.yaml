@@ -9,6 +9,8 @@ postgres:
   dbName: retool
   ownerChart: retool
   infix: -postgres
+  parameters:
+    max_connections: '101'
 
 setupTemporal: true
 
