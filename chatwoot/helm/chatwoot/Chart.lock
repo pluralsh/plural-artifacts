@@ -1,9 +1,9 @@
 dependencies:
 - name: chatwoot
   repository: https://chatwoot.github.io/charts
-  version: 1.0.17
+  version: 1.1.2
 - name: postgres
   repository: https://pluralsh.github.io/module-library
   version: 0.1.12
-digest: sha256:90ca2015e8e84862f08c6eb67e483715448b5f99ba0d6dac8ad2032c82aa53a7
-generated: "2023-03-22T11:25:50.738161-04:00"
+digest: sha256:9750da7ce9aeca7becc6a600496c6194cb1f03a86d6c71e7d4127b6281b673ba
+generated: "2023-09-26T11:55:55.037009-04:00"

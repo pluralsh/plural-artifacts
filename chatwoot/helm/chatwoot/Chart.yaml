@@ -2,11 +2,11 @@ apiVersion: v2
 name: chatwoot
 description: Open-source customer engagement suite, an alternative to Intercom, Zendesk, Salesforce Service Cloud etc.
 type: application
-version: 0.1.8
+version: 0.1.9
 appVersion: v2.15.0
 dependencies:
 - name: chatwoot
-  version: 1.0.17
+  version: 1.1.2
   repository: https://chatwoot.github.io/charts
 - name: postgres
   version: 0.1.12
