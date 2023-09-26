@@ -1,4 +1,6 @@
 {{ $isGcp := or (eq .Provider "google") (eq .Provider "gcp") }}
+{{ $pluraldns := .Network.PluralDns }}
+{{ $providerArgs := dict "provider" .Provider "cluster" .Cluster }}
 cert-manager:
   serviceAccount:
     annotations:
@@ -13,3 +15,9 @@ cert-manager:
   podLabels:
     azure.workload.identity/use: "true"
   {{- end }}
+
+{{ if $pluraldns }}
+{{ $eab := eabCredential $providerArgs.cluster $providerArgs.provider }}
+acmeEAB:
+  secret: {{ $eab.HmacKey }}
+{{ end }}
