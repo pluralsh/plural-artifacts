@@ -4,6 +4,6 @@ dependencies:
   version: 0.1.5
 - name: retool
   repository: https://charts.retool.com
-  version: 6.0.0
-digest: sha256:e9f0184bb0773073c0f1c8c6fb87edfd187534312cdd22e59bbc4bb99e869fda
-generated: "2023-09-12T10:07:27.403885-04:00"
+  version: 6.0.2
+digest: sha256:64e43f4c30b1d885101d9c50fe2f314e54f86d33e555ba6df3d9b90dda8784d4
+generated: "2023-09-26T12:08:59.73891-04:00"
