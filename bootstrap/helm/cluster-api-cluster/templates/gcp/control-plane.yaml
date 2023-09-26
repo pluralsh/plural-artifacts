@@ -1,0 +1,23 @@
+{{- if and (eq .Values.provider "gcp") (eq .Values.type "managed") -}}
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: GCPManagedControlPlane
+metadata:
+  name: {{ .Values.cluster.name }}
+  annotations:
+    helm.sh/resource-policy: keep
+spec:
+  clusterName: {{ .Values.cluster.name }}
+  {{- with .Values.cluster.gcp }}
+  project: {{ .project }}
+  location: {{ .region }}
+  enableAutopilot: {{ .enableAutopilot | default false }}
+  enableWorkloadIdentity: {{ .enableWorkloadIdentity }}
+  {{- if ne .releaseChannel "unspecified" }}
+  releaseChannel: {{ .releaseChannel }}
+  {{- end }}
+  endpoint:
+    host: ""
+    port: 0
+  {{- end }}
+  controlPlaneVersion: {{ include "cluster.kubernetesVersion" . | quote }}
+{{- end }}

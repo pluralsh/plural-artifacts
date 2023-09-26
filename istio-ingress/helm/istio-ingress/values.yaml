@@ -1,0 +1,23 @@
+provider: ""
+
+gateway:
+  autoscaling:
+    minReplicas: 2
+  topologySpreadConstraints:
+  - maxSkew: 1
+    topologyKey: topology.kubernetes.io/zone
+    whenUnsatisfiable: ScheduleAnyway
+    labelSelector:
+      matchLabels:
+        istio: ingress
+
+istioGateway:
+  enabled: true
+  hosts: []
+  tls:
+    enabled: true
+    commonName: ""
+    dnsNames: []
+    issuerRef:
+      name: letsencrypt-prod
+      kind: ClusterIssuer

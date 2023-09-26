@@ -33,19 +33,19 @@ variable "kubernetes_version" {
 
 variable "vpc_cni_addon_version" {
   type = string
-  default = "v1.12.5-eksbuild.1"
+  default = "v1.13.4-eksbuild.1"
   description = "The version of the VPC-CNI addon to use"
 }
 
 variable "core_dns_addon_version" {
   type = string
-  default = "v1.8.7-eksbuild.4"
+  default = "v1.9.3-eksbuild.6"
   description = "The version of the CoreDNS addon to use"
 }
 
 variable "kube_proxy_addon_version" {
   type = string
-  default = "v1.23.15-eksbuild.1"
+  default = "v1.24.15-eksbuild.2"
   description = "The version of the kube-proxy addon to use"
 }
 
@@ -367,4 +367,14 @@ variable "aws_region" {
   type = string
   default = "us-east-2"
   description = "The region you wish to deploy to"
+}
+
+variable "capa_serviceaccount" {
+  type = string
+  default = "bootstrap-cluster-api-provider-aws"
+}
+
+variable "capi_serviceaccount" {
+  type = string
+  default = "bootstrap-cluster-api-core"
 }

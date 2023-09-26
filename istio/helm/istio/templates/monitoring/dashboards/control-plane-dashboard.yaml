@@ -8,4 +8,4 @@ metadata:
     k8s-sidecar-target-directory: /tmp/dashboards/Istio Dashboards
 data:
   istio-control-plane-dashboard.json: |-
-{{ .Files.Get "grafana-dashboards/istio-control-plane-dashboard_rev82.json" | indent 4 }}
+{{ .Files.Get "grafana-dashboards/istio-control-plane-dashboard_rev178.json" | indent 4 }}

@@ -1,0 +1,62 @@
+{{- if and (eq .Values.provider "azure") (eq .Values.type "managed") .Values.cluster.azure.clusterIdentity.bootstrapMode -}}
+kind: AzureClusterIdentity
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+metadata:
+  name: {{ include "azure-bootstrap.cluster-identity-name" . }}
+  labels:
+    clusterctl.cluster.x-k8s.io/move-hierarchy: "true"
+  {{- include "cluster-api-cluster.labels" . | nindent 4 }}
+spec:
+  type: ServicePrincipal
+  allowedNamespaces: {}
+  tenantID: {{ .Values.cluster.azure.clusterIdentity.tenantID }}
+  clientID: {{ .Values.cluster.azure.clusterIdentity.bootstrapCredentials.clientID }}
+  clientSecret:
+    name: {{ include "azure-bootstrap.identity-credentials" . }}
+    namespace: {{ .Release.Namespace }}
+---
+kind: Secret
+apiVersion: v1
+metadata:
+  name: {{ include "azure-bootstrap.identity-credentials" . }}
+  labels:
+    clusterctl.cluster.x-k8s.io/move-hierarchy: "true"
+  {{- include "cluster-api-cluster.labels" . | nindent 4 }}
+type: Opaque
+data:
+  clientSecret: {{ .Values.cluster.azure.clusterIdentity.bootstrapCredentials.clientSecret | b64enc | quote }}
+---
+apiVersion: aadpodidentity.k8s.io/v1
+kind: AzureIdentity
+metadata:
+  name: {{ include "azure-bootstrap.pod-identity-name" . }}
+  labels:
+    azurecluster.infrastructure.cluster.x-k8s.io/cluster-namespace: {{ .Release.Namespace }}
+    cluster.x-k8s.io/cluster-name: {{ .Values.cluster.name }}
+    clusterctl.cluster.x-k8s.io/move-hierarchy: 'true'
+  {{- include "cluster-api-cluster.labels" . | nindent 4 }}
+  annotations:
+    aadpodidentity.k8s.io/Behavior: namespaced
+spec:
+  adEndpoint: https://login.microsoftonline.com/
+  adResourceID: https://management.azure.com/
+  clientID: {{ .Values.cluster.azure.clusterIdentity.bootstrapCredentials.clientID }}
+  clientPassword:
+    name: {{ include "azure-bootstrap.identity-credentials" . }}
+    namespace: {{ .Release.Namespace }}
+  tenantID: {{ .Values.cluster.azure.clusterIdentity.tenantID }}
+  type: 1
+---
+apiVersion: aadpodidentity.k8s.io/v1
+kind: AzureIdentityBinding
+metadata:
+  name: {{ include "azure-bootstrap.pod-identity-binding" . }}
+  labels:
+    azurecluster.infrastructure.cluster.x-k8s.io/cluster-namespace: {{ .Release.Namespace }}
+    cluster.x-k8s.io/cluster-name: {{ .Values.cluster.name }}
+    clusterctl.cluster.x-k8s.io/move-hierarchy: 'true'
+  {{- include "cluster-api-cluster.labels" . | nindent 4 }}
+spec:
+  azureIdentity: {{ include "azure-bootstrap.pod-identity-name" . }}
+  selector: capz-controller-aadpodidentity-selector
+{{- end }}

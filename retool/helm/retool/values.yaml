@@ -10,12 +10,21 @@ postgres:
   ownerChart: retool
   infix: -postgres
 
+setupTemporal: true
+
 retool:
   replicaCount: 2
 
   image:
     repository: tryretool/backend
-    tag: 3.4.14
+    tag: 3.10.2
+  
+  workflows:
+    temporal:
+      enabled: true
+      port: 7233
+      namespace: retool
+      host: temporal-frontend.temporal
 
   postgresql:
     enabled: false

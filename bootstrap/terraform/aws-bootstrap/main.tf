@@ -3,6 +3,8 @@ data "aws_availability_zones" "available" {}
 data "aws_caller_identity" "current" {}
 
 module "vpc" {
+  count =  local.create_vpc ? 1 : 0
+
   source                 = "github.com/pluralsh/terraform-aws-vpc?ref=worker_subnet"
   name                   = var.vpc_name
   cidr                   = var.vpc_cidr
@@ -12,7 +14,6 @@ module "vpc" {
   worker_private_subnets = var.worker_private_subnets
   enable_dns_hostnames   = true
   enable_ipv6            = true
-  create_vpc             = local.create_vpc
 
   database_subnets = var.database_subnets
 
@@ -59,15 +60,17 @@ module "cluster" {
 }
 
 module "single_az_node_groups" {
+  count =  var.create_cluster ? 1 : 0
+
   source                 = "github.com/pluralsh/module-library//terraform/eks-node-groups/single-az-node-groups?ref=20e64863ffc5e361045db8e6b81b9d244a55809e"
   cluster_name           = var.cluster_name
-  default_iam_role_arn   = module.cluster.worker_iam_role_arn
+  default_iam_role_arn   = one(module.cluster[*].worker_iam_role_arn)
   tags                   = {}
   node_groups_defaults   = var.node_groups_defaults
 
-  node_groups            = try(var.create_cluster ? var.single_az_node_groups : tomap(false), {})
+  node_groups            = var.single_az_node_groups
   set_desired_size       = false
-  private_subnets        = var.create_cluster ? module.vpc.worker_private_subnets : []
+  private_subnets        = one(module.vpc[*].worker_private_subnets)
 
   ng_depends_on = [
     local.cluster_config
@@ -75,13 +78,15 @@ module "single_az_node_groups" {
 }
 
 module "multi_az_node_groups" {
+  count =  var.create_cluster ? 1 : 0
+
   source                 = "github.com/pluralsh/module-library//terraform/eks-node-groups/multi-az-node-groups?ref=20e64863ffc5e361045db8e6b81b9d244a55809e"
   cluster_name           = var.cluster_name
-  default_iam_role_arn   = module.cluster.worker_iam_role_arn
+  default_iam_role_arn   = one(module.cluster[*].worker_iam_role_arn)
   tags                   = {}
   node_groups_defaults   = var.node_groups_defaults
 
-  node_groups            =  try(var.create_cluster ? var.multi_az_node_groups : tomap(false), {})
+  node_groups            =  var.multi_az_node_groups
   set_desired_size       = false
   private_subnet_ids     = local.worker_private_subnet_ids
 
@@ -92,6 +97,7 @@ module "multi_az_node_groups" {
 
 resource "aws_eks_addon" "vpc_cni" {
   count = var.create_cluster ? 1 : 0
+
   cluster_name = local.cluster_id
   addon_name   = "vpc-cni"
   addon_version     = var.vpc_cni_addon_version
@@ -107,6 +113,7 @@ resource "aws_eks_addon" "vpc_cni" {
 
 resource "aws_eks_addon" "core_dns" {
   count = var.create_cluster ? 1 : 0
+
   cluster_name      = local.cluster_id
   addon_name        = "coredns"
   addon_version     = var.core_dns_addon_version
@@ -122,6 +129,7 @@ resource "aws_eks_addon" "core_dns" {
 
 resource "aws_eks_addon" "kube_proxy" {
   count = var.create_cluster ? 1 : 0
+
   cluster_name      = local.cluster_id
   addon_name        = "kube-proxy"
   addon_version     = var.kube_proxy_addon_version
@@ -136,6 +144,8 @@ resource "aws_eks_addon" "kube_proxy" {
 }
 
 resource "kubernetes_namespace" "bootstrap" {
+  count =  var.create_cluster ? 1 : 0
+
   metadata {
     name = "bootstrap"
     labels = {

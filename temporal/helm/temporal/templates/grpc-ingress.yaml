@@ -1,0 +1,27 @@
+{{ if .Values.grpc.hostname }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+  {{ toYaml .Values.grpc.annotations | nindent 4 }}
+  name: grpc-ingress
+  labels:
+  {{ include "temporal-plural.labels" . | nindent 4 }}
+spec:
+  ingressClassName: {{ .Values.grpc.ingressClass }}
+  rules:
+  - host: {{ .Values.grpc.hostname }}
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ .Values.grpc.service }}
+            port:
+              name: {{ .Values.grpc.port }}
+  tls:
+  - secretName: temporal-grpc-tls
+    hosts:
+      - {{ .Values.grpc.hostname }}
+{{ end }}

@@ -1,0 +1,65 @@
+{{- if and (eq .Values.provider "azure") (eq .Values.type "managed") -}}
+kind: AzureManagedControlPlane
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+metadata:
+  name: {{ .Values.cluster.name }}
+  annotations:
+    helm.sh/resource-policy: keep
+spec:
+  identityRef:
+    apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+    kind: AzureClusterIdentity
+    {{- if .Values.cluster.azure.clusterIdentity.bootstrapMode }}
+    name: {{ include "azure-bootstrap.cluster-identity-name" . }}
+    {{- else if .Values.cluster.azure.clusterIdentity.workloadIdentity.enabled }}
+    name: {{ .Values.cluster.azure.clusterIdentity.workloadIdentity.name }}
+    {{- else }}
+    name: {{ .Values.cluster.azure.clusterIdentity.name }}
+    {{- end }}
+    namespace: {{ .Release.Namespace }}
+  location: {{ .Values.cluster.azure.location }}
+  resourceGroupName: {{ .Values.cluster.azure.resourceGroupName }}
+  nodeResourceGroupName: {{ .Values.cluster.azure.nodeResourceGroupName }}
+  subscriptionID: {{ .Values.cluster.azure.subscriptionID }}
+  version: {{ include "cluster.kubernetesVersion" . }}
+  {{- if ne .Values.cluster.azure.sshPublicKey "skip" }}
+  sshPublicKey: {{ .Values.cluster.azure.sshPublicKey | quote }}
+  {{- end }}
+  {{- with .Values.cluster.azure.virtualNetwork }}
+  virtualNetwork:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  networkPlugin: {{ .Values.cluster.azure.networkPlugin }}
+  networkPolicy: {{ .Values.cluster.azure.networkPolicy }}
+  outboundType: {{ .Values.cluster.azure.outboundType }}
+  dnsServiceIP: {{ .Values.cluster.azure.dnsServiceIP }}
+  {{- with .Values.cluster.azure.identity }}
+  identity:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.cluster.azure.sku }}
+  sku:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  loadBalancerSKU: {{ .Values.cluster.azure.loadBalancerSKU }}
+  {{- with .Values.cluster.azure.aadProfile }}
+  aadProfile:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.cluster.azure.loadBalancerProfile }}
+  loadBalancerProfile:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.cluster.azure.apiServerAccessProfile }}
+  apiServerAccessProfile:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.cluster.azure.autoscalerProfile }}
+  autoscalerProfile:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.cluster.azure.addonProfiles }}
+  addonProfiles:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}

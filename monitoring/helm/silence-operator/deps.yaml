@@ -1,0 +1,10 @@
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  description: Deploys silence operator
+spec:
+  dependencies:
+  - type: helm
+    name: bootstrap
+    repo: bootstrap
+    version: '>= 0.5.1'

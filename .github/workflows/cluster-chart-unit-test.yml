@@ -1,0 +1,27 @@
+name: cluster-chart-unit-test
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'bootstrap/helm/cluster-api-cluster/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'bootstrap/helm/cluster-api-cluster/**'
+jobs:
+  helm-unit-test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: install helm
+      uses: azure/setup-helm@v3
+      with:
+        version: v3.12.3
+    - name: install helm unit test
+      run: helm plugin install https://github.com/helm-unittest/helm-unittest.git
+    - name: run helm unit test
+      run: helm unittest ./bootstrap/helm/cluster-api-cluster

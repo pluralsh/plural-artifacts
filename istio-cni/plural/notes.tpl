@@ -1,0 +1,1 @@
+Use `plural watch istio-cni` to track the status of your application

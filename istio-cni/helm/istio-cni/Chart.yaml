@@ -1,0 +1,15 @@
+apiVersion: v2
+name: istio-cni
+description: helm chart for istio-cni
+type: application
+version: 0.1.1
+appVersion: "1.19.0"
+dependencies:
+- name: cni
+  version: 1.19.0
+  repository: https://istio-release.storage.googleapis.com/charts
+  condition: cni.enabled
+- name: ztunnel
+  version: 1.19.0
+  repository: https://istio-release.storage.googleapis.com/charts
+  condition: ztunnel.enabled

@@ -1,5 +1,5 @@
-
 resource "google_project_service" "gcr" {
+  count = var.cluster_api ? 0 : 1
   project = var.gcp_project_id
   service = "artifactregistry.googleapis.com"
 
@@ -12,6 +12,7 @@ resource "google_project_service" "gcr" {
 }
 
 resource "google_project_service" "container" {
+  count = var.cluster_api ? 0 : 1
   project = var.gcp_project_id
   service = "container.googleapis.com"
 
@@ -36,6 +37,7 @@ resource "google_project_service" "iam" {
 }
 
 resource "google_project_service" "storage" {
+  count = var.cluster_api ? 0 : 1
   project = var.gcp_project_id
   service = "storage.googleapis.com"
 
@@ -48,6 +50,7 @@ resource "google_project_service" "storage" {
 }
 
 resource "google_project_service" "dns" {
+  count = var.cluster_api ? 0 : 1
   project = var.gcp_project_id
   service = "dns.googleapis.com"
 
@@ -60,6 +63,7 @@ resource "google_project_service" "dns" {
 }
 
 resource "google_project_service" "compute" {
+  count = var.cluster_api ? 0 : 1
   project = var.gcp_project_id
   service = "compute.googleapis.com"
 

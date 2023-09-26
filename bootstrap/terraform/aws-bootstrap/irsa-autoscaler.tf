@@ -50,7 +50,7 @@ data "aws_iam_policy_document" "cluster_autoscaler" {
 
     condition {
       test     = "StringEquals"
-      variable = "autoscaling:ResourceTag/kubernetes.io/cluster/${module.cluster.cluster_id}"
+      variable = "autoscaling:ResourceTag/kubernetes.io/cluster/${local.cluster_id}"
       values   = ["owned"]
     }
 

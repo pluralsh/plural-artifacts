@@ -200,6 +200,10 @@ traces: # TODO: split this into 2 deployment to allow for tail based sampling. F
       port: 6831
       targetPort: 6831
       protocol: "UDP"
+    - name: http-zipkin
+      port: 9411
+      targetPort: 9411
+      protocol: "TCP"
     mimirHost: http://mimir-nginx.mimir
     lokiHost: http://loki-loki-distributed-gateway.loki/loki/api/v1/push
     tempoHost: http://tempo-gateway.tempo/otlp
@@ -260,9 +264,16 @@ traces: # TODO: split this into 2 deployment to allow for tail based sampling. F
           }
 
           output {
-            metrics = [otelcol.exporter.otlphttp.local.input]
-            logs    = [otelcol.exporter.otlphttp.local.input]
-            traces  = [otelcol.exporter.otlphttp.local.input]
+            metrics = [otelcol.processor.batch.local.input]
+            logs    = [otelcol.processor.batch.local.input]
+            traces  = [otelcol.processor.batch.local.input]
+          }
+        }
+
+        otelcol.receiver.zipkin "local" {
+          endpoint = "0.0.0.0:9411"
+          output {
+            traces = [otelcol.processor.batch.local.input]
           }
         }
 

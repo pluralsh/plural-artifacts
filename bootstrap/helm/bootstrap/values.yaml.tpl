@@ -53,10 +53,9 @@ external-dns:
   sources:
   - service
   - ingress
-  {{ if .Configuration.istio }}
-  - istio-gateway
+  {{- if chartInstalled "istio" "istio" }}
   - istio-virtualservice
-  {{ end }}
+  {{- end }}
 
 {{ if and (not $pluraldns) (eq .Provider "azure") }}
 externalDnsIdentityId: {{ importValue "Terraform" "externaldns_msi_id" }}

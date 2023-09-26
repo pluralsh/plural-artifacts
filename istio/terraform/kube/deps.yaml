@@ -1,9 +1,11 @@
-dependencies: []
-
-providers:
-- aws
-- gcp
-- azure
-
-description: istio kubernetes setup
-version: 0.1.7
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  description: istio kubernetes setup
+  version: 0.1.7
+spec:
+  dependencies: []
+  providers:
+  - aws
+  - gcp
+  - azure
