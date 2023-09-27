@@ -190,6 +190,9 @@ cluster:
     # SKU of the loadBalancer to be provisioned.
     # One of: Basic, Standard.
     loadBalancerSKU: Standard
+    # OIDC issuer profile of the cluster.
+    oidcIssuerProfile:
+      enabled: true
     # Azure Active Directory configuration to integrate with AKS for AAD authentication.
     aadProfile: {}
     # Profile of the cluster load balancer.
