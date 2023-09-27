@@ -1,0 +1,22 @@
+{{- if .Values.virtualService.enabled }}
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ include "kiali-plural.fullname" . }}
+  labels:
+  {{- include "kiali-plural.labels" . | nindent 4 }}
+spec:
+  hosts:
+  - {{ index .Values "kiali-server" "server" "web_fqdn" }}
+  gateways:
+  - {{ .Values.virtualService.gateway }}
+  http:
+  - match:
+    - uri:
+        prefix: {{ include "kiali-server.server.web_root" (index .Subcharts "kiali-server") }}
+    route:
+    - destination:
+        port:
+          number: {{ index .Values "kiali-server" "server" "port" }}
+        host: {{ include "kiali-server.fullname" (index .Subcharts "kiali-server") }}
+{{- end }}

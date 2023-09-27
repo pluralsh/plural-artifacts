@@ -1,0 +1,15 @@
+name: kiali
+description: kiali deployed on plural
+category: NETWORK
+private: true
+icon: plural/icons/kiali.png
+notes: plural/notes.tpl
+homepage: https://kiali.io/
+gitUrl: https://github.com/kiali/kiali
+oauthSettings:
+  uriFormat: https://{domain}
+  authMethod: BASIC
+tags:
+- tag: istio
+- tag: network
+- tag: observability

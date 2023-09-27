@@ -1,0 +1,1 @@
+Use `plural watch kiali` to track the status of your application

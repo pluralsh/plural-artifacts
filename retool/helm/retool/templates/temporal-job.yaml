@@ -1,0 +1,28 @@
+{{ if .Values.setupTemporal }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: temporal-setup
+  labels:
+  {{ include "retool-plural.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": post-install,pre-upgrade
+spec:
+  template:
+    spec:
+      containers:
+      - name: create-namespace
+        image: temporalio/admin-tools:1.21.5
+        imagePullPolicy: Always
+        command:
+        - /bin/sh
+        - -c
+        - "until tctl cluster health &> /dev/null; do echo 'waiting for cluster' && sleep 1; done && tctl --namespace {{ .Values.retool.workflows.temporal.namespace }} namespace describe || tctl --namespace {{ .Values.retool.workflows.temporal.namespace }} namespace register"
+        env:
+        - name: TEMPORAL_CLI_ADDRESS
+          value: "{{ .Values.retool.workflows.temporal.host }}.svc.cluster.local:{{ .Values.retool.workflows.temporal.port }}"
+        - name: TEMPORAL_ADDRESS
+          value: "{{ .Values.retool.workflows.temporal.host }}.svc.cluster.local:{{ .Values.retool.workflows.temporal.port }}"
+      restartPolicy: Never
+  backoffLimit: 5
+{{ end }}

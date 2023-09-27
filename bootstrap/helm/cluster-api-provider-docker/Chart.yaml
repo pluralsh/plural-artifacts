@@ -2,7 +2,7 @@ apiVersion: v2
 name: cluster-api-provider-docker
 description: A Helm chart for Kubernetes
 type: application
-version: 0.1.2
+version: 0.1.3
 appVersion: "v1.5.1"
 dependencies:
 - name: cluster-api-provider-docker

@@ -1,0 +1,41 @@
+{{- if .Values.istioGateway.enabled }}
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: {{ include "istio-ingress-plural.fullname" . }}
+  labels:
+  {{- include "istio-ingress-plural.labels" . | nindent 4 }}
+spec:
+  selector:
+    {{- if hasKey .Values.gateway.labels "istio" }}
+    {{- with .Values.gateway.labels.istio }}
+    istio: {{.|quote}}
+    {{- end }}
+    {{- else }}
+    istio: {{ include "gateway.name" .Subcharts.gateway | trimPrefix "istio-" }}
+    {{- end }}
+  servers:
+  - port:
+      name: http
+      number: 80
+      protocol: HTTP
+    {{- with .Values.istioGateway.hosts }}
+    hosts:
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- if .Values.istioGateway.tls.enabled }}
+    tls:
+      httpsRedirect: true
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: {{ include "istio-ingress-plural.fullname" . }}-ingress-cert
+    {{- with .Values.istioGateway.hosts }}
+    hosts:
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- end }}
+{{- end }}

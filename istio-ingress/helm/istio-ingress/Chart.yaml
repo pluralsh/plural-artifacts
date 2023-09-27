@@ -1,0 +1,11 @@
+apiVersion: v2
+name: istio-ingress
+description: helm chart for istio-ingress
+type: application
+version: 0.1.1
+appVersion: "1.19.0"
+dependencies:
+- name: gateway
+  version: 1.19.0
+  repository: https://istio-release.storage.googleapis.com/charts
+  condition: gateway.enabled

@@ -1,0 +1,10 @@
+apiVersion: v2
+name: silence-operator
+description: A Helm chart for Kubernetes
+type: application
+version: 0.0.6
+appVersion: "1.16.0"
+dependencies:
+- name: silence-operator
+  version: 0.0.6
+  repository: https://wiremind.github.io/wiremind-helm-charts

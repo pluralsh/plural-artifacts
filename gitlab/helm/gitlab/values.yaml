@@ -83,6 +83,11 @@ gitlab:
         cpu: 10m
         memory: 64Mi
   gitlab:
+    kas:
+      ingress:
+        tls:
+          secretName: gitlab-kas-tls
+          enabled: true
     webservice:
       minReplicas: 1
       ingress:

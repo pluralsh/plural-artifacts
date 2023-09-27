@@ -499,7 +499,6 @@ workers:
   #################################
   azure:
     lsod:
-      kubernetesVersion: v1.25.11
       spec:
         additionalTags: # TODO: allow this to not be set
           ScalingGroup: large-sustained-on-demand
@@ -520,7 +519,6 @@ workers:
     lsspot:
       replicas: 0
       isMultiAZ: true
-      kubernetesVersion: v1.25.11
       spec:
         additionalTags: # TODO: allow this to not be set
           ScalingGroup: large-sustained-spot
@@ -549,7 +547,6 @@ workers:
             key: kubernetes.azure.com/scalesetpriority
             value: spot
     msod:
-      kubernetesVersion: v1.25.11
       spec:
         additionalTags: # TODO: allow this to not be set
           ScalingGroup: medium-sustained-on-demand
@@ -569,7 +566,6 @@ workers:
         sku: Standard_D4as_v5
     msspot:
       isMultiAZ: true
-      kubernetesVersion: v1.25.11
       spec:
         additionalTags: # TODO: allow this to not be set
           ScalingGroup: medium-sustained-spot
@@ -599,7 +595,6 @@ workers:
             value: spot
     ssod:
       replicas: 1
-      kubernetesVersion: v1.25.11
       spec:
         additionalTags: # TODO: allow this to not be set
           ScalingGroup: small-sustained-on-demand
@@ -619,7 +614,6 @@ workers:
         sku: Standard_D2as_v5
     ssspot:
       isMultiAZ: true
-      kubernetesVersion: v1.25.11
       spec:
         additionalTags: # TODO: allow this to not be set
           ScalingGroup: small-sustained-spot

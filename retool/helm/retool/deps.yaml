@@ -10,18 +10,18 @@ spec:
     name: bootstrap
     repo: bootstrap
     version: '>= 0.5.1'
-  
   - type: helm
     name: ingress-nginx
     repo: ingress-nginx
     version: ">= 0.1.2"
-  
-  
   - type: helm
     name: postgres
     repo: postgres
     version: ">= 0.1.6"
-  
+  - type: helm
+    name: temporal
+    repo: temporal
+    version: ">= 0.0.1"
   - type: terraform
     name: aws
     repo: retool

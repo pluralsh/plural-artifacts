@@ -7,7 +7,7 @@ metadata:
 spec:
   namespaceSelector:
     matchNames:
-    - {{ .Values.istio.namespace }}
+    - {{ .Release.Namespace }}
   selector:
     matchLabels:
       app: prometheus

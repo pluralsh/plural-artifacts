@@ -9,6 +9,7 @@ cluster:
   name: {{ .Cluster }}
 
   {{- if eq .Provider "aws" }}
+  kubernetesVersion: v1.24
   aws:
     region: {{ .Region }}
     iamAuthenticatorConfig:
@@ -25,6 +26,7 @@ cluster:
   {{- end }}
 
   {{- if eq .Provider "azure" }}
+  kubernetesVersion: v1.25.11
   azure:
     clusterIdentity:
       workloadIdentity:
@@ -38,6 +40,7 @@ cluster:
   {{- end }}
 
   {{- if $isGcp }}
+  kubernetesVersion: 1.24.17
   gcp:
     project: {{ .Project }}
     region: {{ .Region }}

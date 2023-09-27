@@ -5,16 +5,11 @@ primary: true
 dependencies:
 - repo: bootstrap
   name: aws-k8s
-- repo: monitoring
-  name: monitoring-aws
-- repo: ingress-nginx
-  name: ingress-nginx-aws
+- repo: istio-ingress
+  name: istio-ingress-aws
 sections:
 - name: istio
-  configuration:
-  - name: kialiHostname
-    documentation: FQDN to use for the Kiali installation
-    type: DOMAIN
+  configuration: []
   items:
   - type: TERRAFORM
     name: kube

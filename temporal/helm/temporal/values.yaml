@@ -1,0 +1,110 @@
+postgres:
+  team: plural
+  user: temporal
+  dbName: temporal
+  ownerChart: temporal
+  infix: '-postgres'
+
+oidc:
+  clientId: bogus
+  clientSecret: bogus
+
+grpc:
+  hostname: ~
+  ingressClass: internal-nginx
+  service: temporal-frontend
+  port: grpc-rpc
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
+    kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+
+temporal:
+  web:
+    config:
+      auth:
+        enabled: true
+        providers:
+        - label: Login With Plural # for internal use; in future may expose as button text
+          type: oidc 
+          issuerUrl: ~
+          clientId: ~
+          clientSecret: ~
+          callbackUrl: ~
+          scopes:
+            - openid
+            - profile
+            - email
+          
+    ingress:
+      enabled: false
+      className: nginx
+      annotations:
+        kubernetes.io/tls-acme: "true"
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+  server:
+    config:
+      persistence:
+        default:
+          driver: "sql"
+
+          sql:
+            driver: "postgres"
+            host: plural-postgres-temporal
+            port: 5432
+            database: temporal
+            user: temporal
+            existingSecret: temporal.plural-postgres-temporal.credentials.postgresql.acid.zalan.do
+            maxConns: 20
+            maxConnLifetime: "1h"
+            tls:
+              enabled: true
+              enableHostVerification: false
+
+        visibility:
+          driver: "sql"
+
+          sql:
+            driver: "postgres"
+            host: plural-postgres-temporal
+            port: 5432
+            database: temporal
+            user: temporal
+            existingSecret: temporal.plural-postgres-temporal.credentials.postgresql.acid.zalan.do
+            maxConns: 20
+            maxConnLifetime: "1h"
+            tls:
+              enabled: true
+              enableHostVerification: false
+
+  cassandra:
+    enabled: false
+
+  mysql:
+    enabled: false
+
+  postgresql:
+    enabled: true
+
+  prometheus:
+    enabled: false
+
+  grafana:
+    enabled: false
+    
+  elasticsearch:
+    enabled: false
+
+  schema:
+    extraEnv:
+    - name: SQL_TLS_DISABLE_HOST_VERIFICATION
+      value: 'true'
+    - name: SQL_TLS_ENABLED
+      value: 'true'
+    - name: SQL_TLS
+      value: 'true'
+    setup:
+      enabled: true
+    update:
+      enabled: true
