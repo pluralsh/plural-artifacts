@@ -92,16 +92,16 @@ webApp:
         value: IfNotPresent
         readOnly: false
       jupyterImages:
-        - ghcr.io/pluralsh/kubeflow-notebooks-jupyter-scipy:2.2.0
-        - ghcr.io/pluralsh/kubeflow-notebooks-jupyter-pytorch-full:2.2.0
-        - ghcr.io/pluralsh/kubeflow-notebooks-jupyter-pytorch-full-cuda:2.2.0
-        - ghcr.io/pluralsh/kubeflow-notebooks-jupyter-tensorflow-full:2.3.0
-        - ghcr.io/pluralsh/kubeflow-notebooks-jupyter-tensorflow-full-cuda:2.3.0
-        - ghcr.io/pluralsh/kubeflow-notebooks-jupyter-go:2.3.0
+        - ghcr.io/pluralsh/kubeflow-notebooks-jupyter-scipy:2.5.0
+        - ghcr.io/pluralsh/kubeflow-notebooks-jupyter-pytorch-full:2.5.0
+        - ghcr.io/pluralsh/kubeflow-notebooks-jupyter-pytorch-full-cuda:2.5.0
+        - ghcr.io/pluralsh/kubeflow-notebooks-jupyter-tensorflow-full:2.6.0
+        - ghcr.io/pluralsh/kubeflow-notebooks-jupyter-tensorflow-full-cuda:2.6.0
+        - ghcr.io/pluralsh/kubeflow-notebooks-jupyter-go:2.5.0
       vscodeImages:
-        - ghcr.io/pluralsh/kubeflow-notebooks-codeserver-python:2.2.0
+        - ghcr.io/pluralsh/kubeflow-notebooks-codeserver-python:2.4.0
       rstudioImages:
-        - ghcr.io/pluralsh/kubeflow-notebooks-rstudio-tidyverse:2.2.0
+        - ghcr.io/pluralsh/kubeflow-notebooks-rstudio-tidyverse:2.3.0
     cpu:
       # CPU for user's Notebook
       value: '0.5'
