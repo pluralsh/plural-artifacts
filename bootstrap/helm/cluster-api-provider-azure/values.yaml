@@ -1,10 +1,6 @@
-crds:
-  create: true
-
 cluster-api-provider-azure:
   bootstrapMode: false # we should never set this to true since it uses a deprecated method for setting the credentials
   crds:
-    create: false
   configVariables:
     exprimental:
       machinePool: true
@@ -12,7 +8,7 @@ cluster-api-provider-azure:
     manager:
       image:
         repository: ghcr.io/kubernetes-sigs/cluster-api-azure-controller
-        tag: v1.11.0
+        tag: v1.11.1
 
 job:
   enabled: true
