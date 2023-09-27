@@ -1,6 +1,5 @@
 cluster-api-provider-azure:
   bootstrapMode: false # we should never set this to true since it uses a deprecated method for setting the credentials
-  crds:
   configVariables:
     exprimental:
       machinePool: true
