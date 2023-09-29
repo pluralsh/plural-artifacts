@@ -403,6 +403,9 @@ workers:
     #########################################
     kind:
       replicas: 0
+      labels: {}
+      annotations:
+        cluster.x-k8s.io/replicas-managed-by: external-autoscaler
   #################################
   ###        AWS WORKERS        ###
   #################################
