@@ -9,6 +9,8 @@ postgres:
   dbName: retool
   ownerChart: retool
   infix: -postgres
+  parameters:
+    max_connections: '101'
 
 setupTemporal: true
 
@@ -17,7 +19,7 @@ retool:
 
   image:
     repository: tryretool/backend
-    tag: 3.10.2
+    tag: 3.12.2
   
   workflows:
     temporal:
