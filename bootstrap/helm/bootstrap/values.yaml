@@ -64,7 +64,7 @@ aws-load-balancer-controller:
   enabled: false
   image:
     repository: public.ecr.aws/eks/aws-load-balancer-controller # TODO: this should be migrated to our vendored images
-    tag: v2.4.7
+    tag: v2.6.1
 
 snapshot-validation-webhook:
   enabled: false
