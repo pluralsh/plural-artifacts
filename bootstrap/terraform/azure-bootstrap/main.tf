@@ -1,3 +1,6 @@
+data "azurerm_subscription" "sub" {
+}
+
 data "azurerm_resource_group" "group" {
   name = var.resource_group
 }
@@ -204,14 +207,8 @@ resource "azurerm_user_assigned_identity" "aso" {
   resource_group_name = data.azurerm_resource_group.group.name
 }
 
-resource "azurerm_role_assignment" "aso-rg-contributor" {
-  scope                = data.azurerm_resource_group.group.id
-  role_definition_name = "Contributor"
-  principal_id         = azurerm_user_assigned_identity.aso.principal_id
-}
-
-resource "azurerm_role_assignment" "aso-node-rg-contributor" {
-  scope                = data.azurerm_resource_group.node_group.id
+resource "azurerm_role_assignment" "aso-sub-contributor" {
+  scope                = data.azurerm_subscription.sub.id
   role_definition_name = "Contributor"
   principal_id         = azurerm_user_assigned_identity.aso.principal_id
 }
