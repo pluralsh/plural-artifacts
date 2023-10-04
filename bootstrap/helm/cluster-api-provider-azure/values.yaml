@@ -7,7 +7,7 @@ cluster-api-provider-azure:
     manager:
       image:
         repository: ghcr.io/kubernetes-sigs/cluster-api-azure-controller
-        tag: v1.11.1
+        tag: v1.11.2
 
 job:
   enabled: true
