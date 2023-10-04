@@ -6,5 +6,5 @@ version: 0.1.12
 appVersion: v1.11.1
 dependencies:
   - name: cluster-api-provider-azure
-    version: 0.1.12
+    version: 0.1.14
     repository: https://pluralsh.github.io/capi-helm-charts
