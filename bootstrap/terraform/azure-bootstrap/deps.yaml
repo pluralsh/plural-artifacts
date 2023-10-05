@@ -17,7 +17,6 @@ spec:
     kubelet_msi_id: kubelet_msi_id
     node_resource_group: node_resource_group
     capz_assigned_identity_client_id: capz_assigned_identity_client_id
-    aso_assigned_identity_client_id: aso_assigned_identity_client_id
   provider_wirings:
     cluster: module.azure-bootstrap.cluster
   provider_vsn: "0.1.4"

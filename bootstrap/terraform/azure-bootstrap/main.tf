@@ -180,14 +180,8 @@ resource "azurerm_user_assigned_identity" "capz" {
   resource_group_name = data.azurerm_resource_group.group.name
 }
 
-resource "azurerm_role_assignment" "rg-contributor" {
-  scope                = data.azurerm_resource_group.group.id
-  role_definition_name = "Contributor"
-  principal_id         = azurerm_user_assigned_identity.capz.principal_id
-}
-
-resource "azurerm_role_assignment" "node-rg-contributor" {
-  scope                = data.azurerm_resource_group.node_group.id
+resource "azurerm_role_assignment" "capz-sub-contributor" {
+  scope                = data.azurerm_subscription.sub.id
   role_definition_name = "Contributor"
   principal_id         = azurerm_user_assigned_identity.capz.principal_id
 }
@@ -201,24 +195,12 @@ resource "azurerm_federated_identity_credential" "capz" {
   subject             = "system:serviceaccount:${var.namespace}:bootstrap-capz-capz-manager"
 }
 
-resource "azurerm_user_assigned_identity" "aso" {
-  location            = data.azurerm_resource_group.group.location
-  name                = "${var.name}-capz-aso"
-  resource_group_name = data.azurerm_resource_group.group.name
-}
-
-resource "azurerm_role_assignment" "aso-sub-contributor" {
-  scope                = data.azurerm_subscription.sub.id
-  role_definition_name = "Contributor"
-  principal_id         = azurerm_user_assigned_identity.aso.principal_id
-}
-
 resource "azurerm_federated_identity_credential" "aso" {
   name                = "${var.name}-aso-federated-identity"
   resource_group_name = data.azurerm_resource_group.group.name
   audience            = ["api://AzureADTokenExchange"]
   issuer              = var.cluster_api ? one(data.azurerm_kubernetes_cluster.cluster[*].oidc_issuer_url) : one(module.aks[*].oidc_issuer_url)
-  parent_id           = azurerm_user_assigned_identity.aso.id
+  parent_id           = azurerm_user_assigned_identity.capz.id
   subject             = "system:serviceaccount:${var.namespace}:bootstrap-capz-aso-default"
 }
 
