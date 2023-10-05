@@ -3,7 +3,7 @@ name: ray
 description: helm chart for ray
 type: application
 version: 0.1.8
-appVersion: "2.5.0"
+appVersion: "2.7.0"
 dependencies:
 - name: oauth2-proxy
   version: 6.12.1
