@@ -14,7 +14,7 @@ mageai:
       kubernetes.io/tls-acme: "true"
       cert-manager.io/cluster-issuer: letsencrypt-prod
   image:
-    repository: docker.io/mageai/mageai
+    repository: dkr.plural.sh/mage/mageai/mageai
     tag: 0.9.31
 
   volumes:
