@@ -1,7 +1,7 @@
 name: mage
 description: 🧙 The modern replacement for Airflow. Build, run, and manage data pipelines for integrating and transforming data.
 category: DATA
-private: true
+private: false
 releaseStatus: ALPHA
 icon: plural/icons/mage.png
 notes: plural/notes.tpl
