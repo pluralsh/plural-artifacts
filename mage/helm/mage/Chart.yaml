@@ -2,7 +2,7 @@ apiVersion: v2
 name: mage
 description: helm chart for mageai
 type: application
-version: 0.1.4
+version: 0.1.10
 appVersion: 0.9.31
 dependencies:
 - name: postgres
