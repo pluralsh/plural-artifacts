@@ -371,7 +371,7 @@ variable "aws_region" {
 
 variable "capa_serviceaccount" {
   type = string
-  default = "bootstrap-cluster-api-provider-aws"
+  default = "bootstrap-capa-controller-manager"
 }
 
 variable "capi_serviceaccount" {
