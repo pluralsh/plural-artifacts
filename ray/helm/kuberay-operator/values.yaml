@@ -1,6 +1,6 @@
 kuberay-operator:
   image:
-    repository: docker.io/kuberay/operator
+    repository: dkr.plural.sh/ray/kuberay/operator
     tag: v0.6.0
 metrics:
   enabled: true

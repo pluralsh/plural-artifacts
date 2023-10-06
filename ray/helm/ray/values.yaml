@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 image:
-  repository: docker.io/rayproject/ray
+  repository: dkr.plural.sh/ray/rayproject/ray
   tag: 2.7.0
   pullPolicy: IfNotPresent
 
