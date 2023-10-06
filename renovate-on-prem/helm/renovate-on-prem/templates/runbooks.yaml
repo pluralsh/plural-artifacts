@@ -16,18 +16,18 @@ spec:
     prometheus:
       format: cpu
       legend: $pod
-      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ template "whitesource-renovate.fullname" (index .Subcharts "whitesource-renovate") }}.+"}[5m])) by (pod)
+      query: sum(rate(container_cpu_usage_seconds_total{namespace="{{ .Release.Namespace }}",pod=~"{{ template "mend-renovate.fullname" (index .Subcharts "mend-renovate-ce") }}.+"}[5m])) by (pod)
   - name: renovate-memory
     type: prometheus
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "whitesource-renovate.fullname" (index .Subcharts "whitesource-renovate") }}.+"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "mend-renovate.fullname" (index .Subcharts "mend-renovate-ce") }}.+"}) by (pod)
   - name: renovate
     type: kubernetes
     kubernetes:
       resource: deployment
-      name: {{ template "whitesource-renovate.fullname" (index .Subcharts "whitesource-renovate") }}
+      name: {{ template "mend-renovate.fullname" (index .Subcharts "mend-renovate-ce") }}
   actions:
   - name: scale
     action: config
@@ -36,28 +36,28 @@ spec:
       updates:
         - path:
             - renovate-on-prem
-            - whitesource-renovate
+            - mend-renovate-ce
             - resources
             - requests
             - cpu
           valueFrom: renovate-cpu
         - path:
             - renovate-on-prem
-            - whitesource-renovate
+            - mend-renovate-ce
             - resources
             - requests
             - memory
           valueFrom: renovate-memory
         - path:
             - renovate-on-prem
-            - whitesource-renovate
+            - mend-renovate-ce
             - resources
             - limits
             - cpu
           valueFrom: renovate-cpu-limit
         - path:
             - renovate-on-prem
-            - whitesource-renovate
+            - mend-renovate-ce
             - resources
             - limits
             - memory
