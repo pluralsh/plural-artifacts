@@ -12,7 +12,7 @@ httpConfig:
   password: dummy
 
 secrets:
-  createPluralRedisSecret: false
+  createPluralRedisSecret: true
   redis_password: example
 
 test-base:
@@ -257,7 +257,7 @@ airflow:
   
   flower:
     enabled: false
-  
+
   rbac:
     create: true
   
@@ -268,7 +268,7 @@ airflow:
     image:
       registry: gcr.io/pluralsh
       tag: 6.0.9-debian-10-r0
-    enabled: true
+    enabled: false
     existingSecret: airflow-redis-password
     existingSecretPasswordKey: redis-password
 
@@ -310,11 +310,20 @@ airflow:
     passwordSecretKey: redis-password
 
   airflow:
-    executor: CeleryExecutor
+    executor: KubernetesExecutor
     image:
       repository: ghcr.io/pluralsh/containers/apache/airflow
       tag: 2.6.3-python3.10-plural1.4.4
 
+    kubernetesPodTemplate:
+      resources:
+        requests:
+          cpu: 100m
+          memory: 500Mi
+        limits:
+          cpu: 500m
+          memory: 1.5Gi
+  
     config:
       ## security
       AIRFLOW__WEBSERVER__EXPOSE_CONFIG: "False"
@@ -383,7 +392,7 @@ airflow:
   workers:
     ## if the airflow workers StatefulSet should be deployed
     ##
-    enabled: true
+    enabled: false
 
     replicas: 2
 
