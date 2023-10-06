@@ -1,9 +1,11 @@
 secrets: {}
 
-whitesource-renovate:
+mend-renovate-ce:
   image:
-    repository: dkr.plural.sh/renovate-on-prem/whitesource/renovate
-    tag: 4.3.0
+    repository: dkr.plural.sh/renovate-on-prem/mend/renovate-ce
+    tag: 6.1.1-full
+  renovate:
+    mendRnvAdminApiEnabled: true
   ingress:
     enabled: true
     ingressClassName: nginx

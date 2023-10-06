@@ -2,9 +2,9 @@ apiVersion: v2
 name: renovate-on-prem
 description: helm chart for renovate-on-prem
 type: application
-version: 0.2.1
-appVersion: 4.3.0
+version: 0.3.0
+appVersion: 6.1.1
 dependencies:
-- name: whitesource-renovate
-  repository: https://mend.github.io/renovate-on-prem
-  version: 3.1.4
+- name: mend-renovate-ce
+  repository: https://mend.github.io/renovate-ce-ee
+  version: 6.1.1
