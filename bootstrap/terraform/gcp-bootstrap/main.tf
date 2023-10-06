@@ -164,12 +164,12 @@ module "certmanager-workload-identity" {
 
 module "capi-workload-identity" {
   source              = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
-  name                = "${var.cluster_name}-cluster-api-provider-gcp"
+  name                = "${var.cluster_name}-capg"
   namespace           = var.namespace
   project_id          = var.gcp_project_id
   use_existing_k8s_sa = true
   annotate_k8s_sa     = false
-  k8s_sa_name         = "bootstrap-cluster-api-provider-gcp"
+  k8s_sa_name         = "${var.namespace}-capg-manager"
   roles               = [
     "roles/iam.serviceAccountUser",
     "roles/iam.workloadIdentityUser",

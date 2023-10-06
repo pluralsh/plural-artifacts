@@ -4,7 +4,7 @@ kind: CustomResourceDefinition
 metadata:
   name: gcpmachinetemplates.infrastructure.cluster.x-k8s.io
   annotations:
-    cert-manager.io/inject-ca-from: '{{ .Release.Namespace }}/{{ include "cluster-api-provider-gcp.fullname" . }}-serving-cert'
+    cert-manager.io/inject-ca-from: '{{ .Release.Namespace }}/{{ include "cluster-api-provider-gcp.fullname" (index .Subcharts "cluster-api-provider-gcp") }}-serving-cert'
     controller-gen.kubebuilder.io/version: v0.11.3
   labels:
     clusterctl.cluster.x-k8s.io: ""
@@ -18,7 +18,7 @@ spec:
       clientConfig:
         caBundle: Cg==
         service:
-          name: '{{ include "cluster-api-provider-gcp.fullname" . }}-webhook-service'
+          name: '{{ include "cluster-api-provider-gcp.fullname" (index .Subcharts "cluster-api-provider-gcp") }}-webhook-service'
           namespace: '{{ .Release.Namespace }}'
           path: /convert
       conversionReviewVersions:
