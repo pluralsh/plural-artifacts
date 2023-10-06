@@ -143,4 +143,4 @@ This example uses a Redshift Data Warehouse as a target, but you can also config
 Snowflake, BigQuery, etc.). For more information, please review Cosmos Docs [here](https://astronomer.github.io/astronomer-cosmos/profiles/index.html). 
 After making these changes, you should see the DAG parse like so:
 
-![jaffle_shop_dag.png](static%2Fjaffle_shop_dag.png)
+![jaffle_shop_dag.png](https://github.com/astronomer/astronomer-cosmos/blob/main/docs/_static/jaffle_shop_task_group.png)
