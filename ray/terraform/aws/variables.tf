@@ -30,7 +30,7 @@ variable "node_groups_defaults" {
     min_capacity     = 0
     max_capacity     = 3
 
-    instance_types       = ["t3.large", "t3a.large"]
+    instance_types       = ["t3.xlarge", "t3a.xlarge"]
     disk_size            = 50
     ami_release_version  = "1.24.15-20230816"
     force_update_version = true
