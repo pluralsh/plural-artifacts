@@ -112,11 +112,11 @@ workers:
   container:
     resources:
       limits:
-        cpu: 4
+        cpu: 2
         memory: 4G
       requests:
-        cpu: 3
-        memory: 3G
+        cpu: 1
+        memory: 2G
     env: []
     envFrom: []
     # - secretRef:

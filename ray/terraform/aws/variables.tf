@@ -30,7 +30,7 @@ variable "node_groups_defaults" {
     min_capacity     = 0
     max_capacity     = 3
 
-    instance_types       = ["t3.xlarge", "t3a.xlarge"]
+    instance_types       = ["t3.large", "t3a.large"]
     disk_size            = 50
     ami_release_version  = "1.24.15-20230816"
     force_update_version = true
@@ -46,7 +46,7 @@ variable "single_az_node_groups" {
     ray_small_burst_spot = {
       name           = "ray-small-burst-spot"
       capacity_type  = "SPOT"
-      instance_types = ["t3.xlarge", "t3a.xlarge"]
+      instance_types = ["t3.large", "t3a.large"]
       k8s_labels = {
         "plural.sh/capacityType"    = "SPOT"
         "plural.sh/performanceType" = "BURST"
