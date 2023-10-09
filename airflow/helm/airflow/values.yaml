@@ -333,6 +333,9 @@ airflow:
       ## dags
       AIRFLOW__SCHEDULER__DAG_DIR_LIST_INTERVAL: "30"
 
+      ## k8s executor
+      AIRFLOW__KUBERNETES_EXECUTOR__WORKER_PODS_CREATION_BATCH_SIZE: "5"
+
       ## remote log storage
       AIRFLOW__LOGGING__REMOTE_LOGGING: "True"
       AIRFLOW__LOGGING__REMOTE_LOG_CONN_ID: "plural"
