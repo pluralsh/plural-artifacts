@@ -4,6 +4,6 @@ dependencies:
   version: 0.1.5
 - name: mageai
   repository: https://mage-ai.github.io/helm-charts
-  version: 0.1.2
-digest: sha256:dd45698821c408ea2e7d4092759b3349b81560831eecc5ae62585864c453f6c5
-generated: "2023-06-26T13:31:32.353565+02:00"
+  version: 0.1.4
+digest: sha256:85b3a36cafc18f811f99fceabc7ce5ee791d0994a10d03213979321a57a6e1e7
+generated: "2023-10-04T22:26:18.459861143-07:00"

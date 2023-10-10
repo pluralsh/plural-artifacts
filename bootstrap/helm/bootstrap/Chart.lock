@@ -13,7 +13,7 @@ dependencies:
   version: 9.25.0
 - name: aws-load-balancer-controller
   repository: https://aws.github.io/eks-charts
-  version: 1.4.8
+  version: 1.6.1
 - name: aws-ebs-csi-driver
   repository: https://kubernetes-sigs.github.io/aws-ebs-csi-driver
   version: 2.17.1
@@ -26,5 +26,5 @@ dependencies:
 - name: tigera-operator
   repository: https://docs.tigera.io/calico/charts
   version: v3.25.0
-digest: sha256:1d124ca9acb4e93009dfeb4273d149d075616babbad1fe3e5bb6c88540b5f96d
-generated: "2023-03-07T15:21:37.729265+01:00"
+digest: sha256:b7ee91be180afabfb812e9c8e7f7bfdfd2a1c4ebef9592ccd37e6eadd65409a2
+generated: "2023-10-05T13:27:49.248688-04:00"

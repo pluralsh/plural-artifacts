@@ -4,7 +4,7 @@ global:
     - description: renovate public endpoint
       url: {{ .Values.hostname }}
 
-whitesource-renovate:
+mend-renovate-ce:
   ingress:
     hosts:
       - {{ .Values.hostname }}
@@ -14,28 +14,29 @@ whitesource-renovate:
       -  {{ .Values.hostname }}
   renovate:
     {{- if .Values.acceptTos }}
-    acceptWhiteSourceTos: "y"
+    mendRnvAcceptTos: "y"
     {{- end }}
-    licenseKey: {{ .Values.licenseKey }}
-    renovatePlatform: {{ .Values.platform }}
+    mendRnvLicenseKey: {{ .Values.licenseKey }}
+    mendRnvServerApiSecret: {{ dedupe . "renovate-on-prem.mend-renovate-ce.renovate.mendRnvServerApiSecret" (randAlphaNum 32) }}
+    mendRnvPlatform: {{ .Values.platform }}
     {{- if .Values.renovateEndpoint }}
-    renovateEndpoint: {{ .Values.renovateEndpoint }}
+    mendRnvEndpoint: {{ .Values.renovateEndpoint }}
     {{- else if eq .Values.platform "github" }}
-    renovateEndpoint: https://api.github.com/
+    mendRnvEndpoint: https://api.github.com/
     {{- else if eq .Values.platform "gitlab" }}
-    renovateEndpoint: https://gitlab.com/api/v4/
+    mendRnvEndpoint: https://gitlab.com/api/v4/
     {{- end }}
     {{- if .Values.githubAppId }}
-    githubAppId: {{ .Values.githubAppId | quote }}
+    mendRnvGithubAppId: {{ .Values.githubAppId | quote }}
     {{- end }}
     {{- if .Values.githubAppKey }}
-    githubAppKey: {{ .Values.githubAppKey | quote }}
+    mendRnvGithubAppKey: {{ .Values.githubAppKey | quote }}
     {{- end }}
     {{- if .Values.webhookSecret }}
-    webhookSecret: {{ .Values.webhookSecret }}
+    mendRnvWebhookSecret: {{ .Values.webhookSecret }}
     {{- end }}
     {{- if .Values.renovateToken }}
-    renovateToken: {{ .Values.renovateToken }}
+    mendRnvGitlabPat: {{ .Values.renovateToken }}
     {{- end }}
     {{- if .Values.githubComToken }}
     githubComToken: {{ .Values.githubComToken }}
