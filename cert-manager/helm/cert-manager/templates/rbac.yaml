@@ -1,0 +1,37 @@
+# Grant cert-manager permission to validate using our apiserver
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "cert-manager-plural.fullname" . }}:domain-solver
+  labels:
+    app: {{ include "cert-manager-plural.name" . }}
+    chart: {{ include "cert-manager-plural.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+rules:
+  - apiGroups:
+      - {{ .Values.groupName }}
+    resources:
+      - '*'
+    verbs:
+      - 'create'
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "cert-manager-plural.fullname" . }}:domain-solver
+  labels:
+    app: {{ include "cert-manager-plural.name" . }}
+    chart: {{ include "cert-manager-plural.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ include "cert-manager-plural.fullname" . }}:domain-solver
+subjects:
+  - apiGroup: ""
+    kind: ServiceAccount
+    name: {{ include "cert-manager-plural.serviceAccountName" (index .Subcharts "cert-manager") }}
+    namespace: {{ .Release.Namespace }}
+---

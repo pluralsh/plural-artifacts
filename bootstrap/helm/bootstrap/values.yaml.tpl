@@ -4,6 +4,7 @@
 {{ if eq .Provider "google" }}
   {{ $_ := set $providerArgs "provider" "gcp" }}
 {{ end }}
+{{ $certManager := chartInstalled "cert-manager" "cert-manager" }}
 
 external-dns:
   {{ if $pluraldns }}
@@ -146,50 +147,39 @@ snapshot-controller:
 {{- end}}
 {{ end }}
 
-{{ if $pluraldns }}
+
 dnsSolver:
+  {{- if $pluraldns }}
   webhook:
     groupName: acme.plural.sh
     solverName: plural-solver
     config:
       cluster: {{ $providerArgs.cluster }}
       provider: {{ $providerArgs.provider }}
-{{ end }}
-
-{{ if eq .Provider "aws" }}
-cert-manager:
-  serviceAccount:
-    create: true
-    name: certmanager
-    annotations:
-      eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-certmanager"
-
-{{ if not $pluraldns }}
-dnsSolver:
+  {{- else if eq .Provider "aws" }}
   route53:
     region: {{ .Region }}
-{{ end }}
-{{ end }}
-
-{{ if and (not $pluraldns) (eq .Provider "azure") }}
-dnsSolver:
+  {{- else if $isGcp }}
+  cloudDNS:
+    project: {{ .Project }}
+  {{- else if eq .Provider "azure" }}
   azureDNS:
     subscriptionID: {{ .Context.SubscriptionId }}
     resourceGroupName: {{ .Project }}
     hostedZoneName: {{ .Network.Subdomain }}
     # Azure Cloud Environment, default to AzurePublicCloud
     environment: AzurePublicCloud
-{{ end }}
+  {{- end }}
 
-{{ if $isGcp }}
 cert-manager:
+  {{- if $certManager }}
+  enabled: false
+  {{- end }}
   serviceAccount:
+    {{- if $isGcp }}
     create: false
-    name: certmanager
-
-{{ if not $pluraldns }}
-dnsSolver:
-  cloudDNS:
-    project: {{ .Project }}
-{{ end }}
-{{ end }}
+    {{- end }}
+    {{- if eq .Provider "aws" }}
+    annotations:
+      eks.amazonaws.com/role-arn: "arn:aws:iam::{{ .Project }}:role/{{ .Cluster }}-certmanager"
+    {{- end }}

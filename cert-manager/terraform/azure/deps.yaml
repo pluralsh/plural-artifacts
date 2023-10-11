@@ -1,0 +1,16 @@
+apiVersion: plural.sh/v1alpha1
+kind: Dependencies
+metadata:
+  description: cert-manager azure setup
+  version: 0.1.2
+spec:
+  dependencies:
+  - name: azure-bootstrap
+    repo: bootstrap
+    type: terraform
+    version: '>= 0.1.1'
+  providers:
+  - azure
+  outputs:
+    msi_client_id: msi_client_id
+  provider_vsn: "0.1.4"

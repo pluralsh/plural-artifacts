@@ -1,0 +1,1 @@
+Use `plural watch cert-manager` to track the status of your application
