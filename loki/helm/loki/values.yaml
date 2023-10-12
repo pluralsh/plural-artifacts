@@ -253,7 +253,7 @@ promtail:
   image:
     registry: dkr.plural.sh
     repository: loki/grafana/promtail
-    tag: 2.6.1
+    tag: 2.9.1
   podAnnotations:
     prometheus.io/scrape: "true"
     prometheus.io/port: "3101"
