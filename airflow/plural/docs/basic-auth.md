@@ -17,24 +17,33 @@ airflow:
 
 Alternatively, you should be able to do this in the configuration section for airflow in your plural console as well.
 
-### create an Airflow User
+### exec into airflow scheduler pod
 
-Create an Airflow user that will be used to make the API calls. To do this, you'll need to identify your Airflow 
-Scheduler pod by running:
+In order to create an Airflow user that will be used to authenticate to the API, you will need to run Airflow CLI 
+commands. This requires an exec into your Airflow environment. There are two ways you could do this (via local CLI or 
+via Plural Console). Choose whichever works best for you:
 
-```shell
-kubectl get pods -n airflow
-```
+**__via local CLI__**
 
-After which you can run the following to get a shell to the scheduler container (be sure to replace `nnn-nnn` with the 
-actual output from the previous command above):
+1. Identify the scheduler pod by running `kubectl get pods -n airflow`
+2. Exec into the scheduler pod by running `kubectl exec -ti airflow-scheduler-nnn-nnn --namespace airflow -- /bin/bash`
 
-```shell
-kubectl exec -ti airflow-scheduler-nnn-nnn --namespace airflow -- /bin/bash
-```
+**__via Plural Console__**
+
+1. Click on the `Pods` icon on the left-hand nav bar
+2. Filter the pods down to the `Airflow` namespace
+3. Click on a pod running an Airflow Scheduler
+4. On the container line-item called `airflow-scheduler` click the shell icon to launch a shell where you can run Airflow 
+CLI commands
+
+### create an airflow user
 
 Now that you have a shell to the scheduler container, you can run an Airflow command to create a user (see Airflow Docs 
 [here](https://airflow.apache.org/docs/apache-airflow/stable/security/webserver.html#web-authentication)):
+
+```shell
+(airflow) airflow users create -e spiderman@superhero.org -f Peter -l Parker -p my_super_secret_password -r Admin -u pparker
+```
 
 ```shell
 airflow@airflow-scheduler-nnn-nnn:/opt/airflow$ airflow users create -e spiderman@superhero.org -f Peter -l Parker -p my_super_secret_password -r Admin -u pparker
