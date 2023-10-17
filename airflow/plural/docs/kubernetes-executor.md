@@ -29,6 +29,8 @@ airflow:
       enabled: false
     workers:
       enabled: false
+  secrets:
+    createPluralRedisSecret: true
 ```
 
 The resources that you configure in the `kubernetesPodTemplate` section will determine the amount of resources that will 
