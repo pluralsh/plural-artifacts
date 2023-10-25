@@ -1,17 +1,61 @@
-nodeSelector: {}
+image:
+  repository: ghcr.io/pluralsh/kas
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
 
-tolerations: []
+imagePullSecrets: []
+
+nameOverride: ""
+
+fullnameOverride: ""
+
+
+podAnnotations: {}
+
+podSecurityContext:
+  runAsUser: 65532
+
+securityContext:
+  runAsUser: 65532
+  runAsGroup: 65532
+  fsGroup: 65532
+
+priorityClassName: ""
+
+extraEnv: []
+
+extraArgs: []
+
+nodeSelector: {}
 
 affinity: {}
 
-podAnnotations: {}
+tolerations: []
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+  memory: 128Mi
+
+service:
+  externalPort: 8150
+  internalPort: 8150
+  apiInternalPort: 8153
+  kubernetesApiPort: 8154
+  privateApiPort: 8155
+  observabilityPort: 8151
+  type: ClusterIP
 
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
   # Annotations to add to the service account
   annotations: {}
-  # The name of the service account to use.
+  # The name of the service account to use
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 

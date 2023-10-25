@@ -58,6 +58,13 @@ Create the name of the service to use
 {{- end }}
 
 {{/*
+Create the name of the config map to use
+*/}}
+{{- define "kas.configMapName" -}}
+{{- printf "%s-config" (include "kas.fullname" .) }}
+{{- end }}
+
+{{/*
 Create the name of the service account to use
 */}}
 {{- define "kas.serviceAccountName" -}}

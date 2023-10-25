@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "kas.fullname" . }}
+  labels:
+    {{- include "kas.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "kas.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+        {{- if and .Values.metrics.enabled (not .Values.metrics.serviceMonitor.enabled) }}
+        prometheus.io/scrape: "true"
+        prometheus.io/port: {{ .Values.observability.port | quote }}
+        prometheus.io/path: {{ .Values.metrics.path }}
+        {{- end }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "kas.selectorLabels" . | nindent 8 }}
+    spec:
+      automountServiceAccountToken: false
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- with .Values.priorityClassName }}
+      priorityClassName: {{ . }}
+      {{- end }}
+      serviceAccountName: {{ include "kas.serviceAccountName" . }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          args:
+            - "--configuration-file=/etc/kas/config.yaml"
+            {{- range .Values.extraArgs }}
+            - {{ . }}
+            {{- end }}
+          env:
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+          {{- if .Values.extraEnv }}
+            {{- toYaml .Values.extraEnv | nindent 12 }}
+          {{- end }}
+          ports:
+            - containerPort: {{ .Values.service.internalPort }}
+            - containerPort: {{ .Values.service.kubernetesApiPort }}
+            - containerPort: {{ .Values.service.privateApiPort }}
+            - containerPort: {{ .Values.service.observabilityPort }}
+          readinessProbe:
+            httpGet:
+              path: /readiness
+              port: {{ .Values.service.observabilityPort }}
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /liveness
+              port: {{ .Values.service.observabilityPort }}
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: etc-kas
+              mountPath: /etc/kas
+              readOnly: true
+      terminationGracePeriodSeconds: 300
+      volumes:
+      - name: etc-kas
+        projected:
+          defaultMode: 0440
+          sources:
+            - configMap:
+                name: {{ template "kas.configMapName" . }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

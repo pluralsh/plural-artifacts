@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "kas.fullname" . }}
+  name: {{ template "kas.configMapName" . }}
   labels:
     {{- include "kas.labels" . | nindent 4 }}
 data:

@@ -3,7 +3,6 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: {{ template "kas.serviceName" . }}
-  namespace: {{ $.Release.Namespace }}
   labels:
     {{- include "kas.labels" . | nindent 4 }}
   {{- with .Values.metrics.serviceMonitor.additionalLabels }}
