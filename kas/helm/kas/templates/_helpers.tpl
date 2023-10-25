@@ -51,6 +51,13 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
+Create the name of the service to use
+*/}}
+{{- define "kas.serviceName" -}}
+{{- printf "%s-service" (include "kas.fullname" .) }}
+{{- end }}
+
+{{/*
 Create the name of the service account to use
 */}}
 {{- define "kas.serviceAccountName" -}}
