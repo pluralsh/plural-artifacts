@@ -1,0 +1,7 @@
+name: kas
+description: kas deployed on Kubernetes
+category: PRODUCTIVITY
+private: true
+icon: plural/icons/kas.png
+darkIcon: plural/icons/kas.png
+notes: plural/notes.tpl
