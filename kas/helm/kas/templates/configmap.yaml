@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "kas.fullname" . }}
+  labels:
+    {{- include "kas.labels" . | nindent 4 }}
+data:
+  config.yaml: |
+    plural_url: "" # TODO: Add full config.
