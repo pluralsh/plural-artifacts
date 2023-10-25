@@ -1,0 +1,18 @@
+name: kas-aws
+description: Installs kas
+provider: AWS
+primary: true
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+sections:
+- name: kas
+  configuration:
+  - name: hostname
+    documentation: domain on which you'd like to host kas
+    type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: kube
+  - type: HELM
+    name: kas

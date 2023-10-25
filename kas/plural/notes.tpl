@@ -1,0 +1,1 @@
+Use `plural watch kas` to track the status of your application
