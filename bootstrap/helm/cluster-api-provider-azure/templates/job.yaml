@@ -15,7 +15,7 @@ spec:
         image: {{ .Values.job.image.repository }}:{{ .Values.job.image.tag }}
         imagePullPolicy: {{ .Values.job.image.pullPolicy }}
         command: ["kubectl"]
-        args: ["wait", "--for=condition=Available", "--timeout=600s", "deployment/{{ include "cluster-api-provider-azure.fullname" (index .Subcharts "cluster-api-provider-azure") }}-controller-manager", "-n", "{{ .Release.namespace }}"]
+        args: ["wait", "--for=condition=Available", "--timeout=600s", "deployment/{{ include "cluster-api-provider-azure.fullname" (index .Subcharts "cluster-api-provider-azure") }}-capz-controller-manager", "-n", "{{ .Release.namespace }}"]
       restartPolicy: Never
       serviceAccountName: {{ include "cluster-api-provider-azure-plural.fullname" . }}-wait-for-provider
   backoffLimit: 4

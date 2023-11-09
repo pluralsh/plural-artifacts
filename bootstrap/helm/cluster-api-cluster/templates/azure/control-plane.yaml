@@ -42,6 +42,10 @@ spec:
     {{- toYaml . | nindent 4 }}
   {{- end }}
   loadBalancerSKU: {{ .Values.cluster.azure.loadBalancerSKU }}
+  {{- with .Values.cluster.azure.oidcIssuerProfile }}
+  oidcIssuerProfile:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   {{- with .Values.cluster.azure.aadProfile }}
   aadProfile:
     {{- toYaml . | nindent 4 }}

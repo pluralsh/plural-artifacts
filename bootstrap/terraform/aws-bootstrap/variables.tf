@@ -7,6 +7,34 @@ Name for the vpc for the cluster
 EOF
 }
 
+
+variable "cluster_endpoint_private_access" {
+  description = "Indicates whether or not the Amazon EKS private API server endpoint is enabled."
+  type        = bool
+  default     = false
+}
+
+variable "cluster_endpoint_public_access" {
+  description = "Indicates whether or not the Amazon EKS public API server endpoint is enabled."
+  type        = bool
+  default     = true
+}
+
+variable "cluster_endpoint_public_access_cidrs" {
+  description = "List of CIDR blocks which can access the Amazon EKS public API server endpoint."
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
+}
+
+variable "cluster_encryption_config" {
+  description = "Configuration block with encryption configuration for the cluster. See examples/secrets_encryption/main.tf for example format"
+  type = list(object({
+    provider_key_arn = string
+    resources        = list(string)
+  }))
+  default = []
+}
+
 variable "cluster_enabled_log_types" {
   default     = []
   description = "A list of the desired control plane logging to enable. Supported options are: api, audit, authenticator, controllerManager, scheduler. For more information, see Amazon EKS Control Plane Logging documentation (https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html)"
@@ -371,7 +399,7 @@ variable "aws_region" {
 
 variable "capa_serviceaccount" {
   type = string
-  default = "bootstrap-cluster-api-provider-aws"
+  default = "bootstrap-capa-controller-manager"
 }
 
 variable "capi_serviceaccount" {

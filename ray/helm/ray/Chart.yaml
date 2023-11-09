@@ -2,10 +2,10 @@ apiVersion: v2
 name: ray
 description: helm chart for ray
 type: application
-version: 0.1.8
-appVersion: "2.0.0"
+version: 0.1.9
+appVersion: "2.7.0"
 dependencies:
 - name: oauth2-proxy
-  version: 6.2.7
+  version: 6.12.1
   repository: https://oauth2-proxy.github.io/manifests
   condition: oauth2-proxy.enabled
