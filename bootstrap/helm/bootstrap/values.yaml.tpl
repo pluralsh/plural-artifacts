@@ -186,6 +186,10 @@ cert-manager:
   serviceAccount:
     create: false
     name: certmanager
+{{ if .ClusterAPI }}
+    annotations:
+      iam.gke.io/gcp-service-account: {{ importValue "Terraform" "certmanager_sa_workload_identity_email" }}
+{{ end }}
 
 {{ if not $pluraldns }}
 dnsSolver:
