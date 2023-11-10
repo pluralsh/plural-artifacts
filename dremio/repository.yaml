@@ -4,3 +4,5 @@ category: DATA
 private: true
 icon: plural/icons/dremio.png
 notes: plural/notes.tpl
+contributors:
+- jonathon@capitalaudience.com
