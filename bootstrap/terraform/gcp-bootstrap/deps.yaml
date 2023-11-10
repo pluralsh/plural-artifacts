@@ -11,5 +11,6 @@ spec:
     cluster: cluster
     vpc_network: vpc_network
     capi_sa_workload_identity_email: capi_sa_workload_identity_email
+    certmanager_sa_workload_identity_email: certmanager_sa_workload_identity_email
   provider_wirings:
     cluster: module.gcp-bootstrap.cluster
