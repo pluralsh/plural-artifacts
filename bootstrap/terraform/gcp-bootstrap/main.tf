@@ -104,7 +104,7 @@ resource "kubernetes_namespace" "bootstrap" {
 }
 
 resource "kubernetes_service_account" "certmanager" {
-  count = var.cluster_api ? 0 : 1
+  count = var.cluster_api ? 0 : 0
   metadata {
     name      = "certmanager"
     namespace = var.namespace
