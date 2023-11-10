@@ -1,0 +1,1 @@
+Use `plural watch dremio` to track the status of your application

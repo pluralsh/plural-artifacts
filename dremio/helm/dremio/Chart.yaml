@@ -1,0 +1,14 @@
+apiVersion: v2
+name: dremio
+description: helm chart for dremio
+type: application
+version: 0.1.0
+appVersion: "v1.0.0"
+
+dependencies:
+- name: postgres
+  version: 0.1.5
+  repository: https://pluralsh.github.io/module-library
+- name: dremio
+  version: 2.0.0
+  repository: https://github.com/dremio/dremio-cloud-tools

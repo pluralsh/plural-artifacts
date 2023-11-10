@@ -1,0 +1,26 @@
+name: dremio-aws
+description: Installs dremio on an aws eks cluster
+provider: AWS
+primary: true
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+
+- repo: ingress-nginx
+  name: ingress-nginx-aws
+
+
+- repo: postgres
+  name: aws-postgres
+
+sections:
+- name: dremio
+  configuration: # Users will be asked to input values for these parameters
+    - name: hostname
+      documentation: Fully Qualified Domain Name to use for your hasura installation, eg hasura.topleveldomain.com if topleveldomain.com is the domain you inputed for dns_domain above.
+      type: DOMAIN
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: dremio
