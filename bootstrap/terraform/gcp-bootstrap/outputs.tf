@@ -10,3 +10,7 @@ output "vpc_network" {
 output "capi_sa_workload_identity_email" {
   value = module.capi-workload-identity.gcp_service_account_email
 }
+
+output "certmanager_sa_workload_identity_email" {
+  value = module.certmanager-workload-identity.gcp_service_account_email
+}
