@@ -1,0 +1,101 @@
+# The Dremio image used in the cluster.
+#
+# It is *highly* recommended to update the version tag to
+# the version that you are using. This will ensure that all
+# the pods are using the same version of the software. If
+# you are directly consuming Dremio's images from Docker Hub,
+# when specifying which version to use, it is best to use the
+# full version tag in the form X.Y.Z (i.e. 21.1.0), as image
+# tags in the form X.Y (i.e. 21.1) are updated with the latest
+# patch version released.
+#
+# Using the image tag latest or in the form X.Y
+# will potentially cause Dremio to upgrade versions
+# automatically during redeployments and may negatively impact
+# the cluster.
+image: dremio/dremio-oss
+imageTag: 24.2.5
+
+# Annotations, labels, node selectors, and tolerations
+#
+# annotations: Annotations are applied to the StatefulSets that are deployed.
+# podAnnotations: Pod annotations are applied to the pods that are deployed.
+# labels: Labels operate much like annotations.
+# podLabels: Labels that are applied to the pods that are deployed.
+# nodeSelector: Target pods to nodes based on labels set on the nodes. For more
+#   information, see https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+# tolerations: Tolerations allow the negation of taints that have been applied to some set of nodes
+#   in the Kubernetes cluster so that pods can be scheduled on those tainted nodes.
+annotations: {}
+podAnnotations: {}
+labels: {}
+podLabels: {}
+nodeSelector: {}
+tolerations: []
+
+replicaCount: 1
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: "dremio"
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+affinity: {}

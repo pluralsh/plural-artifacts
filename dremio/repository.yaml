@@ -1,0 +1,8 @@
+name: dremio
+description: dremio deployed on plural
+category: DATA
+private: true
+icon: plural/icons/dremio.png
+notes: plural/notes.tpl
+contributors:
+- jonathon@capitalaudience.com
