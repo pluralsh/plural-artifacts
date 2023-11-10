@@ -184,9 +184,12 @@ dnsSolver:
 {{ if $isGcp }}
 cert-manager:
   serviceAccount:
+{{ if not .ClusterAPI }}
     create: false
+{{ end }}
     name: certmanager
 {{ if .ClusterAPI }}
+    create: true
     annotations:
       iam.gke.io/gcp-service-account: {{ importValue "Terraform" "certmanager_sa_workload_identity_email" }}
 {{ end }}
