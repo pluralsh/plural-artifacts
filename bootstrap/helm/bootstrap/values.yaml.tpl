@@ -183,9 +183,13 @@ dnsSolver:
 
 {{ if $isGcp }}
 cert-manager:
+  podAnnotations:
+    checksum/sa: {{ importValue "Terraform" "certmanager_sa_workload_identity_email" | sha256sum }}
   serviceAccount:
-    create: false
+    create: true
     name: certmanager
+    annotations:
+      iam.gke.io/gcp-service-account: {{ importValue "Terraform" "certmanager_sa_workload_identity_email" }}
 
 {{ if not $pluraldns }}
 dnsSolver:
