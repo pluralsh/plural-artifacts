@@ -25,7 +25,7 @@ module "gcs_buckets" {
   source = "github.com/pluralsh/module-library//terraform/gcs-buckets"
 
   project_id            = var.project_id
-  bucket_names          = [var.dagster_bucket]
-  service_account_email = module.dagster-workload-identity.gcp_service_account_email
+  bucket_names          = [var.mimir_blocks_bucket, var.mimir_alert_bucket, var.mimir_ruler_bucket]
+  service_account_email = module.mimir-workload-identity.gcp_service_account_email
   location              = var.bucket_location
 }
