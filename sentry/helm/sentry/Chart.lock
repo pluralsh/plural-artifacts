@@ -1,7 +1,7 @@
 dependencies:
 - name: sentry
-  repository: https://sentry-kubernetes.github.io/charts
-  version: 19.4.0
+  repository: https://pluralsh.github.io/plural-helm-charts
+  version: 19.4.0-plural1
 - name: postgres
   repository: https://pluralsh.github.io/module-library
   version: 0.2.1
@@ -14,5 +14,5 @@ dependencies:
 - name: runbook
   repository: https://pluralsh.github.io/module-library
   version: 0.1.1
-digest: sha256:30ad4bae8f92b6b6b0f5b9d1635742c289afa0daf7f19319f9add9243aaaadff
-generated: "2023-07-11T13:09:18.616422+02:00"
+digest: sha256:571af080ec42acd8e36fc1dc38bf4c91c3eb588d84866913c21facbf36ff25a9
+generated: "2023-11-16T11:45:54.21244-05:00"

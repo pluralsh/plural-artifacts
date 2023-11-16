@@ -2,12 +2,12 @@ apiVersion: v2
 name: sentry
 description: A Helm chart for deploying sentry on plural
 type: application
-version: 0.3.3
+version: 0.3.4
 appVersion: "23.6.1"
 dependencies:
 - name: sentry
-  version: 19.4.0
-  repository: https://sentry-kubernetes.github.io/charts
+  version: 19.4.0-plural1
+  repository: https://pluralsh.github.io/plural-helm-charts
 - name: postgres
   version: 0.2.1
   repository: https://pluralsh.github.io/module-library
