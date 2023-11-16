@@ -2,6 +2,7 @@ name: mimir-gcp
 description: Installs mimir on an aws eks cluster
 provider: GCP
 primary: true
+private: false
 dependencies:
 - repo: bootstrap
   name: gcp-k8s
