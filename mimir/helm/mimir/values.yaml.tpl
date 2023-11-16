@@ -52,6 +52,11 @@ mimir-distributed:
     annotations:
       eks.amazonaws.com/role-arn: {{ importValue "Terraform" "iam_role_arn" }}
   {{- end }}
+  {{- if $isGcp }}
+  serviceAccount:
+    annotations:
+      iam.gke.io/gcp-service-account: {{ importValue "Terraform" "service_account_email" }}
+  {{ end }}
   {{- if and .Values.basicAuth .Values.hostname (not $traceShield) }}
   gateway:
     enabledNonEnterprise: true
