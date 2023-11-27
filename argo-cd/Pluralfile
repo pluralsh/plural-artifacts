@@ -2,5 +2,5 @@ REPO argo-cd
 ATTRIBUTES Plural repository.yaml
 
 TF terraform/*
-HELM helm/argo-cd
+HELM helm/*
 RECIPE plural/recipes/*
