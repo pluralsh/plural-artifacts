@@ -25,7 +25,7 @@ argo-cd:
       hosts:
         - {{ $hostname }}
       tls:
-        - secretName: argocd-server-tls
+        - secretName: argocd-ingress-server-tls
           hosts:
             - {{ $hostname }}
   {{- if .OIDC }}
