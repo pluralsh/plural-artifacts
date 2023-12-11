@@ -1,9 +1,10 @@
-docker.io:
-  images:
-    argoprojlabs/argocd-image-updater: []
 quay.io:
   images-by-tag-regex:
-    argoproj/argocd: ^v?[0-9]+\.[0-9]+?\.[0-9]+$
+    # the below regex can be used to limit the regex range so that only versions >= v2.8.0 are matched
+    argoproj/argocd: (?:^v?2\.(?:[8-9]|[1-9][0-9]{1,})\.[0-9]+$)|(?:^v?(?:[3-9]|[1-9][0-9]{1,})\.[0-9]+?\.[0-9]+$)
+    # the below regex can be used to limit the regex range so that only versions >= 0.12.0 are matched
+    argoprojlabs/argocd-image-updater: (?:^v?0\.(?:1[2-9]|[2-9][0-9]|[1-9][0-9]{2,})\.[0-9]+$)|(?:^v?(?:[1-9]|[1-9][0-9]{1,})\.[0-9]+?\.[0-9]+$)
 ghcr.io:
-  images:
-    dexidp/dex: []
+  images-by-tag-regex:
+    # the below regex can be used to limit the regex range so that only versions >= v2.37.0 are matched
+    dexidp/dex: (?:^v?2\.(?:3[7-9]|[4-9][0-9]|[1-9][0-9]{2,})\.[0-9]+$)|(?:^v?(?:[3-9]|[1-9][0-9]{1,})\.[0-9]+?\.[0-9]+$)
