@@ -1,0 +1,6 @@
+name: kestra
+description: kestra deployed on plural
+category: DATA
+private: true
+icon: plural/icons/kestra.png
+notes: plural/notes.tpl
