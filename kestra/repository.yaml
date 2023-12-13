@@ -4,3 +4,8 @@ category: DATA
 private: true
 icon: plural/icons/kestra.png
 notes: plural/notes.tpl
+homepage: https://kestra.io
+gitUrl: https://github.com/kestra-io/kestra
+
+contributors:
+- akposlive59@gmail.com
