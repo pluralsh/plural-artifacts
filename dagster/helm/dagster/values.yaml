@@ -1,6 +1,18 @@
 global:
   serviceAccountName: dagster
 
+oidc-config:
+  enabled: false
+  service:
+    name: dagster-oauth2-proxy
+    selector:
+      app.kubernetes.io/instance: dagster
+      component: dagster-webserver
+  secret:
+    env:
+      OAUTH2_PROXY_UPSTREAM_TIMEOUT: '120s'
+
+
 postgres:
   team: plural
   user: dagster

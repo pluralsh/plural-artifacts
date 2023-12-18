@@ -2,12 +2,12 @@ apiVersion: v2
 name: retool
 description: helm chart for retool
 type: application
-version: 0.1.7
-appVersion: "v3.12.2"
+version: 0.1.8
+appVersion: "v3.24.1"
 dependencies:
 - name: postgres
   version: 0.1.5
   repository: https://pluralsh.github.io/module-library
 - name: retool
-  version: 6.0.2
+  version: 6.0.11
   repository: https://charts.retool.com

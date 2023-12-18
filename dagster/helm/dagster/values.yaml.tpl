@@ -12,13 +12,19 @@ postgres:
   password: {{ $postgresPwd }}
 
 {{ if .OIDC }}
-oidcProxy:
+{{ $prevSecret := dedupe . "dagster.oidcProxy.cookieSecret" (randAlphaNum 32) }}
+oidc-config:
   enabled: true
-  upstream: http://localhost:80
-  issuer: {{ .OIDC.Configuration.Issuer }}
-  clientID: {{ .OIDC.ClientId }}
-  clientSecret: {{ .OIDC.ClientSecret }}
-  cookieSecret: {{ dedupe . "dagster.oidcProxy.cookieSecret" (randAlphaNum 32) }}
+  secret:
+    name: dagster-proxy-config
+    issuer: {{ .OIDC.Configuration.Issuer }}
+    clientID: {{ .OIDC.ClientId }}
+    clientSecret: {{ .OIDC.ClientSecret }}
+    cookieSecret: {{ dedupe . "dagster.oidc-config.secret.cookieSecret" $prevSecret }}
+  {{ if .Values.users }}
+  users:
+  {{ toYaml .Values.users | nindent 4 }}
+  {{ end }}
 {{ end }}
 
 dagster:
