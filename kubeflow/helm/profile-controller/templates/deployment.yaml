@@ -97,6 +97,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "profile-controller.fullname" . }}-config
+            - secretRef:
+                name: {{ include "profile-controller.fullname" . }}-kfam-secret
       volumes:
         - configMap:
             name: {{ include "profile-controller.fullname" . }}-templates

@@ -20,14 +20,23 @@ image:
   repository: ghcr.io/pluralsh/kubeflow-profile-controller
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: 0.1.13
+  tag: 0.1.14
 
 kfam:
+  adminEmail: ""
+  secret:
+    argoToken: ""
   image:
     repository: davidspek/kfam
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: 0.1.1
+    tag: 0.2.0
+
+argocd:
+  namespace: argo-cd
+
+knative:
+  namespace: knative
 
 imagePullSecrets: []
 nameOverride: ""
