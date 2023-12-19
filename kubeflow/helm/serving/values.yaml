@@ -30,10 +30,10 @@ serviceAccount:
 webApp:
   replicaCount: 1
   image:
-    repository: davidspek/models-web-app
+    repository: kserve/models-web-app
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: v0.8.0
+    tag: v0.10.0
 
   podAnnotations:
     sidecar.istio.io/inject: "true"
@@ -55,7 +55,7 @@ webApp:
 
   virtualService:
     annotations: {}
-    prefix: /models
+    prefix: /kserve-endpoints
     gateways:
       - kubeflow-gateway
     # hosts to add additional to the value of global.domain
