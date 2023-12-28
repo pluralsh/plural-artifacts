@@ -9,7 +9,12 @@ global:
     - description: superset web ui
       url: {{ .Values.hostname }}
 
+{{ $secretKey := dedupe . "superset.secretKey" (randAlphaNum 26) }}
+secretKey: {{ $secretKey }}
+
 superset:
+  extraSecretEnv:
+    SUPERSET_SECRET_KEY: {{ $secretKey }}
   init:
     adminUser:
       username: {{ .Values.username }}
@@ -82,6 +87,9 @@ superset:
 
       # force users to re-auth after 1d
       PERMANENT_SESSION_LIFETIME = 60 * 60 * 24
+
+      PREVIOUS_SECRET_KEY = "thisISaSECRET_1234"
+      SECRET_KEY = "{{ $secretKey }}"
 
       ENABLE_PROXY_FIX = True
   {{ end }}
