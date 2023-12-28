@@ -109,6 +109,7 @@ configOverlays:
     - path: ['superset', 'superset', 'redis', 'master', 'resources', 'requests', 'memory']
 
 superset:
+  reencrypt: true
   image:
     repository: dkr.plural.sh/superset/apache/superset
     tag: 2.1.0-plural1.1.1
