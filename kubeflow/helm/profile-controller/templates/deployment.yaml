@@ -61,10 +61,6 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "profile-controller.fullname" . }}-config
-          volumeMounts:
-            - mountPath: /templates
-              name: profile-templates
-              readOnly: true
         - name: kfam
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
@@ -99,10 +95,6 @@ spec:
                 name: {{ include "profile-controller.fullname" . }}-config
             - secretRef:
                 name: {{ include "profile-controller.fullname" . }}-kfam-secret
-      volumes:
-        - configMap:
-            name: {{ include "profile-controller.fullname" . }}-templates
-          name: profile-templates
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
