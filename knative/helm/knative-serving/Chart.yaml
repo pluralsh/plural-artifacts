@@ -7,4 +7,4 @@ appVersion: "1.12.2"
 dependencies:
 - name: knative-serving
   repository: oci://ghcr.io/davidspek/charts
-  version: 0.1.12
+  version: 0.1.17

@@ -67,6 +67,11 @@ spec:
                 sds_config:
                   path: /etc/istio/config/token-secret.yaml
             forward_bearer_token: true
+            use_refresh_token: true
+            # pass_through_matcher:
+            # - name: "K-Network-Probe"
+            #   string_match:
+            #     exact: probe
             redirect_path_matcher:
               path:
                 exact: /oauth2/callback
@@ -90,8 +95,7 @@ spec:
     matchLabels:
       {{- include "gateway.selectorLabels" .Subcharts.gateway | nindent 6 }}
   jwtRules:
-  - forwardOriginalToken: true
-    outputPayloadToHeader: Authorization # TODO: needed so the requestauth resource in user namespace works. Overwrites what `forward_bearer_token` sets in the envoy filter. Should the auth token or JWT be passed in the authorization header?
+  - forwardOriginalToken: true # TODO: needed so the requestauth resource in user namespace works.
     fromHeaders: # TODO: possibly add this to profile controller setup
     - name: cookie
       prefix: IdToken=

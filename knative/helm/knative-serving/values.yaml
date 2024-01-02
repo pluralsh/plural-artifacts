@@ -11,8 +11,15 @@ knative-serving:
   configNetwork:
     data:
       domain-template: '{{ `{{.Name}}-{{.Namespace}}.{{.Domain}}` }}'
-      http-protocol: "Redirected"
+      #TODO: figure out how Redirect is supposed to work
+      http-protocol: "Enabled"
       default-external-scheme: "https"
+      # external-domain-tls: Enabled
+      # namespace-wildcard-cert-selector: |
+      #   matchExpressions:
+      #   - key: "networking.knative.dev/disableWildcardCert"
+      #     operator: "NotIn"
+      #     values: ["true"]
   configLogging:
     data:
       loglevel.controller: info
@@ -32,7 +39,18 @@ knative-serving:
       data:
         gateway.kubeflow.kubeflow-gateway: istio-ingressgateway.istio.svc.cluster.local
         local-gateway.knative.knative-local-gateway: "knative-local-gateway.istio.svc.cluster.local"
-        enable-virtualservice-status: 'true'
+
+  net-certmanager:
+    certmanager:
+      namespace: bootstrap
+    enabled: true
+    configCertmanager:
+      configMap:
+        create: true
+      data:
+        issuerRef: |
+          kind: ClusterIssuer
+          name: letsencrypt-prod
 
 kubeflow:
   enabled: false

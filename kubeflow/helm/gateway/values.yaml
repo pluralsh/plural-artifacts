@@ -48,6 +48,8 @@ gateway:
   - name: oauth-creds
     mountPath: /etc/istio/config/
     readOnly: true
+  service:
+    externalTrafficPolicy: Local
 
 istioGateway:
   enabled: true
