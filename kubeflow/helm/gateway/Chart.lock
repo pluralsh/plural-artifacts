@@ -1,6 +1,6 @@
 dependencies:
 - name: gateway
-  repository: https://pluralsh.github.io/plural-helm-charts
-  version: 1.19.1
-digest: sha256:07ce90c69d8d013e339d6d1bb45ece138c0d20abeb6079dc6b09b6aa9edeb8b9
-generated: "2023-09-14T15:38:52.229116+02:00"
+  repository: https://istio-release.storage.googleapis.com/charts
+  version: 1.20.1
+digest: sha256:3102d001678122a5133dd1ef858f955f05b5aa033c7b6e95e4e6172602f61033
+generated: "2024-01-02T12:43:36.589988+01:00"
