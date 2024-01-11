@@ -6,7 +6,9 @@ replicaCount: 1
 
 global:
   domain: ""
-  istioIngressServiceAccount: kubeflow-gateway
+  istioIngress:
+    namespace: istio-ingress
+    serviceAccount: istio-ingress
   clusterDomain: cluster.local
   userIDHeader: kubeflow-userid
   userIDPrefix: ""

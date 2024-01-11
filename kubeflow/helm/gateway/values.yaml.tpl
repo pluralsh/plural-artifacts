@@ -21,8 +21,6 @@ gateway:
       service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: instance
 {{- end }}
 
-provider: {{ .Provider }}
-
 {{- if .OIDC }}
 oidc:
   clientID: {{ .OIDC.ClientId }}

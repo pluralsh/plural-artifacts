@@ -1,6 +1,8 @@
 global:
   domain: ""
-  istioIngressServiceAccount: kubeflow-gateway
+  istioIngress:
+    namespace: istio-ingress
+    serviceAccount: istio-ingress
   clusterDomain: cluster.local
   userIDHeader: kubeflow-userid
   userIDPrefix: ""
@@ -29,6 +31,9 @@ oidc:
   - offline_access
 
 gateway:
+  enabled: false
+  labels:
+    istio: ingress
   name: kubeflow-gateway
   autoscaling:
     minReplicas: 2

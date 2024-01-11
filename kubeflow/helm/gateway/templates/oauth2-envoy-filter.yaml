@@ -2,12 +2,19 @@ apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
   name: {{ include "gateway-plural.fullname" . }}-oauth2
+  namespace: {{ .Values.global.istioIngress.namespace }}
   labels:
   {{- include "gateway-plural.labels" . | nindent 4 }}
 spec:
   workloadSelector:
     labels:
-      {{- include "gateway.selectorLabels" .Subcharts.gateway | nindent 6 }}
+      {{- if hasKey .Values.gateway.labels "istio" }}
+      {{- with .Values.gateway.labels.istio }}
+      istio: {{.|quote}}
+      {{- end }}
+      {{- else }}
+      istio: {{ include "gateway.name" .Subcharts.gateway | trimPrefix "istio-" }}
+      {{- end }}
   configPatches:
   - applyTo: CLUSTER
     match:
@@ -39,13 +46,11 @@ spec:
       context: GATEWAY
       listener:
         filterChain:
+          sni: {{ .Values.global.domain }}
           filter:
             name: envoy.filters.network.http_connection_manager
-            subFilter:
-              name: envoy.filters.http.jwt_authn
-        portNumber: 443
     patch:
-      operation: INSERT_BEFORE
+      operation: INSERT_FIRST
       value:
         name: envoy.kubeflow.oauth
         typed_config:
@@ -68,10 +73,12 @@ spec:
                   path: /etc/istio/config/token-secret.yaml
             forward_bearer_token: true
             use_refresh_token: true
-            # pass_through_matcher:
-            # - name: "K-Network-Probe"
-            #   string_match:
-            #     exact: probe
+            # This allows us to not redirect to oauth login for subdomains like from serving, since those are dynamic and aren't a valid redirect URI for the oauth provider.
+            pass_through_matcher:
+            - name: ":authority"
+              string_match:
+                safe_regex:
+                  regex: '[A-Za-z0-9](?:[A-Za-z0-9\-]{0,61}[A-Za-z0-9])?.{{ .Values.global.domain }}'
             redirect_path_matcher:
               path:
                 exact: /oauth2/callback
@@ -83,39 +90,56 @@ spec:
               cluster: oauth
               timeout: 5s
               uri: {{ .Values.global.oidc.tokenEndpoint }}
----
-apiVersion: security.istio.io/v1
-kind: RequestAuthentication
-metadata:
-  name: {{ include "gateway-plural.fullname" . }}-oauth2
-  labels:
-  {{- include "gateway-plural.labels" . | nindent 4 }}
-spec:
-  selector:
-    matchLabels:
-      {{- include "gateway.selectorLabels" .Subcharts.gateway | nindent 6 }}
-  jwtRules:
-  - forwardOriginalToken: true # TODO: needed so the requestauth resource in user namespace works.
-    fromHeaders: # TODO: possibly add this to profile controller setup
-    - name: cookie
-      prefix: IdToken=
-    issuer: {{ .Values.global.oidc.issuer }}
-    jwksUri: {{ .Values.global.oidc.jwksURI }}
-    outputClaimToHeaders:
-    - header: {{ .Values.global.userIDHeader }}
-      claim: email
----
-apiVersion: security.istio.io/v1
-kind: AuthorizationPolicy
-metadata:
-  name: {{ include "gateway-plural.fullname" . }}-oauth2
-  labels:
-  {{- include "gateway-plural.labels" . | nindent 4 }}
-spec:
-  selector:
-    matchLabels:
-      {{- include "gateway.selectorLabels" .Subcharts.gateway | nindent 6 }}
-  rules:
-  - from:
-    - source:
-        requestPrincipals: ["*"]
+  # The next filter allows us to rewrite the oauth cookie returned from the above envoy filter and add the domain to them so subdomains can authenticate. Note, the oauth2 filter cookie validation fails for subdomains, which is another reason why subdomains need to be passed through the oauth2 filter.
+  - applyTo: HTTP_FILTER
+    match:
+      context: GATEWAY
+      listener:
+        filterChain:
+          filter:
+            name: envoy.filters.network.http_connection_manager
+            subFilter:
+              name: envoy.kubeflow.oauth
+    patch:
+      operation: INSERT_AFTER
+      value:
+        name: envoy.lua.modify_oauth_cookie_domain
+        typed_config:
+          '@type': type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
+          inlineCode: |
+            function envoy_on_response(response_handle)
+              local numCookies = response_handle:headers():getNumValues("Set-Cookie")
+              local wantedCookies =  { ["BearerToken"]=true, ["OauthExpires"]=true, ["IdToken"]=true, ["OauthHMAC"]=true, ["RefreshToken"]=true }
+              local changed_cookies = {}
+              local unchanged_cookies = {}
+
+              if (numCookies > 0) then
+                local location = response_handle:headers():get("Location"):match('^%w+://([^/]+)')
+                response_handle:logInfo("Location: "..location)
+
+                for i=0,numCookies-1 do
+                  local cookie = response_handle:headers():getAtIndex("Set-Cookie",i)
+                  if wantedCookies[string.match(cookie, "(.-)=")] then
+                    response_handle:logInfo("Found wanted cookie: "..string.match(cookie, "(.-)="))
+                    changed_cookies[i] = cookie .. ";Domain=" .. location
+                  else
+                    response_handle:logInfo("Not editing cookie: "..cookie)
+                    unchanged_cookies[i] = cookie
+                  end
+                end
+
+                if (table.maxn(changed_cookies) == 0) then
+                  response_handle:logInfo("No response cookies to rewrite. Exiting.")
+                else
+                  response_handle:headers():remove("Set-Cookie")
+                  for _,v in pairs(changed_cookies) do
+                    response_handle:headers():add("Set-Cookie", v)
+                    response_handle:logInfo("Added response header: "..string.match(v, "(.-)="))
+                  end
+                  for _,v in pairs(unchanged_cookies) do
+                    response_handle:headers():add("Set-Cookie", v)
+                    response_handle:logInfo("Added response header: "..string.match(v, "(.-)="))
+                  end
+                end
+              end
+            end

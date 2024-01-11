@@ -3,6 +3,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: {{ include "gateway-plural.fullname" . }}-ingress-cert
+  namespace: {{ .Values.global.istioIngress.namespace }}
   labels:
   {{- include "gateway-plural.labels" . | nindent 4 }}
 spec:

@@ -7,16 +7,15 @@ knative-serving:
   net-istio:
     configIstio:
       data:
-        gateway.kubeflow.kubeflow-gateway: kubeflow-gateway.kubeflow.svc.cluster.local
-        local-gateway.knative.knative-local-gateway: "knative-local-gateway.kubeflow.svc.cluster.local"
-        enable-virtualservice-status: 'true'
+        gateway.kubeflow.kubeflow-gateway: istio-ingress.istio-ingress.svc.cluster.local
+        local-gateway.knative.knative-local-gateway: "knative-local-gateway.istio-ingress.svc.cluster.local"
     istio:
-      namespace: kubeflow
+      namespace: istio-ingress
       ingressGateway:
         create: false
       localGateway:
         selector:
-          istio: kubeflow-gateway
+          istio: ingress
 kubeflow:
   enabled: true
 {{- end }}

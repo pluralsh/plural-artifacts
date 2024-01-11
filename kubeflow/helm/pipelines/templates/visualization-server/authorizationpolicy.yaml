@@ -5,15 +5,15 @@ metadata:
   name: {{ include "pipelines.fullname" . }}-visualization-server
 spec:
   rules:
-    - from:
-        - source:
-            principals:
-              - cluster.local/ns/kubeflow/sa/{{ include "pipelines.serviceAccountName" . }}-api-server
-              - cluster.local/ns/kubeflow/sa/{{ include "pipelines.serviceAccountName" . }}-web-app
-              - cluster.local/ns/kubeflow/sa/{{ include "pipelines.serviceAccountName" . }}-persistence-agent
-              - cluster.local/ns/kubeflow/sa/{{ include "pipelines.serviceAccountName" . }}-scheduled-workflow
-              - cluster.local/ns/kubeflow/sa/{{ include "pipelines.serviceAccountName" . }}-viewer-controller
-              - cluster.local/ns/kubeflow/sa/{{ include "pipelines.serviceAccountName" . }}-cache-server
+  - from:
+    - source:
+        principals:
+        - {{ .Values.global.clusterDomain }}/ns/{{ .Release.Namespace }}/sa/{{ include "pipelines.serviceAccountName" . }}-api-server
+        - {{ .Values.global.clusterDomain }}/ns/{{ .Release.Namespace }}/sa/{{ include "pipelines.serviceAccountName" . }}-web-app
+        - {{ .Values.global.clusterDomain }}/ns/{{ .Release.Namespace }}/sa/{{ include "pipelines.serviceAccountName" . }}-persistence-agent
+        - {{ .Values.global.clusterDomain }}/ns/{{ .Release.Namespace }}/sa/{{ include "pipelines.serviceAccountName" . }}-scheduled-workflow
+        - {{ .Values.global.clusterDomain }}/ns/{{ .Release.Namespace }}/sa/{{ include "pipelines.serviceAccountName" . }}-viewer-controller
+        - {{ .Values.global.clusterDomain }}/ns/{{ .Release.Namespace }}/sa/{{ include "pipelines.serviceAccountName" . }}-cache-server
   selector:
     matchLabels:
       {{- include "pipelines.visualizationServerSelectorLabels" . | nindent 6 }}
