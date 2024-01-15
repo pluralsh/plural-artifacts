@@ -4,7 +4,7 @@ metadata:
   description: Creates an EKS cluster and prepares it for bootstrapping
   version: 0.1.55
 spec:
-  breaking: false
+  breaking: true
   dependencies: []
   providers:
   - aws
