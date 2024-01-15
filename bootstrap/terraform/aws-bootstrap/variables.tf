@@ -253,7 +253,7 @@ variable "node_groups_defaults" {
 
     instance_types = ["t3.large", "t3a.large"]
     disk_size = 50
-    ami_release_version = "1.24.15-20230816"
+    ami_release_version = "1.25.16-20240110"
     force_update_version = true
     ami_type = "AL2_x86_64"
     k8s_labels = {}
