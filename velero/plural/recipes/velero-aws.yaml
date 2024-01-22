@@ -17,4 +17,4 @@ sections:
   - type: TERRAFORM
     name: aws
   - type: HELM
-    name: minio
+    name: velero
