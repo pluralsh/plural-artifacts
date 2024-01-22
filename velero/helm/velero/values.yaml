@@ -1,5 +1,4 @@
-credentials:
-  extraSecretRef: velero-s3-secret
+podAnnotations: {}
 
 initContainers:
  - name: velero-plugin-for-aws
@@ -39,7 +38,7 @@ configuration:
       # Additional provider-specific configuration. See link above
       # for details of required/optional fields for your provider.
       config:
-        region: 
+        region:
       #  s3ForcePathStyle:
       #  s3Url:
       #  kmsKeyId:
