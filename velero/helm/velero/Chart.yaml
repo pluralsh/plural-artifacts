@@ -2,8 +2,8 @@ apiVersion: v2
 name: velero
 description: A Helm chart for Kubernetes
 type: application
-version: 1.12.3
-appVersion: "2024.01.09"
+version: 0.1.0
+appVersion: 1.12.3
 dependencies:
 - name: velero
   version: 5.2.2
