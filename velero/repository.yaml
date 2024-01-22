@@ -1,0 +1,10 @@
+name: velero
+description: Backup and migrate Kubernetes resources and persistent volumes.
+category: DEVOPS
+icon: plural/icons/Velero.svg
+notes: plural/notes.tpl
+homepage: https://velero.io/
+gitUrl: https://github.com/vmware-tanzu/velero
+tags:
+- tag: data
+- tag: multicloud

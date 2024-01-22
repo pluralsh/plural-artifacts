@@ -1,0 +1,19 @@
+name: velero-aws
+description: Installs velero on an aws eks cluster
+provider: AWS
+primary: true
+dependencies:
+- repo: bootstrap
+  name: aws-k8s
+sections:
+- name: velero
+  configuration:
+  - name: velero_bucket
+    type: BUCKET
+    default: minio
+    documentation: bucket to store velero data
+  items:
+  - type: TERRAFORM
+    name: aws
+  - type: HELM
+    name: minio
