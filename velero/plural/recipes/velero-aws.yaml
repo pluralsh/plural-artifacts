@@ -1,7 +1,8 @@
 name: velero-aws
 description: Installs velero on an aws eks cluster
 provider: AWS
-primary: true
+primary: false
+private: true
 dependencies:
 - repo: bootstrap
   name: aws-k8s
