@@ -11,7 +11,7 @@ sections:
   configuration:
   - name: velero_bucket
     type: BUCKET
-    default: minio
+    default: velero
     documentation: bucket to store velero data
   items:
   - type: TERRAFORM

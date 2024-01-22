@@ -1,21 +1,29 @@
 credentials:
   extraSecretRef: velero-s3-secret
 
+initContainers:
+ - name: velero-plugin-for-aws
+   image: velero/velero-plugin-for-aws:v1.8.0
+   imagePullPolicy: IfNotPresent
+   volumeMounts:
+     - mountPath: /target
+       name: plugins
+
 configuration:
   # Parameters for the BackupStorageLocation(s). Configure multiple by adding other element(s) to the backupStorageLocation slice.
   # See https://velero.io/docs/v1.6/api-types/backupstoragelocation/
   backupStorageLocation:
     # name is the name of the backup storage location where backups should be stored. If a name is not provided,
     # a backup storage location will be created with the name "default". Optional.
-    - name:
+    - name: default
       # provider is the name for the backup storage location provider.
-      provider:
+      provider: aws
       # bucket is the name of the bucket to store backups in. Required.
       bucket:
       # caCert defines a base64 encoded CA bundle to use when verifying TLS connections to the provider. Optional.
       caCert:
       # prefix is the directory under which all Velero data should be stored within the bucket. Optional.
-      prefix:
+      prefix: plural
       # default indicates this location is the default backup storage location. Optional.
       default:
       # validationFrequency defines how frequently Velero should validate the object storage. Optional.
@@ -30,8 +38,8 @@ configuration:
         key:
       # Additional provider-specific configuration. See link above
       # for details of required/optional fields for your provider.
-      config: {}
-      #  region:
+      config:
+        region: 
       #  s3ForcePathStyle:
       #  s3Url:
       #  kmsKeyId:
@@ -51,9 +59,9 @@ configuration:
   # See https://velero.io/docs/v1.6/api-types/volumesnapshotlocation/
   volumeSnapshotLocation:
     # name is the name of the volume snapshot location where snapshots are being taken. Required.
-    - name:
+    - name: default
       # provider is the name for the volume snapshot provider.
-      provider:
+      provider: aws
       credential:
         # name of the secret used by this volumeSnapshotLocation.
         name:
@@ -61,8 +69,8 @@ configuration:
         key:
       # Additional provider-specific configuration. See link above
       # for details of required/optional fields for your provider.
-      config: {}
-  #    region:
+      config:
+       region:
   #    apiTimeout:
   #    resourceGroup:
   #    The ID of the subscription where volume snapshots should be stored, if different from the cluster’s subscription. If specified, also requires `configuration.volumeSnapshotLocation.config.resourceGroup`to be set. (Azure only)
