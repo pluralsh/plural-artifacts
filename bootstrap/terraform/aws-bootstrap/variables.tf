@@ -56,7 +56,7 @@ variable "cluster_log_retention_in_days" {
 variable "kubernetes_version" {
   type = string
   description = "Kubernetes version to use for the cluster"
-  default = "1.24"
+  default = "1.25"
 }
 
 variable "vpc_cni_addon_version" {
@@ -73,7 +73,7 @@ variable "core_dns_addon_version" {
 
 variable "kube_proxy_addon_version" {
   type = string
-  default = "v1.24.15-eksbuild.2"
+  default = "v1.25.16-minimal-eksbuild.1"
   description = "The version of the kube-proxy addon to use"
 }
 
@@ -253,7 +253,7 @@ variable "node_groups_defaults" {
 
     instance_types = ["t3.large", "t3a.large"]
     disk_size = 50
-    ami_release_version = "1.24.15-20230816"
+    ami_release_version = "1.25.16-20240110"
     force_update_version = true
     ami_type = "AL2_x86_64"
     k8s_labels = {}
