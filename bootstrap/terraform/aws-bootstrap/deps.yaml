@@ -2,9 +2,9 @@ apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
   description: Creates an EKS cluster and prepares it for bootstrapping
-  version: 0.1.55
+  version: 0.1.56
 spec:
-  breaking: true
+  breaking: false
   dependencies: []
   providers:
   - aws
