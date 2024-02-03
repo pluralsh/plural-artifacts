@@ -2,7 +2,7 @@ apiVersion: v2
 name: cluster-operator
 description: A Helm chart for Kubernetes
 type: application
-version: 0.1.19
+version: 0.1.20
 appVersion: 2.2.0
 dependencies:
 - name: rabbitmq-cluster-operator
