@@ -63,7 +63,7 @@ airflow:
         import jwt
         from airflow import configuration as conf
         from airflow.www.security import AirflowSecurityManager
-        from flask_appbuilder.security.manager import AUTH_OAUTH
+        from airflow.www.fab_security.manager import AUTH_OAUTH
 
         class PluralSecurityManager(AirflowSecurityManager):
           def _get_oauth_user_info(self, provider, response):
