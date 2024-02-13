@@ -2,8 +2,9 @@ apiVersion: plural.sh/v1alpha1
 kind: Dependencies
 metadata:
   description: Creates a GKE cluster and adds initial configuration
-  version: 0.2.27
+  version: 0.2.28
 spec:
+  breaking: true
   dependencies: []
   providers:
   - gcp
