@@ -103,7 +103,6 @@ metadata:
   name: statsd-exporter
   labels:
   {{- include "airflow.labels" . | nindent 4 }}
-  {{- include "statsd-exporter.selectorLabels" . | nindent 4 }}
   {{- with .Values.exporter.service.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
