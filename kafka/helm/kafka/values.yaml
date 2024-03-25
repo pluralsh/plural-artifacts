@@ -2,7 +2,7 @@ strimzi-kafka-operator:
   watchAnyNamespace: true
   defaultImageRegistry: dkr.plural.sh
   defaultImageRepository: kafka/strimzi
-  defaultImageTag: 0.35.0
+  defaultImageTag: 0.35.1
   resources:
     limits:
       memory: 384Mi
