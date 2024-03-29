@@ -8,9 +8,9 @@ spec:
     replicas: {{ .Values.kafka.replicas }}
     version: {{ .Values.kafka.version }}
     template:
-      {{- if .Values.kafka.podTemplate }}
+      {{- if .Values.kafkaPodTemplate }}
       pod:
-        {{- toYaml .Values.kafka.podTemplate | nindent 8 }}
+        {{- toYaml .Values.kafkaPodTemplate | nindent 8 }}
       {{- end }}
       bootstrapService:
         metadata:
