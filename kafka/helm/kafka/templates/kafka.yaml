@@ -10,9 +10,7 @@ spec:
     template:
       {{- if .Values.kafka.podTemplate }}
       pod:
-        {{- with .Values.kafka.podTemplate }}
-          {{- toYaml . | nindent 8 }}
-        {{- end }}
+        {{- toYaml .Values.kafka.podTemplate | nindent 8 }}
       {{- end }}
       bootstrapService:
         metadata:
@@ -84,9 +82,7 @@ spec:
     template:
       {{- if .Values.zookeeperPodTemplate }}
       pod:
-        {{- with .Values.zookeeperPodTemplate }}
-          {{- toYaml . | nindent 8 }}
-        {{- end }}
+        {{- toYaml .Values.zookeeperPodTemplate | nindent 8 }}
       {{- end }}
       clientService:
         metadata:
