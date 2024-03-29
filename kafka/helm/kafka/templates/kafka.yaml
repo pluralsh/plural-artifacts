@@ -8,6 +8,12 @@ spec:
     replicas: {{ .Values.kafka.replicas }}
     version: {{ .Values.kafka.version }}
     template:
+      {{- if .Values.kafka.podTemplate }}
+      pod:
+        {{- with .Values.kafka.podTemplate }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+      {{- end }}
       bootstrapService:
         metadata:
           labels:
@@ -76,6 +82,12 @@ spec:
   zookeeper:
   {{ toYaml .Values.zookeeper | nindent 4 }}
     template:
+      {{- if .Values.zookeeperPodTemplate }}
+      pod:
+        {{- with .Values.zookeeperPodTemplate }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+      {{- end }}
       clientService:
         metadata:
           labels:
