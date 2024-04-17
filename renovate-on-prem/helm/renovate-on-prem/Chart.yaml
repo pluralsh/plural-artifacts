@@ -2,7 +2,7 @@ apiVersion: v2
 name: renovate-on-prem
 description: helm chart for renovate-on-prem
 type: application
-version: 0.3.0
+version: 0.3.1
 appVersion: 6.1.1
 dependencies:
 - name: mend-renovate-ce
