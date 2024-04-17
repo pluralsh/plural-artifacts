@@ -25,7 +25,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"gitlab-webservice-default-[a-z0-9]+-[a-z0-9]+"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"gitlab-webservice-default-[a-z0-9]+-[a-z0-9]+",image!="",container!=""}) by (pod)
   - name: gitaly-cpu
     type: prometheus
     prometheus:
@@ -37,7 +37,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"gitlab-gitaly-[0-9]+"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"gitlab-gitaly-[0-9]+",image!="",container!=""}) by (pod)
   - name: sidekiq-cpu
     type: prometheus
     prometheus:
@@ -49,7 +49,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"gitlab-sidekiq-all-in-1-v1-[a-z0-9]+-[a-z0-9]+"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"gitlab-sidekiq-all-in-1-v1-[a-z0-9]+-[a-z0-9]+",image!="",container!=""}) by (pod)
   - name: web
     type: kubernetes
     kubernetes:
@@ -165,7 +165,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"plural-gitlab-[0-9]+"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"plural-gitlab-[0-9]+",image!="",container!=""}) by (pod)
   - name: volume
     type: prometheus
     prometheus:

@@ -22,7 +22,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"airbyte-server.+"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"airbyte-server.+",image!="",container!=""}) by (pod)
   - name: worker-cpu
     type: prometheus
     prometheus:
@@ -34,7 +34,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"airbyte-worker.+"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"airbyte-worker.+",image!="",container!=""}) by (pod)
   - name: worker
     type: kubernetes
     kubernetes:

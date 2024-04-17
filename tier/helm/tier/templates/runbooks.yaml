@@ -22,7 +22,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ include "tier.fullname" . }}.+"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ include "tier.fullname" . }}.+",image!="",container!=""}) by (pod)
   - name: tier
     type: kubernetes
     kubernetes:

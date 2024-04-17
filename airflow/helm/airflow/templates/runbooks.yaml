@@ -28,7 +28,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"airflow-worker-[0-9]+"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"airflow-worker-[0-9]+",image!="",container!=""}) by (pod)
   {{- end }}
   - name: web-cpu
     type: prometheus
@@ -41,7 +41,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"airflow-web-[a-z0-9]+-[a-z0-9]+"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"airflow-web-[a-z0-9]+-[a-z0-9]+",image!="",container!=""}) by (pod)
   {{- if .Values.airflow.workers.enabled }}
   - name: worker
     type: kubernetes

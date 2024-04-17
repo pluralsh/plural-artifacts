@@ -27,7 +27,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"prometheus-monitoring-prometheus-[0-9]+"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"prometheus-monitoring-prometheus-[0-9]+",image!="",container!=""}) by (pod)
   - name: loki-cpu
     type: prometheus
     prometheus:
@@ -39,7 +39,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"monitoring-loki-[0-9]+"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"monitoring-loki-[0-9]+",image!="",container!=""}) by (pod)
   - name: prometheus
     type: kubernetes
     kubernetes:
