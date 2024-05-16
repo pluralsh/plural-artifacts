@@ -1,0 +1,25 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  labels:
+    strimzi.io/cluster: kafka
+  name: ingest-attachments
+  namespace: kafka
+spec:
+  config: {}
+  partitions: 1
+  replicas: 1
+  topicName: ingest-attachments
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  labels:
+    strimzi.io/cluster: kafka
+  name: ingest-events
+  namespace: kafka
+spec:
+  config: {}
+  partitions: 1
+  replicas: 1
+  topicName: ingest-events
