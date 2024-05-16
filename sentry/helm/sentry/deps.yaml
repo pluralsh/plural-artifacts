@@ -4,6 +4,15 @@ metadata:
   application: true
   description: Deploys sentry crafted for the target cloud
 spec:
+  breaking: true
+  instructions:
+    instructions: |-
+      Due to the unresolved issue https://github.com/getsentry/self-hosted/issues/2758 you'll need 
+      to manually drop an index in your postgres db.  The command to do that is (execute within psql):
+
+      drop index sentry_groupedmessage_project_id_id_515aaa7e_uniq
+
+      (perform on the sentry db with `\c sentry` first)
   dependencies:
   - type: helm
     name: bootstrap

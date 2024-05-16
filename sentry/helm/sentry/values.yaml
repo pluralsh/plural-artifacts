@@ -196,16 +196,16 @@ sentry:
   images:
     symbolicator:
       repository: dkr.plural.sh/sentry/getsentry/symbolicator
-      tag: 23.6.1
+      tag: 24.2.0
     snuba:
       repository: dkr.plural.sh/sentry/getsentry/snuba
-      tag: 23.6.1
+      tag: 24.2.0
     sentry:
       repository: dkr.plural.sh/sentry/getsentry/sentry
-      tag: 23.6.1-plural3.1.1
+      tag: 24.2.0-plural3.9.0
     relay:
       repository: dkr.plural.sh/sentry/getsentry/relay
-      tag: 23.6.1
+      tag: 24.2.0
 
   serviceAccount:
     enabled: true
@@ -514,6 +514,24 @@ sentry:
             key: password
       - name: BROKER_URL
         value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
+    postProcessForwardIssuePlatform:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 300Mi
+      env:
+      - name: RABBITMQ_USER
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: username
+      - name: RABBITMQ_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sentry-rabbitmq-user-credentials
+            key: password
+      - name: BROKER_URL
+        value: amqp://$(RABBITMQ_USER):$(RABBITMQ_PASSWORD)@rabbitmq.rabbitmq:5672/sentry
   relay:
     resources:
       requests:
@@ -789,6 +807,7 @@ sentry:
     host: kafka-kafka-bootstrap.kafka
 
   hooks:
+    enabled: true
     activeDeadlineSeconds: 600
     dbCheck:
       image:
