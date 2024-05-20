@@ -1,0 +1,43 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: sentry-migration-cleanup
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": "post-install,post-upgrade"
+    "helm.sh/hook-delete-policy": "hook-succeeded,before-hook-creation"
+    "helm.sh/hook-weight": "5"
+spec:
+  backoffLimit: 5
+  template:
+    metadata:
+      name: sentry-migration-cleanup
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: db-cleanup-job
+        image: postgres:13-alpine
+        imagePullPolicy: IfNotPresent
+        command: 
+        - /bin/sh
+        - -c
+        - |
+          indexes=$(psql -qaAt -P pager=off -c "SELECT indexname, indexdef FROM pg_indexes WHERE tablename = 'sentry_groupedmessage';")
+          if [[ $indexes == *"sentry_groupedmessage_project_id_id_515aaa7e_uniq"* ]]; then
+            psql -qAt -c "DROP INDEX sentry_groupedmessage_project_id_id_515aaa7e_uniq;"
+          fi
+        env:
+        - name: PGPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.sentry.externalPostgresql.existingSecret }}
+              key: {{ .Values.sentry.externalPostgresql.existingSecretKey }}
+        - name: PGHOST
+          value: {{ .Values.sentry.externalPostgresql.host }}
+        - name: PGUSER
+          value: {{ .Values.sentry.externalPostgresql.username }}
+        - name: PGDATABASE
+          value: {{ .Values.sentry.externalPostgresql.database }}
+        - name: PGSSLMODE
+          value: {{ .Values.sentry.externalPostgresql.sslMode }}
