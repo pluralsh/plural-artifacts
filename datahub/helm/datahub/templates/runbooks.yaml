@@ -22,7 +22,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "acryl-datahub-actions.fullname" (index .Subcharts "datahub" "Subcharts" "acryl-datahub-actions") }}-.*"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "acryl-datahub-actions.fullname" (index .Subcharts "datahub" "Subcharts" "acryl-datahub-actions") }}-.*",image!="",container!=""}) by (pod)
   - name: frontend-cpu
     type: prometheus
     prometheus:
@@ -34,7 +34,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "datahub-frontend.fullname" (index .Subcharts "datahub" "Subcharts" "datahub-frontend") }}-.*"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "datahub-frontend.fullname" (index .Subcharts "datahub" "Subcharts" "datahub-frontend") }}-.*",image!="",container!=""}) by (pod)
   - name: gms-cpu
     type: prometheus
     prometheus:
@@ -46,7 +46,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "datahub-gms.fullname" (index .Subcharts "datahub" "Subcharts" "datahub-gms") }}-.*"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "datahub-gms.fullname" (index .Subcharts "datahub" "Subcharts" "datahub-gms") }}-.*",image!="",container!=""}) by (pod)
   - name: actions
     type: kubernetes
     kubernetes:

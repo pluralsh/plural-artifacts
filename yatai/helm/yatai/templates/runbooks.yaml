@@ -22,7 +22,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "yatai.fullname" .Subcharts.yatai }}-.*"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "yatai.fullname" .Subcharts.yatai }}-.*",image!="",container!=""}) by (pod)
   - name: yatai-deployment-cpu
     type: prometheus
     prometheus:
@@ -34,7 +34,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "yatai-deployment.fullname" (index .Subcharts "yatai-deployment") }}-.*"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "yatai-deployment.fullname" (index .Subcharts "yatai-deployment") }}-.*",image!="",container!=""}) by (pod)
   - name: yatai-image-builder-cpu
     type: prometheus
     prometheus:
@@ -46,7 +46,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "yatai-image-builder.fullname" (index .Subcharts "yatai-image-builder") }}-.*"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "yatai-image-builder.fullname" (index .Subcharts "yatai-image-builder") }}-.*",image!="",container!=""}) by (pod)
   - name: yatai
     type: kubernetes
     kubernetes:

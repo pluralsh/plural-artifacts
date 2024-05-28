@@ -27,7 +27,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"redis-master-[0-9]+"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"redis-master-[0-9]+",image!="",container!=""}) by (pod)
   - name: replica-cpu
     type: prometheus
     prometheus:
@@ -39,7 +39,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"redis-replicas-[0-9]+"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"redis-replicas-[0-9]+",image!="",container!=""}) by (pod)
   - name: master
     type: kubernetes
     kubernetes:

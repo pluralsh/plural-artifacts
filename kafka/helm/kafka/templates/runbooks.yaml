@@ -22,7 +22,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"kafka-kafka-[0-9]+"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"kafka-kafka-[0-9]+",image!="",container!=""}) by (pod)
   - name: zk-cpu
     type: prometheus
     prometheus:
@@ -34,7 +34,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"kafka-zookeeper-[0-9]+"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"kafka-zookeeper-[0-9]+",image!="",container!=""}) by (pod)
   - name: kafka
     type: kubernetes
     kubernetes:

@@ -22,7 +22,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "mend-renovate.fullname" (index .Subcharts "mend-renovate-ce") }}.+"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "mend-renovate.fullname" (index .Subcharts "mend-renovate-ce") }}.+",image!="",container!=""}) by (pod)
   - name: renovate
     type: kubernetes
     kubernetes:

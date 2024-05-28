@@ -22,7 +22,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "posthog.fullname" .Subcharts.posthog }}-events-.*"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "posthog.fullname" .Subcharts.posthog }}-events-.*",image!="",container!=""}) by (pod)
   - name: plugins-cpu
     type: prometheus
     prometheus:
@@ -34,7 +34,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "posthog.fullname" .Subcharts.posthog }}-plugins-.*"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "posthog.fullname" .Subcharts.posthog }}-plugins-.*",image!="",container!=""}) by (pod)
   - name: web-cpu
     type: prometheus
     prometheus:
@@ -46,7 +46,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "posthog.fullname" .Subcharts.posthog }}-web-.*"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "posthog.fullname" .Subcharts.posthog }}-web-.*",image!="",container!=""}) by (pod)
   - name: worker-cpu
     type: prometheus
     prometheus:
@@ -58,7 +58,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "posthog.fullname" .Subcharts.posthog }}-worker-.*"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "posthog.fullname" .Subcharts.posthog }}-worker-.*",image!="",container!=""}) by (pod)
   - name: events
     type: kubernetes
     kubernetes:

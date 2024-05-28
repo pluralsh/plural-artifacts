@@ -22,7 +22,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "common.names.fullname" (index .Subcharts "prefect-agent") }}.+"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "common.names.fullname" (index .Subcharts "prefect-agent") }}.+",image!="",container!=""}) by (pod)
   - name: agent
     type: kubernetes
     kubernetes:

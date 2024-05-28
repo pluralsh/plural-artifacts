@@ -22,7 +22,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "harbor.core" .Subcharts.harbor }}-.*"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "harbor.core" .Subcharts.harbor }}-.*",image!="",container!=""}) by (pod)
   - name: jobservice-cpu
     type: prometheus
     prometheus:
@@ -34,7 +34,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "harbor.jobservice" .Subcharts.harbor }}-.*"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "harbor.jobservice" .Subcharts.harbor }}-.*",image!="",container!=""}) by (pod)
   - name: registry-cpu
     type: prometheus
     prometheus:
@@ -46,7 +46,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "harbor.registry" .Subcharts.harbor }}-.*"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "harbor.registry" .Subcharts.harbor }}-.*",image!="",container!=""}) by (pod)
   - name: portal-cpu
     type: prometheus
     prometheus:
@@ -58,7 +58,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "harbor.portal" .Subcharts.harbor }}-.*"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "harbor.portal" .Subcharts.harbor }}-.*",image!="",container!=""}) by (pod)
   - name: trivy-cpu
     type: prometheus
     prometheus:
@@ -70,7 +70,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "harbor.trivy" .Subcharts.harbor }}-.*"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "harbor.trivy" .Subcharts.harbor }}-.*",image!="",container!=""}) by (pod)
   - name: notary-server-cpu
     type: prometheus
     prometheus:
@@ -82,7 +82,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "harbor.notary-server" .Subcharts.harbor }}-.*"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "harbor.notary-server" .Subcharts.harbor }}-.*",image!="",container!=""}) by (pod)
   - name: notary-signer-cpu
     type: prometheus
     prometheus:
@@ -94,7 +94,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "harbor.notary-signer" .Subcharts.harbor }}-.*"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "harbor.notary-signer" .Subcharts.harbor }}-.*",image!="",container!=""}) by (pod)
   - name: exporter-cpu
     type: prometheus
     prometheus:
@@ -106,7 +106,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "harbor.exporter" .Subcharts.harbor }}-.*"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"{{ template "harbor.exporter" .Subcharts.harbor }}-.*",image!="",container!=""}) by (pod)
   - name: core
     type: kubernetes
     kubernetes:

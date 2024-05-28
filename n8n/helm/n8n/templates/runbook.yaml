@@ -22,7 +22,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"n8n-k8s-worker-[a-z0-9]+-[a-z0-9]+"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"n8n-k8s-worker-[a-z0-9]+-[a-z0-9]+",image!="",container!=""}) by (pod)
   - name: web-cpu
     type: prometheus
     prometheus:
@@ -34,7 +34,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"n8n-k8s-[a-z0-9]{10}-[a-z0-9]+"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"n8n-k8s-[a-z0-9]{10}-[a-z0-9]+",image!="",container!=""}) by (pod)
   - name: webhook-cpu
     type: prometheus
     prometheus:
@@ -46,7 +46,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"n8n-k8s-webhook-[a-z0-9]+-[a-z0-9]+"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"n8n-k8s-webhook-[a-z0-9]+-[a-z0-9]+",image!="",container!=""}) by (pod)
   - name: worker
     type: kubernetes
     kubernetes:

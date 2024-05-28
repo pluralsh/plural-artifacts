@@ -25,7 +25,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(rate(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"lightdash.+",pod!~".+browserless.+"}[5m])) by (pod)
+      query: sum(rate(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"lightdash.+",pod!~".+browserless.+",image!="",container!=""}[5m])) by (pod)
   - name: cpu-browserless
     type: prometheus
     prometheus:
@@ -37,7 +37,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(rate(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"lightdash-browserless-chrome.+"}[5m])) by (pod)
+      query: sum(rate(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"lightdash-browserless-chrome.+",image!="",container!=""}[5m])) by (pod)
   - name: deployment
     type: kubernetes
     kubernetes:

@@ -26,7 +26,7 @@ spec:
     - alert: PrometheusMEM
       expr: |
         (
-          sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"prometheus-monitoring-prometheus-[0-9]+"})
+          sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"prometheus-monitoring-prometheus-[0-9]+",image!="",container!=""})
           / sum(kube_pod_container_resource_requests{endpoint="http",resource="memory",namespace="{{ .Release.Namespace }}", pod=~"prometheus-monitoring-prometheus-[0-9]+"})
         )  > 1.1
       for: 5m
@@ -67,7 +67,7 @@ spec:
     - alert: LokiMEM
       expr: |
         (
-          sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"monitoring-loki-[0-9]+"})
+          sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"monitoring-loki-[0-9]+",image!="",container!=""})
           / sum(kube_pod_container_resource_requests{endpoint="http",resource="memory",namespace="{{ .Release.Namespace }}", pod=~"monitoring-loki-[0-9]+"})
         )  > 0.9
       for: 5m

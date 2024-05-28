@@ -22,7 +22,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"chi-{{ template "posthog-plural.name" . }}-clickhouse-posthog-.*"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"chi-{{ template "posthog-plural.name" . }}-clickhouse-posthog-.*",image!="",container!=""}) by (pod)
   - name: volume
     type: prometheus
     prometheus:

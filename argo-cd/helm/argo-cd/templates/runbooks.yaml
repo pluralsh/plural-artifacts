@@ -22,7 +22,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"argo-cd-argocd-application-controller.+"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"argo-cd-argocd-application-controller.+",image!="",container!=""}) by (pod)
   - name: argo-cd-reposerver-cpu
     type: prometheus
     prometheus:
@@ -34,7 +34,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"argo-cd-argocd-repo-server.+"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"argo-cd-argocd-repo-server.+",image!="",container!=""}) by (pod)
   - name: argo-cd-server-cpu
     type: prometheus
     prometheus:
@@ -46,7 +46,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"argo-cd-argocd-server.+"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"argo-cd-argocd-server.+",image!="",container!=""}) by (pod)
   - name: argo-cd-applicationset-controller-cpu
     type: prometheus
     prometheus:
@@ -58,7 +58,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"argo-cd-argocd-applicationset-controller.+"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"argo-cd-argocd-applicationset-controller.+",image!="",container!=""}) by (pod)
   - name: argo-cd-notifications-controller-cpu
     type: prometheus
     prometheus:
@@ -70,7 +70,7 @@ spec:
     prometheus:
       format: memory
       legend: $pod
-      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"argo-cd-argocd-notifications-controller.+"}) by (pod)
+      query: sum(container_memory_working_set_bytes{namespace="{{ .Release.Namespace }}",pod=~"argo-cd-argocd-notifications-controller.+",image!="",container!=""}) by (pod)
   - name: controller
     type: kubernetes
     kubernetes:
