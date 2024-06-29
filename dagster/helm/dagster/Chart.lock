@@ -4,7 +4,7 @@ dependencies:
   version: 0.1.16
 - name: oidc-config
   repository: https://pluralsh.github.io/module-library
-  version: 0.1.6
+  version: 0.1.7
 - name: dagster
   repository: https://dagster-io.github.io/helm
   version: 1.7.7
@@ -14,5 +14,5 @@ dependencies:
 - name: test-base
   repository: https://pluralsh.github.io/module-library
   version: 0.1.10
-digest: sha256:509c8e4abb636dbc30d394ab27f791dbcf771edcf34e23a0e84ff35c29045ec6
-generated: "2024-05-30T13:55:44.547683+02:00"
+digest: sha256:c24650b23336e634178ffa30318bd7d02d923e2803467f6e6f4ddc806da15d88
+generated: "2024-06-29T09:35:49.421395-04:00"
