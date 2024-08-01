@@ -19,7 +19,7 @@ retool:
 
   image:
     repository: tryretool/backend
-    tag: 3.33.6-stable
+    tag: 3.52.1-stable
   
   workflows:
     enabled: true
