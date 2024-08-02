@@ -7,12 +7,12 @@ dependencies:
   version: 0.1.7
 - name: dagster
   repository: https://dagster-io.github.io/helm
-  version: 1.7.14
+  version: 1.7.16
 - name: config-overlays
   repository: https://pluralsh.github.io/module-library
   version: 0.1.1
 - name: test-base
   repository: https://pluralsh.github.io/module-library
   version: 0.1.10
-digest: sha256:cbbd2d9d6292113808e83e031faba407f56877507fa6008cdefafd7c2b88893b
-generated: "2024-07-22T11:35:32.64709+02:00"
+digest: sha256:673cfb601c378cf694233132437503a75fbac3f37d7c3d8100ad3b19e9995e5a
+generated: "2024-08-02T16:57:05.141015+02:00"
