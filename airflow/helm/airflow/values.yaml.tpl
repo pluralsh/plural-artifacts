@@ -68,7 +68,7 @@ airflow:
         class PluralSecurityManager(AirflowSecurityManager):
           def _get_oauth_user_info(self, provider, response):
               if provider == "plural":
-                  me = self._azure_jwt_token_parse(response["id_token"])
+                  me = jwt.decode(response["id_token"], options={"verify_signature": False})
                   split_name = me["name"].split()
                   return {
                       "username": me["name"],
