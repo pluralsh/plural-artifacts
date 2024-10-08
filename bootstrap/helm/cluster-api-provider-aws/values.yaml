@@ -3,7 +3,7 @@ cluster-api-provider-aws:
     manager:
       image:
         repository: registry.k8s.io/cluster-api-aws/cluster-api-aws-controller
-        tag: v2.2.2
+        tag: v2.2.4
   configVariables:
     awsControllerIamRole: ''
     capaEksAddRoles: true
