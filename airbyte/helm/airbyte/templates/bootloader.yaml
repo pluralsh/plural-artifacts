@@ -1,4 +1,4 @@
-apiVersion: v1
+apiVersion: batch/v1
 kind: Job
 metadata:
   name: airbyte-bootloader-{{ .Values.bootloader.image.tag | sha256sum | trunc 8 }}
