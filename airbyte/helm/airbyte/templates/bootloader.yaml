@@ -41,11 +41,19 @@ spec:
             configMapKeyRef:
               name: airbyte-airbyte-env
               key: DATABASE_PORT
+        {{ if .Values.global.database.secretName }}
         - name: DATABASE_PASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ .Values.global.database.secretName }}
               key: {{ .Values.global.database.secretValue }}
+        {{ else }}
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: airbyte-airbyte-secrets
+              key: DATABASE_PASSWORD
+        {{ end }}
         - name: DATABASE_URL
           valueFrom:
             configMapKeyRef:
