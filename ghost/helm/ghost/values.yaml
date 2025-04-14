@@ -1,6 +1,7 @@
 replicaCount: 1
 
 mysql:
+  enabled: true
   rootPassword: replace
   appUser: ghost
   appPassword: replace
