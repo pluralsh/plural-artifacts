@@ -1,9 +1,9 @@
-resource "kubernetes_namespace" "lightdash" {
+resource "kubernetes_namespace_v1" "lightdash" {
   metadata {
     name = var.namespace
     labels = {
       "app.kubernetes.io/managed-by" = "plural"
-      "app.plural.sh/name" = "lightdash"
+      "app.plural.sh/name"           = "lightdash"
 
       "platform.plural.sh/sync-target" = "pg"
 
@@ -16,7 +16,7 @@ data "aws_iam_role" "postgres" {
   name = "${var.cluster_name}-postgres"
 }
 
-resource "kubernetes_service_account" "postgres" {
+resource "kubernetes_service_account_v1" "postgres" {
   metadata {
     name      = "postgres-pod"
     namespace = var.namespace
@@ -27,6 +27,6 @@ resource "kubernetes_service_account" "postgres" {
   }
 
   depends_on = [
-    kubernetes_namespace.lightdash
+    kubernetes_namespace_v1.lightdash
   ]
 }
